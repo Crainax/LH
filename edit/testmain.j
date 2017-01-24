@@ -1,5 +1,5 @@
 
 
-//! import "debug.j"
+//! import "LHBase.j"
 function main takes nothing returns nothing
 endfunction

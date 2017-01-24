@@ -1,0 +1,7 @@
+*.w3x
+.gradle
+/edit/logs
+/edit/backups
+/origin/*.w3x
+/edit/*.bat
+/edit/*.sh
