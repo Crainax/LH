@@ -28,6 +28,8 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
         real z
     endstruct
 
+    function interface AfterCollied takes Thread t,real nx,real ny returns nothing
+
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                       Timer Pattern Union                                              //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -77,7 +79,9 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             call GroupAddUnit(d.g, u)
             call BJDebugMsg(I2S(YDWEGetUnitID(u)))
             call UnitDamageTarget(d.caster, u, d.amount, true, true, bj_lastSetAttackType, bj_lastSetDamageType, bj_lastSetWeaponType)
-            call DestroyEffect(AddSpecialEffectTarget(d.dsfx, u, d.part))
+            //call DestroyEffect(AddSpecialEffectTarget(d.dsfx, u, d.part))
+            call DestroyEffect( AddSpecialEffect(d.dsfx, GetUnitX(u), GetUnitY(u)) )
+           // call BJDebugMsg(":" + d.dsfx)
             if d.skills > '0000' and d.skills != null and d.order > 0 and d.order != null then
                 call SingleMagic(d.caster, u, d.pos.x, d.pos.y, GetUnitFlyHeight(d.obj), d.unitid, d.skills, d.level, d.order)
             endif
@@ -117,6 +121,7 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
         real dist
         real step
         real amount
+        real radius
         integer switch
         integer follow
         integer unitid
@@ -132,6 +137,7 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
         boolean volume
         group g
         timer t
+        AfterCollied afc
 
         static method operator [] takes handle h returns thistype
             return YDWEGetIntegerByString("YDWETimerPattern.", I2S(YDWEH2I(h)))
@@ -180,6 +186,7 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             set .amount = 0
             set .skills = 0
             set .order = 0
+            set .afc = 0
             set .dsfx = ""
             set .gsfx = ""
             set .wsfx = ""
@@ -344,10 +351,15 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             local real xp = GetUnitX(.obj) + .dist * .vel.x
             local real yp = GetUnitY(.obj) + .dist * .vel.y
             local group ge = CreateGroup()
+
             if .volume == false then
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |rPathable without terrain.")
                 if IsTerrainPathable(xp, yp, PATHING_TYPE_WALKABILITY) then
-                    set .switch = 0
+                    if (.afc != 0) then
+                        call afc.execute(this,xp,yp)
+                    else
+                        set .switch = 0
+                    endif
                 else
                     set .x = xp
                     set .y = yp
@@ -358,11 +370,7 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             endif
             if .follow == 0 then
                 if GetUnitFlyHeight(.obj) < 5. then
-                    if IsTerrainPathable(.pos.x, .pos.y, PATHING_TYPE_FLOATABILITY) then
                         call DestroyEffect(AddSpecialEffect(.gsfx, .pos.x, .pos.y))
-                    else
-                        call DestroyEffect(AddSpecialEffect(.wsfx, .pos.x, .pos.y))
-                    endif
                 endif
             endif
             set .follow = .follow + 1
@@ -376,15 +384,19 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             if .amount > 0.0 then
                 //call this.damage(.caster, .pos.x, .pos.y, 0.0, false, .recycle)
                 set tmp_data = integer(this)
-                call GroupEnumUnitsInRange(ge, .pos.x, .pos.y, TIMER_PATTERN_RADIUS, function DamageFilter)
+                call GroupEnumUnitsInRange(ge, .pos.x, .pos.y, .radius, function DamageFilter)
             endif
-            set .dist = .dist - .step
-            if .dist <= 0.0 or YDWECoordinateX(.pos.x) != .pos.x or YDWECoordinateY(.pos.y) != .pos.y then
+            set .step = .step - 1.
+            if .step <= 0.0 or YDWECoordinateX(.pos.x) != .pos.x or YDWECoordinateY(.pos.y) != .pos.y then
                 set .switch = 0
             endif
 
             call DestroyGroup(ge)
             set ge = null
+
+            if not (IsUnitAliveBJ(.obj)) then
+                set .switch = 0
+            endif
 
             if .switch == 0 then
                 call SetUnitFlyHeight(.obj, GetUnitDefaultFlyHeight(.obj), 200.0)
@@ -395,7 +407,7 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             endif
         endmethod
 
-        static method create takes unit source, unit object, real angle, real distance, real time, real interval, real damage, boolean killtrees, boolean cycle, boolean path, string part, string geff, string weff returns thistype
+        static method create takes unit source, unit object, real angle, real distance, real time, real interval, real damage,real radius, boolean killtrees, boolean cycle, boolean path, string part, string geff, string weff,AfterCollied f returns thistype
             local thistype this = thistype.allocate() //thistype(Thread[object])
             local real vx = 0.0
             local real vy = 0.0
@@ -405,20 +417,23 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
             set .vel = YDVector3.create()
             set .vel.x = Cos(angle)
             set .vel.y = Sin(angle)
-            set .dist  = 2 * distance * interval / time
-            set .step  = .dist * interval / time
+            set .dist  = distance * interval / time
+            //step改成了匀速运动
+            set .step  = time / interval
             set .pos.x = GetUnitX(object)
             set .pos.y = GetUnitY(object)
             set .caster = source
             set .obj = object
+            set .radius = radius
             set .amount = damage
             set .killdest = killtrees
             set .recycle = cycle
             set .volume = path
             set .gsfx = geff
-            set .wsfx = weff
+            set .dsfx = weff
             set .switch = 1
             set .follow = 0
+            set .afc = f
             set .g = CreateGroup()
             set .t = CreateTimer()
             call TimerStart(.t, interval, true, function thistype.move)
@@ -454,12 +469,33 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
     endfunction
 
     // Rush Slide PUI
-    function YDWETimerPatternRushSlide takes unit u, real face, real dis, real lasttime, real timeout, real damage, boolean killtrees, boolean cycle, boolean path, string part, string gsfx, string wsfx returns nothing
+    function YDWETimerPatternRushSlide takes unit u, real face, real dis, real lasttime, real timeout, real damage, real radius, boolean killtrees, boolean cycle, boolean path, string part, string gsfx, string wsfx returns nothing
         if u == null then
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r No object!")
             return
         endif
-        call Deceleration.create(u, u, Deg2Rad(face), RMaxBJ(dis, 0), RMaxBJ(lasttime, 0), RMaxBJ(timeout, 0), damage, killtrees, cycle, path, part, gsfx, wsfx)
+        call Deceleration.create(u, u, Deg2Rad(face), RMaxBJ(dis, 0), RMaxBJ(lasttime, 0), RMaxBJ(timeout, 0), damage, RMaxBJ(radius,0), killtrees, cycle, path, part, gsfx, wsfx ,0)
+    endfunction
+
+    private function Rebound takes Thread t,real nx,real ny returns nothing
+        
+        if not (IsTerrainPathable(nx, t.pos.y, PATHING_TYPE_WALKABILITY)) then
+            set t.vel.y = -1 * t.vel.y
+        elseif not (IsTerrainPathable(t.pos.x, ny, PATHING_TYPE_WALKABILITY)) then
+            set t.vel.x = -1 * t.vel.x
+        else
+            set t.vel.y = -1 * t.vel.y
+            set t.vel.x = -1 * t.vel.x
+        endif
+        call GroupClear(t.g)
+        call SetUnitFacing(t.obj,Atan2BJ(t.vel.y,t.vel.x))
+    endfunction
+    /*
+        lasttime持续时间,timeout刷新时间,cycle不计算碰撞,path无视地形,最后一个f是碰撞时候调用的函数接口,想调用必须把地形设FALSE,最后一个装到人时的特效
+    */
+    function DIYRushSlide takes unit u, real face, real dis, real lasttime, real timeout, real damage, real radius, boolean killtrees, boolean cycle, boolean path, string part, string gsfx, string wsfx returns nothing
+         local AfterCollied rebound = AfterCollied.Rebound
+         call Deceleration.create(u, u, Deg2Rad(face), RMaxBJ(dis, 0), RMaxBJ(lasttime, 0), RMaxBJ(timeout, 0), damage, RMaxBJ(radius,0), killtrees, cycle, path, part, gsfx, wsfx,Rebound)
     endfunction
 
     private function Init takes nothing returns nothing

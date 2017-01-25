@@ -9,6 +9,7 @@
 	test12 测试第几波,比如12
 	test kill 杀死自己
 	test select 显示生命
+	test credit 增加积分
 
 */
 library_once Debug initializer Initdebug requires YDWETriggerEvent
@@ -25,9 +26,9 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 		增加英雄属性
 	*/
 	private function addHeroAttr takes integer attr,integer level returns nothing
-		call SetHeroInt(udg_H[1],GetHeroInt(udg_H[1],false)+attr,false)
-		call SetHeroAgi(udg_H[1],GetHeroAgi(udg_H[1],false)+attr,false)
-		call SetHeroStr(udg_H[1],GetHeroStr(udg_H[1],false)+attr,false)
+		call SetHeroInt(udg_H[1],attr,false)
+		call SetHeroAgi(udg_H[1],attr,false)
+		call SetHeroStr(udg_H[1],attr,false)
 		call SetHeroLevel(udg_H[1],level,true)
 	endfunction
 
@@ -109,7 +110,6 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 			return
 		endif
 
-
 		if (chat == "test part2") then
 			
 			call addHeroAttr(40000,120)
@@ -129,6 +129,56 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 
 			call BJDebugMsg("测试阶段2")
 
+			return
+		endif
+
+		if (chat == "test part3") then
+			
+			call addHeroAttr(80000,140)
+
+			//鬼8
+			call UnitAddItemByIdSwapped('rag1',udg_H[1])
+			//雷星
+			call UnitAddItemByIdSwapped('ccmd',udg_H[1])
+			//5翅膀
+			call UnitAddItemByIdSwapped('I05B',udg_H[1])
+			//法魂5
+			call UnitAddItemByIdSwapped('shas',udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3',udg_H[1])
+			//人7
+			call UnitAddItemByIdSwapped('shdt',udg_H[1])
+
+			call BJDebugMsg("测试阶段3")
+
+			return
+		endif
+
+		if (chat == "test part4") then
+			
+			call addHeroAttr(150000,170)
+
+			//超鬼
+			call UnitAddItemByIdSwapped('lhst',udg_H[1])
+			//超神
+			call UnitAddItemByIdSwapped('tlum',udg_H[1])
+			//超妖
+			call UnitAddItemByIdSwapped('I05F',udg_H[1])
+			//超仙
+			call UnitAddItemByIdSwapped('rst1',udg_H[1])
+			//超圣
+			call UnitAddItemByIdSwapped('ssil',udg_H[1])
+			//超人
+			call UnitAddItemByIdSwapped('tfar',udg_H[1])
+
+			call BJDebugMsg("测试阶段4,神装")
+
+			return
+		endif
+
+
+		if (chat == "test credit") then
+			set udg_Paihangbang[1] = 50000
 			return
 		endif
 
@@ -181,6 +231,9 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 		call TriggerRegisterPlayerSelectionEventBJ(t,Player(0),true)
 		call TriggerAddAction(t,function peekAttr)
 		set t = null
+
+		call SetPlayerState(Player(0),PLAYER_STATE_RESOURCE_GOLD,300000)
+		call SetPlayerState(Player(0),PLAYER_STATE_RESOURCE_LUMBER,1000000)
 	endfunction
 
 	private function Initdebug takes nothing returns nothing

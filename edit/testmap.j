@@ -1,4 +1,4 @@
-//! import "debug.j"
+//! import "item.j"
 
 struct testmain
 	static method onInit takes nothing returns nothing
