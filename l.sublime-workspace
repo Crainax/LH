@@ -132,15 +132,6 @@
 	"buffers":
 	[
 		{
-			"file": "2.54/war3map.w3t.ini",
-			"settings":
-			{
-				"buffer_size": 239844,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"contents": "Searching 75 files for \"SetUnitFacing\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 5014  _SetUnitUseFoodBJ_Category=TC_UNIT\n 5015  \n 5016: SetUnitFacing=0,unit,degree\n 5017: _SetUnitFacing_Defaults=_,RealUnitFacing\n 5018: _SetUnitFacing_Limits=_,_,_,_\n 5019: _SetUnitFacing_Category=TC_UNIT\n 5020  \n 5021: SetUnitFacingTimed=0,unit,degree,real\n 5022: _SetUnitFacingTimed_Defaults=_,RealUnitFacing,0\n 5023: _SetUnitFacingTimed_Limits=_,_,_,_,0,_\n 5024: _SetUnitFacingTimed_Category=TC_UNIT\n 5025  \n 5026: SetUnitFacingToFaceUnitTimed=0,unit,unit,real\n 5027: _SetUnitFacingToFaceUnitTimed_Defaults=_,_,0\n 5028: _SetUnitFacingToFaceUnitTimed_Limits=_,_,_,_,0,_\n 5029: _SetUnitFacingToFaceUnitTimed_Category=TC_UNIT\n 5030  \n 5031: SetUnitFacingToFaceLocTimed=0,unit,location,real\n 5032: _SetUnitFacingToFaceLocTimed_Defaults=_,_,0\n 5033: _SetUnitFacingToFaceLocTimed_Limits=_,_,_,_,0,_\n 5034: _SetUnitFacingToFaceLocTimed_Category=TC_UNIT\n 5035  \n 5036  SetUnitMoveSpeed=0,unit,real\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  831  SetUnitUseFoodBJHint=\n  832  \n  833: SetUnitFacing=\"设置单位面向角度(立即) [R]\"\n  834: SetUnitFacing=\"设置 \",~单位,\" 的面向角度为 \",~Angle,\" 度\n  835: SetUnitFacingHint=\"面向角度采用角度制,0度为正东方向,90度为正北方向.\"\n  836  \n  837: SetUnitFacingTimed=\"设置单位面向角度(指定时间)\"\n  838: SetUnitFacingTimed=\"设置 \",~单位,\" 的面向角度为 \",~Angle,\" 度,使用时间 \",~Time,\" 秒\"\n  839: SetUnitFacingTimedHint=\"面向角度采用角度制,0度为正东方向,90度为正北方向.\"\n  840  \n  841: SetUnitFacingToFaceUnitTimed=\"设置单位面向单位\"\n  842: SetUnitFacingToFaceUnitTimed=\"设置 \",~单位,\" 面向 \",~目标单位,\" ,使用时间 \",~Time,\" 秒\"\n  843: SetUnitFacingToFaceUnitTimedHint=\"只是面向当前单位所在点而已. 并不会因为单位位置改变而改变目标位置.\"\n  844  \n  845: SetUnitFacingToFaceLocTimed=\"设置单位面向点\"\n  846: SetUnitFacingToFaceLocTimed=\"设置 \",~单位,\" 面向 \",~点,\" ,使用时间 \",~Time,\" 秒\"\n  847: SetUnitFacingToFaceLocTimedHint=\n  848  \n  849  SetUnitMoveSpeed=\"设置移动速度\"\n\n28 matches across 2 files\n\n\nSearching 75 files for \"Atan\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 9917  _AcosBJ_Category=TC_MATH\n 9918  \n 9919: AtanBJ=0,1,degree,real\n 9920: _AtanBJ_Defaults=_\n 9921: _AtanBJ_Category=TC_MATH\n 9922  \n 9923: Atan2BJ=0,1,degree,real,real\n 9924: _Atan2BJ_Defaults=_,_\n 9925: _Atan2BJ_Category=TC_MATH\n 9926  \n 9927  Sin=0,1,real,radian\n ....\n 9947  _Acos_Category=TC_MATH\n 9948  \n 9949: Atan=0,1,radian,real\n 9950: _Atan_Defaults=0\n 9951: _Atan_Category=TC_MATH\n 9952  \n 9953: Atan2=0,1,radian,real,real\n 9954: _Atan2_Defaults=_,_\n 9955: _Atan2_Category=TC_MATH\n 9956  \n 9957  YDWELogarithmLg=0,1,real,real\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 6154  AcosBJHint=\"采用角度制计算. 返回角度取值0 — 180.\"\n 6155  \n 6156: Atan=\"反正切(弧度) [R]\"\n 6157: Atan=\"Atan(\",~数值,\")\"\n 6158: AtanHint=\"采用弧度制计算. 返回弧度取值-π/2 — π/2. \"\n 6159  \n 6160: AtanBJ=\"反正切(角度)\"\n 6161: AtanBJ=\"Atan(\",~数值,\")\"\n 6162: AtanBJHint=\"采用角度制计算. 返回角度取值-90 — 90.\"\n 6163  \n 6164: Atan2=\"反正切(Y:X)(弧度) [R]\"\n 6165: Atan2=\"Atan(\",~Y,\" : \",~X,\")\"\n 6166: Atan2Hint=\"采用弧度制计算. 返回弧度取值-π/2 — π/2. \"\n 6167  \n 6168: Atan2BJ=\"反正切(角度)(Y:X)\"\n 6169: Atan2BJ=\"Atan(\",~Y,\" : \",~X,\")\"\n 6170: Atan2BJHint=\"采用角度制计算. 返回角度取值-90 — 90.\"\n 6171  \n 6172  YDWELogarithmLg=\"对数函数(10为底)<c kuhn制作>\"\n\n28 matches across 2 files\n\n\nSearching 75 files for \"惊吓\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\campaignabilitystrings.txt:\n  227  // Stampede (Rexxar)\n  228  [Arsp]\n  229: Name=惊吓\n  230: Tip=惊吓(|cffffcc00E|r) - [|cffffcc00等级 1|r],惊吓(|cffffcc00E|r) - [|cffffcc00等级 2|r]\n  231  Ubertip=\"召唤出雷霆蜥蜴来爆炸在敌方单位的头上。每个爆炸的雷霆蜥蜴能造成<Arsp,DataC1>点伤害。|n持续<Arsp,Dur1>秒。\",\"召唤出雷霆蜥蜴来爆炸在敌方单位的头上。每个爆炸的雷霆蜥蜴能造成<Arsp,DataC2>点伤害。|n持续<Arsp,Dur2>秒。\"\n  232  Hotkey=E\n  233: Researchtip=学习惊吓(|cffffcc00E|r) - [|cffffcc00等级 %d|r]\n  234  Researchubertip=\"召唤出雷霆蜥蜴来爆炸在敌方单位的头上。|n|n|cffffcc00等级 1|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC1>点伤害。|n|cffffcc00等级 2|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC2>点伤害。|n|n持续<Arsp,Dur2>秒。\"\n  235  Researchhotkey=E\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\campaignunitstrings.txt:\n  275  Hotkey=B\n  276  Tip=召唤驯兽师(|cffffcc00B|r)\n  277: Ubertip=\"战士型英雄，特别擅长于召唤野兽和集合他的盟友。能够学习召唤熊、召唤豪猪、战嚎和惊吓这四个技能。|n|n|cffffcc00能攻击地面和空中单位。|r\"\n  278  Revivetip=复活驯兽师(|cffffcc00B|r)\n  279  Awakentip=复活驯兽师(|cffffcc00B|r)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\neutralabilitystrings.txt:\n  809  // Stampede\n  810  [ANst]\n  811: Name=惊吓\n  812: Tip=惊吓(|cffffcc00T|r)\n  813  Ubertip=\"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n  814  Hotkey=T\n  815: Researchtip=学习惊吓(|cffffcc00T|r)\n  816  Researchubertip=\"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n  817  Researchhotkey=T\n  ...\n 2735  \n 2736  [BNst]\n 2737: EditorName=惊吓\n 2738  \n 2739  [BNrf]\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\neutralunitstrings.txt:\n 1556  Name=小鸡\n 1557  Tip=调用小鸡\n 1558: Ubertip=\"召唤令人惊吓的小鸡来帮助你。\"\n 1559  \n 1560  [nfro]\n 1561  Name=青蛙\n 1562  Tip=调用青蛙\n 1563: Ubertip=\"召唤令人惊吓的青蛙来帮助你。\"\n 1564  \n 1565  [necr]\n 1566  Name=兔子\n 1567  Tip=调用兔子\n 1568: Ubertip=\"召唤令人惊吓的兔子来帮助你。\"\n 1569  \n 1570  [nrac]\n 1571  Name=浣熊\n 1572  Tip=调用浣熊\n 1573: Ubertip=\"召唤令人惊吓的浣熊来帮助你。\"\n 1574  \n 1575  [nalb]\n ....\n 1836  Hotkey=S\n 1837  Tip=召唤驯兽师(|cffffcc00S|r)\n 1838: Ubertip=\"战斗型英雄，善于在战场上召唤野兽来加入战斗。可以学习召唤灰熊，召唤豪猪，召唤战鹰和惊吓四个技能。|n|n|cffffcc00能攻击地面单位。|r\"\n 1839  Revivetip=复活驯兽师(|cffffcc00S|r)\n 1840  Awakentip=复活驯兽师(|cffffcc00S|r)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\WorldEditStrings.txt:\n    <binary>\n\n17 matches across 5 files\n\n\nSearching 9 files for \"惊吓\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\db\\ability.ini:\n 35702  Missilespeed = 500\n 35703  -- 名字\n 35704: Name = \"惊吓\"\n 35705  -- 命令串 - 使用/打开\n 35706  Order = \"stampede\"\n .....\n 35714  Researchhotkey = \"T\"\n 35715  -- 提示工具 - 学习\n 35716: Researchtip = \"学习惊吓(|cffffcc00T|r)\"\n 35717  -- 提示工具 - 学习 - 扩展\n 35718  Researchubertip = \"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n .....\n 35724  Targetattachcount = 0\n 35725  -- 提示工具 - 普通\n 35726: Tip = \"惊吓(|cffffcc00T|r)\"\n 35727  -- 提示工具 - 普通 - 扩展\n 35728  Ubertip = \"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n .....\n 58653  Missilespeed = 500\n 58654  -- 名字\n 58655: Name = \"惊吓\"\n 58656  -- 命令串 - 使用/打开\n 58657  Order = \"stampede\"\n .....\n 58665  Researchhotkey = \"E\"\n 58666  -- 提示工具 - 学习\n 58667: Researchtip = \"学习惊吓(|cffffcc00E|r) - [|cffffcc00等级 %d|r]\"\n 58668  -- 提示工具 - 学习 - 扩展\n 58669  Researchubertip = \"唤出雷霆蜥蜴来爆炸在敌方单位的头上。|n|n|cffffcc00等级 1|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC1>点伤害。|n|cffffcc00等级 2|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC2>点伤害。|n|n持续<Arsp,Dur2>秒。\"\n .....\n 58676  -- 提示工具 - 普通\n 58677  Tip = {\n 58678: \"惊吓(|cffffcc00E|r) - [|cffffcc00等级 1|r]\",\n 58679: \"惊吓(|cffffcc00E|r) - [|cffffcc00等级 2|r]\",\n 58680  }\n 58681  -- 提示工具 - 普通 - 扩展\n\nG:\\War3\\Maps\\Loopinghell\\db\\buff.ini:\n 1811  [BNst]\n 1812  -- 名字(编辑器)\n 1813: EditorName = \"惊吓\"\n 1814  -- 效果 - 射弹自导允许\n 1815  MissileHoming = 0\n\nG:\\War3\\Maps\\Loopinghell\\db\\unit.ini:\n 17397  Tip = \"召唤驯兽师(|cffffcc00S|r)\"\n 17398  -- 提示工具 - 扩展\n 17399: Ubertip = \"战斗型英雄，善于在战场上召唤野兽来加入战斗。可以学习召唤灰熊，召唤豪猪，召唤战鹰和惊吓四个技能。|n|n|cffffcc00能攻击地面单位。|r\"\n 17400  -- 普通\n 17401  abilList = \"AInv\"\n .....\n 25467  Tip = \"召唤驯兽师(|cffffcc00B|r)\"\n 25468  -- 提示工具 - 扩展\n 25469: Ubertip = \"战士型英雄，特别擅长于召唤野兽和集合他的盟友。能够学习召唤熊、召唤豪猪、战嚎和惊吓这四个技能。|n|n|cffffcc00能攻击地面和空中单位。|r\"\n 25470  -- 普通\n 25471  abilList = \"AInv\"\n .....\n 116395  Tip = \"调用小鸡\"\n 116396  -- 提示工具 - 扩展\n 116397: Ubertip = \"召唤令人惊吓的小鸡来帮助你。\"\n 116398  -- 普通\n 116399  abilList = \"Awan\"\n .....\n 116753  Tip = \"调用兔子\"\n 116754  -- 提示工具 - 扩展\n 116755: Ubertip = \"召唤令人惊吓的兔子来帮助你。\"\n 116756  -- 普通\n 116757  abilList = \"Awan\"\n .....\n 138187  Tip = \"调用青蛙\"\n 138188  -- 提示工具 - 扩展\n 138189: Ubertip = \"召唤令人惊吓的青蛙来帮助你。\"\n 138190  -- 普通\n 138191  abilList = \"Awan\"\n .....\n 212147  Tip = \"调用浣熊\"\n 212148  -- 提示工具 - 扩展\n 212149: Ubertip = \"召唤令人惊吓的浣熊来帮助你。\"\n 212150  -- 普通\n 212151  abilList = \"Awan\"\n\n14 matches across 3 files\n",
 			"settings":
 			{
@@ -210,6 +201,7 @@
 	],
 	"file_history":
 	[
+		"/G/War3/Maps/Loopinghell/2.54/war3map.w3t.ini",
 		"/D/Program Files (x86)/YDWE1.30.6正式版/jass/YDWETimerPattern.j.dump",
 		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j.dump",
 		"/D/Program Files (x86)/YDWE1.30.6正式版/jass/YDWETimerPattern.j",
@@ -336,8 +328,7 @@
 		"/G/War3/Maps/Xlimon/origin/Xlimon/war3map.w3t.ini",
 		"/G/War3/Maps/DeathCentery/天绝三世2/war3mapmisc.txt",
 		"/G/War3/Maps/DeathCentery/天绝三世2/war3mapskin.txt",
-		"/G/War3/Maps/DeathCentery/天绝三世2/war3map.w3t.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世2/war3map.txt.ini"
+		"/G/War3/Maps/DeathCentery/天绝三世2/war3map.w3t.ini"
 	],
 	"find":
 	{
@@ -533,36 +524,6 @@
 			[
 				{
 					"buffer": 0,
-					"file": "2.54/war3map.w3t.ini",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 239844,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								115461,
-								115461
-							]
-						],
-						"settings":
-						{
-							"is_init_dirty_state": false,
-							"origin_encoding": "UTF-8",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 111473.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"semi_transient": false,
 					"settings":
 					{
@@ -917,8 +878,8 @@
 						"selection":
 						[
 							[
-								5568,
-								5568
+								2206,
+								2206
 							]
 						],
 						"settings":
@@ -934,14 +895,14 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3344.0,
+						"translation.y": 665.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "db/ability.ini",
 					"semi_transient": false,
 					"settings":
@@ -967,7 +928,7 @@
 						"translation.y": 678331.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
