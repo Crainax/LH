@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"UNITLIFE",
+				"UNIT_STATE_MAX_LIFE"
+			],
+			[
+				"libra",
+				"library"
+			],
+			[
+				"Getatta",
+				"GetAttackedUnitBJ"
+			],
+			[
 				"getX",
 				"GetUnitX"
 			],
@@ -132,31 +144,76 @@
 	"buffers":
 	[
 		{
-			"contents": "Searching 75 files for \"SetUnitFacing\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 5014  _SetUnitUseFoodBJ_Category=TC_UNIT\n 5015  \n 5016: SetUnitFacing=0,unit,degree\n 5017: _SetUnitFacing_Defaults=_,RealUnitFacing\n 5018: _SetUnitFacing_Limits=_,_,_,_\n 5019: _SetUnitFacing_Category=TC_UNIT\n 5020  \n 5021: SetUnitFacingTimed=0,unit,degree,real\n 5022: _SetUnitFacingTimed_Defaults=_,RealUnitFacing,0\n 5023: _SetUnitFacingTimed_Limits=_,_,_,_,0,_\n 5024: _SetUnitFacingTimed_Category=TC_UNIT\n 5025  \n 5026: SetUnitFacingToFaceUnitTimed=0,unit,unit,real\n 5027: _SetUnitFacingToFaceUnitTimed_Defaults=_,_,0\n 5028: _SetUnitFacingToFaceUnitTimed_Limits=_,_,_,_,0,_\n 5029: _SetUnitFacingToFaceUnitTimed_Category=TC_UNIT\n 5030  \n 5031: SetUnitFacingToFaceLocTimed=0,unit,location,real\n 5032: _SetUnitFacingToFaceLocTimed_Defaults=_,_,0\n 5033: _SetUnitFacingToFaceLocTimed_Limits=_,_,_,_,0,_\n 5034: _SetUnitFacingToFaceLocTimed_Category=TC_UNIT\n 5035  \n 5036  SetUnitMoveSpeed=0,unit,real\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  831  SetUnitUseFoodBJHint=\n  832  \n  833: SetUnitFacing=\"设置单位面向角度(立即) [R]\"\n  834: SetUnitFacing=\"设置 \",~单位,\" 的面向角度为 \",~Angle,\" 度\n  835: SetUnitFacingHint=\"面向角度采用角度制,0度为正东方向,90度为正北方向.\"\n  836  \n  837: SetUnitFacingTimed=\"设置单位面向角度(指定时间)\"\n  838: SetUnitFacingTimed=\"设置 \",~单位,\" 的面向角度为 \",~Angle,\" 度,使用时间 \",~Time,\" 秒\"\n  839: SetUnitFacingTimedHint=\"面向角度采用角度制,0度为正东方向,90度为正北方向.\"\n  840  \n  841: SetUnitFacingToFaceUnitTimed=\"设置单位面向单位\"\n  842: SetUnitFacingToFaceUnitTimed=\"设置 \",~单位,\" 面向 \",~目标单位,\" ,使用时间 \",~Time,\" 秒\"\n  843: SetUnitFacingToFaceUnitTimedHint=\"只是面向当前单位所在点而已. 并不会因为单位位置改变而改变目标位置.\"\n  844  \n  845: SetUnitFacingToFaceLocTimed=\"设置单位面向点\"\n  846: SetUnitFacingToFaceLocTimed=\"设置 \",~单位,\" 面向 \",~点,\" ,使用时间 \",~Time,\" 秒\"\n  847: SetUnitFacingToFaceLocTimedHint=\n  848  \n  849  SetUnitMoveSpeed=\"设置移动速度\"\n\n28 matches across 2 files\n\n\nSearching 75 files for \"Atan\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 9917  _AcosBJ_Category=TC_MATH\n 9918  \n 9919: AtanBJ=0,1,degree,real\n 9920: _AtanBJ_Defaults=_\n 9921: _AtanBJ_Category=TC_MATH\n 9922  \n 9923: Atan2BJ=0,1,degree,real,real\n 9924: _Atan2BJ_Defaults=_,_\n 9925: _Atan2BJ_Category=TC_MATH\n 9926  \n 9927  Sin=0,1,real,radian\n ....\n 9947  _Acos_Category=TC_MATH\n 9948  \n 9949: Atan=0,1,radian,real\n 9950: _Atan_Defaults=0\n 9951: _Atan_Category=TC_MATH\n 9952  \n 9953: Atan2=0,1,radian,real,real\n 9954: _Atan2_Defaults=_,_\n 9955: _Atan2_Category=TC_MATH\n 9956  \n 9957  YDWELogarithmLg=0,1,real,real\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 6154  AcosBJHint=\"采用角度制计算. 返回角度取值0 — 180.\"\n 6155  \n 6156: Atan=\"反正切(弧度) [R]\"\n 6157: Atan=\"Atan(\",~数值,\")\"\n 6158: AtanHint=\"采用弧度制计算. 返回弧度取值-π/2 — π/2. \"\n 6159  \n 6160: AtanBJ=\"反正切(角度)\"\n 6161: AtanBJ=\"Atan(\",~数值,\")\"\n 6162: AtanBJHint=\"采用角度制计算. 返回角度取值-90 — 90.\"\n 6163  \n 6164: Atan2=\"反正切(Y:X)(弧度) [R]\"\n 6165: Atan2=\"Atan(\",~Y,\" : \",~X,\")\"\n 6166: Atan2Hint=\"采用弧度制计算. 返回弧度取值-π/2 — π/2. \"\n 6167  \n 6168: Atan2BJ=\"反正切(角度)(Y:X)\"\n 6169: Atan2BJ=\"Atan(\",~Y,\" : \",~X,\")\"\n 6170: Atan2BJHint=\"采用角度制计算. 返回角度取值-90 — 90.\"\n 6171  \n 6172  YDWELogarithmLg=\"对数函数(10为底)<c kuhn制作>\"\n\n28 matches across 2 files\n\n\nSearching 75 files for \"惊吓\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\campaignabilitystrings.txt:\n  227  // Stampede (Rexxar)\n  228  [Arsp]\n  229: Name=惊吓\n  230: Tip=惊吓(|cffffcc00E|r) - [|cffffcc00等级 1|r],惊吓(|cffffcc00E|r) - [|cffffcc00等级 2|r]\n  231  Ubertip=\"召唤出雷霆蜥蜴来爆炸在敌方单位的头上。每个爆炸的雷霆蜥蜴能造成<Arsp,DataC1>点伤害。|n持续<Arsp,Dur1>秒。\",\"召唤出雷霆蜥蜴来爆炸在敌方单位的头上。每个爆炸的雷霆蜥蜴能造成<Arsp,DataC2>点伤害。|n持续<Arsp,Dur2>秒。\"\n  232  Hotkey=E\n  233: Researchtip=学习惊吓(|cffffcc00E|r) - [|cffffcc00等级 %d|r]\n  234  Researchubertip=\"召唤出雷霆蜥蜴来爆炸在敌方单位的头上。|n|n|cffffcc00等级 1|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC1>点伤害。|n|cffffcc00等级 2|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC2>点伤害。|n|n持续<Arsp,Dur2>秒。\"\n  235  Researchhotkey=E\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\campaignunitstrings.txt:\n  275  Hotkey=B\n  276  Tip=召唤驯兽师(|cffffcc00B|r)\n  277: Ubertip=\"战士型英雄，特别擅长于召唤野兽和集合他的盟友。能够学习召唤熊、召唤豪猪、战嚎和惊吓这四个技能。|n|n|cffffcc00能攻击地面和空中单位。|r\"\n  278  Revivetip=复活驯兽师(|cffffcc00B|r)\n  279  Awakentip=复活驯兽师(|cffffcc00B|r)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\neutralabilitystrings.txt:\n  809  // Stampede\n  810  [ANst]\n  811: Name=惊吓\n  812: Tip=惊吓(|cffffcc00T|r)\n  813  Ubertip=\"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n  814  Hotkey=T\n  815: Researchtip=学习惊吓(|cffffcc00T|r)\n  816  Researchubertip=\"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n  817  Researchhotkey=T\n  ...\n 2735  \n 2736  [BNst]\n 2737: EditorName=惊吓\n 2738  \n 2739  [BNrf]\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\neutralunitstrings.txt:\n 1556  Name=小鸡\n 1557  Tip=调用小鸡\n 1558: Ubertip=\"召唤令人惊吓的小鸡来帮助你。\"\n 1559  \n 1560  [nfro]\n 1561  Name=青蛙\n 1562  Tip=调用青蛙\n 1563: Ubertip=\"召唤令人惊吓的青蛙来帮助你。\"\n 1564  \n 1565  [necr]\n 1566  Name=兔子\n 1567  Tip=调用兔子\n 1568: Ubertip=\"召唤令人惊吓的兔子来帮助你。\"\n 1569  \n 1570  [nrac]\n 1571  Name=浣熊\n 1572  Tip=调用浣熊\n 1573: Ubertip=\"召唤令人惊吓的浣熊来帮助你。\"\n 1574  \n 1575  [nalb]\n ....\n 1836  Hotkey=S\n 1837  Tip=召唤驯兽师(|cffffcc00S|r)\n 1838: Ubertip=\"战斗型英雄，善于在战场上召唤野兽来加入战斗。可以学习召唤灰熊，召唤豪猪，召唤战鹰和惊吓四个技能。|n|n|cffffcc00能攻击地面单位。|r\"\n 1839  Revivetip=复活驯兽师(|cffffcc00S|r)\n 1840  Awakentip=复活驯兽师(|cffffcc00S|r)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\WorldEditStrings.txt:\n    <binary>\n\n17 matches across 5 files\n\n\nSearching 9 files for \"惊吓\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\db\\ability.ini:\n 35702  Missilespeed = 500\n 35703  -- 名字\n 35704: Name = \"惊吓\"\n 35705  -- 命令串 - 使用/打开\n 35706  Order = \"stampede\"\n .....\n 35714  Researchhotkey = \"T\"\n 35715  -- 提示工具 - 学习\n 35716: Researchtip = \"学习惊吓(|cffffcc00T|r)\"\n 35717  -- 提示工具 - 学习 - 扩展\n 35718  Researchubertip = \"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n .....\n 35724  Targetattachcount = 0\n 35725  -- 提示工具 - 普通\n 35726: Tip = \"惊吓(|cffffcc00T|r)\"\n 35727  -- 提示工具 - 普通 - 扩展\n 35728  Ubertip = \"召唤成群的狂暴雷蜥蜴轰炸驯兽师的敌人。每个轰炸的蜥蜴造成<ANst,DataC1>伤害，持续<ANst,Dur1>秒。\"\n .....\n 58653  Missilespeed = 500\n 58654  -- 名字\n 58655: Name = \"惊吓\"\n 58656  -- 命令串 - 使用/打开\n 58657  Order = \"stampede\"\n .....\n 58665  Researchhotkey = \"E\"\n 58666  -- 提示工具 - 学习\n 58667: Researchtip = \"学习惊吓(|cffffcc00E|r) - [|cffffcc00等级 %d|r]\"\n 58668  -- 提示工具 - 学习 - 扩展\n 58669  Researchubertip = \"唤出雷霆蜥蜴来爆炸在敌方单位的头上。|n|n|cffffcc00等级 1|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC1>点伤害。|n|cffffcc00等级 2|r -每个爆炸的雷霆蜥蜴能造成<Arsp,DataC2>点伤害。|n|n持续<Arsp,Dur2>秒。\"\n .....\n 58676  -- 提示工具 - 普通\n 58677  Tip = {\n 58678: \"惊吓(|cffffcc00E|r) - [|cffffcc00等级 1|r]\",\n 58679: \"惊吓(|cffffcc00E|r) - [|cffffcc00等级 2|r]\",\n 58680  }\n 58681  -- 提示工具 - 普通 - 扩展\n\nG:\\War3\\Maps\\Loopinghell\\db\\buff.ini:\n 1811  [BNst]\n 1812  -- 名字(编辑器)\n 1813: EditorName = \"惊吓\"\n 1814  -- 效果 - 射弹自导允许\n 1815  MissileHoming = 0\n\nG:\\War3\\Maps\\Loopinghell\\db\\unit.ini:\n 17397  Tip = \"召唤驯兽师(|cffffcc00S|r)\"\n 17398  -- 提示工具 - 扩展\n 17399: Ubertip = \"战斗型英雄，善于在战场上召唤野兽来加入战斗。可以学习召唤灰熊，召唤豪猪，召唤战鹰和惊吓四个技能。|n|n|cffffcc00能攻击地面单位。|r\"\n 17400  -- 普通\n 17401  abilList = \"AInv\"\n .....\n 25467  Tip = \"召唤驯兽师(|cffffcc00B|r)\"\n 25468  -- 提示工具 - 扩展\n 25469: Ubertip = \"战士型英雄，特别擅长于召唤野兽和集合他的盟友。能够学习召唤熊、召唤豪猪、战嚎和惊吓这四个技能。|n|n|cffffcc00能攻击地面和空中单位。|r\"\n 25470  -- 普通\n 25471  abilList = \"AInv\"\n .....\n 116395  Tip = \"调用小鸡\"\n 116396  -- 提示工具 - 扩展\n 116397: Ubertip = \"召唤令人惊吓的小鸡来帮助你。\"\n 116398  -- 普通\n 116399  abilList = \"Awan\"\n .....\n 116753  Tip = \"调用兔子\"\n 116754  -- 提示工具 - 扩展\n 116755: Ubertip = \"召唤令人惊吓的兔子来帮助你。\"\n 116756  -- 普通\n 116757  abilList = \"Awan\"\n .....\n 138187  Tip = \"调用青蛙\"\n 138188  -- 提示工具 - 扩展\n 138189: Ubertip = \"召唤令人惊吓的青蛙来帮助你。\"\n 138190  -- 普通\n 138191  abilList = \"Awan\"\n .....\n 212147  Tip = \"调用浣熊\"\n 212148  -- 提示工具 - 扩展\n 212149: Ubertip = \"召唤令人惊吓的浣熊来帮助你。\"\n 212150  -- 普通\n 212151  abilList = \"Awan\"\n\n14 matches across 3 files\n",
+			"file": "testlog.txt",
 			"settings":
 			{
-				"buffer_size": 7627,
-				"line_ending": "Windows",
-				"name": "Find Results",
-				"scratch": true
+				"buffer_size": 474,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "patch",
 			"settings":
 			{
-				"buffer_size": 1102,
+				"buffer_size": 1189,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "db/ability.ini",
+			"file": "edit/item.j",
 			"settings":
 			{
-				"buffer_size": 1084845,
+				"buffer_size": 4382,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "edit/MonsterSpell.j",
+			"settings":
+			{
+				"buffer_size": 6895,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "edit/YDWETimerPattern.j.dump",
+			"settings":
+			{
+				"buffer_size": 1499,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 75 files for \"CreateUnit\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 4769  _CreateNUnitsAtLocFacingLocBJ_Category=TC_UNIT\n 4770  \n 4771: // CreateUnitAtLoc=0,player,unitcode,location,real\n 4772: //_ CreateUnitAtLoc_Defaults=Player00,hfoo,_,0\n 4773: //_ CreateUnitAtLoc_Category=TC_UNIT\n 4774  \n 4775  CreateCorpseLocBJ=0,unitcode,player,location\n ....\n 4782  _CreatePermanentCorpseLocBJ_Category=TC_UNIT\n 4783  \n 4784:  CreateUnit=0,player,unitcode,real,real,degree\n 4785: _ CreateUnit_Defaults=_,_,_,_,RealUnitFacing\n 4786: _ CreateUnit_Category=TC_UNIT\n 4787  \n 4788:  CreateUnitAtLoc=0,player,unitcode,location,real\n 4789: _ CreateUnitAtLoc_Defaults=Player00,hfoo,_,0\n 4790: _ CreateUnitAtLoc_Category=TC_UNIT\n 4791  \n 4792  KillUnit=0,unit\n ....\n 5332  \n 5333  // YD actions\n 5334: YDWECreateUnitPool=0,nothing\n 5335: _YDWECreateUnitPool_Defaults=\n 5336: _YDWECreateUnitPool_Category=TC_UNITPOOL\n 5337  \n 5338  // Unitpool actions\n ....\n 10320  \n 10321  // returns unit\n 10322: CreateUnit=0,1,unit,player,unitcode,real,real,degree\n 10323: _CreateUnit_Defaults=Player00,hfoo,0,0,0\n 10324: _CreateUnit_Category=TC_NOTHING\n 10325  \n 10326: CreateUnitAtLoc=0,1,unit,player,unitcode,location,degree\n 10327: _CreateUnitAtLoc_Defaults=Player00,hfoo,_,0\n 10328: _CreateUnitAtLoc_Category=TC_NOTHING\n 10329  \n 10330  CreateCorpse=0,1,unit,player,unitcode,real,real,degree\n .....\n 10550  \n 10551  //returns unitpool\n 10552: CreateUnitPool=1,0,unitpool\n 10553: _CreateUnitPool_Defaults=\n 10554: _CreateUnitPool_Category=TC_NOTHING\n 10555  \n 10556  YDWEGetLastUnitPool=1,0,unitpool\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  595  // Unit actions\n  596  \n  597:  CreateUnit=\"创建单位(指定坐标) [C]\"\n  598:  CreateUnit=\"为玩家 \",~玩家,\" 创建一个 \",~单位,\" 在(X坐标: \",~输入坐标,\" Y坐标: \",~输入坐标,\" ), 面向角度: \",~facing\n  599:  CreateUnitHint=\"不能被'最后创建的单位'捕获之\"\n  600  \n  601:  CreateUnitAtLoc=\"创建单位(指定点) [C]\"\n  602:  CreateUnitAtLoc=\"为玩家 \",~玩家,\" 创建一个 \",~单位,\" 在 \",~指定点,\" 面向角度:\",~Face,\" 度\"\n  603:  CreateUnitAtLocHint=\"不能被'最后创建的单位'捕获之\"\n  604  \n  605  CreateNUnitsAtLoc=\"创建单位(面向角度)\"\n  ...\n 1116  \n 1117  // Custom actions\n 1118: YDWECreateUnitPool=\"创建单位池 [YDWE]\"\n 1119: YDWECreateUnitPool=\"新建一个单位池\"\n 1120: YDWECreateUnitPoolHint=\"新建一个单位池，该单位池可以被<最后创建的单位池>获得。\"\n 1121  \n 1122  UnitPoolAddUnitType=\"添加单位类型 [R]\"\n ....\n 6975  \n 6976  // returns unit\n 6977: CreateUnit=\"新建单位(指定坐标) [R]\"\n 6978: CreateUnit=\"新建 \",~玩家,\" 的 \",~单位,\" 在(\",~X,\",\",~Y,\"),面向角度:\",~Face,\" 度\"\n 6979: CreateUnitHint=\"在坐标创建单位，不能被'最后创建的单位'获得。\"\n 6980  \n 6981: CreateUnitAtLoc=\"新建单位(指定点) [R]\"\n 6982: CreateUnitAtLoc=\"新建 \",~玩家,\" 的 \",~单位,\" 在 \",~点,\" 面向角度:\",~Face,\" 度\"\n 6983: CreateUnitAtLocHint=\n 6984  \n 6985  CreateCorpse=\"新建尸体 [R]\"\n ....\n 7195  \n 7196  // returns unitpool\n 7197: CreateUnitPool=\"新建单位池 [R]\"\n 7198: CreateUnitPool=\"新建的空单位池\"\n 7199: CreateUnitPoolHint=\"会创建单位池。\"\n 7200  \n 7201  YDWEGetLastUnitPool=\"最后创建的单位池 [YDWE]\"\n\n39 matches across 2 files\n\n\nSearching 75 files for \"OperatorDegreeMultiply\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 9822  _OperatorDegreeSubtract_Category=TC_MATH\n 9823  \n 9824: OperatorDegreeMultiply=0,1,degree,degree,real\n 9825: _OperatorDegreeMultiply_Defaults=_,_\n 9826: _OperatorDegreeMultiply_Category=TC_MATH\n 9827  \n 9828  OperatorDegreeDivide=0,1,degree,degree,real\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 5435  OperatorDegreeSubtractHint=\n 5436  \n 5437: OperatorDegreeMultiply=\"乘 < × >\"\n 5438: OperatorDegreeMultiply=~角度,\" × \",~实数\n 5439: OperatorDegreeMultiplyHint=\n 5440  \n 5441  OperatorDegreeDivide=\"除 < ÷ >\"\n\n6 matches across 2 files\n\n\nSearching 75 files for \"CreateUnit\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 4769  _CreateNUnitsAtLocFacingLocBJ_Category=TC_UNIT\n 4770  \n 4771: // CreateUnitAtLoc=0,player,unitcode,location,real\n 4772: //_ CreateUnitAtLoc_Defaults=Player00,hfoo,_,0\n 4773: //_ CreateUnitAtLoc_Category=TC_UNIT\n 4774  \n 4775  CreateCorpseLocBJ=0,unitcode,player,location\n ....\n 4782  _CreatePermanentCorpseLocBJ_Category=TC_UNIT\n 4783  \n 4784:  CreateUnit=0,player,unitcode,real,real,degree\n 4785: _ CreateUnit_Defaults=_,_,_,_,RealUnitFacing\n 4786: _ CreateUnit_Category=TC_UNIT\n 4787  \n 4788:  CreateUnitAtLoc=0,player,unitcode,location,real\n 4789: _ CreateUnitAtLoc_Defaults=Player00,hfoo,_,0\n 4790: _ CreateUnitAtLoc_Category=TC_UNIT\n 4791  \n 4792  KillUnit=0,unit\n ....\n 5332  \n 5333  // YD actions\n 5334: YDWECreateUnitPool=0,nothing\n 5335: _YDWECreateUnitPool_Defaults=\n 5336: _YDWECreateUnitPool_Category=TC_UNITPOOL\n 5337  \n 5338  // Unitpool actions\n ....\n 10320  \n 10321  // returns unit\n 10322: CreateUnit=0,1,unit,player,unitcode,real,real,degree\n 10323: _CreateUnit_Defaults=Player00,hfoo,0,0,0\n 10324: _CreateUnit_Category=TC_NOTHING\n 10325  \n 10326: CreateUnitAtLoc=0,1,unit,player,unitcode,location,degree\n 10327: _CreateUnitAtLoc_Defaults=Player00,hfoo,_,0\n 10328: _CreateUnitAtLoc_Category=TC_NOTHING\n 10329  \n 10330  CreateCorpse=0,1,unit,player,unitcode,real,real,degree\n .....\n 10550  \n 10551  //returns unitpool\n 10552: CreateUnitPool=1,0,unitpool\n 10553: _CreateUnitPool_Defaults=\n 10554: _CreateUnitPool_Category=TC_NOTHING\n 10555  \n 10556  YDWEGetLastUnitPool=1,0,unitpool\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  595  // Unit actions\n  596  \n  597:  CreateUnit=\"创建单位(指定坐标) [C]\"\n  598:  CreateUnit=\"为玩家 \",~玩家,\" 创建一个 \",~单位,\" 在(X坐标: \",~输入坐标,\" Y坐标: \",~输入坐标,\" ), 面向角度: \",~facing\n  599:  CreateUnitHint=\"不能被'最后创建的单位'捕获之\"\n  600  \n  601:  CreateUnitAtLoc=\"创建单位(指定点) [C]\"\n  602:  CreateUnitAtLoc=\"为玩家 \",~玩家,\" 创建一个 \",~单位,\" 在 \",~指定点,\" 面向角度:\",~Face,\" 度\"\n  603:  CreateUnitAtLocHint=\"不能被'最后创建的单位'捕获之\"\n  604  \n  605  CreateNUnitsAtLoc=\"创建单位(面向角度)\"\n  ...\n 1116  \n 1117  // Custom actions\n 1118: YDWECreateUnitPool=\"创建单位池 [YDWE]\"\n 1119: YDWECreateUnitPool=\"新建一个单位池\"\n 1120: YDWECreateUnitPoolHint=\"新建一个单位池，该单位池可以被<最后创建的单位池>获得。\"\n 1121  \n 1122  UnitPoolAddUnitType=\"添加单位类型 [R]\"\n ....\n 6975  \n 6976  // returns unit\n 6977: CreateUnit=\"新建单位(指定坐标) [R]\"\n 6978: CreateUnit=\"新建 \",~玩家,\" 的 \",~单位,\" 在(\",~X,\",\",~Y,\"),面向角度:\",~Face,\" 度\"\n 6979: CreateUnitHint=\"在坐标创建单位，不能被'最后创建的单位'获得。\"\n 6980  \n 6981: CreateUnitAtLoc=\"新建单位(指定点) [R]\"\n 6982: CreateUnitAtLoc=\"新建 \",~玩家,\" 的 \",~单位,\" 在 \",~点,\" 面向角度:\",~Face,\" 度\"\n 6983: CreateUnitAtLocHint=\n 6984  \n 6985  CreateCorpse=\"新建尸体 [R]\"\n ....\n 7195  \n 7196  // returns unitpool\n 7197: CreateUnitPool=\"新建单位池 [R]\"\n 7198: CreateUnitPool=\"新建的空单位池\"\n 7199: CreateUnitPoolHint=\"会创建单位池。\"\n 7200  \n 7201  YDWEGetLastUnitPool=\"最后创建的单位池 [YDWE]\"\n\n39 matches across 2 files\n\n\nSearching 216 files for \"YDWETimerDestroyTextTag\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\api\\YDJ\\YDWETimerSystem.cfg:\n    7  YDWETimerRunPeriodicTriggerOver\n    8  YDWETimerRunTrigger\n    9: YDWETimerDestroyTextTag\n   10  YDWETimerDestroyEffect\n   11  \n\nG:\\War3\\Maps\\Loopinghell\\api\\YDJ\\YDWETimerSystem.j:\n  143  \n  144  //É¾³ýÆ¯¸¡ÎÄ×Ö\n  145: function YDWETimerDestroyTextTag takes real time, texttag tt returns nothing\n  146      local integer N=0\n  147      local integer i=0\n\n2 matches across 2 files\n\n\nSearching 75 files for \"被攻击\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\campaignabilitystrings.txt:\n   77  Name=反馈\n   78  Tip=反馈\n   79: Ubertip=\"灵兽每次攻击抵消<Afbb,DataA1>点魔力。这些魔力值燃烧，对被攻击单位造成伤害。\"\n   80  YDWEtip=\"武器类型为普通或立即时,反馈的消魔效果是4级纯法球，被更高级的法球效果覆盖。武器类型为箭矢时，反馈是4级空法球+非独立特效，被更高级的法球效果或攻击特效覆盖。其他武器类型反馈失效。\"\n   81  \n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\itemstrings.txt:\n  731  Tip=购买闪避护符\n  732  Ubertip=\"能让英雄有<AIev,DataA1,%>% 的概率躲避掉敌人的攻击。|n不能和闪避以及醉拳技能一起使用。\"\n  733: Description=让英雄更加难以被攻击到。\n  734  \n  735  [nspi]\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\neutralabilitystrings.txt:\n 2255  Name=霜冻新星\n 2256  Tip=霜冻新星(|cffffcc00N|r)\n 2257: Ubertip=\"用一阵霜冻来攻击目标单位，造成<ACfn,DataB1>点的常规伤害和<ACfn,DataA1>点的霜冻新星伤害。并在<ACfn,Dur1>秒内减慢被攻击单位的速度。\"\n 2258  Hotkey=N\n 2259  EditorSuffix=(中立敌对)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\units\\units\\undeadabilitystrings.txt:\n  559  Name=睡眠\n  560  Tip=睡眠(|cffffcc00E|r) - [|cffffcc00等级 1|r],睡眠(|cffffcc00E|r) - [|cffffcc00等级 2|r],睡眠(|cffffcc00E|r) - [|cffffcc00等级 3|r]\n  561: Ubertip=\"在<AUsl,Dur1>秒内使目标单位处于睡眠状态。该单位被攻击以后会自动醒来。\",\"在<AUsl,Dur2>秒内使目标单位处于睡眠状态。该单位被攻击以后会自动醒来。\",\"在<AUsl,Dur3>秒内使目标单位处于睡眠状态。该单位被攻击以后会自动醒来。\"\n  562  Hotkey=E\n  563  Researchtip=\"学习睡眠(|cffffcc00E|r) - [|cffffcc00等级 %d|r]\"\n  564: Researchubertip=\"使目标单位处于睡眠状态。该单位被攻击以后会自动醒来。|n|n|cffffcc00等级 1|r -<AUsl,Dur1>秒的睡眠时间，消耗<AUsl,Cost1>点魔法。|n|cffffcc00等级 2|r -<AUsl,Dur2>秒的睡眠时间，消耗<AUsl,Cost2>点魔法。|n|cffffcc00等级 3|r -<AUsl,Dur3>秒的睡眠时间，消耗<AUsl,Cost3>点魔法。\"\n  565  Researchhotkey=E\n  566  \n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n  452  cameratgnoreterrainB=0,cameratgnoreterrain,true,忽略\n  453  \n  454: //攻击或被攻击事件\n  455: attackorattackedeventA=0,attackorattackedevent,0,被攻击\n  456  attackorattackedeventB=0,attackorattackedevent,1,攻击\n  457  //技能施放目标\n  ...\n 3082  // For use with TriggerRegisterPlayerUnitEvent\n 3083  //===================================================\n 3084: ID_EVENT_PLAYER_UNIT_ATTACKED=0,eventid,EVENT_PLAYER_UNIT_ATTACKED,\"(018)玩家单位事件 - 被攻击\"\n 3085  ID_EVENT_PLAYER_UNIT_RESCUED=0,eventid,EVENT_PLAYER_UNIT_RESCUED,\"(019)玩家单位事件 - 被营救\"\n 3086  ID_EVENT_PLAYER_UNIT_DEATH=0,eventid,EVENT_PLAYER_UNIT_DEATH,\"(020)玩家单位事件 - 死亡\"\n ....\n 3130  ID_EVENT_UNIT_ACQUIRED_TARGET=0,eventid,EVENT_UNIT_ACQUIRED_TARGET,\"(060)单位事件 - 注意到攻击目标\"\n 3131  ID_EVENT_UNIT_TARGET_IN_RANGE=0,eventid,EVENT_UNIT_TARGET_IN_RANGE,\"(061)单位事件 - 获取攻击目标\"\n 3132: ID_EVENT_UNIT_ATTACKED=0,eventid,EVENT_UNIT_ATTACKED,\"(062)单位事件 - 被攻击\"\n 3133  ID_EVENT_UNIT_RESCUED=0,eventid,EVENT_UNIT_RESCUED,\"(063)单位事件 - 被营救\"\n 3134  ID_EVENT_UNIT_CONSTRUCT_CANCEL=0,eventid,EVENT_UNIT_CONSTRUCT_CANCEL,\"(064)单位事件 - 被取消建造\"\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 7050  GroupPickRandomUnitHint=\n 7051  \n 7052: GetAttackedUnitBJ=\"被攻击单位\"\n 7053: GetAttackedUnitBJ=\"被攻击单位\"\n 7054: GetAttackedUnitBJHint=\"响应'被攻击'单位事件.\"\n 7055  \n 7056  GetAttacker=\"攻击单位\"\n 7057  GetAttacker=\"攻击单位\"\n 7058: GetAttackerHint=\"响应'被攻击'单位事件.\"\n 7059  \n 7060  GetBuyingUnit=\"购买者\"\n ....\n 8321  // --- Boolean\n 8322  \n 8323: TownThreatened=\"基地被攻击\"\n 8324: TownThreatened=\"基地被攻击\"\n 8325  TownThreatenedHint=\"\n 8326  \n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\WorldEditStrings.txt:\n    <binary>\n\n28 matches across 7 files\n\n\nSearching 75 files for \"SetUnitState\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 4876  _SetUnitRallyDestructable_Category=TC_UNIT\n 4877  \n 4878: SetUnitState=0,unit,unitstatesec,real\n 4879: _SetUnitState_Defaults=GetTriggerUnit,UnitStateLifeSec,100\n 4880: _SetUnitState_Category=TC_UNIT\n 4881  \n 4882  SetUnitLifePercentBJ=0,unit,real\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  704  SetUnitRallyDestructableHint=\"建议用发布'setrally'命令来实现该功能.\"\n  705  \n  706: SetUnitState=\"设置单位属性 [R]\"\n  707: SetUnitState=\"设置 \",~单位,\" 的 \",~属性,\" 为 \",~Value\n  708: SetUnitStateHint=\n  709  \n  710  SetUnitLifePercentBJ=\"设置生命值(百分比)\"\n\n6 matches across 2 files\n\n\nSearching 75 files for \"GetUnitState\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 4891  \n 4892  SetUnitLifeBJ=0,unit,real\n 4893: _SetUnitLifeBJ_Defaults=GetTriggerUnit,GetUnitStateSwap\n 4894  _SetUnitLifeBJ_Limits=_,_,0,_\n 4895  _SetUnitLifeBJ_Category=TC_UNIT\n ....\n 9114  \n 9115  R2I=0,1,integer,real\n 9116: _R2I_Defaults=GetUnitStateSwap\n 9117  _R2I_Category=TC_CONVERSION\n 9118  \n ....\n 9586  _WaygateGetDestinationY_Category=TC_NEUTRALBUILDING\n 9587  \n 9588: GetUnitState=0,1,real,unit,unitstate\n 9589: _GetUnitState_Defaults=GetTriggerUnit,UnitStateLife\n 9590: _GetUnitState_Category=TC_UNIT\n 9591  \n 9592: GetUnitStateSwap=0,1,real,unitstate,unit\n 9593: _GetUnitStateSwap_Defaults=UnitStateLife,GetTriggerUnit\n 9594: _GetUnitStateSwap_Category=TC_UNIT\n 9595  \n 9596  GetUnitLifePercent=1,1,real,unit\n ....\n 10046  \n 10047  R2S=0,1,string,real\n 10048: _R2S_Defaults=GetUnitStateSwap\n 10049  _R2S_Category=TC_CONVERSION\n 10050  \n .....\n 10069  \n 10070  R2SW=0,1,string,real,integer,integer\n 10071: _R2SW_Defaults=GetUnitStateSwap,1,2\n 10072  _R2SW_Limits=_,_,0,_,0,_\n 10073  _R2SW_Category=TC_CONVERSION\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 6238  WaygateGetDestinationYHint=\"\"\n 6239  \n 6240: GetUnitState=\"属性 [R]\"\n 6241: GetUnitState=~单位,\" 的 \",~Property\n 6242: GetUnitStateHint=\n 6243  \n 6244: GetUnitStateSwap=\"属性\"\n 6245: GetUnitStateSwap=~Property,\" 对于 \",~单位\n 6246: GetUnitStateSwapHint=\n 6247  \n 6248  GetUnitLifePercent=\"生命百分比\"\n\n16 matches across 2 files\n\n\nSearching 75 files for \"GetUnitAbilityLevel\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 9253  _GetUnitLevel_Category=TC_UNIT\n 9254  \n 9255: GetUnitAbilityLevel=1,1,integer,unit,abilcode\n 9256: _GetUnitAbilityLevel_Defaults=GetTriggerUnit,_\n 9257: _GetUnitAbilityLevel_Category=TC_UNIT\n 9258  \n 9259: GetUnitAbilityLevelSwapped=1,1,integer,abilcode,unit\n 9260: _GetUnitAbilityLevelSwapped_Defaults=_,GetTriggerUnit\n 9261: _GetUnitAbilityLevelSwapped_Category=TC_UNIT\n 9262  \n 9263  UnitInventoryCount=1,1,integer,unit\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 5808  GetUnitLevelHint=\"对于英雄则会返回其英雄等级.\"\n 5809  \n 5810: GetUnitAbilityLevel=\"单位技能等级 [R]\"\n 5811: GetUnitAbilityLevel=~单位,\" 的 \",~技能,\" 技能等级\"\n 5812: GetUnitAbilityLevelHint=\"如果单位没有该技能,则返回0.\"\n 5813  \n 5814: GetUnitAbilityLevelSwapped=\"单位技能等级\"\n 5815: GetUnitAbilityLevelSwapped=~技能,\" 的等级对 \",~单位\n 5816: GetUnitAbilityLevelSwappedHint=\"如果单位没有该技能,则返回0.\"\n 5817  \n 5818  UnitInventoryCount=\"持有物品数量\"\n\n12 matches across 2 files\n\n\nSearching 75 files for \"选取单位\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydtrigger\\ui\\TriggerStrings.txt:\n   14  YDWERegionMultiple=\">>>>>>>>\",~注释文本,\"<<<<<<<<\"\n   15  YDWERegionMultipleHint=\n   16: YDWEEnumUnitsInRangeMultiple=\"选取单位 -- 圆形范围\"\n   17  YDWEEnumUnitsInRangeMultiple=\"选取以(\",~坐标X,\", \",~坐标Y,\")为圆心,\",~半径,\"为半径的圆范围内的单位做动作\"\n   18  YDWEEnumUnitsInRangeMultipleHint=\"选取范围内的单位做动作\"\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydtrigger\\ui\\WorldEditStrings.txt:\n    6  WESTRING_ERROR_YDTRIGGER_TIMER_FLUSH=YDTrigger Error: 不要在逆天计时器的动作外使用<清除逆天计时器>\n    7  WESTRING_ERROR_YDTRIGGER_TRIGGER_FLUSH=YDTrigger Error: 不要在逆天触发器的动作外使用<清除逆天触发器>\n    8: WESTRING_ERROR_YDTRIGGER_YDWEEnumUnitsInRangeMultiple=YDTrigger Error: 不要嵌套使用<逆天--选取单位>\n    9  WESTRING_ERROR_YDTRIGGER_ForForceMultiple=YDTrigger Error: 不要嵌套使用<选取玩家组>\n   10  \n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  441  YDWEExitLoop=\"退出循环\"\n  442  YDWEExitLoop=\"退出循环\"\n  443: YDWEExitLoopHint=\"退出循环,也能退出逆天选取单位动作.\"\n  444  \n  445  // Specially handled by the editor\n  ...\n 1142  \n 1143  // Unit Group actions\n 1144: ForGroupMultiple=\"选取单位组内单位做动作(多个动作)\"\n 1145  ForGroupMultiple=\"选取 \",~单位组,\" 内所有单位做动作\"\n 1146: ForGroupMultipleHint=\"使用'选取单位'来取代相应的单位. 对于单位组内每个单位都会运行一次动作(包括死亡的,不包括隐藏的). 等待不能在组动作中运行.\"\n 1147  \n 1148: ForGroup=\"选取单位组内单位做动作\"\n 1149  ForGroup=\"选取 \",~单位组,\" 内所有单位 \",~做动作\n 1150: ForGroupHint=\"使用'选取单位'来取代相应的单位. 对于单位组内每个单位都会运行一次动作(包括死亡的,不包括隐藏的). 等待不能在组动作中运行.\"\n 1151  \n 1152: GroupEnumUnitsInRange=\"选取单位添加到单位组(坐标)\"\n 1153  GroupEnumUnitsInRange=\"为 \",~单位组,\" 添加以( \",~坐标X,\" , \",~坐标Y,\" )为圆心，\",~半径,\" 为半径的圆范围内，满足 \",~条件,\" 的单位\"\n 1154  GroupEnumUnitsInRangeHint=\n 1155  \n 1156: GroupEnumUnitsInRangeCounted=\"选取单位添加到单位组(坐标)(不建议使用)\"\n 1157  GroupEnumUnitsInRangeCounted=\"为 \",~单位组,\" 添加以( \",~坐标X,\" , \",~坐标Y,\" )为圆心，\",~半径,\" 为半径的圆范围内，满足 \",~条件,\" 的单位。无效项( \",~N,\" )\"\n 1158  GroupEnumUnitsInRangeCountedHint=\"最后一项是无效项，建议用上一个UI\"\n 1159  \n 1160: GroupEnumUnitsInRangeOfLoc=\"选取单位添加到单位组(点)\"\n 1161  GroupEnumUnitsInRangeOfLoc=\"为 \",~单位组,\" 添加以 \",~点,\" 为圆心，\",~半径,\" 为半径的圆范围内，满足 \",~条件,\" 的单位\"\n 1162  GroupEnumUnitsInRangeOfLocHint=\n 1163  \n 1164: GroupEnumUnitsInRangeOfLocCounted=\"选取单位添加到单位组(点)(不建议使用)\"\n 1165  GroupEnumUnitsInRangeOfLocCounted=\"为 \",~单位组,\" 添加以 \",~点,\" 为圆心，\",~半径,\" 为半径的圆范围内，满足 \",~条件,\" 的单位。无效项( \",~N,\" )\"\n 1166  GroupEnumUnitsInRangeOfLocCountedHint=\"最后一项是无效项，建议用上一个UI\"\n ....\n 7007  GetLastHauntedGoldMineHint=\"最后一个使用'中立建筑 - 创建不死族金矿'创建的不死族金矿.\"\n 7008  \n 7009: GetEnumUnit=\"选取单位\"\n 7010: GetEnumUnit=\"选取单位\"\n 7011: GetEnumUnitHint=\"使用'选取单位做动作'时, 指代相应的单位.\"\n 7012  \n 7013  GetFilterUnit=\"匹配单位\"\n 7014  GetFilterUnit=\"匹配单位\"\n 7015: GetFilterUnitHint=\"在'选取单位满足条件'之类功能的条件中,指代被判断单位.\"\n 7016  \n 7017  FirstOfGroup=\"单位组中第一个单位\"\n\n15 matches across 3 files\n",
+			"settings":
+			{
+				"buffer_size": 16006,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "mpq/ydwe/ui/TriggerStrings.txt",
+			"settings":
+			{
+				"buffer_size": 284611,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "file/war3map.w3a.ini",
+			"settings":
+			{
+				"buffer_size": 484999,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -206,31 +263,43 @@
 	[
 		"/G/War3/Maps/Loopinghell",
 		"/G/War3/Maps/Loopinghell/api",
-		"/G/War3/Maps/Loopinghell/api/YDJ"
+		"/G/War3/Maps/Loopinghell/api/YDJ",
+		"/G/War3/Maps/Loopinghell/api/YDJ/Base",
+		"/G/War3/Maps/Loopinghell/api/YDJ/japi",
+		"/G/War3/Maps/Loopinghell/edit"
 	],
 	"file_history":
 	[
+		"/G/War3/Maps/Loopinghell/file/war3map.w3u.ini",
+		"/G/War3/Maps/Loopinghell/edit/output.j",
+		"/G/War3/Maps/Loopinghell/edit/YDWETimerSystem.j.dump",
+		"/G/War3/Maps/Loopinghell/edit/YDWETimerPattern.j.dump",
+		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j",
+		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j.dump",
+		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/TriggerStrings.txt",
+		"/G/War3/Maps/Loopinghell/edit/regular.txt",
+		"/G/War3/Maps/Loopinghell/edit/testmain.j",
+		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerSystem.j",
+		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern_Old.j.dump",
+		"/G/War3/Maps/Loopinghell/patch",
+		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/TriggerData.txt",
+		"/G/War3/Maps/Loopinghell/db/buff.ini",
+		"/G/War3/Maps/Loopinghell/edit/item.j",
+		"/G/War3/Maps/Loopinghell/db/ability.ini",
+		"/G/War3/Maps/Loopinghell/file/war3map.w3a.ini",
 		"/G/War3/Maps/Loopinghell/2.54/war3map.w3t.ini",
 		"/D/Program Files (x86)/YDWE1.30.6正式版/jass/YDWETimerPattern.j.dump",
-		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j.dump",
 		"/D/Program Files (x86)/YDWE1.30.6正式版/jass/YDWETimerPattern.j",
-		"/G/War3/Maps/Loopinghell/edit/item.j",
 		"/G/War3/Maps/Loopinghell/testlog.txt",
-		"/G/War3/Maps/Loopinghell/patch",
-		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j",
 		"/G/War3/Maps/Loopinghell/edit/debug.j",
 		"/G/War3/Maps/Loopinghell/edit/LHBase.j",
-		"/G/War3/Maps/Loopinghell/edit/testmain.j",
 		"/G/War3/Maps/Loopinghell/edit/testmap.j",
 		"/G/War3/Maps/Loopinghell/2.54/war3map.w3a.ini",
 		"/G/War3/Maps/Loopinghell/api/YDJ/AntiBJLeak/MainMacro.h",
 		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/WorldEditStrings.txt",
 		"/G/War3/Maps/Loopinghell/轮回之狱.w3x",
-		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/TriggerStrings.txt",
 		"/G/War3/Maps/Loopinghell/轮回2.52_2/war3map.w3t.ini",
 		"/G/War3/Maps/Loopinghell/edit/YDWETriggerEvent.j.dump",
-		"/G/War3/Maps/Loopinghell/edit/output.j",
-		"/G/War3/Maps/Loopinghell/edit/regular.txt",
 		"/G/War3/Maps/Loopinghell/api/YDJ/system/ht/common.j",
 		"/G/War3/Maps/Loopinghell/edit/YDWETriggerEvent.j",
 		"/G/War3/Maps/Loopinghell/轮回之狱/war3map.w3t.ini",
@@ -328,16 +397,7 @@
 		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3h.ini",
 		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3i.ini",
 		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3q.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3t.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3u.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3mapextra.txt",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3mapmisc.txt",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3mapskin.txt",
-		"/G/War3/Maps/DeathCentery/天绝三世2/war3map.j",
-		"/G/War3/Maps/Xlimon/origin/Xlimon/war3map.w3t.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世2/war3mapmisc.txt",
-		"/G/War3/Maps/DeathCentery/天绝三世2/war3mapskin.txt",
-		"/G/War3/Maps/DeathCentery/天绝三世2/war3map.w3t.ini"
+		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3t.ini"
 	],
 	"find":
 	{
@@ -348,6 +408,9 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"G:\\War3\\Maps\\Loopinghell\\mpq",
+			"G:\\War3\\Maps\\Loopinghell\\api",
+			"G:\\War3\\Maps\\Loopinghell\\mpq",
 			"G:\\War3\\Maps\\Loopinghell\\db",
 			"G:\\War3\\Maps\\Loopinghell\\mpq",
 			"G:\\War3\\Maps\\Loopinghell\\api",
@@ -372,6 +435,47 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"吞天",
+			"选取单位",
+			"GetUnitAbilityLevel",
+			"GetUnitState",
+			"SetUnitState",
+			"GetEnumUnit()",
+			"GetEnumUnit",
+			"ydl_group",
+			"TSpellQianfa",
+			"y",
+			"x",
+			"Thread",
+			"drat_xianlian",
+			"GetAttacker",
+			"SetUnitLifeBJ",
+			"CreateUnit",
+			"GetAttackGetAttackeredUnitBJ",
+			"GetAttacker",
+			"QianFa",
+			"t",
+			"被攻击",
+			"j",
+			"endfunction",
+			"endfun",
+			"return.*",
+			"^\\s*(function|endfunction|return)(.*)$",
+			"^\\s*((private).?function|endfunction|return)(.*)$",
+			"YDWETimerDestroyTextTag",
+			"CreateUnit",
+			"OperatorDegreeMultiply",
+			"CreateUnit",
+			"l_unit",
+			"l_group",
+			"ydl_group",
+			"ydul_j",
+			"Trig____________________079",
+			"Trig____________________079Actions",
+			"Trig____________________079Conditions",
+			"gg_trg____________________079",
+			"最后创建的单位",
+			"强击光环",
 			"GetUnitX",
 			"惊吓",
 			"isu",
@@ -458,48 +562,7 @@
 			"cFFFF0000【人】黯淡之甲",
 			"黯淡之甲",
 			"妖皇",
-			"鬼5",
-			"黯淡之甲",
-			"黯淡之甲\\\"",
-			"黯淡之甲|r$",
-			"黯淡之",
-			"黯淡之甲$",
-			"黯淡之甲\\b",
-			"黯淡.*",
-			"法魂Lv2",
-			"五彩之",
-			"星.*Lv0",
-			"星.*Lv1",
-			"\\*//\\*\\n",
-			"*//*\\n",
-			"\\n",
-			"\\w{4}",
-			",",
-			"A07S",
-			"A0BM",
-			"A03A",
-			"A060",
-			"A07T",
-			"AChx",
-			"A07Z",
-			"A07X",
-			"Acht",
-			"ACro",
-			"GetSpellAbilityId",
-			"CreateUnit",
-			"英雄等级",
-			"test",
-			"\t\t//",
-			"选择.*单位",
-			"被选.*单位",
-			"SelectUnit",
-			"GetUnitStateSwap",
-			"\\b对于\\b",
-			"对于",
-			"单位 - 属性",
-			"最大生命值",
-			"GetWidgetLife",
-			"Unit.*生命值"
+			"鬼5"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -507,6 +570,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"integer",
 			"",
 			"/*\\n*/",
 			"|",
@@ -528,386 +592,37 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "testlog.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7627,
+						"buffer_size": 474,
 						"regions":
 						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										159,
-										172
-									],
-									[
-										195,
-										208
-									],
-									[
-										243,
-										256
-									],
-									[
-										280,
-										293
-									],
-									[
-										326,
-										339
-									],
-									[
-										372,
-										385
-									],
-									[
-										427,
-										440
-									],
-									[
-										473,
-										486
-									],
-									[
-										524,
-										537
-									],
-									[
-										578,
-										591
-									],
-									[
-										630,
-										643
-									],
-									[
-										686,
-										699
-									],
-									[
-										747,
-										760
-									],
-									[
-										804,
-										817
-									],
-									[
-										855,
-										868
-									],
-									[
-										910,
-										923
-									],
-									[
-										1101,
-										1114
-									],
-									[
-										1141,
-										1154
-									],
-									[
-										1194,
-										1207
-									],
-									[
-										1257,
-										1270
-									],
-									[
-										1300,
-										1313
-									],
-									[
-										1376,
-										1389
-									],
-									[
-										1444,
-										1457
-									],
-									[
-										1491,
-										1504
-									],
-									[
-										1571,
-										1584
-									],
-									[
-										1656,
-										1669
-									],
-									[
-										1701,
-										1714
-									],
-									[
-										1777,
-										1790
-									],
-									[
-										2020,
-										2024
-									],
-									[
-										2051,
-										2055
-									],
-									[
-										2077,
-										2081
-									],
-									[
-										2116,
-										2120
-									],
-									[
-										2153,
-										2157
-									],
-									[
-										2182,
-										2186
-									],
-									[
-										2293,
-										2297
-									],
-									[
-										2322,
-										2326
-									],
-									[
-										2346,
-										2350
-									],
-									[
-										2383,
-										2387
-									],
-									[
-										2418,
-										2422
-									],
-									[
-										2445,
-										2449
-									],
-									[
-										2630,
-										2634
-									],
-									[
-										2656,
-										2660
-									],
-									[
-										2662,
-										2666
-									],
-									[
-										2684,
-										2688
-									],
-									[
-										2738,
-										2742
-									],
-									[
-										2762,
-										2766
-									],
-									[
-										2770,
-										2774
-									],
-									[
-										2792,
-										2796
-									],
-									[
-										2845,
-										2849
-									],
-									[
-										2877,
-										2881
-									],
-									[
-										2884,
-										2888
-									],
-									[
-										2914,
-										2918
-									],
-									[
-										2969,
-										2973
-									],
-									[
-										2999,
-										3003
-									],
-									[
-										3008,
-										3012
-									],
-									[
-										3038,
-										3042
-									],
-									[
-										3320,
-										3322
-									],
-									[
-										3334,
-										3336
-									],
-									[
-										3373,
-										3375
-									],
-									[
-										3600,
-										3602
-									],
-									[
-										3998,
-										4000
-									],
-									[
-										4225,
-										4227
-									],
-									[
-										4239,
-										4241
-									],
-									[
-										4371,
-										4373
-									],
-									[
-										4544,
-										4546
-									],
-									[
-										4686,
-										4688
-									],
-									[
-										4771,
-										4773
-									],
-									[
-										4856,
-										4858
-									],
-									[
-										4941,
-										4943
-									],
-									[
-										5086,
-										5088
-									],
-									[
-										5431,
-										5433
-									],
-									[
-										5567,
-										5569
-									],
-									[
-										5773,
-										5775
-									],
-									[
-										5962,
-										5964
-									],
-									[
-										6098,
-										6100
-									],
-									[
-										6384,
-										6386
-									],
-									[
-										6434,
-										6436
-									],
-									[
-										6603,
-										6605
-									],
-									[
-										6811,
-										6813
-									],
-									[
-										7007,
-										7009
-									],
-									[
-										7159,
-										7161
-									],
-									[
-										7288,
-										7290
-									],
-									[
-										7417,
-										7419
-									],
-									[
-										7546,
-										7548
-									]
-								],
-								"scope": ""
-							}
 						},
 						"selection":
 						[
 							[
-								1851,
-								1851
+								268,
+								268
 							]
 						],
 						"settings":
 						{
-							"detect_indentation": false,
 							"is_init_dirty_state": false,
-							"line_numbers": false,
-							"output_tag": 4,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"origin_encoding": "UTF-8",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 722.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -916,15 +631,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1102,
+						"buffer_size": 1189,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1057,
-								1057
+								1055,
+								1055
 							]
 						],
 						"settings":
@@ -932,40 +647,803 @@
 							"syntax": "Packages/Diff/Diff.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 399.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "db/ability.ini",
+					"file": "edit/item.j",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1084845,
+						"buffer_size": 4382,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								590000,
-								590000
+								3266,
+								3266
 							]
 						],
 						"settings":
 						{
-							"is_init_dirty_state": false,
-							"origin_encoding": "UTF-8",
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
+							"syntax": "Packages/SublimeText-JASS/jass.tmlanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 678331.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "edit/MonsterSpell.j",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6895,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								655,
+								655
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SublimeText-JASS/jass.tmlanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "edit/YDWETimerPattern.j.dump",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1499,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								224,
+								224
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SublimeText-JASS/jass.tmlanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16006,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										171,
+										181
+									],
+									[
+										230,
+										240
+									],
+									[
+										284,
+										294
+									],
+									[
+										451,
+										461
+									],
+									[
+										506,
+										516
+									],
+									[
+										558,
+										568
+									],
+									[
+										602,
+										612
+									],
+									[
+										659,
+										669
+									],
+									[
+										711,
+										721
+									],
+									[
+										821,
+										831
+									],
+									[
+										858,
+										868
+									],
+									[
+										895,
+										905
+									],
+									[
+										1013,
+										1023
+									],
+									[
+										1075,
+										1085
+									],
+									[
+										1124,
+										1134
+									],
+									[
+										1172,
+										1182
+									],
+									[
+										1238,
+										1248
+									],
+									[
+										1290,
+										1300
+									],
+									[
+										1449,
+										1459
+									],
+									[
+										1486,
+										1496
+									],
+									[
+										1520,
+										1530
+									],
+									[
+										1702,
+										1712
+									],
+									[
+										1738,
+										1748
+									],
+									[
+										1834,
+										1844
+									],
+									[
+										1883,
+										1893
+									],
+									[
+										1923,
+										1933
+									],
+									[
+										2002,
+										2012
+									],
+									[
+										2136,
+										2146
+									],
+									[
+										2177,
+										2187
+									],
+									[
+										2213,
+										2223
+									],
+									[
+										2355,
+										2365
+									],
+									[
+										2390,
+										2400
+									],
+									[
+										2465,
+										2475
+									],
+									[
+										2521,
+										2531
+									],
+									[
+										2560,
+										2570
+									],
+									[
+										2632,
+										2642
+									],
+									[
+										2740,
+										2750
+									],
+									[
+										2774,
+										2784
+									],
+									[
+										2806,
+										2816
+									],
+									[
+										3091,
+										3113
+									],
+									[
+										3145,
+										3167
+									],
+									[
+										3189,
+										3211
+									],
+									[
+										3396,
+										3418
+									],
+									[
+										3436,
+										3458
+									],
+									[
+										3480,
+										3502
+									],
+									[
+										3753,
+										3763
+									],
+									[
+										3812,
+										3822
+									],
+									[
+										3866,
+										3876
+									],
+									[
+										4033,
+										4043
+									],
+									[
+										4088,
+										4098
+									],
+									[
+										4140,
+										4150
+									],
+									[
+										4184,
+										4194
+									],
+									[
+										4241,
+										4251
+									],
+									[
+										4293,
+										4303
+									],
+									[
+										4403,
+										4413
+									],
+									[
+										4440,
+										4450
+									],
+									[
+										4477,
+										4487
+									],
+									[
+										4595,
+										4605
+									],
+									[
+										4657,
+										4667
+									],
+									[
+										4706,
+										4716
+									],
+									[
+										4754,
+										4764
+									],
+									[
+										4820,
+										4830
+									],
+									[
+										4872,
+										4882
+									],
+									[
+										5031,
+										5041
+									],
+									[
+										5068,
+										5078
+									],
+									[
+										5102,
+										5112
+									],
+									[
+										5284,
+										5294
+									],
+									[
+										5320,
+										5330
+									],
+									[
+										5416,
+										5426
+									],
+									[
+										5465,
+										5475
+									],
+									[
+										5505,
+										5515
+									],
+									[
+										5584,
+										5594
+									],
+									[
+										5718,
+										5728
+									],
+									[
+										5759,
+										5769
+									],
+									[
+										5795,
+										5805
+									],
+									[
+										5937,
+										5947
+									],
+									[
+										5972,
+										5982
+									],
+									[
+										6047,
+										6057
+									],
+									[
+										6103,
+										6113
+									],
+									[
+										6142,
+										6152
+									],
+									[
+										6214,
+										6224
+									],
+									[
+										6322,
+										6332
+									],
+									[
+										6356,
+										6366
+									],
+									[
+										6388,
+										6398
+									],
+									[
+										6685,
+										6708
+									],
+									[
+										6846,
+										6869
+									],
+									[
+										7186,
+										7189
+									],
+									[
+										7487,
+										7490
+									],
+									[
+										7722,
+										7725
+									],
+									[
+										8032,
+										8035
+									],
+									[
+										8075,
+										8078
+									],
+									[
+										8118,
+										8121
+									],
+									[
+										8249,
+										8252
+									],
+									[
+										8597,
+										8600
+									],
+									[
+										8659,
+										8662
+									],
+									[
+										8948,
+										8951
+									],
+									[
+										9402,
+										9405
+									],
+									[
+										9703,
+										9706
+									],
+									[
+										9736,
+										9739
+									],
+									[
+										9776,
+										9779
+									],
+									[
+										9874,
+										9877
+									],
+									[
+										9981,
+										9984
+									],
+									[
+										10011,
+										10014
+									],
+									[
+										10320,
+										10332
+									],
+									[
+										10366,
+										10378
+									],
+									[
+										10432,
+										10444
+									],
+									[
+										10646,
+										10658
+									],
+									[
+										10679,
+										10691
+									],
+									[
+										10732,
+										10744
+									],
+									[
+										11015,
+										11027
+									],
+									[
+										11171,
+										11183
+									],
+									[
+										11311,
+										11323
+									],
+									[
+										11356,
+										11368
+									],
+									[
+										11415,
+										11427
+									],
+									[
+										11460,
+										11472
+									],
+									[
+										11509,
+										11521
+									],
+									[
+										11572,
+										11584
+									],
+									[
+										11719,
+										11731
+									],
+									[
+										11865,
+										11877
+									],
+									[
+										12066,
+										12078
+									],
+									[
+										12095,
+										12107
+									],
+									[
+										12135,
+										12147
+									],
+									[
+										12168,
+										12180
+									],
+									[
+										12197,
+										12209
+									],
+									[
+										12242,
+										12254
+									],
+									[
+										12496,
+										12515
+									],
+									[
+										12550,
+										12569
+									],
+									[
+										12604,
+										12623
+									],
+									[
+										12656,
+										12675
+									],
+									[
+										12717,
+										12736
+									],
+									[
+										12778,
+										12797
+									],
+									[
+										12987,
+										13006
+									],
+									[
+										13027,
+										13046
+									],
+									[
+										13076,
+										13095
+									],
+									[
+										13133,
+										13152
+									],
+									[
+										13176,
+										13195
+									],
+									[
+										13227,
+										13246
+									],
+									[
+										13571,
+										13575
+									],
+									[
+										14052,
+										14056
+									],
+									[
+										14294,
+										14298
+									],
+									[
+										14421,
+										14425
+									],
+									[
+										14519,
+										14523
+									],
+									[
+										14607,
+										14611
+									],
+									[
+										14686,
+										14690
+									],
+									[
+										14787,
+										14791
+									],
+									[
+										14986,
+										14990
+									],
+									[
+										15237,
+										15241
+									],
+									[
+										15435,
+										15439
+									],
+									[
+										15739,
+										15743
+									],
+									[
+										15765,
+										15769
+									],
+									[
+										15798,
+										15802
+									],
+									[
+										15911,
+										15915
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								15732,
+								15732
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 9,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 8721.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "mpq/ydwe/ui/TriggerStrings.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 284611,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								239676,
+								239676
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 134333.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "file/war3map.w3a.ini",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 484999,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								223079,
+								223079
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Lua/Lua.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 212463.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1020,12 +1498,44 @@
 		"selected_items":
 		[
 			[
+				"w3a",
+				"file\\war3map.w3a.ini"
+			],
+			[
+				"w3u",
+				"file\\war3map.w3u.ini"
+			],
+			[
 				"patch",
 				"patch"
 			],
 			[
+				"item",
+				"edit\\item.j"
+			],
+			[
+				"output",
+				"edit\\output.j"
+			],
+			[
+				"outpu",
+				"edit\\output.j"
+			],
+			[
+				"regula",
+				"edit\\regular.txt"
+			],
+			[
+				"testmain",
+				"edit\\testmain.j"
+			],
+			[
 				"item.j",
 				"edit\\item.j"
+			],
+			[
+				"testlog",
+				"testlog.txt"
 			],
 			[
 				"pat",
@@ -1036,20 +1546,8 @@
 				"edit\\LHBase.j"
 			],
 			[
-				"testmain",
-				"edit\\testmain.j"
-			],
-			[
 				"testma",
 				"edit\\testmap.j"
-			],
-			[
-				"item",
-				"edit\\item.j"
-			],
-			[
-				"testlog",
-				"testlog.txt"
 			],
 			[
 				"debug.j",
@@ -1074,10 +1572,6 @@
 			[
 				"testmap",
 				"edit\\testmap.j"
-			],
-			[
-				"output",
-				"edit\\output.j"
 			]
 		],
 		"width": 0.0
@@ -1108,7 +1602,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 275.0,
+	"side_bar_width": 396.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

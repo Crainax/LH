@@ -83,14 +83,11 @@ library_once ItemBase initializer InitItemBase
     删除书本小点BUG
 */
 private function TBookBUGCon takes nothing returns boolean
-call BJDebugMsg("判断中")
-	return GetItemType(GetSoldItem()) == ITEM_TYPE_POWERUP
+	return GetItemType(GetManipulatedItem()) == ITEM_TYPE_POWERUP
 endfunction
 
 private function TBookBUGAct takes nothing returns nothing
-	call PolledWait(0.01)
-	call RemoveItem(GetSoldItem())
-	call BJDebugMsg("删除啦!~!~!~!~!~!~!")
+	call RemoveItem(GetManipulatedItem())
 endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -103,9 +100,10 @@ endfunction
 
 		//删除书本的小点BUG
 		set t = CreateTrigger()
-		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PAWN_ITEM)
+		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 		call TriggerAddCondition(t,Condition(function TBookBUGCon))
 		call TriggerAddAction(t,function TBookBUGAct)
+		set t = null
 	endfunction
 
 endlibrary
