@@ -142,6 +142,15 @@
 			}
 		},
 		{
+			"file": "patch",
+			"settings":
+			{
+				"buffer_size": 1102,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "db/ability.ini",
 			"settings":
 			{
@@ -519,7 +528,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -878,8 +887,8 @@
 						"selection":
 						[
 							[
-								2206,
-								2206
+								1851,
+								1851
 							]
 						],
 						"settings":
@@ -895,14 +904,42 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 665.0,
+						"translation.y": 722.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "patch",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1102,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1057,
+								1057
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Diff/Diff.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 399.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"file": "db/ability.ini",
 					"semi_transient": false,
 					"settings":
@@ -928,7 +965,7 @@
 						"translation.y": 678331.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -983,6 +1020,10 @@
 		"selected_items":
 		[
 			[
+				"patch",
+				"patch"
+			],
+			[
 				"item.j",
 				"edit\\item.j"
 			],
@@ -1009,10 +1050,6 @@
 			[
 				"testlog",
 				"testlog.txt"
-			],
-			[
-				"patch",
-				"patch"
 			],
 			[
 				"debug.j",
@@ -1070,7 +1107,7 @@
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 275.0,
 	"status_bar_visible": true,
 	"template_settings":
