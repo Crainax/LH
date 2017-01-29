@@ -1,8 +1,8 @@
 
 //! import "LHBase.j"
-/////! import "YDWEBase_common.j"
-/////! import "YDWEBase_hashtable.j"
-library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
+//! import "YDWEBase_common.j"
+//! import "YDWEBase_hashtable.j"
+library_once SpellBase requires LHBase,YDWEBaseHashtable,YDWEBaseCommon
 
 	struct Attract 
 		private unit caster

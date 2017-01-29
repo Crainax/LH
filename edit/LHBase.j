@@ -42,6 +42,28 @@ library_once LHBase
     endfunction
 
     /*
+    	    召唤马甲然后施放技能
+    */	
+    function SimulateSpell takes unit caster,unit target,integer spellId,integer spellLevel,real lifeTime ,string orderId,boolean isPoint,boolean isImmediate,boolean isTarget returns nothing
+		local location point = GetUnitLoc(target)
+	    local unit  u = CreateUnit(GetOwningPlayer(caster),'h000',GetUnitX(target),GetUnitY(target),0)
+	    call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+        call UnitAddAbilityBJ( spellId,u )
+        call SetUnitAbilityLevel(u,spellId,spellLevel)
+        if (isPoint) then
+	    	call IssuePointOrderLoc( u, orderId, point )
+        elseif (isImmediate) then
+	    	call IssueImmediateOrder( u, orderId )
+	    elseif (isTarget) then
+	    	call IssueTargetOrder( u, orderId, target )
+        endif
+	    call RemoveLocation( point )
+	    set u = null
+	    set point = null
+
+    endfunction
+
+    /*
         购买者的判断，防止是假分身
     */
 	function BuyerFilter takes unit buyer returns boolean
