@@ -1,5 +1,6 @@
 
-library_once MonsterSpell initializer InitMonsterSpell  requires YDWETimerSystem
+//! import "LHBase.j"
+library_once MonsterSpell initializer InitMonsterSpell  requires LHBase
 	
 	globals
 		trigger TSpellQianfa
@@ -77,9 +78,8 @@ library_once MonsterSpell initializer InitMonsterSpell  requires YDWETimerSystem
 	    endif
 
 	    //文字
-	    call CreateTextTagUnitBJ( "虚--千罚之光", GetAttacker(), 0, 20.00, 100.00, 100.00, 0.00, 0 )
-	    call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
-	    call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
+	    call CreateSpellTextTag("虚--千罚之光",GetAttacker(),100,100,0,2)
+
 	    call PolledWait(5.00)
 	    call EnableTrigger( GetTriggeringTrigger() )
 
@@ -134,9 +134,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires YDWETimerSystem
 	    endif
 
 	    //文字
-	    call CreateTextTagUnitBJ( "虚--弹射飞镖", GetAttackedUnitBJ(), 0, 20.00, 0, 100.00, 100.00, 0 )
-	    call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
-	    call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
+	    call CreateSpellTextTag("虚--弹射飞镖",GetAttacker(),0,100,1000,2)
 	    call PolledWait(10.00)
 	    call EnableTrigger( GetTriggeringTrigger() )
 

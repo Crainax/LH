@@ -26,6 +26,24 @@ library_once LHBase
         */ and IsUnitVisible(u, GetOwningPlayer(caster))
     endfunction
 
+    /*
+        创建技能的漂浮文字，漂浮然后消失
+    */
+    function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
+
+	    local texttag t = CreateTextTagUnitBJ( name, u, 0, 20.00, red, green, blue, 0 )
+	    call SetTextTagVelocityBJ( t, 64, 90.00 )
+	    if time <= 0 then
+	        set time = 0.01
+	    endif
+	    call SetTextTagPermanent(t,false)
+	    call SetTextTagLifespan(t,time)
+	    call SetTextTagFadepoint(t,time)
+    endfunction
+
+    /*
+        购买者的判断，防止是假分身
+    */
 	function BuyerFilter takes unit buyer returns boolean
 		return (GetUnitTypeId(buyer) != 'N018')
 	endfunction

@@ -1,7 +1,8 @@
 
 
 //! import "LHBase.j"
-library_once Arena initializer InitArena requires LHBase
+//! import "SpellBase.j"
+library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	globals
 
@@ -18,7 +19,6 @@ library_once Arena initializer InitArena requires LHBase
 		/*
 		    功能
 		*/
-		private trigger TRefreshLevel
 		private trigger TDieEvent
 
 		/*
@@ -28,8 +28,7 @@ library_once Arena initializer InitArena requires LHBase
 		private trigger TSpellZhousi
 		private trigger TSpellXuemo1
 		private trigger TSpellXuemo2
-		private trigger TSpellFuwang1
-		private trigger TSpellFuwang2
+		private trigger TSpellFuwang
 		private trigger TSpellMeidusha1
 		private trigger TSpellMeidusha2
 		private trigger TSpellKiller1
@@ -88,20 +87,34 @@ library_once Arena initializer InitArena requires LHBase
 
 		set t = null
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+		更新擂台等级的位置
+	*/		
+	private function updateLevelLoc takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		if (IsUnitAliveBJ(challenager)) then
+			call SetTextTagPosUnitBJ(textTag_Level,challenager,25)
+		else 
+			call DestroyTextTag(textTag_Level)
+			call PauseTimer(t)
+			call DestroyTimer(t)
+			call BJDebugMsg("删除计时器了~(位置）")
+		endif
+		set t = null
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------------------------------
 	/*
 	    灵儿技能
 	    强制把敌人射到墙角,每两秒也会强制把所有人拉到那里
 	*/
 
-	function TSpellLingerCon takes nothing returns boolean
+	private function TSpellLingerCon takes nothing returns boolean
 	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true))
 	endfunction
 
-	function TSpellLingerAct takes nothing returns nothing
+	private function TSpellLingerAct takes nothing returns nothing
 		call SetUnitX(GetAttackedUnitBJ(),GetRectCenterX(gg_rct_Arena_1))
 		call SetUnitY(GetAttackedUnitBJ(),GetRectCenterY(gg_rct_Arena_1))
 	endfunction
@@ -138,14 +151,194 @@ library_once Arena initializer InitArena requires LHBase
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
+
+	/*
+	    宙斯的技能
+	*/
+
+	private function TSpellZhousiCon takes nothing returns boolean
+	    return ((GetAttackedUnitBJ() == challenager) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetRandomInt(1, 10) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00))
+	endfunction
+
+	private function TSpellZhousiAct takes nothing returns nothing
+		local integer i = 1
+	    call DisableTrigger( GetTriggeringTrigger() )
+	    call IssueImmediateOrder( GetAttackedUnitBJ(), "creepthunderclap" )
+	    loop
+	    	exitwhen i > 6
+	    	call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(challenager) + SinBJ(i * 60) * 400, GetUnitY(challenager) + CosBJ(i * 60) * 400) )
+	    	set i = i +1
+	    endloop
+	    call CreateSpellTextTag("千煞破击！",challenager,100,0,0,2)
+
+	    call PolledWait(8.00)
+	    call EnableTrigger( GetTriggeringTrigger() )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+		    血魔技能1：召唤5个敌方单位复制
+	*/	
+	private function TSpellXuemo1Con takes nothing returns boolean
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 10) == 1))
+	endfunction
+
+	private function TSpellXuemo1Act takes nothing returns nothing
+		local unit u
+		local integer i = 1
+	    call DisableTrigger( GetTriggeringTrigger() )
+
+	    loop
+	    	exitwhen i > 5
+	        set u = CreateUnit(GetOwningPlayer(GetAttacker()),'h000',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()),0)
+	        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+	        call UnitAddAbilityBJ( 'A0EV',u )
+	        call IssueTargetOrderById(u, 852274, GetAttackedUnitBJ() )
+	    	set i = i +1
+	    endloop
+
+	    call CreateSpellTextTag("幻魔灵枭！",challenager,100,0,0,2)
+
+	    set u = null
+	    call PolledWait(10.00)
+	    call EnableTrigger( GetTriggeringTrigger() )
+
+	endfunction
+
+	/*
+	    血魔技能2：被攻击几率施放流星雨。
+	*/
+	private function TSpellXuemo2Con takes nothing returns boolean
+	    return ((GetAttackedUnitBJ() == challenager) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00))
+	endfunction
+
+	private function TSpellXuemo2Act takes nothing returns nothing
+		local location point = GetUnitLoc(GetAttacker())
+	    local unit  u = CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()),'h000',GetUnitX(GetAttacker()),GetUnitY(GetAttacker()),0)
+	    call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+	    call IssuePointOrderLoc( u, "rainoffire", point )
+	    call RemoveLocation( point )
+	    set u = null
+	    set point = null
+	    call CreateSpellTextTag("天玄星陨！",challenager,0,100,100,2)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    斧王技能：攻击15%几率10%生命攻击，重击
+	*/
+
+	private function TSpellFuwangCon takes nothing returns boolean
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 15) == 1))
+	endfunction
+
+	private function TSpellFuwangAct takes nothing returns nothing
+			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()))) 
+			call UnitDamageTarget( challenager, GetAttackedUnitBJ(), ( 0.1 * GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+
+		    call CreateSpellTextTag("淘汰之刃！",challenager,0,100,0,2)
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
-	    挑战搭台开始Trigger
+	    美杜莎技能1：召唤毒蛇守卫，不杀死自己是无敌的
+	*/
+
+	private function TSpellMeidusha1Con takes nothing returns boolean
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 10) == 1) )
+	endfunction
+
+	private function TSpellMeidusha1Act takes nothing returns nothing
+		local location point = GetUnitLoc(GetAttackedUnitBJ())
+		local timer t = CreateTimer()
+	    local unit  u = CreateUnit(GetOwningPlayer(GetAttacker()),'h000',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()),0)
+	    call DisableTrigger( GetTriggeringTrigger() )
+	    call UnitApplyTimedLifeBJ( 5.00, 'Arsw',u )
+	    call IssuePointOrderLoc( u, "ward", point )
+	    call CreateSpellTextTag("阴魂螣蛇！",challenager,0,0,0,2)
+	    call RemoveLocation( point )
+	    call SetUnitInvulnerable(challenager,TRUE)
+	    call TimerStart(t,0.3,true,function TSpellMeidusha1Invu)
+	    set u = null
+	    set point = null
+
+	    call PolledWait(8.00)
+	    call EnableTrigger( GetTriggeringTrigger() )
+	endfunction
+
+	/*
+	    Timer判断螣蛇的数量，决定美杜莎无敌状态
+	*/
+	private function TSpellMeidusha1Invu takes nothing returns nothing
+		local group l_group = CreateGroup()
+		local unit l_unit
+		local integer count = 0
+		local timer t = GetExpiredTimer()
+		call GroupEnumUnitsInRange(l_group, GetUnitX(challenager), GetUnitY(challenager), 1800, null)
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+			if ((GetUnitTypeId(l_unit) == 'osp1') and GetOwningPlayer(l_unit) == Player(10) and IsUnitAliveBJ(l_unit) == true ) then
+				set count = count + 1
+			endif
+		endloop
+		call BJDebugMsg("螣蛇数量为"+I2S(count))
+		if (count == 0) then
+			call SetUnitInvulnerable(challenager,false)
+			call PauseTimer(t)
+			call DestroyTimer(t)
+		endif
+		call DestroyGroup(l_group)
+		set l_group = null
+		set l_unit =null
+		set t = null
+	endfunction
+
+	/*
+	    美杜莎技能2：石化凝视，冻结所有敌人3秒
+	*/
+
+
+	private function TSpellMeidusha2Con takes nothing returns boolean
+	    return ((GetAttackedUnitBJ() == challenager) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true))
+	endfunction
+
+	private function TSpellMeidusha2Act takes nothing returns nothing
+
+		local group l_group = CreateGroup()
+		local group l_pausinggroup = CreateGroup()
+		local unit l_unit
+		call GroupEnumUnitsInRange(l_group, GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()), 900, null)
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if(IsEnemy(l_unit,challenager))then
+				call PauseUnitBJ(l_unit)
+		    endif
+		endloop
+	    call DisableTrigger( GetTriggeringTrigger() )
+	    call CreateSpellTextTag("石化凝视！",challenager,51,51,51,2)
+		call DestroyGroup(l_group)
+		set l_group = null
+		set l_unit =null
+	    call PolledWait(7.00)
+	    call EnableTrigger( GetTriggeringTrigger() )
+	endfunction
+
+	private function function_name takes nothing returns nothing
+		// body...
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    挑战擂台开始Trigger
 	*/
 	function TArenaStartAct takes nothing returns nothing
 		local location point
 		local timer t
-		local timer t2
+		local Attract attract
 
 		//符合条件再开始
 	    if ((IsUnitType(GetBuyingUnit(), UNIT_TYPE_HERO) == true)) then
@@ -153,8 +346,8 @@ library_once Arena initializer InitArena requires LHBase
 	            if ((currentArena != 9)) then
 	            	//开始啦
 	                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战将在3秒后开始。" )
-	                 set t2 = CreateTimer()
 	                set point = GetRectCenter(gg_rct_Arena_2)
+	                set t = CreateTimer()
 	                if ((currentArena == 0)) then
 	                    set challenager = CreateUnitAtLoc(Player(10), 'Huth', point, 180.00)
 	                elseif ((currentArena == 1)) then
@@ -166,14 +359,17 @@ library_once Arena initializer InitArena requires LHBase
 	                elseif ((currentArena == 3)) then
 	                    set challenager = CreateUnitAtLoc(Player(10), 'Hmbr', point, 180.00)
 	                    call EnableTrigger( TSpellZhousi )
+	                    set attract = Attract.create(challenager,600,0.05,20)
+	                    call attract.start()
 	                elseif ((currentArena == 4)) then
 	                    set challenager = CreateUnitAtLoc(Player(10), 'Odrt', point, 180.00)
 	                    call EnableTrigger( TSpellXuemo1 )
 	                    call EnableTrigger( TSpellXuemo2 )
 	                elseif ((currentArena == 5)) then
 	                    set challenager = CreateUnitAtLoc(Player(10), 'Ogrh', point, 180.00)
-	                    call EnableTrigger( TSpellFuwang1 )
-	                    call EnableTrigger( TSpellFuwang2 )
+	                    call EnableTrigger( TSpellFuwang )
+	                    set attract = Attract.create(challenager,600,0.05,20)
+	                    call attract.start()
 	                elseif ((currentArena == 6)) then
 	                    set challenager = CreateUnitAtLoc(Player(10), 'Hvsh', point, 180.00)
 	                    call EnableTrigger( TSpellMeidusha1 )
@@ -205,9 +401,12 @@ library_once Arena initializer InitArena requires LHBase
 	                    call SetUnitInvulnerable( challenager, false )
 	                    call PauseUnitBJ( false, challenager )
 	                    call DisplayTextToPlayer( GetOwningPlayer(defier), 0, 0, "|cFFFF66CC【消息】|r挑战开始！" )
-	                    call EnableTrigger( TRefreshLevel )
+	                    //5秒更新一次等级
 	                    set t = CreateTimer()
 	                    call TimerStart(t,5,TRUE,function updateLevel)
+	                    //0.05秒更新一次等级提示的位置
+	                    set t = CreateTimer()
+	                    call TimerStart(t,0.05,TRUE,function updateLevelLoc)
    						call TriggerRegisterUnitEvent(TDieEvent, challenager, EVENT_UNIT_DEATH)
 	                else
 	                endif
@@ -232,7 +431,6 @@ library_once Arena initializer InitArena requires LHBase
 //---------------------------------------------------------------------------------------------------
 
 
-//---------------------------------------------------------------------------------------------------
 	/*
 	    离开擂台后判负
 	*/
@@ -252,8 +450,7 @@ library_once Arena initializer InitArena requires LHBase
 			call DisableTrigger( TSpellZhousi )
 			call DisableTrigger( TSpellXuemo1 )
 			call DisableTrigger( TSpellXuemo2 )
-			call DisableTrigger( TSpellFuwang1 )
-			call DisableTrigger( TSpellFuwang2 )
+			call DisableTrigger( TSpellFuwang )
 			call DisableTrigger( TSpellMeidusha1 )
 			call DisableTrigger( TSpellMeidusha2 )
 			call DisableTrigger( TSpellKiller1 )
@@ -263,14 +460,12 @@ library_once Arena initializer InitArena requires LHBase
 			call DisableTrigger( TSpellJinxuan2 )
 			call DisableTrigger( TSpellJinxuan3 )
 			call DisableTrigger( TSpellJinxuan4 )
-			call DisableTrigger( TRefreshLevel )
 	    else
 	    endif
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------------------------------
 	/*
 	    进入挑战场
 	*/
@@ -299,7 +494,6 @@ library_once Arena initializer InitArena requires LHBase
 
 //---------------------------------------------------------------------------------------------------
 
-//---------------------------------------------------------------------------------------------------
 
 
 	/*
@@ -329,8 +523,7 @@ library_once Arena initializer InitArena requires LHBase
 	        call DestroyTrigger( TSpellXuemo2 )
 	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Ogrh')) then
 	        call CreateItemLoc( 'pmna', point )
-	        call DestroyTrigger( TSpellFuwang1 )
-	        call DestroyTrigger( TSpellFuwang2 )
+	        call DestroyTrigger( TSpellFuwang )
 	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hvsh')) then
 	        call CreateItemLoc( 'evtl', point )
 	        call DestroyTrigger( TSpellMeidusha1 )
@@ -383,258 +576,59 @@ library_once Arena initializer InitArena requires LHBase
 	    call TriggerRegisterAnyUnitEventBJ( TSpellLinger, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellLinger, Condition(function TSpellLingerCon))
 	    call TriggerAddAction(TSpellLinger, function TSpellLingerAct)
+	    call DisableTrigger(TSpellLinger)
+
+	    //宙斯技能
+	    set TSpellZhousi = CreateTrigger()
+	    call DisableTrigger(TSpellZhousi)
+	    call TriggerRegisterAnyUnitEventBJ( TSpellZhousi, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellZhousi, Condition(function TSpellZhousiCon))
+	    call TriggerAddAction(TSpellZhousi, function TSpellZhousiAct)
+
+	    //血魔技能
+
+	    set TSpellXuemo1 = CreateTrigger()
+	    call DisableTrigger(TSpellXuemo1)
+	    call TriggerRegisterAnyUnitEventBJ( TSpellXuemo1, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellXuemo1, Condition(function TSpellXuemo1Con))
+	    call TriggerAddAction(TSpellXuemo1, function TSpellXuemo1Act)
+
+	    set TSpellXuemo2 = CreateTrigger()
+	    call DisableTrigger(TSpellXuemo2)
+	    call TriggerRegisterAnyUnitEventBJ( TSpellXuemo2, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellXuemo2, Condition(function TSpellXuemo2Con))
+	    call TriggerAddAction(TSpellXuemo2, function TSpellXuemo2Act)
+
+	    //斧王技能
+	    set TSpellFuwang = CreateTrigger()
+	    call DisableTrigger(TSpellFuwang)
+	    call TriggerRegisterAnyUnitEventBJ( TSpellFuwang, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellFuwang, Condition(function TSpellFuwangCon))
+	    call TriggerAddAction(TSpellFuwang, function TSpellFuwangAct)
 
 
+	    //美杜莎技能
+	    set TSpellMeidusha1 = CreateTrigger()
+	    call DisableTrigger(TSpellMeidusha1)
+	    call TriggerRegisterAnyUnitEventBJ( TSpellMeidusha1, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellMeidusha1, Condition(function TSpellMeidusha1Con))
+	    call TriggerAddAction(TSpellMeidusha1, function TSpellMeidusha1Act)
+
+	    set TSpellMeidusha2 = CreateTrigger()
+	    call DisableTrigger(TSpellMeidusha2)
+	    call TriggerRegisterAnyUnitEventBJ( TSpellMeidusha2, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellMeidusha2, Condition(function TSpellMeidusha2Con))
+	    call TriggerAddAction(TSpellMeidusha2, function TSpellMeidusha2Act)
 	    set t = null
 	endfunction
 endlibrary
 
 
-function Trig______________002Conditions takes nothing returns boolean
-    return ((GetAttackedUnitBJ() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetRandomInt(1, 10) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00))
-endfunction
 
-function Trig______________002Actions takes nothing returns nothing
-    call DisableTrigger( GetTriggeringTrigger() )
-    call IssueImmediateOrder( GetAttackedUnitBJ(), "creepthunderclap" )
-    call PolledWait(8.00)
-    call EnableTrigger( GetTriggeringTrigger() )
-endfunction
 
-//===========================================================================
-function InitTrig______________002 takes nothing returns nothing
-    set gg_trg______________002 = CreateTrigger()
-    call DisableTrigger(gg_trg______________002)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg______________002, "宙斯技能_002")
-#endif
-    call TriggerRegisterAnyUnitEventBJ( gg_trg______________002, EVENT_PLAYER_UNIT_ATTACKED )
-    call TriggerAddCondition(gg_trg______________002, Condition(function Trig______________002Conditions))
-    call TriggerAddAction(gg_trg______________002, function Trig______________002Actions)
-endfunction
-
-zhou
-
-function Trig______________003Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 7) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
-endfunction
-
-function Trig______________003Actions takes nothing returns nothing
-    call SetUnitManaBJ( GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 200.00 ) )
-    call DisableTrigger( GetTriggeringTrigger() )
-    set bj_forLoopAIndex = 1
-    set bj_forLoopAIndexEnd = udg_Nandu_JJJ
-    loop
-        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        set udg_Point = GetUnitLoc(GetAttackedUnitBJ())
-        call CreateNUnitsAtLoc( 1, 'h000', GetOwningPlayer(GetAttacker()), udg_Point, bj_UNIT_FACING )
-        call UnitApplyTimedLifeBJ( 5.00, 'BHwe', GetLastCreatedUnit() )
-        call UnitAddAbilityBJ( 'A0EV', GetLastCreatedUnit() )
-        call IssueTargetOrderById( GetLastCreatedUnit(), 852274, GetAttackedUnitBJ() )
-        call RemoveLocation( udg_Point )
-        set bj_forLoopAIndex = bj_forLoopAIndex + 1
-    endloop
-    call PolledWait(10.00)
-    call EnableTrigger( GetTriggeringTrigger() )
-endfunction
-
-//===========================================================================
-function InitTrig______________003 takes nothing returns nothing
-    set gg_trg______________003 = CreateTrigger()
-    call DisableTrigger(gg_trg______________003)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg______________003, "血魔技能_003")
-#endif
-    call TriggerRegisterAnyUnitEventBJ( gg_trg______________003, EVENT_PLAYER_UNIT_ATTACKED )
-    call TriggerAddCondition(gg_trg______________003, Condition(function Trig______________003Conditions))
-    call TriggerAddAction(gg_trg______________003, function Trig______________003Actions)
-endfunction
-
-xue1
-
-function Trig______________004Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 7) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
-endfunction
-
-function Trig______________004Actions takes nothing returns nothing
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call DisableTrigger( GetTriggeringTrigger() )
-    call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetUnitLoc(GetAttackedUnitBJ()))
-    call IssuePointOrderLoc( GetAttacker(), "deathanddecay", YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call PolledWait(10.00)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call EnableTrigger( GetTriggeringTrigger() )
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-endfunction
-
-//===========================================================================
-function InitTrig______________004 takes nothing returns nothing
-    set gg_trg______________004 = CreateTrigger()
-    call DisableTrigger(gg_trg______________004)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg______________004, "血魔技能_004")
-#endif
-    call TriggerRegisterAnyUnitEventBJ( gg_trg______________004, EVENT_PLAYER_UNIT_ATTACKED )
-    call TriggerAddCondition(gg_trg______________004, Condition(function Trig______________004Conditions))
-    call TriggerAddAction(gg_trg______________004, function Trig______________004Actions)
-endfunction
-
-xue2
-
-function Trig______________005Conditions takes nothing returns boolean
-    return ((GetAttackedUnitBJ() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetRandomInt(1, 10) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00))
-endfunction
-
-function Trig______________005Actions takes nothing returns nothing
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call SetUnitManaBJ( GetAttackedUnitBJ(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) - 200.00 ) )
-    call DisableTrigger( GetTriggeringTrigger() )
-    call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetRectCenter(gg_rct_Arena_all))
-    call SetUnitPositionLoc( GetAttacker(), YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call SetUnitPositionLoc( GetAttackedUnitBJ(), YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call IssueTargetOrder( GetAttackedUnitBJ(), "attack", GetAttacker() )
-    call SetUnitFacing( GetAttacker(), YDWEAngleBetweenUnits(GetAttackedUnitBJ(), GetAttacker()) )
-    call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call PolledWait(4.00)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call EnableTrigger( GetTriggeringTrigger() )
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-endfunction
-
-//===========================================================================
-function InitTrig______________005 takes nothing returns nothing
-    set gg_trg______________005 = CreateTrigger()
-    call DisableTrigger(gg_trg______________005)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg______________005, "斧王技能_005")
-#endif
-    call TriggerRegisterAnyUnitEventBJ( gg_trg______________005, EVENT_PLAYER_UNIT_ATTACKED )
-    call TriggerAddCondition(gg_trg______________005, Condition(function Trig______________005Conditions))
-    call TriggerAddAction(gg_trg______________005, function Trig______________005Actions)
-endfunction
-
-fu1
-
-function Trig______________006Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 7) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 25.00))
-endfunction
-
-function Trig______________006Actions takes nothing returns nothing
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call SetUnitManaBJ( GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 25.00 ) )
-    call SetUnitFacing( GetAttackedUnitBJ(), YDWEAngleBetweenUnits(GetAttacker(), GetAttackedUnitBJ()) )
-    call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetUnitLoc(GetAttackedUnitBJ()))
-    call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F)) )
-    call UnitDamageTargetBJ( GetAttacker(), GetAttackedUnitBJ(), ( 100000.00 * ( 1.00 + ( 0.20 * I2R(udg_Nandu) ) ) ), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON )
-    call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-endfunction
-
-//===========================================================================
-function InitTrig______________006 takes nothing returns nothing
-    set gg_trg______________006 = CreateTrigger()
-    call DisableTrigger(gg_trg______________006)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg______________006, "斧王技能_006")
-#endif
-    call TriggerRegisterAnyUnitEventBJ( gg_trg______________006, EVENT_PLAYER_UNIT_ATTACKED )
-    call TriggerAddCondition(gg_trg______________006, Condition(function Trig______________006Conditions))
-    call TriggerAddAction(gg_trg______________006, function Trig______________006Actions)
-endfunction
-
-fu2
-
-function Trig_________________007Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 3) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 150.00))
-endfunction
-
-function Trig_________________007Actions takes nothing returns nothing
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call DisableTrigger( GetTriggeringTrigger() )
-    call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetUnitLoc(GetAttackedUnitBJ()))
-    call IssuePointOrderLoc( GetAttacker(), "ward", YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
-    call PolledWait(5.00)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call EnableTrigger( GetTriggeringTrigger() )
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-endfunction
-
-//===========================================================================
-function InitTrig_________________007 takes nothing returns nothing
-    set gg_trg_________________007 = CreateTrigger()
-    call DisableTrigger(gg_trg_________________007)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg_________________007, "美杜莎技能_007")
-#endif
-    call TriggerRegisterAnyUnitEventBJ( gg_trg_________________007, EVENT_PLAYER_UNIT_ATTACKED )
-    call TriggerAddCondition(gg_trg_________________007, Condition(function Trig_________________007Conditions))
-    call TriggerAddAction(gg_trg_________________007, function Trig_________________007Actions)
-endfunction
-
-mei1
-
-function Trig_________________008Conditions takes nothing returns boolean
-    return ((GetTriggerUnit() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetTriggerUnit()) == true) and (IsUnitIllusionBJ(GetTriggerUnit()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) > 50.00))
-endfunction
-
-function Trig_________________008Func002003002 takes nothing returns boolean
-    return (((IsUnitAliveBJ(GetFilterUnit()) == true) and (GetUnitTypeId(GetFilterUnit()) == 'osp1')))
-endfunction
-
-function Trig_________________008Actions takes nothing returns nothing
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x9E80183F, GetUnitsOfPlayerMatching(Player(10), Condition(function Trig_________________008Func002003002)))
-    if ((CountUnitsInGroup(YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x9E80183F)) != 0)) then
-        call SetUnitManaBJ( GetTriggerUnit(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) - 50.00 ) )
-        call SetUnitInvulnerable( GetTriggerUnit(), true )
-        call DisableTrigger( GetTriggeringTrigger() )
-        call PolledWait(1.00)
-        call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-        call EnableTrigger( GetTriggeringTrigger() )
-        call SetUnitInvulnerable( GetTriggerUnit(), false )
-    else
-        call DisableTrigger( GetTriggeringTrigger() )
-        call PolledWait(0.50)
-        call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-        call EnableTrigger( GetTriggeringTrigger() )
-    endif
-    call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x9E80183F) )
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-endfunction
-
-//===========================================================================
-function InitTrig_________________008 takes nothing returns nothing
-    set gg_trg_________________008 = CreateTrigger()
-    call DisableTrigger(gg_trg_________________008)
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg_________________008, "美杜莎技能_008")
-#endif
-    call YDWESyStemAnyUnitDamagedRegistTrigger( gg_trg_________________008 )
-    call TriggerAddCondition(gg_trg_________________008, Condition(function Trig_________________008Conditions))
-    call TriggerAddAction(gg_trg_________________008, function Trig_________________008Actions)
-endfunction
-
-mei2
-
+/*
 function Trig______________009Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttacker()) == true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
+    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
 endfunction
 
 function Trig______________009Func002003002 takes nothing returns boolean
@@ -686,7 +680,7 @@ endfunction
 killer1
 
 function Trig______________010Conditions takes nothing returns boolean
-    return ((GetTriggerUnit() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetTriggerUnit()) == true) and (IsUnitIllusionBJ(GetTriggerUnit()) != true))
+    return ((GetTriggerUnit() == challenager) and (IsUnitAliveBJ(GetTriggerUnit()) == true) and (IsUnitIllusionBJ(GetTriggerUnit()) != true))
 endfunction
 
 function Trig______________010Func003003002 takes nothing returns boolean
@@ -732,14 +726,14 @@ endfunction
 killer2
 
 function Trig______________011Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 3) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
+    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 3) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
 endfunction
 
 function Trig______________011Actions takes nothing returns nothing
     call DisableTrigger( GetTriggeringTrigger() )
-    call IssueImmediateOrder( udg_Unit_Leitai[2], "windwalk" )
+    call IssueImmediateOrder( challenager, "windwalk" )
     call PolledWait(1.00)
-    call IssueTargetOrder( udg_Unit_Leitai[2], "attack", udg_Unit_Leitai[1] )
+    call IssueTargetOrder( challenager, "attack", udg_Unit_Leitai[1] )
     call PolledWait(7.00)
     call EnableTrigger( GetTriggeringTrigger() )
 endfunction
@@ -759,7 +753,7 @@ endfunction
 killer3
 
 function Trig______________012Conditions takes nothing returns boolean
-    return ((GetAttacker() == udg_Unit_Leitai[2]) and (IsUnitIllusionBJ(GetAttacker()) != true) and (IsUnitAliveBJ(GetAttacker()) == true) and (GetRandomInt(1, 7) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
+    return ((GetAttacker() == challenager) and (IsUnitIllusionBJ(GetAttacker()) != true) and (IsUnitAliveBJ(GetAttacker()) == true) and (GetRandomInt(1, 7) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00))
 endfunction
 
 function Trig______________012Actions takes nothing returns nothing
@@ -792,7 +786,7 @@ endfunction
 jinxuan1
 
 function Trig______________013Conditions takes nothing returns boolean
-    return ((GetAttackedUnitBJ() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00))
+    return ((GetAttackedUnitBJ() == challenager) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00))
 endfunction
 
 function Trig______________013Actions takes nothing returns nothing
@@ -831,14 +825,14 @@ endfunction
 jinxuan2
 
 function Trig______________014Conditions takes nothing returns boolean
-    return ((IsUnitEnemy(GetTriggerUnit(), Player(10)) == true) and (IsUnitInRange(GetTriggerUnit(), udg_Unit_Leitai[2], 600) == true) and (GetUnitStateSwap(UNIT_STATE_MANA, udg_Unit_Leitai[2]) > 100.00))
+    return ((IsUnitEnemy(GetTriggerUnit(), Player(10)) == true) and (IsUnitInRange(GetTriggerUnit(), challenager, 600) == true) and (GetUnitStateSwap(UNIT_STATE_MANA, challenager) > 100.00))
 endfunction
 
 function Trig______________014Actions takes nothing returns nothing
-    call SetUnitManaBJ( udg_Unit_Leitai[2], ( GetUnitStateSwap(UNIT_STATE_MANA, udg_Unit_Leitai[2]) - 100.00 ) )
+    call SetUnitManaBJ( challenager, ( GetUnitStateSwap(UNIT_STATE_MANA, challenager) - 100.00 ) )
     call DisableTrigger( GetTriggeringTrigger() )
-    set udg_Point = GetUnitLoc(udg_Unit_Leitai[2])
-    call CreateNUnitsAtLoc( 1, 'h000', GetOwningPlayer(udg_Unit_Leitai[2]), udg_Point, bj_UNIT_FACING )
+    set udg_Point = GetUnitLoc(challenager)
+    call CreateNUnitsAtLoc( 1, 'h000', GetOwningPlayer(challenager), udg_Point, bj_UNIT_FACING )
     call UnitApplyTimedLifeBJ( 3.00, 'BHwe', GetLastCreatedUnit() )
     call UnitAddAbilityBJ( 'AHtb', GetLastCreatedUnit() )
     call IssueTargetOrder( GetLastCreatedUnit(), "thunderbolt", GetTriggerUnit() )
@@ -862,7 +856,7 @@ endfunction
 jinxuan3
 
 function Trig______________015Conditions takes nothing returns boolean
-    return ((GetTriggerUnit() == udg_Unit_Leitai[2]) and (IsUnitAliveBJ(GetTriggerUnit()) == true) and (IsUnitIllusionBJ(GetTriggerUnit()) != true) and (GetEventDamageSource() == gg_unit_Eevi_0020) and (GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) > 200.00))
+    return ((GetTriggerUnit() == challenager) and (IsUnitAliveBJ(GetTriggerUnit()) == true) and (IsUnitIllusionBJ(GetTriggerUnit()) != true) and (GetEventDamageSource() == gg_unit_Eevi_0020) and (GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) > 200.00))
 endfunction
 
 function Trig______________015Actions takes nothing returns nothing
@@ -885,3 +879,5 @@ function InitTrig______________015 takes nothing returns nothing
 endfunction
 
 jinxuan4
+
+*/
