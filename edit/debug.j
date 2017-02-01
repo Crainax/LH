@@ -1,6 +1,6 @@
 
 /////! import "YDWETriggerEvent.j"
-
+/////! import "Boss.j"
 /*
     测试指令:
 	test damage 关闭/开启伤害显示
@@ -10,15 +10,23 @@
 	test kill 杀死自己
 	test select 显示生命
 	test credit 增加积分
+	test invu 基地无敌
+	test vu 基地不无敌
 
 */
-library_once Debug initializer Initdebug requires YDWETriggerEvent
+library_once Debug initializer Initdebug requires YDWETriggerEvent,Boss
 
 	globals
-		boolean debug_show_damage = true
-		boolean debug_show_attr = true
-		//integer udg_Bo
-		//unit array udg_H
+		/*
+		    需要注释的代码
+		*/
+		/*integer udg_Bo
+		unit array udg_H
+		integer array udg_Paihangbang
+		unit gg_unit_haro_0030*/
+
+		boolean debug_show_damage = false
+		boolean debug_show_attr = false
 	endglobals
 
 
@@ -50,6 +58,7 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 		//关闭伤害显示
 		local string chat = GetEventPlayerChatString()
 		local integer bo 
+		local unit u
 		if(chat == "test damage") then
 			set debug_show_damage = not(debug_show_damage)
 			call BJDebugMsg("成功关闭伤害显示")
@@ -176,9 +185,16 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 			return
 		endif
 
+		if(chat == "test fangka") then
+			set u = CreateUnit(Player(0),'hpea',5790.6,4445.8,0)
+			call StartFangKa(u)
+			set u = null
+			return
+		endif
 
 		if (chat == "test credit") then
 			set udg_Paihangbang[1] = 50000
+			call BJDebugMsg("增加了积分~!")
 			return
 		endif
 
@@ -195,15 +211,27 @@ library_once Debug initializer Initdebug requires YDWETriggerEvent
 			return
 		endif
 
+
+		//基地无敌
+		if (chat == "test invu") then
+		call SetUnitInvulnerable(gg_unit_haro_0030,true)
+			return
+		endif
+
+		//基地不无敌
+		if (chat == "test vu") then
+		call SetUnitInvulnerable(gg_unit_haro_0030,false)
+			return
+		endif
+
 		//调整当前波数
 		set bo = S2I(SubStringBJ(chat,StringLength(chat)-1,StringLength(chat)))
 		if (bo < 30) then
 			set udg_Bo = bo
-			call BJDebugMsg("udg_Bo"+"="+I2S(udg_Bo))
+			call BJDebugMsg("当前波数:"+"="+I2S(udg_Bo))
 			return
 		endif
 
-		call BJDebugMsg("什么都没有发生!!!!!!")
 	endfunction
 
 	/*

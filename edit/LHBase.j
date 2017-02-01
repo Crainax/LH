@@ -21,9 +21,10 @@ library_once LHBase
    function IsEnemy takes unit u, unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false /*
         */ and IsUnitType(u, UNIT_TYPE_SLEEPING) == false     and GetUnitState(u, UNIT_STATE_LIFE) > 0.405    /*
-        */ and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false    and IsUnitIllusion(u) == false                  /*
+        */ and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false    and IsUnitAliveBJ(u)	== true		              /*
         */ and IsUnitHidden(u) == false                       and IsUnitEnemy(u, GetOwningPlayer(caster))     /*
-        */ and IsUnitVisible(u, GetOwningPlayer(caster))
+        */ and IsUnitVisible(u, GetOwningPlayer(caster))	  and GetUnitAbilityLevel(u,'Avul') < 1    		  /*
+        */ and GetUnitPointValue(u) != 123
     endfunction
 
     /*

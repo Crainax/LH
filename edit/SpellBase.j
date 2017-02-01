@@ -1,8 +1,8 @@
 
 //! import "LHBase.j"
-//! import "YDWEBase_common.j"
-//! import "YDWEBase_hashtable.j"
-library_once SpellBase requires LHBase,YDWEBaseHashtable,YDWEBaseCommon
+/////! import "YDWEBase_common.j"
+/////! import "YDWEBase_hashtable.j"
+library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
 
 	struct Attract 
 		private unit caster
@@ -17,6 +17,7 @@ library_once SpellBase requires LHBase,YDWEBaseHashtable,YDWEBaseCommon
 			local real x2
 			local real y2
 			local real facing
+			local real distance
 			local thistype this = thistype[GetExpiredTimer()]
 			local group l_group = CreateGroup()
 			local unit l_unit
@@ -31,9 +32,12 @@ library_once SpellBase requires LHBase,YDWEBaseHashtable,YDWEBaseCommon
 				    	set y2 = GetUnitY(l_unit)
 				    	set x1 = GetUnitX(.caster)
 				    	set y1 = GetUnitY(.caster)
-				    	set facing = Atan2BJ(y2-y1,x2-x1)
+				    	set distance = SquareRoot((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2))
+				    	if( distance > 80)then
+				    	set facing = Atan2BJ(y1-y2,x1-x2)
 				    	call SetUnitX(l_unit,YDWECoordinateX(x2+CosBJ(facing)*.speed))
 				    	call SetUnitY(l_unit,YDWECoordinateY(y2+SinBJ(facing)*.speed))
+				    	endif
 				    endif
 				endloop
 				call DestroyGroup(l_group)
@@ -73,7 +77,6 @@ library_once SpellBase requires LHBase,YDWEBaseHashtable,YDWEBaseCommon
 		endmethod
 
 		method onDestroy takes nothing returns nothing
-			call BJDebugMsg("黑洞结束")
 			call thistype.flush(.t)
 			set .caster = null
 			call PauseTimer(.t)
@@ -83,7 +86,90 @@ library_once SpellBase requires LHBase,YDWEBaseHashtable,YDWEBaseCommon
 
 	endstruct
 
-	function AttractUnit takes unit caster,real radius,real interval,real speed returns nothing
+	struct Missile 
+		private unit caster
+		private string effx
+		private real radius
+		private real interval1
+		private real interval2
+		private real damage
+		private real x
+		private real y
+		private timer t
 
-	endfunction
+
+		static method explode takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			local group l_group = CreateGroup()
+			local unit l_unit
+			call GroupEnumUnitsInRange(l_group, .x, .y, .radius, null)
+			loop
+			    set l_unit = FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+			    if(IsEnemy(l_unit,.caster) == true) then
+			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			    endif
+			endloop
+			call DestroyGroup(l_group)
+			set l_group = null
+			set l_unit =null
+			call .destroy()
+		endmethod
+
+		static method launch takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			call DestroyEffect(AddSpecialEffect(.effx, .x, .y ))
+			call PauseTimer(.t)
+			call TimerStart(.t,.interval2,false,function thistype.explode)
+
+		endmethod
+
+
+        static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+		static method create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns thistype
+		   	local thistype this = thistype.allocate()
+		   	local real Rangel = GetRandomReal(-180,180)
+		   	local real Rradius= GetRandomReal(radius,range)
+		   	set .x = GetUnitX(caster) + Rradius * CosBJ(Rangel)
+		   	set .y = GetUnitY(caster) + Rradius * SinBJ(Rangel)
+			set .caster = caster
+			set .effx = effx
+			set .radius = radius
+			set .interval1 = interval1
+			set .interval2 = interval2
+			set .damage = damage
+
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call UnitApplyTimedLifeBJ( interval1+interval2, 'BHwe',CreateUnit(GetOwningPlayer(.caster),preview,.x,.y,0) )
+			call TimerStart(.t,.interval1,false,function thistype.launch)
+			return this
+		endmethod
+
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			set .caster = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
+
+
+
+	endstruct
+
 endlibrary

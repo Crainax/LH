@@ -1,6 +1,6 @@
 
 //! import "LHBase.j"
-library_once MonsterSpell initializer InitMonsterSpell  requires LHBase
+library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETimerPattern
 	
 	globals
 		trigger TSpellQianfa

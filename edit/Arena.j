@@ -11,10 +11,10 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 		/*
 		    需要注释
 		*/
-		rect gg_rct_Arena_1
+		/*rect gg_rct_Arena_1
 		rect gg_rct_Arena_2
 		rect gg_rct_Arena_all
-		rect gg_rct_Arena_forbit
+		rect gg_rct_Arena_forbit*/
 
 		/*
 		    功能
@@ -77,11 +77,18 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 			call SetHeroStr(challenager,str + str / currentLevel , true)
 			set currentLevel  = currentLevel + 1
 			//设置技能等级
+			call IncUnitAbilityLevel(challenager,'ACbh')
+			call IncUnitAbilityLevel(challenager,'A0ET')
+			call IncUnitAbilityLevel(challenager,'A0EU')
+			call IncUnitAbilityLevel(challenager,'ACt2')
+			call IncUnitAbilityLevel(challenager,'AL04')
+			call IncUnitAbilityLevel(challenager,'AL05')
+			call IncUnitAbilityLevel(challenager,'A0EY')
+			call SetTextTagTextBJ(textTag_Level,I2S(currentLevel) + "级",20)
 		else
 			set currentLevel = 1
 			call PauseTimer(t)
 			call DestroyTimer(t)
-			call BJDebugMsg("删除计时器了~")
 		endif
 
 		set t = null
@@ -98,7 +105,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 			call DestroyTextTag(textTag_Level)
 			call PauseTimer(t)
 			call DestroyTimer(t)
-			call BJDebugMsg("删除计时器了~(位置）")
 		endif
 		set t = null
 	endfunction
@@ -141,7 +147,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 		else
 			call PauseTimer(t)
 			call DestroyTimer(t)
-			call BJDebugMsg("删除计时器了~")
 		endif
 		call DestroyGroup(l_group)
 		set t = null
@@ -192,7 +197,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	        set u = CreateUnit(GetOwningPlayer(GetAttacker()),'h000',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()),0)
 	        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
 	        call UnitAddAbilityBJ( 'A0EV',u )
-	        call SetUnitAbilityLevel(u,'A0EV',currentLevel)
+	        call SetUnitAbilityLevel(u,'A0EV',IMinBJ(currentLevel,20))
 	        call IssueTargetOrderById(u, 852274, GetAttackedUnitBJ() )
 	    	set i = i +1
 	    endloop
@@ -217,7 +222,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	    local unit  u = CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()),'h000',GetUnitX(GetAttacker()),GetUnitY(GetAttacker()),0)
 	    call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call UnitAddAbilityBJ( 'AL01',u )
-        call SetUnitAbilityLevel(u,'AL01',currentLevel)
+        call SetUnitAbilityLevel(u,'AL01',IMinBJ(currentLevel,20))
 	    call IssuePointOrderLoc( u, "rainoffire", point )
 	    call RemoveLocation( point )
 	    set u = null
@@ -264,7 +269,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 				set count = count + 1
 			endif
 		endloop
-		call BJDebugMsg("螣蛇数量为"+I2S(count))
 		if (count == 0) then
 			call SetUnitInvulnerable(challenager,false)
 			call PauseTimer(t)
@@ -289,7 +293,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	    call DisableTrigger( GetTriggeringTrigger() )
 	    call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call UnitAddAbilityBJ( 'Arsw',u )
-        call SetUnitAbilityLevel(u,'Arsw',currentLevel)
 	    call IssuePointOrderLoc( u, "ward", point )
 	    call CreateSpellTextTag("阴魂螣蛇！",challenager,0,0,0,2)
 	    call RemoveLocation( point )
@@ -351,14 +354,14 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	*/
 
 	function TSpellKiller1Con takes nothing returns boolean
-	    return ((GetAttackedUnitBJ() == challenager) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true)  and (GetRandomInt(1, 10) == 1) and (GetUnitAbilityLevel(GetAttacker(),'Amim') < 1) and UnitHasBuffBJ(GetAttacker(),'BEsh') == true )
+	    return ((GetAttackedUnitBJ() == challenager) and (IsUnitAliveBJ(GetAttackedUnitBJ()) == true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true)  and (GetRandomInt(1, 10) == 1) and (GetUnitAbilityLevel(GetAttacker(),'Amim') < 1) and UnitHasBuffBJ(GetAttacker(),'BEsh') != true )
 	endfunction
 
 	function TSpellKiller1Act takes nothing returns nothing
 	    local unit  u = CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()),'h000',GetUnitX(GetAttacker()),GetUnitY(GetAttacker()),0)
 	    call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call UnitAddAbilityBJ( 'AL02',u )
-        call SetUnitAbilityLevel(u,'AL02',currentLevel)
+        call SetUnitAbilityLevel(u,'AL02',IMinBJ(currentLevel,20))
 	    call IssueTargetOrder(u,"shadowstrike",GetAttacker())
 	    call CreateSpellTextTag("致命毒镖！",challenager,0,0,0,2)
 	    set u = null
@@ -391,7 +394,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	function TSpellJinxuan1Act takes nothing returns nothing
 	    call DisableTrigger( GetTriggeringTrigger() )
- 		call SimulateSpell(GetAttacker(),GetAttackedUnitBJ(),'ACrf',currentLevel,6,"rainoffire",true,false,false)
+ 		call SimulateSpell(GetAttacker(),GetAttackedUnitBJ(),'ACrf',IMinBJ(currentLevel,20),6,"rainoffire",true,false,false)
 	    call CreateSpellTextTag("瞬闪雷鸣！",challenager,0,0,100,2)
 	    call PolledWait(7.00)
 	    call EnableTrigger( GetTriggeringTrigger() )
@@ -406,9 +409,9 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	function TSpellJinxuan2Act takes nothing returns nothing
 	    call DisableTrigger( GetTriggeringTrigger() )
- 		call SimulateSpell(GetAttackedUnitBJ(),GetAttacker(),'ANst',currentLevel,5,"stampede",true,false,false)
+ 		call SimulateSpell(GetAttackedUnitBJ(),GetAttacker(),'ANst',IMinBJ(currentLevel,20),5,"stampede",true,false,false)
 	    call CreateSpellTextTag("逆合玄天！",challenager,0,0,100,2)
-	    call PolledWait(8.00)
+	    call PolledWait(5.00)
 	    call EnableTrigger( GetTriggeringTrigger() )
 	endfunction
 
@@ -421,7 +424,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	function TSpellJinxuan3Act takes nothing returns nothing
 	    call DisableTrigger( GetTriggeringTrigger() )
- 		call SimulateSpell(GetAttacker(),GetAttackedUnitBJ(),'AHtb',currentLevel,5,"thunderbolt",false,false,true)
+ 		call SimulateSpell(GetAttacker(),GetAttackedUnitBJ(),'AHtb',IMinBJ(currentLevel,20),5,"thunderbolt",false,false,true)
 	    call CreateSpellTextTag("魔化射线！",challenager,100,0,100,2)
 	    call PolledWait(7.00)
 	    call EnableTrigger( GetTriggeringTrigger() )
@@ -503,7 +506,8 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                call SetUnitInvulnerable( challenager, true )
 	                call PauseUnitBJ( true, challenager )
 	                call UnitAddAbilityBJ( 'A0ES', challenager )
-
+	                call UnitAddAbilityBJ( 'A0B9', challenager )
+	                call UnitAddAbilityBJ( 'A09W', challenager )
 	                call CreateTextTagLocBJ( I2S(currentLevel) + "级", point, 0, 20.00, 100, 0.00, 0.00, 0 )
 	                set textTag_Level = GetLastCreatedTextTag()
 	                call RemoveLocation( point )
@@ -608,7 +612,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 
 	/*
-	    掉落装备
+	    死亡事件:掉落装备
 	*/
 	function TDieEventConditions takes nothing returns boolean
 	    return ((IsUnitIllusionBJ(GetDyingUnit()) != true))
@@ -617,33 +621,33 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	function TDieEventActions takes nothing returns nothing
 	   
 	    local location point = GetUnitLoc(GetDyingUnit())
-
-	    if ((GetUnitTypeId(GetDyingUnit()) == 'Huth')) then
+	    local integer ty = (GetUnitTypeId(GetDyingUnit()))
+	    if (ty == 'Huth') then
 	        call CreateItemLoc( 'prvt', point )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hpb1')) then
+	    elseif (ty == 'Hpb1') then
 	        call CreateItemLoc( 'cnob', point )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hgam')) then
+	    elseif (ty == 'Hgam') then
 	        call CreateItemLoc( 'rhth', point )
 	        call DestroyTrigger( TSpellLinger )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hmbr')) then
+	    elseif (ty == 'Hmbr') then
 	        call CreateItemLoc( 'hval', point )
 	        call DestroyTrigger( TSpellZhousi )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Odrt')) then
+	    elseif (ty == 'Odrt') then
 	        call CreateItemLoc( 'afac', point )
 	        call DestroyTrigger( TSpellXuemo1 )
 	        call DestroyTrigger( TSpellXuemo2 )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Ogrh')) then
+	    elseif (ty == 'Ogrh') then
 	        call CreateItemLoc( 'pmna', point )
 	        call DestroyTrigger( TSpellFuwang )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hvsh')) then
+	    elseif (ty == 'Hvsh') then
 	        call CreateItemLoc( 'evtl', point )
 	        call DestroyTrigger( TSpellMeidusha1 )
 	        call DestroyTrigger( TSpellMeidusha2 )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hpb2')) then
+	    elseif (ty == 'Hpb2') then
 	        call CreateItemLoc( 'bspd', point )
 	        call DestroyTrigger( TSpellKiller2 )
 	        call DestroyTrigger( TSpellKiller1 )
-	    elseif ((GetUnitTypeId(GetDyingUnit()) == 'Hlgr')) then
+	    elseif (ty == 'Hlgr') then
 	        call CreateItemLoc( 'mcou', point )
 	        call DestroyTrigger( TSpellJinxuan1 )
 	        call DestroyTrigger( TSpellJinxuan2 )
@@ -651,11 +655,13 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	        call DestroyTrigger( TSpellJinxuan4 )
 	    endif
 
-	    call updateLevel()
+	    set currentLevel = 1
+	    set currentArena = currentArena + 1
 	    call RemoveLocation( point )
 	    set point = null
 	    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战成功!" )
-	    set currentLevel = 1
+	    call RemoveUnit( challenager )
+	    set challenager = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitArena takes nothing returns nothing
