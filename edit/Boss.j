@@ -5,17 +5,6 @@
 library_once Boss initializer InitBoss requires LHBase,SpellBase
 	globals
 		/*
-		    需要注释的变量
-		*/
-		/*rect gg_rct________1
-		integer udg_Nandu_JJJ
-		//冥王
-        unit gg_unit_Nkjx_0241 
-        //左
-        unit gg_unit_Uear_0242 
-        //右
-        unit gg_unit_Npld_0253 */
-		/*
 		    哈希表
 		*/
 		hashtable bossTable

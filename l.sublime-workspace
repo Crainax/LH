@@ -4,6 +4,50 @@
 		"selected_items":
 		[
 			[
+				"Getra",
+				"GetRandomInt"
+			],
+			[
+				"saveunit",
+				"SaveUnitHandle"
+			],
+			[
+				"GetAttack",
+				"GetAttackedUnitBJ"
+			],
+			[
+				"GetAtt",
+				"GetAttackedUnitBJ"
+			],
+			[
+				"inteva",
+				"interval2"
+			],
+			[
+				"timelife",
+				"SetItemLifeBJ"
+			],
+			[
+				"Sin",
+				"SinBJ"
+			],
+			[
+				"Getrandom",
+				"GetRandomReal"
+			],
+			[
+				"getAttack",
+				"GetAttackedUnitBJ"
+			],
+			[
+				"invuln",
+				"SetUnitInvulnerable"
+			],
+			[
+				"abliitylevel",
+				"IncUnitAbilityLevel"
+			],
+			[
 				"function",
 				"function"
 			],
@@ -184,58 +228,32 @@
 	"buffers":
 	[
 		{
-			"file": "file/war3map.w3t.ini",
+			"file": "魔兽.txt",
 			"settings":
 			{
-				"buffer_size": 239845,
+				"buffer_size": 1411,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "[魔兽]两极魔熊（北极熊）"
+			}
+		},
+		{
+			"file": "edit/Beast.j",
+			"settings":
+			{
+				"buffer_size": 3223,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "edit/Arena.j",
+			"contents": "Searching 75 files for \"绝对值\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n 5696  IMaxBJHint=\n 5697  \n 5698: IAbsBJ=\"绝对值\"\n 5699: IAbsBJ=~整数,\" 的绝对值\"\n 5700  IAbsBJHint=\n 5701  \n ....\n 6094  RMaxBJHint=\n 6095  \n 6096: RAbsBJ=\"绝对值\"\n 6097: RAbsBJ=~实数,\" 的绝对值\"\n 6098  RAbsBJHint=\n 6099  \n\n4 matches in 1 file\n\n\nSearching 75 files for \"SetUnitColor\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 4823  _ShowUnitShow_Category=TC_UNIT\n 4824  \n 4825: SetUnitColor=0,unit,playercolor\n 4826: _SetUnitColor_Defaults=GetTriggerUnit,Color00\n 4827: _SetUnitColor_Category=TC_UNIT\n 4828  \n 4829  SetUnitOwner=0,unit,player,colorchangeoption\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  652  ShowUnitShowHint=\"使用'单位 - 隐藏'来显示该单位. 隐藏单位不会被'区域内单位'所选取.\"\n  653  \n  654: SetUnitColor=\"改变队伍颜色\"\n  655: SetUnitColor=\"改变 \",~单位,\" 的队伍颜色为 \",~Color\n  656: SetUnitColorHint=\"改变队伍颜色并不会改变单位所属.\"\n  657  \n  658  SetUnitOwner=\"改变所属\"\n\n6 matches across 2 files\n",
 			"settings":
 			{
-				"buffer_size": 45447,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 75 files for \"TriggerRegisterDeathEvent\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 3371  \n 3372  // Destructible events\n 3373: TriggerRegisterDeathEvent=0,destructable\n 3374: _TriggerRegisterDeathEvent_Defaults=_\n 3375: _TriggerRegisterDeathEvent_Category=TC_DESTRUCT\n 3376  \n 3377  TriggerRegisterDestDeathInRegionEvent=1,rect\n ....\n 3453  _TriggerRegisterItemDeathEvent_Defaults=_\n 3454  _TriggerRegisterItemDeathEvent_Category=TC_ITEM\n 3455: _TriggerRegisterItemDeathEvent_ScriptName=TriggerRegisterDeathEvent\n 3456  \n 3457  \n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  138  \n  139  // Destructible events\n  140: TriggerRegisterDeathEvent=\"可破坏物死亡\"\n  141: TriggerRegisterDeathEvent=~可破坏物,\" 死亡\"\n  142: TriggerRegisterDeathEventHint=\"使用'事件响应 - 死亡的可破坏物'来获取死亡物体.\"\n  143  \n  144  TriggerRegisterDestDeathInRegionEvent=\"可破坏物在区域内死亡(矩形区域)\"\n\n7 matches across 2 files\n\n\nSearching 75 files for \"TriggerRegisterUnitEvent\" (regex)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerData.txt:\n 3118  \n 3119  //===================================================\n 3120: // For use with TriggerRegisterUnitEvent\n 3121  //===================================================\n 3122  ID_EVENT_UNIT_DAMAGED=0,eventid,EVENT_UNIT_DAMAGED,\"(052)单位事件 - 接受伤害\"\n ....\n 3204  \n 3205  //===================================================\n 3206: // For use with TriggerRegisterUnitEvent\n 3207  //===================================================\n 3208  ID_EVENT_UNIT_SELL=0,eventid,EVENT_UNIT_SELL,\"(286)单位事件 - 出售单位\"\n ....\n 3309  \n 3310  // Unit events\n 3311: TriggerRegisterUnitEvent=0,unit,unitevent\n 3312: _TriggerRegisterUnitEvent_Defaults=_,UnitEventDeath\n 3313: _TriggerRegisterUnitEvent_Category=TC_UNIT\n 3314  \n 3315  TriggerRegisterPlayerUnitEventSimple=0,player,playerunitevent\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  170  \n  171  // Unit events\n  172: TriggerRegisterUnitEvent=\"指定单位事件\"\"\n  173: TriggerRegisterUnitEvent=~指定单位,\" \",~事件\n  174: TriggerRegisterUnitEventHint=\n  175  \n  176  TriggerRegisterPlayerUnitEventSimple=\"玩家单位事件\"\n\n8 matches across 2 files\n\n\nSearching 75 files for \"触发添加事件\" (regex, case sensitive)\n\nG:\\War3\\Maps\\Loopinghell\\mpq\\ydwe\\ui\\TriggerStrings.txt:\n  583  QueuedTriggerClearInactiveBJHint=\"只有正在运行的触发不会被移出队列.\"\n  584  \n  585: AddTriggerEvent=\"触发添加事件\"\n  586  AddTriggerEvent=\"为 \",~触发,\" 添加事件: \",~事件\n  587: AddTriggerEventHint=\"使用该功能可以在游戏中为其他触发添加事件.\"\n  588  \n  589  DestroyTrigger=\"删除触发器 [R]\"\n\n2 matches in 1 file\n",
-			"settings":
-			{
-				"buffer_size": 2480,
+				"buffer_size": 972,
 				"line_ending": "Windows",
 				"name": "Find Results",
 				"scratch": true
-			}
-		},
-		{
-			"file": "mpq/ydwe/ui/TriggerStrings.txt",
-			"settings":
-			{
-				"buffer_size": 284611,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "edit/LHBase.j",
-			"settings":
-			{
-				"buffer_size": 1468,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "api/YDJ/YDWETimerPattern.j.dump",
-			"settings":
-			{
-				"buffer_size": 21821,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -284,40 +302,44 @@
 	"expanded_folders":
 	[
 		"/G/War3/Maps/Loopinghell",
-		"/G/War3/Maps/Loopinghell/api/YDJ",
-		"/G/War3/Maps/Loopinghell/api/YDJ/Base",
-		"/G/War3/Maps/Loopinghell/api/YDJ/japi",
 		"/G/War3/Maps/Loopinghell/edit",
 		"/G/War3/Maps/Loopinghell/file"
 	],
 	"file_history":
 	[
-		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j",
-		"/G/War3/Maps/Loopinghell/edit/YDWETimerPattern.j.dump",
-		"/G/War3/Maps/Loopinghell/edit/YDWETimerPattern.j",
-		"/G/War3/Maps/Loopinghell/db/ability.ini",
 		"/G/War3/Maps/Loopinghell/edit/testmain.j",
-		"/G/War3/Maps/Loopinghell/edit/YDWETriggerEvent.j.dump",
-		"/G/War3/Maps/Loopinghell/file/war3map.w3a.ini",
-		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/TriggerStrings.txt",
-		"/G/War3/Maps/Loopinghell/edit/MonsterSpell.j",
-		"/G/War3/Maps/Loopinghell/edit/item.j",
-		"/G/War3/Maps/Loopinghell/patch",
+		"/G/War3/Maps/Loopinghell/edit/Boss.j",
 		"/G/War3/Maps/Loopinghell/testlog.txt",
-		"/G/War3/Maps/Loopinghell/file/war3map.w3u.ini",
-		"/G/War3/Maps/Loopinghell/edit/output.j",
+		"/G/War3/Maps/Loopinghell/patch",
+		"/G/War3/Maps/Loopinghell/edit/SpellBase.j",
+		"/G/War3/Maps/Loopinghell/edit/testmissile.j",
+		"/G/War3/Maps/Loopinghell/edit/Arena.j",
+		"/G/War3/Maps/Loopinghell/edit/LHBase.j",
+		"/G/War3/Maps/Loopinghell/file/war3map.j",
+		"/G/War3/Maps/Loopinghell/edit/YDWETimerPattern.j.dump",
 		"/G/War3/Maps/Loopinghell/edit/YDWETimerSystem.j.dump",
+		"/G/War3/Maps/Loopinghell/db/buff.ini",
+		"/G/War3/Maps/Loopinghell/edit/debug.j",
+		"/G/War3/Maps/Loopinghell/db/ability.ini",
+		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/TriggerStrings.txt",
+		"/G/War3/Maps/Loopinghell/file/war3map.w3t.ini",
+		"/G/War3/Maps/Loopinghell/file/war3map.w3u.ini",
+		"/G/War3/Maps/Loopinghell/edit/MonsterSpell.j",
+		"/G/War3/Maps/Loopinghell/file/war3map.w3a.ini",
+		"/C/Users/XlinonCrainax/Desktop/war3map.w3a.ini",
 		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j.dump",
+		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern.j",
+		"/G/War3/Maps/Loopinghell/edit/YDWETimerPattern.j",
+		"/G/War3/Maps/Loopinghell/edit/YDWETriggerEvent.j.dump",
+		"/G/War3/Maps/Loopinghell/edit/item.j",
+		"/G/War3/Maps/Loopinghell/edit/output.j",
 		"/G/War3/Maps/Loopinghell/edit/regular.txt",
 		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerSystem.j",
 		"/G/War3/Maps/Loopinghell/api/YDJ/YDWETimerPattern_Old.j.dump",
 		"/G/War3/Maps/Loopinghell/mpq/ydwe/ui/TriggerData.txt",
-		"/G/War3/Maps/Loopinghell/db/buff.ini",
 		"/G/War3/Maps/Loopinghell/2.54/war3map.w3t.ini",
 		"/D/Program Files (x86)/YDWE1.30.6正式版/jass/YDWETimerPattern.j.dump",
 		"/D/Program Files (x86)/YDWE1.30.6正式版/jass/YDWETimerPattern.j",
-		"/G/War3/Maps/Loopinghell/edit/debug.j",
-		"/G/War3/Maps/Loopinghell/edit/LHBase.j",
 		"/G/War3/Maps/Loopinghell/edit/testmap.j",
 		"/G/War3/Maps/Loopinghell/2.54/war3map.w3a.ini",
 		"/G/War3/Maps/Loopinghell/api/YDJ/AntiBJLeak/MainMacro.h",
@@ -412,14 +434,7 @@
 		"/D/Program Files (x86)/w3x2lni-master/template/upgrade.ini",
 		"/D/Program Files (x86)/w3x2lni-master/template/misc.ini",
 		"/D/Program Files (x86)/w3x2lni-master/template/doodad.ini",
-		"/D/Program Files (x86)/w3x2lni-master/template/item.ini",
-		"/D/Program Files (x86)/w3x2lni-master/script/w3x2lni.lua",
-		"/D/Program Files (x86)/w3x2lni-master/script/info.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.txt.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3b.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3d.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3h.ini",
-		"/G/War3/Maps/DeathCentery/天绝三世1/war3map.w3i.ini"
+		"/D/Program Files (x86)/w3x2lni-master/template/item.ini"
 	],
 	"find":
 	{
@@ -430,6 +445,10 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"G:\\War3\\Maps\\Loopinghell\\mpq",
+			"G:\\War3\\Maps\\Loopinghell\\db",
+			"G:\\War3\\Maps\\Loopinghell\\mpq",
+			"G:\\War3\\Maps\\Loopinghell\\api",
 			"G:\\War3\\Maps\\Loopinghell\\mpq",
 			"G:\\War3\\Maps\\Loopinghell\\db",
 			"G:\\War3\\Maps\\Loopinghell\\mpq",
@@ -458,9 +477,96 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"LoadBoolean",
+			"Boolean",
+			"boolean",
+			"hphx",
+			"SetUnitColor",
+			"r",
+			"dr",
+			"$Color",
+			"r",
+			"IMaxBJ",
+			"绝对值",
+			"integer",
+			"LoadInteger",
+			"Integer",
+			"integer",
+			"Integer",
+			"integer",
+			"Integer",
+			"integer",
+			"GetRandomInt(0,255)",
+			"GetRandomInt",
+			"SaveInteger",
+			"255",
+			"GetRandomInt",
+			"SaveUnitHandle",
+			"call",
+			"GetAttacker",
+			"udg_Unit",
+			"TiMissile",
+			"udg_Unit",
+			"GetUnitState",
+			"TimerPattern",
+			"\\",
+			"u",
+			"explode",
+			"地狱火",
+			"GetRandomReal",
+			"speed",
+			"preview",
+			"TSpellZuo",
+			"TSpellXuemo1",
+			"P",
+			"TSpellJinxuan3",
+			"TSpellJinxuan3Con",
+			"TSpellXuemo1",
+			"TSpellZhousi",
+			"gg_unit_Uear_0242",
+			"challenager",
+			"call PauseUnitBJ( false,",
+			"x",
+			"附加值",
+			"PauseUnitBJ",
+			"IssuePointOrderLoc",
+			"debug",
+			"LoadUnitHandle",
+			"uFangKa",
+			"integer",
+			"GetHandleId",
+			"GetLastCreatedHashtableBJ()",
+			"InitHashtable",
+			"CreateUnit",
+			"udg_Point",
+			"BJDebugMsg",
+			"function_name",
+			"A06L",
+			"AL03",
+			"IssueTargetOrder",
+			"x",
+			"SetTextTagVisibility",
+			"SetTextTagText",
+			"IMinBJ",
+			"SetTextTagVisibility",
+			"SetTextTagText",
+			"CreateTextTagLocBJ",
+			"TDieEvent",
+			"SetTextTagText",
+			"(GetUnitTypeId(GetDyingUnit())",
+			"ty",
+			"(GetUnitTypeId(GetDyingUnit()",
+			"TDieEvent",
+			"Ogrh",
+			"SetUnitAbilityLevel",
+			"IMINBJcurrentLevel",
+			"较小值",
+			"IncUnitAbilityLevel",
+			"AL03",
+			"AL02",
 			"linger",
 			"GetAttackedUnitBJ",
 			"X",
@@ -501,94 +607,7 @@
 			"spellZhousi",
 			"spellLinger",
 			"TriggerRegisterUnitEvent",
-			"TriggerRegisterDeathEvent",
-			"\n        call RemoveLocation( udg_Point )",
-			"set udg_Point = GetUnitLoc(GetDyingUnit())",
-			"udg_Point",
-			"())\n",
-			"        set udg_Point = GetUnitLoc(GetDyingUnit())",
-			"gg_trg____________________041",
-			"Trig____________________041",
-			"GetBuyingUnit()",
-			"天神下凡",
-			"AddSpecialEffect",
-			"DestroyEffect",
-			"createEffect",
-			"chanllenager",
-			"SetHeroInt",
-			"int",
-			"Int",
-			"GetHeroInt",
-			"int",
-			"DestroyTimer",
-			"isunitli",
-			"TimerStart",
-			"StartTimerBJ",
-			"gg_ret",
-			"CreateTextTagLocBJ",
-			"GetUnitState",
-			"udg_Piaofu_Leitai",
-			"udg_Point",
-			"gg_trg____________________009",
-			"TArenaEnterActions",
-			"Trig____________________009",
-			"EnableTrigger",
-			"call EnableTrig.*",
-			"call EnableTrig",
-			"challenger",
-			"challenget",
-			"udg_Unit_Leitai[1]",
-			"udg_Unit_Leitai[2]",
-			"gg_trg____________________098",
-			"TArenaLeaveConons",
-			"Trig____________________098",
-			"GetBuyingUnit",
-			"udg_Unit_Leitai",
-			"GetBuyingUnit",
-			"2",
-			"gg_trg______________015",
-			"gg_trg______________014",
-			"gg_trg______________013",
-			"spellJinxuan1",
-			"gg_trg______________011",
-			"gg_trg______________009",
-			"gg_trg_________________008",
-			"gg_trg______________006",
-			"gg_trg______________005",
-			"gg_trg______________004",
-			"gg_trg______________003",
-			"showLevel",
-			"spellFuwang",
-			"updatePower",
-			"yd",
-			"YD",
-			"yd",
-			"YD",
-			"CurrentArena",
-			"point",
-			"poiont",
-			"GetRectCenter(gg_ret_Arena_2)",
-			"udg_I_Leitai",
-			"|cFFFF66CC【消息】|r请让英雄购买！",
-			"YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F)",
-			"InitTArenaStart",
-			"Trig____________________097",
-			"Trig____________________097Conditions",
-			"gg_trg____________________097",
-			"]\n",
-			"吞天",
-			"选取单位",
-			"GetUnitAbilityLevel",
-			"GetUnitState",
-			"SetUnitState",
-			"GetEnumUnit()",
-			"GetEnumUnit",
-			"ydl_group",
-			"TSpellQianfa",
-			"y",
-			"x",
-			"Thread",
-			"drat_xianlian"
+			"TriggerRegisterDeathEvent"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -622,52 +641,54 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "file/war3map.w3t.ini",
+					"file": "魔兽.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 239845,
+						"buffer_size": 1411,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								24793,
-								24793
+								203,
+								203
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax"
+							"auto_name": "[魔兽]两极魔熊（北极熊）",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 22829.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "edit/Arena.j",
+					"file": "edit/Beast.j",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 45447,
+						"buffer_size": 3223,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								43490,
-								43490
+								3223,
+								3223
 							]
 						],
 						"settings":
@@ -709,10 +730,10 @@
 							"wrap_width": 0
 						},
 						"translation.x": 0.0,
-						"translation.y": 15318.0,
+						"translation.y": 1083.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -720,7 +741,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2480,
+						"buffer_size": 972,
 						"regions":
 						{
 							"match":
@@ -729,72 +750,44 @@
 								"regions":
 								[
 									[
-										159,
-										184
+										137,
+										140
 									],
 									[
-										208,
-										233
+										163,
+										166
 									],
 									[
-										253,
-										278
+										243,
+										246
 									],
 									[
-										519,
-										544
+										269,
+										272
 									],
 									[
-										664,
-										689
+										478,
+										490
 									],
 									[
-										706,
-										731
+										518,
+										530
 									],
 									[
-										751,
-										776
+										571,
+										583
 									],
 									[
-										1115,
-										1139
+										798,
+										810
 									],
 									[
-										1376,
-										1400
+										827,
+										839
 									],
 									[
-										1576,
-										1600
-									],
-									[
-										1626,
-										1650
-									],
-									[
-										1685,
-										1709
-									],
-									[
-										1899,
-										1923
-									],
-									[
-										1941,
-										1965
-									],
-									[
-										1987,
-										2011
-									],
-									[
-										2312,
-										2318
-									],
-									[
-										2408,
-										2414
+										875,
+										887
 									]
 								],
 								"scope": ""
@@ -803,15 +796,15 @@
 						"selection":
 						[
 							[
-								2308,
-								2308
+								324,
+								324
 							]
 						],
 						"settings":
 						{
 							"detect_indentation": false,
 							"line_numbers": false,
-							"output_tag": 3,
+							"output_tag": 2,
 							"result_base_dir": "",
 							"result_file_regex": "^([^ \t].*):$",
 							"result_line_regex": "^ +([0-9]+):",
@@ -819,97 +812,10 @@
 							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1134.0,
+						"translation.y": 361.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "mpq/ydwe/ui/TriggerStrings.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 284611,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								18344,
-								18359
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 10058.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "edit/LHBase.j",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1468,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								755,
-								755
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SublimeText-JASS/jass.tmlanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "api/YDJ/YDWETimerPattern.j.dump",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 21821,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2818,
-								2219
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SublimeText-JASS/jass.tmlanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 648.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -917,7 +823,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 29.0
 	},
 	"input":
 	{
@@ -968,20 +874,80 @@
 				"edit\\testmain.j"
 			],
 			[
-				"w3t",
-				"file\\war3map.w3t.ini"
+				"boss",
+				"edit\\Boss.j"
+			],
+			[
+				"patch",
+				"patch"
+			],
+			[
+				"testlog",
+				"testlog.txt"
+			],
+			[
+				"war3j",
+				"file\\war3map.j"
+			],
+			[
+				"arena",
+				"edit\\Arena.j"
+			],
+			[
+				"testmian",
+				"edit\\testmain.j"
+			],
+			[
+				"lhb",
+				"edit\\LHBase.j"
+			],
+			[
+				"spellbase",
+				"edit\\SpellBase.j"
+			],
+			[
+				"lhbase",
+				"edit\\LHBase.j"
+			],
+			[
+				"",
+				"testlog.txt"
+			],
+			[
+				"debug",
+				"edit\\debug.j"
+			],
+			[
+				"pat",
+				"patch"
+			],
+			[
+				"are",
+				"edit\\Arena.j"
+			],
+			[
+				"lh",
+				"edit\\LHBase.j"
+			],
+			[
+				"monster",
+				"edit\\MonsterSpell.j"
 			],
 			[
 				"w3a",
 				"file\\war3map.w3a.ini"
 			],
 			[
-				"w3u",
-				"file\\war3map.w3u.ini"
+				"base",
+				"edit\\SpellBase.j"
 			],
 			[
-				"patch",
-				"patch"
+				"w3t",
+				"file\\war3map.w3t.ini"
+			],
+			[
+				"w3u",
+				"file\\war3map.w3u.ini"
 			],
 			[
 				"item",
@@ -1004,28 +970,12 @@
 				"edit\\item.j"
 			],
 			[
-				"testlog",
-				"testlog.txt"
-			],
-			[
-				"pat",
-				"patch"
-			],
-			[
-				"lhb",
-				"edit\\LHBase.j"
-			],
-			[
 				"testma",
 				"edit\\testmap.j"
 			],
 			[
 				"debug.j",
 				"edit\\debug.j"
-			],
-			[
-				"",
-				"轮回之狱.w3x"
 			],
 			[
 				"test",

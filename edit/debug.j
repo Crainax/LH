@@ -1,5 +1,4 @@
 
-/////! import "YDWETriggerEvent.j"
 /////! import "Boss.j"
 /*
     测试指令:

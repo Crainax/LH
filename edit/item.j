@@ -76,7 +76,6 @@ library_once ItemBase initializer InitItemBase
 			*/ and (GetItemType(GetManipulatedItem()) == ITEM_TYPE_MISCELLANEOUS) /*
 			*/ and (IsUnitIllusionBJ(GetManipulatingUnit()) != true)
 	endfunction
-//--------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------------------
 /*
@@ -103,7 +102,10 @@ endfunction
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 		call TriggerAddCondition(t,Condition(function TBookBUGCon))
 		call TriggerAddAction(t,function TBookBUGAct)
+
+
 		set t = null
+
 	endfunction
 
 endlibrary
