@@ -6,6 +6,10 @@ constant boolean LIBRARY_ItemBase=true
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
 //endglobals from LHBase
+//globals from Purgatory:
+constant boolean LIBRARY_Purgatory=true
+		// body...
+//endglobals from Purgatory
 //globals from YDTriggerSaveLoadSystem:
 constant boolean LIBRARY_YDTriggerSaveLoadSystem=true
 hashtable YDHT
@@ -28,14 +32,13 @@ real yd_MapMaxX= 0
 real yd_MapMinX= 0
 real yd_MapMaxY= 0
 real yd_MapMinY= 0
-string array YDWEBase___yd_PlayerColor
-trigger array YDWEBase___AbilityCastingOverEventQueue
-integer array YDWEBase___AbilityCastingOverEventType
-integer YDWEBase___AbilityCastingOverEventNumber= 0
+string array YDWEBase__yd_PlayerColor
+trigger array YDWEBase__AbilityCastingOverEventQueue
+integer array YDWEBase__AbilityCastingOverEventType
+integer YDWEBase__AbilityCastingOverEventNumber= 0
 //endglobals from YDWEBase
 //globals from YDWEGetForceOfPlayerNull:
 constant boolean LIBRARY_YDWEGetForceOfPlayerNull=true
-force yd_NullTempForce
 //endglobals from YDWEGetForceOfPlayerNull
 //globals from YDWEGetItemOfTypeFromUnitBJNull:
 constant boolean LIBRARY_YDWEGetItemOfTypeFromUnitBJNull=true
@@ -43,13 +46,13 @@ item yd_NullTempItem
 //endglobals from YDWEGetItemOfTypeFromUnitBJNull
 //globals from YDWEGetPlayersByMapControlNull:
 constant boolean LIBRARY_YDWEGetPlayersByMapControlNull=true
+force yd_NullTempForce
 //endglobals from YDWEGetPlayersByMapControlNull
 //globals from YDWEGetRandomSubGroupEnumNull:
 constant boolean LIBRARY_YDWEGetRandomSubGroupEnumNull=true
 //endglobals from YDWEGetRandomSubGroupEnumNull
 //globals from YDWEGetUnitsInRangeOfLocMatchingNull:
 constant boolean LIBRARY_YDWEGetUnitsInRangeOfLocMatchingNull=true
-group yd_NullTempGroup
 //endglobals from YDWEGetUnitsInRangeOfLocMatchingNull
 //globals from YDWEGetUnitsInRectMatchingNull:
 constant boolean LIBRARY_YDWEGetUnitsInRectMatchingNull=true
@@ -62,6 +65,7 @@ constant boolean LIBRARY_YDWEGetUnitsOfPlayerAndTypeIdNull=true
 //endglobals from YDWEGetUnitsOfPlayerAndTypeIdNull
 //globals from YDWEGetUnitsOfPlayerMatchingNull:
 constant boolean LIBRARY_YDWEGetUnitsOfPlayerMatchingNull=true
+group yd_NullTempGroup
 //endglobals from YDWEGetUnitsOfPlayerMatchingNull
 //globals from YDWEGetUnitsOfTypeIdAllNull:
 constant boolean LIBRARY_YDWEGetUnitsOfTypeIdAllNull=true
@@ -114,10 +118,10 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
@@ -149,42 +153,72 @@ constant integer ARENA_MAX_LEVEL= 50
 		
 
 		
-trigger Arena___TDieEvent
+trigger Arena__TDieEvent
 
 		
-trigger Arena___TSpellLinger
-trigger Arena___TSpellZhousi
-trigger Arena___TSpellXuemo1
-trigger Arena___TSpellXuemo2
-trigger Arena___TSpellFuwang
-trigger Arena___TSpellMeidusha1
-trigger Arena___TSpellMeidusha2
-trigger Arena___TSpellKiller1
-trigger Arena___TSpellKiller2
-trigger Arena___TSpellJinxuan1
-trigger Arena___TSpellJinxuan2
-trigger Arena___TSpellJinxuan3
-trigger Arena___TSpellJinxuan4
+trigger Arena__TSpellLinger
+trigger Arena__TSpellZhousi
+trigger Arena__TSpellXuemo1
+trigger Arena__TSpellXuemo2
+trigger Arena__TSpellFuwang
+trigger Arena__TSpellMeidusha1
+trigger Arena__TSpellMeidusha2
+trigger Arena__TSpellKiller1
+trigger Arena__TSpellKiller2
+trigger Arena__TSpellJinxuan1
+trigger Arena__TSpellJinxuan2
+trigger Arena__TSpellJinxuan3
+trigger Arena__TSpellJinxuan4
 
 		
-integer Arena___currentArena= 0
+integer Arena__currentArena= 0
 		
-integer Arena___currentLevel= 1
+integer Arena__currentLevel= 1
 		
-unit Arena___challenager= null
+unit Arena__challenager= null
 		
-unit Arena___defier= null
+unit Arena__defier= null
 		
-texttag Arena___textTag_Level
+texttag Arena__textTag_Level
 //endglobals from Arena
+//globals from Beast:
+constant boolean LIBRARY_Beast=true
+
+hashtable beastTable
+		
+constant integer Beast__kU=7
+constant integer Beast__kr=9
+constant integer Beast__kg=11
+constant integer Beast__kb=13
+constant integer Beast__ksr=15
+constant integer Beast__ksg=17
+constant integer Beast__ksb=19
+constant integer Beast__kBeastItem=21
+
+		
+unit array Unit_Beast
+
+constant integer DAMAGE_BEAST_00= 30000
+constant integer DAMAGE_BEAST_01= 160000
+constant integer DAMAGE_BEAST_02= 500000
+constant integer DAMAGE_BEAST_03= 1300000
+constant integer DAMAGE_BEAST_04= 3500000
+constant integer DAMAGE_BEAST_05= 8000000
+constant integer DAMAGE_BEAST_06= 20000000
+constant integer DAMAGE_BEAST_07= 40000000
+constant integer DAMAGE_BEAST_08= 60000000
+constant integer DAMAGE_BEAST_09= 120000000
+		
+constant integer CHARGES_BEAST= 100
+//endglobals from Beast
 //globals from Boss:
 constant boolean LIBRARY_Boss=true
 		
 hashtable bossTable
-trigger Boss___TSpellZuo
-trigger Boss___TSpellYou
+trigger Boss__TSpellZuo
+trigger Boss__TSpellYou
 		
-timer Boss___TiMissile
+timer Boss__TiMissile
 
 
 //endglobals from Boss
@@ -197,14 +231,9 @@ constant real DRAT_JUNENG= 20000000
 constant real DRAT_XIANLIAN= 10000000
 integer level_juneng= 1
 //endglobals from MonsterSpell
-//globals from Debug:
-constant boolean LIBRARY_Debug=true
-		
-		
-
-boolean debug_show_damage= false
-boolean debug_show_attr= false
-//endglobals from Debug
+//globals from Revive:
+constant boolean LIBRARY_Revive=true
+//endglobals from Revive
     // User-defined
 unit array udg_H
 location udg_Point_Fuhuo= null
@@ -437,6 +466,7 @@ trigger gg_trg_________________________a= null
 trigger gg_trg_________________________c= null
 trigger gg_trg_________________________b= null
 trigger gg_trg_________________________d= null
+trigger gg_trg_________________________e= null
 trigger gg_trg____________________027= null
 trigger gg_trg____________________008= null
 trigger gg_trg____________________004= null
@@ -485,6 +515,7 @@ trigger gg_trg__yc= null
 trigger gg_trg____________________029= null
 trigger gg_trg____________________055= null
 trigger gg_trg_zhandouli2= null
+trigger gg_trg__kill= null
 trigger gg_trg____________________025= null
 trigger gg_trg_______________________________u= null
 trigger gg_trg________10b= null
@@ -635,6 +666,7 @@ trigger gg_trg____________________061___________________________________u= null
 trigger gg_trg____________________061_________________________________________________u= null
 trigger gg_trg____________________061_________________________________________________________2= null
 trigger gg_trg____________________061_______________________________________________________________u= null
+trigger gg_trg____________________061____________________________________________________________________u= null
 trigger gg_trg_____________b= null
 trigger gg_trg_____________b2= null
 trigger gg_trg_Update_Fahun= null
@@ -795,8 +827,6 @@ trigger gg_trg___________11a= null
 trigger gg_trg___________12a= null
 trigger gg_trg___________13a= null
 trigger gg_trg___________13a_______u= null
-trigger gg_trg______________4a= null
-trigger gg_trg______________5a= null
 trigger gg_trg______________8a= null
 trigger gg_trg____________________9a= null
 trigger gg_trg___________14a= null
@@ -823,7 +853,6 @@ trigger gg_trg_papa_________u= null
 trigger gg_trg_papa2______u= null
 trigger gg_trg_papa1______u= null
 trigger gg_trg_papa4______u= null
-trigger gg_trg_papa5______u= null
 trigger gg_trg_______u= null
 trigger gg_trg_______1= null
 trigger gg_trg_papa6______u= null
@@ -844,8 +873,8 @@ trigger gg_trg____________________010= null
 trigger gg_trg____________________014= null
 trigger gg_trg____________________020= null
 trigger gg_trg____________________021= null
-trigger gg_trg____________________022= null
 trigger gg_trg____________________054= null
+trigger gg_trg____________________022= null
 trigger gg_trg____________________022________2= null
 trigger gg_trg____________________059= null
 trigger gg_trg____________________013= null
@@ -986,51 +1015,51 @@ real array s__Missile_damage
 real array s__Missile_x
 real array s__Missile_y
 timer array s__Missile_t
-constant integer si__YDWETimerPattern___YDVector3=3
-integer si__YDWETimerPattern___YDVector3_F=0
-integer si__YDWETimerPattern___YDVector3_I=0
-integer array si__YDWETimerPattern___YDVector3_V
-real array s__YDWETimerPattern___YDVector3_x
-real array s__YDWETimerPattern___YDVector3_y
-real array s__YDWETimerPattern___YDVector3_z
-constant integer si__YDWETimerPattern___Thread=4
-integer si__YDWETimerPattern___Thread_F=0
-integer si__YDWETimerPattern___Thread_I=0
-integer array si__YDWETimerPattern___Thread_V
-integer array s__YDWETimerPattern___Thread_des
-integer array s__YDWETimerPattern___Thread_pos
-integer array s__YDWETimerPattern___Thread_vel
-unit array s__YDWETimerPattern___Thread_caster
-unit array s__YDWETimerPattern___Thread_source
-unit array s__YDWETimerPattern___Thread_target
-unit array s__YDWETimerPattern___Thread_obj
-real array s__YDWETimerPattern___Thread_ac
-real array s__YDWETimerPattern___Thread_bc
-real array s__YDWETimerPattern___Thread_dist
-real array s__YDWETimerPattern___Thread_step
-real array s__YDWETimerPattern___Thread_amount
-real array s__YDWETimerPattern___Thread_radius
-integer array s__YDWETimerPattern___Thread_switch
-integer array s__YDWETimerPattern___Thread_follow
-integer array s__YDWETimerPattern___Thread_unitid
-integer array s__YDWETimerPattern___Thread_skills
-integer array s__YDWETimerPattern___Thread_order
-integer array s__YDWETimerPattern___Thread_level
-string array s__YDWETimerPattern___Thread_dsfx
-string array s__YDWETimerPattern___Thread_gsfx
-string array s__YDWETimerPattern___Thread_wsfx
-string array s__YDWETimerPattern___Thread_part
-boolean array s__YDWETimerPattern___Thread_recycle
-boolean array s__YDWETimerPattern___Thread_killdest
-boolean array s__YDWETimerPattern___Thread_volume
-group array s__YDWETimerPattern___Thread_g
-timer array s__YDWETimerPattern___Thread_t
-integer array s__YDWETimerPattern___Thread_afc
-constant integer si__YDWETimerPattern___Parabola=5
-constant integer si__YDWETimerPattern___Linear=6
-constant integer si__YDWETimerPattern___Deceleration=7
-integer array si__YDWETimerPattern___Thread_type
-trigger array st__YDWETimerPattern___Thread_onDestroy
+constant integer si__YDWETimerPattern__YDVector3=3
+integer si__YDWETimerPattern__YDVector3_F=0
+integer si__YDWETimerPattern__YDVector3_I=0
+integer array si__YDWETimerPattern__YDVector3_V
+real array s__YDWETimerPattern__YDVector3_x
+real array s__YDWETimerPattern__YDVector3_y
+real array s__YDWETimerPattern__YDVector3_z
+constant integer si__YDWETimerPattern__Thread=4
+integer si__YDWETimerPattern__Thread_F=0
+integer si__YDWETimerPattern__Thread_I=0
+integer array si__YDWETimerPattern__Thread_V
+integer array s__YDWETimerPattern__Thread_des
+integer array s__YDWETimerPattern__Thread_pos
+integer array s__YDWETimerPattern__Thread_vel
+unit array s__YDWETimerPattern__Thread_caster
+unit array s__YDWETimerPattern__Thread_source
+unit array s__YDWETimerPattern__Thread_target
+unit array s__YDWETimerPattern__Thread_obj
+real array s__YDWETimerPattern__Thread_ac
+real array s__YDWETimerPattern__Thread_bc
+real array s__YDWETimerPattern__Thread_dist
+real array s__YDWETimerPattern__Thread_step
+real array s__YDWETimerPattern__Thread_amount
+real array s__YDWETimerPattern__Thread_radius
+integer array s__YDWETimerPattern__Thread_switch
+integer array s__YDWETimerPattern__Thread_follow
+integer array s__YDWETimerPattern__Thread_unitid
+integer array s__YDWETimerPattern__Thread_skills
+integer array s__YDWETimerPattern__Thread_order
+integer array s__YDWETimerPattern__Thread_level
+string array s__YDWETimerPattern__Thread_dsfx
+string array s__YDWETimerPattern__Thread_gsfx
+string array s__YDWETimerPattern__Thread_wsfx
+string array s__YDWETimerPattern__Thread_part
+boolean array s__YDWETimerPattern__Thread_recycle
+boolean array s__YDWETimerPattern__Thread_killdest
+boolean array s__YDWETimerPattern__Thread_volume
+group array s__YDWETimerPattern__Thread_g
+timer array s__YDWETimerPattern__Thread_t
+integer array s__YDWETimerPattern__Thread_afc
+constant integer si__YDWETimerPattern__Parabola=5
+constant integer si__YDWETimerPattern__Linear=6
+constant integer si__YDWETimerPattern__Deceleration=7
+integer array si__YDWETimerPattern__Thread_type
+trigger array st__YDWETimerPattern__Thread_onDestroy
 trigger st__Attract__staticgetindex
 trigger st__Attract_onDestroy
 trigger st__Attract_destroy
@@ -1071,7 +1100,6 @@ function s__Attract__allocate takes nothing returns integer
         set this=si__Attract_I
     endif
     if (this>8190) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Attract")
         return 0
     endif
 
@@ -1082,10 +1110,8 @@ endfunction
 //Generated destructor of Attract
 function sc__Attract_deallocate takes integer this returns nothing
     if this==null then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Attract")
         return
     elseif (si__Attract_V[this]!=-1) then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Attract")
         return
     endif
     set f__arg_this=this
@@ -1117,7 +1143,6 @@ function s__Missile__allocate takes nothing returns integer
         set this=si__Missile_I
     endif
     if (this>8190) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Missile")
         return 0
     endif
 
@@ -1128,10 +1153,8 @@ endfunction
 //Generated destructor of Missile
 function sc__Missile_deallocate takes integer this returns nothing
     if this==null then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Missile")
         return
     elseif (si__Missile_V[this]!=-1) then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Missile")
         return
     endif
     set f__arg_this=this
@@ -1140,113 +1163,107 @@ function sc__Missile_deallocate takes integer this returns nothing
     set si__Missile_F=this
 endfunction
 
-//Generated allocator of YDWETimerPattern___YDVector3
-function s__YDWETimerPattern___YDVector3__allocate takes nothing returns integer
- local integer this=si__YDWETimerPattern___YDVector3_F
+//Generated allocator of YDWETimerPattern__YDVector3
+function s__YDWETimerPattern__YDVector3__allocate takes nothing returns integer
+ local integer this=si__YDWETimerPattern__YDVector3_F
     if (this!=0) then
-        set si__YDWETimerPattern___YDVector3_F=si__YDWETimerPattern___YDVector3_V[this]
+        set si__YDWETimerPattern__YDVector3_F=si__YDWETimerPattern__YDVector3_V[this]
     else
-        set si__YDWETimerPattern___YDVector3_I=si__YDWETimerPattern___YDVector3_I+1
-        set this=si__YDWETimerPattern___YDVector3_I
+        set si__YDWETimerPattern__YDVector3_I=si__YDWETimerPattern__YDVector3_I+1
+        set this=si__YDWETimerPattern__YDVector3_I
     endif
     if (this>8190) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: YDWETimerPattern___YDVector3")
         return 0
     endif
 
-    set si__YDWETimerPattern___YDVector3_V[this]=-1
+    set si__YDWETimerPattern__YDVector3_V[this]=-1
  return this
 endfunction
 
-//Generated destructor of YDWETimerPattern___YDVector3
-function s__YDWETimerPattern___YDVector3_deallocate takes integer this returns nothing
+//Generated destructor of YDWETimerPattern__YDVector3
+function s__YDWETimerPattern__YDVector3_deallocate takes integer this returns nothing
     if this==null then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: YDWETimerPattern___YDVector3")
         return
-    elseif (si__YDWETimerPattern___YDVector3_V[this]!=-1) then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: YDWETimerPattern___YDVector3")
+    elseif (si__YDWETimerPattern__YDVector3_V[this]!=-1) then
         return
     endif
-    set si__YDWETimerPattern___YDVector3_V[this]=si__YDWETimerPattern___YDVector3_F
-    set si__YDWETimerPattern___YDVector3_F=this
+    set si__YDWETimerPattern__YDVector3_V[this]=si__YDWETimerPattern__YDVector3_F
+    set si__YDWETimerPattern__YDVector3_F=this
 endfunction
 
-//Generated method caller for YDWETimerPattern___Thread.onDestroy
-function sc__YDWETimerPattern___Thread_onDestroy takes integer this returns nothing
+//Generated method caller for YDWETimerPattern__Thread.onDestroy
+function sc__YDWETimerPattern__Thread_onDestroy takes integer this returns nothing
     set f__arg_this=this
-    call TriggerEvaluate(st__YDWETimerPattern___Thread_onDestroy[4])
+    call TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[4])
 endfunction
 
-//Generated allocator of YDWETimerPattern___Thread
-function s__YDWETimerPattern___Thread__allocate takes nothing returns integer
- local integer this=si__YDWETimerPattern___Thread_F
+//Generated allocator of YDWETimerPattern__Thread
+function s__YDWETimerPattern__Thread__allocate takes nothing returns integer
+ local integer this=si__YDWETimerPattern__Thread_F
     if (this!=0) then
-        set si__YDWETimerPattern___Thread_F=si__YDWETimerPattern___Thread_V[this]
+        set si__YDWETimerPattern__Thread_F=si__YDWETimerPattern__Thread_V[this]
     else
-        set si__YDWETimerPattern___Thread_I=si__YDWETimerPattern___Thread_I+1
-        set this=si__YDWETimerPattern___Thread_I
+        set si__YDWETimerPattern__Thread_I=si__YDWETimerPattern__Thread_I+1
+        set this=si__YDWETimerPattern__Thread_I
     endif
     if (this>8190) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: YDWETimerPattern___Thread")
         return 0
     endif
 
-    set si__YDWETimerPattern___Thread_type[this]=4
-    set si__YDWETimerPattern___Thread_V[this]=-1
+    set si__YDWETimerPattern__Thread_type[this]=4
+    set si__YDWETimerPattern__Thread_V[this]=-1
  return this
 endfunction
 
-//Generated destructor of YDWETimerPattern___Thread
-function sc__YDWETimerPattern___Thread_deallocate takes integer this returns nothing
+//Generated destructor of YDWETimerPattern__Thread
+function sc__YDWETimerPattern__Thread_deallocate takes integer this returns nothing
     if this==null then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: YDWETimerPattern___Thread")
         return
-    elseif (si__YDWETimerPattern___Thread_V[this]!=-1) then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: YDWETimerPattern___Thread")
+    elseif (si__YDWETimerPattern__Thread_V[this]!=-1) then
         return
     endif
     set f__arg_this=this
-    call TriggerEvaluate(st__YDWETimerPattern___Thread_onDestroy[si__YDWETimerPattern___Thread_type[this]])
-    set si__YDWETimerPattern___Thread_V[this]=si__YDWETimerPattern___Thread_F
-    set si__YDWETimerPattern___Thread_F=this
+    call TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[si__YDWETimerPattern__Thread_type[this]])
+    set si__YDWETimerPattern__Thread_V[this]=si__YDWETimerPattern__Thread_F
+    set si__YDWETimerPattern__Thread_F=this
 endfunction
 
-//Generated allocator of YDWETimerPattern___Deceleration
-function s__YDWETimerPattern___Deceleration__allocate takes nothing returns integer
- local integer this=s__YDWETimerPattern___Thread__allocate()
+//Generated allocator of YDWETimerPattern__Deceleration
+function s__YDWETimerPattern__Deceleration__allocate takes nothing returns integer
+ local integer this=s__YDWETimerPattern__Thread__allocate()
  local integer kthis
     if(this==0) then
         return 0
     endif
-    set si__YDWETimerPattern___Thread_type[this]=7
+    set si__YDWETimerPattern__Thread_type[this]=7
     set kthis=this
 
  return this
 endfunction
 
 
-//Generated allocator of YDWETimerPattern___Parabola
-function s__YDWETimerPattern___Parabola__allocate takes nothing returns integer
- local integer this=s__YDWETimerPattern___Thread__allocate()
+//Generated allocator of YDWETimerPattern__Parabola
+function s__YDWETimerPattern__Parabola__allocate takes nothing returns integer
+ local integer this=s__YDWETimerPattern__Thread__allocate()
  local integer kthis
     if(this==0) then
         return 0
     endif
-    set si__YDWETimerPattern___Thread_type[this]=5
+    set si__YDWETimerPattern__Thread_type[this]=5
     set kthis=this
 
  return this
 endfunction
 
 
-//Generated allocator of YDWETimerPattern___Linear
-function s__YDWETimerPattern___Linear__allocate takes nothing returns integer
- local integer this=s__YDWETimerPattern___Thread__allocate()
+//Generated allocator of YDWETimerPattern__Linear
+function s__YDWETimerPattern__Linear__allocate takes nothing returns integer
+ local integer this=s__YDWETimerPattern__Thread__allocate()
  local integer kthis
     if(this==0) then
         return 0
     endif
-    set si__YDWETimerPattern___Thread_type[this]=6
+    set si__YDWETimerPattern__Thread_type[this]=6
     set kthis=this
 
  return this
@@ -1275,17 +1292,17 @@ endfunction
 
 //-------------------------------------------------------------------------------
 	
- function ItemBase___UnitHasHumanInSlot takes unit u,integer slot returns boolean
+ function ItemBase__UnitHasHumanInSlot takes unit u,integer slot returns boolean
 		return GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'frhg' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'mlst' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'nspi' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'oli2' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'ofir' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'soul' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'sbok' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'arsc' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gldo' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gsou' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'envl' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rugt' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'shdt' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'crdt' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'pspd' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rump' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rump' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'shen' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'stpg' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rde0' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'oflg' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'frgd' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tbsm' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tfar' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'drph' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'oven' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rej4' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'dtsb' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gobm' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gvsm' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'pgin' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rej6' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tels' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tbak'
 	endfunction
 
 	
- function ItemBase___TOnlyOneHumanAct takes nothing returns nothing
+ function ItemBase__TOnlyOneHumanAct takes nothing returns nothing
   local integer i= 1
   local integer xianCount= 0
 		loop
 			exitwhen i > 6
-			if ( ItemBase___UnitHasHumanInSlot(GetTriggerUnit() , i) ) then
+			if ( ItemBase__UnitHasHumanInSlot(GetTriggerUnit() , i) ) then
 				set xianCount=xianCount + 1
 			endif
 			set i=i + 1
@@ -1299,33 +1316,34 @@ endfunction
 
 	endfunction
 
- function ItemBase___TOnlyOneHumanCon takes nothing returns boolean
+ function ItemBase__TOnlyOneHumanCon takes nothing returns boolean
 		return ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] ) and ( GetItemType(GetManipulatedItem()) == ITEM_TYPE_MISCELLANEOUS ) and ( IsUnitIllusionBJ(GetManipulatingUnit()) != true )
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
-function ItemBase___TBookBUGCon takes nothing returns boolean
+function ItemBase__TBookBUGCon takes nothing returns boolean
 	return GetItemType(GetManipulatedItem()) == ITEM_TYPE_POWERUP
 endfunction
 
-function ItemBase___TBookBUGAct takes nothing returns nothing
+function ItemBase__TBookBUGAct takes nothing returns nothing
+	call PolledWait(1.0)
 	call RemoveItem(GetManipulatedItem())
 endfunction
 
 //---------------------------------------------------------------------------------------------------
- function ItemBase___InitItemBase takes nothing returns nothing
+ function ItemBase__InitItemBase takes nothing returns nothing
 		//人器只能装备一个
   local trigger t= CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-		call TriggerAddCondition(t, Condition(function ItemBase___TOnlyOneHumanCon))
-		call TriggerAddAction(t, function ItemBase___TOnlyOneHumanAct)
+		call TriggerAddCondition(t, Condition(function ItemBase__TOnlyOneHumanCon))
+		call TriggerAddAction(t, function ItemBase__TOnlyOneHumanAct)
 
 		//删除书本的小点BUG
 		set t=CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-		call TriggerAddCondition(t, Condition(function ItemBase___TBookBUGCon))
-		call TriggerAddAction(t, function ItemBase___TBookBUGAct)
+		call TriggerAddCondition(t, Condition(function ItemBase__TBookBUGCon))
+		call TriggerAddAction(t, function ItemBase__TBookBUGAct)
 
 
 		set t=null
@@ -1345,7 +1363,6 @@ endfunction
    function IsEnemy takes unit u,unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false and IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitAliveBJ(u) == true and IsUnitHidden(u) == false and IsUnitEnemy(u, GetOwningPlayer(caster)) and IsUnitVisible(u, GetOwningPlayer(caster)) and GetUnitAbilityLevel(u, 'Avul') < 1 and GetUnitPointValue(u) != 123
     endfunction
-
     
     function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
 
@@ -1385,8 +1402,98 @@ endfunction
 	endfunction
 
 //library LHBase ends
+//library Purgatory:
+	
+
+//---------------------------------------------------------------------------------------------------
+	
+ function TPurgatoryItemCon takes nothing returns boolean
+	    return ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( ( GetUnitTypeId(GetDyingUnit()) == 'nfra' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nwld' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nwzd' ) or ( GetUnitTypeId(GetDyingUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsc2' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetDyingUnit()) == 'npfl' ) or ( GetUnitTypeId(GetDyingUnit()) == 'ninm' ) ) )
+	endfunction
+
+ function TPurgatoryItemAct takes nothing returns nothing
+  local integer dyingUnitId= GetUnitTypeId(GetDyingUnit())
+
+//textmacro instance: CreatePurgatoryItem("nfra","IB00")
+		if ( dyingUnitId == 'nfra' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB00', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("nfra","IB00")
+//textmacro instance: CreatePurgatoryItem("nwld","IB01")
+		if ( dyingUnitId == 'nwld' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB01', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("nwld","IB01")
+//textmacro instance: CreatePurgatoryItem("nwzd","IB02")
+		if ( dyingUnitId == 'nwzd' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB02', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("nwzd","IB02")
+//textmacro instance: CreatePurgatoryItem("ndqp","IB03")
+		if ( dyingUnitId == 'ndqp' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB03', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("ndqp","IB03")
+//textmacro instance: CreatePurgatoryItem("nsc2","IB04")
+		if ( dyingUnitId == 'nsc2' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB04', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("nsc2","IB04")
+//textmacro instance: CreatePurgatoryItem("nsqo","IB05")
+		if ( dyingUnitId == 'nsqo' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB05', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("nsqo","IB05")
+//textmacro instance: CreatePurgatoryItem("nsoc","IB06")
+		if ( dyingUnitId == 'nsoc' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB06', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("nsoc","IB06")
+//textmacro instance: CreatePurgatoryItem("npfl","IB07")
+		if ( dyingUnitId == 'npfl' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB07', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("npfl","IB07")
+//textmacro instance: CreatePurgatoryItem("ninm","IB08")
+		if ( dyingUnitId == 'ninm' ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit())))
+			call CreateItem('IB08', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
+			return
+		endif
+//end of: CreatePurgatoryItem("ninm","IB08")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+
+ function Purgatory__InitPurgatory takes nothing returns nothing
+  local trigger t= CreateTrigger()
+
+	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
+	    call TriggerAddCondition(t, Condition(function TPurgatoryItemCon))
+	    call TriggerAddAction(t, function TPurgatoryItemAct)
+
+	endfunction
+
+
+//library Purgatory ends
 //library YDTriggerSaveLoadSystem:
- function YDTriggerSaveLoadSystem___Init takes nothing returns nothing
+ function YDTriggerSaveLoadSystem__Init takes nothing returns nothing
 		set YDHT=InitHashtable()
 	endfunction
 
@@ -1990,11 +2097,11 @@ endfunction
 function YDWESyStemAbilityCastingOverTriggerAction takes unit hero,integer index returns nothing
  local integer i= 0
     loop
-        exitwhen i >= YDWEBase___AbilityCastingOverEventNumber
-        if YDWEBase___AbilityCastingOverEventType[i] == index then
+        exitwhen i >= YDWEBase__AbilityCastingOverEventNumber
+        if YDWEBase__AbilityCastingOverEventType[i] == index then
             set bj_lastAbilityCastingUnit=hero
-			if YDWEBase___AbilityCastingOverEventQueue[i] != null and TriggerEvaluate(YDWEBase___AbilityCastingOverEventQueue[i]) and IsTriggerEnabled(YDWEBase___AbilityCastingOverEventQueue[i]) then
-				call TriggerExecute(YDWEBase___AbilityCastingOverEventQueue[i])
+			if YDWEBase__AbilityCastingOverEventQueue[i] != null and TriggerEvaluate(YDWEBase__AbilityCastingOverEventQueue[i]) and IsTriggerEnabled(YDWEBase__AbilityCastingOverEventQueue[i]) then
+				call TriggerExecute(YDWEBase__AbilityCastingOverEventQueue[i])
 			endif
 		endif
         set i=i + 1
@@ -2004,9 +2111,9 @@ endfunction
 //YDWE技能捕捉事件 
 //===========================================================================  
 function YDWESyStemAbilityCastingOverRegistTrigger takes trigger trg,integer index returns nothing
-	set YDWEBase___AbilityCastingOverEventQueue[YDWEBase___AbilityCastingOverEventNumber]=trg
-	set YDWEBase___AbilityCastingOverEventType[YDWEBase___AbilityCastingOverEventNumber]=index
-	set YDWEBase___AbilityCastingOverEventNumber=YDWEBase___AbilityCastingOverEventNumber + 1
+	set YDWEBase__AbilityCastingOverEventQueue[YDWEBase__AbilityCastingOverEventNumber]=trg
+	set YDWEBase__AbilityCastingOverEventType[YDWEBase__AbilityCastingOverEventNumber]=index
+	set YDWEBase__AbilityCastingOverEventNumber=YDWEBase__AbilityCastingOverEventNumber + 1
 endfunction 
 //===========================================================================
 //系统函数完善
@@ -2043,7 +2150,7 @@ endfunction
 //unitpool bj_lastCreatedPool=null
 //unit bj_lastPoolAbstractedUnit=null
 function YDWEGetPlayerColorString takes player p,string s returns string
-    return YDWEBase___yd_PlayerColor[GetHandleId(GetPlayerColor(p))] + s + "|r"
+    return YDWEBase__yd_PlayerColor[GetHandleId(GetPlayerColor(p))] + s + "|r"
 endfunction
 //===========================================================================
 //===========================================================================
@@ -2089,22 +2196,22 @@ function InitializeYD takes nothing returns nothing
 	set yd_MapMaxX=GetCameraBoundMaxX() + GetCameraMargin(CAMERA_MARGIN_RIGHT)
 	set yd_MapMaxY=GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
 	
-    set YDWEBase___yd_PlayerColor[0]="|cFFFF0303"
-    set YDWEBase___yd_PlayerColor[1]="|cFF0042FF"
-    set YDWEBase___yd_PlayerColor[2]="|cFF1CE6B9"
-    set YDWEBase___yd_PlayerColor[3]="|cFF540081"
-    set YDWEBase___yd_PlayerColor[4]="|cFFFFFC01"
-    set YDWEBase___yd_PlayerColor[5]="|cFFFE8A0E"
-    set YDWEBase___yd_PlayerColor[6]="|cFF20C000"
-    set YDWEBase___yd_PlayerColor[7]="|cFFE55BB0"
-    set YDWEBase___yd_PlayerColor[8]="|cFF959697"
-    set YDWEBase___yd_PlayerColor[9]="|cFF7EBFF1"
-    set YDWEBase___yd_PlayerColor[10]="|cFF106246"
-    set YDWEBase___yd_PlayerColor[11]="|cFF4E2A04"
-    set YDWEBase___yd_PlayerColor[12]="|cFF282828"
-    set YDWEBase___yd_PlayerColor[13]="|cFF282828"
-    set YDWEBase___yd_PlayerColor[14]="|cFF282828"
-    set YDWEBase___yd_PlayerColor[15]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[0]="|cFFFF0303"
+    set YDWEBase__yd_PlayerColor[1]="|cFF0042FF"
+    set YDWEBase__yd_PlayerColor[2]="|cFF1CE6B9"
+    set YDWEBase__yd_PlayerColor[3]="|cFF540081"
+    set YDWEBase__yd_PlayerColor[4]="|cFFFFFC01"
+    set YDWEBase__yd_PlayerColor[5]="|cFFFE8A0E"
+    set YDWEBase__yd_PlayerColor[6]="|cFF20C000"
+    set YDWEBase__yd_PlayerColor[7]="|cFFE55BB0"
+    set YDWEBase__yd_PlayerColor[8]="|cFF959697"
+    set YDWEBase__yd_PlayerColor[9]="|cFF7EBFF1"
+    set YDWEBase__yd_PlayerColor[10]="|cFF106246"
+    set YDWEBase__yd_PlayerColor[11]="|cFF4E2A04"
+    set YDWEBase__yd_PlayerColor[12]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[13]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[14]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[15]="|cFF282828"
     //=================显示版本=====================
     call YDWEVersion_Init()
 endfunction
@@ -2443,8 +2550,8 @@ endfunction
 				    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
 				    	if ( distance > 80 ) then
 				    	set facing=Atan2BJ(y1 - y2, x1 - x2)
-				    	call SetUnitX(l_unit, YDWECoordinateX(x2 + CosBJ(facing) * s__Attract_speed[this]))
-				    	call SetUnitY(l_unit, YDWECoordinateY(y2 + SinBJ(facing) * s__Attract_speed[this]))
+				    	call SetUnitX(l_unit, (RMinBJ(RMaxBJ(((x2 + CosBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+				    	call SetUnitY(l_unit, (RMinBJ(RMaxBJ(((y2 + SinBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
 				    	endif
 				    endif
 				endloop
@@ -2457,15 +2564,15 @@ endfunction
   endfunction
 
         function s__Attract__staticgetindex takes handle h returns integer
-            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
         endfunction
 
         function s__Attract__staticsetindex takes handle h,integer value returns nothing
-            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
         endfunction
 
         function s__Attract_flush takes handle h returns nothing
-            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
         endfunction
 
   function s__Attract_create takes unit caster,real radius,real interval,real speed returns integer
@@ -2480,12 +2587,12 @@ endfunction
 
   function s__Attract_start takes integer this returns nothing
 			set s__Attract_t[this]=CreateTimer()
-			call s__Attract__staticsetindex(s__Attract_t[this], (this))
+			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this]))))) )), ( ( (this)))) // INLINED!!
 			call TimerStart(s__Attract_t[this], s__Attract_interval[this], true, function s__Attract_attract)
   endfunction
 
   function s__Attract_onDestroy takes integer this returns nothing
-			call s__Attract_flush(s__Attract_t[this])
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
 			set s__Attract_caster[this]=null
 			call PauseTimer(s__Attract_t[this])
 			call DestroyTimer(s__Attract_t[this])
@@ -2495,10 +2602,8 @@ endfunction
 //Generated destructor of Attract
 function s__Attract_deallocate takes integer this returns nothing
     if this==null then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Attract")
         return
     elseif (si__Attract_V[this]!=-1) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Attract")
         return
     endif
     call s__Attract_onDestroy(this)
@@ -2538,15 +2643,15 @@ endfunction
 
 
         function s__Missile__staticgetindex takes handle h returns integer
-            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
         endfunction
 
         function s__Missile__staticsetindex takes handle h,integer value returns nothing
-            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
         endfunction
 
         function s__Missile_flush takes handle h returns nothing
-            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
         endfunction
 
   function s__Missile_create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns integer
@@ -2563,7 +2668,7 @@ endfunction
 			set s__Missile_damage[this]=damage
 
 			set s__Missile_t[this]=CreateTimer()
-			call s__Missile__staticsetindex(s__Missile_t[this], (this))
+			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this]))))) )), ( ( (this)))) // INLINED!!
 			call UnitApplyTimedLifeBJ(interval1 + interval2, 'BHwe', CreateUnit(GetOwningPlayer(s__Missile_caster[this]), preview, s__Missile_x[this], s__Missile_y[this], 0))
 			call TimerStart(s__Missile_t[this], s__Missile_interval1[this], false, function s__Missile_launch)
 			return this
@@ -2571,7 +2676,7 @@ endfunction
 
 
   function s__Missile_onDestroy takes integer this returns nothing
-			call s__Missile_flush(s__Missile_t[this])
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
 			set s__Missile_caster[this]=null
 			call PauseTimer(s__Missile_t[this])
 			call DestroyTimer(s__Missile_t[this])
@@ -2581,10 +2686,8 @@ endfunction
 //Generated destructor of Missile
 function s__Missile_deallocate takes integer this returns nothing
     if this==null then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Missile")
         return
     elseif (si__Missile_V[this]!=-1) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Missile")
         return
     endif
     call s__Missile_onDestroy(this)
@@ -2604,39 +2707,39 @@ endfunction
 //===========================================================================
 function YDWECreateEwsp__Loop takes nothing returns nothing
     local timer t= GetExpiredTimer()
- local string h= I2S(YDWEH2I(t))
+ local string h= I2S((GetHandleId((t)))) // INLINED!!
     local unit tempUnit
     local real angle
     local integer i
-    local unit orderUnit=YDWEGetUnitByString(h , "orderUnit")
+    local unit orderUnit=(LoadUnitHandle(YDHT, StringHash((h )), StringHash(( "orderUnit")))) // INLINED!!
     local real UnitLocX= GetUnitX(orderUnit)
     local real UnitLocY= GetUnitY(orderUnit)
-    local real radius= YDWEGetRealByString(h , "radius")
-    local real speed= YDWEGetRealByString(h , "speed")
-    local integer number= YDWEGetIntegerByString(h , "number")
-    local integer steps= YDWEGetIntegerByString(h , "steps")
+    local real radius= (LoadReal(YDHT, StringHash((h )), StringHash(( "radius")))) // INLINED!!
+    local real speed= (LoadReal(YDHT, StringHash((h )), StringHash(( "speed")))) // INLINED!!
+    local integer number= (LoadInteger(YDHT, StringHash((h )), StringHash(( "number")))) // INLINED!!
+    local integer steps= (LoadInteger(YDHT, StringHash((h )), StringHash(( "steps")))) // INLINED!!
     if steps > 0 and GetUnitState(orderUnit, UNIT_STATE_LIFE) > 0 then
         set steps=steps - 1
-        call YDWESaveIntegerByString(h , "steps" , steps)
+        call SaveInteger(YDHT, StringHash((h )), StringHash(( "steps" )), ( steps)) // INLINED!!
         set i=0
         loop
             set i=i + 1
             exitwhen i > number
-            set tempUnit=YDWEGetUnitByString(h , "units" + I2S(i))
-            set angle=YDWEGetRealByString(h , "angles" + I2S(i))
+            set tempUnit=(LoadUnitHandle(YDHT, StringHash((h )), StringHash(( "units" + I2S(i))))) // INLINED!!
+            set angle=(LoadReal(YDHT, StringHash((h )), StringHash(( "angles" + I2S(i))))) // INLINED!!
             set angle=angle + speed
-            call YDWESaveRealByString(h , "angles" + I2S(i) , angle)
-            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius * Cos(angle)))
-            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius * Sin(angle)))
+            call SaveReal(YDHT, StringHash((h )), StringHash(( "angles" + I2S(i) )), (( angle)*1.0)) // INLINED!!
+            call SetUnitX(tempUnit, (RMinBJ(RMaxBJ(((UnitLocX + radius * Cos(angle))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+            call SetUnitY(tempUnit, (RMinBJ(RMaxBJ(((UnitLocY + radius * Sin(angle))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         endloop
     else
         set i=0
         loop
             set i=i + 1
             exitwhen i > number
-            call RemoveUnit(YDWEGetUnitByString(h , "units" + I2S(i)))
+            call RemoveUnit((LoadUnitHandle(YDHT, StringHash((h )), StringHash(( "units" + I2S(i)))))) // INLINED!!
         endloop
-        call YDWEFlushMissionByString(h)
+        call FlushChildHashtable(YDHT, StringHash((h))) // INLINED!!
         call DestroyTimer(t)
         call YDWESyStemAbilityCastingOverTriggerAction(orderUnit , 1)
     endif
@@ -2646,7 +2749,7 @@ function YDWECreateEwsp__Loop takes nothing returns nothing
 endfunction
 function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
     local timer t= CreateTimer()
- local string h= I2S(YDWEH2I(t))
+ local string h= I2S((GetHandleId((t)))) // INLINED!!
  local real UnitLocX= GetUnitX(Hero)
     local real UnitLocY= GetUnitY(Hero)
     local unit tempUnit
@@ -2654,19 +2757,19 @@ function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,
     local real angle
     local integer i= 0
     local integer steps= R2I(lasttime / interval)
-    call YDWESaveUnitByString(h , "orderUnit" , Hero)
-    call YDWESaveIntegerByString(h , "steps" , steps)
-    call YDWESaveIntegerByString(h , "number" , number)
-    call YDWESaveRealByString(h , "radius" , radius)
-    call YDWESaveRealByString(h , "speed" , speed * bj_DEGTORAD)
+    call SaveUnitHandle(YDHT, StringHash((h )), StringHash(( "orderUnit" )), ( Hero)) // INLINED!!
+    call SaveInteger(YDHT, StringHash((h )), StringHash(( "steps" )), ( steps)) // INLINED!!
+    call SaveInteger(YDHT, StringHash((h )), StringHash(( "number" )), ( number)) // INLINED!!
+    call SaveReal(YDHT, StringHash((h )), StringHash(( "radius" )), (( radius)*1.0)) // INLINED!!
+    call SaveReal(YDHT, StringHash((h )), StringHash(( "speed" )), (( speed * bj_DEGTORAD)*1.0)) // INLINED!!
     call GroupClear(bj_lastCreatedGroup)
     loop
         set i=i + 1
         exitwhen i > number
         set angle=2 * i * bj_PI / number
-        call YDWESaveRealByString(h , "angles" + I2S(i) , angle)
-        set tempUnit=CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius * Cos(angle)), YDWECoordinateY(UnitLocY + radius * Sin(angle)), angle * bj_RADTODEG)
-        call YDWESaveUnitByString(h , "units" + I2S(i) , tempUnit)
+        call SaveReal(YDHT, StringHash((h )), StringHash(( "angles" + I2S(i) )), (( angle)*1.0)) // INLINED!!
+        set tempUnit=CreateUnit(Masterplayer, ewsp, (RMinBJ(RMaxBJ(((UnitLocX + radius * Cos(angle))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((UnitLocY + radius * Sin(angle))*1.0), yd_MapMinY), yd_MapMaxY)), angle * bj_RADTODEG) // INLINED!!
+        call SaveUnitHandle(YDHT, StringHash((h )), StringHash(( "units" + I2S(i) )), ( tempUnit)) // INLINED!!
         call UnitIgnoreAlarm(tempUnit, true)
         call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
         set bj_lastCreatedUnit=tempUnit
@@ -2707,26 +2810,26 @@ function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return OrderId2String(GetUnitCurrentOrder(u)) == null
 endfunction
 function YDWERemoveGuard takes unit pet returns nothing
-    local integer tm= YDWEGetIntegerByString(I2S(YDWEH2I(pet)) , "Timer")
-    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
-    call YDWEFlushMissionByString(I2S(tm))
-    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)) , "Timer"))
+    local integer tm= (LoadInteger(YDHT, StringHash((I2S((GetHandleId((pet)))) )), StringHash(( "Timer")))) // INLINED!!
+    call FlushChildHashtable(YDHT, StringHash((I2S((GetHandleId((pet))))))) // INLINED!!
+    call FlushChildHashtable(YDHT, StringHash((I2S(tm)))) // INLINED!!
+    call DestroyTimer((LoadTimerHandle(YDHT, StringHash((I2S((GetHandleId((pet)))) )), StringHash(( "Timer"))))) // INLINED!!
 endfunction
 function SetGuardTimer takes nothing returns nothing
   local timer tm= GetExpiredTimer()
-  local unit pet= ( YDWEGetUnitByString(I2S(YDWEH2I(tm)) , "Pet") )
-  local unit captain= ( YDWEGetUnitByString(I2S(YDWEH2I(tm)) , "Captain") )
+  local unit pet= ( (LoadUnitHandle(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "Pet")))) ) // INLINED!!
+  local unit captain= ( (LoadUnitHandle(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "Captain")))) ) // INLINED!!
   local real x= GetUnitX(captain) - GetUnitX(pet)
   local real y= GetUnitY(captain) - GetUnitY(pet)
   local real d= x * x + y * y
   local real v
   local real a
-  local real life= YDWEGetRealByString(I2S(YDWEH2I(tm)) , "Life")
-  local integer p= YDWEGetIntegerByString(I2S(YDWEH2I(tm)) , "Percent")
-  set v=YDWEGetRealByString(I2S(YDWEH2I(tm)) , "GuardRanger")
+  local real life= (LoadReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "Life")))) // INLINED!!
+  local integer p= (LoadInteger(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "Percent")))) // INLINED!!
+  set v=(LoadReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "GuardRanger")))) // INLINED!!
   if GetUnitState(pet, UNIT_STATE_LIFE) > 0 and GetUnitState(captain, UNIT_STATE_LIFE) > 0 then
       if d < v * v then
-         if YDWESetGuard__IsUnitIdle(pet) and GetRandomInt(0, 100) < p then
+         if (OrderId2String(GetUnitCurrentOrder((pet))) == null) and GetRandomInt(0, 100) < p then // INLINED!!
            set x=GetUnitX(captain)
            set y=GetUnitY(captain)
            set d=GetRandomReal(0, v)
@@ -2734,13 +2837,13 @@ function SetGuardTimer takes nothing returns nothing
            call IssuePointOrder(pet, "patrol", x + d * CosBJ(a), y + d * SinBJ(a))
          endif
       else
-        set v=YDWEGetRealByString(I2S(YDWEH2I(tm)) , "ReturnRanger")
+        set v=(LoadReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "ReturnRanger")))) // INLINED!!
         if d < v * v then
-          if YDWESetGuard__IsUnitIdle(pet) then
+          if (OrderId2String(GetUnitCurrentOrder((pet))) == null) then // INLINED!!
             call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
           endif
         else
-          set v=YDWEGetRealByString(I2S(YDWEH2I(tm)) , "OutRanger")
+          set v=(LoadReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "OutRanger")))) // INLINED!!
             if d != 0 and d > v * v then
               call SetUnitPosition(pet, GetUnitX(captain), GetUnitY(captain))
             else
@@ -2760,13 +2863,13 @@ function SetGuardTimer takes nothing returns nothing
 endfunction
 function YDWESetGuard takes unit pet,unit captain,real timeout,real guardRanger,real returnRanger,real outRanger,integer percent returns nothing
     local timer tm= CreateTimer()
-    call YDWESaveTimerByString(I2S(YDWEH2I(pet)) , "Timer" , tm)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)) , "pet" , pet)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)) , "Captain" , captain)
-    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)) , "Percent" , percent)
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)) , "GuardRanger" , guardRanger)
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)) , "ReturnRanger" , returnRanger)
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)) , "OutRanger" , outRanger)
+    call SaveTimerHandle(YDHT, StringHash((I2S((GetHandleId((pet)))) )), StringHash(( "Timer" )), ( tm)) // INLINED!!
+    call SaveUnitHandle(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "pet" )), ( pet)) // INLINED!!
+    call SaveUnitHandle(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "Captain" )), ( captain)) // INLINED!!
+    call SaveInteger(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "Percent" )), ( percent)) // INLINED!!
+    call SaveReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "GuardRanger" )), (( guardRanger)*1.0)) // INLINED!!
+    call SaveReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "ReturnRanger" )), (( returnRanger)*1.0)) // INLINED!!
+    call SaveReal(YDHT, StringHash((I2S((GetHandleId((tm)))) )), StringHash(( "OutRanger" )), (( outRanger)*1.0)) // INLINED!!
     call TimerStart(tm, timeout, true, function SetGuardTimer)
     set tm=null
 endfunction
@@ -2778,11 +2881,11 @@ endfunction
 //*--------------------
 //* ���ߣ�Warft_TigerCN  �����Ż���Fetrix_sai
 //***************************************************
-//processed:     function interface AfterCollied takes YDWETimerPattern___Thread t,real nx,real ny returns nothing
+//processed:     function interface AfterCollied takes YDWETimerPattern__Thread t,real nx,real ny returns nothing
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                       Timer Pattern Union                                              //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    function YDWETimerPattern___SingleMagic takes unit sour,unit targ,real x,real y,real h,integer uid,integer aid,integer lv,integer order returns nothing
+    function YDWETimerPattern__SingleMagic takes unit sour,unit targ,real x,real y,real h,integer uid,integer aid,integer lv,integer order returns nothing
         local unit dummy= CreateUnit(GetOwningPlayer(sour), uid, x, y, GetUnitFacing(sour))
         call UnitApplyTimedLife(dummy, 'BHwe', 1.0)
         call UnitAddAbility(dummy, aid)
@@ -2792,46 +2895,46 @@ endfunction
         //debug call BJDebugMsg("Target order")
         set dummy=null
     endfunction
-    function YDWETimerPattern___GetUnitZ takes unit u returns real
-        call MoveLocation(YDWETimerPattern___yd_loc, GetUnitX(u), GetUnitY(u))
-        return GetUnitFlyHeight(u) + GetLocationZ(YDWETimerPattern___yd_loc)
+    function YDWETimerPattern__GetUnitZ takes unit u returns real
+        call MoveLocation(YDWETimerPattern__yd_loc, GetUnitX(u), GetUnitY(u))
+        return GetUnitFlyHeight(u) + GetLocationZ(YDWETimerPattern__yd_loc)
     endfunction
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                            Filter Funcs                                                //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    function YDWETimerPattern___EnemyFilter takes unit u,unit caster returns boolean
+    function YDWETimerPattern__EnemyFilter takes unit u,unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false and IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitIllusion(u) == false and IsUnitHidden(u) == false and IsUnitEnemy(u, GetOwningPlayer(caster)) and IsUnitVisible(u, GetOwningPlayer(caster))
     endfunction
-    function YDWETimerPattern___TreeFilter takes nothing returns boolean
+    function YDWETimerPattern__TreeFilter takes nothing returns boolean
         local integer id= GetDestructableTypeId(GetFilterDestructable())
         return id == 'LTlt' or id == 'ATtr' or id == 'BTtw' or id == 'KTtw' or id == 'YTft' or id == 'JTct' or id == 'YTst' or id == 'YTct' or id == 'YTwt' or id == 'JTtw' or id == 'DTsh' or id == 'FTtw' or id == 'CTtr' or id == 'ITtw' or id == 'NTtw' or id == 'OTtw' or id == 'ZTtw' or id == 'WTst' or id == 'GTsh' or id == 'VTlt' or id == 'WTtw' or id == 'ATtc' or id == 'BTtc' or id == 'CTtc' or id == 'ITtc' or id == 'NTtc' or id == 'ZTtc'
     endfunction
-    function YDWETimerPattern___DamageFilter takes nothing returns boolean
+    function YDWETimerPattern__DamageFilter takes nothing returns boolean
         local unit u= GetFilterUnit()
-        local integer d= YDWETimerPattern___tmp_data
+        local integer d= YDWETimerPattern__tmp_data
         //call BJDebugMsg("outer:"+I2S(CountUnitsInGroup(d.g)))
-        if not ( IsUnitInGroup(u, s__YDWETimerPattern___Thread_g[d]) ) and s__YDWETimerPattern___Thread_switch[d] != 0 and YDWETimerPattern___EnemyFilter(u , s__YDWETimerPattern___Thread_caster[d]) then
-            call GroupAddUnit(s__YDWETimerPattern___Thread_g[d], u)
-            call BJDebugMsg(I2S(YDWEH2I(u)))
-            call UnitDamageTarget(s__YDWETimerPattern___Thread_caster[d], u, s__YDWETimerPattern___Thread_amount[d], true, true, bj_lastSetAttackType, bj_lastSetDamageType, bj_lastSetWeaponType)
+        if not ( IsUnitInGroup(u, s__YDWETimerPattern__Thread_g[d]) ) and s__YDWETimerPattern__Thread_switch[d] != 0 and YDWETimerPattern__EnemyFilter(u , s__YDWETimerPattern__Thread_caster[d]) then
+            call GroupAddUnit(s__YDWETimerPattern__Thread_g[d], u)
+            call BJDebugMsg(I2S((GetHandleId((u))))) // INLINED!!
+            call UnitDamageTarget(s__YDWETimerPattern__Thread_caster[d], u, s__YDWETimerPattern__Thread_amount[d], true, true, bj_lastSetAttackType, bj_lastSetDamageType, bj_lastSetWeaponType)
             //call DestroyEffect(AddSpecialEffectTarget(d.dsfx, u, d.part))
-            call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern___Thread_dsfx[d], GetUnitX(u), GetUnitY(u)))
+            call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern__Thread_dsfx[d], GetUnitX(u), GetUnitY(u)))
            // call BJDebugMsg(":" + d.dsfx)
-            if s__YDWETimerPattern___Thread_skills[d] > '0000' and s__YDWETimerPattern___Thread_skills[d] != null and s__YDWETimerPattern___Thread_order[d] > 0 and s__YDWETimerPattern___Thread_order[d] != null then
-                call YDWETimerPattern___SingleMagic(s__YDWETimerPattern___Thread_caster[d] , u , s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[d]] , s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[d]] , GetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[d]) , s__YDWETimerPattern___Thread_unitid[d] , s__YDWETimerPattern___Thread_skills[d] , s__YDWETimerPattern___Thread_level[d] , s__YDWETimerPattern___Thread_order[d])
+            if s__YDWETimerPattern__Thread_skills[d] > '0000' and s__YDWETimerPattern__Thread_skills[d] != null and s__YDWETimerPattern__Thread_order[d] > 0 and s__YDWETimerPattern__Thread_order[d] != null then
+                call YDWETimerPattern__SingleMagic(s__YDWETimerPattern__Thread_caster[d] , u , s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[d]] , s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[d]] , GetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[d]) , s__YDWETimerPattern__Thread_unitid[d] , s__YDWETimerPattern__Thread_skills[d] , s__YDWETimerPattern__Thread_level[d] , s__YDWETimerPattern__Thread_order[d])
             endif
-            if not ( s__YDWETimerPattern___Thread_recycle[d] ) then
+            if not ( s__YDWETimerPattern__Thread_recycle[d] ) then
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r A one-time.")
-                set s__YDWETimerPattern___Thread_switch[d]=0
+                set s__YDWETimerPattern__Thread_switch[d]=0
             endif
-            set s__YDWETimerPattern___Thread_target[d]=u
+            set s__YDWETimerPattern__Thread_target[d]=u
             set u=null
             return true
         endif
         set u=null
         return false
     endfunction
-    function YDWETimerPattern___TreeKill takes nothing returns nothing
+    function YDWETimerPattern__TreeKill takes nothing returns nothing
         local destructable d= GetEnumDestructable()
         if GetWidgetLife(d) > 0.405 then
             call KillDestructable(d)
@@ -2841,276 +2944,276 @@ endfunction
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                         Major Structure Code                                           //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        function s__YDWETimerPattern___Thread__staticgetindex takes handle h returns integer
-            return YDWEGetIntegerByString("YDWETimerPattern." , I2S(YDWEH2I(h)))
+        function s__YDWETimerPattern__Thread__staticgetindex takes handle h returns integer
+            return (LoadInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
         endfunction
-        function s__YDWETimerPattern___Thread__staticsetindex takes handle h,integer value returns nothing
-            call YDWESaveIntegerByString("YDWETimerPattern." , I2S(YDWEH2I(h)) , value)
+        function s__YDWETimerPattern__Thread__staticsetindex takes handle h,integer value returns nothing
+            call SaveInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
         endfunction
-        function s__YDWETimerPattern___Thread_flush takes handle h returns nothing
-            call YDWEFlushStoredIntegerByString("YDWETimerPattern." , I2S(YDWEH2I(h)))
+        function s__YDWETimerPattern__Thread_flush takes handle h returns nothing
+            call RemoveSavedInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
         endfunction
-        function s__YDWETimerPattern___Thread__set_x takes integer this,real value returns nothing
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=value
-            call SetUnitX(s__YDWETimerPattern___Thread_obj[this], value)
+        function s__YDWETimerPattern__Thread__set_x takes integer this,real value returns nothing
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=value
+            call SetUnitX(s__YDWETimerPattern__Thread_obj[this], value)
         endfunction
-        function s__YDWETimerPattern___Thread__set_y takes integer this,real value returns nothing
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=value
-            call SetUnitY(s__YDWETimerPattern___Thread_obj[this], value)
+        function s__YDWETimerPattern__Thread__set_y takes integer this,real value returns nothing
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=value
+            call SetUnitY(s__YDWETimerPattern__Thread_obj[this], value)
         endfunction
-        function s__YDWETimerPattern___Thread__set_z takes integer this,real value returns nothing
-            set s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]]=value
-            call MoveLocation(YDWETimerPattern___yd_loc, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]])
-            call SetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this], value - GetLocationZ(YDWETimerPattern___yd_loc), 0)
+        function s__YDWETimerPattern__Thread__set_z takes integer this,real value returns nothing
+            set s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]]=value
+            call MoveLocation(YDWETimerPattern__yd_loc, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])
+            call SetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this], value - GetLocationZ(YDWETimerPattern__yd_loc), 0)
         endfunction
-        function s__YDWETimerPattern___Thread_onDestroy takes integer this returns nothing
+        function s__YDWETimerPattern__Thread_onDestroy takes integer this returns nothing
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r Knockback stopped!")
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_obj[this])
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_t[this])
-            call GroupClear(s__YDWETimerPattern___Thread_g[this])
-            call DestroyGroup(s__YDWETimerPattern___Thread_g[this])
-            call PauseTimer(s__YDWETimerPattern___Thread_t[this])
-            call DestroyTimer(s__YDWETimerPattern___Thread_t[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_des[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_pos[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_vel[this])
-            set s__YDWETimerPattern___Thread_caster[this]=null
-            set s__YDWETimerPattern___Thread_target[this]=null
-            set s__YDWETimerPattern___Thread_obj[this]=null
-            set s__YDWETimerPattern___Thread_g[this]=null
-            set s__YDWETimerPattern___Thread_t[this]=null
-            set s__YDWETimerPattern___Thread_amount[this]=0
-            set s__YDWETimerPattern___Thread_skills[this]=0
-            set s__YDWETimerPattern___Thread_order[this]=0
-            set s__YDWETimerPattern___Thread_afc[this]=0
-            set s__YDWETimerPattern___Thread_dsfx[this]=""
-            set s__YDWETimerPattern___Thread_gsfx[this]=""
-            set s__YDWETimerPattern___Thread_wsfx[this]=""
-            set s__YDWETimerPattern___Thread_part[this]=""
+            call RemoveSavedInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_obj[this])))))))) // INLINED!!
+            call RemoveSavedInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_t[this])))))))) // INLINED!!
+            call GroupClear(s__YDWETimerPattern__Thread_g[this])
+            call DestroyGroup(s__YDWETimerPattern__Thread_g[this])
+            call PauseTimer(s__YDWETimerPattern__Thread_t[this])
+            call DestroyTimer(s__YDWETimerPattern__Thread_t[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_des[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_pos[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_vel[this])
+            set s__YDWETimerPattern__Thread_caster[this]=null
+            set s__YDWETimerPattern__Thread_target[this]=null
+            set s__YDWETimerPattern__Thread_obj[this]=null
+            set s__YDWETimerPattern__Thread_g[this]=null
+            set s__YDWETimerPattern__Thread_t[this]=null
+            set s__YDWETimerPattern__Thread_amount[this]=0
+            set s__YDWETimerPattern__Thread_skills[this]=0
+            set s__YDWETimerPattern__Thread_order[this]=0
+            set s__YDWETimerPattern__Thread_afc[this]=0
+            set s__YDWETimerPattern__Thread_dsfx[this]=""
+            set s__YDWETimerPattern__Thread_gsfx[this]=""
+            set s__YDWETimerPattern__Thread_wsfx[this]=""
+            set s__YDWETimerPattern__Thread_part[this]=""
         endfunction
-        function s__YDWETimerPattern___Parabola_move takes nothing returns nothing
-            local integer this= s__YDWETimerPattern___Thread__staticgetindex(GetExpiredTimer())
+        function s__YDWETimerPattern__Parabola_move takes nothing returns nothing
+            local integer this= (LoadInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((GetExpiredTimer()))))))))) // INLINED!!
             //local real vx = .des.x - .pos.x
             //local real vy = .des.y - .pos.y
             //local real vz = .des.z - .pos.z
             //if vx * vx + vy * vy + vz * vz > 900.0 then
-                call s__YDWETimerPattern___Thread__set_x(this,GetUnitX(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]) //.pos.x + .vel.x
-call s__YDWETimerPattern___Thread__set_y(this,GetUnitY(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]) //.pos.y + .vel.y
-call s__YDWETimerPattern___Thread__set_z(this,YDWETimerPattern___GetUnitZ(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___Thread_ac[this] * s__YDWETimerPattern___Thread_step[this] * 2 + s__YDWETimerPattern___Thread_ac[this] * s__YDWETimerPattern___Thread_dist[this] + s__YDWETimerPattern___Thread_bc[this]) //.pos.z + .ac * .step * 2 + .ac * .dist + .bc
-set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[this] + s__YDWETimerPattern___Thread_dist[this]
+                call s__YDWETimerPattern__Thread__set_x(this,GetUnitX(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]) //.pos.x + .vel.x
+call s__YDWETimerPattern__Thread__set_y(this,GetUnitY(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]) //.pos.y + .vel.y
+call s__YDWETimerPattern__Thread__set_z(this,YDWETimerPattern__GetUnitZ(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__Thread_ac[this] * s__YDWETimerPattern__Thread_step[this] * 2 + s__YDWETimerPattern__Thread_ac[this] * s__YDWETimerPattern__Thread_dist[this] + s__YDWETimerPattern__Thread_bc[this]) //.pos.z + .ac * .step * 2 + .ac * .dist + .bc
+set s__YDWETimerPattern__Thread_step[this]=s__YDWETimerPattern__Thread_step[this] + s__YDWETimerPattern__Thread_dist[this]
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r high = ." + R2S(GetLocationZ(yd_loc)))
-                if YDWECoordinateX(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] or s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] <= GetLocationZ(YDWETimerPattern___yd_loc) then
-                    set s__YDWETimerPattern___Thread_switch[this]=0
+                if (RMinBJ(RMaxBJ(((s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]])*1.0), yd_MapMinX), yd_MapMaxX)) != s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] or (RMinBJ(RMaxBJ(((s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])*1.0), yd_MapMinY), yd_MapMaxY)) != s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] or s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] <= GetLocationZ(YDWETimerPattern__yd_loc) then // INLINED!!
+                    set s__YDWETimerPattern__Thread_switch[this]=0
                 endif
-                if s__YDWETimerPattern___Thread_amount[this] > 0.0 then
+                if s__YDWETimerPattern__Thread_amount[this] > 0.0 then
                     //call this.damage(.caster, .pos.x + .vel.x, .pos.y + .vel.y, GetUnitZ(.obj), false, false)
-                    set YDWETimerPattern___tmp_data=(this)
-                    call GroupEnumUnitsInRange(s__YDWETimerPattern___Thread_g[this], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]], 120.0, Condition(function YDWETimerPattern___DamageFilter))
+                    set YDWETimerPattern__tmp_data=(this)
+                    call GroupEnumUnitsInRange(s__YDWETimerPattern__Thread_g[this], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]], 120.0, Condition(function YDWETimerPattern__DamageFilter))
                     //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r Area damage.")
                 endif
             //else
                 //set .switch = 0
             //endif
-            if s__YDWETimerPattern___Thread_switch[this] == 0 then
-                call SetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern___Thread_obj[this]), 200.0)
-                call SetUnitTimeScale(s__YDWETimerPattern___Thread_obj[this], 1)
+            if s__YDWETimerPattern__Thread_switch[this] == 0 then
+                call SetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern__Thread_obj[this]), 200.0)
+                call SetUnitTimeScale(s__YDWETimerPattern__Thread_obj[this], 1)
                 //YDWETriggerEvent
-                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_obj[this] , 7)
-                call sc__YDWETimerPattern___Thread_deallocate(this)
+                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_obj[this] , 7)
+                call sc__YDWETimerPattern__Thread_deallocate(this)
             endif
         endfunction
-        function s__YDWETimerPattern___Parabola_create takes unit source,unit object,real angle,real distance,real time,real interval,real high,real damage,string attach,string deff returns integer
-            local integer this= s__YDWETimerPattern___Parabola__allocate()
+        function s__YDWETimerPattern__Parabola_create takes unit source,unit object,real angle,real distance,real time,real interval,real high,real damage,string attach,string deff returns integer
+            local integer this= s__YDWETimerPattern__Parabola__allocate()
             local real vx= 0.0
             local real vy= 0.0
             local real vz= 0.0
-            set s__YDWETimerPattern___Thread_des[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_pos[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_vel[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=GetUnitX(object)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=GetUnitY(object)
-            set s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]]=YDWETimerPattern___GetUnitZ(object)
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_des[this]]=s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] + distance * Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_des[this]]=s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] + distance * Sin(angle)
-            call MoveLocation(YDWETimerPattern___yd_loc, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_des[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_des[this]])
-            set s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]]=GetLocationZ(YDWETimerPattern___yd_loc)
-            if s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] > s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]] then
-                set high=high + s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]]
+            set s__YDWETimerPattern__Thread_des[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_pos[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_vel[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=GetUnitX(object)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=GetUnitY(object)
+            set s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]]=YDWETimerPattern__GetUnitZ(object)
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_des[this]]=s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] + distance * Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_des[this]]=s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] + distance * Sin(angle)
+            call MoveLocation(YDWETimerPattern__yd_loc, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_des[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_des[this]])
+            set s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]]=GetLocationZ(YDWETimerPattern__yd_loc)
+            if s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] > s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]] then
+                set high=high + s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]]
             else
-                set high=high + s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]]
+                set high=high + s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]]
             endif
-            set s__YDWETimerPattern___Thread_ac[this]=( 2 * ( s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]] ) - 4 * high ) / ( distance * distance )
-            set s__YDWETimerPattern___Thread_bc[this]=( s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]] - s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] - s__YDWETimerPattern___Thread_ac[this] * distance * distance ) / distance
-            set s__YDWETimerPattern___Thread_dist[this]=distance * interval / time
-            set s__YDWETimerPattern___Thread_ac[this]=s__YDWETimerPattern___Thread_ac[this] * s__YDWETimerPattern___Thread_dist[this]
-            set s__YDWETimerPattern___Thread_bc[this]=s__YDWETimerPattern___Thread_bc[this] * s__YDWETimerPattern___Thread_dist[this]
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Sin(angle)
-            set s__YDWETimerPattern___Thread_step[this]=0.0
-            set s__YDWETimerPattern___Thread_caster[this]=source
-            set s__YDWETimerPattern___Thread_obj[this]=object
-            set s__YDWETimerPattern___Thread_amount[this]=damage
-            set s__YDWETimerPattern___Thread_dsfx[this]=deff
-            set s__YDWETimerPattern___Thread_part[this]=attach
-            set s__YDWETimerPattern___Thread_switch[this]=1
-            set s__YDWETimerPattern___Thread_recycle[this]=true
-            set s__YDWETimerPattern___Thread_t[this]=CreateTimer()
-            set s__YDWETimerPattern___Thread_g[this]=CreateGroup()
-            call UnitAddAbility(s__YDWETimerPattern___Thread_obj[this], 'Amrf')
-            call UnitRemoveAbility(s__YDWETimerPattern___Thread_obj[this], 'Amrf')
-            call TimerStart(s__YDWETimerPattern___Thread_t[this], interval, true, function s__YDWETimerPattern___Parabola_move)
-            call GroupAddUnit(s__YDWETimerPattern___Thread_g[this], object)
-            call s__YDWETimerPattern___Thread__staticsetindex(object, (this))
-            call s__YDWETimerPattern___Thread__staticsetindex(s__YDWETimerPattern___Thread_t[this], (this))
+            set s__YDWETimerPattern__Thread_ac[this]=( 2 * ( s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]] ) - 4 * high ) / ( distance * distance )
+            set s__YDWETimerPattern__Thread_bc[this]=( s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]] - s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] - s__YDWETimerPattern__Thread_ac[this] * distance * distance ) / distance
+            set s__YDWETimerPattern__Thread_dist[this]=distance * interval / time
+            set s__YDWETimerPattern__Thread_ac[this]=s__YDWETimerPattern__Thread_ac[this] * s__YDWETimerPattern__Thread_dist[this]
+            set s__YDWETimerPattern__Thread_bc[this]=s__YDWETimerPattern__Thread_bc[this] * s__YDWETimerPattern__Thread_dist[this]
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Sin(angle)
+            set s__YDWETimerPattern__Thread_step[this]=0.0
+            set s__YDWETimerPattern__Thread_caster[this]=source
+            set s__YDWETimerPattern__Thread_obj[this]=object
+            set s__YDWETimerPattern__Thread_amount[this]=damage
+            set s__YDWETimerPattern__Thread_dsfx[this]=deff
+            set s__YDWETimerPattern__Thread_part[this]=attach
+            set s__YDWETimerPattern__Thread_switch[this]=1
+            set s__YDWETimerPattern__Thread_recycle[this]=true
+            set s__YDWETimerPattern__Thread_t[this]=CreateTimer()
+            set s__YDWETimerPattern__Thread_g[this]=CreateGroup()
+            call UnitAddAbility(s__YDWETimerPattern__Thread_obj[this], 'Amrf')
+            call UnitRemoveAbility(s__YDWETimerPattern__Thread_obj[this], 'Amrf')
+            call TimerStart(s__YDWETimerPattern__Thread_t[this], interval, true, function s__YDWETimerPattern__Parabola_move)
+            call GroupAddUnit(s__YDWETimerPattern__Thread_g[this], object)
+            call SaveInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((object))))) )), ( ( (this)))) // INLINED!!
+            call SaveInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_t[this]))))) )), ( ( (this)))) // INLINED!!
             return this
         endfunction
     // uniform speed
-        function s__YDWETimerPattern___Linear_move takes nothing returns nothing
-            local integer this= s__YDWETimerPattern___Thread__staticgetindex(GetExpiredTimer())
-            if s__YDWETimerPattern___Thread_step[this] > s__YDWETimerPattern___Thread_dist[this] then
-                call s__YDWETimerPattern___Thread__set_x(this,GetUnitX(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]) //.pos.x + .vel.x
-call s__YDWETimerPattern___Thread__set_y(this,GetUnitY(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]) //.pos.y + .vel.y
+        function s__YDWETimerPattern__Linear_move takes nothing returns nothing
+            local integer this= (LoadInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((GetExpiredTimer()))))))))) // INLINED!!
+            if s__YDWETimerPattern__Thread_step[this] > s__YDWETimerPattern__Thread_dist[this] then
+                call s__YDWETimerPattern__Thread__set_x(this,GetUnitX(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]) //.pos.x + .vel.x
+call s__YDWETimerPattern__Thread__set_y(this,GetUnitY(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]) //.pos.y + .vel.y
 //set .pos.z = GetUnitZ(.obj)
-set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[this] - s__YDWETimerPattern___Thread_dist[this]
+set s__YDWETimerPattern__Thread_step[this]=s__YDWETimerPattern__Thread_step[this] - s__YDWETimerPattern__Thread_dist[this]
                 //call this.damage(.caster, .pos.x, .pos.y, .pos.z, true, true)
-                set YDWETimerPattern___tmp_data=(this)
-                call GroupEnumUnitsInRange(s__YDWETimerPattern___Thread_g[this], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]], 120.0, Condition(function YDWETimerPattern___DamageFilter))
-                if YDWECoordinateX(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] then
-                    set s__YDWETimerPattern___Thread_switch[this]=0
+                set YDWETimerPattern__tmp_data=(this)
+                call GroupEnumUnitsInRange(s__YDWETimerPattern__Thread_g[this], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]], 120.0, Condition(function YDWETimerPattern__DamageFilter))
+                if (RMinBJ(RMaxBJ(((s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]])*1.0), yd_MapMinX), yd_MapMaxX)) != s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] or (RMinBJ(RMaxBJ(((s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])*1.0), yd_MapMinY), yd_MapMaxY)) != s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] then // INLINED!!
+                    set s__YDWETimerPattern__Thread_switch[this]=0
                 endif
             else
-                set s__YDWETimerPattern___Thread_switch[this]=0
+                set s__YDWETimerPattern__Thread_switch[this]=0
             endif
-            if s__YDWETimerPattern___Thread_switch[this] == 0 then
+            if s__YDWETimerPattern__Thread_switch[this] == 0 then
                 // YDWETriggerEvent
-                if s__YDWETimerPattern___Thread_target[this] != null then
+                if s__YDWETimerPattern__Thread_target[this] != null then
                     //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r  |cffff0000" + GetUnitName(.target) + "|r was hit!!!")
                     //call YDWESaveUnitByString(I2S(YDWEH2I(.caster)), "MoonPriestessArrow", .target)
-                    set bj_lastAbilityTargetUnit=s__YDWETimerPattern___Thread_target[this]
-                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_caster[this] , 8)
+                    set bj_lastAbilityTargetUnit=s__YDWETimerPattern__Thread_target[this]
+                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_caster[this] , 8)
                 else
-                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_caster[this] , 9)
+                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_caster[this] , 9)
                 endif
                 //call KillUnit(.obj)
-                call RemoveUnit(s__YDWETimerPattern___Thread_obj[this])
-                call sc__YDWETimerPattern___Thread_deallocate(this)
+                call RemoveUnit(s__YDWETimerPattern__Thread_obj[this])
+                call sc__YDWETimerPattern__Thread_deallocate(this)
             endif
         endfunction
-        function s__YDWETimerPattern___Linear_create takes unit source,unit object,real angle,real distance,real time,real interval,integer uid,integer aid,integer lv,integer orderid,string attach,string sfx returns integer
-            local integer this= s__YDWETimerPattern___Linear__allocate()
-            set s__YDWETimerPattern___Thread_des[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_pos[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_vel[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_step[this]=distance
-            set s__YDWETimerPattern___Thread_dist[this]=distance * interval / time
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Sin(angle)
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=GetUnitX(object)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=GetUnitY(object)
-            set s__YDWETimerPattern___Thread_caster[this]=source
-            set s__YDWETimerPattern___Thread_obj[this]=object
-            set s__YDWETimerPattern___Thread_unitid[this]=uid
-            set s__YDWETimerPattern___Thread_skills[this]=aid
-            set s__YDWETimerPattern___Thread_level[this]=lv
-            set s__YDWETimerPattern___Thread_order[this]=orderid
-            set s__YDWETimerPattern___Thread_part[this]=attach
-            set s__YDWETimerPattern___Thread_gsfx[this]=sfx
-            set s__YDWETimerPattern___Thread_switch[this]=1
-            set s__YDWETimerPattern___Thread_recycle[this]=false
-            set s__YDWETimerPattern___Thread_t[this]=CreateTimer()
-            set s__YDWETimerPattern___Thread_g[this]=CreateGroup()
-            call TimerStart(s__YDWETimerPattern___Thread_t[this], interval, true, function s__YDWETimerPattern___Linear_move)
-            call s__YDWETimerPattern___Thread__staticsetindex(s__YDWETimerPattern___Thread_t[this], (this))
+        function s__YDWETimerPattern__Linear_create takes unit source,unit object,real angle,real distance,real time,real interval,integer uid,integer aid,integer lv,integer orderid,string attach,string sfx returns integer
+            local integer this= s__YDWETimerPattern__Linear__allocate()
+            set s__YDWETimerPattern__Thread_des[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_pos[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_vel[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_step[this]=distance
+            set s__YDWETimerPattern__Thread_dist[this]=distance * interval / time
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Sin(angle)
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=GetUnitX(object)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=GetUnitY(object)
+            set s__YDWETimerPattern__Thread_caster[this]=source
+            set s__YDWETimerPattern__Thread_obj[this]=object
+            set s__YDWETimerPattern__Thread_unitid[this]=uid
+            set s__YDWETimerPattern__Thread_skills[this]=aid
+            set s__YDWETimerPattern__Thread_level[this]=lv
+            set s__YDWETimerPattern__Thread_order[this]=orderid
+            set s__YDWETimerPattern__Thread_part[this]=attach
+            set s__YDWETimerPattern__Thread_gsfx[this]=sfx
+            set s__YDWETimerPattern__Thread_switch[this]=1
+            set s__YDWETimerPattern__Thread_recycle[this]=false
+            set s__YDWETimerPattern__Thread_t[this]=CreateTimer()
+            set s__YDWETimerPattern__Thread_g[this]=CreateGroup()
+            call TimerStart(s__YDWETimerPattern__Thread_t[this], interval, true, function s__YDWETimerPattern__Linear_move)
+            call SaveInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_t[this]))))) )), ( ( (this)))) // INLINED!!
             return this
         endfunction
     // Uniform deceleration
-        function s__YDWETimerPattern___Deceleration_move takes nothing returns nothing
-            local integer this= s__YDWETimerPattern___Thread__staticgetindex(GetExpiredTimer())
-            local real xp= GetUnitX(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___Thread_dist[this] * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]
-            local real yp= GetUnitY(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___Thread_dist[this] * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]
+        function s__YDWETimerPattern__Deceleration_move takes nothing returns nothing
+            local integer this= (LoadInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((GetExpiredTimer()))))))))) // INLINED!!
+            local real xp= GetUnitX(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__Thread_dist[this] * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]
+            local real yp= GetUnitY(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__Thread_dist[this] * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]
             local group ge= CreateGroup()
-            if s__YDWETimerPattern___Thread_volume[this] == false then
+            if s__YDWETimerPattern__Thread_volume[this] == false then
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |rPathable without terrain.")
                 if IsTerrainPathable(xp, yp, PATHING_TYPE_WALKABILITY) then
-                    if ( s__YDWETimerPattern___Thread_afc[this] != 0 ) then
-                        call sc___prototype182_execute(s__YDWETimerPattern___Thread_afc[this],this , xp , yp)
+                    if ( s__YDWETimerPattern__Thread_afc[this] != 0 ) then
+                        call sc___prototype182_execute(s__YDWETimerPattern__Thread_afc[this],this , xp , yp)
                     else
-                        set s__YDWETimerPattern___Thread_switch[this]=0
+                        set s__YDWETimerPattern__Thread_switch[this]=0
                     endif
                 else
-                    call s__YDWETimerPattern___Thread__set_x(this,xp)
-                    call s__YDWETimerPattern___Thread__set_y(this,yp)
+                    call s__YDWETimerPattern__Thread__set_x(this,xp)
+                    call s__YDWETimerPattern__Thread__set_y(this,yp)
                 endif
             else
-                call s__YDWETimerPattern___Thread__set_x(this,xp)
-                call s__YDWETimerPattern___Thread__set_y(this,yp)
+                call s__YDWETimerPattern__Thread__set_x(this,xp)
+                call s__YDWETimerPattern__Thread__set_y(this,yp)
             endif
-            if s__YDWETimerPattern___Thread_follow[this] == 0 then
-                if GetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this]) < 5. then
-                        call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern___Thread_gsfx[this], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]))
+            if s__YDWETimerPattern__Thread_follow[this] == 0 then
+                if GetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this]) < 5. then
+                        call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern__Thread_gsfx[this], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]))
                 endif
             endif
-            set s__YDWETimerPattern___Thread_follow[this]=s__YDWETimerPattern___Thread_follow[this] + 1
-            if s__YDWETimerPattern___Thread_follow[this] == 2 then
-                set s__YDWETimerPattern___Thread_follow[this]=0
+            set s__YDWETimerPattern__Thread_follow[this]=s__YDWETimerPattern__Thread_follow[this] + 1
+            if s__YDWETimerPattern__Thread_follow[this] == 2 then
+                set s__YDWETimerPattern__Thread_follow[this]=0
             endif
-            if s__YDWETimerPattern___Thread_killdest[this] then
-                call MoveRectTo(YDWETimerPattern___Area, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]])
-                call EnumDestructablesInRect(YDWETimerPattern___Area, YDWETimerPattern___Bexpr, function YDWETimerPattern___TreeKill)
+            if s__YDWETimerPattern__Thread_killdest[this] then
+                call MoveRectTo(YDWETimerPattern__Area, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])
+                call EnumDestructablesInRect(YDWETimerPattern__Area, YDWETimerPattern__Bexpr, function YDWETimerPattern__TreeKill)
             endif
-            if s__YDWETimerPattern___Thread_amount[this] > 0.0 then
+            if s__YDWETimerPattern__Thread_amount[this] > 0.0 then
                 //call this.damage(.caster, .pos.x, .pos.y, 0.0, false, .recycle)
-                set YDWETimerPattern___tmp_data=(this)
-                call GroupEnumUnitsInRange(ge, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___Thread_radius[this], Condition(function YDWETimerPattern___DamageFilter))
+                set YDWETimerPattern__tmp_data=(this)
+                call GroupEnumUnitsInRange(ge, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__Thread_radius[this], Condition(function YDWETimerPattern__DamageFilter))
             endif
-            set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[this] - 1.
-            if s__YDWETimerPattern___Thread_step[this] <= 0.0 or YDWECoordinateX(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] then
-                set s__YDWETimerPattern___Thread_switch[this]=0
+            set s__YDWETimerPattern__Thread_step[this]=s__YDWETimerPattern__Thread_step[this] - 1.
+            if s__YDWETimerPattern__Thread_step[this] <= 0.0 or (RMinBJ(RMaxBJ(((s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]])*1.0), yd_MapMinX), yd_MapMaxX)) != s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] or (RMinBJ(RMaxBJ(((s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])*1.0), yd_MapMinY), yd_MapMaxY)) != s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] then // INLINED!!
+                set s__YDWETimerPattern__Thread_switch[this]=0
             endif
             call DestroyGroup(ge)
             set ge=null
-            if not ( IsUnitAliveBJ(s__YDWETimerPattern___Thread_obj[this]) ) then
-                set s__YDWETimerPattern___Thread_switch[this]=0
+            if not ( IsUnitAliveBJ(s__YDWETimerPattern__Thread_obj[this]) ) then
+                set s__YDWETimerPattern__Thread_switch[this]=0
             endif
-            if s__YDWETimerPattern___Thread_switch[this] == 0 then
-                call SetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern___Thread_obj[this]), 200.0)
-                call SetUnitTimeScale(s__YDWETimerPattern___Thread_obj[this], 1)
+            if s__YDWETimerPattern__Thread_switch[this] == 0 then
+                call SetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern__Thread_obj[this]), 200.0)
+                call SetUnitTimeScale(s__YDWETimerPattern__Thread_obj[this], 1)
                 // YDWETriggerEvent
-                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_obj[this] , 6)
-                call sc__YDWETimerPattern___Thread_deallocate(this)
+                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_obj[this] , 6)
+                call sc__YDWETimerPattern__Thread_deallocate(this)
             endif
         endfunction
-        function s__YDWETimerPattern___Deceleration_create takes unit source,unit object,real angle,real distance,real time,real interval,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string geff,string weff,integer f returns integer
-            local integer this= s__YDWETimerPattern___Deceleration__allocate()
+        function s__YDWETimerPattern__Deceleration_create takes unit source,unit object,real angle,real distance,real time,real interval,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string geff,string weff,integer f returns integer
+            local integer this= s__YDWETimerPattern__Deceleration__allocate()
 local real vx= 0.0
             local real vy= 0.0
             local real l= 0.0
-            set s__YDWETimerPattern___Thread_des[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_pos[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_vel[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]=Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]=Sin(angle)
-            set s__YDWETimerPattern___Thread_dist[this]=distance * interval / time
+            set s__YDWETimerPattern__Thread_des[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_pos[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_vel[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]=Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]=Sin(angle)
+            set s__YDWETimerPattern__Thread_dist[this]=distance * interval / time
             //step�ĳ��������˶�
-            set s__YDWETimerPattern___Thread_step[this]=time / interval
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=GetUnitX(object)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=GetUnitY(object)
-            set s__YDWETimerPattern___Thread_caster[this]=source
-            set s__YDWETimerPattern___Thread_obj[this]=object
-            set s__YDWETimerPattern___Thread_radius[this]=radius
-            set s__YDWETimerPattern___Thread_amount[this]=damage
-            set s__YDWETimerPattern___Thread_killdest[this]=killtrees
-            set s__YDWETimerPattern___Thread_recycle[this]=cycle
-            set s__YDWETimerPattern___Thread_volume[this]=path
-            set s__YDWETimerPattern___Thread_gsfx[this]=geff
-            set s__YDWETimerPattern___Thread_dsfx[this]=weff
-            set s__YDWETimerPattern___Thread_switch[this]=1
-            set s__YDWETimerPattern___Thread_follow[this]=0
-            set s__YDWETimerPattern___Thread_afc[this]=f
-            set s__YDWETimerPattern___Thread_g[this]=CreateGroup()
-            set s__YDWETimerPattern___Thread_t[this]=CreateTimer()
-            call TimerStart(s__YDWETimerPattern___Thread_t[this], interval, true, function s__YDWETimerPattern___Deceleration_move)
-            call s__YDWETimerPattern___Thread__staticsetindex(s__YDWETimerPattern___Thread_t[this], (this))
+            set s__YDWETimerPattern__Thread_step[this]=time / interval
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=GetUnitX(object)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=GetUnitY(object)
+            set s__YDWETimerPattern__Thread_caster[this]=source
+            set s__YDWETimerPattern__Thread_obj[this]=object
+            set s__YDWETimerPattern__Thread_radius[this]=radius
+            set s__YDWETimerPattern__Thread_amount[this]=damage
+            set s__YDWETimerPattern__Thread_killdest[this]=killtrees
+            set s__YDWETimerPattern__Thread_recycle[this]=cycle
+            set s__YDWETimerPattern__Thread_volume[this]=path
+            set s__YDWETimerPattern__Thread_gsfx[this]=geff
+            set s__YDWETimerPattern__Thread_dsfx[this]=weff
+            set s__YDWETimerPattern__Thread_switch[this]=1
+            set s__YDWETimerPattern__Thread_follow[this]=0
+            set s__YDWETimerPattern__Thread_afc[this]=f
+            set s__YDWETimerPattern__Thread_g[this]=CreateGroup()
+            set s__YDWETimerPattern__Thread_t[this]=CreateTimer()
+            call TimerStart(s__YDWETimerPattern__Thread_t[this], interval, true, function s__YDWETimerPattern__Deceleration_move)
+            call SaveInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_t[this]))))) )), ( ( (this)))) // INLINED!!
             return this
         endfunction
     // Jump Attack PUI
@@ -3119,7 +3222,7 @@ local real vx= 0.0
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r No object!")
             return
         endif
-        call s__YDWETimerPattern___Parabola_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , high , damage , part , dsfx)
+        call s__YDWETimerPattern__Parabola_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , high , damage , part , dsfx)
     endfunction
     // Moon Priestess Arrow PUI
     function YDWETimerPatternMoonPriestessArrow takes unit u,real face,real dis,real lasttime,real timeout,integer lv,integer aid,integer uid,string order,string part,string dsfx returns nothing
@@ -3128,11 +3231,11 @@ local real vx= 0.0
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r No object!")
             return
         endif
-        set sour=YDWEGetUnitByString(I2S(YDWEH2I(u)) , "MoonPriestessArrow")
+        set sour=(LoadUnitHandle(YDHT, StringHash((I2S((GetHandleId((u)))) )), StringHash(( "MoonPriestessArrow")))) // INLINED!!
         if sour == null then
             set sour=u
         endif
-        call s__YDWETimerPattern___Linear_create(sour , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , uid , aid , IMaxBJ(lv, 1) , OrderId(order) , part , dsfx)
+        call s__YDWETimerPattern__Linear_create(sour , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , uid , aid , IMaxBJ(lv, 1) , OrderId(order) , part , dsfx)
         //call YDWEFlushMissionByString(I2S(YDWEH2I(u)))
         set sour=null
     endfunction
@@ -3142,29 +3245,29 @@ local real vx= 0.0
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r No object!")
             return
         endif
-        call s__YDWETimerPattern___Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , 0)
+        call s__YDWETimerPattern__Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , 0)
     endfunction
-    function YDWETimerPattern___Rebound takes integer t,real nx,real ny returns nothing
+    function YDWETimerPattern__Rebound takes integer t,real nx,real ny returns nothing
         
-        if not ( IsTerrainPathable(nx, s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-        elseif not ( IsTerrainPathable(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+        if not ( IsTerrainPathable(nx, s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+        elseif not ( IsTerrainPathable(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         else
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         endif
-        call GroupClear(s__YDWETimerPattern___Thread_g[t])
-        call SetUnitFacing(s__YDWETimerPattern___Thread_obj[t], Atan2BJ(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]))
+        call GroupClear(s__YDWETimerPattern__Thread_g[t])
+        call SetUnitFacing(s__YDWETimerPattern__Thread_obj[t], Atan2BJ(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]))
     endfunction
     
     function DIYRushSlide takes unit u,real face,real dis,real lasttime,real timeout,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string gsfx,string wsfx returns nothing
          local integer rebound= (1)
-         call s__YDWETimerPattern___Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , (1))
+         call s__YDWETimerPattern__Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , (1))
     endfunction
-    function YDWETimerPattern___Init takes nothing returns nothing
-        set YDWETimerPattern___Area=Rect(- 120.0, - 120.0, 120.0, 120.0)
-        set YDWETimerPattern___Bexpr=Filter(function YDWETimerPattern___TreeFilter)
+    function YDWETimerPattern__Init takes nothing returns nothing
+        set YDWETimerPattern__Area=Rect(- 120.0, - 120.0, 120.0, 120.0)
+        set YDWETimerPattern__Bexpr=Filter(function YDWETimerPattern__TreeFilter)
     endfunction
 
 //library YDWETimerPattern ends
@@ -3173,7 +3276,6 @@ function YDWETimerSystem__NewTaskIndex takes nothing returns integer
  local integer h= YDWETimerSystem__TaskListIdleHead
 	if YDWETimerSystem__TaskListIdleHead < 0 then
 		if YDWETimerSystem__TaskListIdleMax >= 8000 then
-    call BJDebugMsg("���ļ�ʱ��������������")
 			return 8100
 		else
 			set YDWETimerSystem__TaskListIdleMax=YDWETimerSystem__TaskListIdleMax + 1
@@ -3392,29 +3494,29 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Arena___updateLevel takes nothing returns nothing
+ function Arena__updateLevel takes nothing returns nothing
   local timer t= GetExpiredTimer()
-  local integer int= GetHeroInt(Arena___challenager, true)
-  local integer agi= GetHeroAgi(Arena___challenager, true)
-  local integer str= GetHeroStr(Arena___challenager, true)
+  local integer int= GetHeroInt(Arena__challenager, true)
+  local integer agi= GetHeroAgi(Arena__challenager, true)
+  local integer str= GetHeroStr(Arena__challenager, true)
 
-		if ( IsUnitAliveBJ(Arena___challenager) and ( Arena___currentLevel < ARENA_MAX_LEVEL ) ) then
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(Arena___challenager), GetUnitY(Arena___challenager)))
-			call SetHeroInt(Arena___challenager, int + int / Arena___currentLevel, true)
-			call SetHeroAgi(Arena___challenager, agi + agi / Arena___currentLevel, true)
-			call SetHeroStr(Arena___challenager, str + str / Arena___currentLevel, true)
-			set Arena___currentLevel=Arena___currentLevel + 1
+		if ( IsUnitAliveBJ(Arena__challenager) and ( Arena__currentLevel < ARENA_MAX_LEVEL ) ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(Arena__challenager), GetUnitY(Arena__challenager)))
+			call SetHeroInt(Arena__challenager, int + int / Arena__currentLevel, true)
+			call SetHeroAgi(Arena__challenager, agi + agi / Arena__currentLevel, true)
+			call SetHeroStr(Arena__challenager, str + str / Arena__currentLevel, true)
+			set Arena__currentLevel=Arena__currentLevel + 1
 			//设置技能等级
-			call IncUnitAbilityLevel(Arena___challenager, 'ACbh')
-			call IncUnitAbilityLevel(Arena___challenager, 'A0ET')
-			call IncUnitAbilityLevel(Arena___challenager, 'A0EU')
-			call IncUnitAbilityLevel(Arena___challenager, 'ACt2')
-			call IncUnitAbilityLevel(Arena___challenager, 'AL04')
-			call IncUnitAbilityLevel(Arena___challenager, 'AL05')
-			call IncUnitAbilityLevel(Arena___challenager, 'A0EY')
-			call SetTextTagTextBJ(Arena___textTag_Level, I2S(Arena___currentLevel) + "级", 20)
+			call IncUnitAbilityLevel(Arena__challenager, 'ACbh')
+			call IncUnitAbilityLevel(Arena__challenager, 'A0ET')
+			call IncUnitAbilityLevel(Arena__challenager, 'A0EU')
+			call IncUnitAbilityLevel(Arena__challenager, 'ACt2')
+			call IncUnitAbilityLevel(Arena__challenager, 'AL04')
+			call IncUnitAbilityLevel(Arena__challenager, 'AL05')
+			call IncUnitAbilityLevel(Arena__challenager, 'A0EY')
+			call SetTextTagTextBJ(Arena__textTag_Level, I2S(Arena__currentLevel) + "级", 20)
 		else
-			set Arena___currentLevel=1
+			set Arena__currentLevel=1
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
@@ -3423,12 +3525,12 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 			
- function Arena___updateLevelLoc takes nothing returns nothing
+ function Arena__updateLevelLoc takes nothing returns nothing
   local timer t= GetExpiredTimer()
-		if ( IsUnitAliveBJ(Arena___challenager) ) then
-			call SetTextTagPosUnitBJ(Arena___textTag_Level, Arena___challenager, 25)
+		if ( IsUnitAliveBJ(Arena__challenager) ) then
+			call SetTextTagPosUnitBJ(Arena__textTag_Level, Arena__challenager, 25)
 		else
-			call DestroyTextTag(Arena___textTag_Level)
+			call DestroyTextTag(Arena__textTag_Level)
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
@@ -3438,29 +3540,29 @@ endfunction
 
 	
 
- function Arena___TSpellLingerCon takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) )
+ function Arena__TSpellLingerCon takes nothing returns boolean
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) )
 	endfunction
 
- function Arena___TSpellLingerAct takes nothing returns nothing
+ function Arena__TSpellLingerAct takes nothing returns nothing
 		call SetUnitX(GetAttackedUnitBJ(), GetRectCenterX(gg_rct_Arena_1))
 		call SetUnitY(GetAttackedUnitBJ(), GetRectCenterY(gg_rct_Arena_1))
 	endfunction
 
 	
- function Arena___LingerAssemble takes nothing returns nothing
+ function Arena__LingerAssemble takes nothing returns nothing
   local real x= GetRectCenterX(gg_rct_Arena_1)
   local real y= GetRectCenterY(gg_rct_Arena_1)
   local group l_group= CreateGroup()
   local unit l_unit
   local timer t= GetExpiredTimer()
-		if ( IsUnitAliveBJ(Arena___challenager) ) then
-			call GroupEnumUnitsInRange(l_group, GetUnitX(Arena___challenager), GetUnitY(Arena___challenager), 900, null)
+		if ( IsUnitAliveBJ(Arena__challenager) ) then
+			call GroupEnumUnitsInRange(l_group, GetUnitX(Arena__challenager), GetUnitY(Arena__challenager), 900, null)
 			loop
 			    set l_unit=FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if ( IsEnemy(GetEnumUnit() , Arena___challenager) ) then
+			    if ( IsEnemy(GetEnumUnit() , Arena__challenager) ) then
 					call SetUnitX(GetAttackedUnitBJ(), GetRectCenterX(gg_rct_Arena_1))
 					call SetUnitY(GetAttackedUnitBJ(), GetRectCenterY(gg_rct_Arena_1))
 			    endif
@@ -3479,20 +3581,20 @@ endfunction
 
 	
 
- function Arena___TSpellZhousiCon takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
+ function Arena__TSpellZhousiCon takes nothing returns boolean
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
 	endfunction
 
- function Arena___TSpellZhousiAct takes nothing returns nothing
+ function Arena__TSpellZhousiAct takes nothing returns nothing
   local integer i= 1
 	    call DisableTrigger(GetTriggeringTrigger())
 	    call IssueImmediateOrder(GetAttacker(), "creepthunderclap")
 	    loop
 	    	exitwhen i > 6
-	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(Arena___challenager) + SinBJ(i * 60) * 400, GetUnitY(Arena___challenager) + CosBJ(i * 60) * 400))
+	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(Arena__challenager) + SinBJ(i * 60) * 400, GetUnitY(Arena__challenager) + CosBJ(i * 60) * 400))
 	    	set i=i + 1
 	    endloop
-	    call CreateSpellTextTag("千煞破击！" , Arena___challenager , 100 , 0 , 0 , 2)
+	    call CreateSpellTextTag("千煞破击！" , Arena__challenager , 100 , 0 , 0 , 2)
 
 	    call PolledWait(8.00)
 	    call EnableTrigger(GetTriggeringTrigger())
@@ -3500,11 +3602,11 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 		
- function Arena___TSpellXuemo1Con takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
+ function Arena__TSpellXuemo1Con takes nothing returns boolean
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
 	endfunction
 
- function Arena___TSpellXuemo1Act takes nothing returns nothing
+ function Arena__TSpellXuemo1Act takes nothing returns nothing
   local unit u
   local integer i= 1
 	    call DisableTrigger(GetTriggeringTrigger())
@@ -3514,12 +3616,12 @@ endfunction
 	        set u=CreateUnit(GetOwningPlayer(GetAttacker()), 'h000', GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()), 0)
 	        call UnitApplyTimedLifeBJ(5.00, 'BHwe', u)
 	        call UnitAddAbilityBJ('A0EV', u)
-	        call SetUnitAbilityLevel(u, 'A0EV', IMinBJ(Arena___currentLevel, 20))
+	        call SetUnitAbilityLevel(u, 'A0EV', IMinBJ(Arena__currentLevel, 20))
 	        call IssueTargetOrderById(u, 852274, GetAttackedUnitBJ())
 	    	set i=i + 1
 	    endloop
 
-	    call CreateSpellTextTag("幻魔灵枭！" , Arena___challenager , 100 , 0 , 0 , 2)
+	    call CreateSpellTextTag("幻魔灵枭！" , Arena__challenager , 100 , 0 , 0 , 2)
 
 	    set u=null
 	    call PolledWait(10.00)
@@ -3528,35 +3630,35 @@ endfunction
 	endfunction
 
 	
- function Arena___TSpellXuemo2Con takes nothing returns boolean
-	    return ( ( GetAttackedUnitBJ() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 20) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00 ) )
+ function Arena__TSpellXuemo2Con takes nothing returns boolean
+	    return ( ( GetAttackedUnitBJ() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 20) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00 ) )
 	endfunction
 
- function Arena___TSpellXuemo2Act takes nothing returns nothing
+ function Arena__TSpellXuemo2Act takes nothing returns nothing
   local location point= GetUnitLoc(GetAttacker())
      local unit u= CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()), 'h000', GetUnitX(GetAttacker()), GetUnitY(GetAttacker()), 0)
 	    call UnitApplyTimedLifeBJ(5.00, 'BHwe', u)
         call UnitAddAbilityBJ('AL01', u)
-        call SetUnitAbilityLevel(u, 'AL01', IMinBJ(Arena___currentLevel, 20))
+        call SetUnitAbilityLevel(u, 'AL01', IMinBJ(Arena__currentLevel, 20))
 	    call IssuePointOrderLoc(u, "rainoffire", point)
 	    call RemoveLocation(point)
 	    set u=null
 	    set point=null
-	    call CreateSpellTextTag("天玄星陨！" , Arena___challenager , 0 , 100 , 100 , 2)
+	    call CreateSpellTextTag("天玄星陨！" , Arena__challenager , 0 , 100 , 100 , 2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
 
- function Arena___TSpellFuwangCon takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 15) == 1 ) )
+ function Arena__TSpellFuwangCon takes nothing returns boolean
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 15) == 1 ) )
 	endfunction
 
- function Arena___TSpellFuwangAct takes nothing returns nothing
+ function Arena__TSpellFuwangAct takes nothing returns nothing
 			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ())))
-			call UnitDamageTarget(Arena___challenager, GetAttackedUnitBJ(), ( 0.1 * GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+			call UnitDamageTarget(Arena__challenager, GetAttackedUnitBJ(), ( 0.1 * GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
 
-		    call CreateSpellTextTag("淘汰之刃！" , Arena___challenager , 0 , 100 , 0 , 2)
+		    call CreateSpellTextTag("淘汰之刃！" , Arena__challenager , 0 , 100 , 0 , 2)
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -3564,12 +3666,12 @@ endfunction
 
 
 	
- function Arena___TSpellMeidusha1Invu takes nothing returns nothing
+ function Arena__TSpellMeidusha1Invu takes nothing returns nothing
   local group l_group= CreateGroup()
   local unit l_unit
   local integer count= 0
   local timer t= GetExpiredTimer()
-		call GroupEnumUnitsInRange(l_group, GetUnitX(Arena___challenager), GetUnitY(Arena___challenager), 1800, null)
+		call GroupEnumUnitsInRange(l_group, GetUnitX(Arena__challenager), GetUnitY(Arena__challenager), 1800, null)
 		loop
 		    set l_unit=FirstOfGroup(l_group)
 		    exitwhen l_unit == null
@@ -3579,7 +3681,7 @@ endfunction
 			endif
 		endloop
 		if ( count == 0 ) then
-			call SetUnitInvulnerable(Arena___challenager, false)
+			call SetUnitInvulnerable(Arena__challenager, false)
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
@@ -3589,11 +3691,11 @@ endfunction
 		set t=null
 	endfunction
 	
- function Arena___TSpellMeidusha1Con takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
+ function Arena__TSpellMeidusha1Con takes nothing returns boolean
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
 	endfunction
 
- function Arena___TSpellMeidusha1Act takes nothing returns nothing
+ function Arena__TSpellMeidusha1Act takes nothing returns nothing
   local location point= GetUnitLoc(GetAttackedUnitBJ())
   local timer t= CreateTimer()
      local unit u= CreateUnit(GetOwningPlayer(GetAttacker()), 'h000', GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()), 0)
@@ -3601,10 +3703,10 @@ endfunction
 	    call UnitApplyTimedLifeBJ(5.00, 'BHwe', u)
         call UnitAddAbilityBJ('Arsw', u)
 	    call IssuePointOrderLoc(u, "ward", point)
-	    call CreateSpellTextTag("阴魂螣蛇！" , Arena___challenager , 0 , 0 , 0 , 2)
+	    call CreateSpellTextTag("阴魂螣蛇！" , Arena__challenager , 0 , 0 , 0 , 2)
 	    call RemoveLocation(point)
-	    call SetUnitInvulnerable(Arena___challenager, TRUE)
-	    call TimerStart(t, 0.3, true, function Arena___TSpellMeidusha1Invu)
+	    call SetUnitInvulnerable(Arena__challenager, TRUE)
+	    call TimerStart(t, 0.3, true, function Arena__TSpellMeidusha1Invu)
 	    set u=null
 	    set point=null
 	    set t=null
@@ -3616,11 +3718,11 @@ endfunction
 	
 
 
- function Arena___TSpellMeidusha2Con takes nothing returns boolean
-	    return ( ( GetAttackedUnitBJ() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) )
+ function Arena__TSpellMeidusha2Con takes nothing returns boolean
+	    return ( ( GetAttackedUnitBJ() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) )
 	endfunction
 
- function Arena___TSpellMeidusha2Act takes nothing returns nothing
+ function Arena__TSpellMeidusha2Act takes nothing returns nothing
 
   local group l_group= CreateGroup()
   local group l_pausinggroup= CreateGroup()
@@ -3630,14 +3732,14 @@ endfunction
 		    set l_unit=FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if ( IsEnemy(l_unit , Arena___challenager) ) then
+		    if ( IsEnemy(l_unit , Arena__challenager) ) then
 				call PauseUnitBJ(true, l_unit)
 				call GroupAddUnit(l_pausinggroup, l_unit)
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
 		    endif
 		endloop
 	    call DisableTrigger(GetTriggeringTrigger())
-	    call CreateSpellTextTag("石化凝视！" , Arena___challenager , 51 , 51 , 51 , 2)
+	    call CreateSpellTextTag("石化凝视！" , Arena__challenager , 51 , 51 , 51 , 2)
 		call DestroyGroup(l_group)
 		set l_group=null
 		call PolledWait(3.00)
@@ -3657,83 +3759,83 @@ endfunction
 	
 
  function TSpellKiller1Con takes nothing returns boolean
-	    return ( ( GetAttackedUnitBJ() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitAbilityLevel(GetAttacker(), 'Amim') < 1 ) and UnitHasBuffBJ(GetAttacker(), 'BEsh') != true )
+	    return ( ( GetAttackedUnitBJ() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitAbilityLevel(GetAttacker(), 'Amim') < 1 ) and UnitHasBuffBJ(GetAttacker(), 'BEsh') != true )
 	endfunction
 
  function TSpellKiller1Act takes nothing returns nothing
      local unit u= CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()), 'h000', GetUnitX(GetAttacker()), GetUnitY(GetAttacker()), 0)
 	    call UnitApplyTimedLifeBJ(5.00, 'BHwe', u)
         call UnitAddAbilityBJ('AL02', u)
-        call SetUnitAbilityLevel(u, 'AL02', IMinBJ(Arena___currentLevel, 20))
+        call SetUnitAbilityLevel(u, 'AL02', IMinBJ(Arena__currentLevel, 20))
 	    call IssueTargetOrder(u, "shadowstrike", GetAttacker())
-	    call CreateSpellTextTag("致命毒镖！" , Arena___challenager , 0 , 0 , 0 , 2)
+	    call CreateSpellTextTag("致命毒镖！" , Arena__challenager , 0 , 0 , 0 , 2)
 	    set u=null
 	endfunction
 
 	
  function TSpellKiller2Con takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 3) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 3) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
 	endfunction
 
  function TSpellKiller2Act takes nothing returns nothing
 	    call DisableTrigger(GetTriggeringTrigger())
-	    call IssueImmediateOrder(Arena___challenager, "windwalk")
+	    call IssueImmediateOrder(Arena__challenager, "windwalk")
 	    call PolledWait(1.00)
-	    call IssueTargetOrder(Arena___challenager, "attack", Arena___defier)
+	    call IssueTargetOrder(Arena__challenager, "attack", Arena__defier)
 	    call PolledWait(7.00)
-	    call CreateSpellTextTag("死亡潜行！" , Arena___challenager , 100 , 0 , 0 , 2)
+	    call CreateSpellTextTag("死亡潜行！" , Arena__challenager , 100 , 0 , 0 , 2)
 	    call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
  function TSpellJinxuan1Con takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
 	endfunction
 
  function TSpellJinxuan1Act takes nothing returns nothing
 	    call DisableTrigger(GetTriggeringTrigger())
- 		call SimulateSpell(GetAttacker() , GetAttackedUnitBJ() , 'ACrf' , IMinBJ(Arena___currentLevel, 20) , 6 , "rainoffire" , true , false , false)
-	    call CreateSpellTextTag("瞬闪雷鸣！" , Arena___challenager , 0 , 0 , 100 , 2)
+ 		call SimulateSpell(GetAttacker() , GetAttackedUnitBJ() , 'ACrf' , IMinBJ(Arena__currentLevel, 20) , 6 , "rainoffire" , true , false , false)
+	    call CreateSpellTextTag("瞬闪雷鸣！" , Arena__challenager , 0 , 0 , 100 , 2)
 	    call PolledWait(7.00)
 	    call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
 	
  function TSpellJinxuan2Con takes nothing returns boolean
-	    return ( ( GetAttackedUnitBJ() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00 ) )
+	    return ( ( GetAttackedUnitBJ() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 200.00 ) )
 	endfunction
 
  function TSpellJinxuan2Act takes nothing returns nothing
 	    call DisableTrigger(GetTriggeringTrigger())
- 		call SimulateSpell(GetAttackedUnitBJ() , GetAttacker() , 'ANst' , IMinBJ(Arena___currentLevel, 20) , 5 , "stampede" , true , false , false)
-	    call CreateSpellTextTag("逆合玄天！" , Arena___challenager , 0 , 0 , 100 , 2)
+ 		call SimulateSpell(GetAttackedUnitBJ() , GetAttacker() , 'ANst' , IMinBJ(Arena__currentLevel, 20) , 5 , "stampede" , true , false , false)
+	    call CreateSpellTextTag("逆合玄天！" , Arena__challenager , 0 , 0 , 100 , 2)
 	    call PolledWait(5.00)
 	    call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
 	
  function TSpellJinxuan3Con takes nothing returns boolean
-	    return ( ( GetAttacker() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
+	    return ( ( GetAttacker() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttacker()) == true ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 200.00 ) )
 	endfunction
 
  function TSpellJinxuan3Act takes nothing returns nothing
 	    call DisableTrigger(GetTriggeringTrigger())
- 		call SimulateSpell(GetAttacker() , GetAttackedUnitBJ() , 'AHtb' , IMinBJ(Arena___currentLevel, 20) , 5 , "thunderbolt" , false , false , true)
-	    call CreateSpellTextTag("魔化射线！" , Arena___challenager , 100 , 0 , 100 , 2)
+ 		call SimulateSpell(GetAttacker() , GetAttackedUnitBJ() , 'AHtb' , IMinBJ(Arena__currentLevel, 20) , 5 , "thunderbolt" , false , false , true)
+	    call CreateSpellTextTag("魔化射线！" , Arena__challenager , 100 , 0 , 100 , 2)
 	    call PolledWait(7.00)
 	    call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
 	
  function TSpellJinxuan4Con takes nothing returns boolean
-	    return ( ( GetAttackedUnitBJ() == Arena___challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
+	    return ( ( GetAttackedUnitBJ() == Arena__challenager ) and ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
 	endfunction
 
  function TSpellJinxuan4Act takes nothing returns nothing
 	    call DisableTrigger(GetTriggeringTrigger())
 	    call SetUnitManaBJ(GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 200.00 ))
-	    call CreateSpellTextTag("魔法窃取！" , Arena___challenager , 0 , 100 , 0 , 2)
+	    call CreateSpellTextTag("魔法窃取！" , Arena__challenager , 0 , 100 , 0 , 2)
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\AnimateDead\\AnimateDeadTarget.mdl", GetUnitX(GetAttacker()), GetUnitY(GetAttacker())))
 	    call PolledWait(2.00)
 	    call EnableTrigger(GetTriggeringTrigger())
@@ -3749,72 +3851,72 @@ endfunction
 
 		//符合条件再开始
 	    if ( ( IsUnitType(GetBuyingUnit(), UNIT_TYPE_HERO) == true ) ) then
-	        if ( ( Arena___challenager == null ) ) then
-	            if ( ( Arena___currentArena != 9 ) ) then
+	        if ( ( Arena__challenager == null ) ) then
+	            if ( ( Arena__currentArena != 9 ) ) then
 	            	//开始啦
 	                call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战将在3秒后开始。")
 	                set point=GetRectCenter(gg_rct_Arena_2)
 	                set t=CreateTimer()
-	                if ( ( Arena___currentArena == 0 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Huth', point, 180.00)
-	                elseif ( ( Arena___currentArena == 1 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Hpb1', point, 180.00)
-	                elseif ( ( Arena___currentArena == 2 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Hgam', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellLinger)
-	                    call TimerStart(t, 2, TRUE, function Arena___LingerAssemble)
-	                elseif ( ( Arena___currentArena == 3 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Hmbr', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellZhousi)
-	                    set attract=s__Attract_create(Arena___challenager , 600 , 0.05 , 20)
+	                if ( ( Arena__currentArena == 0 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Huth', point, 180.00)
+	                elseif ( ( Arena__currentArena == 1 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Hpb1', point, 180.00)
+	                elseif ( ( Arena__currentArena == 2 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Hgam', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellLinger)
+	                    call TimerStart(t, 2, TRUE, function Arena__LingerAssemble)
+	                elseif ( ( Arena__currentArena == 3 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Hmbr', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellZhousi)
+	                    set attract=s__Attract_create(Arena__challenager , 600 , 0.05 , 20)
 	                    call s__Attract_start(attract)
-	                elseif ( ( Arena___currentArena == 4 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Odrt', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellXuemo1)
-	                    call EnableTrigger(Arena___TSpellXuemo2)
-	                elseif ( ( Arena___currentArena == 5 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Ogrh', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellFuwang)
-	                    set attract=s__Attract_create(Arena___challenager , 600 , 0.05 , 20)
+	                elseif ( ( Arena__currentArena == 4 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Odrt', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellXuemo1)
+	                    call EnableTrigger(Arena__TSpellXuemo2)
+	                elseif ( ( Arena__currentArena == 5 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Ogrh', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellFuwang)
+	                    set attract=s__Attract_create(Arena__challenager , 600 , 0.05 , 20)
 	                    call s__Attract_start(attract)
-	                elseif ( ( Arena___currentArena == 6 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Hvsh', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellMeidusha1)
-	                    call EnableTrigger(Arena___TSpellMeidusha2)
-	                elseif ( ( Arena___currentArena == 7 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Hpb2', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellKiller1)
-	                    call EnableTrigger(Arena___TSpellKiller2)
-	                elseif ( ( Arena___currentArena == 8 ) ) then
-	                    set Arena___challenager=CreateUnitAtLoc(Player(10), 'Hlgr', point, 180.00)
-	                    call EnableTrigger(Arena___TSpellJinxuan1)
-	                    call EnableTrigger(Arena___TSpellJinxuan2)
-	                    call EnableTrigger(Arena___TSpellJinxuan3)
-	                    call EnableTrigger(Arena___TSpellJinxuan4)
+	                elseif ( ( Arena__currentArena == 6 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Hvsh', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellMeidusha1)
+	                    call EnableTrigger(Arena__TSpellMeidusha2)
+	                elseif ( ( Arena__currentArena == 7 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Hpb2', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellKiller1)
+	                    call EnableTrigger(Arena__TSpellKiller2)
+	                elseif ( ( Arena__currentArena == 8 ) ) then
+	                    set Arena__challenager=CreateUnitAtLoc(Player(10), 'Hlgr', point, 180.00)
+	                    call EnableTrigger(Arena__TSpellJinxuan1)
+	                    call EnableTrigger(Arena__TSpellJinxuan2)
+	                    call EnableTrigger(Arena__TSpellJinxuan3)
+	                    call EnableTrigger(Arena__TSpellJinxuan4)
 	                endif
 
 	                //初始化单位
-	                call SetUnitInvulnerable(Arena___challenager, true)
-	                call PauseUnitBJ(true, Arena___challenager)
-	                call UnitAddAbilityBJ('A0ES', Arena___challenager)
-	                call UnitAddAbilityBJ('A0B9', Arena___challenager)
-	                call UnitAddAbilityBJ('A09W', Arena___challenager)
-	                call CreateTextTagLocBJ(I2S(Arena___currentLevel) + "级", point, 0, 20.00, 100, 0.00, 0.00, 0)
-	                set Arena___textTag_Level=GetLastCreatedTextTag()
+	                call SetUnitInvulnerable(Arena__challenager, true)
+	                call PauseUnitBJ(true, Arena__challenager)
+	                call UnitAddAbilityBJ('A0ES', Arena__challenager)
+	                call UnitAddAbilityBJ('A0B9', Arena__challenager)
+	                call UnitAddAbilityBJ('A09W', Arena__challenager)
+	                call CreateTextTagLocBJ(I2S(Arena__currentLevel) + "级", point, 0, 20.00, 100, 0.00, 0.00, 0)
+	                set Arena__textTag_Level=GetLastCreatedTextTag()
 	                call RemoveLocation(point)
 
 	                call PolledWait(3.00)
-	                if ( ( Arena___challenager != null ) ) then
-	                    call SetUnitInvulnerable(Arena___challenager, false)
-	                    call PauseUnitBJ(false, Arena___challenager)
-	                    call DisplayTextToPlayer(GetOwningPlayer(Arena___defier), 0, 0, "|cFFFF66CC【消息】|r挑战开始！")
+	                if ( ( Arena__challenager != null ) ) then
+	                    call SetUnitInvulnerable(Arena__challenager, false)
+	                    call PauseUnitBJ(false, Arena__challenager)
+	                    call DisplayTextToPlayer(GetOwningPlayer(Arena__defier), 0, 0, "|cFFFF66CC【消息】|r挑战开始！")
 	                    //5秒更新一次等级
 	                    set t=CreateTimer()
-	                    call TimerStart(t, 5, TRUE, function Arena___updateLevel)
+	                    call TimerStart(t, 5, TRUE, function Arena__updateLevel)
 	                    //0.05秒更新一次等级提示的位置
 	                    set t=CreateTimer()
-	                    call TimerStart(t, 0.05, TRUE, function Arena___updateLevelLoc)
-   						call TriggerRegisterUnitEvent(Arena___TDieEvent, Arena___challenager, EVENT_UNIT_DEATH)
+	                    call TimerStart(t, 0.05, TRUE, function Arena__updateLevelLoc)
+   						call TriggerRegisterUnitEvent(Arena__TDieEvent, Arena__challenager, EVENT_UNIT_DEATH)
 	                else
 	                endif
 	            else
@@ -3831,8 +3933,8 @@ endfunction
 	    set t=null
 	endfunction
 
- function Arena___TArenaStartCon takes nothing returns boolean
-	    return ( ( GetItemTypeId(GetSoldItem()) == 'I04D' ) and BuyerFilter(GetBuyingUnit()) )
+ function Arena__TArenaStartCon takes nothing returns boolean
+	    return ( ( GetItemTypeId(GetSoldItem()) == 'I04D' ) and (GetUnitTypeId((GetBuyingUnit())) != 'N018') ) // INLINED!!
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -3840,30 +3942,30 @@ endfunction
 
 	
  function TArenaLeaveCon takes nothing returns boolean
-	    return ( ( Arena___defier == GetLeavingUnit() ) and ( IsUnitIllusionBJ(GetLeavingUnit()) != true ) )
+	    return ( ( Arena__defier == GetLeavingUnit() ) and ( IsUnitIllusionBJ(GetLeavingUnit()) != true ) )
 	endfunction
 
  function TArenaLeaveAct takes nothing returns nothing
-	    set Arena___defier=null
-	    if ( ( Arena___challenager != null ) ) then
-	        call RemoveUnit(Arena___challenager)
-	        set Arena___challenager=null
-	        call DestroyTextTag(Arena___textTag_Level)
-	        call Arena___updateLevel()
+	    set Arena__defier=null
+	    if ( ( Arena__challenager != null ) ) then
+	        call RemoveUnit(Arena__challenager)
+	        set Arena__challenager=null
+	        call DestroyTextTag(Arena__textTag_Level)
+	        call Arena__updateLevel()
 
-	        call DisableTrigger(Arena___TSpellLinger)
-			call DisableTrigger(Arena___TSpellZhousi)
-			call DisableTrigger(Arena___TSpellXuemo1)
-			call DisableTrigger(Arena___TSpellXuemo2)
-			call DisableTrigger(Arena___TSpellFuwang)
-			call DisableTrigger(Arena___TSpellMeidusha1)
-			call DisableTrigger(Arena___TSpellMeidusha2)
-			call DisableTrigger(Arena___TSpellKiller1)
-			call DisableTrigger(Arena___TSpellKiller2)
-			call DisableTrigger(Arena___TSpellJinxuan1)
-			call DisableTrigger(Arena___TSpellJinxuan2)
-			call DisableTrigger(Arena___TSpellJinxuan3)
-			call DisableTrigger(Arena___TSpellJinxuan4)
+	        call DisableTrigger(Arena__TSpellLinger)
+			call DisableTrigger(Arena__TSpellZhousi)
+			call DisableTrigger(Arena__TSpellXuemo1)
+			call DisableTrigger(Arena__TSpellXuemo2)
+			call DisableTrigger(Arena__TSpellFuwang)
+			call DisableTrigger(Arena__TSpellMeidusha1)
+			call DisableTrigger(Arena__TSpellMeidusha2)
+			call DisableTrigger(Arena__TSpellKiller1)
+			call DisableTrigger(Arena__TSpellKiller2)
+			call DisableTrigger(Arena__TSpellJinxuan1)
+			call DisableTrigger(Arena__TSpellJinxuan2)
+			call DisableTrigger(Arena__TSpellJinxuan3)
+			call DisableTrigger(Arena__TSpellJinxuan4)
 	    else
 	    endif
 	endfunction
@@ -3871,12 +3973,12 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function Arena___TArenaEnterAct takes nothing returns nothing
+ function Arena__TArenaEnterAct takes nothing returns nothing
   local location point
 	    if ( ( GetItemTypeId(GetSoldItem()) == 'fgrd' ) ) then
 	        if ( ( IsUnitType(GetBuyingUnit(), UNIT_TYPE_HERO) == true ) ) then
-	            if ( ( Arena___defier == null ) ) then
-	                set Arena___defier=GetBuyingUnit()
+	            if ( ( Arena__defier == null ) ) then
+	                set Arena__defier=GetBuyingUnit()
 	                set point=GetRandomLocInRect(gg_rct_Arena_all)
 	                call SetUnitPositionLoc(GetBuyingUnit(), point)
 	                call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), point, 0.20)
@@ -3913,47 +4015,47 @@ endfunction
 	        call CreateItemLoc('cnob', point)
 	    elseif ( ty == 'Hgam' ) then
 	        call CreateItemLoc('rhth', point)
-	        call DestroyTrigger(Arena___TSpellLinger)
+	        call DestroyTrigger(Arena__TSpellLinger)
 	    elseif ( ty == 'Hmbr' ) then
 	        call CreateItemLoc('hval', point)
-	        call DestroyTrigger(Arena___TSpellZhousi)
+	        call DestroyTrigger(Arena__TSpellZhousi)
 	    elseif ( ty == 'Odrt' ) then
 	        call CreateItemLoc('afac', point)
-	        call DestroyTrigger(Arena___TSpellXuemo1)
-	        call DestroyTrigger(Arena___TSpellXuemo2)
+	        call DestroyTrigger(Arena__TSpellXuemo1)
+	        call DestroyTrigger(Arena__TSpellXuemo2)
 	    elseif ( ty == 'Ogrh' ) then
 	        call CreateItemLoc('pmna', point)
-	        call DestroyTrigger(Arena___TSpellFuwang)
+	        call DestroyTrigger(Arena__TSpellFuwang)
 	    elseif ( ty == 'Hvsh' ) then
 	        call CreateItemLoc('evtl', point)
-	        call DestroyTrigger(Arena___TSpellMeidusha1)
-	        call DestroyTrigger(Arena___TSpellMeidusha2)
+	        call DestroyTrigger(Arena__TSpellMeidusha1)
+	        call DestroyTrigger(Arena__TSpellMeidusha2)
 	    elseif ( ty == 'Hpb2' ) then
 	        call CreateItemLoc('bspd', point)
-	        call DestroyTrigger(Arena___TSpellKiller2)
-	        call DestroyTrigger(Arena___TSpellKiller1)
+	        call DestroyTrigger(Arena__TSpellKiller2)
+	        call DestroyTrigger(Arena__TSpellKiller1)
 	    elseif ( ty == 'Hlgr' ) then
 	        call CreateItemLoc('mcou', point)
-	        call DestroyTrigger(Arena___TSpellJinxuan1)
-	        call DestroyTrigger(Arena___TSpellJinxuan2)
-	        call DestroyTrigger(Arena___TSpellJinxuan3)
-	        call DestroyTrigger(Arena___TSpellJinxuan4)
+	        call DestroyTrigger(Arena__TSpellJinxuan1)
+	        call DestroyTrigger(Arena__TSpellJinxuan2)
+	        call DestroyTrigger(Arena__TSpellJinxuan3)
+	        call DestroyTrigger(Arena__TSpellJinxuan4)
 	    endif
 
-	    set Arena___currentLevel=1
-	    set Arena___currentArena=Arena___currentArena + 1
+	    set Arena__currentLevel=1
+	    set Arena__currentArena=Arena__currentArena + 1
 	    call RemoveLocation(point)
 	    set point=null
 	    call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战成功!")
-	    call RemoveUnit(Arena___challenager)
-	    set Arena___challenager=null
+	    call RemoveUnit(Arena__challenager)
+	    set Arena__challenager=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
- function Arena___InitArena takes nothing returns nothing
+ function Arena__InitArena takes nothing returns nothing
 		//挑战开始--买了"挑战开始"
   local trigger t= CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SELL_ITEM)
-	    call TriggerAddCondition(t, Condition(function Arena___TArenaStartCon))
+	    call TriggerAddCondition(t, Condition(function Arena__TArenaStartCon))
 	    call TriggerAddAction(t, function TArenaStartAct)
 
 	    //离开擂台后判负
@@ -3965,106 +4067,429 @@ endfunction
 	    //进入挑战场--买了"进入擂台"
 	    set t=CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SELL_ITEM)
-	    call TriggerAddAction(t, function Arena___TArenaEnterAct)
+	    call TriggerAddAction(t, function Arena__TArenaEnterAct)
 
 	    //擂主死亡事件
-	    set Arena___TDieEvent=CreateTrigger()
-	    call TriggerAddCondition(Arena___TDieEvent, Condition(function TDieEventConditions))
-	    call TriggerAddAction(Arena___TDieEvent, function TDieEventActions)
+	    set Arena__TDieEvent=CreateTrigger()
+	    call TriggerAddCondition(Arena__TDieEvent, Condition(function TDieEventConditions))
+	    call TriggerAddAction(Arena__TDieEvent, function TDieEventActions)
 
 	    //灵儿技能
-	    set Arena___TSpellLinger=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellLinger, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellLinger, Condition(function Arena___TSpellLingerCon))
-	    call TriggerAddAction(Arena___TSpellLinger, function Arena___TSpellLingerAct)
-	    call DisableTrigger(Arena___TSpellLinger)
+	    set Arena__TSpellLinger=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellLinger, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellLinger, Condition(function Arena__TSpellLingerCon))
+	    call TriggerAddAction(Arena__TSpellLinger, function Arena__TSpellLingerAct)
+	    call DisableTrigger(Arena__TSpellLinger)
 
 	    //宙斯技能
-	    set Arena___TSpellZhousi=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellZhousi)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellZhousi, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellZhousi, Condition(function Arena___TSpellZhousiCon))
-	    call TriggerAddAction(Arena___TSpellZhousi, function Arena___TSpellZhousiAct)
+	    set Arena__TSpellZhousi=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellZhousi)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellZhousi, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellZhousi, Condition(function Arena__TSpellZhousiCon))
+	    call TriggerAddAction(Arena__TSpellZhousi, function Arena__TSpellZhousiAct)
 
 	    //血魔技能
 
-	    set Arena___TSpellXuemo1=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellXuemo1)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellXuemo1, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellXuemo1, Condition(function Arena___TSpellXuemo1Con))
-	    call TriggerAddAction(Arena___TSpellXuemo1, function Arena___TSpellXuemo1Act)
+	    set Arena__TSpellXuemo1=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellXuemo1)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellXuemo1, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellXuemo1, Condition(function Arena__TSpellXuemo1Con))
+	    call TriggerAddAction(Arena__TSpellXuemo1, function Arena__TSpellXuemo1Act)
 
-	    set Arena___TSpellXuemo2=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellXuemo2)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellXuemo2, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellXuemo2, Condition(function Arena___TSpellXuemo2Con))
-	    call TriggerAddAction(Arena___TSpellXuemo2, function Arena___TSpellXuemo2Act)
+	    set Arena__TSpellXuemo2=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellXuemo2)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellXuemo2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellXuemo2, Condition(function Arena__TSpellXuemo2Con))
+	    call TriggerAddAction(Arena__TSpellXuemo2, function Arena__TSpellXuemo2Act)
 
 	    //斧王技能
-	    set Arena___TSpellFuwang=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellFuwang)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellFuwang, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellFuwang, Condition(function Arena___TSpellFuwangCon))
-	    call TriggerAddAction(Arena___TSpellFuwang, function Arena___TSpellFuwangAct)
+	    set Arena__TSpellFuwang=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellFuwang)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellFuwang, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellFuwang, Condition(function Arena__TSpellFuwangCon))
+	    call TriggerAddAction(Arena__TSpellFuwang, function Arena__TSpellFuwangAct)
 
 
 	    //美杜莎技能
-	    set Arena___TSpellMeidusha1=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellMeidusha1)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellMeidusha1, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellMeidusha1, Condition(function Arena___TSpellMeidusha1Con))
-	    call TriggerAddAction(Arena___TSpellMeidusha1, function Arena___TSpellMeidusha1Act)
+	    set Arena__TSpellMeidusha1=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellMeidusha1)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellMeidusha1, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellMeidusha1, Condition(function Arena__TSpellMeidusha1Con))
+	    call TriggerAddAction(Arena__TSpellMeidusha1, function Arena__TSpellMeidusha1Act)
 
-	    set Arena___TSpellMeidusha2=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellMeidusha2)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellMeidusha2, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellMeidusha2, Condition(function Arena___TSpellMeidusha2Con))
-	    call TriggerAddAction(Arena___TSpellMeidusha2, function Arena___TSpellMeidusha2Act)
+	    set Arena__TSpellMeidusha2=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellMeidusha2)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellMeidusha2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellMeidusha2, Condition(function Arena__TSpellMeidusha2Con))
+	    call TriggerAddAction(Arena__TSpellMeidusha2, function Arena__TSpellMeidusha2Act)
 
 	    //杀手技能
 
-	    set Arena___TSpellKiller1=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellKiller1)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellKiller1, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellKiller1, Condition(function TSpellKiller1Con))
-	    call TriggerAddAction(Arena___TSpellKiller1, function TSpellKiller1Act)
+	    set Arena__TSpellKiller1=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellKiller1)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellKiller1, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellKiller1, Condition(function TSpellKiller1Con))
+	    call TriggerAddAction(Arena__TSpellKiller1, function TSpellKiller1Act)
 
-	    set Arena___TSpellKiller2=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellKiller2)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellKiller2, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellKiller2, Condition(function TSpellKiller2Con))
-	    call TriggerAddAction(Arena___TSpellKiller2, function TSpellKiller2Act)
+	    set Arena__TSpellKiller2=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellKiller2)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellKiller2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellKiller2, Condition(function TSpellKiller2Con))
+	    call TriggerAddAction(Arena__TSpellKiller2, function TSpellKiller2Act)
 
 	    //瑾轩技能
 
-	    set Arena___TSpellJinxuan1=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellJinxuan1)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellJinxuan1, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellJinxuan1, Condition(function TSpellJinxuan1Con))
-	    call TriggerAddAction(Arena___TSpellJinxuan1, function TSpellJinxuan1Act)
+	    set Arena__TSpellJinxuan1=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellJinxuan1)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellJinxuan1, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellJinxuan1, Condition(function TSpellJinxuan1Con))
+	    call TriggerAddAction(Arena__TSpellJinxuan1, function TSpellJinxuan1Act)
 
-	    set Arena___TSpellJinxuan2=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellJinxuan2)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellJinxuan2, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellJinxuan2, Condition(function TSpellJinxuan2Con))
-	    call TriggerAddAction(Arena___TSpellJinxuan2, function TSpellJinxuan2Act)
+	    set Arena__TSpellJinxuan2=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellJinxuan2)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellJinxuan2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellJinxuan2, Condition(function TSpellJinxuan2Con))
+	    call TriggerAddAction(Arena__TSpellJinxuan2, function TSpellJinxuan2Act)
 
-	    set Arena___TSpellJinxuan3=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellJinxuan3)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellJinxuan3, Condition(function TSpellJinxuan3Con))
-	    call TriggerAddAction(Arena___TSpellJinxuan3, function TSpellJinxuan3Act)
+	    set Arena__TSpellJinxuan3=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellJinxuan3)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellJinxuan3, Condition(function TSpellJinxuan3Con))
+	    call TriggerAddAction(Arena__TSpellJinxuan3, function TSpellJinxuan3Act)
 
-	    set Arena___TSpellJinxuan4=CreateTrigger()
-	    call DisableTrigger(Arena___TSpellJinxuan4)
-	    call TriggerRegisterAnyUnitEventBJ(Arena___TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Arena___TSpellJinxuan4, Condition(function TSpellJinxuan4Con))
-	    call TriggerAddAction(Arena___TSpellJinxuan4, function TSpellJinxuan4Act)
+	    set Arena__TSpellJinxuan4=CreateTrigger()
+	    call DisableTrigger(Arena__TSpellJinxuan4)
+	    call TriggerRegisterAnyUnitEventBJ(Arena__TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Arena__TSpellJinxuan4, Condition(function TSpellJinxuan4Con))
+	    call TriggerAddAction(Arena__TSpellJinxuan4, function TSpellJinxuan4Act)
 
 	    set t=null
 	endfunction
 
 //library Arena ends
+//library Beast:
+	
+
+//---------------------------------------------------------------------------------------------------
+	
+
+ function Beast__isOutOfRange takes integer i returns boolean
+		return ( ( i > 255 ) or ( i < 0 ) )
+	endfunction
+
+ function Beast__GetModifiedColor takes integer i returns integer
+		return IMinBJ(IAbsBJ(i), 255)
+	endfunction
+
+ function Beast__DiscolorTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit u= LoadUnitHandle(beastTable, id, Beast__kU)
+  local integer r= LoadInteger(beastTable, id, Beast__kr)
+  local integer g= LoadInteger(beastTable, id, Beast__kg)
+  local integer b= LoadInteger(beastTable, id, Beast__kb)
+  local integer sr= LoadInteger(beastTable, id, Beast__ksr)
+  local integer sg= LoadInteger(beastTable, id, Beast__ksg)
+  local integer sb= LoadInteger(beastTable, id, Beast__ksb)
+		if ( IsUnitAliveBJ(u) == true ) then
+
+
+//textmacro instance: ChangeColor("r")
+				
+			if ( sr > 0 ) then
+				set r=r + GetRandomInt(0, sr)
+			else
+				set r=r + GetRandomInt(sr, 0)
+			endif
+			if ( Beast__isOutOfRange(r) ) then
+				set r=(IMinBJ(IAbsBJ((r)), 255)) // INLINED!!
+				if ( sr > 0 ) then
+					call SaveInteger(beastTable, GetHandleId(t), Beast__ksr, GetRandomInt(- 60, - 20))
+				else
+					call SaveInteger(beastTable, GetHandleId(t), Beast__ksr, GetRandomInt(20, 60))
+				endif
+			endif
+			call SaveInteger(beastTable, GetHandleId(t), Beast__kr, r)
+//end of: ChangeColor("r")
+//textmacro instance: ChangeColor("g")
+				
+			if ( sg > 0 ) then
+				set g=g + GetRandomInt(0, sg)
+			else
+				set g=g + GetRandomInt(sg, 0)
+			endif
+			if ( Beast__isOutOfRange(g) ) then
+				set g=(IMinBJ(IAbsBJ((g)), 255)) // INLINED!!
+				if ( sg > 0 ) then
+					call SaveInteger(beastTable, GetHandleId(t), Beast__ksg, GetRandomInt(- 60, - 20))
+				else
+					call SaveInteger(beastTable, GetHandleId(t), Beast__ksg, GetRandomInt(20, 60))
+				endif
+			endif
+			call SaveInteger(beastTable, GetHandleId(t), Beast__kg, g)
+//end of: ChangeColor("g")
+//textmacro instance: ChangeColor("b")
+				
+			if ( sb > 0 ) then
+				set b=b + GetRandomInt(0, sb)
+			else
+				set b=b + GetRandomInt(sb, 0)
+			endif
+			if ( Beast__isOutOfRange(b) ) then
+				set b=(IMinBJ(IAbsBJ((b)), 255)) // INLINED!!
+				if ( sb > 0 ) then
+					call SaveInteger(beastTable, GetHandleId(t), Beast__ksb, GetRandomInt(- 60, - 20))
+				else
+					call SaveInteger(beastTable, GetHandleId(t), Beast__ksb, GetRandomInt(20, 60))
+				endif
+			endif
+			call SaveInteger(beastTable, GetHandleId(t), Beast__kb, b)
+//end of: ChangeColor("b")
+    		call SetUnitVertexColor(u, r, g, b, 255)
+
+		else
+			call PauseTimer(t)
+			call DestroyTimer(t)
+			call FlushChildHashtable(beastTable, id)
+		endif
+		set t=null
+		set u=null
+	endfunction
+
+ function Discolor takes unit u returns nothing
+  local timer t= CreateTimer()
+		call SaveUnitHandle(beastTable, GetHandleId(t), Beast__kU, u)
+		call SaveInteger(beastTable, GetHandleId(t), Beast__kr, GetRandomInt(0, 254))
+		call SaveInteger(beastTable, GetHandleId(t), Beast__kg, GetRandomInt(0, 254))
+		call SaveInteger(beastTable, GetHandleId(t), Beast__kb, GetRandomInt(0, 254))
+		call SaveInteger(beastTable, GetHandleId(t), Beast__ksr, GetRandomInt(20, 60))
+		call SaveInteger(beastTable, GetHandleId(t), Beast__ksg, GetRandomInt(20, 60))
+		call SaveInteger(beastTable, GetHandleId(t), Beast__ksb, GetRandomInt(20, 60))
+
+		call TimerStart(t, 0.1, true, function Beast__DiscolorTimer)
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function Beast__CreateBeast takes unit captain,integer itemId returns nothing
+  local integer unitID= LoadInteger(beastTable, Beast__kBeastItem, itemId)
+  local unit u= CreateUnit(GetOwningPlayer(captain), unitID, GetUnitX(captain), GetUnitY(captain), 0)
+		//变色
+		if ( ( unitID == 'ub08' ) or ( unitID == 'ub09' ) ) then
+			call Discolor(u)
+		endif
+		set Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))]=u
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(captain), GetUnitY(captain)))
+		call YDWESetGuard(u , captain , 1 , 600 , 600 , 600 , 100)
+		set u=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Beast__IsBeast takes item i returns boolean
+		return GetItemTypeId(i) == 'IB00' or GetItemTypeId(i) == 'IB01' or GetItemTypeId(i) == 'IB02' or GetItemTypeId(i) == 'IB03' or GetItemTypeId(i) == 'IB04' or GetItemTypeId(i) == 'IB05' or GetItemTypeId(i) == 'IB06' or GetItemTypeId(i) == 'IB07' or GetItemTypeId(i) == 'IB08' or GetItemTypeId(i) == 'IB09'
+	endfunction
+	
+ function Beast__UnitHasBeastInSlot takes unit u,integer slot returns boolean
+		return Beast__IsBeast(UnitItemInSlotBJ(u, slot))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Beast__GetBeastInUnit takes unit u returns item
+
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			if ( (Beast__IsBeast(UnitItemInSlotBJ((u ), ( i)))) ) then // INLINED!!
+				return UnitItemInSlotBJ(u, i)
+			endif
+			set i=i + 1
+		endloop
+		return null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Beast__TBeastEquitAct takes nothing returns nothing
+  local integer i= 1
+  local integer beastCount= 0
+		loop
+			exitwhen i > 6
+			if ( (Beast__IsBeast(UnitItemInSlotBJ((GetTriggerUnit() ), ( i)))) ) then // INLINED!!
+				set beastCount=beastCount + 1
+			endif
+			set i=i + 1
+		endloop
+
+		//如果计数君大于1则丢掉
+		if ( beastCount > 1 ) then
+			call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备上一个魔兽！")
+			return
+		elseif ( beastCount == 1 ) then
+		//产生相对应的魔兽操作
+			call Beast__CreateBeast(GetTriggerUnit() , GetItemTypeId(GetManipulatedItem()))
+		endif
+
+	endfunction
+
+ function Beast__TBeastEquitCon takes nothing returns boolean
+		return ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] ) and ( IsUnitIllusionBJ(GetManipulatingUnit()) != true ) and ( Beast__IsBeast(GetManipulatedItem()) == true )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function RemoveBeast takes unit u returns nothing
+		call RemoveUnit(Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(u))])
+		set Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(u))]=null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function ReviveBeast takes unit u returns nothing
+		if ( Beast__GetBeastInUnit(u) != null ) then
+			call Beast__CreateBeast(u , GetItemTypeId(Beast__GetBeastInUnit(u)))
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Beast__TBeastDropAct takes nothing returns nothing
+
+  local integer i= 1
+  local integer beastCount= 0
+		loop
+			exitwhen i > 6
+			if ( (Beast__IsBeast(UnitItemInSlotBJ((GetTriggerUnit() ), ( i)))) ) then // INLINED!!
+				set beastCount=beastCount + 1
+			endif
+			set i=i + 1
+		endloop
+		if ( beastCount != 2 ) then
+			call RemoveBeast(GetManipulatingUnit())
+		endif
+	endfunction
+
+ function Beast__TBeastDropCon takes nothing returns boolean
+		return ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] ) and ( IsUnitIllusionBJ(GetManipulatingUnit()) != true ) and ( Beast__IsBeast(GetManipulatedItem()) == true )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Beast__TBeastDamageAct takes nothing returns nothing
+  local integer unitID= GetUnitTypeId(GetEventDamageSource())
+  local integer playerID= GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
+  local item beast= Beast__GetBeastInUnit(udg_H[playerID])
+		
+
+//textmacro instance: DamageBeast1("00")
+		if ( unitID == 'ub00' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_00, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("00")
+//textmacro instance: DamageBeast1("01")
+		if ( unitID == 'ub01' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_01, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("01")
+//textmacro instance: DamageBeast1("02")
+		if ( unitID == 'ub02' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_02, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("02")
+//textmacro instance: DamageBeast1("03")
+		if ( unitID == 'ub03' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_03, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("03")
+//textmacro instance: DamageBeast1("04")
+		if ( unitID == 'ub04' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_04, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("04")
+//textmacro instance: DamageBeast1("05")
+		if ( unitID == 'ub05' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_05, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("05")
+//textmacro instance: DamageBeast1("06")
+		if ( unitID == 'ub06' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_06, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("06")
+//textmacro instance: DamageBeast1("07")
+		if ( unitID == 'ub07' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_07, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("07")
+//textmacro instance: DamageBeast1("08")
+		if ( unitID == 'ub08' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_08, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("08")
+//textmacro instance: DamageBeast1("09")
+		if ( unitID == 'ub09' ) then
+			call UnitDamageTarget(udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_09, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		endif
+//end of: DamageBeast1("09")
+
+		//魔兽怒吼
+		if ( GetUnitAbilityLevel(Unit_Beast[playerID], 'ABe9') >= 1 ) then
+			
+			call SetItemCharges(beast, GetItemCharges(beast) + 1)
+			if ( GetItemCharges(beast) > CHARGES_BEAST ) then
+					// todo
+					call CreateSpellTextTag("魔兽怒吼!" , Unit_Beast[playerID] , 0 , 100 , 0 , 2)
+ 					call SimulateSpell(Unit_Beast[playerID] , Unit_Beast[playerID] , 'A0CR' , 1 , 5 , "stomp" , false , true , false)
+					call SetItemCharges(beast, 0)
+			endif
+		endif
+
+		set beast=null
+	endfunction
+
+ function Beast__TBeastDamageCon takes nothing returns boolean
+		return ( ( GetEventDamage() > 0 ) and ( IsUnitIllusion(GetEventDamageSource()) == false ) and ( GetEventDamageSource() == Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))] ) )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function Beast__initBeastItem takes nothing returns nothing
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB00', 'ub00')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB01', 'ub01')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB02', 'ub02')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB03', 'ub03')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB04', 'ub04')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB05', 'ub05')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB06', 'ub06')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB07', 'ub07')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB08', 'ub08')
+		call SaveInteger(beastTable, Beast__kBeastItem, 'IB09', 'ub09')
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+ function Beast__InitBeast takes nothing returns nothing
+		//初始化
+  local trigger t= CreateTrigger()
+		set beastTable=InitHashtable()
+		call Beast__initBeastItem()
+
+		//只能同时装备一个魔兽
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+		call TriggerAddCondition(t, Condition(function Beast__TBeastEquitCon))
+		call TriggerAddAction(t, function Beast__TBeastEquitAct)
+
+		//魔兽伤害事件
+		set t=CreateTrigger()
+		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+		call TriggerAddCondition(t, Condition(function Beast__TBeastDamageCon))
+		call TriggerAddAction(t, function Beast__TBeastDamageAct)
+
+		//丢弃魔兽事件
+		set t=CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
+		call TriggerAddCondition(t, Condition(function Beast__TBeastDropCon))
+		call TriggerAddAction(t, function Beast__TBeastDropAct)
+		set t=null
+	endfunction
+
+//library Beast ends
 //library Boss:
 
 //---------------------------------------------------------------------------------------------------
@@ -4098,8 +4523,8 @@ endfunction
 		    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
 		    	if ( distance > 600 ) then
 			    	set facing=Atan2BJ(y1 - y2, x1 - x2)
-			    	call SetUnitX(u, YDWECoordinateX(x2 + CosBJ(facing) * 40))
-			    	call SetUnitY(u, YDWECoordinateY(y2 + SinBJ(facing) * 40))
+			    	call SetUnitX(u, (RMinBJ(RMaxBJ(((x2 + CosBJ(facing) * 40)*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+			    	call SetUnitY(u, (RMinBJ(RMaxBJ(((y2 + SinBJ(facing) * 40)*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
 		    	endif
 			endif
 		else
@@ -4159,12 +4584,12 @@ endfunction
   local timer t= GetExpiredTimer()
 		if ( IsUnitAliveBJ(gg_unit_Nkjx_0241) == true ) then
 			set interval=( GetUnitState(gg_unit_Nkjx_0241, UNIT_STATE_LIFE) / GetUnitState(gg_unit_Nkjx_0241, UNIT_STATE_MAX_LIFE) * 0.3 ) + 0.3
-			call TimerStart(Boss___TiMissile, interval, true, function startMissile)
+			call TimerStart(Boss__TiMissile, interval, true, function startMissile)
 		else
 			call PauseTimer(t)
 			call DestroyTimer(t)
-			call PauseTimer(Boss___TiMissile)
-			call DestroyTimer(Boss___TiMissile)
+			call PauseTimer(Boss__TiMissile)
+			call DestroyTimer(Boss__TiMissile)
 		endif
 		set t=null
 	endfunction
@@ -4181,20 +4606,20 @@ endfunction
         call s__Attract_start(attract)
 
         //左右护法的技能
-	    set Boss___TSpellZuo=CreateTrigger()
-	    call TriggerRegisterUnitEvent(Boss___TSpellZuo, gg_unit_Uear_0242, EVENT_UNIT_ATTACKED)
-	    call TriggerAddCondition(Boss___TSpellZuo, Condition(function TSpellZuoCon))
-	    call TriggerAddAction(Boss___TSpellZuo, function TSpellZuoAct)
+	    set Boss__TSpellZuo=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Boss__TSpellZuo, gg_unit_Uear_0242, EVENT_UNIT_ATTACKED)
+	    call TriggerAddCondition(Boss__TSpellZuo, Condition(function TSpellZuoCon))
+	    call TriggerAddAction(Boss__TSpellZuo, function TSpellZuoAct)
 
-	    set Boss___TSpellYou=CreateTrigger()
-	    call TriggerRegisterUnitEvent(Boss___TSpellYou, gg_unit_Npld_0253, EVENT_UNIT_ATTACKED)
-	    call TriggerAddCondition(Boss___TSpellYou, Condition(function TSpellYouCon))
-	    call TriggerAddAction(Boss___TSpellYou, function TSpellYouAct)
+	    set Boss__TSpellYou=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Boss__TSpellYou, gg_unit_Npld_0253, EVENT_UNIT_ATTACKED)
+	    call TriggerAddCondition(Boss__TSpellYou, Condition(function TSpellYouCon))
+	    call TriggerAddAction(Boss__TSpellYou, function TSpellYouAct)
 
 	    //冥刹的死亡导弹
-		set Boss___TiMissile=CreateTimer()
+		set Boss__TiMissile=CreateTimer()
 		//开始疯狂导弹
-		call TimerStart(Boss___TiMissile, 0.6, true, function startMissile)
+		call TimerStart(Boss__TiMissile, 0.6, true, function startMissile)
 		call TimerStart(refresh, 3, true, function refreshMissile)
 		set refresh=null
 	endfunction
@@ -4205,7 +4630,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Boss___InitBoss takes nothing returns nothing
+ function Boss__InitBoss takes nothing returns nothing
 		// body...
 		set bossTable=InitHashtable()
 	endfunction
@@ -4226,11 +4651,11 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
 	
- function MonsterSpell___TSpellQianFaEnemyFilter takes nothing returns boolean
+ function MonsterSpell__TSpellQianFaEnemyFilter takes nothing returns boolean
 	    return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetAttacker())) == true ) ) )
 	endfunction
 
- function MonsterSpell___TSpellQianFaAct takes nothing returns nothing
+ function MonsterSpell__TSpellQianFaAct takes nothing returns nothing
      local integer i
      local group ydl_group
      local unit ydl_unit
@@ -4252,7 +4677,7 @@ endfunction
 	    //巨能
 	    if ( ( GetUnitTypeId(GetAttacker()) == 'N00Q' ) ) then
 	    		set ydl_group=CreateGroup()
-			    call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell___TSpellQianFaEnemyFilter))
+			    call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell__TSpellQianFaEnemyFilter))
 			    loop
 			        set ydl_unit=FirstOfGroup(ydl_group)
 			        exitwhen ydl_unit == null
@@ -4263,7 +4688,7 @@ endfunction
 		 	elseif ( ( GetUnitTypeId(GetAttacker()) == 'Nngs' ) or ( GetUnitTypeId(GetAttacker()) == 'Nbrn' ) ) then
 		//仙炼或生克
 	    		set ydl_group=CreateGroup()
-				call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell___TSpellQianFaEnemyFilter))
+				call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell__TSpellQianFaEnemyFilter))
 				loop
 				    set ydl_unit=FirstOfGroup(ydl_group)
 				    exitwhen ydl_unit == null
@@ -4285,7 +4710,7 @@ endfunction
 	    set ydl_unit=null
 	endfunction
 
- function MonsterSpell___TSpellQianFaCon takes nothing returns boolean
+ function MonsterSpell__TSpellQianFaCon takes nothing returns boolean
 	    return ( ( ( GetUnitTypeId(GetAttacker()) == 'Nngs' ) or ( GetUnitTypeId(GetAttacker()) == 'Nbrn' ) or ( GetUnitTypeId(GetAttacker()) == 'N00Q' ) ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 333.00 ) and ( GetRandomInt(1, 10) == 1 ) )
 	endfunction
 
@@ -4294,7 +4719,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function MonsterSpell___TSpellDratAct takes nothing returns nothing
+ function MonsterSpell__TSpellDratAct takes nothing returns nothing
   local integer i= - 1
      local real x1
      local real y1
@@ -4336,270 +4761,58 @@ endfunction
 	    set drat=null
 	endfunction
 
- function MonsterSpell___TSpellDratCon takes nothing returns boolean
+ function MonsterSpell__TSpellDratCon takes nothing returns boolean
 	    return ( ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nngs' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nbrn' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'N00Q' ) ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 333.00 ) and ( GetRandomInt(1, 10) == 1 ) )
 	endfunction
 //---------------------------------------------------------------------------------------------------
- function MonsterSpell___InitMonsterSpell takes nothing returns nothing
+ function MonsterSpell__InitMonsterSpell takes nothing returns nothing
 		//巨能,仙炼还有生克的千罚之光
 	    set TSpellQianfa=CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(TSpellQianfa, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(TSpellQianfa, Condition(function MonsterSpell___TSpellQianFaCon))
-	    call TriggerAddAction(TSpellQianfa, function MonsterSpell___TSpellQianFaAct)
+	    call TriggerAddCondition(TSpellQianfa, Condition(function MonsterSpell__TSpellQianFaCon))
+	    call TriggerAddAction(TSpellQianfa, function MonsterSpell__TSpellQianFaAct)
 	    call DisableTrigger(TSpellQianfa)
 
 	    //巨能,仙炼还有生克的手里剑
 	    set TSpellDart=CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(TSpellDart, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(TSpellDart, Condition(function MonsterSpell___TSpellDratCon))
-	    call TriggerAddAction(TSpellDart, function MonsterSpell___TSpellDratAct)
+	    call TriggerAddCondition(TSpellDart, Condition(function MonsterSpell__TSpellDratCon))
+	    call TriggerAddAction(TSpellDart, function MonsterSpell__TSpellDratAct)
 	    call DisableTrigger(TSpellDart)
 	endfunction
 
 //library MonsterSpell ends
-//library Debug:
-
-
-
+//library Revive:
 	
- function Debug___addHeroAttr takes integer attr,integer level returns nothing
-		call SetHeroInt(udg_H[1], attr, false)
-		call SetHeroAgi(udg_H[1], attr, false)
-		call SetHeroStr(udg_H[1], attr, false)
-		call SetHeroLevel(udg_H[1], level, true)
-	endfunction
 
+//---------------------------------------------------------------------------------------------------
 	
- function Debug___debugDamage takes nothing returns nothing
-		if ( debug_show_damage ) then
-			call BJDebugMsg(GetUnitName(GetEventDamageSource()) + "对" + GetUnitName(GetTriggerUnit()) + "造成了" + R2S(GetEventDamage()) + "伤害.")
-		endif
-	endfunction
+function TReviveHeroCon takes nothing returns boolean
+    return ( ( IsUnitIllusionBJ(GetRevivingUnit()) == false ) and ( GetRevivingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetRevivingUnit()))] ) )
+endfunction
 
-	
- function Debug___debugChat takes nothing returns nothing
-		//关闭伤害显示
-  local string chat= GetEventPlayerChatString()
-  local integer bo
-  local unit u
-		if ( chat == "test damage" ) then
-			set debug_show_damage=not ( debug_show_damage )
-			call BJDebugMsg("成功关闭伤害显示")
-			return
-		endif
+function TReviveHeroAct takes nothing returns nothing
+	call ReviveBeast(GetRevivingUnit())
+endfunction
 
-		if ( chat == "test tech" ) then
-			call SetPlayerTechResearchedSwap('R007', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R00A', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R00B', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R008', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R009', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R006', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R00D', 1, Player(0))
-			call BJDebugMsg("科技研究完成")
-			return
-		endif
+//---------------------------------------------------------------------------------------------------
 
-		if ( chat == "test part1" ) then
-			call Debug___addHeroAttr(20000 , 80)
-
-			//鬼3
-			call UnitAddItemByIdSwapped('lgdh', udg_H[1])
-			//星3
-			call UnitAddItemByIdSwapped('ram1', udg_H[1])
-			//冰封翅膀
-			call UnitAddItemByIdSwapped('I041', udg_H[1])
-			//法魂3
-			call UnitAddItemByIdSwapped('phea', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人3
-			call UnitAddItemByIdSwapped('oven', udg_H[1])
-
-			call BJDebugMsg("测试阶段1")
-			return
-		endif
-
-		if ( chat == "test part0" ) then
-			
-			call Debug___addHeroAttr(10000 , 60)
-
-			//鬼1
-			call UnitAddItemByIdSwapped('rat9', udg_H[1])
-			//星0
-			call UnitAddItemByIdSwapped('I03Y', udg_H[1])
-			//五彩翅膀
-			call UnitAddItemByIdSwapped('I045', udg_H[1])
-			//法魂2
-			call UnitAddItemByIdSwapped('rin1', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人0
-			call UnitAddItemByIdSwapped('rej4', udg_H[1])
-
-			call BJDebugMsg("测试阶段0")
-
-			return
-		endif
-
-		if ( chat == "test part2" ) then
-			
-			call Debug___addHeroAttr(40000 , 120)
-
-			//鬼5
-			call UnitAddItemByIdSwapped('bgst', udg_H[1])
-			//星MAX
-			call UnitAddItemByIdSwapped('olig', udg_H[1])
-			//妖皇翅膀
-			call UnitAddItemByIdSwapped('I04R', udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人6
-			call UnitAddItemByIdSwapped('oli2', udg_H[1])
-
-			call BJDebugMsg("测试阶段2")
-
-			return
-		endif
-
-		if ( chat == "test part3" ) then
-			
-			call Debug___addHeroAttr(80000 , 140)
-
-			//鬼8
-			call UnitAddItemByIdSwapped('rag1', udg_H[1])
-			//雷星
-			call UnitAddItemByIdSwapped('ccmd', udg_H[1])
-			//5翅膀
-			call UnitAddItemByIdSwapped('I05B', udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人7
-			call UnitAddItemByIdSwapped('shdt', udg_H[1])
-
-			call BJDebugMsg("测试阶段3")
-
-			return
-		endif
-
-		if ( chat == "test part4" ) then
-			
-			call Debug___addHeroAttr(150000 , 170)
-
-			//超鬼
-			call UnitAddItemByIdSwapped('lhst', udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('tlum', udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I05F', udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('rst1', udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('ssil', udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('tfar', udg_H[1])
-
-			call BJDebugMsg("测试阶段4,神装")
-
-			return
-		endif
-
-		if ( chat == "test fangka" ) then
-			set u=CreateUnit(Player(0), 'hpea', 5790.6, 4445.8, 0)
-			call StartFangKa(u)
-			set u=null
-			return
-		endif
-
-		if ( chat == "test credit" ) then
-			set udg_Paihangbang[1]=50000
-			call BJDebugMsg("增加了积分~!")
-			return
-		endif
-
-		//对自己造成伤害
-		if ( chat == "test kill" ) then
-		//gg_unit_Otch_0001   gg_unit_nubr_0093
-			call UnitDamageTargetBJ(CreateUnit(Player(0), 'hpea', 0., 0., 0.), udg_H[1], ( 1.00 * 10000000.00 ), ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC)
-			return
-		endif
-
-		//关闭选中显示属性
-		if ( chat == "test select" ) then
-			set debug_show_attr=not ( debug_show_attr )
-			return
-		endif
-
-
-		//基地无敌
-		if ( chat == "test invu" ) then
-		call SetUnitInvulnerable(gg_unit_haro_0030, true)
-			return
-		endif
-
-		//基地不无敌
-		if ( chat == "test vu" ) then
-		call SetUnitInvulnerable(gg_unit_haro_0030, false)
-			return
-		endif
-
-		//调整当前波数
-		set bo=S2I(SubStringBJ(chat, StringLength(chat) - 1, StringLength(chat)))
-		if ( bo < 30 ) then
-			set udg_Bo=bo
-			call BJDebugMsg("当前波数:" + "=" + I2S(udg_Bo))
-			return
-		endif
-
-	endfunction
-
-	
- function Debug___peekAttr takes nothing returns nothing
-		if ( debug_show_attr ) then
-			call BJDebugMsg("选中单位生命:" + R2S(GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit())))
-		endif
-	endfunction
-
- function Debug___initDebugTri takes nothing returns nothing
-		//显示伤害值
+ function Revive__InitRevive takes nothing returns nothing
   local trigger t= CreateTrigger()
-		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
-		call TriggerAddAction(t, function Debug___debugDamage)
 
-		//聊天打开开关进行测试
-		set t=CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t, Player(0), "test", false)
-		call TriggerAddAction(t, function Debug___debugChat)
-
-		//选择人物看数据
-		set t=CreateTrigger()
-		call TriggerRegisterPlayerSelectionEventBJ(t, Player(0), true)
-		call TriggerAddAction(t, function Debug___peekAttr)
-		set t=null
-
-		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_GOLD, 300000)
-		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_LUMBER, 1000000)
+	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_HERO_REVIVE_FINISH)
+	    call TriggerAddCondition(t, Condition(function TReviveHeroCon))
+	    call TriggerAddAction(t, function TReviveHeroAct)
 	endfunction
 
- function Debug___Initdebug takes nothing returns nothing
-		
-   call Debug___initDebugTri()
-
-	endfunction
-
-
-//library Debug ends
+//library Revive ends
 //===========================================================================
 // 
-// 轮回之狱 - v2.53修复版
+// 轮回之狱 - v2.56C正式版
 // 
 //   Warcraft III map script
 //   Generated by the Warcraft III World Editor
-//   Date: Thu Feb 02 16:53:26 2017
+//   Date: Sat Feb 04 19:15:23 2017
 //   Map Author: Crainax(旧名Laser)
 // 
 //===========================================================================
@@ -5676,11 +5889,9 @@ endfunction
 //***************************************************************************
 //TESH.scrollpos=0
 //TESH.alwaysfold=0
-// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/debug.j
-
-/////! import "Boss.j"
-
-// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/debug.j
+//===========================================================================
+//Ӷ��ϵͳ 
+//===========================================================================
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/LHBase.j
 
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/LHBase.j
@@ -5718,6 +5929,29 @@ endfunction
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\SpellBase.j
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Boss.j
+// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/Beast.j
+
+
+// IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
+/////! import "Test.j"
+// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Beast.j
+// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/Revive.j
+
+// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Revive.j
+
+// IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Revive.j
+/////! import "Test.j"
+/////! import "Beast.j"
+// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Revive.j
+/////! import "Test.j"
+/////! import "Beast.j"
+// redeclaration of library Revive skipped
+// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Revive.j
+// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/Purgatory.j
+
+
+
+// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Purgatory.j
 //***************************************************************************
 //*
 //*  Triggers
@@ -6002,7 +6236,6 @@ endfunction
 //===========================================================================
 function InitTrig_________________________a takes nothing returns nothing
     set gg_trg_________________________a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventSingle(gg_trg_________________________a, 1.00)
     call TriggerAddAction(gg_trg_________________________a, function Trig_________________________aActions)
 endfunction
@@ -6063,7 +6296,6 @@ endfunction
 //===========================================================================
 function InitTrig_________________________c takes nothing returns nothing
     set gg_trg_________________________c=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_________________________c, function Trig_________________________cActions)
 endfunction
 //===========================================================================
@@ -6254,7 +6486,6 @@ endfunction
 //===========================================================================
 function InitTrig_________________________b takes nothing returns nothing
     set gg_trg_________________________b=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_________________________b, function Trig_________________________bActions)
 endfunction
 //===========================================================================
@@ -6327,8 +6558,65 @@ endfunction
 //===========================================================================
 function InitTrig_________________________d takes nothing returns nothing
     set gg_trg_________________________d=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_________________________d, function Trig_________________________dActions)
+endfunction
+//===========================================================================
+// Trigger: 装备的属性初始化e
+//===========================================================================
+function Trig_________________________eActions takes nothing returns nothing
+    call SaveReal(YDHT, 'I01S', 0x3EBF688A, 0.50)
+    call SaveReal(YDHT, 'IB05', 0x3EBF688A, 1.75)
+    call SaveInteger(YDHT, 'IB05', 0x8D205575, 40000)
+    call SaveInteger(YDHT, 'IB05', 0x384C9D86, 40000)
+    call SaveInteger(YDHT, 'IB05', 0x1B5C932E, 40000)
+    call SaveInteger(YDHT, 'IB05', 0xFCD961C9, 3200000)
+    call SaveReal(YDHT, 'IB03', 0x3EBF688A, 1.25)
+    call SaveInteger(YDHT, 'IB03', 0x8D205575, 15000)
+    call SaveInteger(YDHT, 'IB03', 0x384C9D86, 15000)
+    call SaveInteger(YDHT, 'IB03', 0x1B5C932E, 15000)
+    call SaveInteger(YDHT, 'IB03', 0xFCD961C9, 800000)
+    call SaveReal(YDHT, 'IB00', 0x3EBF688A, 0.50)
+    call SaveInteger(YDHT, 'IB00', 0xFCD961C9, 50000)
+    call SaveReal(YDHT, 'IB01', 0x3EBF688A, 0.75)
+    call SaveInteger(YDHT, 'IB01', 0xFCD961C9, 200000)
+    call SaveInteger(YDHT, 'IB01', 0x1B5C932E, 5000)
+    call SaveInteger(YDHT, 'IB01', 0x8D205575, 5000)
+    call SaveInteger(YDHT, 'IB01', 0x384C9D86, 5000)
+    call SaveReal(YDHT, 'IB09', 0x3EBF688A, 3.00)
+    call SaveInteger(YDHT, 'IB09', 0xFCD961C9, 30000000)
+    call SaveInteger(YDHT, 'IB09', 0x8D205575, 250000)
+    call SaveInteger(YDHT, 'IB09', 0x384C9D86, 250000)
+    call SaveInteger(YDHT, 'IB09', 0x1B5C932E, 250000)
+    call SaveReal(YDHT, 'IB08', 0x3EBF688A, 2.50)
+    call SaveInteger(YDHT, 'IB08', 0xFCD961C9, 20000000)
+    call SaveInteger(YDHT, 'IB08', 0x8D205575, 160000)
+    call SaveInteger(YDHT, 'IB08', 0x384C9D86, 160000)
+    call SaveInteger(YDHT, 'IB08', 0x1B5C932E, 160000)
+    call SaveReal(YDHT, 'IB06', 0x3EBF688A, 2.00)
+    call SaveInteger(YDHT, 'IB06', 0xFCD961C9, 5000000)
+    call SaveInteger(YDHT, 'IB06', 0x8D205575, 65000)
+    call SaveInteger(YDHT, 'IB06', 0x384C9D86, 65000)
+    call SaveInteger(YDHT, 'IB06', 0x1B5C932E, 65000)
+    call SaveReal(YDHT, 'IB07', 0x3EBF688A, 2.25)
+    call SaveInteger(YDHT, 'IB07', 0xFCD961C9, 10000000)
+    call SaveInteger(YDHT, 'IB07', 0x8D205575, 100000)
+    call SaveInteger(YDHT, 'IB07', 0x384C9D86, 100000)
+    call SaveInteger(YDHT, 'IB07', 0x1B5C932E, 100000)
+    call SaveReal(YDHT, 'IB04', 0x3EBF688A, 1.50)
+    call SaveInteger(YDHT, 'IB04', 0xFCD961C9, 1600000)
+    call SaveInteger(YDHT, 'IB04', 0x8D205575, 24000)
+    call SaveInteger(YDHT, 'IB04', 0x384C9D86, 24000)
+    call SaveInteger(YDHT, 'IB04', 0x1B5C932E, 24000)
+    call SaveReal(YDHT, 'IB02', 0x3EBF688A, 1.00)
+    call SaveInteger(YDHT, 'IB02', 0xFCD961C9, 400000)
+    call SaveInteger(YDHT, 'IB02', 0x8D205575, 8000)
+    call SaveInteger(YDHT, 'IB02', 0x384C9D86, 8000)
+    call SaveInteger(YDHT, 'IB02', 0x1B5C932E, 8000)
+endfunction
+//===========================================================================
+function InitTrig_________________________e takes nothing returns nothing
+    set gg_trg_________________________e=CreateTrigger()
+    call TriggerAddAction(gg_trg_________________________e, function Trig_________________________eActions)
 endfunction
 //===========================================================================
 // Trigger: 未命名触发器 027
@@ -6404,7 +6692,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________027 takes nothing returns nothing
     set gg_trg____________________027=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________027, function Trig____________________027Actions)
 endfunction
 //===========================================================================
@@ -6477,8 +6764,8 @@ function Trig____________________008Actions takes nothing returns nothing
     set udg_F_Jia[10]='I014'
     set udg_Point_Fuhuo=GetRectCenter(gg_rct________1)
     call ForForce(GetPlayersAll(), function Trig____________________008Func052A)
-    call YDWESaveUnitByString("天庭" , "当前" , null)
-    call YDWESaveIntegerByString("天庭" , "数量" , 0)
+    call SaveUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前" )), ( null)) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("天庭" )), StringHash(( "数量" )), ( 0)) // INLINED!!
     call ShowUnitHide(gg_unit_ndgt_0236)
     call ShowUnitHide(gg_unit_ndgt_0243)
     call ShowUnitHide(gg_unit_ndgt_0244)
@@ -6494,7 +6781,7 @@ function Trig____________________008Actions takes nothing returns nothing
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
         if ( ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) and ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) ) then
         else
-            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, YDWEGetUnitsOfPlayerAllNull(ConvertedPlayer(GetForLoopIndexA())))
+            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, (YDWEGetUnitsOfPlayerMatchingNull((ConvertedPlayer(GetForLoopIndexA())) , null))) // INLINED!!
             call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F), function Trig____________________008Func064Func001Func002A)
             call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F))
         endif
@@ -6511,7 +6798,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________008 takes nothing returns nothing
     set gg_trg____________________008=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________008, function Trig____________________008Actions)
 endfunction
 //===========================================================================
@@ -6523,7 +6809,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________004 takes nothing returns nothing
     set gg_trg____________________004=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________004, function Trig____________________004Actions)
 endfunction
 //===========================================================================
@@ -6566,7 +6851,6 @@ endfunction
 //===========================================================================
 function InitTrig_aa6 takes nothing returns nothing
     set gg_trg_aa6=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventSingle(gg_trg_aa6, 0.00)
     call TriggerAddAction(gg_trg_aa6, function Trig_aa6Actions)
 endfunction
@@ -6706,7 +6990,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________ab takes nothing returns nothing
     set gg_trg_____________ab=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterDialogEvent(gg_trg_____________ab, udg_X_Nandu)
     call TriggerAddAction(gg_trg_____________ab, function Trig_____________abActions)
 endfunction
@@ -6721,7 +7004,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________002 takes nothing returns nothing
     set gg_trg____________________002=CreateTrigger()
-    call DoNothing()
 
         call TriggerRegisterPlayerChatEvent(gg_trg____________________002, Player(0), "HG", true)
         call TriggerRegisterPlayerChatEvent(gg_trg____________________002, Player(1), "HG", true)
@@ -6884,7 +7166,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________030 takes nothing returns nothing
     set gg_trg____________________030=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________030, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddAction(gg_trg____________________030, function Trig____________________030Actions)
 endfunction
@@ -6940,7 +7221,6 @@ endfunction
 //===========================================================================
 function InitTrig______________________d takes nothing returns nothing
     set gg_trg______________________d=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________________d, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddAction(gg_trg______________________d, function Trig______________________dActions)
 endfunction
@@ -6962,7 +7242,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________007 takes nothing returns nothing
     set gg_trg____________________007=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________007, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________007, Condition(function Trig____________________007Conditions))
     call TriggerAddAction(gg_trg____________________007, function Trig____________________007Actions)
@@ -6985,7 +7264,7 @@ function Trig______________________uFunc003Func025Func002T takes nothing returns
     if ( ( GetUnitUserData(gg_unit_nmre_0234) != 1 ) ) then
         call DisplayTimedTextToPlayer(GetOwningPlayer(gg_unit_Eevi_0020), 0, 0, 30, "|cFFFF66CC【提示】|r你选的英雄|cFFFFCC66湮灭|r拥有全图闪烁的技能，使用|cffffff00M|r键来使用该技能。")
     else
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
 endfunction
@@ -6993,7 +7272,7 @@ function Trig______________________uFunc003Func033Func003T takes nothing returns
     if ( ( GetUnitUserData(gg_unit_ncp3_0238) != 1 ) ) then
         call DisplayTimedTextToPlayer(GetOwningPlayer(gg_unit_Etyr_0017), 0, 0, 30, "|cFFFF66CC【提示】|r你选的英雄|cFFFF3399泰雅|r拥有月神之箭的技能，使用|cffffff00D|r键来使用该技能。")
     else
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
 endfunction
@@ -7052,13 +7331,13 @@ function Trig______________________uActions takes nothing returns nothing
         endloop
         if ( ( GetTriggerUnit() == gg_unit_Hvwd_0016 ) ) then
             call MultiboardSetItemIcon(MultiboardGetItem(udg_D, GetConvertedPlayerId(GetTriggerPlayer()), 0), "ReplaceableTextures\\CommandButtons\\BTNSylvanusWindrunner.blp")
-            set udg_Unit_Qixing[1]=CreateUnit(GetTriggerPlayer(), 'ewsp', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + 400.00 )), YDWECoordinateY(GetUnitY(GetTriggerUnit())), 90.00)
-            set udg_Unit_Qixing[2]=CreateUnit(GetTriggerPlayer(), 'e006', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + 249.39 )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + 312.73 )), 141.42)
-            set udg_Unit_Qixing[3]=CreateUnit(GetTriggerPlayer(), 'e008', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) - 89.00 )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + 389.97 )), 192.84)
-            set udg_Unit_Qixing[4]=CreateUnit(GetTriggerPlayer(), 'e009', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) - 360.38 )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + 173.55 )), 244.27)
-            set udg_Unit_Qixing[5]=CreateUnit(GetTriggerPlayer(), 'e00A', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) - 360.38 )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) - 173.55 )), 295.71)
-            set udg_Unit_Qixing[6]=CreateUnit(GetTriggerPlayer(), 'e007', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) - 89.00 )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) - 389.97 )), 347.14)
-            set udg_Unit_Qixing[7]=CreateUnit(GetTriggerPlayer(), 'e005', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + 249.39 )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) - 312.73 )), 398.57)
+            set udg_Unit_Qixing[1]=CreateUnit(GetTriggerPlayer(), 'ewsp', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + 400.00 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)), 90.00) // INLINED!!
+            set udg_Unit_Qixing[2]=CreateUnit(GetTriggerPlayer(), 'e006', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + 249.39 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + 312.73 ))*1.0), yd_MapMinY), yd_MapMaxY)), 141.42) // INLINED!!
+            set udg_Unit_Qixing[3]=CreateUnit(GetTriggerPlayer(), 'e008', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) - 89.00 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + 389.97 ))*1.0), yd_MapMinY), yd_MapMaxY)), 192.84) // INLINED!!
+            set udg_Unit_Qixing[4]=CreateUnit(GetTriggerPlayer(), 'e009', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) - 360.38 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + 173.55 ))*1.0), yd_MapMinY), yd_MapMaxY)), 244.27) // INLINED!!
+            set udg_Unit_Qixing[5]=CreateUnit(GetTriggerPlayer(), 'e00A', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) - 360.38 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) - 173.55 ))*1.0), yd_MapMinY), yd_MapMaxY)), 295.71) // INLINED!!
+            set udg_Unit_Qixing[6]=CreateUnit(GetTriggerPlayer(), 'e007', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) - 89.00 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) - 389.97 ))*1.0), yd_MapMinY), yd_MapMaxY)), 347.14) // INLINED!!
+            set udg_Unit_Qixing[7]=CreateUnit(GetTriggerPlayer(), 'e005', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + 249.39 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) - 312.73 ))*1.0), yd_MapMinY), yd_MapMaxY)), 398.57) // INLINED!!
             call UnitAddAbilityBJ('A066', gg_unit_Hvwd_0016)
             call EnableTrigger(gg_trg_______13)
             call EnableTrigger(gg_trg_______17)
@@ -7100,22 +7379,22 @@ function Trig______________________uActions takes nothing returns nothing
         else
         endif
         if ( ( GetTriggerUnit() == gg_unit_Ewrd_0250 ) ) then
-            call YDWESaveUnitByString("空间虫洞" , "1" , gg_unit_ndgt_0236)
-            call YDWESaveUnitByString("空间虫洞" , "2" , gg_unit_ndgt_0243)
-            call YDWESaveUnitByString("空间虫洞" , "3" , gg_unit_ndgt_0244)
-            call YDWESaveUnitByString("空间虫洞" , "4" , gg_unit_ndgt_0245)
-            call YDWESaveUnitByString("空间虫洞" , "5" , gg_unit_ndgt_0246)
-            call YDWESaveUnitByString("空间虫洞" , "6" , gg_unit_ndgt_0247)
-            call YDWESaveUnitByString("空间虫洞" , "7" , gg_unit_ndgt_0248)
-            call YDWESaveUnitByString("空间虫洞" , "8" , gg_unit_ndgt_0249)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "1"), 1)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "2"), 3)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "3"), 2)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "4"), 2)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "5"), 2)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "6"), 2)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "7"), 2)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "8"), 2)
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "1" )), ( gg_unit_ndgt_0236)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "2" )), ( gg_unit_ndgt_0243)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "3" )), ( gg_unit_ndgt_0244)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "4" )), ( gg_unit_ndgt_0245)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "5" )), ( gg_unit_ndgt_0246)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "6" )), ( gg_unit_ndgt_0247)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "7" )), ( gg_unit_ndgt_0248)) // INLINED!!
+            call SaveUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "8" )), ( gg_unit_ndgt_0249)) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "1")))), 1) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "2")))), 3) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "3")))), 2) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "4")))), 2) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "5")))), 2) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "6")))), 2) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "7")))), 2) // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "8")))), 2) // INLINED!!
             call EnableTrigger(gg_trg_____________63)
             call EnableTrigger(gg_trg_____________64)
             call MultiboardSetItemIcon(MultiboardGetItem(udg_D, GetConvertedPlayerId(GetTriggerPlayer()), 0), "ReplaceableTextures\\CommandButtons\\BTNWarden2.blp")
@@ -7127,7 +7406,7 @@ function Trig______________________uActions takes nothing returns nothing
             if ( ( GetUnitUserData(gg_unit_n00W_0038) != 1 ) ) then
                 call DisplayTimedTextToPlayer(GetOwningPlayer(gg_unit_Uktl_0018), 0, 0, 30, "|cFFFF66CC【提示】|r你选的英雄|cFF33FF33玄雪|r拥有灵魂侵入的技能，使用|cffffff00D|r键来使用该技能。")
             else
-                call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+                call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
                 call DestroyTimer(GetExpiredTimer())
             endif
         else
@@ -7189,7 +7468,6 @@ endfunction
 //===========================================================================
 function InitTrig______________________u takes nothing returns nothing
     set gg_trg______________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterPlayerSelectionEventBJ(gg_trg______________________u, Player(0), true)
     call TriggerRegisterPlayerSelectionEventBJ(gg_trg______________________u, Player(1), true)
     call TriggerRegisterPlayerSelectionEventBJ(gg_trg______________________u, Player(2), true)
@@ -7212,7 +7490,7 @@ endfunction
 function Trig____________________011Func002Func002A takes nothing returns nothing
     call RemoveUnit(GetEnumUnit())
 endfunction
-function Trig____________________011Func004Func004T takes nothing returns nothing
+function Trig____________________011Func006Func004T takes nothing returns nothing
     if ( ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) - 1 ) != 1 ) ) then
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) - 1 ))
         call YDWEMultiboardSetItemValueBJNull(udg_D , 7 , ( GetConvertedPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + 1 ) , I2S(( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) - 1 )))
@@ -7249,14 +7527,14 @@ function Trig____________________011Func004Func004T takes nothing returns nothin
             endif
         endif
         call YDWEMultiboardSetItemValueBJNull(udg_D , 7 , ( GetConvertedPlayerId(GetOwningPlayer(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + 1 ) , "存活")
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
 endfunction
-function Trig____________________011Func004Func014002003 takes nothing returns boolean
+function Trig____________________011Func006Func014002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(gg_unit_Usyl_0215)) == true ) ) )
 endfunction
-function Trig____________________011Func004Func016A takes nothing returns nothing
+function Trig____________________011Func006Func016A takes nothing returns nothing
     call UnitDamageTargetBJ(gg_unit_Usyl_0215, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC)
 endfunction
 function Trig____________________011Actions takes nothing returns nothing
@@ -7284,6 +7562,8 @@ function Trig____________________011Actions takes nothing returns nothing
         return
     else
     endif
+    // 魔兽
+    call RemoveBeast(GetDyingUnit())
     if ( ( IsUnitInRange(GetDyingUnit(), gg_unit_h00K_0254, 900.00) == true ) and ( GetUnitUserData(gg_unit_h00K_0254) > 0 ) ) then
         call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", GetUnitX(gg_unit_h00K_0254), GetUnitY(gg_unit_h00K_0254)))
         call SetUnitUserData(gg_unit_h00K_0254, ( GetUnitUserData(gg_unit_h00K_0254) - 1 ))
@@ -7301,9 +7581,9 @@ function Trig____________________011Actions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * 0.75 ))
         call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F, GetUnitLoc(gg_unit_h00K_0254))
-        set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(900.00 , LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F) , Condition(function Trig____________________011Func004Func014002003))
+        set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(900.00 , LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F) , Condition(function Trig____________________011Func006Func014002003))
         call DisplayTextToPlayer(GetOwningPlayer(gg_unit_Usyl_0215), 0, 0, ( "|cFFFF66CC【|r" + ( "|cffff00ff黯黑杀阵|r" + ( "|cFFFF66CC】|r伤害加成" + ( I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(gg_unit_Usyl_0215))] * 100.00 ) - 99.00 ))) + ( "%，伤害值" + ( I2S(R2I(LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) + "。" ) ) ) ) ) ))
-        call ForGroupBJ(udg_Group, function Trig____________________011Func004Func016A)
+        call ForGroupBJ(udg_Group, function Trig____________________011Func006Func016A)
         call DestroyGroup(udg_Group)
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))
         call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetPlayerName(GetOwningPlayer(GetDyingUnit())) + ( "被" + ( GetUnitName(GetKillingUnitBJ()) + ( "干掉了，等待" + ( "3秒复活。" ) ) ) ) ) ))
@@ -7353,7 +7633,7 @@ function Trig____________________011Actions takes nothing returns nothing
         call SaveUnitHandle(YDHT, GetHandleId(ydl_timer), 0xB6A6EBAA, GetDyingUnit())
         call SaveInteger(YDHT, GetHandleId(ydl_timer), 0xDD66C616, R2I(LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820)))
         call SaveLocationHandle(YDHT, GetHandleId(ydl_timer), 0x5E83114F, LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))
-        call TimerStart(ydl_timer, 1.00, true, function Trig____________________011Func004Func004T)
+        call TimerStart(ydl_timer, 1.00, true, function Trig____________________011Func006Func004T)
     endif
     call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
     set ydl_group=null
@@ -7363,7 +7643,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________011 takes nothing returns nothing
     set gg_trg____________________011=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________011, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________011, Condition(function Trig____________________011Conditions))
     call TriggerAddAction(gg_trg____________________011, function Trig____________________011Actions)
@@ -7388,7 +7667,7 @@ function Trig____________________012Actions takes nothing returns nothing
     call YDWEMultiboardSetItemValueBJNull(udg_D , 2 , ( GetConvertedPlayerId(GetTriggerPlayer()) + 1 ) , "离开")
     call DestroyTextTag(udg_Piaofu_Zhandouli[GetConvertedPlayerId(GetTriggerPlayer())])
     call DestroyTextTag(udg_Piaofu_Lianyu[GetConvertedPlayerId(GetTriggerPlayer())])
-    call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, YDWEGetUnitsOfPlayerAllNull(GetTriggerPlayer()))
+    call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, (YDWEGetUnitsOfPlayerMatchingNull((GetTriggerPlayer()) , null))) // INLINED!!
     call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F), function Trig____________________012Func008A)
     call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F))
     set udg_RENSHU=( udg_RENSHU - 1 )
@@ -7405,7 +7684,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________012 takes nothing returns nothing
     set gg_trg____________________012=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterPlayerEventLeave(gg_trg____________________012, Player(0))
     call TriggerRegisterPlayerEventLeave(gg_trg____________________012, Player(1))
     call TriggerRegisterPlayerEventLeave(gg_trg____________________012, Player(2))
@@ -7436,7 +7714,6 @@ endfunction
 //===========================================================================
 function InitTrig_aa5 takes nothing returns nothing
     set gg_trg_aa5=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_aa5, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg_aa5, Condition(function Trig_aa5Conditions))
     call TriggerAddAction(gg_trg_aa5, function Trig_aa5Actions)
@@ -7469,7 +7746,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________050 takes nothing returns nothing
     set gg_trg____________________050=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg____________________050, gg_unit_haro_0030, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg____________________050, Condition(function Trig____________________050Conditions))
     call TriggerAddAction(gg_trg____________________050, function Trig____________________050Actions)
@@ -7490,7 +7766,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________035 takes nothing returns nothing
     set gg_trg____________________035=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg____________________035, gg_unit_haro_0030, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg____________________035, Condition(function Trig____________________035Conditions))
     call TriggerAddAction(gg_trg____________________035, function Trig____________________035Actions)
@@ -7584,7 +7859,6 @@ endfunction
 //===========================================================================
 function InitTrig_______HP____________u takes nothing returns nothing
     set gg_trg_______HP____________u=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_______HP____________u, function Trig_______HP____________uActions)
 endfunction
 //===========================================================================
@@ -7593,7 +7867,7 @@ endfunction
 // 装备的属性 GJ 攻击 LL力量 ZL智力 MJ敏捷 JN技能加成 FY防御 HP- -不用说了 LLJ力量加成   MJJ敏捷加成   ZLJ 智力加成  HPJ生命加成  GJJ攻击加成   FYJ防御加成   SHJ 伤害加成
 //===========================================================================
 function Trig______________________bConditions takes nothing returns boolean
-    return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) )
+    return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetManipulatedItem() != null ) )
 endfunction
 function Trig______________________bActions takes nothing returns nothing
     if ( ( HaveSavedInteger(YDHT, GetItemTypeId(GetManipulatedItem()), 0x5039AFFB) == true ) and ( IsUnitIllusionBJ(GetTriggerUnit()) != true ) ) then
@@ -7688,6 +7962,11 @@ function Trig______________________bActions takes nothing returns nothing
         call TriggerExecute(gg_trg_papa11__________________u)
     else
     endif
+    if ( ( HaveSavedReal(YDHT, GetItemTypeId(GetManipulatedItem()), 0x3EBF688A) == true ) and ( IsUnitIllusionBJ(GetTriggerUnit()) != true ) and ( GetTriggerUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] ) ) then
+        set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]=( udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] + LoadReal(YDHT, GetItemTypeId(GetManipulatedItem()), 0x3EBF688A) )
+        call TriggerExecute(gg_trg_D7)
+    else
+    endif
     if ( ( GetItemTypeId(GetManipulatedItem()) == 'I05O' ) and ( IsUnitIllusionBJ(GetTriggerUnit()) != true ) and ( GetTriggerUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] ) ) then
         set udg_I_Jinqianhuodelv[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=( udg_I_Jinqianhuodelv[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] + 0.10 )
         set udg_gold[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 6 )]=( udg_gold[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 6 )] + 10 )
@@ -7720,7 +7999,6 @@ endfunction
 //===========================================================================
 function InitTrig______________________b takes nothing returns nothing
     set gg_trg______________________b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________________b, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg______________________b, Condition(function Trig______________________bConditions))
     call TriggerAddAction(gg_trg______________________b, function Trig______________________bActions)
@@ -7731,7 +8009,7 @@ endfunction
 // 装备的属性 GJ 攻击 LL力量 ZL智力 MJ敏捷 JN技能加成 FY防御 HP- -不用说了
 //===========================================================================
 function Trig______________________cConditions takes nothing returns boolean
-    return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) )
+    return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetManipulatedItem() != null ) )
 endfunction
 function Trig______________________cActions takes nothing returns nothing
     if ( ( HaveSavedInteger(YDHT, GetItemTypeId(GetManipulatedItem()), 0x5039AFFB) == true ) and ( IsUnitIllusionBJ(GetTriggerUnit()) != true ) ) then
@@ -7854,11 +8132,15 @@ function Trig______________________cActions takes nothing returns nothing
         call TriggerExecute(gg_trg_D7)
     else
     endif
+    if ( ( HaveSavedReal(YDHT, GetItemTypeId(GetManipulatedItem()), 0x3EBF688A) == true ) and ( IsUnitIllusionBJ(GetTriggerUnit()) != true ) and ( GetTriggerUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] ) ) then
+        set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]=( udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] - LoadReal(YDHT, GetItemTypeId(GetManipulatedItem()), 0x3EBF688A) )
+        call TriggerExecute(gg_trg_D7)
+    else
+    endif
 endfunction
 //===========================================================================
 function InitTrig______________________c takes nothing returns nothing
     set gg_trg______________________c=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________________c, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg______________________c, Condition(function Trig______________________cConditions))
     call TriggerAddAction(gg_trg______________________c, function Trig______________________cActions)
@@ -7986,7 +8268,6 @@ endfunction
 //===========================================================================
 function InitTrig___________________4000______u takes nothing returns nothing
     set gg_trg___________________4000______u=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg___________________4000______u, function Trig___________________4000______uActions)
 endfunction
 //===========================================================================
@@ -8153,7 +8434,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________800W takes nothing returns nothing
     set gg_trg_____________800W=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_____________800W, function Trig_____________800WActions)
 endfunction
 //===========================================================================
@@ -8228,7 +8508,6 @@ endfunction
 //===========================================================================
 function InitTrig_HP_____________________u takes nothing returns nothing
     set gg_trg_HP_____________________u=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_HP_____________________u, function Trig_HP_____________________uActions)
 endfunction
 //===========================================================================
@@ -8302,7 +8581,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________017 takes nothing returns nothing
     set gg_trg____________________017=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________017, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg____________________017, function Trig____________________017Actions)
 endfunction
@@ -8319,7 +8597,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________018 takes nothing returns nothing
     set gg_trg____________________018=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________018, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________018, Condition(function Trig____________________018Conditions))
     call TriggerAddAction(gg_trg____________________018, function Trig____________________018Actions)
@@ -8348,7 +8625,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________019 takes nothing returns nothing
     set gg_trg____________________019=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerChatEvent(gg_trg____________________019, Player(0), "-H", true)
         call TriggerRegisterPlayerChatEvent(gg_trg____________________019, Player(1), "-H", true)
         call TriggerRegisterPlayerChatEvent(gg_trg____________________019, Player(2), "-H", true)
@@ -8379,7 +8655,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________026 takes nothing returns nothing
     set gg_trg____________________026=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg____________________026, gg_unit_haro_0030, EVENT_UNIT_DEATH)
     call TriggerAddAction(gg_trg____________________026, function Trig____________________026Actions)
 endfunction
@@ -8395,7 +8670,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________028 takes nothing returns nothing
     set gg_trg____________________028=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerExpireEvent(gg_trg____________________028, udg_Time_BOSS)
     call TriggerAddAction(gg_trg____________________028, function Trig____________________028Actions)
 endfunction
@@ -8417,7 +8691,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________003 takes nothing returns nothing
     set gg_trg____________________003=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________003, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg____________________003, Condition(function Trig____________________003Conditions))
     call TriggerAddAction(gg_trg____________________003, function Trig____________________003Actions)
@@ -8440,7 +8713,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________003________2 takes nothing returns nothing
     set gg_trg____________________003________2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________003________2, EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
     call TriggerAddCondition(gg_trg____________________003________2, Condition(function Trig____________________003________2Conditions))
     call TriggerAddAction(gg_trg____________________003________2, function Trig____________________003________2Actions)
@@ -8458,7 +8730,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________005 takes nothing returns nothing
     set gg_trg____________________005=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________005, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddCondition(gg_trg____________________005, Condition(function Trig____________________005Conditions))
     call TriggerAddAction(gg_trg____________________005, function Trig____________________005Actions)
@@ -8484,7 +8755,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________071 takes nothing returns nothing
     set gg_trg____________________071=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________071, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg____________________071, Condition(function Trig____________________071Conditions))
     call TriggerAddAction(gg_trg____________________071, function Trig____________________071Actions)
@@ -8506,7 +8776,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________074 takes nothing returns nothing
     set gg_trg____________________074=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________074, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg____________________074, Condition(function Trig____________________074Conditions))
     call TriggerAddAction(gg_trg____________________074, function Trig____________________074Actions)
@@ -8532,7 +8801,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________085 takes nothing returns nothing
     set gg_trg____________________085=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________085, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________085, Condition(function Trig____________________085Conditions))
     call TriggerAddAction(gg_trg____________________085, function Trig____________________085Actions)
@@ -8568,7 +8836,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________090 takes nothing returns nothing
     set gg_trg____________________090=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________090, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________090, Condition(function Trig____________________090Conditions))
     call TriggerAddAction(gg_trg____________________090, function Trig____________________090Actions)
@@ -8583,11 +8850,11 @@ function Trig_D4Func002T takes nothing returns nothing
     else
         set udg_Second[1]=( udg_Second[1] + 1 )
     endif
-    call MultiboardSetTitleText(udg_D, ( "轮回之狱 v 2.53(" + ( I2S(udg_Second[2]) + ( "分" + ( I2S(udg_Second[1]) + "秒)" ) ) ) ))
+    call MultiboardSetTitleText(udg_D, ( "轮回之狱 v 2.56C(" + ( I2S(udg_Second[2]) + ( "分" + ( I2S(udg_Second[1]) + "秒)" ) ) ) ))
 endfunction
 function Trig_D4Actions takes nothing returns nothing
     local timer ydl_timer
-    call CreateMultiboardBJ(8, 7, "轮回之狱 v 2.53修复版(0分0秒)")
+    call CreateMultiboardBJ(8, 7, "轮回之狱 v 2.56C正式版(0分0秒)")
     set ydl_timer=CreateTimer()
     call TimerStart(ydl_timer, 1.00, true, function Trig_D4Func002T)
     set udg_D=GetLastCreatedMultiboard()
@@ -8639,7 +8906,6 @@ endfunction
 //===========================================================================
 function InitTrig_D4 takes nothing returns nothing
     set gg_trg_D4=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_D4, function Trig_D4Actions)
 endfunction
 //===========================================================================
@@ -8678,7 +8944,6 @@ endfunction
 //===========================================================================
 function InitTrig_D3 takes nothing returns nothing
     set gg_trg_D3=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_D3, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_D3, Condition(function Trig_D3Conditions))
     call TriggerAddAction(gg_trg_D3, function Trig_D3Actions)
@@ -8695,7 +8960,6 @@ endfunction
 //===========================================================================
 function InitTrig_D1 takes nothing returns nothing
     set gg_trg_D1=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerStateEvent(gg_trg_D1, Player(0), PLAYER_STATE_RESOURCE_GOLD, GREATER_THAN_OR_EQUAL, 0.00)
         call TriggerRegisterPlayerStateEvent(gg_trg_D1, Player(1), PLAYER_STATE_RESOURCE_GOLD, GREATER_THAN_OR_EQUAL, 0.00)
         call TriggerRegisterPlayerStateEvent(gg_trg_D1, Player(2), PLAYER_STATE_RESOURCE_GOLD, GREATER_THAN_OR_EQUAL, 0.00)
@@ -8729,7 +8993,6 @@ endfunction
 //===========================================================================
 function InitTrig_D6 takes nothing returns nothing
     set gg_trg_D6=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerStateEvent(gg_trg_D6, Player(0), PLAYER_STATE_RESOURCE_GOLD, GREATER_THAN_OR_EQUAL, 800000.00)
         call TriggerRegisterPlayerStateEvent(gg_trg_D6, Player(1), PLAYER_STATE_RESOURCE_GOLD, GREATER_THAN_OR_EQUAL, 800000.00)
         call TriggerRegisterPlayerStateEvent(gg_trg_D6, Player(2), PLAYER_STATE_RESOURCE_GOLD, GREATER_THAN_OR_EQUAL, 800000.00)
@@ -8761,7 +9024,6 @@ endfunction
 //===========================================================================
 function InitTrig_D2 takes nothing returns nothing
     set gg_trg_D2=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerStateEvent(gg_trg_D2, Player(0), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 0.00)
         call TriggerRegisterPlayerStateEvent(gg_trg_D2, Player(1), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 0.00)
         call TriggerRegisterPlayerStateEvent(gg_trg_D2, Player(2), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 0.00)
@@ -8793,7 +9055,6 @@ endfunction
 //===========================================================================
 function InitTrig_D5 takes nothing returns nothing
     set gg_trg_D5=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_D5, EVENT_PLAYER_HERO_LEVEL)
     call TriggerAddCondition(gg_trg_D5, Condition(function Trig_D5Conditions))
     call TriggerAddAction(gg_trg_D5, function Trig_D5Actions)
@@ -8822,14 +9083,13 @@ endfunction
 //===========================================================================
 function InitTrig_D7 takes nothing returns nothing
     set gg_trg_D7=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_D7, function Trig_D7Actions)
 endfunction
 //===========================================================================
 // Trigger: _fh
 //===========================================================================
 function Trig__fhFunc002T takes nothing returns nothing
-    if ( ( IsUnitAliveBJ(udg_H[LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D)]) != true ) ) then
+    if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, udg_H[LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D)]) <= 0.00 ) ) then
         if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) == 21 ) ) then
             call ReviveHeroLoc(udg_H[LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)], udg_Point_Fuhuo, true)
             call ShowUnitShow(udg_H[LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)])
@@ -8862,7 +9122,6 @@ endfunction
 //===========================================================================
 function InitTrig__fh takes nothing returns nothing
     set gg_trg__fh=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerChatEvent(gg_trg__fh, Player(0), "-fh", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__fh, Player(1), "-fh", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__fh, Player(2), "-fh", true)
@@ -8885,22 +9144,22 @@ endfunction
 // Trigger: _hint
 //===========================================================================
 function Trig__hintActions takes nothing returns nothing
-    set udg_I_suijizhengshu=GetRandomInt(1, 33)
+    set udg_I_suijizhengshu=GetRandomInt(1, 34)
     if ( ( udg_I_suijizhengshu == 1 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r|cffffcc00“魔法项链”|r是一件减少所受魔法伤害的装备，复活之后还可以立即回复魔法哦，在基地右边的商店试下吧！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r炼狱所爆的魔兽可以提高英雄的生命恢复速度还有魔法恢复速度哦~")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
     if ( ( udg_I_suijizhengshu == 2 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r|cffffcc00“死亡勋章”|r升级到顶级后，复活只需要4s哦，在基地右边的商店试下吧！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r战魂升级到了高等级时,复活只需要3秒哦~")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
     if ( ( udg_I_suijizhengshu == 3 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r|cffffcc00“恶魔岩石”|r升级到顶级后，能一次召唤3个，具有主人的2倍能力，还有分裂技能，在基地右边的商店试下吧！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r顶级法魂可以一次性召唤3个强大的地狱火哦~")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
@@ -8930,7 +9189,7 @@ function Trig__hintActions takes nothing returns nothing
     endif
     if ( ( udg_I_suijizhengshu == 8 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r不能让一些攻打基地的怪物融合，否则他们的战斗力会提高很多倍。")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r尽量不要让上下两波怪整合，他们的战斗力会因此提高很多倍。")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
@@ -8942,7 +9201,7 @@ function Trig__hintActions takes nothing returns nothing
     endif
     if ( ( udg_I_suijizhengshu == 10 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r炼狱所爆的物品是对抗最终BOSS的超强法符。")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r炼狱所爆的魔兽是可以一直守护着英雄.")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
@@ -8996,7 +9255,7 @@ function Trig__hintActions takes nothing returns nothing
     endif
     if ( ( udg_I_suijizhengshu == 19 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r虚界怪物（爆宝石的）和千年孤魂均具有“大虚空之术”技能，可以购买魔法项链来抵挡该伤害，也可以单个击破。")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r虚界怪物具有闪电链技能.")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
@@ -9014,7 +9273,7 @@ function Trig__hintActions takes nothing returns nothing
     endif
     if ( ( udg_I_suijizhengshu == 22 ) ) then
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
-        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r炼狱每打过一个BOSS就可以获得法符.")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r炼狱每打过2个BOSS就可以获得对应的魔兽.")
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
@@ -9084,11 +9343,17 @@ function Trig__hintActions takes nothing returns nothing
         call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
     else
     endif
+    if ( ( udg_I_suijizhengshu == 34 ) ) then
+        call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff00ff【小提示】|r最后的BOSS的技能是需要躲避的,不要小看了这些技能的威力!")
+        call DisplayTextToForce(GetPlayersAll(), "※※※※※※※※※※※※※※※※※※※※※※※")
+    else
+    endif
+    set udg_I_suijizhengshu=0
 endfunction
 //===========================================================================
 function InitTrig__hint takes nothing returns nothing
     set gg_trg__hint=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg__hint, 120.00)
     call TriggerAddAction(gg_trg__hint, function Trig__hintActions)
 endfunction
@@ -9108,7 +9373,6 @@ endfunction
 //===========================================================================
 function InitTrig__ym takes nothing returns nothing
     set gg_trg__ym=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerChatEvent(gg_trg__ym, Player(0), "-ym", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__ym, Player(1), "-ym", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__ym, Player(2), "-ym", true)
@@ -9139,7 +9403,6 @@ endfunction
 //===========================================================================
 function InitTrig__cx takes nothing returns nothing
     set gg_trg__cx=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerChatEvent(gg_trg__cx, Player(0), "-cx", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__cx, Player(1), "-cx", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__cx, Player(2), "-cx", true)
@@ -9182,7 +9445,6 @@ endfunction
 //===========================================================================
 function InitTrig__yc takes nothing returns nothing
     set gg_trg__yc=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerChatEvent(gg_trg__yc, Player(0), "-yc", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__yc, Player(1), "-yc", true)
         call TriggerRegisterPlayerChatEvent(gg_trg__yc, Player(2), "-yc", true)
@@ -9344,7 +9606,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________029 takes nothing returns nothing
     set gg_trg____________________029=CreateTrigger()
-    call DoNothing()
         call TriggerRegisterPlayerSelectionEventBJ(gg_trg____________________029, Player(0), true)
         call TriggerRegisterPlayerSelectionEventBJ(gg_trg____________________029, Player(1), true)
         call TriggerRegisterPlayerSelectionEventBJ(gg_trg____________________029, Player(2), true)
@@ -9373,7 +9634,7 @@ function Trig____________________055Func008T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00转生|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func009T takes nothing returns nothing
@@ -9382,7 +9643,7 @@ function Trig____________________055Func009T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00挑战擂台|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func010T takes nothing returns nothing
@@ -9391,7 +9652,7 @@ function Trig____________________055Func010T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00炼狱|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func011T takes nothing returns nothing
@@ -9401,7 +9662,7 @@ function Trig____________________055Func011T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00翅膀|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func012T takes nothing returns nothing
@@ -9410,7 +9671,7 @@ function Trig____________________055Func012T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cffffff00挑战Laser|r的分身
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func013T takes nothing returns nothing
@@ -9419,7 +9680,7 @@ function Trig____________________055Func013T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00天庭|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func014T takes nothing returns nothing
@@ -9428,7 +9689,7 @@ function Trig____________________055Func014T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00千年孤魂|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Func015T takes nothing returns nothing
@@ -9437,7 +9698,7 @@ function Trig____________________055Func015T takes nothing returns nothing
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00宝石专区|r
 |cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________055Actions takes nothing returns nothing
@@ -9451,7 +9712,8 @@ function Trig____________________055Actions takes nothing returns nothing
 -fh 若出现不能复活的BUG，输入该指令进行复活
 -ym 清除地上的羽毛，不会让游戏过卡
 -cx 查询英雄所加成的属性状态
--yc 隐藏面板", "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.blp")
+-yc 隐藏面板
+-kill 自杀", "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.blp")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
     call CreateQuestBJ(bj_QUESTTYPE_REQ_DISCOVERED, "游戏提示", "本地图不推荐于本地局域网进行游戏，可能会出现掉线的状况。
 
@@ -9478,7 +9740,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________055 takes nothing returns nothing
     set gg_trg____________________055=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventSingle(gg_trg____________________055, 0.00)
     call TriggerAddAction(gg_trg____________________055, function Trig____________________055Actions)
 endfunction
@@ -9512,9 +9773,36 @@ endfunction
 //===========================================================================
 function InitTrig_zhandouli2 takes nothing returns nothing
     set gg_trg_zhandouli2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_zhandouli2, 9.90)
     call TriggerAddAction(gg_trg_zhandouli2, function Trig_zhandouli2Actions)
+endfunction
+//===========================================================================
+// Trigger: _kill
+//===========================================================================
+function Trig__killActions takes nothing returns nothing
+    call KillUnit(udg_H[GetConvertedPlayerId(GetTriggerPlayer())])
+    call DisplayTextToPlayer(GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r自杀成功!")
+endfunction
+//===========================================================================
+function InitTrig__kill takes nothing returns nothing
+    set gg_trg__kill=CreateTrigger()
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(0), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(1), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(2), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(3), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(4), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(5), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(6), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(7), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(8), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(9), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(10), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(11), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(12), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(13), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(14), "-kill", true)
+        call TriggerRegisterPlayerChatEvent(gg_trg__kill, Player(15), "-kill", true)
+    call TriggerAddAction(gg_trg__kill, function Trig__killActions)
 endfunction
 //===========================================================================
 // Trigger: 未命名触发器 025
@@ -9557,7 +9845,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________025 takes nothing returns nothing
     set gg_trg____________________025=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________025, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________025, Condition(function Trig____________________025Conditions))
     call TriggerAddAction(gg_trg____________________025, function Trig____________________025Actions)
@@ -9582,7 +9869,6 @@ endfunction
 //===========================================================================
 function InitTrig_______________________________u takes nothing returns nothing
     set gg_trg_______________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______________________________u, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg_______________________________u, function Trig_______________________________uActions)
 endfunction
@@ -9993,7 +10279,6 @@ endfunction
 //===========================================================================
 function InitTrig________10b takes nothing returns nothing
     set gg_trg________10b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg________10b, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg________10b, Condition(function Trig________10bConditions))
     call TriggerAddAction(gg_trg________10b, function Trig________10bActions)
@@ -10055,7 +10340,6 @@ endfunction
 //===========================================================================
 function InitTrig______________12b takes nothing returns nothing
     set gg_trg______________12b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________12b, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg______________12b, Condition(function Trig______________12bConditions))
     call TriggerAddAction(gg_trg______________12b, function Trig______________12bActions)
@@ -10123,7 +10407,6 @@ endfunction
 //===========================================================================
 function InitTrig______________11b takes nothing returns nothing
     set gg_trg______________11b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________11b, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg______________11b, Condition(function Trig______________11bConditions))
     call TriggerAddAction(gg_trg______________11b, function Trig______________11bActions)
@@ -10147,7 +10430,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________070 takes nothing returns nothing
     set gg_trg____________________070=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________070, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________070, Condition(function Trig____________________070Conditions))
     call TriggerAddAction(gg_trg____________________070, function Trig____________________070Actions)
@@ -10294,7 +10576,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________070_______u takes nothing returns nothing
     set gg_trg____________________070_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________070_______u, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg____________________070_______u, Condition(function Trig____________________070_______uConditions))
     call TriggerAddAction(gg_trg____________________070_______u, function Trig____________________070_______uActions)
@@ -10319,7 +10600,6 @@ endfunction
 //===========================================================================
 function InitTrig_Xian takes nothing returns nothing
     set gg_trg_Xian=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Xian, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg_Xian, Condition(function Trig_XianConditions))
     call TriggerAddAction(gg_trg_Xian, function Trig_XianActions)
@@ -10384,7 +10664,6 @@ endfunction
 //===========================================================================
 function InitTrig_Xian2 takes nothing returns nothing
     set gg_trg_Xian2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Xian2, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg_Xian2, Condition(function Trig_Xian2Conditions))
     call TriggerAddAction(gg_trg_Xian2, function Trig_Xian2Actions)
@@ -10409,7 +10688,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________070________2_______u takes nothing returns nothing
     set gg_trg____________________070________2_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________070________2_______u, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________070________2_______u, Condition(function Trig____________________070________2_______uConditions))
     call TriggerAddAction(gg_trg____________________070________2_______u, function Trig____________________070________2_______uActions)
@@ -10539,7 +10817,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________070_____________________u takes nothing returns nothing
     set gg_trg____________________070_____________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________070_____________________u, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg____________________070_____________________u, Condition(function Trig____________________070_____________________uConditions))
     call TriggerAddAction(gg_trg____________________070_____________________u, function Trig____________________070_____________________uActions)
@@ -11063,7 +11340,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z5 takes nothing returns nothing
     set gg_trg_Z5=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Z5, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_Z5, Condition(function Trig_Z5Conditions))
     call TriggerAddAction(gg_trg_Z5, function Trig_Z5Actions)
@@ -11298,7 +11574,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z6 takes nothing returns nothing
     set gg_trg_Z6=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Z6, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_Z6, Condition(function Trig_Z6Conditions))
     call TriggerAddAction(gg_trg_Z6, function Trig_Z6Actions)
@@ -11341,7 +11616,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z7 takes nothing returns nothing
     set gg_trg_Z7=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_Z7 , gg_rct________8)
     call TriggerAddCondition(gg_trg_Z7, Condition(function Trig_Z7Conditions))
     call TriggerAddAction(gg_trg_Z7, function Trig_Z7Actions)
@@ -11402,7 +11676,6 @@ endfunction
 function InitTrig_Z8 takes nothing returns nothing
     set gg_trg_Z8=CreateTrigger()
     call DisableTrigger(gg_trg_Z8)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_Z8, 1.00)
     call TriggerAddAction(gg_trg_Z8, function Trig_Z8Actions)
 endfunction
@@ -11436,7 +11709,6 @@ endfunction
 function InitTrig_Z9 takes nothing returns nothing
     set gg_trg_Z9=CreateTrigger()
     call DisableTrigger(gg_trg_Z9)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_Z9, 10.00)
     call TriggerAddAction(gg_trg_Z9, function Trig_Z9Actions)
 endfunction
@@ -11578,7 +11850,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________033 takes nothing returns nothing
     set gg_trg____________________033=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________033, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg____________________033, function Trig____________________033Actions)
 endfunction
@@ -11600,7 +11871,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________038 takes nothing returns nothing
     set gg_trg____________________038=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________038, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddAction(gg_trg____________________038, function Trig____________________038Actions)
 endfunction
@@ -11668,14 +11938,14 @@ function Trig____________________022_______uActions takes nothing returns nothin
     endif
     if ( ( GetUnitAbilityLevelSwapped('Ansk', GetEventDamageSource()) != 0 ) ) then
         call DisableTrigger(GetTriggeringTrigger())
-        call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( GetEventDamage() * ( 10.00 * ( 1.00 - ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) ) ) ) ))
+        call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( GetEventDamage() * ( 2.50 * ( 1.00 - ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) ) ) ) ))
         call UnitDamageTargetBJ(GetEventDamageSource(), GetTriggerUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON)
         call EnableTrigger(GetTriggeringTrigger())
     else
     endif
     if ( ( GetUnitAbilityLevelSwapped('Aesn', GetEventDamageSource()) != 0 ) ) then
         call DisableTrigger(GetTriggeringTrigger())
-        call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( GetEventDamage() * ( 10.00 * ( 1.00 - ( GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_MANA, GetTriggerUnit()) ) ) ) ))
+        call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( GetEventDamage() * ( 2.50 * ( 1.00 - ( GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_MANA, GetTriggerUnit()) ) ) ) ))
         call UnitDamageTargetBJ(GetEventDamageSource(), GetTriggerUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON)
         call EnableTrigger(GetTriggeringTrigger())
     else
@@ -11685,7 +11955,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________022_______u takes nothing returns nothing
     set gg_trg____________________022_______u=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________022_______u)
     call TriggerAddCondition(gg_trg____________________022_______u, Condition(function Trig____________________022_______uConditions))
     call TriggerAddAction(gg_trg____________________022_______u, function Trig____________________022_______uActions)
@@ -11798,7 +12067,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________036 takes nothing returns nothing
     set gg_trg____________________036=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________036, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________036, Condition(function Trig____________________036Conditions))
     call TriggerAddAction(gg_trg____________________036, function Trig____________________036Actions)
@@ -11825,7 +12093,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________044 takes nothing returns nothing
     set gg_trg____________________044=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________044)
     call TriggerAddCondition(gg_trg____________________044, Condition(function Trig____________________044Conditions))
     call TriggerAddAction(gg_trg____________________044, function Trig____________________044Actions)
@@ -11856,7 +12123,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________065 takes nothing returns nothing
     set gg_trg____________________065=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________065, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________065, Condition(function Trig____________________065Conditions))
     call TriggerAddAction(gg_trg____________________065, function Trig____________________065Actions)
@@ -11897,7 +12163,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________047 takes nothing returns nothing
     set gg_trg____________________047=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________047, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________047, Condition(function Trig____________________047Conditions))
     call TriggerAddAction(gg_trg____________________047, function Trig____________________047Actions)
@@ -11905,26 +12170,9 @@ endfunction
 //===========================================================================
 // Trigger: 未命名触发器 048
 //===========================================================================
-function Trig____________________048Func001Func003003003 takes nothing returns boolean
-    return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) == true ) ) )
-endfunction
-function Trig____________________048Func001Func004A takes nothing returns nothing
-    call SetUnitLifePercentBJ(GetEnumUnit(), 100)
-endfunction
 function Trig____________________048Actions takes nothing returns nothing
-    local group ydl_group
-    local unit ydl_unit
-    local integer ydl_localvar_step= LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step=ydl_localvar_step + 3
-    call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     if ( ( GetUnitAbilityLevelSwapped('Arsk', GetAttacker()) != 0 ) and ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttacker()) <= ( 0.25 * GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttacker()) ) ) ) then
-        call UnitDamageTargetBJ(GetAttacker(), GetAttackedUnitBJ(), ( GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttackedUnitBJ()) * 0.10 ), ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC)
-        set udg_Point=GetUnitLoc(GetAttacker())
-        call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(1800.00 , udg_Point , Condition(function Trig____________________048Func001Func003003003)))
-        call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F), function Trig____________________048Func001Func004A)
-        call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F))
-        call RemoveLocation(udg_Point)
+        call UnitDamageTargetBJ(GetAttacker(), GetAttackedUnitBJ(), ( GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttackedUnitBJ()) * 0.02 ), ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC)
     else
     endif
     if ( ( GetUnitAbilityLevelSwapped('Agyv', GetAttacker()) != 0 ) and ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) ) > ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttacker()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttacker()) ) ) ) then
@@ -11932,14 +12180,10 @@ function Trig____________________048Actions takes nothing returns nothing
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())))
     else
     endif
-    call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
-    set ydl_group=null
-    set ydl_unit=null
 endfunction
 //===========================================================================
 function InitTrig____________________048 takes nothing returns nothing
     set gg_trg____________________048=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________048, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddAction(gg_trg____________________048, function Trig____________________048Actions)
 endfunction
@@ -11975,7 +12219,6 @@ endfunction
 function InitTrig____________________058 takes nothing returns nothing
     set gg_trg____________________058=CreateTrigger()
     call DisableTrigger(gg_trg____________________058)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________058, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddAction(gg_trg____________________058, function Trig____________________058Actions)
 endfunction
@@ -12006,7 +12249,6 @@ endfunction
 function InitTrig____________________060 takes nothing returns nothing
     set gg_trg____________________060=CreateTrigger()
     call DisableTrigger(gg_trg____________________060)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________060, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________060, Condition(function Trig____________________060Conditions))
     call TriggerAddAction(gg_trg____________________060, function Trig____________________060Actions)
@@ -12023,16 +12265,16 @@ function Trig____________________062Actions takes nothing returns nothing
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     if ( ( GetUnitAbilityLevelSwapped('A0B8', GetAttacker()) != 0 ) and ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttacker()) <= ( ( 0.10 + ( 0.03 * I2R(GetUnitAbilityLevelSwapped('A0B8', GetAttacker())) ) ) * GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttacker()) ) ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) >= 200.00 ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", YDWECoordinateX(GetUnitX(GetAttacker())), YDWECoordinateY(GetUnitY(GetAttacker()))))
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttacker()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttacker()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttackedUnitBJ()) ) * 100.00 ))
         call SetUnitLifePercentBJ(GetAttackedUnitBJ(), ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttacker()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttacker()) ) * 100.00 ))
         call SetUnitLifePercentBJ(GetAttacker(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
     else
     endif
     if ( ( GetUnitAbilityLevelSwapped('A0B8', GetAttackedUnitBJ()) != 0 ) and ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) <= ( ( 0.10 + ( 0.03 * I2R(GetUnitAbilityLevelSwapped('A0B8', GetAttackedUnitBJ())) ) ) * GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttackedUnitBJ()) ) ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) >= 200.00 ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", YDWECoordinateX(GetUnitX(GetAttacker())), YDWECoordinateY(GetUnitY(GetAttacker()))))
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttacker()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttacker()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttackedUnitBJ()) ) * 100.00 ))
         call SetUnitLifePercentBJ(GetAttackedUnitBJ(), ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetAttacker()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetAttacker()) ) * 100.00 ))
         call SetUnitLifePercentBJ(GetAttacker(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
@@ -12044,7 +12286,6 @@ endfunction
 function InitTrig____________________062 takes nothing returns nothing
     set gg_trg____________________062=CreateTrigger()
     call DisableTrigger(gg_trg____________________062)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________062, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________062, Condition(function Trig____________________062Conditions))
     call TriggerAddAction(gg_trg____________________062, function Trig____________________062Actions)
@@ -12052,16 +12293,19 @@ endfunction
 //===========================================================================
 // Trigger: 未命名触发器 063
 //===========================================================================
+function Trig____________________063Conditions takes nothing returns boolean
+    return ( ( IsUnitIllusionBJ(GetAttackedUnitBJ()) == false ) and ( GetUnitTypeId(GetAttackedUnitBJ()) != 'N018' ) )
+endfunction
 function Trig____________________063Actions takes nothing returns nothing
     local integer ydul_o
-    if ( ( ( GetUnitAbilityLevelSwapped('Agyb', GetAttacker()) != 0 ) or ( GetUnitAbilityLevelSwapped('Asth', GetAttacker()) != 0 ) ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) >= 1000.00 ) and ( GetRandomInt(1, 10) == 1 ) ) then
+    if ( ( ( GetUnitAbilityLevelSwapped('Agyb', GetAttacker()) != 0 ) or ( GetUnitAbilityLevelSwapped('Asth', GetAttacker()) != 0 ) ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) >= 1000.00 ) and ( GetRandomInt(1, 50) == 1 ) ) then
         if ( ( GetUnitAbilityLevelSwapped('Agyb', GetAttacker()) != 0 ) ) then
             set ydul_o=1
             loop
                 exitwhen ydul_o > 6
                 if ( ( UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o) != null ) and ( IsItemPawnable(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) == true ) ) then
-                    call UnitRemoveItemSwapped(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o), GetAttackedUnitBJ())
                     call DisplayTextToForce(YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), ( "|cffff8000【注意】你的|r" + ( GetItemName(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) + "|cffff8000被怪物用技能击落在地上！！！！！|r" ) ))
+                    call UnitRemoveItemSwapped(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o), GetAttackedUnitBJ())
                     call DoNothing()
  exitwhen true //(  )
                 else
@@ -12073,8 +12317,8 @@ function Trig____________________063Actions takes nothing returns nothing
             loop
                 exitwhen ydul_o > 6
                 if ( ( UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o) != null ) and ( IsItemPawnable(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) == true ) ) then
-                    call UnitRemoveItemSwapped(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o), GetAttackedUnitBJ())
                     call DisplayTextToForce(YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), ( "|cffff8000【注意】你的|r" + ( GetItemName(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) + "|cffff8000被怪物用技能击落在地上！！！！！|r" ) ))
+                    call UnitRemoveItemSwapped(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o), GetAttackedUnitBJ())
                 else
                 endif
                 set ydul_o=ydul_o + 1
@@ -12086,8 +12330,8 @@ endfunction
 //===========================================================================
 function InitTrig____________________063 takes nothing returns nothing
     set gg_trg____________________063=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________063, EVENT_PLAYER_UNIT_ATTACKED)
+    call TriggerAddCondition(gg_trg____________________063, Condition(function Trig____________________063Conditions))
     call TriggerAddAction(gg_trg____________________063, function Trig____________________063Actions)
 endfunction
 //===========================================================================
@@ -12117,7 +12361,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________031 takes nothing returns nothing
     set gg_trg____________________031=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________031)
     call TriggerAddCondition(gg_trg____________________031, Condition(function Trig____________________031Conditions))
     call TriggerAddAction(gg_trg____________________031, function Trig____________________031Actions)
@@ -12134,7 +12377,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________077 takes nothing returns nothing
     set gg_trg____________________077=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________077, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________077, Condition(function Trig____________________077Conditions))
     call TriggerAddAction(gg_trg____________________077, function Trig____________________077Actions)
@@ -12155,7 +12397,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________078 takes nothing returns nothing
     set gg_trg____________________078=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________078)
     call TriggerAddCondition(gg_trg____________________078, Condition(function Trig____________________078Conditions))
     call TriggerAddAction(gg_trg____________________078, function Trig____________________078Actions)
@@ -12184,7 +12425,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________082 takes nothing returns nothing
     set gg_trg____________________082=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________082, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________082, Condition(function Trig____________________082Conditions))
     call TriggerAddAction(gg_trg____________________082, function Trig____________________082Actions)
@@ -12219,7 +12459,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________024 takes nothing returns nothing
     set gg_trg____________________024=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________024, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________024, Condition(function Trig____________________024Conditions))
     call TriggerAddAction(gg_trg____________________024, function Trig____________________024Actions)
@@ -12338,8 +12577,8 @@ function Trig____________________032Func016Func011Func001Func005002003 takes not
     return ( ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( GetOwningPlayer(GetFilterUnit()) != Player(6) ) ) and ( ( IsUnitAlly(GetFilterUnit(), Player(6)) == true ) and ( IsUnitType(GetFilterUnit(), UNIT_TYPE_MECHANICAL) != true ) ) ) )
 endfunction
 function Trig____________________032Func016Func011Func001Func006A takes nothing returns nothing
-    call SetUnitX(GetEnumUnit(), YDWECoordinateX(( GetUnitX(GetEnumUnit()) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x9CD60476) * CosBJ(YDWEAngleBetweenUnits(GetEnumUnit() , LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x95163412))) ) )))
-    call SetUnitY(GetEnumUnit(), YDWECoordinateY(( GetUnitY(GetEnumUnit()) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x9CD60476) * SinBJ(YDWEAngleBetweenUnits(GetEnumUnit() , LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x95163412))) ) )))
+    call SetUnitX(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetUnitX(GetEnumUnit()) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x9CD60476) * CosBJ(YDWEAngleBetweenUnits(GetEnumUnit() , LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x95163412))) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+    call SetUnitY(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetUnitY(GetEnumUnit()) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x9CD60476) * SinBJ(YDWEAngleBetweenUnits(GetEnumUnit() , LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x95163412))) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
 endfunction
 function Trig____________________032Func016Func011T takes nothing returns nothing
     local group ydl_group
@@ -12548,7 +12787,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________032 takes nothing returns nothing
     set gg_trg____________________032=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________032, function Trig____________________032Actions)
 endfunction
 //===========================================================================
@@ -12585,7 +12823,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________034 takes nothing returns nothing
     set gg_trg____________________034=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________034, function Trig____________________034Actions)
 endfunction
 //===========================================================================
@@ -12613,7 +12850,6 @@ endfunction
 function InitTrig____________________052 takes nothing returns nothing
     set gg_trg____________________052=CreateTrigger()
     call DisableTrigger(gg_trg____________________052)
-    call DoNothing()
     call TriggerAddCondition(gg_trg____________________052, Condition(function Trig____________________052Conditions))
     call TriggerAddAction(gg_trg____________________052, function Trig____________________052Actions)
 endfunction
@@ -12644,7 +12880,6 @@ endfunction
 function InitTrig____________________052_______u takes nothing returns nothing
     set gg_trg____________________052_______u=CreateTrigger()
     call DisableTrigger(gg_trg____________________052_______u)
-    call DoNothing()
     call TriggerAddCondition(gg_trg____________________052_______u, Condition(function Trig____________________052_______uConditions))
     call TriggerAddAction(gg_trg____________________052_______u, function Trig____________________052_______uActions)
 endfunction
@@ -12666,7 +12901,6 @@ endfunction
 function InitTrig____________________001 takes nothing returns nothing
     set gg_trg____________________001=CreateTrigger()
     call DisableTrigger(gg_trg____________________001)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________001, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________001, Condition(function Trig____________________001Conditions))
     call TriggerAddAction(gg_trg____________________001, function Trig____________________001Actions)
@@ -12696,7 +12930,6 @@ endfunction
 function InitTrig____________________052______________u takes nothing returns nothing
     set gg_trg____________________052______________u=CreateTrigger()
     call DisableTrigger(gg_trg____________________052______________u)
-    call DoNothing()
     call TriggerAddCondition(gg_trg____________________052______________u, Condition(function Trig____________________052______________uConditions))
     call TriggerAddAction(gg_trg____________________052______________u, function Trig____________________052______________uActions)
 endfunction
@@ -12716,7 +12949,6 @@ endfunction
 function InitTrig____________________001_______u takes nothing returns nothing
     set gg_trg____________________001_______u=CreateTrigger()
     call DisableTrigger(gg_trg____________________001_______u)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________001_______u, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________001_______u, Condition(function Trig____________________001_______uConditions))
     call TriggerAddAction(gg_trg____________________001_______u, function Trig____________________001_______uActions)
@@ -12747,7 +12979,6 @@ endfunction
 function InitTrig____________________052_____________________u takes nothing returns nothing
     set gg_trg____________________052_____________________u=CreateTrigger()
     call DisableTrigger(gg_trg____________________052_____________________u)
-    call DoNothing()
     call TriggerAddCondition(gg_trg____________________052_____________________u, Condition(function Trig____________________052_____________________uConditions))
     call TriggerAddAction(gg_trg____________________052_____________________u, function Trig____________________052_____________________uActions)
 endfunction
@@ -12763,7 +12994,6 @@ function Trig____________________052_______________2Actions takes nothing return
         call UnitAddAbilityBJ('A0DF', GetAttackedUnitBJ())
     else
     endif
-    call UnitAddAbilityBJ('A0DE', GetAttackedUnitBJ())
     call SetUnitAbilityLevelSwapped('A030', GetAttackedUnitBJ(), 2)
     call SetUnitAbilityLevelSwapped('A019', GetAttackedUnitBJ(), ( udg_Nandu_JJJ + 7 ))
     if ( ( udg_Nandu_JJJ >= 6 ) ) then
@@ -12777,7 +13007,6 @@ endfunction
 function InitTrig____________________052_______________2 takes nothing returns nothing
     set gg_trg____________________052_______________2=CreateTrigger()
     call DisableTrigger(gg_trg____________________052_______________2)
-    call DoNothing()
     call TriggerAddCondition(gg_trg____________________052_______________2, Condition(function Trig____________________052_______________2Conditions))
     call TriggerAddAction(gg_trg____________________052_______________2, function Trig____________________052_______________2Actions)
 endfunction
@@ -12799,7 +13028,6 @@ endfunction
 function InitTrig____________________001________2 takes nothing returns nothing
     set gg_trg____________________001________2=CreateTrigger()
     call DisableTrigger(gg_trg____________________001________2)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________001________2, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________001________2, Condition(function Trig____________________001________2Conditions))
     call TriggerAddAction(gg_trg____________________001________2, function Trig____________________001________2Actions)
@@ -12811,7 +13039,7 @@ function Trig____________________001________2_______uConditions takes nothing re
     return ( ( GetUnitTypeId(GetAttacker()) == 'Hamg' ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
 endfunction
 function Trig____________________001________2_______uFunc004002003 takes nothing returns boolean
-    return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( ( IsUnitAlly(GetFilterUnit(), Player(6)) == true ) and ( IsUnitType(GetFilterUnit(), UNIT_TYPE_MECHANICAL) != true ) ) ) )
+    return ( ( IsEnemy(GetEnumUnit() , GetAttacker()) == true ) )
 endfunction
 function Trig____________________001________2_______uFunc005A takes nothing returns nothing
     call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetEnumUnit()), GetUnitY(GetEnumUnit())))
@@ -12838,7 +13066,6 @@ endfunction
 function InitTrig____________________001________2_______u takes nothing returns nothing
     set gg_trg____________________001________2_______u=CreateTrigger()
     call DisableTrigger(gg_trg____________________001________2_______u)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________001________2_______u, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________001________2_______u, Condition(function Trig____________________001________2_______uConditions))
     call TriggerAddAction(gg_trg____________________001________2_______u, function Trig____________________001________2_______uActions)
@@ -12851,7 +13078,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______01)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12860,7 +13087,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______01_______u)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12869,7 +13096,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______27)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12878,7 +13105,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________05)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12887,7 +13114,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______01________2)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12896,7 +13123,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________15)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12905,7 +13132,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRandomLocInRect(gg_rct____1)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12914,7 +13141,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(udg_Ju_Lianyu[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12923,7 +13150,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______b1)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12932,7 +13159,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRandomLocInRect(gg_rct________8)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12941,7 +13168,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRandomLocInRect(gg_rct_____________01)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12950,7 +13177,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         set udg_Point=GetRandomLocInRect(gg_rct______________023)
         call SetUnitPositionLoc(GetBuyingUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetBuyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetBuyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
         call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
     else
@@ -12959,7 +13186,6 @@ endfunction
 //===========================================================================
 function InitTrig_maidongxi takes nothing returns nothing
     set gg_trg_maidongxi=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_maidongxi, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddAction(gg_trg_maidongxi, function Trig_maidongxiActions)
 endfunction
@@ -13016,7 +13242,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________3B takes nothing returns nothing
     set gg_trg____________________3B=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________3B, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________3B, Condition(function Trig____________________3BConditions))
     call TriggerAddAction(gg_trg____________________3B, function Trig____________________3BActions)
@@ -13052,7 +13277,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________4b takes nothing returns nothing
     set gg_trg____________________4b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________4b, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________4b, Condition(function Trig____________________4bConditions))
     call TriggerAddAction(gg_trg____________________4b, function Trig____________________4bActions)
@@ -13103,7 +13327,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________5b takes nothing returns nothing
     set gg_trg____________________5b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________5b, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________5b, Condition(function Trig____________________5bConditions))
     call TriggerAddAction(gg_trg____________________5b, function Trig____________________5bActions)
@@ -13154,7 +13377,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________7b takes nothing returns nothing
     set gg_trg____________________7b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________7b, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________7b, Condition(function Trig____________________7bConditions))
     call TriggerAddAction(gg_trg____________________7b, function Trig____________________7bActions)
@@ -13205,7 +13427,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________8b takes nothing returns nothing
     set gg_trg____________________8b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________8b, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________8b, Condition(function Trig____________________8bConditions))
     call TriggerAddAction(gg_trg____________________8b, function Trig____________________8bActions)
@@ -13256,7 +13477,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________8b_______u takes nothing returns nothing
     set gg_trg____________________8b_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________8b_______u, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________8b_______u, Condition(function Trig____________________8b_______uConditions))
     call TriggerAddAction(gg_trg____________________8b_______u, function Trig____________________8b_______uActions)
@@ -13307,7 +13527,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________8b______________u takes nothing returns nothing
     set gg_trg____________________8b______________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________8b______________u, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________8b______________u, Condition(function Trig____________________8b______________uConditions))
     call TriggerAddAction(gg_trg____________________8b______________u, function Trig____________________8b______________uActions)
@@ -13354,7 +13573,6 @@ endfunction
 //===========================================================================
 function InitTrig_Only_One_Wing_And_Spell takes nothing returns nothing
     set gg_trg_Only_One_Wing_And_Spell=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Only_One_Wing_And_Spell, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg_Only_One_Wing_And_Spell, Condition(function Trig_Only_One_Wing_And_SpellConditions))
     call TriggerAddAction(gg_trg_Only_One_Wing_And_Spell, function Trig_Only_One_Wing_And_SpellActions)
@@ -13400,7 +13618,6 @@ endfunction
 //===========================================================================
 function InitTrig______________9b takes nothing returns nothing
     set gg_trg______________9b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________9b, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg______________9b, Condition(function Trig______________9bConditions))
     call TriggerAddAction(gg_trg______________9b, function Trig______________9bActions)
@@ -13480,7 +13697,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z1 takes nothing returns nothing
     set gg_trg_Z1=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Z1, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_Z1, Condition(function Trig_Z1Conditions))
     call TriggerAddAction(gg_trg_Z1, function Trig_Z1Actions)
@@ -13584,7 +13800,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z2 takes nothing returns nothing
     set gg_trg_Z2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Z2, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg_Z2, function Trig_Z2Actions)
 endfunction
@@ -13624,7 +13839,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z3 takes nothing returns nothing
     set gg_trg_Z3=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_Z3 , gg_rct_______a3)
     call TriggerAddCondition(gg_trg_Z3, Condition(function Trig_Z3Conditions))
     call TriggerAddAction(gg_trg_Z3, function Trig_Z3Actions)
@@ -13671,7 +13885,6 @@ endfunction
 //===========================================================================
 function InitTrig_Z4 takes nothing returns nothing
     set gg_trg_Z4=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Z4, EVENT_PLAYER_HERO_LEVEL)
     call TriggerAddCondition(gg_trg_Z4, Condition(function Trig_Z4Conditions))
     call TriggerAddAction(gg_trg_Z4, function Trig_Z4Actions)
@@ -13687,7 +13900,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______02)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13695,7 +13908,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______03)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13703,7 +13916,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______04)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13711,7 +13924,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct_______05)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13719,7 +13932,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________01)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13727,7 +13940,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________02)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13735,7 +13948,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________03)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13743,7 +13956,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________04)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13751,7 +13964,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________11)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13759,7 +13972,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________12)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13767,7 +13980,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________13)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13775,7 +13988,7 @@ function Trig____________________073Actions takes nothing returns nothing
         set udg_Point=GetRectCenter(gg_rct________14)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
         call PanCameraToTimedLocForPlayer(GetOwningPlayer(GetTriggerUnit()), udg_Point, 0.20)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveLocation(udg_Point)
     else
     endif
@@ -13783,7 +13996,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________073 takes nothing returns nothing
     set gg_trg____________________073=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterUnitInRangeSimple(gg_trg____________________073, 130.00, gg_unit_ncp2_0204)
     call TriggerRegisterUnitInRangeSimple(gg_trg____________________073, 130.00, gg_unit_ncp2_0203)
     call TriggerRegisterUnitInRangeSimple(gg_trg____________________073, 130.00, gg_unit_ncp2_0206)
@@ -13879,7 +14091,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________076 takes nothing returns nothing
     set gg_trg____________________076=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________076, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg____________________076, function Trig____________________076Actions)
 endfunction
@@ -13895,7 +14106,6 @@ endfunction
 //===========================================================================
 function InitTrig_j1 takes nothing returns nothing
     set gg_trg_j1=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j1 , gg_rct_______02)
     call TriggerAddCondition(gg_trg_j1, Condition(function Trig_j1Conditions))
     call TriggerAddAction(gg_trg_j1, function Trig_j1Actions)
@@ -13948,7 +14158,6 @@ endfunction
 function InitTrig_j2 takes nothing returns nothing
     set gg_trg_j2=CreateTrigger()
     call DisableTrigger(gg_trg_j2)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j2, 5.00)
     call TriggerAddAction(gg_trg_j2, function Trig_j2Actions)
 endfunction
@@ -13991,7 +14200,6 @@ endfunction
 //===========================================================================
 function InitTrig_j3 takes nothing returns nothing
     set gg_trg_j3=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j3 , gg_rct_______02)
     call TriggerAddCondition(gg_trg_j3, Condition(function Trig_j3Conditions))
     call TriggerAddAction(gg_trg_j3, function Trig_j3Actions)
@@ -14008,7 +14216,6 @@ endfunction
 //===========================================================================
 function InitTrig_j4 takes nothing returns nothing
     set gg_trg_j4=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j4 , gg_rct_______03)
     call TriggerAddCondition(gg_trg_j4, Condition(function Trig_j4Conditions))
     call TriggerAddAction(gg_trg_j4, function Trig_j4Actions)
@@ -14061,7 +14268,6 @@ endfunction
 function InitTrig_j5 takes nothing returns nothing
     set gg_trg_j5=CreateTrigger()
     call DisableTrigger(gg_trg_j5)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j5, 5.00)
     call TriggerAddAction(gg_trg_j5, function Trig_j5Actions)
 endfunction
@@ -14104,7 +14310,6 @@ endfunction
 //===========================================================================
 function InitTrig_j6 takes nothing returns nothing
     set gg_trg_j6=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j6 , gg_rct_______03)
     call TriggerAddCondition(gg_trg_j6, Condition(function Trig_j6Conditions))
     call TriggerAddAction(gg_trg_j6, function Trig_j6Actions)
@@ -14121,7 +14326,6 @@ endfunction
 //===========================================================================
 function InitTrig_j7 takes nothing returns nothing
     set gg_trg_j7=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j7 , gg_rct_______04)
     call TriggerAddCondition(gg_trg_j7, Condition(function Trig_j7Conditions))
     call TriggerAddAction(gg_trg_j7, function Trig_j7Actions)
@@ -14174,7 +14378,6 @@ endfunction
 function InitTrig_j8 takes nothing returns nothing
     set gg_trg_j8=CreateTrigger()
     call DisableTrigger(gg_trg_j8)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j8, 5.00)
     call TriggerAddAction(gg_trg_j8, function Trig_j8Actions)
 endfunction
@@ -14217,7 +14420,6 @@ endfunction
 //===========================================================================
 function InitTrig_j9 takes nothing returns nothing
     set gg_trg_j9=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j9 , gg_rct_______04)
     call TriggerAddCondition(gg_trg_j9, Condition(function Trig_j9Conditions))
     call TriggerAddAction(gg_trg_j9, function Trig_j9Actions)
@@ -14234,7 +14436,6 @@ endfunction
 //===========================================================================
 function InitTrig_j10 takes nothing returns nothing
     set gg_trg_j10=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j10 , gg_rct_______05)
     call TriggerAddCondition(gg_trg_j10, Condition(function Trig_j10Conditions))
     call TriggerAddAction(gg_trg_j10, function Trig_j10Actions)
@@ -14287,7 +14488,6 @@ endfunction
 function InitTrig_j11 takes nothing returns nothing
     set gg_trg_j11=CreateTrigger()
     call DisableTrigger(gg_trg_j11)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j11, 5.00)
     call TriggerAddAction(gg_trg_j11, function Trig_j11Actions)
 endfunction
@@ -14330,7 +14530,6 @@ endfunction
 //===========================================================================
 function InitTrig_j12 takes nothing returns nothing
     set gg_trg_j12=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j12 , gg_rct_______05)
     call TriggerAddCondition(gg_trg_j12, Condition(function Trig_j12Conditions))
     call TriggerAddAction(gg_trg_j12, function Trig_j12Actions)
@@ -14347,7 +14546,6 @@ endfunction
 //===========================================================================
 function InitTrig_j13 takes nothing returns nothing
     set gg_trg_j13=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j13 , gg_rct________01)
     call TriggerAddCondition(gg_trg_j13, Condition(function Trig_j13Conditions))
     call TriggerAddAction(gg_trg_j13, function Trig_j13Actions)
@@ -14400,7 +14598,6 @@ endfunction
 function InitTrig_j14 takes nothing returns nothing
     set gg_trg_j14=CreateTrigger()
     call DisableTrigger(gg_trg_j14)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j14, 5.00)
     call TriggerAddAction(gg_trg_j14, function Trig_j14Actions)
 endfunction
@@ -14443,7 +14640,6 @@ endfunction
 //===========================================================================
 function InitTrig_j15 takes nothing returns nothing
     set gg_trg_j15=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j15 , gg_rct________01)
     call TriggerAddCondition(gg_trg_j15, Condition(function Trig_j15Conditions))
     call TriggerAddAction(gg_trg_j15, function Trig_j15Actions)
@@ -14460,7 +14656,6 @@ endfunction
 //===========================================================================
 function InitTrig_j16 takes nothing returns nothing
     set gg_trg_j16=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j16 , gg_rct________02)
     call TriggerAddCondition(gg_trg_j16, Condition(function Trig_j16Conditions))
     call TriggerAddAction(gg_trg_j16, function Trig_j16Actions)
@@ -14513,7 +14708,6 @@ endfunction
 function InitTrig_j17 takes nothing returns nothing
     set gg_trg_j17=CreateTrigger()
     call DisableTrigger(gg_trg_j17)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j17, 5.00)
     call TriggerAddAction(gg_trg_j17, function Trig_j17Actions)
 endfunction
@@ -14556,7 +14750,6 @@ endfunction
 //===========================================================================
 function InitTrig_j18 takes nothing returns nothing
     set gg_trg_j18=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j18 , gg_rct________02)
     call TriggerAddCondition(gg_trg_j18, Condition(function Trig_j18Conditions))
     call TriggerAddAction(gg_trg_j18, function Trig_j18Actions)
@@ -14573,7 +14766,6 @@ endfunction
 //===========================================================================
 function InitTrig_j19 takes nothing returns nothing
     set gg_trg_j19=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j19 , gg_rct________03)
     call TriggerAddCondition(gg_trg_j19, Condition(function Trig_j19Conditions))
     call TriggerAddAction(gg_trg_j19, function Trig_j19Actions)
@@ -14626,7 +14818,6 @@ endfunction
 function InitTrig_j20 takes nothing returns nothing
     set gg_trg_j20=CreateTrigger()
     call DisableTrigger(gg_trg_j20)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j20, 5.00)
     call TriggerAddAction(gg_trg_j20, function Trig_j20Actions)
 endfunction
@@ -14669,7 +14860,6 @@ endfunction
 //===========================================================================
 function InitTrig_j21 takes nothing returns nothing
     set gg_trg_j21=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j21 , gg_rct________03)
     call TriggerAddCondition(gg_trg_j21, Condition(function Trig_j21Conditions))
     call TriggerAddAction(gg_trg_j21, function Trig_j21Actions)
@@ -14686,7 +14876,6 @@ endfunction
 //===========================================================================
 function InitTrig_j22 takes nothing returns nothing
     set gg_trg_j22=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j22 , gg_rct________04)
     call TriggerAddCondition(gg_trg_j22, Condition(function Trig_j22Conditions))
     call TriggerAddAction(gg_trg_j22, function Trig_j22Actions)
@@ -14739,7 +14928,6 @@ endfunction
 function InitTrig_j23 takes nothing returns nothing
     set gg_trg_j23=CreateTrigger()
     call DisableTrigger(gg_trg_j23)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j23, 5.00)
     call TriggerAddAction(gg_trg_j23, function Trig_j23Actions)
 endfunction
@@ -14782,7 +14970,6 @@ endfunction
 //===========================================================================
 function InitTrig_j24 takes nothing returns nothing
     set gg_trg_j24=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j24 , gg_rct________04)
     call TriggerAddCondition(gg_trg_j24, Condition(function Trig_j24Conditions))
     call TriggerAddAction(gg_trg_j24, function Trig_j24Actions)
@@ -14799,7 +14986,6 @@ endfunction
 //===========================================================================
 function InitTrig_j25 takes nothing returns nothing
     set gg_trg_j25=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j25 , gg_rct________11)
     call TriggerAddCondition(gg_trg_j25, Condition(function Trig_j25Conditions))
     call TriggerAddAction(gg_trg_j25, function Trig_j25Actions)
@@ -14852,7 +15038,6 @@ endfunction
 function InitTrig_j26 takes nothing returns nothing
     set gg_trg_j26=CreateTrigger()
     call DisableTrigger(gg_trg_j26)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j26, 5.00)
     call TriggerAddAction(gg_trg_j26, function Trig_j26Actions)
 endfunction
@@ -14895,7 +15080,6 @@ endfunction
 //===========================================================================
 function InitTrig_j27 takes nothing returns nothing
     set gg_trg_j27=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j27 , gg_rct________11)
     call TriggerAddCondition(gg_trg_j27, Condition(function Trig_j27Conditions))
     call TriggerAddAction(gg_trg_j27, function Trig_j27Actions)
@@ -14912,7 +15096,6 @@ endfunction
 //===========================================================================
 function InitTrig_j28 takes nothing returns nothing
     set gg_trg_j28=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j28 , gg_rct________12)
     call TriggerAddCondition(gg_trg_j28, Condition(function Trig_j28Conditions))
     call TriggerAddAction(gg_trg_j28, function Trig_j28Actions)
@@ -14965,7 +15148,6 @@ endfunction
 function InitTrig_j29 takes nothing returns nothing
     set gg_trg_j29=CreateTrigger()
     call DisableTrigger(gg_trg_j29)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j29, 5.00)
     call TriggerAddAction(gg_trg_j29, function Trig_j29Actions)
 endfunction
@@ -15008,7 +15190,6 @@ endfunction
 //===========================================================================
 function InitTrig_j30 takes nothing returns nothing
     set gg_trg_j30=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j30 , gg_rct________12)
     call TriggerAddCondition(gg_trg_j30, Condition(function Trig_j30Conditions))
     call TriggerAddAction(gg_trg_j30, function Trig_j30Actions)
@@ -15025,7 +15206,6 @@ endfunction
 //===========================================================================
 function InitTrig_j31 takes nothing returns nothing
     set gg_trg_j31=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j31 , gg_rct________13)
     call TriggerAddCondition(gg_trg_j31, Condition(function Trig_j31Conditions))
     call TriggerAddAction(gg_trg_j31, function Trig_j31Actions)
@@ -15078,7 +15258,6 @@ endfunction
 function InitTrig_j32 takes nothing returns nothing
     set gg_trg_j32=CreateTrigger()
     call DisableTrigger(gg_trg_j32)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j32, 5.00)
     call TriggerAddAction(gg_trg_j32, function Trig_j32Actions)
 endfunction
@@ -15121,7 +15300,6 @@ endfunction
 //===========================================================================
 function InitTrig_j33 takes nothing returns nothing
     set gg_trg_j33=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j33 , gg_rct________13)
     call TriggerAddCondition(gg_trg_j33, Condition(function Trig_j33Conditions))
     call TriggerAddAction(gg_trg_j33, function Trig_j33Actions)
@@ -15138,7 +15316,6 @@ endfunction
 //===========================================================================
 function InitTrig_j34 takes nothing returns nothing
     set gg_trg_j34=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j34 , gg_rct________14)
     call TriggerAddCondition(gg_trg_j34, Condition(function Trig_j34Conditions))
     call TriggerAddAction(gg_trg_j34, function Trig_j34Actions)
@@ -15191,7 +15368,6 @@ endfunction
 function InitTrig_j35 takes nothing returns nothing
     set gg_trg_j35=CreateTrigger()
     call DisableTrigger(gg_trg_j35)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j35, 5.00)
     call TriggerAddAction(gg_trg_j35, function Trig_j35Actions)
 endfunction
@@ -15234,7 +15410,6 @@ endfunction
 //===========================================================================
 function InitTrig_j36 takes nothing returns nothing
     set gg_trg_j36=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j36 , gg_rct________14)
     call TriggerAddCondition(gg_trg_j36, Condition(function Trig_j36Conditions))
     call TriggerAddAction(gg_trg_j36, function Trig_j36Actions)
@@ -15251,7 +15426,6 @@ endfunction
 //===========================================================================
 function InitTrig_j37 takes nothing returns nothing
     set gg_trg_j37=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j37 , gg_rct____1)
     call TriggerAddCondition(gg_trg_j37, Condition(function Trig_j37Conditions))
     call TriggerAddAction(gg_trg_j37, function Trig_j37Actions)
@@ -15293,7 +15467,6 @@ endfunction
 function InitTrig_j38 takes nothing returns nothing
     set gg_trg_j38=CreateTrigger()
     call DisableTrigger(gg_trg_j38)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j38, 8.00)
     call TriggerAddAction(gg_trg_j38, function Trig_j38Actions)
 endfunction
@@ -15336,7 +15509,6 @@ endfunction
 //===========================================================================
 function InitTrig_j39 takes nothing returns nothing
     set gg_trg_j39=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j39 , gg_rct____1)
     call TriggerAddCondition(gg_trg_j39, Condition(function Trig_j39Conditions))
     call TriggerAddAction(gg_trg_j39, function Trig_j39Actions)
@@ -15353,7 +15525,6 @@ endfunction
 //===========================================================================
 function InitTrig_j40 takes nothing returns nothing
     set gg_trg_j40=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j40 , gg_rct____2)
     call TriggerAddCondition(gg_trg_j40, Condition(function Trig_j40Conditions))
     call TriggerAddAction(gg_trg_j40, function Trig_j40Actions)
@@ -15395,7 +15566,6 @@ endfunction
 function InitTrig_j41 takes nothing returns nothing
     set gg_trg_j41=CreateTrigger()
     call DisableTrigger(gg_trg_j41)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j41, 8.00)
     call TriggerAddAction(gg_trg_j41, function Trig_j41Actions)
 endfunction
@@ -15438,7 +15608,6 @@ endfunction
 //===========================================================================
 function InitTrig_j42 takes nothing returns nothing
     set gg_trg_j42=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j42 , gg_rct____2)
     call TriggerAddCondition(gg_trg_j42, Condition(function Trig_j42Conditions))
     call TriggerAddAction(gg_trg_j42, function Trig_j42Actions)
@@ -15455,7 +15624,6 @@ endfunction
 //===========================================================================
 function InitTrig_j43 takes nothing returns nothing
     set gg_trg_j43=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j43 , gg_rct____3)
     call TriggerAddCondition(gg_trg_j43, Condition(function Trig_j43Conditions))
     call TriggerAddAction(gg_trg_j43, function Trig_j43Actions)
@@ -15497,7 +15665,6 @@ endfunction
 function InitTrig_j44 takes nothing returns nothing
     set gg_trg_j44=CreateTrigger()
     call DisableTrigger(gg_trg_j44)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j44, 8.00)
     call TriggerAddAction(gg_trg_j44, function Trig_j44Actions)
 endfunction
@@ -15540,7 +15707,6 @@ endfunction
 //===========================================================================
 function InitTrig_j45 takes nothing returns nothing
     set gg_trg_j45=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j45 , gg_rct____3)
     call TriggerAddCondition(gg_trg_j45, Condition(function Trig_j45Conditions))
     call TriggerAddAction(gg_trg_j45, function Trig_j45Actions)
@@ -15557,7 +15723,6 @@ endfunction
 //===========================================================================
 function InitTrig_j46 takes nothing returns nothing
     set gg_trg_j46=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j46 , gg_rct____4)
     call TriggerAddCondition(gg_trg_j46, Condition(function Trig_j46Conditions))
     call TriggerAddAction(gg_trg_j46, function Trig_j46Actions)
@@ -15599,7 +15764,6 @@ endfunction
 function InitTrig_j47 takes nothing returns nothing
     set gg_trg_j47=CreateTrigger()
     call DisableTrigger(gg_trg_j47)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j47, 8.00)
     call TriggerAddAction(gg_trg_j47, function Trig_j47Actions)
 endfunction
@@ -15642,7 +15806,6 @@ endfunction
 //===========================================================================
 function InitTrig_j48 takes nothing returns nothing
     set gg_trg_j48=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j48 , gg_rct____4)
     call TriggerAddCondition(gg_trg_j48, Condition(function Trig_j48Conditions))
     call TriggerAddAction(gg_trg_j48, function Trig_j48Actions)
@@ -15659,7 +15822,6 @@ endfunction
 //===========================================================================
 function InitTrig_j49 takes nothing returns nothing
     set gg_trg_j49=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j49 , gg_rct____5)
     call TriggerAddCondition(gg_trg_j49, Condition(function Trig_j49Conditions))
     call TriggerAddAction(gg_trg_j49, function Trig_j49Actions)
@@ -15701,7 +15863,6 @@ endfunction
 function InitTrig_j50 takes nothing returns nothing
     set gg_trg_j50=CreateTrigger()
     call DisableTrigger(gg_trg_j50)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j50, 8.00)
     call TriggerAddAction(gg_trg_j50, function Trig_j50Actions)
 endfunction
@@ -15744,7 +15905,6 @@ endfunction
 //===========================================================================
 function InitTrig_j51 takes nothing returns nothing
     set gg_trg_j51=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j51 , gg_rct____5)
     call TriggerAddCondition(gg_trg_j51, Condition(function Trig_j51Conditions))
     call TriggerAddAction(gg_trg_j51, function Trig_j51Actions)
@@ -15761,7 +15921,6 @@ endfunction
 //===========================================================================
 function InitTrig_j52 takes nothing returns nothing
     set gg_trg_j52=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j52 , gg_rct____6)
     call TriggerAddCondition(gg_trg_j52, Condition(function Trig_j52Conditions))
     call TriggerAddAction(gg_trg_j52, function Trig_j52Actions)
@@ -15803,7 +15962,6 @@ endfunction
 function InitTrig_j53 takes nothing returns nothing
     set gg_trg_j53=CreateTrigger()
     call DisableTrigger(gg_trg_j53)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j53, 8.00)
     call TriggerAddAction(gg_trg_j53, function Trig_j53Actions)
 endfunction
@@ -15846,7 +16004,6 @@ endfunction
 //===========================================================================
 function InitTrig_j54 takes nothing returns nothing
     set gg_trg_j54=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j54 , gg_rct____6)
     call TriggerAddCondition(gg_trg_j54, Condition(function Trig_j54Conditions))
     call TriggerAddAction(gg_trg_j54, function Trig_j54Actions)
@@ -15863,7 +16020,6 @@ endfunction
 //===========================================================================
 function InitTrig_j56 takes nothing returns nothing
     set gg_trg_j56=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j56 , gg_rct_________16)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j56 , gg_rct_________21)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j56 , gg_rct________10)
@@ -15950,7 +16106,6 @@ endfunction
 function InitTrig_j57 takes nothing returns nothing
     set gg_trg_j57=CreateTrigger()
     call DisableTrigger(gg_trg_j57)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j57, 10.00)
     call TriggerAddAction(gg_trg_j57, function Trig_j57Actions)
 endfunction
@@ -16015,7 +16170,6 @@ endfunction
 //===========================================================================
 function InitTrig_j58 takes nothing returns nothing
     set gg_trg_j58=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j58 , gg_rct_________16)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j58 , gg_rct_________21)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j58 , gg_rct________10)
@@ -16607,7 +16761,6 @@ endfunction
 //===========================================================================
 function InitTrig_j55 takes nothing returns nothing
     set gg_trg_j55=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_j55, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_j55, Condition(function Trig_j55Conditions))
     call TriggerAddAction(gg_trg_j55, function Trig_j55Actions)
@@ -16624,7 +16777,6 @@ endfunction
 //===========================================================================
 function InitTrig_j59 takes nothing returns nothing
     set gg_trg_j59=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j59 , gg_rct_________17)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j59 , gg_rct_________20)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j59 , gg_rct_________11)
@@ -16711,7 +16863,6 @@ endfunction
 function InitTrig_j60 takes nothing returns nothing
     set gg_trg_j60=CreateTrigger()
     call DisableTrigger(gg_trg_j60)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j60, 10.00)
     call TriggerAddAction(gg_trg_j60, function Trig_j60Actions)
 endfunction
@@ -16776,7 +16927,6 @@ endfunction
 //===========================================================================
 function InitTrig_j61 takes nothing returns nothing
     set gg_trg_j61=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j61 , gg_rct_________14)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j61 , gg_rct_________11)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j61 , gg_rct_________20)
@@ -16796,7 +16946,6 @@ endfunction
 //===========================================================================
 function InitTrig_j62 takes nothing returns nothing
     set gg_trg_j62=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j62 , gg_rct_________18)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j62 , gg_rct_________19)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_j62 , gg_rct_________12)
@@ -16883,7 +17032,6 @@ endfunction
 function InitTrig_j63 takes nothing returns nothing
     set gg_trg_j63=CreateTrigger()
     call DisableTrigger(gg_trg_j63)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_j63, 10.00)
     call TriggerAddAction(gg_trg_j63, function Trig_j63Actions)
 endfunction
@@ -16948,7 +17096,6 @@ endfunction
 //===========================================================================
 function InitTrig_j64 takes nothing returns nothing
     set gg_trg_j64=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j64 , gg_rct_________13)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j64 , gg_rct_________12)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_j64 , gg_rct_________19)
@@ -16986,7 +17133,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015 takes nothing returns nothing
     set gg_trg____________________015=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015, Condition(function Trig____________________015Conditions))
     call TriggerAddAction(gg_trg____________________015, function Trig____________________015Actions)
@@ -17021,7 +17167,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________7 takes nothing returns nothing
     set gg_trg____________________015________7=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________7, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________7, Condition(function Trig____________________015________7Conditions))
     call TriggerAddAction(gg_trg____________________015________7, function Trig____________________015________7Actions)
@@ -17056,7 +17201,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________6 takes nothing returns nothing
     set gg_trg____________________015________6=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________6, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________6, Condition(function Trig____________________015________6Conditions))
     call TriggerAddAction(gg_trg____________________015________6, function Trig____________________015________6Actions)
@@ -17091,7 +17235,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________5 takes nothing returns nothing
     set gg_trg____________________015________5=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________5, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________5, Condition(function Trig____________________015________5Conditions))
     call TriggerAddAction(gg_trg____________________015________5, function Trig____________________015________5Actions)
@@ -17126,7 +17269,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________4 takes nothing returns nothing
     set gg_trg____________________015________4=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________4, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________4, Condition(function Trig____________________015________4Conditions))
     call TriggerAddAction(gg_trg____________________015________4, function Trig____________________015________4Actions)
@@ -17161,7 +17303,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________3 takes nothing returns nothing
     set gg_trg____________________015________3=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________3, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________3, Condition(function Trig____________________015________3Conditions))
     call TriggerAddAction(gg_trg____________________015________3, function Trig____________________015________3Actions)
@@ -17196,7 +17337,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015_______u takes nothing returns nothing
     set gg_trg____________________015_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015_______u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015_______u, Condition(function Trig____________________015_______uConditions))
     call TriggerAddAction(gg_trg____________________015_______u, function Trig____________________015_______uActions)
@@ -17231,7 +17371,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015______________u takes nothing returns nothing
     set gg_trg____________________015______________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015______________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015______________u, Condition(function Trig____________________015______________uConditions))
     call TriggerAddAction(gg_trg____________________015______________u, function Trig____________________015______________uActions)
@@ -17305,7 +17444,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________2 takes nothing returns nothing
     set gg_trg____________________015________2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________2, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________2, Condition(function Trig____________________015________2Conditions))
     call TriggerAddAction(gg_trg____________________015________2, function Trig____________________015________2Actions)
@@ -17332,7 +17470,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8 takes nothing returns nothing
     set gg_trg____________________015________8=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8, Condition(function Trig____________________015________8Conditions))
     call TriggerAddAction(gg_trg____________________015________8, function Trig____________________015________8Actions)
@@ -17359,7 +17496,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8______________u takes nothing returns nothing
     set gg_trg____________________015________8______________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8______________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8______________u, Condition(function Trig____________________015________8______________uConditions))
     call TriggerAddAction(gg_trg____________________015________8______________u, function Trig____________________015________8______________uActions)
@@ -17386,7 +17522,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______u takes nothing returns nothing
     set gg_trg____________________015________8_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______u, Condition(function Trig____________________015________8_______uConditions))
     call TriggerAddAction(gg_trg____________________015________8_______u, function Trig____________________015________8_______uActions)
@@ -17413,7 +17548,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______________2 takes nothing returns nothing
     set gg_trg____________________015________8_______________2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______________2, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______________2, Condition(function Trig____________________015________8_______________2Conditions))
     call TriggerAddAction(gg_trg____________________015________8_______________2, function Trig____________________015________8_______________2Actions)
@@ -17469,7 +17603,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061________________________________________________________u takes nothing returns nothing
     set gg_trg____________________061________________________________________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061________________________________________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061________________________________________________________u, Condition(function Trig____________________061________________________________________________________uConditions))
     call TriggerAddAction(gg_trg____________________061________________________________________________________u, function Trig____________________061________________________________________________________uActions)
@@ -17496,7 +17629,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______________2_______u takes nothing returns nothing
     set gg_trg____________________015________8_______________2_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______________2_______u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______________2_______u, Condition(function Trig____________________015________8_______________2_______uConditions))
     call TriggerAddAction(gg_trg____________________015________8_______________2_______u, function Trig____________________015________8_______________2_______uActions)
@@ -17523,7 +17655,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______________2______________u takes nothing returns nothing
     set gg_trg____________________015________8_______________2______________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______________2______________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______________2______________u, Condition(function Trig____________________015________8_______________2______________uConditions))
     call TriggerAddAction(gg_trg____________________015________8_______________2______________u, function Trig____________________015________8_______________2______________uActions)
@@ -17552,7 +17683,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______________2_____________________u takes nothing returns nothing
     set gg_trg____________________015________8_______________2_____________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______________2_____________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______________2_____________________u, Condition(function Trig____________________015________8_______________2_____________________uConditions))
     call TriggerAddAction(gg_trg____________________015________8_______________2_____________________u, function Trig____________________015________8_______________2_____________________uActions)
@@ -17581,7 +17711,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______________2____________________________u takes nothing returns nothing
     set gg_trg____________________015________8_______________2____________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______________2____________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______________2____________________________u, Condition(function Trig____________________015________8_______________2____________________________uConditions))
     call TriggerAddAction(gg_trg____________________015________8_______________2____________________________u, function Trig____________________015________8_______________2____________________________uActions)
@@ -17610,7 +17739,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________015________8_______________2___________________________________u takes nothing returns nothing
     set gg_trg____________________015________8_______________2___________________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________015________8_______________2___________________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________015________8_______________2___________________________________u, Condition(function Trig____________________015________8_______________2___________________________________uConditions))
     call TriggerAddAction(gg_trg____________________015________8_______________2___________________________________u, function Trig____________________015________8_______________2___________________________________uActions)
@@ -17638,7 +17766,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061______________u takes nothing returns nothing
     set gg_trg____________________061______________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061______________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061______________u, Condition(function Trig____________________061______________uConditions))
     call TriggerAddAction(gg_trg____________________061______________u, function Trig____________________061______________uActions)
@@ -17666,7 +17793,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061_____________________u takes nothing returns nothing
     set gg_trg____________________061_____________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061_____________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061_____________________u, Condition(function Trig____________________061_____________________uConditions))
     call TriggerAddAction(gg_trg____________________061_____________________u, function Trig____________________061_____________________uActions)
@@ -17694,7 +17820,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061____________________________u takes nothing returns nothing
     set gg_trg____________________061____________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061____________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061____________________________u, Condition(function Trig____________________061____________________________uConditions))
     call TriggerAddAction(gg_trg____________________061____________________________u, function Trig____________________061____________________________uActions)
@@ -17728,7 +17853,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061___________________________________u takes nothing returns nothing
     set gg_trg____________________061___________________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061___________________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061___________________________________u, Condition(function Trig____________________061___________________________________uConditions))
     call TriggerAddAction(gg_trg____________________061___________________________________u, function Trig____________________061___________________________________uActions)
@@ -17761,7 +17885,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061_________________________________________________u takes nothing returns nothing
     set gg_trg____________________061_________________________________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061_________________________________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061_________________________________________________u, Condition(function Trig____________________061_________________________________________________uConditions))
     call TriggerAddAction(gg_trg____________________061_________________________________________________u, function Trig____________________061_________________________________________________uActions)
@@ -17794,7 +17917,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________061_________________________________________________________2 takes nothing returns nothing
     set gg_trg____________________061_________________________________________________________2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061_________________________________________________________2, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061_________________________________________________________2, Condition(function Trig____________________061_________________________________________________________2Conditions))
     call TriggerAddAction(gg_trg____________________061_________________________________________________________2, function Trig____________________061_________________________________________________________2Actions)
@@ -17827,10 +17949,42 @@ endfunction
 //===========================================================================
 function InitTrig____________________061_______________________________________________________________u takes nothing returns nothing
     set gg_trg____________________061_______________________________________________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061_______________________________________________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________061_______________________________________________________________u, Condition(function Trig____________________061_______________________________________________________________uConditions))
     call TriggerAddAction(gg_trg____________________061_______________________________________________________________u, function Trig____________________061_______________________________________________________________uActions)
+endfunction
+//===========================================================================
+// Trigger: 未命名触发器 061 复制 复制 复制 复制 复制 复制 复制 复制 复� 复制
+//===========================================================================
+function Trig____________________061____________________________________________________________________uConditions takes nothing returns boolean
+    return ( ( GetItemTypeId(GetSoldItem()) == 'I02R' ) and ( GetUnitTypeId(GetBuyingUnit()) != 'N018' ) )
+endfunction
+function Trig____________________061____________________________________________________________________uActions takes nothing returns nothing
+    if ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit() , 'IB08')) == 'IB08' ) and ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit() , 'mgtk')) == 'mgtk' ) and ( IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit() , 'IB08')) == true ) ) then
+        call RemoveItem(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit() , 'IB08'))
+        call RemoveItem(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit() , 'mgtk'))
+        call UnitAddItemByIdSwapped('IB09', GetBuyingUnit())
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call DisplayTextToForce(GetPlayersAll(), "|cffff0000【超魔兽】九翼|cffffff00天龙|r降世！！！！！！！")
+        call PlaySoundBJ(gg_snd_UndeadBuildingDeathLarge1)
+        return
+    else
+        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r你没有集齐所有需要的道具。")
+        call AdjustPlayerStateBJ(1000, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER)
+        return
+    endif
+endfunction
+//===========================================================================
+function InitTrig____________________061____________________________________________________________________u takes nothing returns nothing
+    set gg_trg____________________061____________________________________________________________________u=CreateTrigger()
+    call TriggerRegisterAnyUnitEventBJ(gg_trg____________________061____________________________________________________________________u, EVENT_PLAYER_UNIT_SELL_ITEM)
+    call TriggerAddCondition(gg_trg____________________061____________________________________________________________________u, Condition(function Trig____________________061____________________________________________________________________uConditions))
+    call TriggerAddAction(gg_trg____________________061____________________________________________________________________u, function Trig____________________061____________________________________________________________________uActions)
 endfunction
 //===========================================================================
 // Trigger: 合成仙器b
@@ -17867,7 +18021,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________b takes nothing returns nothing
     set gg_trg_____________b=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________b, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_____________b, Condition(function Trig_____________bConditions))
     call TriggerAddAction(gg_trg_____________b, function Trig_____________bActions)
@@ -17907,7 +18060,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________b2 takes nothing returns nothing
     set gg_trg_____________b2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________b2, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_____________b2, Condition(function Trig_____________b2Conditions))
     call TriggerAddAction(gg_trg_____________b2, function Trig_____________b2Actions)
@@ -18023,7 +18175,6 @@ endfunction
 //===========================================================================
 function InitTrig_Update_Fahun takes nothing returns nothing
     set gg_trg_Update_Fahun=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Update_Fahun, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_Update_Fahun, Condition(function Trig_Update_FahunConditions))
     call TriggerAddAction(gg_trg_Update_Fahun, function Trig_Update_FahunActions)
@@ -18139,7 +18290,6 @@ endfunction
 //===========================================================================
 function InitTrig_Update_Zhanhun takes nothing returns nothing
     set gg_trg_Update_Zhanhun=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Update_Zhanhun, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_Update_Zhanhun, Condition(function Trig_Update_ZhanhunConditions))
     call TriggerAddAction(gg_trg_Update_Zhanhun, function Trig_Update_ZhanhunActions)
@@ -18173,7 +18323,6 @@ endfunction
 //===========================================================================
 function InitTrig_Compose_Shuanghun takes nothing returns nothing
     set gg_trg_Compose_Shuanghun=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Compose_Shuanghun, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_Compose_Shuanghun, Condition(function Trig_Compose_ShuanghunConditions))
     call TriggerAddAction(gg_trg_Compose_Shuanghun, function Trig_Compose_ShuanghunActions)
@@ -18228,7 +18377,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________6a takes nothing returns nothing
     set gg_trg____________________6a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________6a, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________6a, Condition(function Trig____________________6aConditions))
     call TriggerAddAction(gg_trg____________________6a, function Trig____________________6aActions)
@@ -18386,7 +18534,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________006 takes nothing returns nothing
     set gg_trg____________________006=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________006, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________006, Condition(function Trig____________________006Conditions))
     call TriggerAddAction(gg_trg____________________006, function Trig____________________006Actions)
@@ -18539,7 +18686,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________039 takes nothing returns nothing
     set gg_trg____________________039=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________039, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________039, Condition(function Trig____________________039Conditions))
     call TriggerAddAction(gg_trg____________________039, function Trig____________________039Actions)
@@ -18754,9 +18900,9 @@ function Trig________________uActions takes nothing returns nothing
         set bj_forLoopAIndexEnd=8
         loop
             exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-            if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) ) then
+            if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) ) then // INLINED!!
             else
-                call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
                 call DoNothing()
  exitwhen true //(  )
             endif
@@ -18979,7 +19125,6 @@ endfunction
 //===========================================================================
 function InitTrig________________u takes nothing returns nothing
     set gg_trg________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg________________u, EVENT_PLAYER_HERO_SKILL)
     call TriggerAddCondition(gg_trg________________u, Condition(function Trig________________uConditions))
     call TriggerAddAction(gg_trg________________u, function Trig________________uActions)
@@ -19110,7 +19255,7 @@ function Trig________________17Actions takes nothing returns nothing
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     if ( ( GetUnitTypeId(GetDyingUnit()) == 'Hjai' ) and ( IsUnitIllusionBJ(GetDyingUnit()) == true ) and ( GetUnitAbilityLevelSwapped('A003', gg_unit_Hjai_0014) == 1 ) and ( GetPlayerTechCountSimple('R007', GetOwningPlayer(gg_unit_Hjai_0014)) == 1 ) ) then
-        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_Point=GetUnitLoc(GetDyingUnit())
         set udg_Unit=gg_unit_Hjai_0014
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( I2R(( GetHeroStatBJ(bj_HEROSTAT_STR, udg_Unit, true) + ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_Unit, true) + ( GetHeroStatBJ(bj_HEROSTAT_INT, udg_Unit, true) * 2 ) ) )) * SquareRoot(I2R(GetHeroLevel(udg_Unit))) ))
@@ -19134,7 +19279,7 @@ function Trig________________17Actions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( I2R(( R2I(( I2R(GetHeroAgi(udg_Unit, true)) * 1.80 )) + ( GetHeroStatBJ(bj_HEROSTAT_STR, udg_Unit, true) + R2I(( I2R(GetHeroInt(udg_Unit, true)) * 1.20 )) ) )) * SquareRoot(I2R(GetHeroLevel(udg_Unit))) ))
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * 0.35 ))
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_Point=GetUnitLoc(GetDyingUnit())
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(450.00 , udg_Point , Condition(function Trig________________17Func002Func007002003))
         call ForGroupBJ(udg_Group, function Trig________________17Func002Func008A)
@@ -19143,13 +19288,13 @@ function Trig________________17Actions takes nothing returns nothing
     else
     endif
     if ( ( GetUnitTypeId(GetDyingUnit()) == 'h002' ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call RemoveUnit(GetDyingUnit())
     else
     endif
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'ewsp' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 6 )]=( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 6 )] - 0.20 )
         call TriggerExecute(gg_trg_papa9____________u)
         call TriggerExecute(gg_trg_D7)
@@ -19159,7 +19304,7 @@ function Trig________________17Actions takes nothing returns nothing
     endif
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'e006' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 12 )]=( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 12 )] - 0.20 )
         call TriggerExecute(gg_trg_papa10____________u)
         call TriggerExecute(gg_trg_D7)
@@ -19169,7 +19314,7 @@ function Trig________________17Actions takes nothing returns nothing
     endif
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'e008' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 24 )]=( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 24 )] - 0.50 )
         call TriggerExecute(gg_trg_papa12____________u)
         call TriggerExecute(gg_trg_D7)
@@ -19179,7 +19324,7 @@ function Trig________________17Actions takes nothing returns nothing
     endif
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'e009' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 0 )]=( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 0 )] - 0.20 )
         call TriggerExecute(gg_trg_papa8____________u)
         call TriggerExecute(gg_trg_D7)
@@ -19190,14 +19335,14 @@ function Trig________________17Actions takes nothing returns nothing
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'e00A' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
         call UnitRemoveAbilityBJ('A066', gg_unit_Hvwd_0016)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set ydl_timer=CreateTimer()
         call TimerStart(ydl_timer, 60.00, false, function Trig________________17Func008Func004T)
     else
     endif
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'e007' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016))]=( udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016))] - 0.20 )
         call TriggerExecute(gg_trg_D7)
         set ydl_timer=CreateTimer()
@@ -19206,7 +19351,7 @@ function Trig________________17Actions takes nothing returns nothing
     endif
     if ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( GetUnitTypeId(GetDyingUnit()) == 'e005' ) ) then
         call PlaySoundBJ(gg_snd_Baodiao)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetDyingUnit())), YDWECoordinateY(GetUnitY(GetDyingUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetDyingUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetDyingUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 30 )]=( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(gg_unit_Hvwd_0016)) + 30 )] - 0.20 )
         call TriggerExecute(gg_trg_papa13____________u)
         call TriggerExecute(gg_trg_D7)
@@ -19222,7 +19367,6 @@ endfunction
 //===========================================================================
 function InitTrig________________17 takes nothing returns nothing
     set gg_trg________________17=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg________________17, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg________________17, function Trig________________17Actions)
 endfunction
@@ -19243,7 +19387,6 @@ endfunction
 function InitTrig_____________1 takes nothing returns nothing
     set gg_trg_____________1=CreateTrigger()
     call DisableTrigger(gg_trg_____________1)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________1)
     call TriggerAddCondition(gg_trg_____________1, Condition(function Trig_____________1Conditions))
     call TriggerAddAction(gg_trg_____________1, function Trig_____________1Actions)
@@ -19264,7 +19407,6 @@ endfunction
 function InitTrig_____________6 takes nothing returns nothing
     set gg_trg_____________6=CreateTrigger()
     call DisableTrigger(gg_trg_____________6)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________6, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________6, Condition(function Trig_____________6Conditions))
     call TriggerAddAction(gg_trg_____________6, function Trig_____________6Actions)
@@ -19288,7 +19430,6 @@ endfunction
 function InitTrig_____________3 takes nothing returns nothing
     set gg_trg_____________3=CreateTrigger()
     call DisableTrigger(gg_trg_____________3)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________3, gg_unit_Eevi_0020, EVENT_UNIT_ISSUED_POINT_ORDER)
     call TriggerAddCondition(gg_trg_____________3, Condition(function Trig_____________3Conditions))
     call TriggerAddAction(gg_trg_____________3, function Trig_____________3Actions)
@@ -19324,7 +19465,6 @@ endfunction
 function InitTrig_____________5 takes nothing returns nothing
     set gg_trg_____________5=CreateTrigger()
     call DisableTrigger(gg_trg_____________5)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________5)
     call TriggerAddCondition(gg_trg_____________5, Condition(function Trig_____________5Conditions))
     call TriggerAddAction(gg_trg_____________5, function Trig_____________5Actions)
@@ -19390,7 +19530,7 @@ function Trig_____________7Actions takes nothing returns nothing
     set udg_Unit=null
     call RemoveLocation(udg_Point)
     call SetUnitLifePercentBJ(gg_unit_Ocbh_0251, 100)
-    call SetUnitManaBJ(gg_unit_Ocbh_0251, ( 100.00 * SquareRoot(I2R(GetHeroLevel(gg_unit_Ocbh_0251))) ))
+    call SetUnitManaBJ(gg_unit_Ocbh_0251, ( 50.00 * SquareRoot(I2R(GetHeroLevel(gg_unit_Ocbh_0251))) ))
     call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
     set ydl_group=null
     set ydl_unit=null
@@ -19399,7 +19539,6 @@ endfunction
 function InitTrig_____________7 takes nothing returns nothing
     set gg_trg_____________7=CreateTrigger()
     call DisableTrigger(gg_trg_____________7)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________7, gg_unit_Ocbh_0251, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________7, Condition(function Trig_____________7Conditions))
     call TriggerAddAction(gg_trg_____________7, function Trig_____________7Actions)
@@ -19420,7 +19559,7 @@ function Trig_____________8Func008T takes nothing returns nothing
         endif
     else
     endif
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig_____________8Func009Func001Func001Func006003003 takes nothing returns boolean
@@ -19434,20 +19573,20 @@ function Trig_____________8Func009Func001T takes nothing returns nothing
     local unit ydl_unit
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) != 61 ) ) then
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) + 1 ))
-        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) )))
+        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinX), yd_MapMaxX)) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinY), yd_MapMaxY)) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) ))) // INLINED!!
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(1800.00 , LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F) , Condition(function Trig_____________8Func009Func001Func001Func006003003)))
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F), function Trig_____________8Func009Func001Func001Func007A)
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
         call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
-        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) )))
+        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinX), yd_MapMaxX)) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinY), yd_MapMaxY)) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) ))) // INLINED!!
         call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
-        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) )))
+        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinX), yd_MapMaxX)) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinY), yd_MapMaxY)) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) ))) // INLINED!!
         call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
     else
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -19464,20 +19603,20 @@ function Trig_____________8Func009Func003T takes nothing returns nothing
     local unit ydl_unit
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) != 61 ) ) then
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0xDD66C616) + 1 ))
-        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) )))
+        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinX), yd_MapMaxX)) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinY), yd_MapMaxY)) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) ))) // INLINED!!
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(1800.00 , LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F) , Condition(function Trig_____________8Func009Func003Func001Func006003003)))
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F), function Trig_____________8Func009Func003Func001Func007A)
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
         call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Human\\MarkOfChaos\\MarkOfChaosTarget.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
-        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) )))
+        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinX), yd_MapMaxX)) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinY), yd_MapMaxY)) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) ))) // INLINED!!
         call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Human\\MarkOfChaos\\MarkOfChaosTarget.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
-        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA))) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) )))
+        call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, Location(( (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinX), yd_MapMaxX)) + ( GetRandomReal(100.00, 1800.00) * CosBJ(GetRandomDirectionDeg()) ) ), ( (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)))*1.0), yd_MapMinY), yd_MapMaxY)) + ( GetRandomReal(100.00, 1800.00) * SinBJ(GetRandomDirectionDeg()) ) ))) // INLINED!!
         call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Human\\MarkOfChaos\\MarkOfChaosTarget.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
     else
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -19529,7 +19668,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________8 takes nothing returns nothing
     set gg_trg_____________8=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________8, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________8, Condition(function Trig_____________8Conditions))
     call TriggerAddAction(gg_trg_____________8, function Trig_____________8Actions)
@@ -19571,7 +19709,6 @@ endfunction
 function InitTrig_____________9 takes nothing returns nothing
     set gg_trg_____________9=CreateTrigger()
     call DisableTrigger(gg_trg_____________9)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________9, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________9, Condition(function Trig_____________9Conditions))
     call TriggerAddAction(gg_trg_____________9, function Trig_____________9Actions)
@@ -19596,7 +19733,7 @@ function Trig_____________10Actions takes nothing returns nothing
     set bj_forLoopAIndexEnd=6
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", YDWECoordinateX(( GetLocationX(udg_Point) + ( 300.00 * ( I2R(GetForLoopIndexA()) * CosBJ(AngleBetweenPoints(udg_Point, LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))) ) ) )), YDWECoordinateY(( GetLocationY(udg_Point) + ( 300.00 * ( I2R(GetForLoopIndexA()) * SinBJ(AngleBetweenPoints(udg_Point, LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))) ) ) ))))
+        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", (RMinBJ(RMaxBJ(((( GetLocationX(udg_Point) + ( 300.00 * ( I2R(GetForLoopIndexA()) * CosBJ(AngleBetweenPoints(udg_Point, LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))) ) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetLocationY(udg_Point) + ( 300.00 * ( I2R(GetForLoopIndexA()) * SinBJ(AngleBetweenPoints(udg_Point, LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))) ) ) ))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set bj_forLoopAIndex=bj_forLoopAIndex + 1
     endloop
     call RemoveLocation(udg_Point)
@@ -19611,7 +19748,6 @@ endfunction
 function InitTrig_____________10 takes nothing returns nothing
     set gg_trg_____________10=CreateTrigger()
     call DisableTrigger(gg_trg_____________10)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________10, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________10, Condition(function Trig_____________10Conditions))
     call TriggerAddAction(gg_trg_____________10, function Trig_____________10Actions)
@@ -19659,7 +19795,6 @@ endfunction
 function InitTrig_____________12 takes nothing returns nothing
     set gg_trg_____________12=CreateTrigger()
     call DisableTrigger(gg_trg_____________12)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________12, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________12, Condition(function Trig_____________12Conditions))
     call TriggerAddAction(gg_trg_____________12, function Trig_____________12Actions)
@@ -19673,12 +19808,12 @@ endfunction
 function Trig_____________17Actions takes nothing returns nothing
     if ( ( GetAttackedUnitBJ() == gg_unit_haro_0030 ) ) then
         call UnitDamageTargetBJ(gg_unit_Ocbh_0251, GetAttacker(), ( I2R(GetHeroStatBJ(bj_HEROSTAT_STR, gg_unit_Ocbh_0251, false)) * SquareRoot(I2R(GetHeroLevel(gg_unit_Ocbh_0251))) ), ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL)
-        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaBlood\\NagaBloodWindserpent.mdl", YDWECoordinateX(GetUnitX(GetAttacker())), YDWECoordinateY(GetUnitY(GetAttacker()))))
+        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaBlood\\NagaBloodWindserpent.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttacker()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttacker()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     else
     endif
     if ( ( GetAttackedUnitBJ() == gg_unit_Ocbh_0251 ) ) then
         call UnitDamageTargetBJ(gg_unit_Ocbh_0251, GetAttacker(), ( I2R(GetHeroStatBJ(bj_HEROSTAT_STR, gg_unit_Ocbh_0251, false)) * SquareRoot(I2R(GetHeroLevel(gg_unit_Ocbh_0251))) ), ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL)
-        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaBlood\\NagaBloodWindserpent.mdl", YDWECoordinateX(GetUnitX(GetAttacker())), YDWECoordinateY(GetUnitY(GetAttacker()))))
+        call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaBlood\\NagaBloodWindserpent.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttacker()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttacker()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     else
     endif
 endfunction
@@ -19686,7 +19821,6 @@ endfunction
 function InitTrig_____________17 takes nothing returns nothing
     set gg_trg_____________17=CreateTrigger()
     call DisableTrigger(gg_trg_____________17)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________17, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________17, Condition(function Trig_____________17Conditions))
     call TriggerAddAction(gg_trg_____________17, function Trig_____________17Actions)
@@ -19710,7 +19844,6 @@ endfunction
 function InitTrig_____________18 takes nothing returns nothing
     set gg_trg_____________18=CreateTrigger()
     call DisableTrigger(gg_trg_____________18)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________18)
     call TriggerAddCondition(gg_trg_____________18, Condition(function Trig_____________18Conditions))
     call TriggerAddAction(gg_trg_____________18, function Trig_____________18Actions)
@@ -19786,7 +19919,6 @@ endfunction
 function InitTrig_____________19 takes nothing returns nothing
     set gg_trg_____________19=CreateTrigger()
     call DisableTrigger(gg_trg_____________19)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________19, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________19, Condition(function Trig_____________19Conditions))
     call TriggerAddAction(gg_trg_____________19, function Trig_____________19Actions)
@@ -19819,7 +19951,6 @@ endfunction
 function InitTrig_____________22 takes nothing returns nothing
     set gg_trg_____________22=CreateTrigger()
     call DisableTrigger(gg_trg_____________22)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________22, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________22, Condition(function Trig_____________22Conditions))
     call TriggerAddAction(gg_trg_____________22, function Trig_____________22Actions)
@@ -19867,7 +19998,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________u takes nothing returns nothing
     set gg_trg_____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________u, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________u, Condition(function Trig_____________uConditions))
     call TriggerAddAction(gg_trg_____________u, function Trig_____________uActions)
@@ -19905,7 +20035,6 @@ endfunction
 function InitTrig_____________20 takes nothing returns nothing
     set gg_trg_____________20=CreateTrigger()
     call DisableTrigger(gg_trg_____________20)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________20, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________20, Condition(function Trig_____________20Conditions))
     call TriggerAddAction(gg_trg_____________20, function Trig_____________20Actions)
@@ -19933,7 +20062,6 @@ endfunction
 function InitTrig_____________02 takes nothing returns nothing
     set gg_trg_____________02=CreateTrigger()
     call DisableTrigger(gg_trg_____________02)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________02, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________02, Condition(function Trig_____________02Conditions))
     call TriggerAddAction(gg_trg_____________02, function Trig_____________02Actions)
@@ -19949,20 +20077,20 @@ endfunction
 function Trig_____________03Func014T takes nothing returns nothing
     local integer ydul_i
     call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8, GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", YDWECoordinateX(GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))), YDWECoordinateY(GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     set ydul_i=1
     loop
         exitwhen ydul_i > 8
         call CreateNUnitsAtLoc(1, 'h01B', GetOwningPlayer(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xB6A6EBAA)), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), bj_UNIT_FACING)
         call UnitAddAbilityBJ('A0BA', GetLastCreatedUnit())
         call UnitApplyTimedLifeBJ(5.00, 'BTLF', GetLastCreatedUnit())
-        call IssuePointOrder(GetLastCreatedUnit(), "carrionswarm", YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 100.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) )), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 100.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) )))
+        call IssuePointOrder(GetLastCreatedUnit(), "carrionswarm", (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 100.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 100.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         set ydul_i=ydul_i + 1
     endloop
     call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8))
     call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x62888615, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x62888615) + 1 ))
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x62888615) == 60 ) ) then
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
     endif
@@ -20004,7 +20132,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________03 takes nothing returns nothing
     set gg_trg_____________03=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________03, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________03, Condition(function Trig_____________03Conditions))
     call TriggerAddAction(gg_trg_____________03, function Trig_____________03Actions)
@@ -20036,7 +20163,6 @@ endfunction
 function InitTrig_____________2 takes nothing returns nothing
     set gg_trg_____________2=CreateTrigger()
     call DisableTrigger(gg_trg_____________2)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________2, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________2, Condition(function Trig_____________2Conditions))
     call TriggerAddAction(gg_trg_____________2, function Trig_____________2Actions)
@@ -20093,7 +20219,6 @@ endfunction
 function InitTrig_____________21 takes nothing returns nothing
     set gg_trg_____________21=CreateTrigger()
     call DisableTrigger(gg_trg_____________21)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________21, gg_unit_Hjai_0014, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________21, Condition(function Trig_____________21Conditions))
     call TriggerAddAction(gg_trg_____________21, function Trig_____________21Actions)
@@ -20136,7 +20261,6 @@ endfunction
 function InitTrig_____________11 takes nothing returns nothing
     set gg_trg_____________11=CreateTrigger()
     call DisableTrigger(gg_trg_____________11)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________11, 0.10)
     call TriggerAddCondition(gg_trg_____________11, Condition(function Trig_____________11Conditions))
     call TriggerAddAction(gg_trg_____________11, function Trig_____________11Actions)
@@ -20163,7 +20287,6 @@ endfunction
 function InitTrig_____________23 takes nothing returns nothing
     set gg_trg_____________23=CreateTrigger()
     call DisableTrigger(gg_trg_____________23)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________23, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________23, Condition(function Trig_____________23Conditions))
     call TriggerAddAction(gg_trg_____________23, function Trig_____________23Actions)
@@ -20195,13 +20318,13 @@ function Trig_____________4Actions takes nothing returns nothing
     set ydul_i=1
     loop
         exitwhen ydul_i > 8
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Blizzard\\BlizzardTarget.mdl", YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Blizzard\\BlizzardTarget.mdl", (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set ydul_i=ydul_i + 1
     endloop
     call YDWEPolledWaitNull(0.75)
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     set ydl_group=CreateGroup()
-    call GroupEnumUnitsInRange(ydl_group, YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit())), 600.00, null)
+    call GroupEnumUnitsInRange(ydl_group, (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)), 600.00, null) // INLINED!!
     loop
         set ydl_unit=FirstOfGroup(ydl_group)
         exitwhen ydl_unit == null
@@ -20215,13 +20338,13 @@ function Trig_____________4Actions takes nothing returns nothing
     set ydul_i=1
     loop
         exitwhen ydul_i > 8
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set ydul_i=ydul_i + 1
     endloop
     call YDWEPolledWaitNull(0.33)
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     set ydl_group=CreateGroup()
-    call GroupEnumUnitsInRange(ydl_group, YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit())), 600.00, null)
+    call GroupEnumUnitsInRange(ydl_group, (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)), 600.00, null) // INLINED!!
     loop
         set ydl_unit=FirstOfGroup(ydl_group)
         exitwhen ydl_unit == null
@@ -20235,10 +20358,10 @@ function Trig_____________4Actions takes nothing returns nothing
     set ydul_i=1
     loop
         exitwhen ydul_i > 8
-        call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(GetTriggerUnit()), 'h01E', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) )), 0))
+        call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(GetTriggerUnit()), 'h01E', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 44.99 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)), 0)) // INLINED!!
         call UnitApplyTimedLifeBJ(12.00, 'BHwe', LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D))
         call YDWECreateEwsp(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D) , 'h01D' , 8 , 300.00 , 12.00 , 0.03 , 5.00)
-        call YDWETimerDestroyLightning(12.00 , AddLightning("CLPB", true, YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 45.00 ) * ( I2R(ydul_i) ) )) ) )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 45.00 ) * ( I2R(ydul_i) ) )) ) )), YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 45.00 ) * ( I2R(( ydul_i + 1 )) ) )) ) )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 45.00 ) * ( I2R(( ydul_i + 1 )) ) )) ) ))))
+        call YDWETimerDestroyLightning(12.00 , AddLightning("CLPB", true, (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 45.00 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 45.00 ) * ( I2R(ydul_i) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)), (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + ( 450.00 * CosBJ(( ( 45.00 ) * ( I2R(( ydul_i + 1 )) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + ( 450.00 * SinBJ(( ( 45.00 ) * ( I2R(( ydul_i + 1 )) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         set ydul_i=ydul_i + 1
     endloop
     call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -20248,7 +20371,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________4 takes nothing returns nothing
     set gg_trg_____________4=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________4, EVENT_PLAYER_UNIT_SPELL_FINISH)
     call TriggerAddCondition(gg_trg_____________4, Condition(function Trig_____________4Conditions))
     call TriggerAddAction(gg_trg_____________4, function Trig_____________4Actions)
@@ -20269,7 +20391,7 @@ function Trig_____________24Func004T takes nothing returns nothing
         endif
     else
     endif
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig_____________24Actions takes nothing returns nothing
@@ -20308,7 +20430,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________24 takes nothing returns nothing
     set gg_trg_____________24=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________24, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________24, Condition(function Trig_____________24Conditions))
     call TriggerAddAction(gg_trg_____________24, function Trig_____________24Actions)
@@ -20329,7 +20450,7 @@ function Trig_____________25Func011T takes nothing returns nothing
         endif
     else
     endif
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig_____________25Func012Func001Func002003003 takes nothing returns boolean
@@ -20369,7 +20490,7 @@ function Trig_____________25Func012T takes nothing returns nothing
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
         call RemoveUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -20393,7 +20514,7 @@ function Trig_____________25Actions takes nothing returns nothing
     endif
     call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * 0.20 ))
     call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F, GetUnitLoc(GetTriggerUnit()))
-    call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(udg_Unit), 'hprt', GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)) + 600.00 )), 270.00))
+    call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(udg_Unit), 'hprt', GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)) + 600.00 ))*1.0), yd_MapMinY), yd_MapMaxY)), 270.00)) // INLINED!!
     call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xA99320FA, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))
     call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xFDF65382, GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))
     call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))
@@ -20420,7 +20541,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________25 takes nothing returns nothing
     set gg_trg_____________25=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________25, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________25, Condition(function Trig_____________25Conditions))
     call TriggerAddAction(gg_trg_____________25, function Trig_____________25Actions)
@@ -20457,7 +20577,6 @@ endfunction
 function InitTrig_____________27 takes nothing returns nothing
     set gg_trg_____________27=CreateTrigger()
     call DisableTrigger(gg_trg_____________27)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________27, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________27, Condition(function Trig_____________27Conditions))
     call TriggerAddAction(gg_trg_____________27, function Trig_____________27Actions)
@@ -20478,8 +20597,8 @@ function Trig_____________28Func016T takes nothing returns nothing
     local group ydl_group
     local unit ydl_unit
     if ( ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) <= 50.00 ) ) then
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))
         call DestroyEffect(AddSpecialEffectLoc("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(450.00 , LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F) , Condition(function Trig_____________28Func016Func001Func008003003)))
@@ -20491,8 +20610,8 @@ function Trig_____________28Func016T takes nothing returns nothing
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC, ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) - 50.00 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
     endif
     set ydl_group=null
     set ydl_unit=null
@@ -20542,7 +20661,6 @@ endfunction
 function InitTrig_____________28 takes nothing returns nothing
     set gg_trg_____________28=CreateTrigger()
     call DisableTrigger(gg_trg_____________28)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________28, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________28, Condition(function Trig_____________28Conditions))
     call TriggerAddAction(gg_trg_____________28, function Trig_____________28Actions)
@@ -20609,7 +20727,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________29 takes nothing returns nothing
     set gg_trg_____________29=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________29, EVENT_PLAYER_UNIT_ISSUED_POINT_ORDER)
     call TriggerAddCondition(gg_trg_____________29, Condition(function Trig_____________29Conditions))
     call TriggerAddAction(gg_trg_____________29, function Trig_____________29Actions)
@@ -20638,7 +20755,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________30 takes nothing returns nothing
     set gg_trg_____________30=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________30, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________30, Condition(function Trig_____________30Conditions))
     call TriggerAddAction(gg_trg_____________30, function Trig_____________30Actions)
@@ -20711,7 +20827,6 @@ endfunction
 function InitTrig_____________48 takes nothing returns nothing
     set gg_trg_____________48=CreateTrigger()
     call DisableTrigger(gg_trg_____________48)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________48, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________48, Condition(function Trig_____________48Conditions))
     call TriggerAddAction(gg_trg_____________48, function Trig_____________48Actions)
@@ -20746,7 +20861,6 @@ endfunction
 function InitTrig_____________31 takes nothing returns nothing
     set gg_trg_____________31=CreateTrigger()
     call DisableTrigger(gg_trg_____________31)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________31)
     call TriggerAddCondition(gg_trg_____________31, Condition(function Trig_____________31Conditions))
     call TriggerAddAction(gg_trg_____________31, function Trig_____________31Actions)
@@ -20781,7 +20895,7 @@ function Trig_____________32Func003Func002T takes nothing returns nothing
         call DisableTrigger(gg_trg_____________33)
     else
     endif
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
     set ydl_group=null
     set ydl_unit=null
@@ -20810,7 +20924,7 @@ function Trig_____________32Func003Func005T takes nothing returns nothing
         call DisableTrigger(gg_trg_____________33)
     else
     endif
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
     set ydl_group=null
     set ydl_unit=null
@@ -20828,7 +20942,7 @@ function Trig_____________32Func007T takes nothing returns nothing
         endif
     else
     endif
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig_____________32Actions takes nothing returns nothing
@@ -20872,7 +20986,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________32 takes nothing returns nothing
     set gg_trg_____________32=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________32, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________32, Condition(function Trig_____________32Conditions))
     call TriggerAddAction(gg_trg_____________32, function Trig_____________32Actions)
@@ -20904,7 +21017,6 @@ endfunction
 function InitTrig_____________33 takes nothing returns nothing
     set gg_trg_____________33=CreateTrigger()
     call DisableTrigger(gg_trg_____________33)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________33)
     call TriggerAddCondition(gg_trg_____________33, Condition(function Trig_____________33Conditions))
     call TriggerAddAction(gg_trg_____________33, function Trig_____________33Actions)
@@ -20952,7 +21064,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________34 takes nothing returns nothing
     set gg_trg_____________34=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________34, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________34, Condition(function Trig_____________34Conditions))
     call TriggerAddAction(gg_trg_____________34, function Trig_____________34Actions)
@@ -20974,7 +21085,6 @@ endfunction
 function InitTrig_____________35 takes nothing returns nothing
     set gg_trg_____________35=CreateTrigger()
     call DisableTrigger(gg_trg_____________35)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________35, 0.10)
     call TriggerAddAction(gg_trg_____________35, function Trig_____________35Actions)
 endfunction
@@ -20989,7 +21099,7 @@ function Trig_____________36Actions takes nothing returns nothing
     set ydl_localvar_step=ydl_localvar_step + 3
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqt' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nscb' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsc2' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) ) ) then
+    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nscb' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsc2' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) ) ) then
         call DisplayTextToPlayer(GetOwningPlayer(gg_unit_Uktl_0018), 0, 0, "|cFFFF66CC【提示】|r不能侵入忠诚单位！")
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         return
@@ -21012,8 +21122,8 @@ function Trig_____________36Actions takes nothing returns nothing
         call RemoveUnit(udg_Unit_Linghun)
     else
     endif
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetSpellAbilityUnit())), YDWECoordinateY(GetUnitY(GetSpellAbilityUnit()))))
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellAbilityUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellAbilityUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     set udg_Unit_Linghun=GetSpellTargetUnit()
     call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetSpellAbilityUnit()), true)
     call SelectUnitForPlayerSingle(GetSpellTargetUnit(), GetOwningPlayer(GetSpellAbilityUnit()))
@@ -21051,7 +21161,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________36 takes nothing returns nothing
     set gg_trg_____________36=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________36, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________36, Condition(function Trig_____________36Conditions))
     call TriggerAddAction(gg_trg_____________36, function Trig_____________36Actions)
@@ -21070,7 +21179,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________37 takes nothing returns nothing
     set gg_trg_____________37=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________37, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________37, Condition(function Trig_____________37Conditions))
     call TriggerAddAction(gg_trg_____________37, function Trig_____________37Actions)
@@ -21123,7 +21231,6 @@ endfunction
 function InitTrig_____________39 takes nothing returns nothing
     set gg_trg_____________39=CreateTrigger()
     call DisableTrigger(gg_trg_____________39)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________39)
     call TriggerAddCondition(gg_trg_____________39, Condition(function Trig_____________39Conditions))
     call TriggerAddAction(gg_trg_____________39, function Trig_____________39Actions)
@@ -21163,7 +21270,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________40 takes nothing returns nothing
     set gg_trg_____________40=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________40)
     call TriggerAddCondition(gg_trg_____________40, Condition(function Trig_____________40Conditions))
     call TriggerAddAction(gg_trg_____________40, function Trig_____________40Actions)
@@ -21196,7 +21302,6 @@ endfunction
 function InitTrig_____________41 takes nothing returns nothing
     set gg_trg_____________41=CreateTrigger()
     call DisableTrigger(gg_trg_____________41)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________41, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________41, Condition(function Trig_____________41Conditions))
     call TriggerAddAction(gg_trg_____________41, function Trig_____________41Actions)
@@ -21223,7 +21328,7 @@ function Trig_____________42Actions takes nothing returns nothing
         else
             call SetUnitManaBJ(GetTriggerUnit(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) - LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xA9A93E9F) ))
         endif
-        call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( GetEventDamage() * 0.80 ))
+        call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( GetEventDamage() * 0.60 ))
         call SetUnitLifeBJ(GetTriggerUnit(), ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) + LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ))
     else
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x62888615) * GetUnitStateSwap(UNIT_STATE_MANA, GetTriggerUnit()) ))
@@ -21236,7 +21341,6 @@ endfunction
 function InitTrig_____________42 takes nothing returns nothing
     set gg_trg_____________42=CreateTrigger()
     call DisableTrigger(gg_trg_____________42)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________42)
     call TriggerAddCondition(gg_trg_____________42, Condition(function Trig_____________42Conditions))
     call TriggerAddAction(gg_trg_____________42, function Trig_____________42Actions)
@@ -21259,8 +21363,8 @@ function Trig_______13Actions takes nothing returns nothing
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
         if ( ( IsUnitAliveBJ(udg_Unit_Qixing[bj_forLoopAIndex]) == true ) ) then
-            call SetUnitY(udg_Unit_Qixing[bj_forLoopAIndex], YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x1BF14788)) + ( 400.00 * SinBJ(( ( ( ( 51.43 ) * ( I2R(bj_forLoopAIndex) ) ) ) + ( ( ( 2.25 ) * ( I2R(udg_I_Qixing[8]) ) ) ) )) ) )))
-            call SetUnitX(udg_Unit_Qixing[bj_forLoopAIndex], YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x1BF14788)) + ( 400.00 * CosBJ(( ( ( ( 51.43 ) * ( I2R(bj_forLoopAIndex) ) ) ) + ( ( ( 2.25 ) * ( I2R(udg_I_Qixing[8]) ) ) ) )) ) )))
+            call SetUnitY(udg_Unit_Qixing[bj_forLoopAIndex], (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x1BF14788)) + ( 400.00 * SinBJ(( ( ( ( 51.43 ) * ( I2R(bj_forLoopAIndex) ) ) ) + ( ( ( 2.25 ) * ( I2R(udg_I_Qixing[8]) ) ) ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+            call SetUnitX(udg_Unit_Qixing[bj_forLoopAIndex], (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x1BF14788)) + ( 400.00 * CosBJ(( ( ( ( 51.43 ) * ( I2R(bj_forLoopAIndex) ) ) ) + ( ( ( 2.25 ) * ( I2R(udg_I_Qixing[8]) ) ) ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
             call SetUnitFacing(udg_Unit_Qixing[bj_forLoopAIndex], ( ( YDWEAngleBetweenUnits(udg_Unit_Qixing[bj_forLoopAIndex] , LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x1BF14788)) ) - ( 90.00 ) ))
         else
         endif
@@ -21272,7 +21376,6 @@ endfunction
 function InitTrig_______13 takes nothing returns nothing
     set gg_trg_______13=CreateTrigger()
     call DisableTrigger(gg_trg_______13)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_______13, 0.05)
     call TriggerAddCondition(gg_trg_______13, Condition(function Trig_______13Conditions))
     call TriggerAddAction(gg_trg_______13, function Trig_______13Actions)
@@ -21315,7 +21418,6 @@ endfunction
 function InitTrig_______17 takes nothing returns nothing
     set gg_trg_______17=CreateTrigger()
     call DisableTrigger(gg_trg_______17)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_______17, gg_unit_Hvwd_0016, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_______17, Condition(function Trig_______17Conditions))
     call TriggerAddAction(gg_trg_______17, function Trig_______17Actions)
@@ -21374,7 +21476,6 @@ endfunction
 function InitTrig_______18 takes nothing returns nothing
     set gg_trg_______18=CreateTrigger()
     call DisableTrigger(gg_trg_______18)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______18, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______18, Condition(function Trig_______18Conditions))
     call TriggerAddAction(gg_trg_______18, function Trig_______18Actions)
@@ -21437,7 +21538,6 @@ endfunction
 function InitTrig_______19 takes nothing returns nothing
     set gg_trg_______19=CreateTrigger()
     call DisableTrigger(gg_trg_______19)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_______19, gg_unit_Hvwd_0016, EVENT_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_______19, Condition(function Trig_______19Conditions))
     call TriggerAddAction(gg_trg_______19, function Trig_______19Actions)
@@ -21478,7 +21578,6 @@ endfunction
 function InitTrig_______20 takes nothing returns nothing
     set gg_trg_______20=CreateTrigger()
     call DisableTrigger(gg_trg_______20)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______20, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______20, Condition(function Trig_______20Conditions))
     call TriggerAddAction(gg_trg_______20, function Trig_______20Actions)
@@ -21504,7 +21603,6 @@ endfunction
 function InitTrig_______21 takes nothing returns nothing
     set gg_trg_______21=CreateTrigger()
     call DisableTrigger(gg_trg_______21)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_______21)
     call TriggerAddCondition(gg_trg_______21, Condition(function Trig_______21Conditions))
     call TriggerAddAction(gg_trg_______21, function Trig_______21Actions)
@@ -21565,7 +21663,6 @@ endfunction
 function InitTrig_______22 takes nothing returns nothing
     set gg_trg_______22=CreateTrigger()
     call DisableTrigger(gg_trg_______22)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______22, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______22, Condition(function Trig_______22Conditions))
     call TriggerAddAction(gg_trg_______22, function Trig_______22Actions)
@@ -21604,7 +21701,7 @@ function Trig_____________50Func009T takes nothing returns nothing
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsOfTypeIdAllNull('h00A'))
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F), function Trig_____________50Func009Func001Func002A)
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -21706,7 +21803,6 @@ endfunction
 function InitTrig_____________50 takes nothing returns nothing
     set gg_trg_____________50=CreateTrigger()
     call DisableTrigger(gg_trg_____________50)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________50, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________50, Condition(function Trig_____________50Conditions))
     call TriggerAddAction(gg_trg_____________50, function Trig_____________50Actions)
@@ -21749,7 +21845,6 @@ endfunction
 function InitTrig_____________51 takes nothing returns nothing
     set gg_trg_____________51=CreateTrigger()
     call DisableTrigger(gg_trg_____________51)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________51, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_____________51, Condition(function Trig_____________51Conditions))
     call TriggerAddAction(gg_trg_____________51, function Trig_____________51Actions)
@@ -21814,7 +21909,6 @@ endfunction
 function InitTrig_______58 takes nothing returns nothing
     set gg_trg_______58=CreateTrigger()
     call DisableTrigger(gg_trg_______58)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______58, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_______58, Condition(function Trig_______58Conditions))
     call TriggerAddAction(gg_trg_______58, function Trig_______58Actions)
@@ -21827,7 +21921,7 @@ function Trig_______59Conditions takes nothing returns boolean
 endfunction
 function Trig_______59Actions takes nothing returns nothing
     call UnitDamageTargetBJ(GetAttacker(), GetAttackedUnitBJ(), 100000000.00, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     call CreateTextTagUnitBJ("秒", GetAttackedUnitBJ(), 0, 16.00, 0.00, 100.00, 0.00, 0)
     call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
     call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -21836,7 +21930,6 @@ endfunction
 function InitTrig_______59 takes nothing returns nothing
     set gg_trg_______59=CreateTrigger()
     call DisableTrigger(gg_trg_______59)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______59, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_______59, Condition(function Trig_______59Conditions))
     call TriggerAddAction(gg_trg_______59, function Trig_______59Actions)
@@ -21876,7 +21969,6 @@ endfunction
 function InitTrig_______132 takes nothing returns nothing
     set gg_trg_______132=CreateTrigger()
     call DisableTrigger(gg_trg_______132)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______132, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_______132, Condition(function Trig_______132Conditions))
     call TriggerAddAction(gg_trg_______132, function Trig_______132Actions)
@@ -21923,8 +22015,8 @@ function Trig_______60Func006T takes nothing returns nothing
                 call UnitDamageTargetBJ(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC7389490), LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x25DAB820), ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL)
                 call UnitDamageTargetBJ(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC7389490), LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x25DAB820), ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC)
             endif
-            call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), YDWECoordinateX(GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8))))
-            call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), YDWECoordinateY(GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8))))
+            call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), (RMinBJ(RMaxBJ(((GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+            call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), (RMinBJ(RMaxBJ(((GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
             call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)))
             call IssueTargetOrder(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x4C4C9313), "attack", LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC7389490))
             call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)))
@@ -21964,7 +22056,6 @@ endfunction
 function InitTrig_______60 takes nothing returns nothing
     set gg_trg_______60=CreateTrigger()
     call DisableTrigger(gg_trg_______60)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______60, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______60, Condition(function Trig_______60Conditions))
     call TriggerAddAction(gg_trg_______60, function Trig_______60Actions)
@@ -21992,7 +22083,6 @@ endfunction
 function InitTrig_______61 takes nothing returns nothing
     set gg_trg_______61=CreateTrigger()
     call DisableTrigger(gg_trg_______61)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______61, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______61, Condition(function Trig_______61Conditions))
     call TriggerAddAction(gg_trg_______61, function Trig_______61Actions)
@@ -22036,7 +22126,6 @@ endfunction
 function InitTrig_______63 takes nothing returns nothing
     set gg_trg_______63=CreateTrigger()
     call DisableTrigger(gg_trg_______63)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_______63, 1.00)
     call TriggerAddAction(gg_trg_______63, function Trig_______63Actions)
 endfunction
@@ -22114,7 +22203,6 @@ endfunction
 function InitTrig_______62 takes nothing returns nothing
     set gg_trg_______62=CreateTrigger()
     call DisableTrigger(gg_trg_______62)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______62, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______62, Condition(function Trig_______62Conditions))
     call TriggerAddAction(gg_trg_______62, function Trig_______62Actions)
@@ -22133,7 +22221,6 @@ endfunction
 function InitTrig_______133 takes nothing returns nothing
     set gg_trg_______133=CreateTrigger()
     call DisableTrigger(gg_trg_______133)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______133, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_______133, Condition(function Trig_______133Conditions))
     call TriggerAddAction(gg_trg_______133, function Trig_______133Actions)
@@ -22152,7 +22239,6 @@ endfunction
 function InitTrig_______134 takes nothing returns nothing
     set gg_trg_______134=CreateTrigger()
     call DisableTrigger(gg_trg_______134)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______134, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg_______134, Condition(function Trig_______134Conditions))
     call TriggerAddAction(gg_trg_______134, function Trig_______134Actions)
@@ -22196,17 +22282,17 @@ function Trig_____________63Actions takes nothing returns nothing
     set bj_forLoopAIndexEnd=8
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) == 3 ) ) then
+        if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) == 3 ) ) then // INLINED!!
             set udg_Point=GetSpellTargetLoc()
-            call ShowUnitShow(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())))
-            call SetUnitPositionLoc(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), udg_Point)
-            call SetUnitOwner(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), GetOwningPlayer(gg_unit_Ewrd_0250), true)
+            call ShowUnitShow((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) // INLINED!!
+            call SetUnitPositionLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), udg_Point) // INLINED!!
+            call SetUnitOwner((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), GetOwningPlayer(gg_unit_Ewrd_0250), true) // INLINED!!
             call CreateTextTagLocBJ(( "虫洞" + ( I2S(GetForLoopIndexA()) + "号" ) ), udg_Point, 0, 40.00, 0.00, 100, 0.00, 0)
-            call SelectUnitForPlayerSingle(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), GetOwningPlayer(gg_unit_Ewrd_0250))
+            call SelectUnitForPlayerSingle((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), GetOwningPlayer(gg_unit_Ewrd_0250)) // INLINED!!
             set udg_Chongdong_Piaofu[GetForLoopIndexA()]=GetLastCreatedTextTag()
             call PingMinimapLocForForce(YDWEGetForceOfPlayerNull(GetOwningPlayer(gg_unit_Ewrd_0250)), udg_Point, 2.00)
             call RemoveLocation(udg_Point)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 0)
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 0) // INLINED!!
             return
         else
         endif
@@ -22216,22 +22302,22 @@ function Trig_____________63Actions takes nothing returns nothing
     set bj_forLoopAIndexEnd=8
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) == 1 ) ) then
+        if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) == 1 ) ) then // INLINED!!
             set udg_Point=GetSpellTargetLoc()
-            call SetUnitPositionLoc(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), udg_Point)
+            call SetUnitPositionLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), udg_Point) // INLINED!!
             call SetTextTagPosBJ(udg_Chongdong_Piaofu[GetForLoopIndexA()], udg_Point, 0)
             call PingMinimapLocForForce(YDWEGetForceOfPlayerNull(GetOwningPlayer(gg_unit_Ewrd_0250)), udg_Point, 2.00)
-            call SelectUnitForPlayerSingle(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), GetOwningPlayer(gg_unit_Ewrd_0250))
+            call SelectUnitForPlayerSingle((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), GetOwningPlayer(gg_unit_Ewrd_0250)) // INLINED!!
             call RemoveLocation(udg_Point)
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 0)
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 0) // INLINED!!
             if ( ( GetForLoopIndexA() < 8 ) ) then
-                if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(( GetForLoopIndexA() + 1 )))) == 0 ) ) then
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(( GetForLoopIndexA() + 1 ))), 1)
+                if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(( GetForLoopIndexA() + 1 ))))))) == 0 ) ) then // INLINED!!
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(( GetForLoopIndexA() + 1 )))))), 1) // INLINED!!
                 else
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "1"), 1)
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "1")))), 1) // INLINED!!
                 endif
             else
-                call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , "1"), 1)
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( "1")))), 1) // INLINED!!
             endif
             call DoNothing()
  exitwhen true //(  )
@@ -22244,7 +22330,6 @@ endfunction
 function InitTrig_____________63 takes nothing returns nothing
     set gg_trg_____________63=CreateTrigger()
     call DisableTrigger(gg_trg_____________63)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________63, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________63, Condition(function Trig_____________63Conditions))
     call TriggerAddAction(gg_trg_____________63, function Trig_____________63Actions)
@@ -22258,16 +22343,16 @@ function Trig_____________64Actions takes nothing returns nothing
         set ydul_p=1
         loop
             exitwhen ydul_p > 8
-            call SetUnitAbilityLevelSwapped('Arpl', YDWEGetUnitByString("空间虫洞" , I2S(ydul_p)), ( GetHeroLevel(gg_unit_Ewrd_0250) / 2 ))
-            call SetUnitAbilityLevelSwapped('ACfu', YDWEGetUnitByString("空间虫洞" , I2S(ydul_p)), ( GetHeroLevel(gg_unit_Ewrd_0250) / 2 ))
+            call SetUnitAbilityLevelSwapped('Arpl', (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_p))))), ( GetHeroLevel(gg_unit_Ewrd_0250) / 2 )) // INLINED!!
+            call SetUnitAbilityLevelSwapped('ACfu', (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_p))))), ( GetHeroLevel(gg_unit_Ewrd_0250) / 2 )) // INLINED!!
             set ydul_p=ydul_p + 1
         endloop
     else
         set ydul_p=1
         loop
             exitwhen ydul_p > 8
-            call SetUnitAbilityLevelSwapped('Arpl', YDWEGetUnitByString("空间虫洞" , I2S(ydul_p)), 100)
-            call SetUnitAbilityLevelSwapped('ACfu', YDWEGetUnitByString("空间虫洞" , I2S(ydul_p)), 100)
+            call SetUnitAbilityLevelSwapped('Arpl', (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_p))))), 100) // INLINED!!
+            call SetUnitAbilityLevelSwapped('ACfu', (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_p))))), 100) // INLINED!!
             set ydul_p=ydul_p + 1
         endloop
     endif
@@ -22276,7 +22361,6 @@ endfunction
 function InitTrig_____________64 takes nothing returns nothing
     set gg_trg_____________64=CreateTrigger()
     call DisableTrigger(gg_trg_____________64)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________64, gg_unit_Ewrd_0250, EVENT_UNIT_HERO_LEVEL)
     call TriggerAddAction(gg_trg_____________64, function Trig_____________64Actions)
 endfunction
@@ -22312,7 +22396,6 @@ endfunction
 function InitTrig_____________65 takes nothing returns nothing
     set gg_trg_____________65=CreateTrigger()
     call DisableTrigger(gg_trg_____________65)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________65, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________65, Condition(function Trig_____________65Conditions))
     call TriggerAddAction(gg_trg_____________65, function Trig_____________65Actions)
@@ -22332,7 +22415,6 @@ endfunction
 function InitTrig_____________66 takes nothing returns nothing
     set gg_trg_____________66=CreateTrigger()
     call DisableTrigger(gg_trg_____________66)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________66, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_____________66, Condition(function Trig_____________66Conditions))
     call TriggerAddAction(gg_trg_____________66, function Trig_____________66Actions)
@@ -22372,7 +22454,6 @@ endfunction
 function InitTrig__________67 takes nothing returns nothing
     set gg_trg__________67=CreateTrigger()
     call DisableTrigger(gg_trg__________67)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________67, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________67, Condition(function Trig__________67Conditions))
     call TriggerAddAction(gg_trg__________67, function Trig__________67Actions)
@@ -22413,7 +22494,6 @@ endfunction
 function InitTrig__________68 takes nothing returns nothing
     set gg_trg__________68=CreateTrigger()
     call DisableTrigger(gg_trg__________68)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg__________68, 0.10)
     call TriggerAddAction(gg_trg__________68, function Trig__________68Actions)
 endfunction
@@ -22440,12 +22520,12 @@ function Trig__________69Func010T takes nothing returns nothing
         call KillUnit(udg_Unit_Xuli)
         set udg_Unit_Xuli=null
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) + 1 ))
-        call SetUnitX(udg_Unit_Xuli, YDWECoordinateX(( GetUnitX(udg_Unit_Xuli) + ( 60.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(udg_Unit_Xuli, YDWECoordinateY(( GetUnitY(udg_Unit_Xuli) + ( 60.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(udg_Unit_Xuli, (RMinBJ(RMaxBJ(((( GetUnitX(udg_Unit_Xuli) + ( 60.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(udg_Unit_Xuli, (RMinBJ(RMaxBJ(((( GetUnitY(udg_Unit_Xuli) + ( 60.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         set udg_Point=GetUnitLoc(udg_Unit_Xuli)
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(( 100.00 + ( 4.29 * I2R(udg_I_Xuli) ) ) , udg_Point , Condition(function Trig__________69Func010Func001Func005002003))
         call ForGroupBJ(udg_Group, function Trig__________69Func010Func001Func006A)
@@ -22485,7 +22565,6 @@ endfunction
 function InitTrig__________69 takes nothing returns nothing
     set gg_trg__________69=CreateTrigger()
     call DisableTrigger(gg_trg__________69)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________69, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________69, EVENT_PLAYER_UNIT_SPELL_FINISH)
     call TriggerAddCondition(gg_trg__________69, Condition(function Trig__________69Conditions))
@@ -22513,12 +22592,12 @@ function Trig_____________70Func014T takes nothing returns nothing
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) >= 40 ) ) then
         call KillUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) + 1 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 60.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 60.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 60.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 60.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         set udg_Point=GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(140.00 , udg_Point , Condition(function Trig_____________70Func014Func002Func005002003))
         call ForGroupBJ(udg_Group, function Trig_____________70Func014Func002Func006A)
@@ -22564,7 +22643,6 @@ endfunction
 function InitTrig_____________70 takes nothing returns nothing
     set gg_trg_____________70=CreateTrigger()
     call DisableTrigger(gg_trg_____________70)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________70, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________70, Condition(function Trig_____________70Conditions))
     call TriggerAddAction(gg_trg_____________70, function Trig_____________70Actions)
@@ -22600,7 +22678,6 @@ endfunction
 function InitTrig_____________71 takes nothing returns nothing
     set gg_trg_____________71=CreateTrigger()
     call DisableTrigger(gg_trg_____________71)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________71, 10.00)
     call TriggerAddCondition(gg_trg_____________71, Condition(function Trig_____________71Conditions))
     call TriggerAddAction(gg_trg_____________71, function Trig_____________71Actions)
@@ -22655,7 +22732,7 @@ function Trig_____________72Func007T takes nothing returns nothing
             set ydul_i=ydul_i + 1
         endloop
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -22694,7 +22771,6 @@ endfunction
 function InitTrig_____________72 takes nothing returns nothing
     set gg_trg_____________72=CreateTrigger()
     call DisableTrigger(gg_trg_____________72)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________72, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________72, Condition(function Trig_____________72Conditions))
     call TriggerAddAction(gg_trg_____________72, function Trig_____________72Actions)
@@ -22729,7 +22805,6 @@ endfunction
 function InitTrig_____________76 takes nothing returns nothing
     set gg_trg_____________76=CreateTrigger()
     call DisableTrigger(gg_trg_____________76)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________76, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________76, Condition(function Trig_____________76Conditions))
     call TriggerAddAction(gg_trg_____________76, function Trig_____________76Actions)
@@ -22774,7 +22849,6 @@ endfunction
 function InitTrig_____________77 takes nothing returns nothing
     set gg_trg_____________77=CreateTrigger()
     call DisableTrigger(gg_trg_____________77)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________77, 0.05)
     call TriggerAddAction(gg_trg_____________77, function Trig_____________77Actions)
 endfunction
@@ -22792,7 +22866,6 @@ endfunction
 function InitTrig_____________105 takes nothing returns nothing
     set gg_trg_____________105=CreateTrigger()
     call DisableTrigger(gg_trg_____________105)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________105, gg_unit_Usyl_0215, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________105, Condition(function Trig_____________105Conditions))
     call TriggerAddAction(gg_trg_____________105, function Trig_____________105Actions)
@@ -22825,7 +22898,7 @@ function Trig_____________106Func011T takes nothing returns nothing
             call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
             set ydul_i=ydul_i + 1
         endloop
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
 endfunction
@@ -22869,7 +22942,6 @@ endfunction
 function InitTrig_____________106 takes nothing returns nothing
     set gg_trg_____________106=CreateTrigger()
     call DisableTrigger(gg_trg_____________106)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________106, gg_unit_Usyl_0215, EVENT_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________106, Condition(function Trig_____________106Conditions))
     call TriggerAddAction(gg_trg_____________106, function Trig_____________106Actions)
@@ -22924,8 +22996,8 @@ function Trig________________73Actions takes nothing returns nothing
     set ydul_i=1
     loop
         exitwhen ydul_i > 8
-        if ( ( RectContainsUnit(gg_rct______________095, YDWEGetUnitByString("空间虫洞" , I2S(ydul_i))) != true ) ) then
-            set udg_Point=GetUnitLoc(YDWEGetUnitByString("空间虫洞" , I2S(ydul_i)))
+        if ( ( RectContainsUnit(gg_rct______________095, (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_i)))))) != true ) ) then // INLINED!!
+            set udg_Point=GetUnitLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_i)))))) // INLINED!!
             set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(600.00 , udg_Point , Condition(function Trig________________73Func010Func001Func003002003))
             if ( ( CountUnitsInGroup(udg_Group) >= R2I(SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250)))) ) ) then
                 call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, YDWEGetRandomSubGroupNull(R2I(SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250)))) , udg_Group))
@@ -22949,7 +23021,6 @@ endfunction
 function InitTrig________________73 takes nothing returns nothing
     set gg_trg________________73=CreateTrigger()
     call DisableTrigger(gg_trg________________73)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg________________73, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg________________73, Condition(function Trig________________73Conditions))
     call TriggerAddAction(gg_trg________________73, function Trig________________73Actions)
@@ -23009,8 +23080,8 @@ function Trig_____________74Actions takes nothing returns nothing
         set ydul_i=1
         loop
             exitwhen ydul_i > 8
-            if ( ( RectContainsUnit(gg_rct______________095, YDWEGetUnitByString("空间虫洞" , I2S(ydul_i))) != true ) ) then
-                set udg_Point=GetUnitLoc(YDWEGetUnitByString("空间虫洞" , I2S(ydul_i)))
+            if ( ( RectContainsUnit(gg_rct______________095, (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_i)))))) != true ) ) then // INLINED!!
+                set udg_Point=GetUnitLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_i)))))) // INLINED!!
                 set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(600.00 , udg_Point , Condition(function Trig_____________74Func011Func001Func001Func003002003))
                 if ( ( CountUnitsInGroup(udg_Group) >= R2I(SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250)))) ) ) then
                     call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x9E80183F, YDWEGetRandomSubGroupNull(R2I(SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250)))) , udg_Group))
@@ -23036,7 +23107,6 @@ endfunction
 function InitTrig_____________74 takes nothing returns nothing
     set gg_trg_____________74=CreateTrigger()
     call DisableTrigger(gg_trg_____________74)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________74, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________74, Condition(function Trig_____________74Conditions))
     call TriggerAddAction(gg_trg_____________74, function Trig_____________74Actions)
@@ -23056,9 +23126,9 @@ function Trig_____________75Actions takes nothing returns nothing
             set bj_forLoopAIndexEnd=8
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) ) then
+                if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) ) then // INLINED!!
                 else
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
                     call DoNothing()
  exitwhen true //(  )
                 endif
@@ -23077,9 +23147,9 @@ function Trig_____________75Actions takes nothing returns nothing
             set bj_forLoopAIndexEnd=8
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) ) then
+                if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) ) then // INLINED!!
                 else
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
                     call DoNothing()
  exitwhen true //(  )
                 endif
@@ -23098,9 +23168,9 @@ function Trig_____________75Actions takes nothing returns nothing
             set bj_forLoopAIndexEnd=8
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) ) then
+                if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) ) then // INLINED!!
                 else
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
                     call DoNothing()
  exitwhen true //(  )
                 endif
@@ -23119,9 +23189,9 @@ function Trig_____________75Actions takes nothing returns nothing
             set bj_forLoopAIndexEnd=8
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) ) then
+                if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) ) then // INLINED!!
                 else
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
                     call DoNothing()
  exitwhen true //(  )
                 endif
@@ -23131,9 +23201,9 @@ function Trig_____________75Actions takes nothing returns nothing
             set bj_forLoopAIndexEnd=8
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) ) then
+                if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) ) then // INLINED!!
                 else
-                    call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+                    call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
                     call DoNothing()
  exitwhen true //(  )
                 endif
@@ -23155,7 +23225,6 @@ endfunction
 function InitTrig_____________75 takes nothing returns nothing
     set gg_trg_____________75=CreateTrigger()
     call DisableTrigger(gg_trg_____________75)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________75, 1.00)
     call TriggerAddAction(gg_trg_____________75, function Trig_____________75Actions)
 endfunction
@@ -23170,7 +23239,7 @@ function Trig_____________78Actions takes nothing returns nothing
     if ( ( udg_ASDF < 70 ) ) then
         if ( ( IsTriggerEnabled(gg_trg_______107) == true ) ) then
             call TriggerExecute(gg_trg_______107)
-            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", YDWECoordinateX(GetUnitX(gg_unit_Ewrd_0250)), YDWECoordinateY(GetUnitY(gg_unit_Ewrd_0250))))
+            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(gg_unit_Ewrd_0250))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(gg_unit_Ewrd_0250))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         else
         endif
         set udg_ASDF=( udg_ASDF + 1 )
@@ -23221,7 +23290,6 @@ endfunction
 function InitTrig_____________78 takes nothing returns nothing
     set gg_trg_____________78=CreateTrigger()
     call DisableTrigger(gg_trg_____________78)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________78, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_____________78, Condition(function Trig_____________78Conditions))
     call TriggerAddAction(gg_trg_____________78, function Trig_____________78Actions)
@@ -23252,8 +23320,8 @@ function Trig_____________79Actions takes nothing returns nothing
     set bj_forLoopAIndexEnd=8
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if ( ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 2 ) and ( GetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))) != 3 ) ) then
-            set udg_Point=GetUnitLoc(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())))
+        if ( ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 2 ) and ( GetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) != 3 ) ) then // INLINED!!
+            set udg_Point=GetUnitLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) // INLINED!!
             call CreateNUnitsAtLoc(1, 'espv', GetOwningPlayer(gg_unit_Ewrd_0250), udg_Point, bj_UNIT_FACING)
             call UnitApplyTimedLifeBJ(( SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250))) * 10.00 ), 'BTLF', GetLastCreatedUnit())
             set udg_Chong_Killer[GetForLoopIndexA()]=GetLastCreatedUnit()
@@ -23274,7 +23342,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________79 takes nothing returns nothing
     set gg_trg_____________79=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________79, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________79, Condition(function Trig_____________79Conditions))
     call TriggerAddAction(gg_trg_____________79, function Trig_____________79Actions)
@@ -23292,12 +23359,12 @@ function Trig_____________80Actions takes nothing returns nothing
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
         if ( ( IsUnitAliveBJ(udg_Chong_Killer[GetForLoopIndexA()]) == true ) ) then
-            if ( ( IsUnitInRange(udg_Chong_Killer[GetForLoopIndexA()], YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 1800.00) == true ) ) then
+            if ( ( IsUnitInRange(udg_Chong_Killer[GetForLoopIndexA()], (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 1800.00) == true ) ) then // INLINED!!
             else
                 call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F, GetUnitLoc(udg_Chong_Killer[GetForLoopIndexA()]))
                 call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))
                 call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))
-                call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F, GetUnitLoc(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA()))))
+                call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F, GetUnitLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))))) // INLINED!!
                 call SetUnitPositionLoc(udg_Chong_Killer[GetForLoopIndexA()], LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))
                 call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))
                 call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F))
@@ -23317,7 +23384,6 @@ endfunction
 function InitTrig_____________80 takes nothing returns nothing
     set gg_trg_____________80=CreateTrigger()
     call DisableTrigger(gg_trg_____________80)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________80, 1.00)
     call TriggerAddAction(gg_trg_____________80, function Trig_____________80Actions)
 endfunction
@@ -23385,12 +23451,12 @@ function Trig_____________81Func015T takes nothing returns nothing
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) >= 160 ) ) then
         call KillUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) + 1 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Charm\\CharmTarget.mdl", GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)), GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))))
         set udg_Point=GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(300.00 , udg_Point , Condition(function Trig_____________81Func015Func001Func006002003))
@@ -23448,7 +23514,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________81 takes nothing returns nothing
     set gg_trg_____________81=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________81, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________81, Condition(function Trig_____________81Conditions))
     call TriggerAddAction(gg_trg_____________81, function Trig_____________81Actions)
@@ -23511,7 +23576,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________82 takes nothing returns nothing
     set gg_trg_____________82=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________82, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________82, Condition(function Trig_____________82Conditions))
     call TriggerAddAction(gg_trg_____________82, function Trig_____________82Actions)
@@ -23546,7 +23610,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________83 takes nothing returns nothing
     set gg_trg_____________83=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________83, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________83, Condition(function Trig_____________83Conditions))
     call TriggerAddAction(gg_trg_____________83, function Trig_____________83Actions)
@@ -23585,7 +23648,6 @@ endfunction
 function InitTrig_____________84 takes nothing returns nothing
     set gg_trg_____________84=CreateTrigger()
     call DisableTrigger(gg_trg_____________84)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________84, 0.25)
     call TriggerAddAction(gg_trg_____________84, function Trig_____________84Actions)
 endfunction
@@ -23642,7 +23704,6 @@ endfunction
 function InitTrig_____________85 takes nothing returns nothing
     set gg_trg_____________85=CreateTrigger()
     call DisableTrigger(gg_trg_____________85)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________85, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________85, Condition(function Trig_____________85Conditions))
     call TriggerAddAction(gg_trg_____________85, function Trig_____________85Actions)
@@ -23671,7 +23732,6 @@ endfunction
 function InitTrig_____________86 takes nothing returns nothing
     set gg_trg_____________86=CreateTrigger()
     call DisableTrigger(gg_trg_____________86)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________86, gg_unit_Etyr_0017, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________86, Condition(function Trig_____________86Conditions))
     call TriggerAddAction(gg_trg_____________86, function Trig_____________86Actions)
@@ -23712,7 +23772,6 @@ endfunction
 function InitTrig_____________87 takes nothing returns nothing
     set gg_trg_____________87=CreateTrigger()
     call DisableTrigger(gg_trg_____________87)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________87, 1.00)
     call TriggerAddCondition(gg_trg_____________87, Condition(function Trig_____________87Conditions))
     call TriggerAddAction(gg_trg_____________87, function Trig_____________87Actions)
@@ -23739,7 +23798,7 @@ function Trig_____________88Func009T takes nothing returns nothing
     else
         set udg_Jishi_Baihu=10
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -23773,7 +23832,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________88 takes nothing returns nothing
     set gg_trg_____________88=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_____________88, function Trig_____________88Actions)
 endfunction
 //===========================================================================
@@ -23830,7 +23888,6 @@ endfunction
 function InitTrig_____________99 takes nothing returns nothing
     set gg_trg_____________99=CreateTrigger()
     call DisableTrigger(gg_trg_____________99)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________99, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________99, Condition(function Trig_____________99Conditions))
     call TriggerAddAction(gg_trg_____________99, function Trig_____________99Actions)
@@ -23854,7 +23911,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________89 takes nothing returns nothing
     set gg_trg_____________89=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________89, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________89, Condition(function Trig_____________89Conditions))
     call TriggerAddAction(gg_trg_____________89, function Trig_____________89Actions)
@@ -23987,7 +24043,6 @@ endfunction
 function InitTrig_____________90 takes nothing returns nothing
     set gg_trg_____________90=CreateTrigger()
     call DisableTrigger(gg_trg_____________90)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________90, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________90, Condition(function Trig_____________90Conditions))
     call TriggerAddAction(gg_trg_____________90, function Trig_____________90Actions)
@@ -24008,8 +24063,8 @@ function Trig_____________91Func015T takes nothing returns nothing
     local group ydl_group
     local unit ydl_unit
     if ( ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) <= 50.00 ) ) then
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))
         call DestroyEffect(AddSpecialEffectLoc("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(450.00 , LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F) , Condition(function Trig_____________91Func015Func001Func008003003)))
@@ -24017,12 +24072,12 @@ function Trig_____________91Func015T takes nothing returns nothing
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
         call KillUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC, ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) - 50.00 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
     endif
     set ydl_group=null
     set ydl_unit=null
@@ -24065,7 +24120,6 @@ endfunction
 function InitTrig_____________91 takes nothing returns nothing
     set gg_trg_____________91=CreateTrigger()
     call DisableTrigger(gg_trg_____________91)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________91, gg_unit_Nalc_0272, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________91, Condition(function Trig_____________91Conditions))
     call TriggerAddAction(gg_trg_____________91, function Trig_____________91Actions)
@@ -24098,7 +24152,6 @@ endfunction
 function InitTrig_____________92 takes nothing returns nothing
     set gg_trg_____________92=CreateTrigger()
     call DisableTrigger(gg_trg_____________92)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________92, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_____________92, Condition(function Trig_____________92Conditions))
     call TriggerAddAction(gg_trg_____________92, function Trig_____________92Actions)
@@ -24119,8 +24172,8 @@ function Trig_____________93Func019T takes nothing returns nothing
     local group ydl_group
     local unit ydl_unit
     if ( ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) <= 50.00 ) ) then
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))
         call DestroyEffect(AddSpecialEffectLoc("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(450.00 , LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F) , Condition(function Trig_____________93Func019Func001Func008003003)))
@@ -24132,8 +24185,8 @@ function Trig_____________93Func019T takes nothing returns nothing
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC, ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) - 50.00 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
     endif
     set ydl_group=null
     set ydl_unit=null
@@ -24146,8 +24199,8 @@ function Trig_____________93Actions takes nothing returns nothing
     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     set udg_Point=GetUnitLoc(GetTriggerUnit())
     call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F, GetSpellTargetLoc())
-    set udg_I_Lianhuan[1]=YDWECoordinateX(GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))
-    set udg_I_Lianhuan[2]=YDWECoordinateY(GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))
+    set udg_I_Lianhuan[1]=(RMinBJ(RMaxBJ(((GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))*1.0), yd_MapMinX), yd_MapMaxX)) // INLINED!!
+    set udg_I_Lianhuan[2]=(RMinBJ(RMaxBJ(((GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)))*1.0), yd_MapMinY), yd_MapMaxY)) // INLINED!!
     if ( ( DistanceBetweenPoints(udg_Point, LoadLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x5E83114F)) <= 1000.00 ) ) then
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x2970F80D, 1.00)
     else
@@ -24188,7 +24241,6 @@ endfunction
 function InitTrig_____________93 takes nothing returns nothing
     set gg_trg_____________93=CreateTrigger()
     call DisableTrigger(gg_trg_____________93)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________93, gg_unit_Nalc_0272, EVENT_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________93, Condition(function Trig_____________93Conditions))
     call TriggerAddAction(gg_trg_____________93, function Trig_____________93Actions)
@@ -24206,8 +24258,8 @@ function Trig_____________94Func001Func016T takes nothing returns nothing
     local group ydl_group
     local unit ydl_unit
     if ( ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) <= 50.00 ) ) then
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F, GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)))
         call DestroyEffect(AddSpecialEffectLoc("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F)))
         call SaveGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F, YDWEGetUnitsInRangeOfLocMatchingNull(450.00 , LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F) , Condition(function Trig_____________94Func001Func016Func001Func008003003)))
@@ -24215,12 +24267,12 @@ function Trig_____________94Func001Func016T takes nothing returns nothing
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
         call KillUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC, ( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x214C62CC) - 50.00 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
     endif
     set ydl_group=null
     set ydl_unit=null
@@ -24263,7 +24315,6 @@ endfunction
 function InitTrig_____________94 takes nothing returns nothing
     set gg_trg_____________94=CreateTrigger()
     call DisableTrigger(gg_trg_____________94)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________94, 0.50)
     call TriggerAddAction(gg_trg_____________94, function Trig_____________94Actions)
 endfunction
@@ -24282,7 +24333,6 @@ endfunction
 function InitTrig_____________95 takes nothing returns nothing
     set gg_trg_____________95=CreateTrigger()
     call DisableTrigger(gg_trg_____________95)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________95, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________95, EVENT_PLAYER_UNIT_SPELL_FINISH)
     call TriggerAddCondition(gg_trg_____________95, Condition(function Trig_____________95Conditions))
@@ -24322,7 +24372,6 @@ endfunction
 //===========================================================================
 function InitTrig_______96 takes nothing returns nothing
     set gg_trg_______96=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______96, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddAction(gg_trg_______96, function Trig_______96Actions)
 endfunction
@@ -24342,7 +24391,6 @@ endfunction
 function InitTrig_____________97 takes nothing returns nothing
     set gg_trg_____________97=CreateTrigger()
     call DisableTrigger(gg_trg_____________97)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________97, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________97, Condition(function Trig_____________97Conditions))
     call TriggerAddAction(gg_trg_____________97, function Trig_____________97Actions)
@@ -24388,7 +24436,6 @@ endfunction
 function InitTrig_____________98 takes nothing returns nothing
     set gg_trg_____________98=CreateTrigger()
     call DisableTrigger(gg_trg_____________98)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________98, 0.50)
     call TriggerAddAction(gg_trg_____________98, function Trig_____________98Actions)
 endfunction
@@ -24418,7 +24465,6 @@ endfunction
 function InitTrig_______100 takes nothing returns nothing
     set gg_trg_______100=CreateTrigger()
     call DisableTrigger(gg_trg_______100)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______100, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______100, Condition(function Trig_______100Conditions))
     call TriggerAddAction(gg_trg_______100, function Trig_______100Actions)
@@ -24448,7 +24494,6 @@ endfunction
 function InitTrig_______101 takes nothing returns nothing
     set gg_trg_______101=CreateTrigger()
     call DisableTrigger(gg_trg_______101)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_______101, 0.50)
     call TriggerAddAction(gg_trg_______101, function Trig_______101Actions)
 endfunction
@@ -24500,8 +24545,8 @@ function Trig_____________102Func007T takes nothing returns nothing
         set ydul_i=1
         loop
             exitwhen ydul_i > 8
-            if ( ( RectContainsUnit(gg_rct______________095, YDWEGetUnitByString("空间虫洞" , I2S(ydul_i))) != true ) ) then
-                set udg_Point=GetUnitLoc(YDWEGetUnitByString("空间虫洞" , I2S(ydul_i)))
+            if ( ( RectContainsUnit(gg_rct______________095, (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_i)))))) != true ) ) then // INLINED!!
+                set udg_Point=GetUnitLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(ydul_i)))))) // INLINED!!
                 call UnitApplyTimedLifeBJ(2.00, 'BHwe', CreateUnitAtLoc(GetOwningPlayer(gg_unit_Ewrd_0250), 'h00E', udg_Point, 0))
                 set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(600.00 , udg_Point , Condition(function Trig_____________102Func007Func001Func010Func001Func004002003))
                 if ( ( CountUnitsInGroup(udg_Group) >= R2I(SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250)))) ) ) then
@@ -24518,7 +24563,7 @@ function Trig_____________102Func007T takes nothing returns nothing
             set ydul_i=ydul_i + 1
         endloop
     else
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -24551,7 +24596,6 @@ endfunction
 function InitTrig_____________102 takes nothing returns nothing
     set gg_trg_____________102=CreateTrigger()
     call DisableTrigger(gg_trg_____________102)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________102, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________102, Condition(function Trig_____________102Conditions))
     call TriggerAddAction(gg_trg_____________102, function Trig_____________102Actions)
@@ -24594,7 +24638,7 @@ function Trig_____________103Func009T takes nothing returns nothing
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
         call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x5E83114F))
     else
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -24632,7 +24676,6 @@ endfunction
 function InitTrig_____________103 takes nothing returns nothing
     set gg_trg_____________103=CreateTrigger()
     call DisableTrigger(gg_trg_____________103)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________103, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________103, Condition(function Trig_____________103Conditions))
     call TriggerAddAction(gg_trg_____________103, function Trig_____________103Actions)
@@ -24747,7 +24790,6 @@ endfunction
 function InitTrig_______105 takes nothing returns nothing
     set gg_trg_______105=CreateTrigger()
     call DisableTrigger(gg_trg_______105)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______105, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_______105, Condition(function Trig_______105Conditions))
     call TriggerAddAction(gg_trg_______105, function Trig_______105Actions)
@@ -24839,7 +24881,6 @@ endfunction
 function InitTrig_______24 takes nothing returns nothing
     set gg_trg_______24=CreateTrigger()
     call DisableTrigger(gg_trg_______24)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______24, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_______24, Condition(function Trig_______24Conditions))
     call TriggerAddAction(gg_trg_______24, function Trig_______24Actions)
@@ -24864,7 +24905,6 @@ endfunction
 function InitTrig_____________104 takes nothing returns nothing
     set gg_trg_____________104=CreateTrigger()
     call DisableTrigger(gg_trg_____________104)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________104, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________104, Condition(function Trig_____________104Conditions))
     call TriggerAddAction(gg_trg_____________104, function Trig_____________104Actions)
@@ -24909,7 +24949,6 @@ endfunction
 function InitTrig_____________120 takes nothing returns nothing
     set gg_trg_____________120=CreateTrigger()
     call DisableTrigger(gg_trg_____________120)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_____________120, 1.00)
     call TriggerAddAction(gg_trg_____________120, function Trig_____________120Actions)
 endfunction
@@ -24924,7 +24963,6 @@ endfunction
 //===========================================================================
 function InitTrig_______106 takes nothing returns nothing
     set gg_trg_______106=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_______106, function Trig_______106Actions)
 endfunction
 //===========================================================================
@@ -24938,7 +24976,6 @@ endfunction
 //===========================================================================
 function InitTrig_______107 takes nothing returns nothing
     set gg_trg_______107=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_______107, function Trig_______107Actions)
 endfunction
 //===========================================================================
@@ -24952,12 +24989,12 @@ function Trig_____________119Actions takes nothing returns nothing
     set bj_forLoopAIndexEnd=8
     loop
         exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-        if ( ( GetSpellAbilityUnit() == YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())) ) ) then
-            call SetUnitUserData(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), 3)
+        if ( ( GetSpellAbilityUnit() == (LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))) ) ) then // INLINED!!
+            call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), 3) // INLINED!!
             set udg_Point=GetRectCenter(gg_rct______________095)
-            call SetUnitOwner(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), Player(0), true)
-            call ShowUnitHide(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())))
-            call SetUnitPositionLoc(YDWEGetUnitByString("空间虫洞" , I2S(GetForLoopIndexA())), udg_Point)
+            call SetUnitOwner((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), Player(0), true) // INLINED!!
+            call ShowUnitHide((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA())))))) // INLINED!!
+            call SetUnitPositionLoc((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(GetForLoopIndexA()))))), udg_Point) // INLINED!!
             call DestroyTextTag(udg_Chongdong_Piaofu[GetForLoopIndexA()])
             call RemoveLocation(udg_Point)
             return
@@ -24969,7 +25006,6 @@ endfunction
 //===========================================================================
 function InitTrig_____________119 takes nothing returns nothing
     set gg_trg_____________119=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________119, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________119, Condition(function Trig_____________119Conditions))
     call TriggerAddAction(gg_trg_____________119, function Trig_____________119Actions)
@@ -25066,7 +25102,6 @@ endfunction
 function InitTrig_____________108 takes nothing returns nothing
     set gg_trg_____________108=CreateTrigger()
     call DisableTrigger(gg_trg_____________108)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________108, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________108, Condition(function Trig_____________108Conditions))
     call TriggerAddAction(gg_trg_____________108, function Trig_____________108Actions)
@@ -25128,7 +25163,6 @@ endfunction
 function InitTrig_____________116 takes nothing returns nothing
     set gg_trg_____________116=CreateTrigger()
     call DisableTrigger(gg_trg_____________116)
-    call DoNothing()
     call TriggerAddAction(gg_trg_____________116, function Trig_____________116Actions)
 endfunction
 //===========================================================================
@@ -25193,7 +25227,6 @@ endfunction
 function InitTrig_____________110 takes nothing returns nothing
     set gg_trg_____________110=CreateTrigger()
     call DisableTrigger(gg_trg_____________110)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________110, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________110, Condition(function Trig_____________110Conditions))
     call TriggerAddAction(gg_trg_____________110, function Trig_____________110Actions)
@@ -25275,7 +25308,6 @@ endfunction
 function InitTrig_____________111 takes nothing returns nothing
     set gg_trg_____________111=CreateTrigger()
     call DisableTrigger(gg_trg_____________111)
-    call DoNothing()
     call TriggerAddAction(gg_trg_____________111, function Trig_____________111Actions)
 endfunction
 //===========================================================================
@@ -25347,7 +25379,6 @@ endfunction
 function InitTrig_____________112 takes nothing returns nothing
     set gg_trg_____________112=CreateTrigger()
     call DisableTrigger(gg_trg_____________112)
-    call DoNothing()
     call TriggerRegisterTimerExpireEvent(gg_trg_____________112, udg_Time_Tan[1])
     call TriggerRegisterTimerExpireEvent(gg_trg_____________112, udg_Time_Tan[2])
     call TriggerRegisterTimerExpireEvent(gg_trg_____________112, udg_Time_Tan[3])
@@ -25419,7 +25450,6 @@ endfunction
 function InitTrig_____________113 takes nothing returns nothing
     set gg_trg_____________113=CreateTrigger()
     call DisableTrigger(gg_trg_____________113)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________113, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________113, Condition(function Trig_____________113Conditions))
     call TriggerAddAction(gg_trg_____________113, function Trig_____________113Actions)
@@ -25447,7 +25477,6 @@ endfunction
 function InitTrig_____________114 takes nothing returns nothing
     set gg_trg_____________114=CreateTrigger()
     call DisableTrigger(gg_trg_____________114)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________114, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________114, Condition(function Trig_____________114Conditions))
     call TriggerAddAction(gg_trg_____________114, function Trig_____________114Actions)
@@ -25492,7 +25521,6 @@ endfunction
 function InitTrig_____________115 takes nothing returns nothing
     set gg_trg_____________115=CreateTrigger()
     call DisableTrigger(gg_trg_____________115)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_____________115)
     call TriggerAddCondition(gg_trg_____________115, Condition(function Trig_____________115Conditions))
     call TriggerAddAction(gg_trg_____________115, function Trig_____________115Actions)
@@ -25581,7 +25609,6 @@ endfunction
 function InitTrig_____________117 takes nothing returns nothing
     set gg_trg_____________117=CreateTrigger()
     call DisableTrigger(gg_trg_____________117)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________117, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________117, Condition(function Trig_____________117Conditions))
     call TriggerAddAction(gg_trg_____________117, function Trig_____________117Actions)
@@ -25648,7 +25675,7 @@ function Trig_____________118Func011T takes nothing returns nothing
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x78704DDD), function Trig_____________118Func011Func001Func001A)
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x78704DDD))
         call RemoveUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     endif
     set ydl_group=null
@@ -25690,7 +25717,6 @@ endfunction
 function InitTrig_____________118 takes nothing returns nothing
     set gg_trg_____________118=CreateTrigger()
     call DisableTrigger(gg_trg_____________118)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________118, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________118, Condition(function Trig_____________118Conditions))
     call TriggerAddAction(gg_trg_____________118, function Trig_____________118Actions)
@@ -25722,8 +25748,8 @@ function Trig_____________121Func012T takes nothing returns nothing
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) + 1 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)), GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))))
         set udg_Point=GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(200.00 , udg_Point , Condition(function Trig_____________121Func012Func001Func006002003))
@@ -25772,7 +25798,6 @@ endfunction
 function InitTrig_____________121 takes nothing returns nothing
     set gg_trg_____________121=CreateTrigger()
     call DisableTrigger(gg_trg_____________121)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________121, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________121, Condition(function Trig_____________121Conditions))
     call TriggerAddAction(gg_trg_____________121, function Trig_____________121Actions)
@@ -25791,7 +25816,6 @@ endfunction
 function InitTrig_____________122 takes nothing returns nothing
     set gg_trg_____________122=CreateTrigger()
     call DisableTrigger(gg_trg_____________122)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________122, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddCondition(gg_trg_____________122, Condition(function Trig_____________122Conditions))
     call TriggerAddAction(gg_trg_____________122, function Trig_____________122Actions)
@@ -25819,12 +25843,12 @@ function Trig_____________124Func025T takes nothing returns nothing
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) >= 28 ) ) then
         call KillUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) + 1 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 50.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)), GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))))
         set udg_Point=GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(200.00 , udg_Point , Condition(function Trig_____________124Func025Func001Func006002003))
@@ -25875,7 +25899,6 @@ endfunction
 function InitTrig_____________124 takes nothing returns nothing
     set gg_trg_____________124=CreateTrigger()
     call DisableTrigger(gg_trg_____________124)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________124, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_____________124, Condition(function Trig_____________124Conditions))
     call TriggerAddAction(gg_trg_____________124, function Trig_____________124Actions)
@@ -25903,7 +25926,6 @@ endfunction
 function InitTrig_____________132 takes nothing returns nothing
     set gg_trg_____________132=CreateTrigger()
     call DisableTrigger(gg_trg_____________132)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________132, gg_unit_Harf_0262, EVENT_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_____________132, Condition(function Trig_____________132Conditions))
     call TriggerAddAction(gg_trg_____________132, function Trig_____________132Actions)
@@ -25925,7 +25947,6 @@ endfunction
 function InitTrig_____________125 takes nothing returns nothing
     set gg_trg_____________125=CreateTrigger()
     call DisableTrigger(gg_trg_____________125)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________125, gg_unit_Harf_0262, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________125, Condition(function Trig_____________125Conditions))
     call TriggerAddAction(gg_trg_____________125, function Trig_____________125Actions)
@@ -26003,7 +26024,6 @@ endfunction
 function InitTrig_____________127 takes nothing returns nothing
     set gg_trg_____________127=CreateTrigger()
     call DisableTrigger(gg_trg_____________127)
-    call DoNothing()
     call TriggerAddAction(gg_trg_____________127, function Trig_____________127Actions)
 endfunction
 //===========================================================================
@@ -26066,7 +26086,6 @@ endfunction
 function InitTrig_____________129 takes nothing returns nothing
     set gg_trg_____________129=CreateTrigger()
     call DisableTrigger(gg_trg_____________129)
-    call DoNothing()
     call TriggerAddAction(gg_trg_____________129, function Trig_____________129Actions)
 endfunction
 //===========================================================================
@@ -26229,7 +26248,6 @@ endfunction
 function InitTrig_____________128 takes nothing returns nothing
     set gg_trg_____________128=CreateTrigger()
     call DisableTrigger(gg_trg_____________128)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________128, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddAction(gg_trg_____________128, function Trig_____________128Actions)
 endfunction
@@ -26257,7 +26275,7 @@ function Trig_____________126Actions takes nothing returns nothing
         set ydul_i=1
         loop
             exitwhen ydul_i > LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820)
-            call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(gg_unit_Harf_0262), 'h00P', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + GetRandomReal(- 300.00, 300.00) )), YDWECoordinateY(( GetUnitY(GetTriggerUnit()) + GetRandomReal(- 300.00, 300.00) )), 0.00))
+            call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(gg_unit_Harf_0262), 'h00P', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + GetRandomReal(- 300.00, 300.00) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetUnitY(GetTriggerUnit()) + GetRandomReal(- 300.00, 300.00) ))*1.0), yd_MapMinY), yd_MapMaxY)), 0.00)) // INLINED!!
             call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D)), GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D))))
             call UnitApplyTimedLifeBJ(5.00, 'BTLF', LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D))
             if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) <= ( GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) * 0.30 ) ) ) then
@@ -26276,7 +26294,6 @@ endfunction
 function InitTrig_____________126 takes nothing returns nothing
     set gg_trg_____________126=CreateTrigger()
     call DisableTrigger(gg_trg_____________126)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________126, gg_unit_Harf_0262, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________126, Condition(function Trig_____________126Conditions))
     call TriggerAddAction(gg_trg_____________126, function Trig_____________126Actions)
@@ -26333,7 +26350,6 @@ endfunction
 function InitTrig_____________130 takes nothing returns nothing
     set gg_trg_____________130=CreateTrigger()
     call DisableTrigger(gg_trg_____________130)
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_____________130, gg_unit_Harf_0262, EVENT_UNIT_DAMAGED)
     call TriggerAddCondition(gg_trg_____________130, Condition(function Trig_____________130Conditions))
     call TriggerAddAction(gg_trg_____________130, function Trig_____________130Actions)
@@ -26358,35 +26374,35 @@ function Trig_____________131Func017Func001Func004A takes nothing returns nothin
 endfunction
 function Trig_____________131Func017Func001Func005A takes nothing returns nothing
     call PauseUnitBJ(false, GetEnumUnit())
-    call DestroyEffect(YDWEGetEffectByInteger(YDWEH2I(GetEnumUnit()) , 5233))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetEnumUnit()))
+    call DestroyEffect((LoadEffectHandle(YDHT, ((GetHandleId((GetEnumUnit()))) ), ( 5233)))) // INLINED!!
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetEnumUnit()))))) // INLINED!!
 endfunction
 function Trig_____________131Func017Func001Func017A takes nothing returns nothing
     call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000, GetUnitLoc(GetEnumUnit()))
-    call SetUnitX(GetEnumUnit(), YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )))
-    call SetUnitY(GetEnumUnit(), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )))
-    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 300.00, YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )), 0)
+    call SetUnitX(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+    call SetUnitY(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 300.00, (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 300.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
     call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000))
 endfunction
 function Trig_____________131Func017Func001Func018A takes nothing returns nothing
     call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000, GetUnitLoc(GetEnumUnit()))
-    call SetUnitX(GetEnumUnit(), YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) - ( 3.60 ) )) ) )))
-    call SetUnitY(GetEnumUnit(), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) + ( - 3.60 ) )) ) )))
-    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 600.00, YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) + ( - 3.60 ) )) ) )), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) + ( - 3.60 ) )) ) )), 0)
+    call SetUnitX(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) - ( 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+    call SetUnitY(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 600.00, (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 600.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
     call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000))
 endfunction
 function Trig_____________131Func017Func001Func019A takes nothing returns nothing
     call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000, GetUnitLoc(GetEnumUnit()))
-    call SetUnitX(GetEnumUnit(), YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )))
-    call SetUnitY(GetEnumUnit(), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )))
-    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 900.00, YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) )), 0)
+    call SetUnitX(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+    call SetUnitY(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 900.00, (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 900.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
     call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000))
 endfunction
 function Trig_____________131Func017Func001Func020A takes nothing returns nothing
     call SaveLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000, GetUnitLoc(GetEnumUnit()))
-    call SetUnitX(GetEnumUnit(), YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) )))
-    call SetUnitY(GetEnumUnit(), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) )))
-    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 1200.00, YDWECoordinateX(( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) )), YDWECoordinateY(( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) )), 0)
+    call SetUnitX(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+    call SetUnitY(GetEnumUnit(), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+    call MoveLightningEx(udg_XLning[GetUnitUserData(GetEnumUnit())], false, GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)), 1200.00, (RMinBJ(RMaxBJ(((( GetLocationX(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * CosBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((( GetLocationY(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8)) + ( 1200.00 * SinBJ(( ( AngleBetweenPoints(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x32A9E4C8), LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000)) ) + ( - 3.60 ) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
     call RemoveLocation(LoadLocationHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xDEFC4000))
 endfunction
 function Trig_____________131Func017Func001Func021003003 takes nothing returns boolean
@@ -26396,7 +26412,7 @@ function Trig_____________131Func017Func001Func022A takes nothing returns nothin
     if ( ( IsUnitInGroup(GetEnumUnit(), LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x78CEB4B4)) == true ) ) then
         call DoNothing()
     else
-        call YDWESaveEffectByInteger(YDWEH2I(GetEnumUnit()) , 5233 , AddSpecialEffectTarget("Abilities\\Spells\\Undead\\FreezingBreath\\FreezingBreathTargetArt.mdl", GetEnumUnit(), "chest"))
+        call SaveEffectHandle(YDHT, ((GetHandleId((GetEnumUnit()))) ), ( 5233 ), ( AddSpecialEffectTarget("Abilities\\Spells\\Undead\\FreezingBreath\\FreezingBreathTargetArt.mdl", GetEnumUnit(), "chest"))) // INLINED!!
         call GroupAddUnitSimple(GetEnumUnit(), LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x78CEB4B4))
         call PauseUnitBJ(true, GetEnumUnit())
     endif
@@ -26565,7 +26581,6 @@ endfunction
 function InitTrig_____________131 takes nothing returns nothing
     set gg_trg_____________131=CreateTrigger()
     call DisableTrigger(gg_trg_____________131)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_____________131, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_____________131, Condition(function Trig_____________131Conditions))
     call TriggerAddAction(gg_trg_____________131, function Trig_____________131Actions)
@@ -26601,7 +26616,7 @@ function Trig________________1Actions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( I2R(( R2I(( I2R(GetHeroAgi(udg_Unit, true)) * 1.80 )) + ( GetHeroStatBJ(bj_HEROSTAT_STR, udg_Unit, true) + R2I(( I2R(GetHeroInt(udg_Unit, true)) * 1.20 )) ) )) * SquareRoot(I2R(GetHeroLevel(udg_Unit))) ))
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))] ))
         call UnitDamageTarget(udg_Unit, GetTriggerUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         if ( ( IsUnitAliveBJ(GetTriggerUnit()) == true ) ) then
             call SaveUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D, CreateUnit(GetOwningPlayer(gg_unit_Eevi_0020), 'h009', GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 0))
             call UnitApplyTimedLifeBJ(1.00, 'BHwe', LoadUnitHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xC303079D))
@@ -26723,7 +26738,6 @@ endfunction
 //===========================================================================
 function InitTrig________________1 takes nothing returns nothing
     set gg_trg________________1=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg________________1)
     call TriggerAddAction(gg_trg________________1, function Trig________________1Actions)
 endfunction
@@ -26734,7 +26748,7 @@ function Trig__________de______uConditions takes nothing returns boolean
     return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetSpellAbilityId() == 'A06D' ) )
 endfunction
 function Trig__________de______uActions takes nothing returns nothing
-    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqt' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwen' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwns' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) ) ) then
+    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) ) ) then
         call UnitAddItemByIdSwapped('I073', GetTriggerUnit())
         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
         return
@@ -26752,7 +26766,7 @@ function Trig__________de______uActions takes nothing returns nothing
         else
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) == 0 ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -26774,7 +26788,7 @@ function Trig__________de______uActions takes nothing returns nothing
             set udg_I_suijizhengshu=( udg_I_suijizhengshu + 25 )
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) != 0 ) and ( GetRandomInt(1, 100) <= udg_I_suijizhengshu ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -26799,7 +26813,6 @@ endfunction
 //===========================================================================
 function InitTrig__________de______u takes nothing returns nothing
     set gg_trg__________de______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________de______u, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________de______u, Condition(function Trig__________de______uConditions))
     call TriggerAddAction(gg_trg__________de______u, function Trig__________de______uActions)
@@ -26811,7 +26824,7 @@ function Trig__________de______1Conditions takes nothing returns boolean
     return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetSpellAbilityId() == 'A04P' ) )
 endfunction
 function Trig__________de______1Actions takes nothing returns nothing
-    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqt' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwen' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwns' ) ) ) then
+    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) ) ) then
         call UnitAddItemByIdSwapped('I074', GetTriggerUnit())
         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
         return
@@ -26829,7 +26842,7 @@ function Trig__________de______1Actions takes nothing returns nothing
         else
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) == 0 ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -26851,7 +26864,7 @@ function Trig__________de______1Actions takes nothing returns nothing
             set udg_I_suijizhengshu=( udg_I_suijizhengshu + 25 )
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) != 0 ) and ( GetRandomInt(1, 100) <= udg_I_suijizhengshu ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -26876,7 +26889,6 @@ endfunction
 //===========================================================================
 function InitTrig__________de______1 takes nothing returns nothing
     set gg_trg__________de______1=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________de______1, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________de______1, Condition(function Trig__________de______1Conditions))
     call TriggerAddAction(gg_trg__________de______1, function Trig__________de______1Actions)
@@ -26888,7 +26900,7 @@ function Trig__________de______3Conditions takes nothing returns boolean
     return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetSpellAbilityId() == 'A04Q' ) )
 endfunction
 function Trig__________de______3Actions takes nothing returns nothing
-    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqt' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwen' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwns' ) ) ) then
+    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) ) ) then
         call UnitAddItemByIdSwapped('I075', GetTriggerUnit())
         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
         return
@@ -26906,7 +26918,7 @@ function Trig__________de______3Actions takes nothing returns nothing
         else
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) == 0 ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -26928,7 +26940,7 @@ function Trig__________de______3Actions takes nothing returns nothing
             set udg_I_suijizhengshu=( udg_I_suijizhengshu + 25 )
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) != 0 ) and ( GetRandomInt(1, 100) <= udg_I_suijizhengshu ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -26953,7 +26965,6 @@ endfunction
 //===========================================================================
 function InitTrig__________de______3 takes nothing returns nothing
     set gg_trg__________de______3=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________de______3, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________de______3, Condition(function Trig__________de______3Conditions))
     call TriggerAddAction(gg_trg__________de______3, function Trig__________de______3Actions)
@@ -26965,7 +26976,7 @@ function Trig__________de______4Conditions takes nothing returns boolean
     return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetSpellAbilityId() == 'A04R' ) )
 endfunction
 function Trig__________de______4Actions takes nothing returns nothing
-    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqt' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwen' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwns' ) ) ) then
+    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) ) ) then
         call UnitAddItemByIdSwapped('I072', GetTriggerUnit())
         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
         return
@@ -26983,7 +26994,7 @@ function Trig__________de______4Actions takes nothing returns nothing
         else
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) == 0 ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -27005,7 +27016,7 @@ function Trig__________de______4Actions takes nothing returns nothing
             set udg_I_suijizhengshu=( udg_I_suijizhengshu + 25 )
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) != 0 ) and ( GetRandomInt(1, 100) <= udg_I_suijizhengshu ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -27030,7 +27041,6 @@ endfunction
 //===========================================================================
 function InitTrig__________de______4 takes nothing returns nothing
     set gg_trg__________de______4=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________de______4, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________de______4, Condition(function Trig__________de______4Conditions))
     call TriggerAddAction(gg_trg__________de______4, function Trig__________de______4Actions)
@@ -27042,7 +27052,7 @@ function Trig__________de______5Conditions takes nothing returns boolean
     return ( ( GetUnitTypeId(GetTriggerUnit()) != 'N018' ) and ( GetSpellAbilityId() == 'A0E1' ) )
 endfunction
 function Trig__________de______5Actions takes nothing returns nothing
-    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqt' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwen' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nwns' ) ) ) then
+    if ( ( ( GetUnitTypeId(GetSpellTargetUnit()) == 'nmit' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'owyv' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nzom' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsog' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninc' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'ninm' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrn' ) or ( GetUnitTypeId(GetSpellTargetUnit()) == 'nsrh' ) ) ) then
         call UnitAddItemByIdSwapped('I071', GetTriggerUnit())
         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
         return
@@ -27060,7 +27070,7 @@ function Trig__________de______5Actions takes nothing returns nothing
         else
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) == 0 ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -27082,7 +27092,7 @@ function Trig__________de______5Actions takes nothing returns nothing
             set udg_I_suijizhengshu=( udg_I_suijizhengshu + 25 )
             if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) != 0 ) and ( GetRandomInt(1, 100) <= udg_I_suijizhengshu ) ) then
                 call PlaySoundBJ(gg_snd_GoodJob)
-                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetSpellTargetUnit())), YDWECoordinateY(GetUnitY(GetSpellTargetUnit()))))
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetSpellTargetUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetSpellTargetUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
                 call SetUnitOwner(GetSpellTargetUnit(), GetOwningPlayer(GetTriggerUnit()), true)
                 call UnitAddAbilityBJ('AInv', GetSpellTargetUnit())
                 call UnitAddAbilityBJ('A06E', GetSpellTargetUnit())
@@ -27107,7 +27117,6 @@ endfunction
 //===========================================================================
 function InitTrig__________de______5 takes nothing returns nothing
     set gg_trg__________de______5=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________de______5, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________de______5, Condition(function Trig__________de______5Conditions))
     call TriggerAddAction(gg_trg__________de______5, function Trig__________de______5Actions)
@@ -27125,7 +27134,6 @@ endfunction
 //===========================================================================
 function InitTrig_______de____________1 takes nothing returns nothing
     set gg_trg_______de____________1=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______de____________1, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_______de____________1, Condition(function Trig_______de____________1Conditions))
     call TriggerAddAction(gg_trg_______de____________1, function Trig_______de____________1Actions)
@@ -27145,7 +27153,6 @@ endfunction
 //===========================================================================
 function InitTrig_______de____________2 takes nothing returns nothing
     set gg_trg_______de____________2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______de____________2, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______de____________2, Condition(function Trig_______de____________2Conditions))
     call TriggerAddAction(gg_trg_______de____________2, function Trig_______de____________2Actions)
@@ -27165,7 +27172,6 @@ endfunction
 //===========================================================================
 function InitTrig_______de____________3 takes nothing returns nothing
     set gg_trg_______de____________3=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______de____________3, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg_______de____________3, Condition(function Trig_______de____________3Conditions))
     call TriggerAddAction(gg_trg_______de____________3, function Trig_______de____________3Actions)
@@ -27211,7 +27217,6 @@ endfunction
 //===========================================================================
 function InitTrig_______de____________4 takes nothing returns nothing
     set gg_trg_______de____________4=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_______de____________4, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddAction(gg_trg_______de____________4, function Trig_______de____________4Actions)
 endfunction
@@ -27271,7 +27276,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________________u takes nothing returns nothing
     set gg_trg____________________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________________u, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________________u, Condition(function Trig____________________________uConditions))
     call TriggerAddAction(gg_trg____________________________u, function Trig____________________________uActions)
@@ -27406,7 +27410,6 @@ endfunction
 //===========================================================================
 function InitTrig______________1 takes nothing returns nothing
     set gg_trg______________1=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________1, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg______________1, Condition(function Trig______________1Conditions))
     call TriggerAddAction(gg_trg______________1, function Trig______________1Actions)
@@ -27508,8 +27511,8 @@ function Trig______________3aActions takes nothing returns nothing
         set bj_forLoopAIndex=bj_forLoopAIndex + 1
     endloop
     if ( ( GetUnitAbilityLevelSwapped('A0F8', GetTriggerUnit()) == 1 ) and ( GetPlayerTechCountSimple('R008', GetOwningPlayer(gg_unit_Harf_0262)) == 1 ) and ( IsUnitIllusionBJ(GetTriggerUnit()) != true ) and ( GetEventDamage() > 100.00 ) ) then
-        if ( ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) ) <= 0.40 ) ) then
-            set udg_I_suijizhengshu=( udg_I_suijizhengshu + R2I(( GetEventDamage() * 0.60 )) )
+        if ( ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) ) <= 0.10 ) ) then
+            set udg_I_suijizhengshu=( udg_I_suijizhengshu + R2I(( GetEventDamage() * 0.90 )) )
         else
             set udg_I_suijizhengshu=( udg_I_suijizhengshu + R2I(( GetEventDamage() * ( 1.00 - ( GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) / GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetTriggerUnit()) ) ) )) )
         endif
@@ -27535,7 +27538,6 @@ endfunction
 //===========================================================================
 function InitTrig______________3a takes nothing returns nothing
     set gg_trg______________3a=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg______________3a)
     call TriggerAddCondition(gg_trg______________3a, Condition(function Trig______________3aConditions))
     call TriggerAddAction(gg_trg______________3a, function Trig______________3aActions)
@@ -27585,7 +27587,6 @@ endfunction
 //===========================================================================
 function InitTrig__________u takes nothing returns nothing
     set gg_trg__________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg__________u, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg__________u, Condition(function Trig__________uConditions))
     call TriggerAddAction(gg_trg__________u, function Trig__________uActions)
@@ -27636,7 +27637,6 @@ endfunction
 //===========================================================================
 function InitTrig___________6a takes nothing returns nothing
     set gg_trg___________6a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________6a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________6a, Condition(function Trig___________6aConditions))
     call TriggerAddAction(gg_trg___________6a, function Trig___________6aActions)
@@ -27687,7 +27687,6 @@ endfunction
 //===========================================================================
 function InitTrig___________7a takes nothing returns nothing
     set gg_trg___________7a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________7a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________7a, Condition(function Trig___________7aConditions))
     call TriggerAddAction(gg_trg___________7a, function Trig___________7aActions)
@@ -27744,7 +27743,6 @@ endfunction
 //===========================================================================
 function InitTrig___________10a takes nothing returns nothing
     set gg_trg___________10a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________10a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________10a, Condition(function Trig___________10aConditions))
     call TriggerAddAction(gg_trg___________10a, function Trig___________10aActions)
@@ -27804,7 +27802,6 @@ endfunction
 //===========================================================================
 function InitTrig___________11a takes nothing returns nothing
     set gg_trg___________11a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________11a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________11a, Condition(function Trig___________11aConditions))
     call TriggerAddAction(gg_trg___________11a, function Trig___________11aActions)
@@ -27864,7 +27861,6 @@ endfunction
 //===========================================================================
 function InitTrig___________12a takes nothing returns nothing
     set gg_trg___________12a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________12a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________12a, Condition(function Trig___________12aConditions))
     call TriggerAddAction(gg_trg___________12a, function Trig___________12aActions)
@@ -27924,7 +27920,6 @@ endfunction
 //===========================================================================
 function InitTrig___________13a takes nothing returns nothing
     set gg_trg___________13a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________13a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________13a, Condition(function Trig___________13aConditions))
     call TriggerAddAction(gg_trg___________13a, function Trig___________13aActions)
@@ -27983,46 +27978,9 @@ endfunction
 //===========================================================================
 function InitTrig___________13a_______u takes nothing returns nothing
     set gg_trg___________13a_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________13a_______u, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________13a_______u, Condition(function Trig___________13a_______uConditions))
     call TriggerAddAction(gg_trg___________13a_______u, function Trig___________13a_______uActions)
-endfunction
-//===========================================================================
-// Trigger: 炼凝至宝_4a
-//===========================================================================
-function Trig______________4aConditions takes nothing returns boolean
-    return ( ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] ) and ( GetItemTypeId(GetManipulatedItem()) == 'I01S' ) )
-endfunction
-function Trig______________4aActions takes nothing returns nothing
-    set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]=( udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] + 0.50 )
-    call TriggerExecute(gg_trg_D7)
-endfunction
-//===========================================================================
-function InitTrig______________4a takes nothing returns nothing
-    set gg_trg______________4a=CreateTrigger()
-    call DoNothing()
-    call TriggerRegisterAnyUnitEventBJ(gg_trg______________4a, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-    call TriggerAddCondition(gg_trg______________4a, Condition(function Trig______________4aConditions))
-    call TriggerAddAction(gg_trg______________4a, function Trig______________4aActions)
-endfunction
-//===========================================================================
-// Trigger: 炼凝至宝_5a
-//===========================================================================
-function Trig______________5aConditions takes nothing returns boolean
-    return ( ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] ) and ( GetItemTypeId(GetManipulatedItem()) == 'I01S' ) )
-endfunction
-function Trig______________5aActions takes nothing returns nothing
-    set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]=( udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] - 0.50 )
-    call TriggerExecute(gg_trg_D7)
-endfunction
-//===========================================================================
-function InitTrig______________5a takes nothing returns nothing
-    set gg_trg______________5a=CreateTrigger()
-    call DoNothing()
-    call TriggerRegisterAnyUnitEventBJ(gg_trg______________5a, EVENT_PLAYER_UNIT_DROP_ITEM)
-    call TriggerAddCondition(gg_trg______________5a, Condition(function Trig______________5aConditions))
-    call TriggerAddAction(gg_trg______________5a, function Trig______________5aActions)
 endfunction
 //===========================================================================
 // Trigger: 元素技能_8a
@@ -28035,175 +27993,175 @@ function Trig______________8aFunc006Func004002003 takes nothing returns boolean
 endfunction
 function Trig______________8aFunc006Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\FaerieDragonInvis\\FaerieDragon_Invis.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\FaerieDragonInvis\\FaerieDragon_Invis.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc015Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc015Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc016Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc016Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UDeathSmall\\UDeathSmall.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UDeathSmall\\UDeathSmall.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc017Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc017Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc018Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc018Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc019Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc019Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc020Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc020Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc021Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc021Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc022Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc022Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc023Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc023Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc024Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc024Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc025Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc025Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc026Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc026Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc027Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc027Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc028Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc028Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc029Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc029Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc030Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc030Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc031Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc031Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc032Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc032Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc033Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc033Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc034Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc034Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc035Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc035Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc036Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc036Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc037Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc037Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aFunc038Func004002003 takes nothing returns boolean
     return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitAlly(GetFilterUnit(), GetOwningPlayer(GetAttacker())) != true ) ) )
 endfunction
 function Trig______________8aFunc038Func005A takes nothing returns nothing
     call UnitDamageTarget(udg_Unit, GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig______________8aActions takes nothing returns nothing
     local group ydl_group
@@ -28230,7 +28188,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 5000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\RainOfFire\\RainOfFireTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\RainOfFire\\RainOfFireTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("天外雷星", udg_Unit, 0, 16.00, 100.00, 0.00, 100.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28240,7 +28198,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 150000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28250,7 +28208,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 300000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28260,7 +28218,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 450000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28270,7 +28228,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 600000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28280,7 +28238,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 800000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28290,7 +28248,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 1000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28300,7 +28258,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 2000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIso\\AIsoTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("鬼魂之手", udg_Unit, 0, 16.00, 0.00, 0.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28622,7 +28580,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 150000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28632,7 +28590,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 300000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28642,7 +28600,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 450000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28652,7 +28610,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 600000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28662,7 +28620,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 800000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28672,7 +28630,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 1000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28682,7 +28640,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 2000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("雷霆之怒", udg_Unit, 0, 16.00, 100.00, 100.00, 0.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28692,7 +28650,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 150000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28702,7 +28660,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 300000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28712,7 +28670,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 450000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28722,7 +28680,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 600000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28732,7 +28690,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 800000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28742,7 +28700,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 1000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28752,7 +28710,7 @@ function Trig______________8aActions takes nothing returns nothing
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 2000000.00)
         call SaveReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, ( LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] ))
         call UnitDamageTarget(udg_Unit, GetAttackedUnitBJ(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820), false, true, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", YDWECoordinateX(GetUnitX(GetAttackedUnitBJ())), YDWECoordinateY(GetUnitY(GetAttackedUnitBJ()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Starfall\\StarfallTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetAttackedUnitBJ()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetAttackedUnitBJ()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call CreateTextTagUnitBJ("陨落星雨", udg_Unit, 0, 16.00, 100.00, 20.00, 30.00, 0)
         call SetTextTagVelocityBJ(GetLastCreatedTextTag(), 64, 90.00)
         call YDWETimerDestroyTextTag(2 , GetLastCreatedTextTag())
@@ -28766,7 +28724,6 @@ endfunction
 //===========================================================================
 function InitTrig______________8a takes nothing returns nothing
     set gg_trg______________8a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________8a, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg______________8a, Condition(function Trig______________8aConditions))
     call TriggerAddAction(gg_trg______________8a, function Trig______________8aActions)
@@ -28780,7 +28737,7 @@ endfunction
 function Trig____________________9aFunc051A takes nothing returns nothing
     call FlushChildHashtable(YDHT, GetHandleId(GetEnumUnit()))
     call RemoveUnit(GetEnumUnit())
-    call DestroyEffect(AddSpecialEffect(udg_HEla, YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect(udg_HEla, (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 endfunction
 function Trig____________________9aActions takes nothing returns nothing
     local group ydl_group
@@ -29182,7 +29139,7 @@ function Trig____________________9aActions takes nothing returns nothing
     else
     endif
     call RemoveLocation(udg_Point)
-    call DestroyEffect(AddSpecialEffect(udg_HEla, YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+    call DestroyEffect(AddSpecialEffect(udg_HEla, (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
     set ydl_group=null
     set ydl_unit=null
@@ -29190,7 +29147,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________9a takes nothing returns nothing
     set gg_trg____________________9a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________9a, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddCondition(gg_trg____________________9a, Condition(function Trig____________________9aConditions))
     call TriggerAddAction(gg_trg____________________9a, function Trig____________________9aActions)
@@ -29205,7 +29161,7 @@ function Trig___________14aFunc002Func006003003 takes nothing returns boolean
     return ( ( ( IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetTriggerUnit())) == true ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) ) )
 endfunction
 function Trig___________14aFunc002Func007A takes nothing returns nothing
-    call DestroyEffect(AddSpecialEffect("Abilities\\Weapons\\Bolt\\BoltImpact.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Weapons\\Bolt\\BoltImpact.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     call UnitDamageTargetBJ(GetTriggerUnit(), GetEnumUnit(), LoadReal(YDHT, GetHandleId(GetTriggeringTrigger()) * LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7), 0x25DAB820), ATTACK_TYPE_NORMAL, DAMAGE_TYPE_MAGIC)
 endfunction
 function Trig___________14aFunc003Func006003003 takes nothing returns boolean
@@ -29218,7 +29174,7 @@ function Trig___________14aFunc004Func004003003 takes nothing returns boolean
     return ( ( ( IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetTriggerUnit())) == false ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) ) )
 endfunction
 function Trig___________14aFunc004Func005A takes nothing returns nothing
-    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", YDWECoordinateX(GetUnitX(GetEnumUnit())), YDWECoordinateY(GetUnitY(GetEnumUnit()))))
+    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetEnumUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetEnumUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
     call SetUnitLifeBJ(GetEnumUnit(), ( GetUnitStateSwap(UNIT_STATE_LIFE, GetEnumUnit()) + ( 30000.00 + ( 0.25 * GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetEnumUnit()) ) ) ))
 endfunction
 function Trig___________14aActions takes nothing returns nothing
@@ -29265,7 +29221,6 @@ endfunction
 //===========================================================================
 function InitTrig___________14a takes nothing returns nothing
     set gg_trg___________14a=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg___________14a, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg___________14a, Condition(function Trig___________14aConditions))
     call TriggerAddAction(gg_trg___________14a, function Trig___________14aActions)
@@ -29302,7 +29257,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________016 takes nothing returns nothing
     set gg_trg____________________016=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________016)
     call TriggerAddCondition(gg_trg____________________016, Condition(function Trig____________________016Conditions))
     call TriggerAddAction(gg_trg____________________016, function Trig____________________016Actions)
@@ -29338,7 +29292,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________016_______u takes nothing returns nothing
     set gg_trg____________________016_______u=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________016_______u)
     call TriggerAddCondition(gg_trg____________________016_______u, Condition(function Trig____________________016_______uConditions))
     call TriggerAddAction(gg_trg____________________016_______u, function Trig____________________016_______uActions)
@@ -29444,7 +29397,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________037 takes nothing returns nothing
     set gg_trg____________________037=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________037, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg____________________037, Condition(function Trig____________________037Conditions))
     call TriggerAddAction(gg_trg____________________037, function Trig____________________037Actions)
@@ -29457,7 +29409,7 @@ function Trig____________________045Conditions takes nothing returns boolean
 endfunction
 function Trig____________________045Func002T takes nothing returns nothing
     set udg_Yifu[GetConvertedPlayerId(LoadPlayerHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x231B55E1))]=false
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________045Actions takes nothing returns nothing
@@ -29471,156 +29423,156 @@ function Trig____________________045Actions takes nothing returns nothing
     call SavePlayerHandle(YDHT, GetHandleId(ydl_timer), 0x231B55E1, GetOwningPlayer(GetTriggerUnit()))
     call TimerStart(ydl_timer, 90.00, false, function Trig____________________045Func002T)
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'tbak')) == 'tbak' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(9.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'pspd')) == 'pspd' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(8.50)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'crdt')) == 'crdt' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'tfar')) == 'tfar' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'tbsm')) == 'tbsm' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(8.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'shdt')) == 'shdt' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'frgd')) == 'frgd' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'stpg')) == 'stpg' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(7.50)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'rugt')) == 'rugt' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'oflg')) == 'oflg' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'shen')) == 'shen' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(7.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'envl')) == 'envl' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'rde0')) == 'rde0' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'rump')) == 'rump' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(6.50)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'gsou')) == 'gsou' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'arsc')) == 'arsc' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'oli2')) == 'oli2' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(6.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'gldo')) == 'gldo' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'sbok')) == 'sbok' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'nspi')) == 'nspi' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(5.50)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'gvsm')) == 'gvsm' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'soul')) == 'soul' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'mlst')) == 'mlst' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(5.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'gobm')) == 'gobm' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'ofir')) == 'ofir' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'frhg')) == 'frhg' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(4.50)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'pgin')) == 'pgin' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'tels')) == 'tels' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'oven')) == 'oven' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(4.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'dtsb')) == 'dtsb' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'drph')) == 'drph' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(3.50)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
     else
     endif
     if ( ( ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'rej4')) == 'rej4' ) or ( GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetTriggerUnit() , 'rej6')) == 'rej6' ) ) ) then
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call SetUnitInvulnerable(GetTriggerUnit(), true)
         call YDWEPolledWaitNull(3.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call SetUnitInvulnerable(GetTriggerUnit(), false)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))))
+        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", (RMinBJ(RMaxBJ(((GetUnitX(GetTriggerUnit()))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         set ydl_timer=null
         return
@@ -29632,7 +29584,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________045 takes nothing returns nothing
     set gg_trg____________________045=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________045)
     call TriggerAddCondition(gg_trg____________________045, Condition(function Trig____________________045Conditions))
     call TriggerAddAction(gg_trg____________________045, function Trig____________________045Actions)
@@ -30503,7 +30454,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________046 takes nothing returns nothing
     set gg_trg____________________046=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________046, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddAction(gg_trg____________________046, function Trig____________________046Actions)
 endfunction
@@ -31056,7 +31006,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________066 takes nothing returns nothing
     set gg_trg____________________066=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________066, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddAction(gg_trg____________________066, function Trig____________________066Actions)
 endfunction
@@ -31096,7 +31045,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 3 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 4 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31145,7 +31094,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 5 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 6 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31194,7 +31143,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 2 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 3 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31243,7 +31192,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 6 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 7 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31292,7 +31241,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 2 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 4 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31341,7 +31290,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 4 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 6 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31390,7 +31339,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 1 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 3 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31439,7 +31388,7 @@ function Trig____________________042Actions takes nothing returns nothing
         else
         endif
         if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x52AD0738) != 'clsd' ) ) then
-            if ( ( GetRandomInt(1, 10) <= 5 ) ) then
+            if ( ( GetRandomInt(1, 10) <= 7 ) ) then
                 call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "成功的升级了神器！" ) ))
                 call PlaySoundBJ(gg_snd_Chenggong)
                 call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
@@ -31465,7 +31414,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________042 takes nothing returns nothing
     set gg_trg____________________042=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________042, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddAction(gg_trg____________________042, function Trig____________________042Actions)
 endfunction
@@ -31558,7 +31506,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________042_______u takes nothing returns nothing
     set gg_trg____________________042_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________042_______u, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddAction(gg_trg____________________042_______u, function Trig____________________042_______uActions)
 endfunction
@@ -31585,7 +31532,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________075 takes nothing returns nothing
     set gg_trg____________________075=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________075, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg____________________075, Condition(function Trig____________________075Conditions))
     call TriggerAddAction(gg_trg____________________075, function Trig____________________075Actions)
@@ -31613,7 +31559,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________075_______u takes nothing returns nothing
     set gg_trg____________________075_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________075_______u, EVENT_PLAYER_UNIT_DROP_ITEM)
     call TriggerAddCondition(gg_trg____________________075_______u, Condition(function Trig____________________075_______uConditions))
     call TriggerAddAction(gg_trg____________________075_______u, function Trig____________________075_______uActions)
@@ -31652,7 +31597,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________094 takes nothing returns nothing
     set gg_trg____________________094=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________094, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddCondition(gg_trg____________________094, Condition(function Trig____________________094Conditions))
     call TriggerAddAction(gg_trg____________________094, function Trig____________________094Actions)
@@ -31689,7 +31633,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________096 takes nothing returns nothing
     set gg_trg____________________096=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________096, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg____________________096, Condition(function Trig____________________096Conditions))
     call TriggerAddAction(gg_trg____________________096, function Trig____________________096Actions)
@@ -31708,7 +31651,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________096_______u takes nothing returns nothing
     set gg_trg____________________096_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________096_______u, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg____________________096_______u, Condition(function Trig____________________096_______uConditions))
     call TriggerAddAction(gg_trg____________________096_______u, function Trig____________________096_______uActions)
@@ -31723,63 +31665,63 @@ function Trig____________________023Func002Func001Func001Func001Func004T takes n
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func002Func004T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func003Func004T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func004Func005T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func005Func005T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func006Func005T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func007Func005T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func008Func005T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Func002Func001Func001Func009Func005T takes nothing returns nothing
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________023Actions takes nothing returns nothing
@@ -31889,7 +31831,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________023 takes nothing returns nothing
     set gg_trg____________________023=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg____________________023)
     call TriggerAddCondition(gg_trg____________________023, Condition(function Trig____________________023Conditions))
     call TriggerAddAction(gg_trg____________________023, function Trig____________________023Actions)
@@ -31904,7 +31845,7 @@ function Trig____________________092Func002Func001Func001Func001Func004T takes n
     call SetItemDroppable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call SetItemPawnable(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181), true)
     call FlushChildHashtable(YDHT, GetHandleId(LoadItemHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x312C4181)))
-    call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+    call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
 function Trig____________________092Actions takes nothing returns nothing
@@ -31940,7 +31881,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________092 takes nothing returns nothing
     set gg_trg____________________092=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________092, EVENT_PLAYER_UNIT_SPELL_EFFECT)
     call TriggerAddCondition(gg_trg____________________092, Condition(function Trig____________________092Conditions))
     call TriggerAddAction(gg_trg____________________092, function Trig____________________092Actions)
@@ -31964,44 +31904,44 @@ function Trig_Init_Tian_LianActions takes nothing returns nothing
     call SaveInteger(YDHT, 'nowb', 0xFCD961C9, 300000)
     call SaveInteger(YDHT, 'nowb', 0x5039AFFB, 80000)
     call SaveInteger(YDHT, 'nowb', 0x81FD3994, 60)
-    call SaveInteger(YDHT, 'nwiz', 0xFCD961C9, 400000)
-    call SaveInteger(YDHT, 'nwiz', 0x5039AFFB, 80000)
+    call SaveInteger(YDHT, 'nwiz', 0xFCD961C9, 800000)
+    call SaveInteger(YDHT, 'nwiz', 0x5039AFFB, 200000)
     call SaveInteger(YDHT, 'nwiz', 0x81FD3994, 80)
     call SaveInteger(YDHT, 'ngrk', 0xFCD961C9, 2000000)
     call SaveInteger(YDHT, 'ngrk', 0x5039AFFB, 400000)
     call SaveInteger(YDHT, 'ngrk', 0x81FD3994, 180)
-    call SaveInteger(YDHT, 'ndqn', 0xFCD961C9, 4000000)
-    call SaveInteger(YDHT, 'ndqn', 0x5039AFFB, 2000000)
+    call SaveInteger(YDHT, 'ndqn', 0xFCD961C9, 8000000)
+    call SaveInteger(YDHT, 'ndqn', 0x5039AFFB, 4000000)
     call SaveInteger(YDHT, 'ndqn', 0x81FD3994, 200)
-    call SaveInteger(YDHT, 'ntka', 0xFCD961C9, 6000000)
+    call SaveInteger(YDHT, 'ntka', 0xFCD961C9, 12000000)
     call SaveInteger(YDHT, 'ntka', 0x5039AFFB, 3000000)
     call SaveInteger(YDHT, 'ntka', 0x81FD3994, 240)
-    call SaveInteger(YDHT, 'nscb', 0xFCD961C9, 9000000)
-    call SaveInteger(YDHT, 'nscb', 0x5039AFFB, 4000000)
+    call SaveInteger(YDHT, 'nscb', 0xFCD961C9, 20000000)
+    call SaveInteger(YDHT, 'nscb', 0x5039AFFB, 8000000)
     call SaveInteger(YDHT, 'nscb', 0x81FD3994, 300)
-    call SaveInteger(YDHT, 'nsqt', 0x5039AFFB, 6000000)
-    call SaveInteger(YDHT, 'nsqt', 0xFCD961C9, 15000000)
+    call SaveInteger(YDHT, 'nsqt', 0x5039AFFB, 10000000)
+    call SaveInteger(YDHT, 'nsqt', 0xFCD961C9, 40000000)
     call SaveInteger(YDHT, 'nsqt', 0x81FD3994, 400)
-    call SaveInteger(YDHT, 'nwen', 0x5039AFFB, 8000000)
-    call SaveInteger(YDHT, 'nwen', 0xFCD961C9, 20000000)
+    call SaveInteger(YDHT, 'nwen', 0x5039AFFB, 15000000)
+    call SaveInteger(YDHT, 'nwen', 0xFCD961C9, 60000000)
     call SaveInteger(YDHT, 'nwen', 0x81FD3994, 500)
-    call SaveInteger(YDHT, 'ngh2', 0x5039AFFB, 10000000)
+    call SaveInteger(YDHT, 'ngh2', 0x5039AFFB, 20000000)
     call SaveInteger(YDHT, 'ngh2', 0xFCD961C9, 30000000)
     call SaveInteger(YDHT, 'ngh2', 0x81FD3994, 600)
     call SaveInteger(YDHT, 'nsog', 0xFCD961C9, 40000000)
-    call SaveInteger(YDHT, 'nsog', 0x5039AFFB, 13500000)
+    call SaveInteger(YDHT, 'nsog', 0x5039AFFB, 40000000)
     call SaveInteger(YDHT, 'nsog', 0x81FD3994, 700)
     call SaveInteger(YDHT, 'nrzg', 0x81FD3994, 800)
-    call SaveInteger(YDHT, 'nrzg', 0xFCD961C9, 50000000)
-    call SaveInteger(YDHT, 'nrzg', 0x5039AFFB, 16000000)
+    call SaveInteger(YDHT, 'nrzg', 0xFCD961C9, 80000000)
+    call SaveInteger(YDHT, 'nrzg', 0x5039AFFB, 80000000)
     call SaveInteger(YDHT, 'npfm', 0x81FD3994, 1000)
-    call SaveInteger(YDHT, 'npfm', 0xFCD961C9, 60000000)
+    call SaveInteger(YDHT, 'npfm', 0xFCD961C9, 100000000)
     call SaveInteger(YDHT, 'npfm', 0x5039AFFB, 23000000)
     call SaveInteger(YDHT, 'nsrn', 0x81FD3994, 1200)
-    call SaveInteger(YDHT, 'nsrn', 0xFCD961C9, 70000000)
-    call SaveInteger(YDHT, 'nsrn', 0x5039AFFB, 30000000)
-    call SaveInteger(YDHT, 'ninc', 0x5039AFFB, 40000000)
-    call SaveInteger(YDHT, 'ninc', 0xFCD961C9, 80000000)
+    call SaveInteger(YDHT, 'nsrn', 0xFCD961C9, 150000000)
+    call SaveInteger(YDHT, 'nsrn', 0x5039AFFB, 50000000)
+    call SaveInteger(YDHT, 'ninc', 0x5039AFFB, 80000000)
+    call SaveInteger(YDHT, 'ninc', 0xFCD961C9, 200000000)
     call SaveInteger(YDHT, 'ninc', 0x81FD3994, 1500)
     set udg_TianTing_Zengyi[1]=4000
     set udg_TianTing_Zengyi[2]=15000
@@ -32067,7 +32007,6 @@ endfunction
 //===========================================================================
 function InitTrig_Init_Tian_Lian takes nothing returns nothing
     set gg_trg_Init_Tian_Lian=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_Init_Tian_Lian, function Trig_Init_Tian_LianActions)
 endfunction
 //===========================================================================
@@ -32224,7 +32163,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa_________u takes nothing returns nothing
     set gg_trg_papa_________u=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_papa_________u , gg_rct_______c4)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_papa_________u , gg_rct_______c15)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_papa_________u , gg_rct_______c16)
@@ -32389,18 +32327,18 @@ function Trig_papa2______uActions takes nothing returns nothing
         set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))]='ninm'
         call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【炼狱】|r额外奖励" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "|cffffcc001个人口，人口可以用来抓宠物。" ) ))
         call SetPlayerStateBJ(GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ))
-        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "来到地狱，这里奖品更为丰富，杀戮也更加可怕！！！" ) ))
-        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "来到地狱，这里奖品更为丰富，杀戮也更加可怕！！！" ) ))
-        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "来到地狱，这里奖品更为丰富，杀戮也更加可怕！！！" ) ))
-        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "来到地狱，这里奖品更为丰富，杀戮也更加可怕！！！" ) ))
-        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "来到地狱，这里奖品更为丰富，杀戮也更加可怕！！！" ) ))
+        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "暂未开放." ) ))
+        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "暂未开放." ) ))
+        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "暂未开放." ) ))
+        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "暂未开放." ) ))
+        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "暂未开放." ) ))
+        call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF6699【地狱】|r欢迎" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "暂未开放." ) ))
     else
     endif
 endfunction
 //===========================================================================
 function InitTrig_papa2______u takes nothing returns nothing
     set gg_trg_papa2______u=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_papa2______u, function Trig_papa2______uActions)
 endfunction
 //===========================================================================
@@ -32612,7 +32550,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa1______u takes nothing returns nothing
     set gg_trg_papa1______u=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_papa1______u, function Trig_papa1______uActions)
 endfunction
 //===========================================================================
@@ -32627,53 +32564,8 @@ endfunction
 //===========================================================================
 function InitTrig_papa4______u takes nothing returns nothing
     set gg_trg_papa4______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_papa4______u, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddAction(gg_trg_papa4______u, function Trig_papa4______uActions)
-endfunction
-//===========================================================================
-// Trigger: papa5魔器
-//===========================================================================
-function Trig_papa5______uConditions takes nothing returns boolean
-    return ( ( IsUnitIllusionBJ(GetDyingUnit()) != true ) and ( ( GetUnitTypeId(GetDyingUnit()) == 'nssp' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nfra' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsth' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nwld' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nowk' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nwzd' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nggr' ) or ( GetUnitTypeId(GetDyingUnit()) == 'ndqp' ) or ( GetUnitTypeId(GetDyingUnit()) == 'ntkc' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsc2' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nwns' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsqo' ) or ( GetUnitTypeId(GetDyingUnit()) == 'ngh1' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsoc' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nrzb' ) or ( GetUnitTypeId(GetDyingUnit()) == 'npfl' ) or ( GetUnitTypeId(GetDyingUnit()) == 'ninm' ) or ( GetUnitTypeId(GetDyingUnit()) == 'nsrh' ) ) )
-endfunction
-function Trig_papa5______uActions takes nothing returns nothing
-    local integer ydl_localvar_step= LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step=ydl_localvar_step + 3
-    call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, GetRandomInt(1, 4))
-    set udg_Point=GetUnitLoc(GetDyingUnit())
-    if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) == 1 ) ) then
-        call CreateItemLoc('sres', udg_Point)
-        call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", udg_Point))
-    else
-    endif
-    if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) == 2 ) ) then
-        call CreateItemLoc('pres', udg_Point)
-        call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", udg_Point))
-    else
-    endif
-    if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) == 3 ) ) then
-        call CreateItemLoc('whwd', udg_Point)
-        call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", udg_Point))
-    else
-    endif
-    if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) == 4 ) ) then
-        call CreateItemLoc('ankh', udg_Point)
-        call DestroyEffect(AddSpecialEffectLoc("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", udg_Point))
-    else
-    endif
-    call RemoveLocation(udg_Point)
-    call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
-endfunction
-//===========================================================================
-function InitTrig_papa5______u takes nothing returns nothing
-    set gg_trg_papa5______u=CreateTrigger()
-    call DoNothing()
-    call TriggerRegisterAnyUnitEventBJ(gg_trg_papa5______u, EVENT_PLAYER_UNIT_DEATH)
-    call TriggerAddCondition(gg_trg_papa5______u, Condition(function Trig_papa5______uConditions))
-    call TriggerAddAction(gg_trg_papa5______u, function Trig_papa5______uActions)
 endfunction
 //===========================================================================
 // Trigger: 人呢
@@ -32767,7 +32659,6 @@ endfunction
 //===========================================================================
 function InitTrig_______u takes nothing returns nothing
     set gg_trg_______u=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_______u , gg_rct_______1)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_______u , gg_rct_______2)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg_______u , gg_rct_______3)
@@ -32899,7 +32790,6 @@ endfunction
 //===========================================================================
 function InitTrig_______1 takes nothing returns nothing
     set gg_trg_______1=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_______1 , gg_rct_______1)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_______1 , gg_rct_______2)
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg_______1 , gg_rct_______3)
@@ -32919,10 +32809,10 @@ function Trig_papa6______uFunc001Func001002002 takes nothing returns boolean
     return ( ( ( GetUnitTypeId(GetFilterUnit()) == 'Ekee' ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) ) )
 endfunction
 function Trig_papa6______uActions takes nothing returns nothing
-    if ( ( ( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") < 20 ) or ( GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE) ) ) ) then
+    if ( ( ( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) < 20 ) or ( GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE) ) ) ) then // INLINED!!
         set udg_Group=YDWEGetUnitsOfPlayerMatchingNull(Player(10) , Condition(function Trig_papa6______uFunc001Func001002002))
         if ( ( CountUnitsInGroup(udg_Group) == 0 ) ) then
-            if ( ( YDWEGetIntegerByString("天庭" , "数量") >= ( udg_Nandu_JJJ + 3 ) ) and ( GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE) ) ) then
+            if ( ( (LoadInteger(YDHT, StringHash(("天庭" )), StringHash(( "数量")))) >= ( udg_Nandu_JJJ + 3 ) ) and ( GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE) ) ) then // INLINED!!
                 call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【提示】|r你在的难度下最多只能选" + ( I2S(( udg_Nandu_JJJ + 2 )) + "种增益。" ) ))
             else
                 set udg_Point=GetRectCenter(gg_rct_______b2)
@@ -32930,24 +32820,24 @@ function Trig_papa6______uActions takes nothing returns nothing
                 call PingMinimapLocForForce(GetPlayersAll(), udg_Point, 5.00)
                 call RemoveLocation(udg_Point)
                 set udg_Unit=GetLastCreatedUnit()
-                call YDWESaveUnitByString("天庭" , "玉帝" , udg_Unit)
-                call YDWESaveUnitByString("天庭" , "当前" , GetTriggerUnit())
+                call SaveUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "玉帝" )), ( udg_Unit)) // INLINED!!
+                call SaveUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前" )), ( GetTriggerUnit())) // INLINED!!
                 if ( ( GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE) ) ) then
                     call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "1" + ( "级" + ( GetUnitName(GetTriggerUnit()) + "玉帝出现了！大家一起去灭了他把！" ) ) ) ))
-                    call YDWESaveIntegerByString(GetUnitName(GetTriggerUnit()) , "当前" , 0)
-                    call YDWESaveIntegerByString("天庭" , "数量" , ( YDWEGetIntegerByString("天庭" , "数量") + 1 ))
+                    call SaveInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前" )), ( 0)) // INLINED!!
+                    call SaveInteger(YDHT, StringHash(("天庭" )), StringHash(( "数量" )), ( ( (LoadInteger(YDHT, StringHash(("天庭" )), StringHash(( "数量")))) + 1 ))) // INLINED!!
                     call ModifyHeroStat(bj_HEROSTAT_INT, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[1])
                     call ModifyHeroStat(bj_HEROSTAT_AGI, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[21])
                     call ModifyHeroStat(bj_HEROSTAT_STR, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[41])
                 else
-                    call ModifyHeroStat(bj_HEROSTAT_INT, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 1 )])
-                    call ModifyHeroStat(bj_HEROSTAT_AGI, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 21 )])
-                    call ModifyHeroStat(bj_HEROSTAT_STR, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 41 )])
-                    call SetUnitAbilityLevelSwapped('ACdr', udg_Unit, ( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 1 ))
-                    call SetUnitAbilityLevelSwapped('A043', udg_Unit, ( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 1 ))
-                    call SetUnitAbilityLevelSwapped('Aegr', udg_Unit, ( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 1 ))
-                    call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( I2S(( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") + 1 )) + ( "级" + ( GetUnitName(GetTriggerUnit()) + "玉帝出现了！大家一起去灭了他把！" ) ) ) ))
-                    if ( ( YDWEGetIntegerByString(GetUnitName(GetTriggerUnit()) , "当前") >= 13 ) ) then
+                    call ModifyHeroStat(bj_HEROSTAT_INT, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 1 )]) // INLINED!!
+                    call ModifyHeroStat(bj_HEROSTAT_AGI, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 21 )]) // INLINED!!
+                    call ModifyHeroStat(bj_HEROSTAT_STR, udg_Unit, bj_MODIFYMETHOD_ADD, udg_TianTing_Zengyi[( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 41 )]) // INLINED!!
+                    call SetUnitAbilityLevelSwapped('ACdr', udg_Unit, ( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 1 )) // INLINED!!
+                    call SetUnitAbilityLevelSwapped('A043', udg_Unit, ( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 1 )) // INLINED!!
+                    call SetUnitAbilityLevelSwapped('Aegr', udg_Unit, ( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 1 )) // INLINED!!
+                    call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( I2S(( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) + 1 )) + ( "级" + ( GetUnitName(GetTriggerUnit()) + "玉帝出现了！大家一起去灭了他把！" ) ) ) )) // INLINED!!
+                    if ( ( (LoadInteger(YDHT, StringHash((GetUnitName(GetTriggerUnit()) )), StringHash(( "当前")))) >= 13 ) ) then // INLINED!!
                         call UnitAddAbilityBJ('A0DB', udg_Unit)
                     else
                     endif
@@ -32966,7 +32856,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa6______u takes nothing returns nothing
     set gg_trg_papa6______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_papa6______u, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg_papa6______u, Condition(function Trig_papa6______uConditions))
     call TriggerAddAction(gg_trg_papa6______u, function Trig_papa6______uActions)
@@ -33036,16 +32925,16 @@ function Trig_papa7_________uFunc012Func002A takes nothing returns nothing
     set udg_I_Jinqianhuodelv[GetConvertedPlayerId(GetEnumPlayer())]=( udg_I_Jinqianhuodelv[GetConvertedPlayerId(GetEnumPlayer())] + 0.03 )
 endfunction
 function Trig_papa7_________uActions takes nothing returns nothing
-    call YDWESaveIntegerByString(GetUnitName(YDWEGetUnitByString("天庭" , "当前")) , "当前" , ( YDWEGetIntegerByString(GetUnitName(YDWEGetUnitByString("天庭" , "当前")) , "当前") + 1 ))
-    if ( ( YDWEGetIntegerByString(GetUnitName(YDWEGetUnitByString("天庭" , "当前")) , "当前") == 8 ) and ( GetPlayerTechCountSimple('R008', Player(6)) != 1 ) ) then
+    call SaveInteger(YDHT, StringHash((GetUnitName((LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前"))))) )), StringHash(( "当前" )), ( ( (LoadInteger(YDHT, StringHash((GetUnitName((LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前"))))) )), StringHash(( "当前")))) + 1 ))) // INLINED!!
+    if ( ( (LoadInteger(YDHT, StringHash((GetUnitName((LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前"))))) )), StringHash(( "当前")))) == 8 ) and ( GetPlayerTechCountSimple('R008', Player(6)) != 1 ) ) then // INLINED!!
         call ForForce(GetPlayersAll(), function Trig_papa7_________uFunc002Func001A)
     else
     endif
-    if ( ( YDWEGetIntegerByString(GetUnitName(YDWEGetUnitByString("天庭" , "当前")) , "当前") == 14 ) ) then
+    if ( ( (LoadInteger(YDHT, StringHash((GetUnitName((LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前"))))) )), StringHash(( "当前")))) == 14 ) ) then // INLINED!!
         call ForForce(GetPlayersAll(), function Trig_papa7_________uFunc003Func001A)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n002_0058 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n002_0058 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n002_0058) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n002_0058, Player(6), true)
             set bj_forLoopAIndex=1
@@ -33053,7 +32942,7 @@ function Trig_papa7_________uActions takes nothing returns nothing
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
                 if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
-                    call YDWESaveIntegerByString("力量增益" , I2S(GetForLoopIndexA()) , 0)
+                    call SaveInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(GetForLoopIndexA()) )), ( 0)) // INLINED!!
                     set udg_I_Xianglian[GetForLoopIndexA()]=( udg_I_Xianglian[GetForLoopIndexA()] + 0.02 )
                 else
                 endif
@@ -33061,12 +32950,22 @@ function Trig_papa7_________uActions takes nothing returns nothing
             endloop
         else
             call IncUnitAbilityLevelSwapped('A04U', gg_unit_n002_0058)
+            set bj_forLoopAIndex=1
+            set bj_forLoopAIndexEnd=6
+            loop
+                exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+                if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
+                    set udg_I_Xianglian[GetForLoopIndexA()]=( udg_I_Xianglian[GetForLoopIndexA()] + 0.02 )
+                else
+                endif
+                set bj_forLoopAIndex=bj_forLoopAIndex + 1
+            endloop
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前力量增益为" + ( I2S(YDWEGetIntegerByString("力量增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前力量增益为" + ( I2S((LoadInteger(YDHT, StringHash(("力量增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n003_0061 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n003_0061 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n003_0061) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n003_0061, Player(6), true)
             set bj_forLoopAIndex=1
@@ -33074,7 +32973,7 @@ function Trig_papa7_________uActions takes nothing returns nothing
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
                 if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
-                    call YDWESaveIntegerByString("敏捷增益" , I2S(GetForLoopIndexA()) , 0)
+                    call SaveInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(GetForLoopIndexA()) )), ( 0)) // INLINED!!
                     set udg_I_Xianglian[( GetForLoopIndexA() + 6 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 6 )] + 0.02 )
                 else
                 endif
@@ -33082,12 +32981,22 @@ function Trig_papa7_________uActions takes nothing returns nothing
             endloop
         else
             call IncUnitAbilityLevelSwapped('A04V', gg_unit_n003_0061)
+            set bj_forLoopAIndex=1
+            set bj_forLoopAIndexEnd=6
+            loop
+                exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+                if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
+                    set udg_I_Xianglian[( GetForLoopIndexA() + 6 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 6 )] + 0.02 )
+                else
+                endif
+                set bj_forLoopAIndex=bj_forLoopAIndex + 1
+            endloop
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前敏捷增益为" + ( I2S(YDWEGetIntegerByString("敏捷增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前敏捷增益为" + ( I2S((LoadInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n004_0062 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n004_0062 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n004_0062) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n004_0062, Player(6), true)
             set bj_forLoopAIndex=1
@@ -33095,7 +33004,7 @@ function Trig_papa7_________uActions takes nothing returns nothing
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
                 if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
-                    call YDWESaveIntegerByString("智力增益" , I2S(GetForLoopIndexA()) , 0)
+                    call SaveInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(GetForLoopIndexA()) )), ( 0)) // INLINED!!
                     set udg_I_Xianglian[( GetForLoopIndexA() + 12 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 12 )] + 0.02 )
                 else
                 endif
@@ -33103,12 +33012,22 @@ function Trig_papa7_________uActions takes nothing returns nothing
             endloop
         else
             call IncUnitAbilityLevelSwapped('A04W', gg_unit_n004_0062)
+            set bj_forLoopAIndex=1
+            set bj_forLoopAIndexEnd=6
+            loop
+                exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+                if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
+                    set udg_I_Xianglian[( GetForLoopIndexA() + 12 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 12 )] + 0.02 )
+                else
+                endif
+                set bj_forLoopAIndex=bj_forLoopAIndex + 1
+            endloop
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前智力增益为" + ( I2S(YDWEGetIntegerByString("智力增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前智力增益为" + ( I2S((LoadInteger(YDHT, StringHash(("智力增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n00B_0065 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n00B_0065 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n00B_0065) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n00B_0065, Player(6), true)
             set bj_forLoopAIndex=1
@@ -33116,7 +33035,7 @@ function Trig_papa7_________uActions takes nothing returns nothing
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
                 if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
-                    call YDWESaveIntegerByString("防御增益" , I2S(GetForLoopIndexA()) , 0)
+                    call SaveInteger(YDHT, StringHash(("防御增益" )), StringHash(( I2S(GetForLoopIndexA()) )), ( 0)) // INLINED!!
                     set udg_I_Xianglian[( GetForLoopIndexA() + 30 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 30 )] + 0.02 )
                 else
                 endif
@@ -33125,12 +33044,22 @@ function Trig_papa7_________uActions takes nothing returns nothing
             call EnableTrigger(gg_trg_papa13____________u)
         else
             call IncUnitAbilityLevelSwapped('A04S', gg_unit_n00B_0065)
+            set bj_forLoopAIndex=1
+            set bj_forLoopAIndexEnd=6
+            loop
+                exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+                if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
+                    set udg_I_Xianglian[( GetForLoopIndexA() + 30 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 30 )] + 0.02 )
+                else
+                endif
+                set bj_forLoopAIndex=bj_forLoopAIndex + 1
+            endloop
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前防御增益为" + ( I2S(YDWEGetIntegerByString("防御增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前防御增益为" + ( I2S((LoadInteger(YDHT, StringHash(("防御增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n005_0063 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n005_0063 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n005_0063) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n005_0063, Player(6), true)
             set bj_forLoopAIndex=1
@@ -33138,7 +33067,7 @@ function Trig_papa7_________uActions takes nothing returns nothing
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
                 if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
-                    call YDWESaveIntegerByString("生命上限增益" , I2S(GetForLoopIndexA()) , 0)
+                    call SaveInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( I2S(GetForLoopIndexA()) )), ( 0)) // INLINED!!
                     set udg_I_Xianglian[( GetForLoopIndexA() + 18 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 18 )] + 0.02 )
                 else
                 endif
@@ -33146,12 +33075,22 @@ function Trig_papa7_________uActions takes nothing returns nothing
             endloop
         else
             call IncUnitAbilityLevelSwapped('A051', gg_unit_n005_0063)
+            set bj_forLoopAIndex=1
+            set bj_forLoopAIndexEnd=6
+            loop
+                exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+                if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
+                    set udg_I_Xianglian[( GetForLoopIndexA() + 18 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 18 )] + 0.02 )
+                else
+                endif
+                set bj_forLoopAIndex=bj_forLoopAIndex + 1
+            endloop
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前生命上限增益为" + ( I2S(YDWEGetIntegerByString("生命上限增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前生命上限增益为" + ( I2S((LoadInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n00A_0060 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n00A_0060 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n00A_0060) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n00A_0060, Player(6), true)
             set bj_forLoopAIndex=1
@@ -33159,53 +33098,63 @@ function Trig_papa7_________uActions takes nothing returns nothing
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
                 if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
-                    call YDWESaveIntegerByString("攻击增益" , I2S(GetForLoopIndexA()) , 0)
-                    set udg_I_Xianglian[( GetForLoopIndexA() + 24 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 24 )] + 0.02 )
+                    call SaveInteger(YDHT, StringHash(("攻击增益" )), StringHash(( I2S(GetForLoopIndexA()) )), ( 0)) // INLINED!!
+                    set udg_I_Xianglian[( GetForLoopIndexA() + 24 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 24 )] + 0.05 )
                 else
                 endif
                 set bj_forLoopAIndex=bj_forLoopAIndex + 1
             endloop
         else
             call IncUnitAbilityLevelSwapped('A04T', gg_unit_n00A_0060)
+            set bj_forLoopAIndex=1
+            set bj_forLoopAIndexEnd=6
+            loop
+                exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+                if ( ( GetPlayerSlotState(ConvertedPlayer(GetForLoopIndexA())) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(GetForLoopIndexA())) == MAP_CONTROL_USER ) ) then
+                    set udg_I_Xianglian[( GetForLoopIndexA() + 24 )]=( udg_I_Xianglian[( GetForLoopIndexA() + 24 )] + 0.05 )
+                else
+                endif
+                set bj_forLoopAIndex=bj_forLoopAIndex + 1
+            endloop
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前攻击增益为" + ( I2S(YDWEGetIntegerByString("攻击增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前攻击增益为" + ( I2S((LoadInteger(YDHT, StringHash(("攻击增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n008_0064 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n008_0064 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n008_0064) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n008_0064, Player(6), true)
         else
             call IncUnitAbilityLevelSwapped('A04X', gg_unit_n008_0064)
         endif
         call ForForce(GetPlayersAll(), function Trig_papa7_________uFunc010Func002A)
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前造成伤害增益为" + ( I2S(YDWEGetIntegerByString("造成伤害增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前造成伤害增益为" + ( I2S((LoadInteger(YDHT, StringHash(("造成伤害增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n007_0059 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n007_0059 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n007_0059) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n007_0059, Player(6), true)
         else
             call IncUnitAbilityLevelSwapped('A04Y', gg_unit_n007_0059)
         endif
         call ForForce(GetPlayersAll(), function Trig_papa7_________uFunc011Func002A)
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前技能伤害增益为" + ( I2S(YDWEGetIntegerByString("技能伤害增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前技能伤害增益为" + ( I2S((LoadInteger(YDHT, StringHash(("技能伤害增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n019_0054 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n019_0054 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n019_0054) != Player(6) ) ) then
             call SetUnitOwner(gg_unit_n019_0054, Player(6), true)
         else
             call IncUnitAbilityLevelSwapped('A04O', gg_unit_n019_0054)
         endif
         call ForForce(GetPlayersAll(), function Trig_papa7_________uFunc012Func002A)
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前金钱增益为" + ( I2S(YDWEGetIntegerByString("技能伤害增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前金钱增益为" + ( I2S((LoadInteger(YDHT, StringHash(("技能伤害增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
         call TriggerExecute(gg_trg_D7)
     else
     endif
-    if ( ( YDWEGetUnitByString("天庭" , "当前") == gg_unit_n00C_0066 ) ) then
+    if ( ( (LoadUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前")))) == gg_unit_n00C_0066 ) ) then // INLINED!!
         if ( ( GetOwningPlayer(gg_unit_n00C_0066) != Player(6) ) ) then
             call EnableTrigger(gg_trg_______papa14)
             call TriggerExecute(gg_trg_______papa14)
@@ -33213,7 +33162,7 @@ function Trig_papa7_________uActions takes nothing returns nothing
             set bj_forLoopAIndexEnd=6
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                call UnitAddAbilityBJ(YDWEGetAbilityIDByString("魔法" , "1"), udg_H[GetForLoopIndexA()])
+                call UnitAddAbilityBJ((LoadInteger(YDHT, StringHash(("魔法" )), StringHash(( "1")))), udg_H[GetForLoopIndexA()]) // INLINED!!
                 set bj_forLoopAIndex=bj_forLoopAIndex + 1
             endloop
             call SetUnitOwner(gg_unit_n00C_0066, Player(6), true)
@@ -33222,26 +33171,25 @@ function Trig_papa7_________uActions takes nothing returns nothing
             set bj_forLoopAIndexEnd=6
             loop
                 exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
-                call UnitAddAbilityBJ(YDWEGetAbilityIDByString("魔法" , I2S(YDWEGetIntegerByString("魔法上限和回复增益" , "当前"))), udg_H[GetForLoopIndexA()])
+                call UnitAddAbilityBJ((LoadInteger(YDHT, StringHash(("魔法" )), StringHash(( I2S((LoadInteger(YDHT, StringHash(("魔法上限和回复增益" )), StringHash(( "当前"))))))))), udg_H[GetForLoopIndexA()]) // INLINED!!
                 set bj_forLoopAIndex=bj_forLoopAIndex + 1
             endloop
             call IncUnitAbilityLevelSwapped('A04Z', gg_unit_n00C_0066)
-            if ( ( YDWEGetIntegerByString("魔法上限和回复增益" , "当前") == 20 ) ) then
+            if ( ( (LoadInteger(YDHT, StringHash(("魔法上限和回复增益" )), StringHash(( "当前")))) == 20 ) ) then // INLINED!!
                 call DestroyTrigger(gg_trg_______papa14)
-                call YDWEFlushMissionByString("魔法")
+                call FlushChildHashtable(YDHT, StringHash(("魔法"))) // INLINED!!
             else
             endif
         endif
-        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前魔法上限和回复增益为" + ( I2S(YDWEGetIntegerByString("魔法上限和回复增益" , "当前")) + "级。" ) ) ))
+        call DisplayTimedTextToForce(GetPlayersAll(), 30, ( "|cffff00ff【天庭】|r" + ( "你们当前魔法上限和回复增益为" + ( I2S((LoadInteger(YDHT, StringHash(("魔法上限和回复增益" )), StringHash(( "当前"))))) + "级。" ) ) )) // INLINED!!
     else
     endif
-    call YDWESaveUnitByString("天庭" , "当前" , null)
-    call YDWESaveUnitByString("天庭" , "玉帝" , null)
+    call SaveUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "当前" )), ( null)) // INLINED!!
+    call SaveUnitHandle(YDHT, StringHash(("天庭" )), StringHash(( "玉帝" )), ( null)) // INLINED!!
 endfunction
 //===========================================================================
 function InitTrig_papa7_________u takes nothing returns nothing
     set gg_trg_papa7_________u=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_papa7_________u, function Trig_papa7_________uActions)
 endfunction
 //===========================================================================
@@ -33256,16 +33204,16 @@ function Trig_papa8____________uActions takes nothing returns nothing
     set ydul_a1=1
     loop
         exitwhen ydul_a1 > 6
-        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a1)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a1)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[ydul_a1] != 0.00 ) or ( 0 != YDWEGetIntegerByString("力量增益" , I2S(ydul_a1)) ) ) ) then
+        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a1)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a1)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[ydul_a1] != 0.00 ) or ( 0 != (LoadInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(ydul_a1))))) ) ) ) then // INLINED!!
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 0)
             if ( ( udg_H[ydul_a1] == gg_unit_Ewrd_0250 ) and ( GetUnitAbilityLevelSwapped('AUav', gg_unit_Ewrd_0250) == 1 ) and ( GetPlayerTechCountSimple('R006', GetOwningPlayer(gg_unit_Ewrd_0250)) == 1 ) ) then
-                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( GetHeroStatBJ(bj_HEROSTAT_STR, udg_H[ydul_a1], false) - udg_FANGzhi[1] ) - YDWEGetIntegerByString("力量增益" , I2S(ydul_a1)) )) * udg_I_Xianglian[ydul_a1] )))
+                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( GetHeroStatBJ(bj_HEROSTAT_STR, udg_H[ydul_a1], false) - udg_FANGzhi[1] ) - (LoadInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(ydul_a1))))) )) * udg_I_Xianglian[ydul_a1] ))) // INLINED!!
             else
-                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( GetHeroStatBJ(bj_HEROSTAT_STR, udg_H[ydul_a1], false) - YDWEGetIntegerByString("力量增益" , I2S(ydul_a1)) )) * udg_I_Xianglian[ydul_a1] )))
+                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( GetHeroStatBJ(bj_HEROSTAT_STR, udg_H[ydul_a1], false) - (LoadInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(ydul_a1))))) )) * udg_I_Xianglian[ydul_a1] ))) // INLINED!!
             endif
-            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != YDWEGetIntegerByString("力量增益" , I2S(ydul_a1)) ) ) then
-                call SetHeroStr(udg_H[ydul_a1], ( GetHeroStatBJ(bj_HEROSTAT_STR, udg_H[ydul_a1], true) - ( YDWEGetIntegerByString("力量增益" , I2S(ydul_a1)) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ), true)
-                call YDWESaveIntegerByString("力量增益" , I2S(ydul_a1) , LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
+            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != (LoadInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(ydul_a1))))) ) ) then // INLINED!!
+                call SetHeroStr(udg_H[ydul_a1], ( GetHeroStatBJ(bj_HEROSTAT_STR, udg_H[ydul_a1], true) - ( (LoadInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(ydul_a1))))) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ), true) // INLINED!!
+                call SaveInteger(YDHT, StringHash(("力量增益" )), StringHash(( I2S(ydul_a1) )), ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) // INLINED!!
             else
                 call DoNothing()
             endif
@@ -33280,7 +33228,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa8____________u takes nothing returns nothing
     set gg_trg_papa8____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_papa8____________u, 19.00)
     call TriggerAddAction(gg_trg_papa8____________u, function Trig_papa8____________uActions)
 endfunction
@@ -33296,16 +33243,16 @@ function Trig_papa9____________uActions takes nothing returns nothing
     set ydul_a2=1
     loop
         exitwhen ydul_a2 > 6
-        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a2)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a2)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a2 + 6 )] != 0.00 ) or ( 0 != YDWEGetIntegerByString("敏捷增益" , I2S(ydul_a2)) ) ) ) then
+        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a2)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a2)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a2 + 6 )] != 0.00 ) or ( 0 != (LoadInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(ydul_a2))))) ) ) ) then // INLINED!!
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 0)
             if ( ( udg_H[ydul_a2] == gg_unit_Ewrd_0250 ) and ( GetUnitAbilityLevelSwapped('AUav', gg_unit_Ewrd_0250) == 1 ) and ( GetPlayerTechCountSimple('R006', GetOwningPlayer(gg_unit_Ewrd_0250)) == 1 ) ) then
-                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a2], false) - udg_FANGzhi[2] ) - YDWEGetIntegerByString("敏捷增益" , I2S(ydul_a2)) )) * udg_I_Xianglian[( ydul_a2 + 6 )] )))
+                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a2], false) - udg_FANGzhi[2] ) - (LoadInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(ydul_a2))))) )) * udg_I_Xianglian[( ydul_a2 + 6 )] ))) // INLINED!!
             else
-                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a2], false) - YDWEGetIntegerByString("敏捷增益" , I2S(ydul_a2)) )) * udg_I_Xianglian[( ydul_a2 + 6 )] )))
+                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a2], false) - (LoadInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(ydul_a2))))) )) * udg_I_Xianglian[( ydul_a2 + 6 )] ))) // INLINED!!
             endif
-            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != YDWEGetIntegerByString("敏捷增益" , I2S(ydul_a2)) ) ) then
-                call SetHeroAgi(udg_H[ydul_a2], ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a2], false) - ( YDWEGetIntegerByString("敏捷增益" , I2S(ydul_a2)) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ), true)
-                call YDWESaveIntegerByString("敏捷增益" , I2S(ydul_a2) , LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
+            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != (LoadInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(ydul_a2))))) ) ) then // INLINED!!
+                call SetHeroAgi(udg_H[ydul_a2], ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a2], false) - ( (LoadInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(ydul_a2))))) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ), true) // INLINED!!
+                call SaveInteger(YDHT, StringHash(("敏捷增益" )), StringHash(( I2S(ydul_a2) )), ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) // INLINED!!
             else
                 call DoNothing()
             endif
@@ -33320,7 +33267,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa9____________u takes nothing returns nothing
     set gg_trg_papa9____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_papa9____________u, 19.50)
     call TriggerAddAction(gg_trg_papa9____________u, function Trig_papa9____________uActions)
 endfunction
@@ -33336,16 +33282,16 @@ function Trig_papa10____________uActions takes nothing returns nothing
     set ydul_a3=1
     loop
         exitwhen ydul_a3 > 6
-        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a3)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a3)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a3 + 12 )] != 0.00 ) or ( 0 != YDWEGetIntegerByString("智力增益" , I2S(ydul_a3)) ) ) ) then
+        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a3)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a3)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a3 + 12 )] != 0.00 ) or ( 0 != (LoadInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(ydul_a3))))) ) ) ) then // INLINED!!
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 0)
             if ( ( udg_H[ydul_a3] == gg_unit_Ewrd_0250 ) and ( GetUnitAbilityLevelSwapped('AUav', gg_unit_Ewrd_0250) == 1 ) and ( GetPlayerTechCountSimple('R006', GetOwningPlayer(gg_unit_Ewrd_0250)) == 1 ) ) then
-                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( GetHeroStatBJ(bj_HEROSTAT_INT, udg_H[ydul_a3], false) - udg_FANGzhi[3] ) - YDWEGetIntegerByString("智力增益" , I2S(ydul_a3)) )) * udg_I_Xianglian[( ydul_a3 + 12 )] )))
+                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( GetHeroStatBJ(bj_HEROSTAT_INT, udg_H[ydul_a3], false) - udg_FANGzhi[3] ) - (LoadInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(ydul_a3))))) )) * udg_I_Xianglian[( ydul_a3 + 12 )] ))) // INLINED!!
             else
-                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( GetHeroStatBJ(bj_HEROSTAT_INT, udg_H[ydul_a3], false) - YDWEGetIntegerByString("智力增益" , I2S(ydul_a3)) )) * udg_I_Xianglian[( ydul_a3 + 12 )] )))
+                call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( GetHeroStatBJ(bj_HEROSTAT_INT, udg_H[ydul_a3], false) - (LoadInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(ydul_a3))))) )) * udg_I_Xianglian[( ydul_a3 + 12 )] ))) // INLINED!!
             endif
-            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != YDWEGetIntegerByString("智力增益" , I2S(ydul_a3)) ) ) then
-                call SetHeroInt(udg_H[ydul_a3], ( GetHeroStatBJ(bj_HEROSTAT_INT, udg_H[ydul_a3], false) - ( YDWEGetIntegerByString("智力增益" , I2S(ydul_a3)) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ), true)
-                call YDWESaveIntegerByString("智力增益" , I2S(ydul_a3) , LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
+            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != (LoadInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(ydul_a3))))) ) ) then // INLINED!!
+                call SetHeroInt(udg_H[ydul_a3], ( GetHeroStatBJ(bj_HEROSTAT_INT, udg_H[ydul_a3], false) - ( (LoadInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(ydul_a3))))) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ), true) // INLINED!!
+                call SaveInteger(YDHT, StringHash(("智力增益" )), StringHash(( I2S(ydul_a3) )), ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) // INLINED!!
             else
                 call DoNothing()
             endif
@@ -33360,7 +33306,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa10____________u takes nothing returns nothing
     set gg_trg_papa10____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_papa10____________u, 20.00)
     call TriggerAddAction(gg_trg_papa10____________u, function Trig_papa10____________uActions)
 endfunction
@@ -33376,14 +33321,14 @@ function Trig_papa11__________________uActions takes nothing returns nothing
     set ydul_a4=1
     loop
         exitwhen ydul_a4 > 6
-        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a4)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a4)) == MAP_CONTROL_USER ) and ( ( 0 != YDWEGetIntegerByString("生命上限增益" , I2S(ydul_a4)) ) or ( udg_I_Xianglian[( ydul_a4 + 18 )] != 0.00 ) ) ) then
+        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a4)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a4)) == MAP_CONTROL_USER ) and ( ( 0 != (LoadInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( I2S(ydul_a4))))) ) or ( udg_I_Xianglian[( ydul_a4 + 18 )] != 0.00 ) ) ) then // INLINED!!
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 0)
-            call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( R2I(GetUnitStateSwap(UNIT_STATE_MAX_LIFE, udg_H[ydul_a4])) - YDWEGetIntegerByString("生命上限增益" , I2S(ydul_a4)) )) * udg_I_Xianglian[( ydul_a4 + 18 )] )))
-            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != YDWEGetIntegerByString("生命上限增益" , I2S(ydul_a4)) ) ) then
+            call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( R2I(GetUnitStateSwap(UNIT_STATE_MAX_LIFE, udg_H[ydul_a4])) - (LoadInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( I2S(ydul_a4))))) )) * udg_I_Xianglian[( ydul_a4 + 18 )] ))) // INLINED!!
+            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != (LoadInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( I2S(ydul_a4))))) ) ) then // INLINED!!
                 set udg_Unit=udg_H[ydul_a4]
-                call SaveInteger(YDHT, GetHandleId(udg_Unit), 0xFCD961C9, ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a4]), 0xFCD961C9) - ( YDWEGetIntegerByString("生命上限增益" , I2S(ydul_a4)) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ))
+                call SaveInteger(YDHT, GetHandleId(udg_Unit), 0xFCD961C9, ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a4]), 0xFCD961C9) - ( (LoadInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( I2S(ydul_a4))))) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) )) // INLINED!!
                 call TriggerExecute(gg_trg_HP_____________________u)
-                call YDWESaveIntegerByString("生命上限增益" , I2S(ydul_a4) , LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
+                call SaveInteger(YDHT, StringHash(("生命上限增益" )), StringHash(( I2S(ydul_a4) )), ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) // INLINED!!
                 set udg_Unit=null
             else
                 call DoNothing()
@@ -33399,7 +33344,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa11__________________u takes nothing returns nothing
     set gg_trg_papa11__________________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_papa11__________________u, 20.50)
     call TriggerAddAction(gg_trg_papa11__________________u, function Trig_papa11__________________uActions)
 endfunction
@@ -33415,14 +33359,14 @@ function Trig_papa12____________uActions takes nothing returns nothing
     set ydul_a5=1
     loop
         exitwhen ydul_a5 > 6
-        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a5)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a5)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a5 + 24 )] != 0.00 ) or ( 0 != YDWEGetIntegerByString("攻击增益" , I2S(ydul_a5)) ) ) ) then
+        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a5)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a5)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a5 + 24 )] != 0.00 ) or ( 0 != (LoadInteger(YDHT, StringHash(("攻击增益" )), StringHash(( I2S(ydul_a5))))) ) ) ) then // INLINED!!
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 0)
-            call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a5]), 0x5039AFFB) - YDWEGetIntegerByString("攻击增益" , I2S(ydul_a5)) )) * udg_I_Xianglian[( ydul_a5 + 24 )] )))
-            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != YDWEGetIntegerByString("攻击增益" , I2S(ydul_a5)) ) ) then
+            call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a5]), 0x5039AFFB) - (LoadInteger(YDHT, StringHash(("攻击增益" )), StringHash(( I2S(ydul_a5))))) )) * udg_I_Xianglian[( ydul_a5 + 24 )] ))) // INLINED!!
+            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != (LoadInteger(YDHT, StringHash(("攻击增益" )), StringHash(( I2S(ydul_a5))))) ) ) then // INLINED!!
                 set udg_Unit=udg_H[ydul_a5]
-                call SaveInteger(YDHT, GetHandleId(udg_Unit), 0x5039AFFB, ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a5]), 0x5039AFFB) - ( YDWEGetIntegerByString("攻击增益" , I2S(ydul_a5)) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ))
+                call SaveInteger(YDHT, GetHandleId(udg_Unit), 0x5039AFFB, ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a5]), 0x5039AFFB) - ( (LoadInteger(YDHT, StringHash(("攻击增益" )), StringHash(( I2S(ydul_a5))))) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) )) // INLINED!!
                 call TriggerExecute(gg_trg_____________800W)
-                call YDWESaveIntegerByString("攻击增益" , I2S(ydul_a5) , LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
+                call SaveInteger(YDHT, StringHash(("攻击增益" )), StringHash(( I2S(ydul_a5) )), ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) // INLINED!!
                 set udg_Unit=null
             else
                 call DoNothing()
@@ -33438,7 +33382,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa12____________u takes nothing returns nothing
     set gg_trg_papa12____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_papa12____________u, 21.00)
     call TriggerAddAction(gg_trg_papa12____________u, function Trig_papa12____________uActions)
 endfunction
@@ -33454,14 +33397,14 @@ function Trig_papa13____________uActions takes nothing returns nothing
     set ydul_a6=1
     loop
         exitwhen ydul_a6 > 6
-        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a6)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a6)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a6 + 30 )] != 0.00 ) or ( 0 != YDWEGetIntegerByString("防御增益" , I2S(ydul_a6)) ) ) ) then
+        if ( ( GetPlayerSlotState(ConvertedPlayer(ydul_a6)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(ydul_a6)) == MAP_CONTROL_USER ) and ( ( udg_I_Xianglian[( ydul_a6 + 30 )] != 0.00 ) or ( 0 != (LoadInteger(YDHT, StringHash(("防御增益" )), StringHash(( I2S(ydul_a6))))) ) ) ) then // INLINED!!
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, 0)
-            call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a6]), 0x81FD3994) + ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a6], false) / 100 ) ) - YDWEGetIntegerByString("防御增益" , I2S(ydul_a6)) )) * udg_I_Xianglian[( ydul_a6 + 30 )] )))
-            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != YDWEGetIntegerByString("防御增益" , I2S(ydul_a6)) ) ) then
+            call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820, R2I(( I2R(( ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a6]), 0x81FD3994) + ( GetHeroStatBJ(bj_HEROSTAT_AGI, udg_H[ydul_a6], false) / 100 ) ) - (LoadInteger(YDHT, StringHash(("防御增益" )), StringHash(( I2S(ydul_a6))))) )) * udg_I_Xianglian[( ydul_a6 + 30 )] ))) // INLINED!!
+            if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != (LoadInteger(YDHT, StringHash(("防御增益" )), StringHash(( I2S(ydul_a6))))) ) ) then // INLINED!!
                 set udg_Unit=udg_H[ydul_a6]
-                call SaveInteger(YDHT, GetHandleId(udg_Unit), 0x81FD3994, ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a6]), 0x81FD3994) - ( YDWEGetIntegerByString("防御增益" , I2S(ydul_a6)) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) ))
+                call SaveInteger(YDHT, GetHandleId(udg_Unit), 0x81FD3994, ( LoadInteger(YDHT, GetHandleId(udg_H[ydul_a6]), 0x81FD3994) - ( (LoadInteger(YDHT, StringHash(("防御增益" )), StringHash(( I2S(ydul_a6))))) - LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) ) )) // INLINED!!
                 call TriggerExecute(gg_trg___________________4000______u)
-                call YDWESaveIntegerByString("防御增益" , I2S(ydul_a6) , LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))
+                call SaveInteger(YDHT, StringHash(("防御增益" )), StringHash(( I2S(ydul_a6) )), ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820))) // INLINED!!
                 set udg_Unit=null
             else
                 call DoNothing()
@@ -33477,7 +33420,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa13____________u takes nothing returns nothing
     set gg_trg_papa13____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_papa13____________u, 21.50)
     call TriggerAddAction(gg_trg_papa13____________u, function Trig_papa13____________uActions)
 endfunction
@@ -33485,39 +33427,38 @@ endfunction
 // Trigger: 魔法papa14
 //===========================================================================
 function Trig_______papa14Actions takes nothing returns nothing
-    call YDWESaveAbilityIDByString("魔法" , "1" , 'A08C')
-    call YDWESaveAbilityIDByString("魔法" , "2" , 'A08I')
-    call YDWESaveAbilityIDByString("魔法" , "3" , 'A08J')
-    call YDWESaveAbilityIDByString("魔法" , "4" , 'A08K')
-    call YDWESaveAbilityIDByString("魔法" , "5" , 'A08L')
-    call YDWESaveAbilityIDByString("魔法" , "6" , 'A08N')
-    call YDWESaveAbilityIDByString("魔法" , "7" , 'A08O')
-    call YDWESaveAbilityIDByString("魔法" , "8" , 'A08P')
-    call YDWESaveAbilityIDByString("魔法" , "9" , 'A08Q')
-    call YDWESaveAbilityIDByString("魔法" , "10" , 'A08R')
-    call YDWESaveAbilityIDByString("魔法" , "11" , 'A08S')
-    call YDWESaveAbilityIDByString("魔法" , "12" , 'A08U')
-    call YDWESaveAbilityIDByString("魔法" , "13" , 'A08V')
-    call YDWESaveAbilityIDByString("魔法" , "14" , 'A08W')
-    call YDWESaveAbilityIDByString("魔法" , "15" , 'A08X')
-    call YDWESaveAbilityIDByString("魔法" , "16" , 'A08Y')
-    call YDWESaveAbilityIDByString("魔法" , "17" , 'A08Z')
-    call YDWESaveAbilityIDByString("魔法" , "18" , 'A090')
-    call YDWESaveAbilityIDByString("魔法" , "19" , 'A097')
-    call YDWESaveAbilityIDByString("魔法" , "20" , 'A098')
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "1" )), ( 'A08C')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "2" )), ( 'A08I')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "3" )), ( 'A08J')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "4" )), ( 'A08K')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "5" )), ( 'A08L')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "6" )), ( 'A08N')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "7" )), ( 'A08O')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "8" )), ( 'A08P')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "9" )), ( 'A08Q')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "10" )), ( 'A08R')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "11" )), ( 'A08S')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "12" )), ( 'A08U')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "13" )), ( 'A08V')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "14" )), ( 'A08W')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "15" )), ( 'A08X')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "16" )), ( 'A08Y')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "17" )), ( 'A08Z')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "18" )), ( 'A090')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "19" )), ( 'A097')) // INLINED!!
+    call SaveInteger(YDHT, StringHash(("魔法" )), StringHash(( "20" )), ( 'A098')) // INLINED!!
 endfunction
 //===========================================================================
 function InitTrig_______papa14 takes nothing returns nothing
     set gg_trg_______papa14=CreateTrigger()
     call DisableTrigger(gg_trg_______papa14)
-    call DoNothing()
     call TriggerAddAction(gg_trg_______papa14, function Trig_______papa14Actions)
 endfunction
 //===========================================================================
 // Trigger: papa14玉帝技能
 //===========================================================================
 function Trig_papa14____________uFunc003Func005002003 takes nothing returns boolean
-    return ( ( ( IsUnitEnemy(GetFilterUnit(), Player(10)) == true ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) ) )
+    return ( ( IsEnemy(GetEnumUnit() , GetAttacker()) == true ) )
 endfunction
 function Trig_papa14____________uFunc003Func006A takes nothing returns nothing
     call UnitDamageTarget(GetAttacker(), GetEnumUnit(), ( 0.40 * GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetEnumUnit()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
@@ -33622,7 +33563,6 @@ endfunction
 //===========================================================================
 function InitTrig_papa14____________u takes nothing returns nothing
     set gg_trg_papa14____________u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_papa14____________u, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddAction(gg_trg_papa14____________u, function Trig_papa14____________uActions)
 endfunction
@@ -33733,7 +33673,6 @@ endfunction
 //===========================================================================
 function InitTrig_fangqiangrentou1 takes nothing returns nothing
     set gg_trg_fangqiangrentou1=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_fangqiangrentou1, function Trig_fangqiangrentou1Actions)
 endfunction
 //===========================================================================
@@ -33783,7 +33722,6 @@ endfunction
 //===========================================================================
 function InitTrig_fangqiangrentou2 takes nothing returns nothing
     set gg_trg_fangqiangrentou2=CreateTrigger()
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_fangqiangrentou2)
     call TriggerAddCondition(gg_trg_fangqiangrentou2, Condition(function Trig_fangqiangrentou2Conditions))
     call TriggerAddAction(gg_trg_fangqiangrentou2, function Trig_fangqiangrentou2Actions)
@@ -33894,7 +33832,6 @@ endfunction
 //===========================================================================
 function InitTrig_fangqiangrentou3 takes nothing returns nothing
     set gg_trg_fangqiangrentou3=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_fangqiangrentou3, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_fangqiangrentou3, Condition(function Trig_fangqiangrentou3Conditions))
     call TriggerAddAction(gg_trg_fangqiangrentou3, function Trig_fangqiangrentou3Actions)
@@ -33922,7 +33859,6 @@ endfunction
 //===========================================================================
 function InitTrig_fangqiangrentou4 takes nothing returns nothing
     set gg_trg_fangqiangrentou4=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_fangqiangrentou4, 1.00)
     call TriggerAddAction(gg_trg_fangqiangrentou4, function Trig_fangqiangrentou4Actions)
 endfunction
@@ -33979,7 +33915,7 @@ function Trig____________________010Actions takes nothing returns nothing
         call TriggerExecute(gg_trg____________________032)
     else
         if ( ( udg_Nandu_JJJ == 1 ) and ( udg_Bo == 12 ) ) then
-            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
             call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func003A)
             call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
             call CinematicModeBJ(true, GetPlayersAll())
@@ -33990,7 +33926,7 @@ function Trig____________________010Actions takes nothing returns nothing
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ(false, GetPlayersAll())
-            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
             call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func012A)
             call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
             call YDWEPolledWaitNull(30.00)
@@ -33998,7 +33934,7 @@ function Trig____________________010Actions takes nothing returns nothing
             call ForForce(GetPlayersAll(), function Trig____________________010Func002Func001Func015A)
         else
             if ( ( udg_Nandu_JJJ == 2 ) and ( udg_Bo == 18 ) ) then
-                call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+                call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
                 call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func003A)
                 call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
                 call CinematicModeBJ(true, GetPlayersAll())
@@ -34009,7 +33945,7 @@ function Trig____________________010Actions takes nothing returns nothing
                 call YDWEPolledWaitNull(5.00)
                 call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
                 call CinematicModeBJ(false, GetPlayersAll())
-                call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+                call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
                 call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func012A)
                 call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
                 call YDWEPolledWaitNull(30.00)
@@ -34043,7 +33979,7 @@ function Trig____________________010Actions takes nothing returns nothing
                     call SetUnitAbilityLevelSwapped('Adts', gg_unit_Uwar_0274, udg_Nandu_JJJ)
                     call SetUnitAbilityLevelSwapped('Adts', gg_unit_Utic_0275, udg_Nandu_JJJ)
                     call SetUnitAbilityLevelSwapped('Adts', gg_unit_Nman_0276, udg_Nandu_JJJ)
-                    call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+                    call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
                     call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func001Func029A)
                     call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
                     call SaveLocationHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xE741F00E, GetUnitLoc(gg_unit_Uwar_0274))
@@ -34072,7 +34008,7 @@ function Trig____________________010Actions takes nothing returns nothing
                     call YDWEPolledWaitNull(5.00)
                     call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
                     call CinematicModeBJ(false, GetPlayersAll())
-                    call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+                    call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
                     call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func001Func056A)
                     call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
                     call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectMatchingNull(gg_rct__________u , Condition(function Trig____________________010Func002Func001Func001Func001Func058003002)))
@@ -34145,7 +34081,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________010 takes nothing returns nothing
     set gg_trg____________________010=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerExpireEvent(gg_trg____________________010, udg_Time_Start[1])
     call TriggerAddAction(gg_trg____________________010, function Trig____________________010Actions)
 endfunction
@@ -34215,7 +34150,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________014 takes nothing returns nothing
     set gg_trg____________________014=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________014, function Trig____________________014Actions)
 endfunction
 //===========================================================================
@@ -34379,7 +34313,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________020 takes nothing returns nothing
     set gg_trg____________________020=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________020, function Trig____________________020Actions)
 endfunction
 //===========================================================================
@@ -34465,7 +34398,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________021 takes nothing returns nothing
     set gg_trg____________________021=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerExpireEvent(gg_trg____________________021, udg_Time_Start[1])
     call TriggerRegisterTimerExpireEvent(gg_trg____________________021, udg_Time_Start[2])
     call TriggerRegisterTimerExpireEvent(gg_trg____________________021, udg_Time_Start[3])
@@ -34494,26 +34426,6 @@ function InitTrig____________________021 takes nothing returns nothing
     call TriggerAddAction(gg_trg____________________021, function Trig____________________021Actions)
 endfunction
 //===========================================================================
-// Trigger: 未命名触发器 022
-//===========================================================================
-function Trig____________________022Conditions takes nothing returns boolean
-    return ( ( GetOwningPlayer(GetEnteringUnit()) == Player(11) ) and ( IsUnitAliveBJ(GetEnteringUnit()) == true ) )
-endfunction
-function Trig____________________022Actions takes nothing returns nothing
-    set udg_Point=GetRandomLocInRect(gg_rct______________096________2)
-    call IssuePointOrderLoc(GetEnteringUnit(), "attack", udg_Point)
-    call RemoveLocation(udg_Point)
-endfunction
-//===========================================================================
-function InitTrig____________________022 takes nothing returns nothing
-    set gg_trg____________________022=CreateTrigger()
-    call DoNothing()
-    call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________022 , gg_rct______________096)
-    call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________022 , gg_rct______________096_______u)
-    call TriggerAddCondition(gg_trg____________________022, Condition(function Trig____________________022Conditions))
-    call TriggerAddAction(gg_trg____________________022, function Trig____________________022Actions)
-endfunction
-//===========================================================================
 // Trigger: 未命名触发器 054
 //===========================================================================
 function Trig____________________054Conditions takes nothing returns boolean
@@ -34537,11 +34449,29 @@ endfunction
 //===========================================================================
 function InitTrig____________________054 takes nothing returns nothing
     set gg_trg____________________054=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________054 , gg_rct______________096________2)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________054 , gg_rct______________096________3)
     call TriggerAddCondition(gg_trg____________________054, Condition(function Trig____________________054Conditions))
     call TriggerAddAction(gg_trg____________________054, function Trig____________________054Actions)
+endfunction
+//===========================================================================
+// Trigger: 未命名触发器 022
+//===========================================================================
+function Trig____________________022Conditions takes nothing returns boolean
+    return ( ( GetOwningPlayer(GetEnteringUnit()) == Player(11) ) and ( IsUnitAliveBJ(GetEnteringUnit()) == true ) )
+endfunction
+function Trig____________________022Actions takes nothing returns nothing
+    set udg_Point=GetRandomLocInRect(gg_rct______________096________2)
+    call IssuePointOrderLoc(GetEnteringUnit(), "attack", udg_Point)
+    call RemoveLocation(udg_Point)
+endfunction
+//===========================================================================
+function InitTrig____________________022 takes nothing returns nothing
+    set gg_trg____________________022=CreateTrigger()
+    call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________022 , gg_rct______________096)
+    call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________022 , gg_rct______________096_______u)
+    call TriggerAddCondition(gg_trg____________________022, Condition(function Trig____________________022Conditions))
+    call TriggerAddAction(gg_trg____________________022, function Trig____________________022Actions)
 endfunction
 //===========================================================================
 // Trigger: 未命名触发器 022 复制 2
@@ -34557,7 +34487,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________022________2 takes nothing returns nothing
     set gg_trg____________________022________2=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________022________2 , gg_rct______________096________5)
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________022________2 , gg_rct______________096________4)
     call TriggerAddCondition(gg_trg____________________022________2, Condition(function Trig____________________022________2Conditions))
@@ -34681,7 +34610,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________059 takes nothing returns nothing
     set gg_trg____________________059=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________059, function Trig____________________059Actions)
 endfunction
 //===========================================================================
@@ -34698,7 +34626,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________013 takes nothing returns nothing
     set gg_trg____________________013=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________013, EVENT_PLAYER_UNIT_SPELL_FINISH)
     call TriggerAddCondition(gg_trg____________________013, Condition(function Trig____________________013Conditions))
     call TriggerAddAction(gg_trg____________________013, function Trig____________________013Actions)
@@ -34735,7 +34662,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________049 takes nothing returns nothing
     set gg_trg____________________049=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg____________________049, 10.00)
     call TriggerAddAction(gg_trg____________________049, function Trig____________________049Actions)
 endfunction
@@ -34790,7 +34716,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________089 takes nothing returns nothing
     set gg_trg____________________089=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________089, function Trig____________________089Actions)
 endfunction
 //===========================================================================
@@ -34825,12 +34750,12 @@ function Trig_mowangshanguangFunc001Func005Func001Func007T takes nothing returns
     if ( ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) >= 40 ) ) then
         call KillUnit(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetExpiredTimer()), 0x9E80183F))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetExpiredTimer()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
         call DestroyTimer(GetExpiredTimer())
     else
         call SaveInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D, ( LoadInteger(YDHT, GetHandleId(GetExpiredTimer()), 0x2970F80D) + 1 ))
-        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateX(( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 64.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
-        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), YDWECoordinateY(( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 64.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) )))
+        call SetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitX(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 64.00 * CosBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        call SetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D), (RMinBJ(RMaxBJ(((( GetUnitY(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D)) + ( 64.00 * SinBJ(( LoadReal(YDHT, GetHandleId(GetExpiredTimer()), 0x2B0A6845) )) ) ))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
         set udg_Point=GetUnitLoc(LoadUnitHandle(YDHT, GetHandleId(GetExpiredTimer()), 0xC303079D))
         set udg_Group=YDWEGetUnitsInRangeOfLocMatchingNull(64.00 , udg_Point , Condition(function Trig_mowangshanguangFunc001Func005Func001Func007Func001Func005002003))
         call ForGroupBJ(udg_Group, function Trig_mowangshanguangFunc001Func005Func001Func007Func001Func006A)
@@ -34907,7 +34832,6 @@ endfunction
 function InitTrig_mowangshanguang takes nothing returns nothing
     set gg_trg_mowangshanguang=CreateTrigger()
     call DisableTrigger(gg_trg_mowangshanguang)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_mowangshanguang, 1.00)
     call TriggerAddAction(gg_trg_mowangshanguang, function Trig_mowangshanguangActions)
 endfunction
@@ -34979,7 +34903,6 @@ endfunction
 function InitTrig_mowangshangsd1 takes nothing returns nothing
     set gg_trg_mowangshangsd1=CreateTrigger()
     call DisableTrigger(gg_trg_mowangshangsd1)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_mowangshangsd1, 1.00)
     call TriggerAddAction(gg_trg_mowangshangsd1, function Trig_mowangshangsd1Actions)
 endfunction
@@ -35060,7 +34983,6 @@ endfunction
 function InitTrig_mowangshangwo2 takes nothing returns nothing
     set gg_trg_mowangshangwo2=CreateTrigger()
     call DisableTrigger(gg_trg_mowangshangwo2)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_mowangshangwo2, 1.00)
     call TriggerAddAction(gg_trg_mowangshangwo2, function Trig_mowangshangwo2Actions)
 endfunction
@@ -35086,7 +35008,6 @@ endfunction
 function InitTrig_xianxue takes nothing returns nothing
     set gg_trg_xianxue=CreateTrigger()
     call DisableTrigger(gg_trg_xianxue)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_xianxue, 0.05)
     call TriggerAddAction(gg_trg_xianxue, function Trig_xianxueActions)
 endfunction
@@ -35147,7 +35068,7 @@ function Trig_pandingActions takes nothing returns nothing
         call DestroyTextTag(udg_Xianxue_BOSS[2])
         call DestroyTextTag(udg_Xianxue_BOSS[3])
         call DestroyTextTag(udg_Xianxue_BOSS[4])
-        call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+        call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig_pandingFunc002Func015A)
         call CinematicModeBJ(true, GetPlayersAll())
@@ -35159,7 +35080,7 @@ function Trig_pandingActions takes nothing returns nothing
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ(false, GetPlayersAll())
-            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
             call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig_pandingFunc002Func017Func029A)
             call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
             call YDWEPolledWaitNull(60.00)
@@ -35177,7 +35098,7 @@ function Trig_pandingActions takes nothing returns nothing
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ(false, GetPlayersAll())
-            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+            call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
             call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig_pandingFunc002Func017Func012A)
             call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
             call PlaySoundBJ(gg_snd_Renwu)
@@ -35200,7 +35121,6 @@ endfunction
 //===========================================================================
 function InitTrig_panding takes nothing returns nothing
     set gg_trg_panding=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_panding, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_panding, Condition(function Trig_pandingConditions))
     call TriggerAddAction(gg_trg_panding, function Trig_pandingActions)
@@ -35287,7 +35207,6 @@ endfunction
 //===========================================================================
 function InitTrig_jixu takes nothing returns nothing
     set gg_trg_jixu=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerExpireEvent(gg_trg_jixu, udg_Double_M[2])
     call TriggerRegisterTimerExpireEvent(gg_trg_jixu, udg_Double_M[3])
     call TriggerRegisterTimerExpireEvent(gg_trg_jixu, udg_Double_M[4])
@@ -35309,7 +35228,6 @@ endfunction
 //===========================================================================
 function InitTrig_jiangqian takes nothing returns nothing
     set gg_trg_jiangqian=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg_jiangqian, function Trig_jiangqianActions)
 endfunction
 //===========================================================================
@@ -35396,7 +35314,6 @@ endfunction
 //===========================================================================
 function InitTrig_asdf takes nothing returns nothing
     set gg_trg_asdf=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterTimerExpireEvent(gg_trg_asdf, udg_Double_M[1])
     call TriggerAddAction(gg_trg_asdf, function Trig_asdfActions)
 endfunction
@@ -35430,7 +35347,6 @@ endfunction
 function InitTrig_mowangshangsd3 takes nothing returns nothing
     set gg_trg_mowangshangsd3=CreateTrigger()
     call DisableTrigger(gg_trg_mowangshangsd3)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_mowangshangsd3, 1.00)
     call TriggerAddAction(gg_trg_mowangshangsd3, function Trig_mowangshangsd3Actions)
 endfunction
@@ -35464,7 +35380,6 @@ endfunction
 function InitTrig_mowangshangsd4 takes nothing returns nothing
     set gg_trg_mowangshangsd4=CreateTrigger()
     call DisableTrigger(gg_trg_mowangshangsd4)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_mowangshangsd4, 1.00)
     call TriggerAddAction(gg_trg_mowangshangsd4, function Trig_mowangshangsd4Actions)
 endfunction
@@ -35498,7 +35413,6 @@ endfunction
 function InitTrig_mowangshangsd5 takes nothing returns nothing
     set gg_trg_mowangshangsd5=CreateTrigger()
     call DisableTrigger(gg_trg_mowangshangsd5)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_mowangshangsd5, 1.00)
     call TriggerAddAction(gg_trg_mowangshangsd5, function Trig_mowangshangsd5Actions)
 endfunction
@@ -35523,7 +35437,6 @@ endfunction
 function InitTrig_xianxue1 takes nothing returns nothing
     set gg_trg_xianxue1=CreateTrigger()
     call DisableTrigger(gg_trg_xianxue1)
-    call DoNothing()
     call TriggerRegisterTimerEventPeriodic(gg_trg_xianxue1, 0.01)
     call TriggerAddAction(gg_trg_xianxue1, function Trig_xianxue1Actions)
 endfunction
@@ -35559,7 +35472,7 @@ function Trig_panding2Actions takes nothing returns nothing
         call YDWEPolledWaitNull(5.00)
         call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
         call CinematicModeBJ(false, GetPlayersAll())
-        call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
+        call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig_panding2Func001Func012A)
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
         call YDWEPolledWaitNull(60.00)
@@ -35574,7 +35487,6 @@ endfunction
 //===========================================================================
 function InitTrig_panding2 takes nothing returns nothing
     set gg_trg_panding2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_panding2, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_panding2, Condition(function Trig_panding2Conditions))
     call TriggerAddAction(gg_trg_panding2, function Trig_panding2Actions)
@@ -35679,7 +35591,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________043 takes nothing returns nothing
     set gg_trg____________________043=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________043, EVENT_PLAYER_UNIT_SELL_ITEM)
     call TriggerAddCondition(gg_trg____________________043, Condition(function Trig____________________043Conditions))
     call TriggerAddAction(gg_trg____________________043, function Trig____________________043Actions)
@@ -35779,7 +35690,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________040 takes nothing returns nothing
     set gg_trg____________________040=CreateTrigger()
-    call DoNothing()
     call TriggerAddAction(gg_trg____________________040, function Trig____________________040Actions)
 endfunction
 //===========================================================================
@@ -35825,7 +35735,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________041 takes nothing returns nothing
     set gg_trg____________________041=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________041, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________041, Condition(function Trig____________________041Conditions))
     call TriggerAddAction(gg_trg____________________041, function Trig____________________041Actions)
@@ -35865,7 +35774,6 @@ endfunction
 //===========================================================================
 function InitTrig______________11b_______u takes nothing returns nothing
     set gg_trg______________11b_______u=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg______________11b_______u, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg______________11b_______u, Condition(function Trig______________11b_______uConditions))
     call TriggerAddAction(gg_trg______________11b_______u, function Trig______________11b_______uActions)
@@ -35891,7 +35799,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________101 takes nothing returns nothing
     set gg_trg____________________101=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterEnterRectSimpleNull(gg_trg____________________101 , gg_rct______________085)
     call TriggerAddCondition(gg_trg____________________101, Condition(function Trig____________________101Conditions))
     call TriggerAddAction(gg_trg____________________101, function Trig____________________101Actions)
@@ -35924,7 +35831,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________102 takes nothing returns nothing
     set gg_trg____________________102=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg____________________102, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg____________________102, Condition(function Trig____________________102Conditions))
     call TriggerAddAction(gg_trg____________________102, function Trig____________________102Actions)
@@ -35957,7 +35863,6 @@ endfunction
 //===========================================================================
 function InitTrig____________________103 takes nothing returns nothing
     set gg_trg____________________103=CreateTrigger()
-    call DoNothing()
     call YDWETriggerRegisterLeaveRectSimpleNull(gg_trg____________________103 , gg_rct______________085)
     call TriggerAddCondition(gg_trg____________________103, Condition(function Trig____________________103Conditions))
     call TriggerAddAction(gg_trg____________________103, function Trig____________________103Actions)
@@ -36004,7 +35909,6 @@ endfunction
 function InitTrig_laser_______016 takes nothing returns nothing
     set gg_trg_laser_______016=CreateTrigger()
     call DisableTrigger(gg_trg_laser_______016)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_laser_______016, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_laser_______016, Condition(function Trig_laser_______016Conditions))
     call TriggerAddAction(gg_trg_laser_______016, function Trig_laser_______016Actions)
@@ -36045,7 +35949,6 @@ endfunction
 function InitTrig_laser_______017 takes nothing returns nothing
     set gg_trg_laser_______017=CreateTrigger()
     call DisableTrigger(gg_trg_laser_______017)
-    call DoNothing()
     call YDWESyStemAnyUnitDamagedRegistTrigger(gg_trg_laser_______017)
     call TriggerAddCondition(gg_trg_laser_______017, Condition(function Trig_laser_______017Conditions))
     call TriggerAddAction(gg_trg_laser_______017, function Trig_laser_______017Actions)
@@ -36072,7 +35975,6 @@ endfunction
 function InitTrig_laser_______018 takes nothing returns nothing
     set gg_trg_laser_______018=CreateTrigger()
     call DisableTrigger(gg_trg_laser_______018)
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_laser_______018, EVENT_PLAYER_UNIT_ATTACKED)
     call TriggerAddCondition(gg_trg_laser_______018, Condition(function Trig_laser_______018Conditions))
     call TriggerAddAction(gg_trg_laser_______018, function Trig_laser_______018Actions)
@@ -36086,19 +35988,18 @@ endfunction
 function Trig_Clear_DeathActions takes nothing returns nothing
     if ( ( ( GetUnitPointValue(GetDyingUnit()) == 0 ) or ( GetUnitPointValue(GetDyingUnit()) == 123 ) ) ) then
         call FlushChildHashtable(YDHT, GetHandleId(GetDyingUnit()))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetDyingUnit()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetDyingUnit()))))) // INLINED!!
         call RemoveUnit(GetDyingUnit())
     else
         call YDWEPolledWaitNull(0.30)
         call FlushChildHashtable(YDHT, GetHandleId(GetDyingUnit()))
-        call YDWEFlushMissionByInteger(YDWEH2I(GetDyingUnit()))
+        call FlushChildHashtable(YDHT, ((GetHandleId((GetDyingUnit()))))) // INLINED!!
         call RemoveUnit(GetDyingUnit())
     endif
 endfunction
 //===========================================================================
 function InitTrig_Clear_Death takes nothing returns nothing
     set gg_trg_Clear_Death=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_Clear_Death, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_Clear_Death, Condition(function Trig_Clear_DeathConditions))
     call TriggerAddAction(gg_trg_Clear_Death, function Trig_Clear_DeathActions)
@@ -36150,7 +36051,6 @@ endfunction
 //===========================================================================
 function InitTrig_yepanding takes nothing returns nothing
     set gg_trg_yepanding=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_yepanding, EVENT_PLAYER_UNIT_DEATH)
     call TriggerAddCondition(gg_trg_yepanding, Condition(function Trig_yepandingConditions))
     call TriggerAddAction(gg_trg_yepanding, function Trig_yepandingActions)
@@ -36330,7 +36230,6 @@ endfunction
 //===========================================================================
 function InitTrig_h1 takes nothing returns nothing
     set gg_trg_h1=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterUnitEvent(gg_trg_h1, gg_unit_nnfm_0056, EVENT_UNIT_SELL_ITEM)
     call TriggerAddAction(gg_trg_h1, function Trig_h1Actions)
 endfunction
@@ -36351,7 +36250,6 @@ endfunction
 //===========================================================================
 function InitTrig_h2 takes nothing returns nothing
     set gg_trg_h2=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_h2, EVENT_PLAYER_UNIT_PICKUP_ITEM)
     call TriggerAddCondition(gg_trg_h2, Condition(function Trig_h2Conditions))
     call TriggerAddAction(gg_trg_h2, function Trig_h2Actions)
@@ -36663,7 +36561,6 @@ endfunction
 //===========================================================================
 function InitTrig_h3 takes nothing returns nothing
     set gg_trg_h3=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_h3, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddAction(gg_trg_h3, function Trig_h3Actions)
 endfunction
@@ -37032,7 +36929,6 @@ endfunction
 //===========================================================================
 function InitTrig_h5 takes nothing returns nothing
     set gg_trg_h5=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_h5, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddAction(gg_trg_h5, function Trig_h5Actions)
 endfunction
@@ -37595,7 +37491,6 @@ endfunction
 //===========================================================================
 function InitTrig_h6 takes nothing returns nothing
     set gg_trg_h6=CreateTrigger()
-    call DoNothing()
     call TriggerRegisterAnyUnitEventBJ(gg_trg_h6, EVENT_PLAYER_UNIT_USE_ITEM)
     call TriggerAddAction(gg_trg_h6, function Trig_h6Actions)
 endfunction
@@ -37605,6 +37500,7 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig_________________________c()
     call InitTrig_________________________b()
     call InitTrig_________________________d()
+    call InitTrig_________________________e()
     call InitTrig____________________027()
     call InitTrig____________________008()
     call InitTrig____________________004()
@@ -37653,6 +37549,7 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig____________________029()
     call InitTrig____________________055()
     call InitTrig_zhandouli2()
+    call InitTrig__kill()
     call InitTrig____________________025()
     call InitTrig_______________________________u()
     call InitTrig________10b()
@@ -37803,6 +37700,7 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig____________________061_________________________________________________u()
     call InitTrig____________________061_________________________________________________________2()
     call InitTrig____________________061_______________________________________________________________u()
+    call InitTrig____________________061____________________________________________________________________u()
     call InitTrig_____________b()
     call InitTrig_____________b2()
     call InitTrig_Update_Fahun()
@@ -37963,8 +37861,6 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig___________12a()
     call InitTrig___________13a()
     call InitTrig___________13a_______u()
-    call InitTrig______________4a()
-    call InitTrig______________5a()
     call InitTrig______________8a()
     call InitTrig____________________9a()
     call InitTrig___________14a()
@@ -37988,7 +37884,6 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig_papa2______u()
     call InitTrig_papa1______u()
     call InitTrig_papa4______u()
-    call InitTrig_papa5______u()
     call InitTrig_______u()
     call InitTrig_______1()
     call InitTrig_papa6______u()
@@ -38009,8 +37904,8 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig____________________014()
     call InitTrig____________________020()
     call InitTrig____________________021()
-    call InitTrig____________________022()
     call InitTrig____________________054()
+    call InitTrig____________________022()
     call InitTrig____________________022________2()
     call InitTrig____________________059()
     call InitTrig____________________013()
@@ -38052,6 +37947,7 @@ function RunInitializationTriggers takes nothing returns nothing
     call ConditionalTriggerExecute(gg_trg_________________________c)
     call ConditionalTriggerExecute(gg_trg_________________________b)
     call ConditionalTriggerExecute(gg_trg_________________________d)
+    call ConditionalTriggerExecute(gg_trg_________________________e)
     call ConditionalTriggerExecute(gg_trg____________________027)
     call ConditionalTriggerExecute(gg_trg____________________008)
     call ConditionalTriggerExecute(gg_trg____________________004)
@@ -38071,64 +37967,64 @@ function InitCustomPlayerSlots takes nothing returns nothing
     call SetPlayerStartLocation(Player(0), 0)
     call ForcePlayerStartLocation(Player(0), 0)
     call SetPlayerColor(Player(0), ConvertPlayerColor(0))
-    call SetPlayerRacePreference(Player(0), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(0), true)
+    call SetPlayerRacePreference(Player(0), RACE_PREF_HUMAN)
+    call SetPlayerRaceSelectable(Player(0), false)
     call SetPlayerController(Player(0), MAP_CONTROL_USER)
     // Player 1
     call SetPlayerStartLocation(Player(1), 1)
     call ForcePlayerStartLocation(Player(1), 1)
     call SetPlayerColor(Player(1), ConvertPlayerColor(1))
-    call SetPlayerRacePreference(Player(1), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(1), true)
+    call SetPlayerRacePreference(Player(1), RACE_PREF_HUMAN)
+    call SetPlayerRaceSelectable(Player(1), false)
     call SetPlayerController(Player(1), MAP_CONTROL_USER)
     // Player 2
     call SetPlayerStartLocation(Player(2), 2)
     call ForcePlayerStartLocation(Player(2), 2)
     call SetPlayerColor(Player(2), ConvertPlayerColor(2))
-    call SetPlayerRacePreference(Player(2), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(2), true)
+    call SetPlayerRacePreference(Player(2), RACE_PREF_HUMAN)
+    call SetPlayerRaceSelectable(Player(2), false)
     call SetPlayerController(Player(2), MAP_CONTROL_USER)
     // Player 3
     call SetPlayerStartLocation(Player(3), 3)
     call ForcePlayerStartLocation(Player(3), 3)
     call SetPlayerColor(Player(3), ConvertPlayerColor(3))
-    call SetPlayerRacePreference(Player(3), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(3), true)
+    call SetPlayerRacePreference(Player(3), RACE_PREF_HUMAN)
+    call SetPlayerRaceSelectable(Player(3), false)
     call SetPlayerController(Player(3), MAP_CONTROL_USER)
     // Player 4
     call SetPlayerStartLocation(Player(4), 4)
     call ForcePlayerStartLocation(Player(4), 4)
     call SetPlayerColor(Player(4), ConvertPlayerColor(4))
-    call SetPlayerRacePreference(Player(4), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(4), true)
+    call SetPlayerRacePreference(Player(4), RACE_PREF_HUMAN)
+    call SetPlayerRaceSelectable(Player(4), false)
     call SetPlayerController(Player(4), MAP_CONTROL_USER)
     // Player 5
     call SetPlayerStartLocation(Player(5), 5)
     call ForcePlayerStartLocation(Player(5), 5)
     call SetPlayerColor(Player(5), ConvertPlayerColor(5))
-    call SetPlayerRacePreference(Player(5), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(5), true)
+    call SetPlayerRacePreference(Player(5), RACE_PREF_HUMAN)
+    call SetPlayerRaceSelectable(Player(5), false)
     call SetPlayerController(Player(5), MAP_CONTROL_USER)
     // Player 6
     call SetPlayerStartLocation(Player(6), 6)
     call ForcePlayerStartLocation(Player(6), 6)
     call SetPlayerColor(Player(6), ConvertPlayerColor(6))
-    call SetPlayerRacePreference(Player(6), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(6), true)
+    call SetPlayerRacePreference(Player(6), RACE_PREF_NIGHTELF)
+    call SetPlayerRaceSelectable(Player(6), false)
     call SetPlayerController(Player(6), MAP_CONTROL_COMPUTER)
     // Player 10
     call SetPlayerStartLocation(Player(10), 7)
     call ForcePlayerStartLocation(Player(10), 7)
     call SetPlayerColor(Player(10), ConvertPlayerColor(10))
-    call SetPlayerRacePreference(Player(10), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(10), true)
+    call SetPlayerRacePreference(Player(10), RACE_PREF_UNDEAD)
+    call SetPlayerRaceSelectable(Player(10), false)
     call SetPlayerController(Player(10), MAP_CONTROL_COMPUTER)
     // Player 11
     call SetPlayerStartLocation(Player(11), 8)
     call ForcePlayerStartLocation(Player(11), 8)
     call SetPlayerColor(Player(11), ConvertPlayerColor(11))
-    call SetPlayerRacePreference(Player(11), RACE_PREF_RANDOM)
-    call SetPlayerRaceSelectable(Player(11), true)
+    call SetPlayerRacePreference(Player(11), RACE_PREF_UNDEAD)
+    call SetPlayerRaceSelectable(Player(11), false)
     call SetPlayerController(Player(11), MAP_CONTROL_COMPUTER)
 endfunction
 function InitCustomTeams takes nothing returns nothing
@@ -38292,16 +38188,18 @@ function main takes nothing returns nothing
     call CreateAllUnits()
     call InitBlizzard()
 
-call ExecuteFunc("jasshelper__initstructs1617255453")
-call ExecuteFunc("ItemBase___InitItemBase")
-call ExecuteFunc("YDTriggerSaveLoadSystem___Init")
+call ExecuteFunc("jasshelper__initstructs1798567921")
+call ExecuteFunc("ItemBase__InitItemBase")
+call ExecuteFunc("Purgatory__InitPurgatory")
+call ExecuteFunc("YDTriggerSaveLoadSystem__Init")
 call ExecuteFunc("InitializeYD")
-call ExecuteFunc("YDWETimerPattern___Init")
+call ExecuteFunc("YDWETimerPattern__Init")
 call ExecuteFunc("YDWETimerSystem__Init")
-call ExecuteFunc("Arena___InitArena")
-call ExecuteFunc("Boss___InitBoss")
-call ExecuteFunc("MonsterSpell___InitMonsterSpell")
-call ExecuteFunc("Debug___Initdebug")
+call ExecuteFunc("Arena__InitArena")
+call ExecuteFunc("Beast__InitBeast")
+call ExecuteFunc("Boss__InitBoss")
+call ExecuteFunc("MonsterSpell__InitMonsterSpell")
+call ExecuteFunc("Revive__InitRevive")
 
     call InitGlobals()
     call InitCustomTriggers()
@@ -38313,7 +38211,7 @@ endfunction
 //*
 //***************************************************************************
 function config takes nothing returns nothing
-    call SetMapName("轮回之狱 - v2.53修复版")
+    call SetMapName("轮回之狱 - v2.56C正式版")
     call SetMapDescription("魔界滋生了六界之外的力量,而人神妖鬼仙界察觉了这种力量，而决定联手起来将魔界歼灭。寻找战友、提交BUG、寻找攻略请加官方地图QQ群148199145。
 该地图需要在1.24的魔兽版本上运行。")
     call SetPlayers(9)
@@ -38341,9 +38239,6 @@ endfunction
 //===========================================================================
 //ϵͳ-TimerSystem
 //===========================================================================
-//===========================================================================
-//Ӷ��ϵͳ 
-//===========================================================================
 
 
 
@@ -38351,12 +38246,12 @@ endfunction
 //Struct method generated initializers/callers:
 function sa__Attract__staticgetindex takes nothing returns boolean
 local handle h=f__arg_handle1
-set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
    return true
 endfunction
 function sa__Attract_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-			call s__Attract_flush(s__Attract_t[this])
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
 			set s__Attract_caster[this]=null
 			call PauseTimer(s__Attract_t[this])
 			call DestroyTimer(s__Attract_t[this])
@@ -38365,63 +38260,63 @@ local integer this=f__arg_this
 endfunction
 function sa__Missile__staticgetindex takes nothing returns boolean
 local handle h=f__arg_handle1
-set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
    return true
 endfunction
 function sa__Missile_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-			call s__Missile_flush(s__Missile_t[this])
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
 			set s__Missile_caster[this]=null
 			call PauseTimer(s__Missile_t[this])
 			call DestroyTimer(s__Missile_t[this])
 			set s__Missile_t[this]=null
    return true
 endfunction
-function sa__YDWETimerPattern___Thread_onDestroy takes nothing returns boolean
+function sa__YDWETimerPattern__Thread_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_obj[this])
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_t[this])
-            call GroupClear(s__YDWETimerPattern___Thread_g[this])
-            call DestroyGroup(s__YDWETimerPattern___Thread_g[this])
-            call PauseTimer(s__YDWETimerPattern___Thread_t[this])
-            call DestroyTimer(s__YDWETimerPattern___Thread_t[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_des[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_pos[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_vel[this])
-            set s__YDWETimerPattern___Thread_caster[this]=null
-            set s__YDWETimerPattern___Thread_target[this]=null
-            set s__YDWETimerPattern___Thread_obj[this]=null
-            set s__YDWETimerPattern___Thread_g[this]=null
-            set s__YDWETimerPattern___Thread_t[this]=null
-            set s__YDWETimerPattern___Thread_amount[this]=0
-            set s__YDWETimerPattern___Thread_skills[this]=0
-            set s__YDWETimerPattern___Thread_order[this]=0
-            set s__YDWETimerPattern___Thread_afc[this]=0
-            set s__YDWETimerPattern___Thread_dsfx[this]=""
-            set s__YDWETimerPattern___Thread_gsfx[this]=""
-            set s__YDWETimerPattern___Thread_wsfx[this]=""
-            set s__YDWETimerPattern___Thread_part[this]=""
+            call RemoveSavedInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_obj[this])))))))) // INLINED!!
+            call RemoveSavedInteger(YDHT, StringHash(("YDWETimerPattern." )), StringHash(( I2S((GetHandleId(((s__YDWETimerPattern__Thread_t[this])))))))) // INLINED!!
+            call GroupClear(s__YDWETimerPattern__Thread_g[this])
+            call DestroyGroup(s__YDWETimerPattern__Thread_g[this])
+            call PauseTimer(s__YDWETimerPattern__Thread_t[this])
+            call DestroyTimer(s__YDWETimerPattern__Thread_t[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_des[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_pos[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_vel[this])
+            set s__YDWETimerPattern__Thread_caster[this]=null
+            set s__YDWETimerPattern__Thread_target[this]=null
+            set s__YDWETimerPattern__Thread_obj[this]=null
+            set s__YDWETimerPattern__Thread_g[this]=null
+            set s__YDWETimerPattern__Thread_t[this]=null
+            set s__YDWETimerPattern__Thread_amount[this]=0
+            set s__YDWETimerPattern__Thread_skills[this]=0
+            set s__YDWETimerPattern__Thread_order[this]=0
+            set s__YDWETimerPattern__Thread_afc[this]=0
+            set s__YDWETimerPattern__Thread_dsfx[this]=""
+            set s__YDWETimerPattern__Thread_gsfx[this]=""
+            set s__YDWETimerPattern__Thread_wsfx[this]=""
+            set s__YDWETimerPattern__Thread_part[this]=""
    return true
 endfunction
-function sa___prototype182_YDWETimerPattern___Rebound takes nothing returns boolean
+function sa___prototype182_YDWETimerPattern__Rebound takes nothing returns boolean
  local integer t=f__arg_integer1
  local real nx=f__arg_real1
  local real ny=f__arg_real2
 
-        if not ( IsTerrainPathable(nx, s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-        elseif not ( IsTerrainPathable(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+        if not ( IsTerrainPathable(nx, s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+        elseif not ( IsTerrainPathable(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         else
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         endif
-        call GroupClear(s__YDWETimerPattern___Thread_g[t])
-        call SetUnitFacing(s__YDWETimerPattern___Thread_obj[t], Atan2BJ(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]))
+        call GroupClear(s__YDWETimerPattern__Thread_g[t])
+        call SetUnitFacing(s__YDWETimerPattern__Thread_obj[t], Atan2BJ(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]))
     return true
 endfunction
 
-function jasshelper__initstructs1617255453 takes nothing returns nothing
+function jasshelper__initstructs1798567921 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()
@@ -38430,14 +38325,14 @@ function jasshelper__initstructs1617255453 takes nothing returns nothing
     call TriggerAddCondition(st__Missile__staticgetindex,Condition( function sa__Missile__staticgetindex))
     set st__Missile_onDestroy=CreateTrigger()
     call TriggerAddCondition(st__Missile_onDestroy,Condition( function sa__Missile_onDestroy))
-    set st__YDWETimerPattern___Thread_onDestroy[4]=CreateTrigger()
-    set st__YDWETimerPattern___Thread_onDestroy[5]=st__YDWETimerPattern___Thread_onDestroy[4]
-    set st__YDWETimerPattern___Thread_onDestroy[6]=st__YDWETimerPattern___Thread_onDestroy[4]
-    set st__YDWETimerPattern___Thread_onDestroy[7]=st__YDWETimerPattern___Thread_onDestroy[4]
-    call TriggerAddCondition(st__YDWETimerPattern___Thread_onDestroy[4],Condition( function sa__YDWETimerPattern___Thread_onDestroy))
+    set st__YDWETimerPattern__Thread_onDestroy[4]=CreateTrigger()
+    set st__YDWETimerPattern__Thread_onDestroy[5]=st__YDWETimerPattern__Thread_onDestroy[4]
+    set st__YDWETimerPattern__Thread_onDestroy[6]=st__YDWETimerPattern__Thread_onDestroy[4]
+    set st__YDWETimerPattern__Thread_onDestroy[7]=st__YDWETimerPattern__Thread_onDestroy[4]
+    call TriggerAddCondition(st__YDWETimerPattern__Thread_onDestroy[4],Condition( function sa__YDWETimerPattern__Thread_onDestroy))
     set st___prototype182[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype182[1],function sa___prototype182_YDWETimerPattern___Rebound)
-    call TriggerAddCondition(st___prototype182[1],Condition(function sa___prototype182_YDWETimerPattern___Rebound))
+    call TriggerAddAction(st___prototype182[1],function sa___prototype182_YDWETimerPattern__Rebound)
+    call TriggerAddCondition(st___prototype182[1],Condition(function sa___prototype182_YDWETimerPattern__Rebound))
 
 
 
