@@ -26,7 +26,6 @@ library_once LHBase
         */ and IsUnitVisible(u, GetOwningPlayer(caster))	  and GetUnitAbilityLevel(u,'Avul') < 1    		  /*
         */ and GetUnitPointValue(u) != 123
     endfunction
-
     /*
         创建技能的漂浮文字，漂浮然后消失
     */

@@ -86,6 +86,7 @@ private function TBookBUGCon takes nothing returns boolean
 endfunction
 
 private function TBookBUGAct takes nothing returns nothing
+	call PolledWait(1.0)
 	call RemoveItem(GetManipulatedItem())
 endfunction
 
