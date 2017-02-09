@@ -1,8 +1,6 @@
 
 //! import "LHBase.j"
-/////! import "YDWEBase_common.j"
-/////! import "YDWEBase_hashtable.j"
-library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
+library_once SpellBase requires LHBase
 
 	struct Attract 
 		private unit caster
@@ -85,6 +83,7 @@ library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
 		endmethod
 
 	endstruct
+//---------------------------------------------------------------------------------------------------
 
 	struct Missile 
 		private unit caster
@@ -167,9 +166,20 @@ library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
 			set .t = null
 		endmethod
 
-
-
-
 	endstruct
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    获取基础力量英雄技能伤害
+	*/
+	function GetDamageStr takes unit u returns real
+		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		local real damage = (( GetHeroStr(uH, true) * 1.80 ) + ( GetHeroAgi(uH, true) ) +  ( GetHeroInt(uH, true) * 1.20 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH = null
+		return damage
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 endlibrary
+
+ 
