@@ -5,3 +5,6 @@
 /origin/*.w3x
 /edit/*.bat
 /edit/*.sh
+*.sublime-project
+*.sublime-workspace
+*.w3o

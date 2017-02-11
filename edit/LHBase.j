@@ -1,7 +1,7 @@
 
 
-/////! import "Test.j"
-library_once LHBase //requires Test
+//! import "Test.j"
+library_once LHBase requires Test
 
 	/*
 	    仙器使用技能进行禁止丢弃判断
@@ -26,7 +26,7 @@ library_once LHBase //requires Test
         */ and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false    and IsUnitAliveBJ(u)	== true		              /*
         */ and IsUnitHidden(u) == false                       and IsUnitEnemy(u, GetOwningPlayer(caster))     /*
         */ and IsUnitVisible(u, GetOwningPlayer(caster))	  and GetUnitAbilityLevel(u,'Avul') < 1    		  /*
-        */ and GetUnitPointValue(u) != 123
+        */ and GetUnitPointValue(u) != 123					  and GetUnitPointValue(u) != 0
     endfunction
 
 	/*
@@ -34,7 +34,8 @@ library_once LHBase //requires Test
 	*/
    function IsEnemy2 takes unit u, unit caster returns boolean
         return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)	== true		              /*
-        */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123
+        */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123				  /*
+        */ and GetUnitPointValue(u) != 0
     endfunction
 
     /*
@@ -69,6 +70,33 @@ library_once LHBase //requires Test
         endif
 	    set u = null
 
+    endfunction
+
+    /*
+        创建马甲作为特效
+    */
+	function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
+	    call UnitApplyTimedLifeBJ( 5, 'BHwe',CreateUnit(whichPlayer,unitType,x,y,facing))
+    endfunction
+
+    /*
+        伤害一个区域
+    */
+    function DamageArea takes unit attacker,real x,real y,real radius,real damage returns nothing
+    	local group l_group = CreateGroup()
+    	local unit l_unit
+    	call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+    	loop
+    	    set l_unit = FirstOfGroup(l_group)
+    	    exitwhen l_unit == null
+    	    call GroupRemoveUnit(l_group, l_unit)
+    	    if (IsEnemy(l_unit,attacker)) then
+    	    	call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+    	    endif
+    	endloop
+    	call DestroyGroup(l_group)
+    	set l_group = null
+    	set l_unit =null
     endfunction
 
     /*

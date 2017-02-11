@@ -13,16 +13,38 @@ hashtable YDHT= null
 //globals from YDWESetGuard:
 constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
+//globals from YDWETimerSystem:
+constant boolean LIBRARY_YDWETimerSystem=true
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
+
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
+//endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -50,11 +72,38 @@ constant boolean LIBRARY_Printer=true
 //endglobals from Printer
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
+hashtable spellTable= InitHashtable()
 //endglobals from SpellBase
 //globals from Heiyan:
 constant boolean LIBRARY_Heiyan=true
-trigger TSpellHeiyan1
-boolean BIsMojie= true
+		
+trigger Heiyan___TSpellHeiyan1
+trigger Heiyan___TSpellHeiyan00
+trigger Heiyan___TSpellHeiyan2
+trigger Heiyan___TSpellHeiyan40
+trigger Heiyan___TSpellHeiyan41
+trigger Heiyan___TDamageSacri
+		
+boolean Heiyan___BIsMojie= true
+		
+unit Heiyan
+
+		
+constant integer kUSacrifice=5
+		
+constant integer kUYanluo=6
+		
+unit Heiyan___UZangJiuTian
+
+boolean Heiyan___IsDouble= false
+		
+integer Heiyan___ISacriMaxCount= 10
+integer Heiyan___ISacriCount= 0
+		
+group Heiyan___GSacri= CreateGroup()
+
+		
+real Heiyan___DamageSacri
 //endglobals from Heiyan
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -1121,6 +1170,54 @@ function YDWESetGuard takes unit pet,unit captain,real timeout,real guardRanger,
 endfunction
 
 //library YDWESetGuard ends
+//library YDWETimerSystem:
+
+
+function YDWETimerSystemNewTask takes real time,trigger proc returns integer
+    return 1
+endfunction
+function YDWETimerSystemGetCurrentTask takes nothing returns integer
+    return YDWETimerSystem___CurrentIndex
+endfunction
+
+
+function YDWETimerRemoveUnit takes real time,unit u returns nothing
+
+endfunction
+
+function YDWETimerDestroyTimer takes real time,timer t returns nothing
+endfunction
+
+
+function YDWETimerRemoveItem takes real time,item it returns nothing
+endfunction
+
+
+function YDWETimerDestroyEffect takes real time,effect e returns nothing
+endfunction
+
+
+function YDWETimerDestroyLightning takes real time,lightning lt returns nothing
+endfunction
+
+
+function YDWETimerRunTrigger takes real time,trigger trg returns nothing
+endfunction
+function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
+endfunction
+
+function YDWETimerSystemGetRunIndex takes nothing returns integer
+    return YDWETimerSystem___TimerSystem_RunIndex
+endfunction
+
+function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
+        
+endfunction
+
+function YDWETimerRunPeriodicTriggerOver takes trigger trg,integer data returns nothing
+endfunction
+
+//library YDWETimerSystem ends
 //library YDWETriggerEvent:
 
  function YDWEAnyUnitDamagedTriggerAction takes nothing returns nothing
@@ -1165,8 +1262,14 @@ endfunction
 
 	
    function IsEnemy takes unit u,unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false and IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitAliveBJ(u) == true and IsUnitHidden(u) == false and IsUnitEnemy(u, GetOwningPlayer(caster)) and IsUnitVisible(u, GetOwningPlayer(caster)) and GetUnitAbilityLevel(u, 'Avul') < 1 and GetUnitPointValue(u) != 123
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false and IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitAliveBJ(u) == true and IsUnitHidden(u) == false and IsUnitEnemy(u, GetOwningPlayer(caster)) and IsUnitVisible(u, GetOwningPlayer(caster)) and GetUnitAbilityLevel(u, 'Avul') < 1 and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
     endfunction
+
+	
+   function IsEnemy2 takes unit u,unit caster returns boolean
+        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) == true and IsUnitEnemy(u, GetOwningPlayer(caster)) and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
+    endfunction
+
     
     function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
 
@@ -1198,6 +1301,29 @@ endfunction
     endfunction
 
     
+ function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
+	    call UnitApplyTimedLifeBJ(5, 'BHwe', CreateUnit(whichPlayer, unitType, x, y, facing))
+    endfunction
+
+    
+    function DamageArea takes unit attacker,real x,real y,real radius,real damage returns nothing
+     local group l_group= CreateGroup()
+     local unit l_unit
+    	call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+    	loop
+    	    set l_unit=FirstOfGroup(l_group)
+    	    exitwhen l_unit == null
+    	    call GroupRemoveUnit(l_group, l_unit)
+    	    if ( IsEnemy(l_unit , attacker) ) then
+    	    	call UnitDamageTarget(attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+    	    endif
+    	endloop
+    	call DestroyGroup(l_group)
+    	set l_group=null
+    	set l_unit=null
+    endfunction
+
+    
  function BuyerFilter takes unit buyer returns boolean
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
@@ -1219,15 +1345,22 @@ endfunction
  function PrintSpellContent takes player whichPlayer,string spellName,string content returns nothing
 	    call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r" + content ))
 	endfunction
+
+ function PrintSpellName takes player whichPlayer,string spellName returns nothing
+		call DisplayTextToPlayer((whichPlayer ), 0, 0, ( "|cFFFF66CC【|r" + ( spellName ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Printer__InitPrinter takes nothing returns nothing
+ function Printer___InitPrinter takes nothing returns nothing
 		
 	endfunction
 
 
 //library Printer ends
 //library SpellBase:
+
+
+//---------------------------------------------------------------------------------------------------
 
 
   function s__Attract_attract takes nothing returns nothing
@@ -1410,6 +1543,27 @@ endfunction
 		return damage
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	
+ function IsSecondSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R006', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsThirdSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R007', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsFourthSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R008', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsFifthSpellOK takes unit hero returns boolean
+		return ( GetPlayerTechCountSimple('R009', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00A', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00B', GetOwningPlayer(hero)) == 1 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
 
 
 //library SpellBase ends
@@ -1417,36 +1571,156 @@ endfunction
 	
 //---------------------------------------------------------------------------------------------------
 	
-	//魔界
- function Heiyan__YeShenJi1 takes nothing returns nothing
-  local unit u= GetSpellAbilityUnit()
-		set BIsMojie=not ( BIsMojie )
-		if ( BIsMojie == true ) then
-		    call DisplayTextToPlayer((GetOwningPlayer(u) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "切换祭品控制权为魔界.") )) // INLINED!!
+ function Heiyan___IsFull takes nothing returns boolean
+		return Heiyan___ISacriCount >= Heiyan___ISacriMaxCount
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Heiyan___CreateSacrificeTi takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local unit u= LoadUnitHandle(spellTable, GetHandleId(t), kUSacrifice)
+	    call SetUnitInvulnerable(u, false)
+		call DestroyTimer(t)
+		set t=null
+		set u=null
+	endfunction
+
+ function Heiyan___CreateBasicSacrifice takes real tx,real ty returns nothing
+  local real lifeTime
+  local unit u
+  local timer t
+  local real angle
+  local real x
+  local real y
+  local integer i= 3
+		if ( Heiyan___IsDouble == true ) then
+			set i=1
+		endif
+		loop
+			exitwhen i > 3
+
+			if ( (Heiyan___ISacriCount >= Heiyan___ISacriMaxCount) == true ) then // INLINED!!
+				call BJDebugMsg("祭品满了")
+				return
+			endif
+			set lifeTime=4 + SquareRoot(GetHeroLevel(Heiyan)) / 2
+			set t=CreateTimer()
+			set angle=GetRandomReal(0, 360)
+			set x=(RMinBJ(RMaxBJ(((tx + 80 * CosBJ(angle))*1.0), yd_MapMinX), yd_MapMaxX)) // INLINED!!
+			set y=(RMinBJ(RMaxBJ(((ty + 80 * SinBJ(angle))*1.0), yd_MapMinY), yd_MapMaxY)) // INLINED!!
+			if ( Heiyan___BIsMojie == true ) then
+				set u=CreateUnit(Player(11), 'jipi', x, y, 0)
+			else
+				set u=CreateUnit(GetOwningPlayer(Heiyan), 'jipi', x, y, 0)
+			endif
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", tx, ty))
+		    call UnitApplyTimedLifeBJ(lifeTime, 'BHwe', u)
+	    	call GroupAddUnit(Heiyan___GSacri, u)
+			set Heiyan___ISacriCount=Heiyan___ISacriCount + 1
+			//三秒无敌
+		    call SetUnitInvulnerable(u, true)
+		    call SaveUnitHandle(spellTable, GetHandleId(t), kUSacrifice, u)
+		    call TimerStart(t, 3, false, function Heiyan___CreateSacrificeTi)
+
+			set i=i + 1
+		endloop
+		set u=null
+		set t=null
+	endfunction
+
+ function Heiyan___CreateSuperSacrifice takes real x,real y returns nothing
+  local unit u
+  local integer i= 3
+		if ( Heiyan___IsDouble == true ) then
+			set i=1
+		endif
+		loop
+			exitwhen i > 3
+
+			set u=CreateUnit(GetOwningPlayer(Heiyan), 'jipi', x, y, 0)
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y))
+		    call UnitApplyTimedLifeBJ(30, 'BHwe', u)
+			//三秒无敌
+		    call SetUnitInvulnerable(u, true)
+
+			set i=i + 1
+		endloop
+		set u=null
+	endfunction
+
+ function Heiyan___CreateSacrifice takes unit creater returns nothing
+		call Heiyan___CreateBasicSacrifice(GetUnitX(creater) , GetUnitY(creater))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Heiyan___SacriDamageFlash takes nothing returns nothing
+		set Heiyan___DamageSacri=GetDamageStr(Heiyan) * 0.01
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Heiyan___TDamageSacriCon takes nothing returns boolean
+		return ( ( GetEventDamage() > 0 ) and ( IsUnitIllusion(GetEventDamageSource()) == false ) and ( IsUnitInGroup(GetEventDamageSource(), Heiyan___GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'gjip' ) )
+	endfunction
+	
+ function Heiyan___TDamageSacriAct takes nothing returns nothing
+		call DisableTrigger(GetTriggeringTrigger())
+		if ( IsEnemy(GetTriggerUnit() , GetEventDamageSource()) ) then
+			if ( IsUnitInGroup(GetEventDamageSource(), Heiyan___GSacri) == true ) then
+				call UnitDamageTarget(GetEventDamageSource(), GetTriggerUnit(), Heiyan___DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			elseif ( GetUnitTypeId(GetEventDamageSource()) == 'gjip' ) then
+				call UnitDamageTarget(GetEventDamageSource(), GetTriggerUnit(), Heiyan___DamageSacri * 4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			endif
 		else
-		    call DisplayTextToPlayer((GetOwningPlayer(u) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "切换祭品控制权为自己.") )) // INLINED!!
+			call SetUnitLifeBJ(GetTriggerUnit(), GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) + GetUnitState(GetTriggerUnit(), UNIT_STATE_MAX_LIFE) * 0.01)
+		endif
+		call EnableTrigger(GetTriggeringTrigger())
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+	//魔界
+ function Heiyan___YeShenJi takes nothing returns nothing
+  local unit u= GetSpellAbilityUnit()
+		set Heiyan___BIsMojie=not ( Heiyan___BIsMojie )
+		if ( Heiyan___BIsMojie == true ) then
+		    call DisplayTextToPlayer((GetOwningPlayer(u) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "当前祭品控制权为魔界.") )) // INLINED!!
+		    call UnitRemoveAbility(u, 'yes1')
+		    call UnitAddAbility(u, 'yes2')
+		else
+		    call DisplayTextToPlayer((GetOwningPlayer(u) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "当前祭品控制权为自己.") )) // INLINED!!
+		    call UnitRemoveAbility(u, 'yes2')
+		    call UnitAddAbility(u, 'yes1')
 		endif
 		set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Heiyan__QianGuiXie takes nothing returns nothing
-  local unit u= GetSpellAbilityUnit()
-  local real damage= GetDamageStr(u)
+
+ function Heiyan___TSpellHeiyan00Con takes nothing returns boolean
+		return ( GetKillingUnitBJ() == Heiyan and IsUnitIllusion(GetKillingUnitBJ()) == false and GetUnitPointValue(GetDyingUnit()) != 123 and GetUnitPointValue(GetDyingUnit()) != 0 and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) and GetUnitTypeId(GetDyingUnit()) != 'jipi' )
+	endfunction
+
+ function Heiyan___TSpellHeiyan00Act takes nothing returns nothing
+		call Heiyan___CreateSacrifice(GetDyingUnit())
+		call BJDebugMsg("杀死创造祭品")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Heiyan___QianGuiXie takes unit speller,unit target,real damageRate,integer abilityID returns nothing
+  local unit u= speller
+  local real damage= GetDamageStr(u) * damageRate
      local group l_group= CreateGroup()
      local group l_group_d= CreateGroup()
      local unit l_unit
      local integer count
-     local unit um= CreateUnit(GetOwningPlayer(u), 'h008', GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()), 0)
-	    call UnitApplyTimedLifeBJ(5.00, 'BHwe', um)
-	    call SetUnitAnimation(um, "birth")
+	    call UnitApplyTimedLifeBJ(5, 'BHwe', CreateUnit((GetOwningPlayer(u) ), ( 'h008' ), (( GetUnitX(target) )*1.0), (( GetUnitY(target) )*1.0), (( 0)*1.0))) // INLINED!!
 	    //计算数量
-	    call GroupEnumUnitsInRange(l_group, GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()), 600, null)
+	    call GroupEnumUnitsInRange(l_group, GetUnitX(target), GetUnitY(target), 600, null)
 	    loop
 	        set l_unit=FirstOfGroup(l_group)
 	        exitwhen l_unit == null
 	        call GroupRemoveUnit(l_group, l_unit)
-	        if ( IsEnemy(l_unit , u) ) then
+	        if ( IsEnemy2(l_unit , u) ) then
 	        	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
 	        	call GroupAddUnit(l_group_d, l_unit)
 	        endif
@@ -1458,39 +1732,258 @@ endfunction
 	        set l_unit=FirstOfGroup(l_group_d)
 	        exitwhen l_unit == null
 	        call GroupRemoveUnit(l_group_d, l_unit)
-	    	call UnitDamageTarget(u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+	        if ( IsEnemy2(l_unit , u) ) then
+	    		call UnitDamageTarget(u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+	    	endif
 	    endloop
 	    //输出伤害
-	    call PrintSpellAdd(GetOwningPlayer(u) , GetAbilityName(GetSpellAbilityId()) , damage , ",敌人数量" + I2S(count) + "个")
+	    call PrintSpellAdd(GetOwningPlayer(u) , GetAbilityName(abilityID) , damage , ",敌人数量" + I2S(count) + "个")
 	    call DestroyGroup(l_group)
 	    call DestroyGroup(l_group_d)
 	    set l_group_d=null
 	    set l_group=null
 	    set l_unit=null
 		set u=null
-		set um=null
 	endfunction
-//-------------------------------------x--------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------
 	
- function Heiyan__TSpellHeiyanCon takes nothing returns boolean
-    	return ( GetSpellAbilityUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] )
+    function Heiyan___TSpellHeiyan2Con takes nothing returns boolean
+    	return GetAttacker() == Heiyan and (GetPlayerTechCountSimple('R006', GetOwningPlayer((Heiyan))) == 1) == true and GetUnitState(Heiyan, UNIT_STATE_MANA) >= 250 and Heiyan___ISacriCount >= 5 // INLINED!!
+    endfunction
+    
+    function Heiyan___TSpellHeiyan2Act takes nothing returns nothing
+    	call DisableTrigger(GetTriggeringTrigger())
+		call Heiyan___QianGuiXie(Heiyan , GetAttackedUnitBJ() , 0.4 , 'yanl')
+		call PolledWait(5)
+    	call EnableTrigger(GetTriggeringTrigger())
+    endfunction
+
+    
+
+    function Heiyan___YanLuoDianCreate takes nothing returns nothing
+     local timer t= GetExpiredTimer()
+     local unit u= LoadUnitHandle(spellTable, GetHandleId(t), kUYanluo)
+    	if ( IsUnitAliveBJ(u) == true ) then
+    		call Heiyan___CreateSacrifice(u)
+    	else
+    		call PauseTimer(t)
+    		call DestroyTimer(t)
+    		call FlushChildHashtable(spellTable, GetHandleId(t))
+    	endif
+    	set u=null
+    	set t=null
+    endfunction
+
+    function Heiyan___YanLuoDian takes nothing returns nothing
+     local timer t= CreateTimer()
+     local unit u= CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()), 'hh02', GetSpellTargetX(), GetSpellTargetY(), 0)
+	    call UnitApplyTimedLifeBJ(30.00, 'BHwe', u)
+    	call SaveUnitHandle(spellTable, GetHandleId(t), kUYanluo, u)
+    	call TimerStart(t, 1, true, function Heiyan___YanLuoDianCreate)
+		call DisplayTextToPlayer(((GetOwningPlayer(u) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+    	set u=null
+    	set t=null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Heiyan___SheHunJue takes nothing returns nothing
+		call Heiyan___CreateSuperSacrifice(GetSpellTargetX() , GetSpellTargetY())
+		call DisplayTextToPlayer(((GetOwningPlayer(GetSpellAbilityUnit()) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
 	endfunction
 
- function TSpellHeiyanAct takes nothing returns nothing
-		if ( GetSpellAbilityId() == 'A0C7' ) then
-			call Heiyan__QianGuiXie()
+	
+ function Heiyan___SheHunJueFlash takes nothing returns nothing
+		if ( IsUnitAliveBJ(Heiyan) == true and GetUnitState(Heiyan, UNIT_STATE_MANA) >= 400 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((Heiyan))) == 1) == true ) then // INLINED!!
+			call Heiyan___CreateSacrifice(Heiyan)
 		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+
+ function Heiyan___TSpellHeiyan4ActBoom takes nothing returns nothing
+  local group l_group= CreateGroup()
+  local real damage= GetDamageStr(Heiyan) * 0.1
+  local unit u= GetDyingUnit()
+  local unit l_unit
+		call GroupEnumUnitsInRange(l_group, GetUnitX(u), GetUnitY(u), 400, null)
+		loop
+		    set l_unit=FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if ( IsEnemy(l_unit , u) == true ) then
+		    	call UnitDamageTarget(u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+		    endif
+		endloop
+	    call UnitApplyTimedLifeBJ(5, 'BHwe', CreateUnit((GetOwningPlayer(u) ), ( 'hh04' ), (( GetUnitX(u) )*1.0), (( GetUnitY(u) )*1.0), (( 0)*1.0))) // INLINED!!
+	    call CreateSpellTextTag("爆" , u , 100 , 0 , 0 , 2)
+		call DestroyGroup(l_group)
+		set l_group=null
+		set l_unit=null
+	endfunction
+
+ function Heiyan___TSpellHeiyan4Con takes nothing returns boolean
+		return IsUnitInGroup(GetDyingUnit(), Heiyan___GSacri) == true
+	endfunction
+
+ function Heiyan___TSpellHeiyan4Act takes nothing returns nothing
+  local group l_group= CreateGroup()
+  local unit l_unit
+		call GroupRemoveUnit(Heiyan___GSacri, GetDyingUnit())
+		set Heiyan___ISacriCount=Heiyan___ISacriCount - 1
+		call BJDebugMsg(I2S(Heiyan___ISacriCount) + "个")
+		call GroupAddGroup(Heiyan___GSacri, l_group)
+		loop
+		    set l_unit=FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    call SetUnitLifePercentBJ(l_unit, 100)
+		endloop
+		call DestroyGroup(l_group)
+		set l_group=null
+		set l_unit=null
+		if ( (GetPlayerTechCountSimple('R008', GetOwningPlayer((Heiyan))) == 1) == true ) then // INLINED!!
+			call Heiyan___TSpellHeiyan4ActBoom()
+		endif
+	endfunction
+
+
+	
+ function Heiyan___QiLuoCha takes nothing returns nothing
+		set Heiyan___IsDouble=true
+		call DisplayTextToPlayer(((GetOwningPlayer(GetSpellAbilityUnit()) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+		call YDWETimerDestroyEffect(60 , AddSpecialEffectTargetUnitBJ("chest", Heiyan, ""))
+		call PolledWait(60)
+		set Heiyan___IsDouble=false
+	endfunction
+
+	
+ function Heiyan___TSpellHeiyan41Con takes nothing returns boolean
+		return ( GetEventDamage() > GetUnitState(Heiyan, UNIT_STATE_LIFE) and ( Heiyan___ISacriCount >= 1 ) and ( (GetPlayerTechCountSimple('R008', GetOwningPlayer((Heiyan))) == 1) == true ) ) // INLINED!!
+	endfunction
+	
+ function Heiyan___TSpellHeiyan41Act takes nothing returns nothing
+		call DisableTrigger(GetTriggeringTrigger())
+		call SetUnitInvulnerable(Heiyan, true)
+		call SetUnitLifeBJ(Heiyan, GetUnitState(Heiyan, UNIT_STATE_LIFE) + GetUnitState(Heiyan, UNIT_STATE_MAX_LIFE) * 0.05)
+		call PolledWait(0.1)
+		call SetUnitInvulnerable(Heiyan, false)
+		call EnableTrigger(GetTriggeringTrigger())
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function Heiyan___ZangJiuTianTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local real x= GetUnitX(Heiyan___UZangJiuTian)
+  local real y= GetUnitY(Heiyan___UZangJiuTian)
+  local integer i= 1
+  local unit l_unit
+		//如果祭品大于3个,则牺牲3个
+		if ( CountUnitsInGroup(Heiyan___GSacri) >= 3 ) then
+			loop
+				exitwhen i > 3
+			    set l_unit=FirstOfGroup(Heiyan___GSacri)
+			    //牺牲3个
+			    call KillUnit(l_unit)
+				set i=i + 1
+			endloop
+			call DestroyEffect(AddSpecialEffect("", x, y))
+			call DamageArea(Heiyan , x , y , 600 , GetDamageStr(Heiyan))
+		else
+			call PauseTimer(t)
+			call DestroyTimer(t)
+			call FlushChildHashtable(spellTable, id)
+		endif
+		set l_unit=null
+		set t=null
+	endfunction
+
+ function Heiyan___ZangJiuTian takes nothing returns nothing
+  local timer t= CreateTimer()
+		set Heiyan___UZangJiuTian=CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()), 'hh05', GetSpellTargetX(), GetSpellTargetY(), 0)
+	    call PrintSpellAdd((GetOwningPlayer(GetSpellAbilityUnit()) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( GetDamageStr(Heiyan))*1.0) , "") // INLINED!!
+		call TimerStart(t, 1, true, function Heiyan___ZangJiuTianTimer)
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+
+ function Heiyan___TSpellHeiyanAct takes nothing returns nothing
+  local integer i= 1
+		if ( GetSpellAbilityId() == 'A0C7' ) then
+			call Heiyan___QianGuiXie(Heiyan , GetSpellTargetUnit() , 1 , GetSpellAbilityId())
+		elseif ( GetSpellAbilityId() == 'yes1' or GetSpellAbilityId() == 'yes2' ) then
+			call Heiyan___YeShenJi()
+			//不召唤祭品
+			return
+		elseif ( GetSpellAbilityId() == 'yanl' ) then
+			call Heiyan___YanLuoDian()
+		elseif ( GetSpellAbilityId() == 'qilu' ) then
+			call Heiyan___QiLuoCha()
+		elseif ( GetSpellAbilityId() == 'zang' ) then
+			call Heiyan___ZangJiuTian()
+		endif
+
+		if not ( GetUnitState(Heiyan, UNIT_STATE_MANA) >= 100 ) then
+			return
+		endif
+		//召唤2个祭品
+		loop
+			exitwhen i > 2
+			call Heiyan___CreateSacrifice(GetSpellAbilityUnit())
+			set i=i + 1
+		endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function InitHeiyan takes nothing returns nothing
+ function InitHeiyan takes unit u returns nothing
+  local timer t= CreateTimer()
+		set Heiyan=u
 		//主英雄技能
-		set TSpellHeiyan1=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(TSpellHeiyan1, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	    call TriggerAddCondition(TSpellHeiyan1, Condition(function Heiyan__TSpellHeiyanCon))
-	    call TriggerAddAction(TSpellHeiyan1, function TSpellHeiyanAct)
+		set Heiyan___TSpellHeiyan1=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Heiyan___TSpellHeiyan1, u, EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerAddAction(Heiyan___TSpellHeiyan1, function Heiyan___TSpellHeiyanAct)
+
+	    //主英雄杀敌事件
+	    set Heiyan___TSpellHeiyan00=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Heiyan___TSpellHeiyan00, EVENT_PLAYER_UNIT_DEATH)
+	    call TriggerAddCondition(Heiyan___TSpellHeiyan00, Condition(function Heiyan___TSpellHeiyan00Con))
+	    call TriggerAddAction(Heiyan___TSpellHeiyan00, function Heiyan___TSpellHeiyan00Act)
+
+	    //英雄第二个技能攻击事件
+	    set Heiyan___TSpellHeiyan2=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Heiyan___TSpellHeiyan2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Heiyan___TSpellHeiyan2, Condition(function Heiyan___TSpellHeiyan2Con))
+	    call TriggerAddAction(Heiyan___TSpellHeiyan2, function Heiyan___TSpellHeiyan2Act)
+
+	    //英雄第三个技能刷新事件
+		call TimerStart(t, 3, true, function Heiyan___SheHunJueFlash)
+
+		//祭品伤害的刷新
+		call TimerStart(t, 3, true, function Heiyan___SacriDamageFlash)
+		set t=null
+
+		//死亡事件与英雄第四个技能爆炸
+	    set Heiyan___TSpellHeiyan40=CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(Heiyan___TSpellHeiyan40, EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(Heiyan___TSpellHeiyan40, Condition(function Heiyan___TSpellHeiyan4Con))
+		call TriggerAddAction(Heiyan___TSpellHeiyan40, function Heiyan___TSpellHeiyan4Act)
+
+		//祭品伤害事件
+	    set Heiyan___TDamageSacri=CreateTrigger()
+		call YDWESyStemAnyUnitDamagedRegistTrigger(Heiyan___TDamageSacri)
+		call TriggerAddCondition(Heiyan___TDamageSacri, Condition(function Heiyan___TDamageSacriCon))
+		call TriggerAddAction(Heiyan___TDamageSacri, function Heiyan___TDamageSacriAct)
+
+		//英雄第四个技能时的无敌
+	    set Heiyan___TSpellHeiyan41=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Heiyan___TSpellHeiyan41, Heiyan, EVENT_UNIT_DAMAGED)
+		call TriggerAddCondition(Heiyan___TSpellHeiyan41, Condition(function Heiyan___TSpellHeiyan41Con))
+		call TriggerAddAction(Heiyan___TSpellHeiyan41, function Heiyan___TSpellHeiyan41Act)
 	endfunction
+
 
 //library Heiyan ends
 
@@ -1522,6 +2015,13 @@ endfunction
 
 
 // END IMPORT OF YDWETriggerEvent.j
+// BEGIN IMPORT OF YDWETimerSystem.j
+//===========================================================================
+//ϵͳ-TimerSystem
+//===========================================================================
+
+
+// END IMPORT OF YDWETimerSystem.j
 // BEGIN IMPORT OF YDWEBase_common.j
 
 //===========================================================================
@@ -1541,12 +2041,13 @@ endfunction
 
 // IGNORE DOUBLE IMPORT OF LHBase.j
 // END IMPORT OF Printer.j
+
 // END IMPORT OF HeiYan.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs1102359")
+call ExecuteFunc("jasshelper__initstructs3391913528")
 call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("Printer__InitPrinter")
+call ExecuteFunc("Printer___InitPrinter")
 
 endfunction
 
@@ -1582,7 +2083,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs1102359 takes nothing returns nothing
+function jasshelper__initstructs3391913528 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()

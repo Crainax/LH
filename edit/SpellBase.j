@@ -2,6 +2,12 @@
 //! import "LHBase.j"
 library_once SpellBase requires LHBase
 
+	globals
+		hashtable spellTable = InitHashtable()
+	endglobals
+
+//---------------------------------------------------------------------------------------------------
+
 	struct Attract 
 		private unit caster
 		private real radius
@@ -179,6 +185,35 @@ library_once SpellBase requires LHBase
 		return damage
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否可以使用第2个技能了
+	*/
+	function IsSecondSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R006',GetOwningPlayer(hero)) == 1
+	endfunction
+
+	/*
+	    判断是否可以使用第3个技能了
+	*/
+	function IsThirdSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R007',GetOwningPlayer(hero)) == 1
+	endfunction
+
+	/*
+	    判断是否可以使用第4个技能了
+	*/
+	function IsFourthSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R008',GetOwningPlayer(hero)) == 1
+	endfunction
+
+	/*
+	    判断是否可以使用第5个技能了
+	*/
+	function IsFifthSpellOK takes unit hero returns boolean
+		return (GetPlayerTechCountSimple('R009',GetOwningPlayer(hero)) == 1) and (GetPlayerTechCountSimple('R00A',GetOwningPlayer(hero)) == 1) and (GetPlayerTechCountSimple('R00B',GetOwningPlayer(hero)) == 1)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
 
 endlibrary
 

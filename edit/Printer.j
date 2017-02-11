@@ -18,6 +18,10 @@ library_once Printer initializer InitPrinter requires LHBase
 	function PrintSpellContent takes player whichPlayer,string spellName,string content returns nothing
 	    call DisplayTextToPlayer( whichPlayer, 0, 0, ( "|cFFFF66CC【|r" +  spellName +  "|cFFFF66CC】|r" +  content ))
 	endfunction
+
+	function PrintSpellName takes player whichPlayer,string spellName returns nothing
+		call PrintSpellContent(whichPlayer,spellName,"")
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	private function InitPrinter takes nothing returns nothing
