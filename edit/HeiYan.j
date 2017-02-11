@@ -98,9 +98,9 @@ library_once Heiyan requires SpellBase,Printer
 			set x = YDWECoordinateX(tx + 80 * CosBJ(angle))
 			set y = YDWECoordinateY(ty + 80 * SinBJ(angle))
 			if (BIsMojie == true) then
-				set u =  CreateUnit(Player(11),'jipi' ,x,y,0)
+				set u =  CreateUnit(Player(11),'h012' ,x,y,0)
 			else
-				set u =  CreateUnit(GetOwningPlayer(Heiyan),'jipi' ,x,y,0)
+				set u =  CreateUnit(GetOwningPlayer(Heiyan),'h012' ,x,y,0)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", tx, ty ))
 		    call UnitApplyTimedLifeBJ( lifeTime, 'BHwe' , u )
@@ -126,7 +126,7 @@ library_once Heiyan requires SpellBase,Printer
 		loop
 			exitwhen i > 3
 
-			set u =  CreateUnit(GetOwningPlayer(Heiyan),'jipi' ,x,y,0)
+			set u =  CreateUnit(GetOwningPlayer(Heiyan),'h011' ,x,y,0)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
 		    call UnitApplyTimedLifeBJ( 30, 'BHwe' , u )
 			//三秒无敌
@@ -152,7 +152,7 @@ library_once Heiyan requires SpellBase,Printer
 	    祭品的攻击伤害
 	*/
 	private function TDamageSacriCon takes nothing returns boolean
-		return ((GetEventDamage() > 0) and (IsUnitIllusion(GetEventDamageSource()) == false) and (IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'gjip'))
+		return ((GetEventDamage() > 0) and (IsUnitIllusion(GetEventDamageSource()) == false) and (IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'h011'))
 	endfunction
 	
 	private function TDamageSacriAct takes nothing returns nothing
@@ -160,7 +160,7 @@ library_once Heiyan requires SpellBase,Printer
 		if (IsEnemy(GetTriggerUnit(),GetEventDamageSource())) then
 			if (IsUnitInGroup(GetEventDamageSource(),GSacri) == true) then
 				call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			elseif (GetUnitTypeId(GetEventDamageSource()) == 'gjip') then
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h011') then
 				call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri*4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			endif
 		else
@@ -194,7 +194,7 @@ library_once Heiyan requires SpellBase,Printer
 	*/
 
 	private function TSpellHeiyan00Con takes nothing returns boolean
-		return (GetKillingUnitBJ() == Heiyan and IsUnitIllusion(GetKillingUnitBJ()) == false and GetUnitPointValue(GetDyingUnit()) != 123	and GetUnitPointValue(GetDyingUnit()) != 0 and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) and GetUnitTypeId(GetDyingUnit()) != 'jipi')
+		return (GetKillingUnitBJ() == Heiyan and IsUnitIllusion(GetKillingUnitBJ()) == false and GetUnitPointValue(GetDyingUnit()) != 123	and GetUnitPointValue(GetDyingUnit()) != 0 and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) and GetUnitTypeId(GetDyingUnit()) != 'h012')
 	endfunction
 
 	private function TSpellHeiyan00Act takes nothing returns nothing
@@ -362,7 +362,7 @@ library_once Heiyan requires SpellBase,Printer
 	private function QiLuoCha takes nothing returns nothing
 		set IsDouble = true
 		call PrintSpellName(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()))
-		call YDWETimerDestroyEffect(60,AddSpecialEffectTargetUnitBJ("chest",Heiyan,""))
+		call YDWETimerDestroyEffect(60,AddSpecialEffectTargetUnitBJ("chest",Heiyan,"war3mapImported\\doomtargetpurpl.mdx"))
 		call PolledWait(60)
 		set IsDouble = false
 	endfunction
@@ -393,6 +393,7 @@ library_once Heiyan requires SpellBase,Printer
 		local real x = GetUnitX(UZangJiuTian)
 		local real y = GetUnitY(UZangJiuTian)
 		local integer i = 1
+		local integer ii = 1
 		local unit l_unit
 		//如果祭品大于3个,则牺牲3个
 		if (CountUnitsInGroup(GSacri) >= 3) then
@@ -403,7 +404,11 @@ library_once Heiyan requires SpellBase,Printer
 			    call KillUnit(l_unit)
 				set i = i +1
 			endloop
-			call DestroyEffect(AddSpecialEffect("", x, y ))
+			loop
+				exitwhen ii > 6
+					call DestroyEffect(AddSpecialEffect("war3mapImported\\GhostStrike.mdx", x + CosBJ( ii*60 ) * 450, y + SinBJ( ii*60 ) * 450))
+				set ii = ii +1
+			endloop
 			call DamageArea(Heiyan,x,y,600,GetDamageStr(Heiyan))
 		else
 			call PauseTimer(t)
