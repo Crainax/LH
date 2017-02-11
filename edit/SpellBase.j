@@ -1,8 +1,12 @@
 
 //! import "LHBase.j"
-/////! import "YDWEBase_common.j"
-/////! import "YDWEBase_hashtable.j"
-library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
+library_once SpellBase requires LHBase
+
+	globals
+		hashtable spellTable = InitHashtable()
+	endglobals
+
+//---------------------------------------------------------------------------------------------------
 
 	struct Attract 
 		private unit caster
@@ -85,6 +89,7 @@ library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
 		endmethod
 
 	endstruct
+//---------------------------------------------------------------------------------------------------
 
 	struct Missile 
 		private unit caster
@@ -167,9 +172,49 @@ library_once SpellBase requires LHBase//,YDWEBaseHashtable,YDWEBaseCommon
 			set .t = null
 		endmethod
 
-
-
-
 	endstruct
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    获取基础力量英雄技能伤害
+	*/
+	function GetDamageStr takes unit u returns real
+		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		local real damage = (( GetHeroStr(uH, true) * 1.80 ) + ( GetHeroAgi(uH, true) ) +  ( GetHeroInt(uH, true) * 1.20 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH = null
+		return damage
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否可以使用第2个技能了
+	*/
+	function IsSecondSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R006',GetOwningPlayer(hero)) == 1
+	endfunction
+
+	/*
+	    判断是否可以使用第3个技能了
+	*/
+	function IsThirdSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R007',GetOwningPlayer(hero)) == 1
+	endfunction
+
+	/*
+	    判断是否可以使用第4个技能了
+	*/
+	function IsFourthSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R008',GetOwningPlayer(hero)) == 1
+	endfunction
+
+	/*
+	    判断是否可以使用第5个技能了
+	*/
+	function IsFifthSpellOK takes unit hero returns boolean
+		return (GetPlayerTechCountSimple('R009',GetOwningPlayer(hero)) == 1) and (GetPlayerTechCountSimple('R00A',GetOwningPlayer(hero)) == 1) and (GetPlayerTechCountSimple('R00B',GetOwningPlayer(hero)) == 1)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
 
 endlibrary
+
+ 

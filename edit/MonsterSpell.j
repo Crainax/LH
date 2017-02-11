@@ -8,15 +8,15 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 		/*
 		    手里剑技能伤害
 		*/
-		constant real DRAT_JUNENG = 20000000
+		constant real DRAT_JUNENG = 30000000
 		constant real DRAT_XIANLIAN = 10000000
 		integer level_juneng = 1
 	endglobals
 
 
-/*
-    杀死老牛回5%血.
-*/
+	/*
+	    杀死老牛回5%血.
+	*/
 	function FocusCow takes unit selected returns nothing
 		if(GetUnitAbilityLevel(selected,'A09W') >= 1)then
 			call SetUnitState(selected,UNIT_STATE_LIFE,GetUnitState(selected,UNIT_STATE_LIFE)+GetUnitState(selected,UNIT_STATE_MAX_LIFE)*0.05)
@@ -25,7 +25,6 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 
 
 //---------------------------------------------------------------------------------------------------
-	
 	/*
 	    宝石区怪物技能:千罚之光
 	*/

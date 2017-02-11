@@ -1,7 +1,10 @@
 
 //! import "YDWESetGuard.j"
 //! import "YDWETriggerEvent.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent
+//! import "YDWETimerSystem.j"
+//! import "YDWEBase_common.j"
+//! import "YDWEBase_hashtable.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem
 
 	globals
 		
@@ -17,6 +20,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent
         unit gg_unit_Npld_0253 
         //英雄
         unit array udg_H
+        //技能伤害
+        real array udg_I_Jinengjiacheng
 	endglobals
 
 	private function InitTest takes nothing returns nothing
