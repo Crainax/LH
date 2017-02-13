@@ -184,6 +184,25 @@ library_once SpellBase requires LHBase
 		set uH = null
 		return damage
 	endfunction
+	/*
+	    获取基础敏捷英雄技能伤害
+	*/
+	function GetDamageAgi takes unit u returns real
+		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		local real damage = (( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) *1.80 ) +  ( GetHeroInt(uH, true) * 1.20 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH = null
+		return damage
+	endfunction
+
+	/*
+	    获取基础智力英雄技能伤害
+	*/
+	function GetDamageInt takes unit u returns real
+		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		local real damage = (( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) ) +  ( GetHeroInt(uH, true) * 2.0 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH = null
+		return damage
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是否可以使用第2个技能了

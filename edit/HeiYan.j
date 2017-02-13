@@ -47,7 +47,7 @@ library_once Heiyan requires SpellBase,Printer
 		/*
 		    祭品单位组
 		*/
-		private group GSacri = CreateGroup()
+		private group GSacri
 
 		/*
 		    祭品攻击伤害，每3秒刷新一次数值
@@ -464,6 +464,7 @@ library_once Heiyan requires SpellBase,Printer
 	*/
 	function InitHeiyan takes unit u returns nothing
 		local timer t = CreateTimer()		
+		set GSacri = CreateGroup()
 		set Heiyan = u
 		//主英雄技能
 		set TSpellHeiyan1 = CreateTrigger()

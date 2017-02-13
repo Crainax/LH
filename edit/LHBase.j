@@ -1,7 +1,7 @@
 
 
-/////! import "Test.j"
-library_once LHBase //requires Test
+//! import "Test.j"
+library_once LHBase requires Test
 
 	/*
 	    仙器使用技能进行禁止丢弃判断
