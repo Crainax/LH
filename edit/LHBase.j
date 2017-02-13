@@ -1,7 +1,11 @@
 
 
-//! import "Test.j"
-library_once LHBase requires Test
+/////! import "Test.j"
+library_once LHBase //requires Test
+
+    globals
+        unit learnSkillHero
+    endglobals
 
 	/*
 	    仙器使用技能进行禁止丢弃判断

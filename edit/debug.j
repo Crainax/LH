@@ -1,5 +1,6 @@
 
-/////! import "Boss.j"
+//! import "LHBase.j"
+//! import "Boss.j"
 /*
     测试指令:
 	test damage 关闭/开启伤害显示
@@ -13,21 +14,12 @@
 	test vu 基地不无敌
 
 */
-library_once Debug initializer Initdebug requires YDWETriggerEvent,Boss
+library_once Debug initializer Initdebug requires LHBase,Boss
 
 	globals
-		/*
-		    需要注释的代码
-		*/
-		/*integer udg_Bo
-		unit array udg_H
-		integer array udg_Paihangbang
-		unit gg_unit_haro_0030*/
-
 		boolean debug_show_damage = false
 		boolean debug_show_attr = false
 	endglobals
-
 
 	/*
 		增加英雄属性

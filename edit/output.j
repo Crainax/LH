@@ -37,23 +37,23 @@ integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
 		
-		//主基地的区域
+	//主基地的区域
 rect gg_rct________1
-		//难度等级，最高7
+	//难度等级，最高7
 integer udg_Nandu_JJJ
-		//冥王
+	//冥王
 unit gg_unit_Nkjx_0241
         //左
 unit gg_unit_Uear_0242
@@ -63,21 +63,41 @@ unit gg_unit_Npld_0253
 unit array udg_H
         //技能伤害
 real array udg_I_Jinengjiacheng
+        //增益
+real array udg_I_Xianglian
+        //触发,属性刷新
+trigger gg_trg_D7
+        //波数
+integer udg_Bo
+        //排行榜
+integer array udg_Paihangbang
+        //基地
+unit gg_unit_haro_0030
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
+unit learnSkillHero
 //endglobals from LHBase
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
 hashtable spellTable= InitHashtable()
 //endglobals from SpellBase
-//globals from Yanmie:
-constant boolean LIBRARY_Yanmie=true
-unit yanmie
+//globals from Boss:
+constant boolean LIBRARY_Boss=true
+		
+hashtable bossTable
+trigger Boss__TSpellZuo
+trigger Boss__TSpellYou
+		
+timer Boss__TiMissile
 
-group Yanmie___GShadow
-constant integer ICountShadowMAX= 5
-//endglobals from Yanmie
+
+//endglobals from Boss
+//globals from Debug:
+constant boolean LIBRARY_Debug=true
+boolean debug_show_damage= false
+boolean debug_show_attr= false
+//endglobals from Debug
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -1129,7 +1149,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1220,13 +1240,14 @@ endfunction
 //library Test:
 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
 
 //library Test ends
 //library LHBase:
+
 
 	
  function IsXianSpell takes integer spell returns boolean
@@ -1527,45 +1548,388 @@ endfunction
 
 
 //library SpellBase ends
-//library Yanmie:
+//library Boss:
 
+//---------------------------------------------------------------------------------------------------
+
+ function CycleFangKa takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit u= LoadUnitHandle(bossTable, id, 1)
+  local real x2= GetUnitX(u)
+  local real y2= GetUnitY(u)
+  local real x1
+  local real y1
+  local real distance
+  local real facing
+  local integer count= 0
+  local group l_group= CreateGroup()
+  local unit l_unit
+		if ( IsUnitAliveBJ(u) ) then
+			call GroupEnumUnitsInRange(l_group, x2, y2, 900, null)
+			loop
+			    set l_unit=FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+			    if ( ( IsUnitAliveBJ(l_unit) == true ) and ( GetUnitAbilityLevel(l_unit, 'Avul') < 1 ) and ( GetUnitPointValue(l_unit) != 123 ) and ( IsUnitEnemy(l_unit, Player(11)) == true ) ) then
+			    	set count=count + 1
+			    endif
+			endloop
+			if ( count == 0 ) then
+		    	set x1=GetRectCenterX(gg_rct________1)
+		    	set y1=GetRectCenterY(gg_rct________1)
+		    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
+		    	if ( distance > 600 ) then
+			    	set facing=Atan2BJ(y1 - y2, x1 - x2)
+			    	call SetUnitX(u, (RMinBJ(RMaxBJ(((x2 + CosBJ(facing) * 40)*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+			    	call SetUnitY(u, (RMinBJ(RMaxBJ(((y2 + SinBJ(facing) * 40)*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+		    	endif
+			endif
+		else
+			call PauseTimer(t)
+			call DestroyTimer(t)
+	    	call FlushChildHashtable(bossTable, id)
+		endif
+		set t=null
+		set u=null
+		call DestroyGroup(l_group)
+		set l_group=null
+		set l_unit=null
+	endfunction
+	
+ function StartFangKa takes unit fangka returns nothing
+  local timer t=CreateTimer()
+	    call SaveUnitHandle(bossTable, GetHandleId(t), 1, fangka)
+		call TimerStart(t, 0.1, true, function CycleFangKa)
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function TSpellZuoCon takes nothing returns boolean
+	    return ( ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
+	endfunction
+
+ function TSpellZuoAct takes nothing returns nothing
+	    call DisableTrigger(GetTriggeringTrigger())
+ 		call SimulateSpell(GetAttackedUnitBJ() , GetAttacker() , 'AB00' , udg_Nandu_JJJ , 5 , "magicleash" , false , false , true)
+	    call CreateSpellTextTag("死亡枷锁！" , gg_unit_Uear_0242 , 100 , 75 , 0 , 2)
+	    call PolledWait(4.00)
+	    call EnableTrigger(GetTriggeringTrigger())
+	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function BoltShadow takes real x,real y returns nothing
+ function TSpellYouCon takes nothing returns boolean
+	    return ( ( IsUnitAliveBJ(GetAttackedUnitBJ()) == true ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetRandomInt(1, 10) == 1 ) )
+	endfunction
+
+ function TSpellYouAct takes nothing returns nothing
+	    call DisableTrigger(GetTriggeringTrigger())
+ 		call SimulateSpell(GetAttackedUnitBJ() , GetAttacker() , 'ANc2' , udg_Nandu_JJJ , 5 , "clusterrockets" , true , false , false)
+	    call CreateSpellTextTag("异界冰封！" , gg_unit_Npld_0253 , 25 , 100 , 25 , 2)
+	    call PolledWait(4.00)
+	    call EnableTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function startMissile takes nothing returns nothing
+		call s__Missile_create(gg_unit_Nkjx_0241 , 'hs01' , "Units\\Demon\\Infernal\\InfernalBirth.mdl" , 300 , 1800 , 3 , 1 , 1000000000)
+	endfunction
+
+ function refreshMissile takes nothing returns nothing
+  local real interval
+  local timer t= GetExpiredTimer()
+		if ( IsUnitAliveBJ(gg_unit_Nkjx_0241) == true ) then
+			set interval=( GetUnitState(gg_unit_Nkjx_0241, UNIT_STATE_LIFE) / GetUnitState(gg_unit_Nkjx_0241, UNIT_STATE_MAX_LIFE) * 0.3 ) + 0.3
+			call TimerStart(Boss__TiMissile, interval, true, function startMissile)
+		else
+			call PauseTimer(t)
+			call DestroyTimer(t)
+			call PauseTimer(Boss__TiMissile)
+			call DestroyTimer(Boss__TiMissile)
+		endif
+		set t=null
+	endfunction
+
+ function starthaha takes nothing returns nothing
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function InitMingwang takes nothing returns nothing
+  local timer refresh= CreateTimer()
+		
+        local integer attract= s__Attract_create(gg_unit_Nkjx_0241 , 1800 , 0.05 , 10)
+        call s__Attract_start(attract)
+
+        //左右护法的技能
+	    set Boss__TSpellZuo=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Boss__TSpellZuo, gg_unit_Uear_0242, EVENT_UNIT_ATTACKED)
+	    call TriggerAddCondition(Boss__TSpellZuo, Condition(function TSpellZuoCon))
+	    call TriggerAddAction(Boss__TSpellZuo, function TSpellZuoAct)
+
+	    set Boss__TSpellYou=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Boss__TSpellYou, gg_unit_Npld_0253, EVENT_UNIT_ATTACKED)
+	    call TriggerAddCondition(Boss__TSpellYou, Condition(function TSpellYouCon))
+	    call TriggerAddAction(Boss__TSpellYou, function TSpellYouAct)
+
+	    //冥刹的死亡导弹
+		set Boss__TiMissile=CreateTimer()
+		//开始疯狂导弹
+		call TimerStart(Boss__TiMissile, 0.6, true, function startMissile)
+		call TimerStart(refresh, 3, true, function refreshMissile)
+		set refresh=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function DestroyMingwang takes nothing returns nothing
+		// body...
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+ function Boss__InitBoss takes nothing returns nothing
+		// body...
+		set bossTable=InitHashtable()
+	endfunction
+
+//library Boss ends
+//library Debug:
+
+
+	
+ function Debug__addHeroAttr takes integer attr,integer level returns nothing
+		call SetHeroInt(udg_H[1], attr, false)
+		call SetHeroAgi(udg_H[1], attr, false)
+		call SetHeroStr(udg_H[1], attr, false)
+		call SetHeroLevel(udg_H[1], level, true)
+	endfunction
+
+	
+ function Debug__debugDamage takes nothing returns nothing
+		if ( debug_show_damage ) then
+			call BJDebugMsg(GetUnitName(GetEventDamageSource()) + "对" + GetUnitName(GetTriggerUnit()) + "造成了" + R2S(GetEventDamage()) + "伤害.")
+		endif
+	endfunction
+
+	
+ function Debug__debugChat takes nothing returns nothing
+		//关闭伤害显示
+  local string chat= GetEventPlayerChatString()
+  local integer bo
   local unit u
-		if ( CountUnitsInGroup(Yanmie___GShadow) >= ICountShadowMAX ) then
+		if ( chat == "test damage" ) then
+			set debug_show_damage=not ( debug_show_damage )
+			call BJDebugMsg("成功关闭伤害显示")
 			return
 		endif
-		set u=CreateUnit(GetOwningPlayer(yanmie), 'h010', x, y, GetRandomReal(0, 360))
-	    call CreateSpellTextTag("影" , u , 100 , 100 , 0 , 2)
-		call UnitApplyTimedLifeBJ(4.00, 'BHwe', u)
-		call GroupAddUnit(Yanmie___GShadow, u)
-		set u=null
+
+		if ( chat == "test tech" ) then
+			call SetPlayerTechResearchedSwap('R007', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R00A', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R00B', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R008', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R009', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R006', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R00D', 1, Player(0))
+			call BJDebugMsg("科技研究完成")
+			return
+		endif
+
+		if ( chat == "test part1" ) then
+			call Debug__addHeroAttr(20000 , 80)
+
+			//鬼3
+			call UnitAddItemByIdSwapped('lgdh', udg_H[1])
+			//星3
+			call UnitAddItemByIdSwapped('ram1', udg_H[1])
+			//冰封翅膀
+			call UnitAddItemByIdSwapped('I041', udg_H[1])
+			//法魂3
+			call UnitAddItemByIdSwapped('phea', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人3
+			call UnitAddItemByIdSwapped('oven', udg_H[1])
+
+			call BJDebugMsg("测试阶段1")
+			return
+		endif
+
+		if ( chat == "test part0" ) then
+			
+			call Debug__addHeroAttr(10000 , 60)
+
+			//鬼1
+			call UnitAddItemByIdSwapped('rat9', udg_H[1])
+			//星0
+			call UnitAddItemByIdSwapped('I03Y', udg_H[1])
+			//五彩翅膀
+			call UnitAddItemByIdSwapped('I045', udg_H[1])
+			//法魂2
+			call UnitAddItemByIdSwapped('rin1', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人0
+			call UnitAddItemByIdSwapped('rej4', udg_H[1])
+
+			call BJDebugMsg("测试阶段0")
+
+			return
+		endif
+
+		if ( chat == "test part2" ) then
+			
+			call Debug__addHeroAttr(40000 , 120)
+
+			//鬼5
+			call UnitAddItemByIdSwapped('bgst', udg_H[1])
+			//星MAX
+			call UnitAddItemByIdSwapped('olig', udg_H[1])
+			//妖皇翅膀
+			call UnitAddItemByIdSwapped('I04R', udg_H[1])
+			//法魂5
+			call UnitAddItemByIdSwapped('shas', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人6
+			call UnitAddItemByIdSwapped('oli2', udg_H[1])
+
+			call BJDebugMsg("测试阶段2")
+
+			return
+		endif
+
+		if ( chat == "test part3" ) then
+			
+			call Debug__addHeroAttr(80000 , 140)
+
+			//鬼8
+			call UnitAddItemByIdSwapped('rag1', udg_H[1])
+			//雷星
+			call UnitAddItemByIdSwapped('ccmd', udg_H[1])
+			//5翅膀
+			call UnitAddItemByIdSwapped('I05B', udg_H[1])
+			//法魂5
+			call UnitAddItemByIdSwapped('shas', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人7
+			call UnitAddItemByIdSwapped('shdt', udg_H[1])
+
+			call BJDebugMsg("测试阶段3")
+
+			return
+		endif
+
+		if ( chat == "test part4" ) then
+			
+			call Debug__addHeroAttr(150000 , 170)
+
+			//超鬼
+			call UnitAddItemByIdSwapped('lhst', udg_H[1])
+			//超神
+			call UnitAddItemByIdSwapped('tlum', udg_H[1])
+			//超妖
+			call UnitAddItemByIdSwapped('I05F', udg_H[1])
+			//超仙
+			call UnitAddItemByIdSwapped('rst1', udg_H[1])
+			//超圣
+			call UnitAddItemByIdSwapped('ssil', udg_H[1])
+			//超人
+			call UnitAddItemByIdSwapped('tfar', udg_H[1])
+
+			call BJDebugMsg("测试阶段4,神装")
+
+			return
+		endif
+
+		if ( chat == "test fangka" ) then
+			set u=CreateUnit(Player(0), 'hpea', 5790.6, 4445.8, 0)
+			call StartFangKa(u)
+			set u=null
+			return
+		endif
+
+		if ( chat == "test credit" ) then
+			set udg_Paihangbang[1]=50000
+			call BJDebugMsg("增加了积分~!")
+			return
+		endif
+
+		//对自己造成伤害
+		if ( chat == "test kill" ) then
+		//gg_unit_Otch_0001   gg_unit_nubr_0093
+			call UnitDamageTargetBJ(CreateUnit(Player(0), 'hpea', 0., 0., 0.), udg_H[1], ( 1.00 * 10000000.00 ), ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC)
+			return
+		endif
+
+		//关闭选中显示属性
+		if ( chat == "test select" ) then
+			set debug_show_attr=not ( debug_show_attr )
+			return
+		endif
+
+
+		//基地无敌
+		if ( chat == "test invu" ) then
+		call SetUnitInvulnerable(gg_unit_haro_0030, true)
+			return
+		endif
+
+		//基地不无敌
+		if ( chat == "test vu" ) then
+		call SetUnitInvulnerable(gg_unit_haro_0030, false)
+			return
+		endif
+
+		//调整当前波数
+		set bo=S2I(SubStringBJ(chat, StringLength(chat) - 1, StringLength(chat)))
+		if ( bo < 30 ) then
+			set udg_Bo=bo
+			call BJDebugMsg("当前波数:" + "=" + I2S(udg_Bo))
+			return
+		endif
+
 	endfunction
-//---------------------------------------------------------------------------------------------------
+
 	
- function SimulateDamageYanmie takes nothing returns nothing
-  local real damage
-		if ( GetUnitTypeId(GetEventDamageSource()) == 'h010' ) then
-			set damage=GetDamageAgi(yanmie) * 0.5
-			call UnitDamageTarget(yanmie, GetTriggerUnit(), damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+ function Debug__peekAttr takes nothing returns nothing
+		if ( debug_show_attr ) then
+			call BJDebugMsg("选中单位生命:" + R2S(GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit())))
 		endif
 	endfunction
-//---------------------------------------------------------------------------------------------------
 
-	
- function Yanmie___InitYanmie takes nothing returns nothing
-		set Yanmie___GShadow=CreateGroup()
+ function Debug__initDebugTri takes nothing returns nothing
+		//显示伤害值
+  local trigger t= CreateTrigger()
+		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+		call TriggerAddAction(t, function Debug__debugDamage)
+
+		//聊天打开开关进行测试
+		set t=CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t, Player(0), "test", false)
+		call TriggerAddAction(t, function Debug__debugChat)
+
+		//选择人物看数据
+		set t=CreateTrigger()
+		call TriggerRegisterPlayerSelectionEventBJ(t, Player(0), true)
+		call TriggerAddAction(t, function Debug__peekAttr)
+		set t=null
+
+		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_GOLD, 300000)
+		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_LUMBER, 1000000)
+	endfunction
+
+ function Debug__Initdebug takes nothing returns nothing
+		
 	endfunction
 
 
-//library Yanmie ends
+//library Debug ends
 
 
-// BEGIN IMPORT OF Yanmie.j
-
-// BEGIN IMPORT OF SpellBase.j
+// BEGIN IMPORT OF Debug.j
 
 // BEGIN IMPORT OF LHBase.j
 
@@ -1609,16 +1973,25 @@ endfunction
 // END IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF Test.j
 // END IMPORT OF LHBase.j
+// BEGIN IMPORT OF Boss.j
+
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
+// BEGIN IMPORT OF SpellBase.j
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
 
  
 // END IMPORT OF SpellBase.j
+// END IMPORT OF Boss.j
 
-// END IMPORT OF Yanmie.j
+// END IMPORT OF Debug.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs3458951694")
-call ExecuteFunc("Test___InitTest")
-call ExecuteFunc("Yanmie___InitYanmie")
+call ExecuteFunc("jasshelper__initstructs367349953")
+call ExecuteFunc("Test__InitTest")
+call ExecuteFunc("Boss__InitBoss")
+call ExecuteFunc("Debug__Initdebug")
 
 endfunction
 
@@ -1654,7 +2027,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs3458951694 takes nothing returns nothing
+function jasshelper__initstructs367349953 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()

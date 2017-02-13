@@ -1,10 +1,11 @@
 
 //! import "SpellBase.j"
 //! import "Printer.j"
+//! import "Attr.j"
 /*
     英雄黑阎的技能
 */
-library_once Heiyan requires SpellBase,Printer
+library_once Heiyan requires SpellBase,Printer,Attr
 	
 	globals
 		/*
@@ -102,7 +103,7 @@ library_once Heiyan requires SpellBase,Printer
 			else
 				set u =  CreateUnit(GetOwningPlayer(Heiyan),'h012' ,x,y,0)
 			endif
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", tx, ty ))
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
 		    call UnitApplyTimedLifeBJ( lifeTime, 'BHwe' , u )
 	    	call GroupAddUnit(GSacri,u)
 			set ISacriCount = ISacriCount + 1
@@ -157,7 +158,7 @@ library_once Heiyan requires SpellBase,Printer
 	
 	private function TDamageSacriAct takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		if (IsEnemy(GetTriggerUnit(),GetEventDamageSource())) then
+		if (IsEnemy(GetTriggerUnit(),Heiyan)) then
 			if (IsUnitInGroup(GetEventDamageSource(),GSacri) == true) then
 				call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h011') then
@@ -179,12 +180,12 @@ library_once Heiyan requires SpellBase,Printer
 		set BIsMojie = not (BIsMojie)
 		if(BIsMojie == true) then
 		    call PrintSpellContent(GetOwningPlayer(u),GetAbilityName(GetSpellAbilityId()),"当前祭品控制权为魔界.")
-		    call UnitRemoveAbility(u,'yes1')
-		    call UnitAddAbility(u,'yes2')
+		    call UnitRemoveAbility(u,'A0BI')
+		    call UnitAddAbility(u,'A0A3')
 		else
 		    call PrintSpellContent(GetOwningPlayer(u),GetAbilityName(GetSpellAbilityId()),"当前祭品控制权为自己.")
-		    call UnitRemoveAbility(u,'yes2')
-		    call UnitAddAbility(u,'yes1')
+		    call UnitRemoveAbility(u,'A0A3')
+		    call UnitAddAbility(u,'A0BI')
 		endif
 		set u = null
 	endfunction
@@ -254,7 +255,7 @@ library_once Heiyan requires SpellBase,Printer
     
     private function TSpellHeiyan2Act takes nothing returns nothing
     	call DisableTrigger(GetTriggeringTrigger())
-		call QianGuiXie(Heiyan,GetAttackedUnitBJ(),0.4,'yanl')
+		call QianGuiXie(Heiyan,GetAttackedUnitBJ(),0.4,'A0C8')
 		call PolledWait(5)
     	call EnableTrigger(GetTriggeringTrigger())
     endfunction
@@ -319,7 +320,7 @@ library_once Heiyan requires SpellBase,Printer
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (IsEnemy(l_unit,u) == true) then
+		    if (IsEnemy(l_unit,Heiyan) == true) then
 		    	call UnitDamageTarget( u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 		    endif
 		endloop
@@ -406,22 +407,24 @@ library_once Heiyan requires SpellBase,Printer
 			endloop
 			loop
 				exitwhen ii > 6
-					call DestroyEffect(AddSpecialEffect("war3mapImported\\GhostStrike.mdx", x + CosBJ( ii*60 ) * 450, y + SinBJ( ii*60 ) * 450))
+					call DestroyEffect(AddSpecialEffect("war3mapImported\\GhostStrike.mdx", x + CosBJ( ii*60 ) * GetRandomInt(100,500), y + SinBJ( ii*60 ) * GetRandomInt(100,500)))
 				set ii = ii +1
 			endloop
 			call DamageArea(Heiyan,x,y,600,GetDamageStr(Heiyan))
 		else
+			call RemoveUnit(UZangJiuTian)
 			call PauseTimer(t)
 			call DestroyTimer(t)
 			call FlushChildHashtable(spellTable,id)
 		endif
+		set UZangJiuTian = null
 		set l_unit =null
 		set t = null 
 	endfunction
 
 	private function ZangJiuTian takes nothing returns nothing
 		local timer t = CreateTimer()
-		set UZangJiuTian = CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()),'hh05',GetSpellTargetX(),GetSpellTargetY(),0)
+		set UZangJiuTian = CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()),'hh05',GetUnitX(GetSpellAbilityUnit()),GetUnitY(GetSpellAbilityUnit()),0)
 	    call PrintSpell(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()),GetDamageStr(Heiyan))
 		call TimerStart(t,1,true,function ZangJiuTianTimer)
 		set t = null
@@ -435,15 +438,17 @@ library_once Heiyan requires SpellBase,Printer
 		local integer i = 1
 		if (GetSpellAbilityId() == 'A0C7') then
 			call QianGuiXie(Heiyan,GetSpellTargetUnit(),1,GetSpellAbilityId())
-		elseif (GetSpellAbilityId() == 'yes1' or GetSpellAbilityId() == 'yes2') then
+		elseif (GetSpellAbilityId() == 'A0A3' or GetSpellAbilityId() == 'A0BI') then
 			call YeShenJi()
 			//不召唤祭品
 			return
-		elseif (GetSpellAbilityId() == 'yanl') then 
+		elseif (GetSpellAbilityId() == 'A0C8') then 
 			call YanLuoDian()
-		elseif (GetSpellAbilityId() == 'qilu') then 
+		elseif (GetSpellAbilityId() == 'A0C9') then 
+			call SheHunJue()
+		elseif (GetSpellAbilityId() == 'A0D2') then 
 			call QiLuoCha()
-		elseif (GetSpellAbilityId() == 'zang') then 
+		elseif (GetSpellAbilityId() == 'A0DD') then 
 			call ZangJiuTian()
 		endif
 
@@ -457,6 +462,59 @@ library_once Heiyan requires SpellBase,Printer
 			set i = i +1
 		endloop
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    英雄学习技能
+	*/
+
+	//按照12345来判断
+	function LearnSkillHeiyanI takes unit learner,integer whichSpell returns nothing
+		local integer i
+		call BJDebugMsg("haha")
+		if (learner == Heiyan) then
+			if(whichSpell == 1) then
+				set ISacriMaxCount = ISacriMaxCount + 6
+			elseif (whichSpell == 2 and IsSecondSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C8') == 1) then
+				//技能2初始化
+				set ISacriMaxCount = ISacriMaxCount + 6
+			elseif (whichSpell == 3 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
+				//技能3初始化
+				set ISacriMaxCount = ISacriMaxCount + 6
+			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
+				//技能4初始化
+				set ISacriMaxCount = ISacriMaxCount + 6
+				set i = 1
+				//增加上限
+				loop
+					exitwhen i > 6
+					call AddHPPercent(i,0.5)
+					set i = i +1
+				endloop
+			elseif (whichSpell == 5 and IsFifthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0DD') == 1) then
+				//技能5初始化
+				set ISacriMaxCount = ISacriMaxCount + 6
+			endif
+			call BJDebugMsg("|cFFFF66CC【消息】|r你的祭品上限为"+I2S(ISacriMaxCount)+"个.")
+		endif
+	endfunction
+
+	function LearnSkillHeiyan takes unit learner,integer learnSpellID returns nothing
+		if (learner == Heiyan) then
+			if (learnSpellID == 'A0C7') then
+				call LearnSkillHeiyanI(learner,1)
+			elseif (learnSpellID == 'A0C8') then
+				call LearnSkillHeiyanI(learner,2)
+			elseif (learnSpellID == 'A0C9') then
+				call LearnSkillHeiyanI(learner,3)
+			elseif (learnSpellID == 'A0D2') then
+				call LearnSkillHeiyanI(learner,4)
+			elseif (learnSpellID == 'A0DD') then
+				call LearnSkillHeiyanI(learner,5)
+			endif
+		endif
+	endfunction
+
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
