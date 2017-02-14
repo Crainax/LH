@@ -153,21 +153,32 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	    祭品的攻击伤害
 	*/
 	private function TDamageSacriCon takes nothing returns boolean
-		return ((GetEventDamage() > 0) and (IsUnitIllusion(GetEventDamageSource()) == false) and (IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'h011'))
+		return (IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'h011')
 	endfunction
 	
-	private function TDamageSacriAct takes nothing returns nothing
-		call DisableTrigger(GetTriggeringTrigger())
-		if (IsEnemy(GetTriggerUnit(),Heiyan)) then
-			if (IsUnitInGroup(GetEventDamageSource(),GSacri) == true) then
-				call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h011') then
-				call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri*4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+	function SimulateDamageHeiyan takes unit u returns boolean
+		//祭品的伤害
+		if ((IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'h011')) then
+			call DisableTrigger(GetTriggeringTrigger())
+			if (IsEnemy(GetTriggerUnit(),Heiyan)) then
+				if (IsUnitInGroup(GetEventDamageSource(),GSacri) == true) then
+					call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				elseif (GetUnitTypeId(GetEventDamageSource()) == 'h011') then
+					call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri*4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				endif
+			else
+				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.02)
 			endif
-		else
-			call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.01)
+			call EnableTrigger(GetTriggeringTrigger())
+			return true
 		endif
-		call EnableTrigger(GetTriggeringTrigger())
+		//泣罗刹后续伤害
+		if (GetUnitTypeId(GetEventDamageSource()) == 'hh04') then
+			call DisableTrigger(GetTriggeringTrigger())
+			call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri*30, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger(GetTriggeringTrigger())
+		endif
+		return false
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -250,7 +261,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	    黑阎技能2:阎罗殿攻击效果
 	*/
     private function TSpellHeiyan2Con takes nothing returns boolean
-    	return GetAttacker() == Heiyan and IsSecondSpellOK(Heiyan) == true and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 250 and ISacriCount >= 5
+    	return GetAttacker() == Heiyan and IsSecondSpellOK(Heiyan) == true and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 250 and ISacriCount >= 5 and GetUnitAbilityLevel(Heiyan,'A0C8') == 1
     endfunction
     
     private function TSpellHeiyan2Act takes nothing returns nothing
@@ -294,14 +305,14 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	*/
 	private function SheHunJue takes nothing returns nothing
 		call CreateSuperSacrifice(GetSpellTargetX(),GetSpellTargetY())
-		call PrintSpellName(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()))
+		call PrintSpell(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()),DamageSacri)
 	endfunction
 
 	/*
 	    黑阎技能3：赦魂诀刷新效果
 	*/
 	private function SheHunJueFlash takes nothing returns nothing
-		if (IsUnitAliveBJ(Heiyan) == true and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 400 and IsThirdSpellOK(Heiyan) == true) then
+		if (IsUnitAliveBJ(Heiyan) == true and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 400 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
 			call CreateSacrifice(Heiyan)
 		endif
 	endfunction
@@ -310,52 +321,27 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	    黑阎技能4：祭品死亡计数，还有爆炸效果
 	*/
 
-	private function TSpellHeiyan4ActBoom takes nothing returns nothing
-		local group l_group = CreateGroup()
-		local real damage = GetDamageStr(Heiyan) * 0.1
-		local unit u = GetDyingUnit()
-		local unit l_unit
-		call GroupEnumUnitsInRange(l_group, GetUnitX(u), GetUnitY(u), 400, null)
-		loop
-		    set l_unit = FirstOfGroup(l_group)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(l_group, l_unit)
-		    if (IsEnemy(l_unit,Heiyan) == true) then
-		    	call UnitDamageTarget( u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-		    endif
-		endloop
+	private function SimulateDeathHeiyanBoom takes unit u returns nothing
 	    call CreateUnitEffect(GetOwningPlayer(u),'hh04',GetUnitX(u),GetUnitY(u),0)
 	    call CreateSpellTextTag("爆",u,100,0,0,2)
-		call DestroyGroup(l_group)
-		set l_group = null
-		set l_unit =null
 	endfunction
+	/*
+	    祭品死亡事件
+	*/
+	function SimulateDeathHeiyan takes unit u returns nothing
+		if not(IsUnitInGroup(u,GSacri) == true) then
+			return
+		endif
 
-	private function TSpellHeiyan4Con takes nothing returns boolean
-		return IsUnitInGroup(GetDyingUnit(),GSacri) == true
-	endfunction
-
-	private function TSpellHeiyan4Act takes nothing returns nothing
-		local group l_group = CreateGroup()
-		local unit l_unit
 		call GroupRemoveUnit(GSacri,GetDyingUnit())
 		set ISacriCount = ISacriCount - 1
 		call BJDebugMsg(I2S(ISacriCount)+"个")
-		call GroupAddGroup(GSacri,l_group)
-		loop
-		    set l_unit = FirstOfGroup(l_group)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(l_group, l_unit)
-		    call SetUnitLifePercentBJ(l_unit,100)
-		endloop
-		call DestroyGroup(l_group)
-		set l_group = null
-		set l_unit =null
-		if(IsFourthSpellOK(Heiyan) == true) then
-			call TSpellHeiyan4ActBoom()
+		if(IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
+			call SimulateDeathHeiyanBoom(u)
 		endif
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    黑阎技能4：泣罗刹暂时乘3的祭品数
@@ -365,6 +351,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		call PrintSpellName(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()))
 		call YDWETimerDestroyEffect(60,AddSpecialEffectTargetUnitBJ("chest",Heiyan,"war3mapImported\\doomtargetpurpl.mdx"))
 		call PolledWait(60)
+		call PrintSpellContent(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()),"加速结束。")
 		set IsDouble = false
 	endfunction
 
@@ -372,15 +359,16 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	    黑阎技能4：致死伤害无效化
 	*/
 	private function TSpellHeiyan41Con takes nothing returns boolean
-		return (GetEventDamage() > GetUnitState(Heiyan,UNIT_STATE_LIFE) and (ISacriCount >= 1) and (IsFourthSpellOK(Heiyan) == true))
+		return (GetEventDamage() > GetUnitState(Heiyan,UNIT_STATE_LIFE) and (ISacriCount >= 1) and (IsFourthSpellOK(Heiyan) == true) and (GetUnitAbilityLevel(Heiyan,'A0D2') == 1))
 	endfunction
 	
 	private function TSpellHeiyan41Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call SetUnitInvulnerable(Heiyan,true)
+		call KillUnit(FirstOfGroup(GSacri))
 		call SetUnitLifeBJ(Heiyan,GetUnitState(Heiyan,UNIT_STATE_LIFE) + GetUnitState(Heiyan,UNIT_STATE_MAX_LIFE) * 0.05)
-		call PolledWait(0.1)
-		call SetUnitInvulnerable(Heiyan,false)
+		call ImmuteDamageInterval(Heiyan,0.1)
+		//call PolledWait(0.1)
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
@@ -545,20 +533,10 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		call TimerStart(t,3,true,function SheHunJueFlash)
 
 		//祭品伤害的刷新
+	    set t = CreateTimer()
 		call TimerStart(t,3,true,function SacriDamageFlash)
 		set t = null
 
-		//死亡事件与英雄第四个技能爆炸
-	    set TSpellHeiyan40 = CreateTrigger()
-		call TriggerRegisterAnyUnitEventBJ(TSpellHeiyan40,EVENT_PLAYER_UNIT_DEATH)
-		call TriggerAddCondition(TSpellHeiyan40, Condition(function TSpellHeiyan4Con))
-		call TriggerAddAction(TSpellHeiyan40, function TSpellHeiyan4Act)
-
-		//祭品伤害事件
-	    set TDamageSacri = CreateTrigger()
-		call YDWESyStemAnyUnitDamagedRegistTrigger(TDamageSacri)
-		call TriggerAddCondition(TDamageSacri, Condition(function TDamageSacriCon))
-		call TriggerAddAction(TDamageSacri, function TDamageSacriAct)
 
 		//英雄第四个技能时的无敌
 	    set TSpellHeiyan41 = CreateTrigger()

@@ -1,7 +1,7 @@
 
 
-/////! import "Test.j"
-library_once LHBase //requires Test
+//! import "Test.j"
+library_once LHBase requires Test
 
     globals
         unit learnSkillHero

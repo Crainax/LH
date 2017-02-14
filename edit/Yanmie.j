@@ -3,7 +3,7 @@
 /*
     湮灭
 */
-library_once Yanmie initializer InitYanmie requires SpellBase 
+library_once Yanmie requires SpellBase 
 
 	globals
 		unit yanmie
@@ -18,6 +18,9 @@ library_once Yanmie initializer InitYanmie requires SpellBase
 	*/
 	function BoltShadow takes real x,real y returns nothing
 		local unit u
+		if not (IsFourthSpellOK(yanmie) == true and GetUnitAbilityLevel(yanmie,'AHab') == 1) then
+				return
+			endif	
 		if (CountUnitsInGroup(GShadow) >= ICountShadowMAX) then
 			return
 		endif
@@ -31,12 +34,24 @@ library_once Yanmie initializer InitYanmie requires SpellBase
 	/*
 	    马甲伤害
 	*/
-	function SimulateDamageYanmie takes nothing returns nothing
+
+	function SimulateDamageYanmie takes unit u returns boolean
 		local real damage
 		//雷神残影50%伤害
-		if (GetUnitTypeId(GetEventDamageSource()) == 'h010') then
-			set damage = GetDamageAgi(yanmie) * 0.5
+		if (GetUnitTypeId(u) == 'h010') then
+			set damage = GetDamageAgi(yanmie) * 0.25
 			call UnitDamageTarget( yanmie, GetTriggerUnit(), damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			return true
+		endif
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    马甲的死亡事件：移除单位组
+	*/
+	function SimulateDeathYanmie takes unit u returns nothing
+		if (IsUnitInGroup(u,GShadow) == true) then 
+			call GroupAddUnit(GShadow,u)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

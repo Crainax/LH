@@ -4,6 +4,7 @@ library_once SpellBase requires LHBase
 
 	globals
 		hashtable spellTable = InitHashtable()
+		key kUImmuteDamage
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -173,6 +174,37 @@ library_once SpellBase requires LHBase
 		endmethod
 
 	endstruct
+
+	/*
+	    使单位免疫某次伤害。
+	*/
+	private function ImmuteDamageTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,kUImmuteDamage)
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		call FlushChildHashtable(spellTable,id)
+		call SetUnitInvulnerable(u,false)
+		set u = null
+		set t = null 
+	endfunction
+
+	function ImmuteDamageInterval takes unit u,real time returns nothing
+		local timer t = CreateTimer()
+		call SetUnitInvulnerable(u,true)
+		call SaveUnitHandle(spellTable,GetHandleId(t),kUImmuteDamage,u)
+		call TimerStart(t,time,false,function ImmuteDamageTimer)
+		set t = null
+	endfunction
+
+	function ImmuteDamage takes unit u returns nothing
+		call ImmuteDamageInterval(u,0)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
