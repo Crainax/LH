@@ -381,6 +381,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		local integer ii = 1
 		local unit l_unit
 		//如果祭品大于3个,则牺牲3个
+		call BJDebugMsg(I2S(CountUnitsInGroup(GSacri)))
 		if (CountUnitsInGroup(GSacri) >= 3) then
 			loop
 				exitwhen i > 3
@@ -530,7 +531,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	    set t = CreateTimer()
 		call TimerStart(t,3,true,function SacriDamageFlash)
 		set t = null
-
 
 		//英雄第四个技能时的无敌
 	    set TSpellHeiyan41 = CreateTrigger()
