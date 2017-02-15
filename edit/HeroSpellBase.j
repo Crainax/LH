@@ -20,7 +20,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan
 	endfunction
 
 	//通过判断学习第几个来判断
-	private function TriggerAllHeroLearn takes integer convertedPlayerID,integer which returns nothing
+	function TriggerAllHeroLearn takes integer convertedPlayerID,integer which returns nothing
 		set learnSkillHero = udg_H[convertedPlayerID]
 
 		//加入英雄内部判断

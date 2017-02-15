@@ -6,9 +6,9 @@
 library_once Yanmie requires SpellBase 
 
 	globals
-		unit yanmie
+		unit yanmie = null
 
-		private group GShadow
+		private group GShadow = null
 		constant integer ICountShadowMAX = 5
 	endglobals
 
@@ -39,7 +39,7 @@ library_once Yanmie requires SpellBase
 		local real damage
 		//雷神残影50%伤害
 		if (GetUnitTypeId(u) == 'h010') then
-			set damage = GetDamageAgi(yanmie) * 0.25
+			set damage = GetDamageAgi(yanmie) * 0.4
 			call UnitDamageTarget( yanmie, GetTriggerUnit(), damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
@@ -60,7 +60,7 @@ library_once Yanmie requires SpellBase
 	/*
 	    初始化湮灭
 	*/
-	private function InitYanmie takes unit u returns nothing
+	function InitYanmie takes unit u returns nothing
 		set yanmie = u
 		set GShadow = CreateGroup()
 	endfunction

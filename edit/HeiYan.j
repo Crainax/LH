@@ -24,7 +24,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    英雄黑阎
 		*/
-		unit Heiyan
+		unit Heiyan = null
 
 		/*
 		    祭品
@@ -37,7 +37,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    葬九天
 		*/
-		private unit UZangJiuTian
+		private unit UZangJiuTian = null
 
 		private boolean IsDouble = false
 		/*
@@ -48,7 +48,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    祭品单位组
 		*/
-		private group GSacri
+		private group GSacri = null
 
 		/*
 		    祭品攻击伤害，每3秒刷新一次数值
@@ -90,7 +90,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			exitwhen i > 3
 
 			if (IsFull() == true) then
-				call BJDebugMsg("祭品满了")
 				return
 			endif
 			set lifeTime = 4 + SquareRoot(GetHeroLevel(Heiyan)) / 2
@@ -211,7 +210,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 
 	private function TSpellHeiyan00Act takes nothing returns nothing
 		call CreateSacrifice(GetDyingUnit())
-		call BJDebugMsg("杀死创造祭品")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -323,7 +321,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 
 	private function SimulateDeathHeiyanBoom takes unit u returns nothing
 	    call CreateUnitEffect(GetOwningPlayer(u),'hh04',GetUnitX(u),GetUnitY(u),0)
-	    call CreateSpellTextTag("爆",u,100,0,0,2)
 	endfunction
 	/*
 	    祭品死亡事件
@@ -335,7 +332,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 
 		call GroupRemoveUnit(GSacri,GetDyingUnit())
 		set ISacriCount = ISacriCount - 1
-		call BJDebugMsg(I2S(ISacriCount)+"个")
 		if(IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
 			call SimulateDeathHeiyanBoom(u)
 		endif
@@ -458,7 +454,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	//按照12345来判断
 	function LearnSkillHeiyanI takes unit learner,integer whichSpell returns nothing
 		local integer i
-		call BJDebugMsg("haha")
 		if (learner == Heiyan) then
 			if(whichSpell == 1) then
 				set ISacriMaxCount = ISacriMaxCount + 6
@@ -482,7 +477,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				//技能5初始化
 				set ISacriMaxCount = ISacriMaxCount + 6
 			endif
-			call BJDebugMsg("|cFFFF66CC【消息】|r你的祭品上限为"+I2S(ISacriMaxCount)+"个.")
 		endif
 	endfunction
 

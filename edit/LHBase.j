@@ -1,7 +1,7 @@
 
 
-//! import "Test.j"
-library_once LHBase requires Test
+/////! import "Test.j"
+library_once LHBase //requires Test
 
     globals
         unit learnSkillHero
@@ -80,7 +80,7 @@ library_once LHBase requires Test
         创建马甲作为特效
     */
 	function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
-	    call UnitApplyTimedLifeBJ( 5, 'BHwe',CreateUnit(whichPlayer,unitType,x,y,facing))
+	    call UnitApplyTimedLifeBJ( 1.8, 'BHwe',CreateUnit(whichPlayer,unitType,x,y,facing))
     endfunction
 
     /*
