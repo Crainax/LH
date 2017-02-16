@@ -14,21 +14,23 @@ library_once Pet initializer InitPet requires LHBase
         创建宠物
     */
     private function CreatePet takes player owner,unit pet returns nothing
-        local unit u = CreateUnit(owner,GetUnitTypeId(pet),GetUnitX(pet),GetUnitY(pet),GetUnitFacing(pet))
+        local unit u = pet
 
         call PlaySoundBJ( gg_snd_GoodJob )
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(pet), GetUnitY(pet)) )
 
         //删除原有的宠物并清空缓存
-        call KillUnit( pet )
+        call SetUnitOwner( pet, owner, true )
+        /*call KillUnit( pet )
         call FlushChildHashtable(YDHT,GetHandleId(pet))
         call YDWEFlushMissionByInteger( YDWEH2I(pet) )
-        call RemoveUnit( pet )
+        call RemoveUnit( pet )*/
 
         //添加技能
         call UnitAddAbilityBJ( 'AInv', u )
         call UnitAddAbilityBJ( 'A06E', u )
         call UnitAddAbilityBJ( 'A06F', u )
+        call UnitAddAbilityBJ( 'A0P0', u )
         call UnitAddType( u, UNIT_TYPE_PEON )
         call SetUnitAcquireRange( u, 600.00 )
         call UnitAddAbilityBJ( 'A08M', u )
@@ -53,6 +55,12 @@ library_once Pet initializer InitPet requires LHBase
                     call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。" )
                     return
                 endif
+                if (GetUnitLevel(GetSpellTargetUnit()) > 50 and GetUnitLevel(GetSpellTargetUnit()) > GetHeroLevel(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])) then
+                    call PlaySoundBJ( gg_snd_Jidibeida )
+                    call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
+                    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的英雄需要"+I2S(GetUnitLevel(GetSpellTargetUnit()))+"级你才能捕捉该单位." )
+                    return
+                endif
                 if ((GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ))) then
                     call PlaySoundBJ( gg_snd_Jidibeida )
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
@@ -61,7 +69,7 @@ library_once Pet initializer InitPet requires LHBase
                 endif
                 if ((GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= $Limit$)) then
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
-                    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为"+I2S(GetUnitState(GetSpellTargetUnit(),UNIT_STATE_LIFE))+"超过了网的"+I2S($Limit$)+"HP捕捉上限!" )
+                    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为"+I2S(R2I(GetUnitState(GetSpellTargetUnit(),UNIT_STATE_LIFE)))+"超过了网的"+I2S($Limit$)+"HP捕捉上限!" )
                     call PlaySoundBJ( gg_snd_Jidibeida )
                     return
                 endif
@@ -120,22 +128,35 @@ library_once Pet initializer InitPet requires LHBase
     */
 
     private function TPetDeathCon takes nothing returns boolean
-        return (IsUnitIllusionBJ(GetDyingUnit()) == false and IsUnitInGroup(GetDyingUnit(),GPet[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))]) == true)
+        return (IsUnitIllusionBJ(GetDyingUnit()) == false and ((IsUnitInGroup(GetDyingUnit(),GPet[1]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[2]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[3]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[4]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[5]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[6]) == true)))
     endfunction
 
     private function TPetDeathAct takes nothing returns nothing
-        local integer index = GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))
+        local integer index = -1
         local integer i = 1
+        local integer ii = 1
 
-        call SetPlayerStateBJ( GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED, ( GetPlayerState(GetOwningPlayer(GetDyingUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) - 1 ) )
+        loop
+            exitwhen ii > 6
+            if (IsUnitInGroup(GetDyingUnit(),GPet[ii]) == true) then
+                set index = ii
+            endif
+            set ii = ii +1
+        endloop
+
+        if (index == -1) then
+            return
+        endif
+
+        call SetPlayerStateBJ( ConvertedPlayer(index), PLAYER_STATE_RESOURCE_FOOD_USED, ( GetPlayerState(ConvertedPlayer(index), PLAYER_STATE_RESOURCE_FOOD_USED) - 1 ) )
         //物品给仓库
         loop
             exitwhen i > 6
             call UnitAddItemSwapped( UnitItemInSlotBJ(GetDyingUnit(), i), UDepot[index] )
             set i = i +1
         endloop
-        call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(GetDyingUnit())), GetUnitX(UDepot[index]),GetUnitY(UDepot[index]), 10.00)
-        call DisplayTextToPlayer( GetOwningPlayer(GetDyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你的宠物“" + ( GetUnitName(GetDyingUnit()) + "”已阵亡，物品存放于你的仓库。" ) ) )
+        call PingMinimapForForce(GetForceOfPlayer(ConvertedPlayer(index)), GetUnitX(UDepot[index]),GetUnitY(UDepot[index]), 10.00)
+        call DisplayTextToPlayer( ConvertedPlayer(index), 0, 0, ( "|cFFFF66CC【消息】|r你的宠物“" + ( GetUnitName(GetDyingUnit()) + "”已阵亡，物品存放于你的仓库。" ) ) )
         call FlushChildHashtable(YDHT,GetHandleId(GetDyingUnit()))
         call GroupRemoveUnit(GPet[index],GetDyingUnit())
         call RemoveUnit( GetDyingUnit() )

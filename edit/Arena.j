@@ -500,6 +500,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                call UnitAddAbilityBJ( 'A0ES', challenager )
 	                call UnitAddAbilityBJ( 'A0B9', challenager )
 	                call UnitAddAbilityBJ( 'A09W', challenager )
+	                call UnitAddAbilityBJ( 'A0P1', challenager )
 	                call CreateTextTagLocBJ( I2S(currentLevel) + "级", point, 0, 20.00, 100, 0.00, 0.00, 0 )
 	                set textTag_Level = GetLastCreatedTextTag()
 	                call RemoveLocation( point )

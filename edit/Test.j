@@ -2,9 +2,10 @@
 //! import "dependency/YDWESetGuard.j"
 //! import "dependency/YDWETriggerEvent.j"
 //! import "dependency/YDWETimerSystem.j"
+//! import "dependency/YDWETimerPattern.j"
 //! import "dependency/YDWEBase_common.j"
 //! import "dependency/YDWEBase_hashtable.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern
 
 	globals
 		

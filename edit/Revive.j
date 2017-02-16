@@ -1,8 +1,6 @@
 
-//! import "Revive.j"
-/////! import "Test.j"
-/////! import "Beast.j"
-library_once Revive initializer InitRevive requires LHBase,Beast//,Test
+//! import "LHBase.j"
+library_once Revive initializer InitRevive requires LHBase,Beast
 	
 
 //---------------------------------------------------------------------------------------------------
@@ -13,6 +11,7 @@ endfunction
 
 function TReviveHeroAct takes nothing returns nothing
 	call ReviveBeast(GetRevivingUnit())
+	call AfterReviveLingxue(GetRevivingUnit())
 endfunction
 
 //---------------------------------------------------------------------------------------------------

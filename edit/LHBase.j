@@ -136,12 +136,12 @@ library_once LHBase initializer InitLHBase //requires Test
         /*
             仓库初始化
         */
-        set UDepot[1] = gg_unit_nmgv_0193
-        set UDepot[2] = gg_unit_nmgv_0194
-        set UDepot[3] = gg_unit_nmgv_0195
-        set UDepot[4] = gg_unit_nmgv_0196
-        set UDepot[5] = gg_unit_nmgv_0197
-        set UDepot[6] = gg_unit_nmgv_0198
+        set UDepot[1] = CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
+        set UDepot[2] = CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
+        set UDepot[3] = CreateUnit(Player(2), 'nmgv', 6656.0, 1216.0, 270.000)
+        set UDepot[4] = CreateUnit(Player(3), 'nmgv', 8960.0, - 1984.0, 270.000)
+        set UDepot[5] = CreateUnit(Player(4), 'nmgv', 9728.0, - 1856.0, 270.000)
+        set UDepot[6] = CreateUnit(Player(5), 'nmgv', 9728.0, 1216.0, 270.000)
 
     endfunction
 endlibrary

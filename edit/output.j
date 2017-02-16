@@ -13,38 +13,45 @@ hashtable YDHT= null
 //globals from YDWESetGuard:
 constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
+//globals from YDWETimerPattern:
+constant boolean LIBRARY_YDWETimerPattern=true
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+//endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem__CurrentTime
-integer YDWETimerSystem__CurrentIndex
-integer YDWETimerSystem__TaskListHead
-integer YDWETimerSystem__TaskListIdleHead
-integer YDWETimerSystem__TaskListIdleMax
-integer array YDWETimerSystem__TaskListIdle
-integer array YDWETimerSystem__TaskListNext
-integer array YDWETimerSystem__TaskListTime
-trigger array YDWETimerSystem__TaskListProc
-trigger YDWETimerSystem__fnRemoveUnit
-trigger YDWETimerSystem__fnDestroyTimer
-trigger YDWETimerSystem__fnRemoveItem
-trigger YDWETimerSystem__fnDestroyEffect
-trigger YDWETimerSystem__fnDestroyLightning
-trigger YDWETimerSystem__fnRunTrigger
-timer YDWETimerSystem__Timer
-integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
 
-integer YDWETimerSystem__TimerSystem_RunIndex= 0
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -98,10 +105,15 @@ unit learnSkillHero
         
 unit array UDepot
 //endglobals from LHBase
-//globals from Pet:
-constant boolean LIBRARY_Pet=true
-group array GPet
-//endglobals from Pet
+//globals from MonsterSpell:
+constant boolean LIBRARY_MonsterSpell=true
+trigger TSpellQianfa
+trigger TSpellDart
+		
+constant real DRAT_JUNENG= 30000000
+constant real DRAT_XIANLIAN= 10000000
+integer level_juneng= 1
+//endglobals from MonsterSpell
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -1036,7 +1048,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1050,6 +1062,37 @@ function YDWESetGuard takes unit pet,unit captain,real timeout,real guardRanger,
 endfunction
 
 //library YDWESetGuard ends
+//library YDWETimerPattern:
+//***************************************************
+//* �� - Matrix ����ģ�庯��
+//*--------------------
+//* ���ߣ�Warft_TigerCN  �����Ż���Fetrix_sai
+//***************************************************
+
+
+
+    function YDWETimerPatternJumpAttack takes unit u,real face,real dis,real lasttime,real timeout,real high,real damage,string part,string dsfx returns nothing
+     
+    endfunction
+
+    // Moon Priestess Arrow PUI
+    function YDWETimerPatternMoonPriestessArrow takes unit u,real face,real dis,real lasttime,real timeout,integer lv,integer aid,integer uid,string order,string part,string dsfx returns nothing
+    
+    endfunction
+
+    // Rush Slide PUI
+    function YDWETimerPatternRushSlide takes unit u,real face,real dis,real lasttime,real timeout,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string gsfx,string wsfx returns nothing
+       
+    endfunction
+
+
+    
+    function DIYRushSlide takes unit u,real face,real dis,real lasttime,real timeout,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string gsfx,string wsfx returns nothing
+    endfunction
+
+
+
+//library YDWETimerPattern ends
 //library YDWETimerSystem:
 
 
@@ -1057,7 +1100,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem__CurrentIndex
+    return YDWETimerSystem___CurrentIndex
 endfunction
 
 
@@ -1087,7 +1130,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem__TimerSystem_RunIndex
+    return YDWETimerSystem___TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1127,7 +1170,7 @@ endfunction
 //library Test:
 
 
- function Test__InitTest takes nothing returns nothing
+ function Test___InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1158,6 +1201,11 @@ endfunction
         return ( ( GetUnitTypeId(u) == 'owyv' ) or ( GetUnitTypeId(u) == 'nzom' ) or ( GetUnitTypeId(u) == 'nsog' ) or ( GetUnitTypeId(u) == 'nsoc' ) or ( GetUnitTypeId(u) == 'ninc' ) or ( GetUnitTypeId(u) == 'ninm' ) or ( GetUnitTypeId(u) == 'nsrn' ) or ( GetUnitTypeId(u) == 'nsrh' ) or ( GetUnitTypeId(u) == 'nmit' ) )
     endfunction
 //---------------------------------------------------------------------------------------------------
+    
+   function IsEnemy3 takes unit u,player p returns boolean
+        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) == true and IsUnitEnemy(u, p) and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
+    endfunction
+
     
     function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
 
@@ -1216,271 +1264,204 @@ endfunction
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
-        set UDepot[1]=gg_unit_nmgv_0193
-        set UDepot[2]=gg_unit_nmgv_0194
-        set UDepot[3]=gg_unit_nmgv_0195
-        set UDepot[4]=gg_unit_nmgv_0196
-        set UDepot[5]=gg_unit_nmgv_0197
-        set UDepot[6]=gg_unit_nmgv_0198
+        set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
+        set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
+        set UDepot[3]=CreateUnit(Player(2), 'nmgv', 6656.0, 1216.0, 270.000)
+        set UDepot[4]=CreateUnit(Player(3), 'nmgv', 8960.0, - 1984.0, 270.000)
+        set UDepot[5]=CreateUnit(Player(4), 'nmgv', 9728.0, - 1856.0, 270.000)
+        set UDepot[6]=CreateUnit(Player(5), 'nmgv', 9728.0, 1216.0, 270.000)
 
     endfunction
 
 //library LHBase ends
-//library Pet:
-
-    
-//---------------------------------------------------------------------------------------------------
-    
-    function Pet__CreatePet takes player owner,unit pet returns nothing
-        local unit u= CreateUnit(owner, GetUnitTypeId(pet), GetUnitX(pet), GetUnitY(pet), GetUnitFacing(pet))
-
-        call PlaySoundBJ(gg_snd_GoodJob)
-        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(pet), GetUnitY(pet)))
-
-        //删除原有的宠物并清空缓存
-        call KillUnit(pet)
-        call FlushChildHashtable(YDHT, GetHandleId(pet))
-        call FlushChildHashtable(YDHT, ((GetHandleId((pet))))) // INLINED!!
-        call RemoveUnit(pet)
-
-        //添加技能
-        call UnitAddAbilityBJ('AInv', u)
-        call UnitAddAbilityBJ('A06E', u)
-        call UnitAddAbilityBJ('A06F', u)
-        call UnitAddType(u, UNIT_TYPE_PEON)
-        call SetUnitAcquireRange(u, 600.00)
-        call UnitAddAbilityBJ('A08M', u)
-        call GroupAddUnitSimple(u, GPet[GetConvertedPlayerId(owner)])
-        call UnitAddAbilityBJ('Avul', u)
-        call DisplayTextToPlayer(owner, 0, 0, "|cFFFF66CC【消息】|r捕捉成功！")
-        call SetPlayerStateBJ(owner, PLAYER_STATE_RESOURCE_FOOD_USED, ( GetPlayerState(owner, PLAYER_STATE_RESOURCE_FOOD_USED) + 1 ))
-        set u=null
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    
-    function TCatchPetAct takes nothing returns nothing
+//library MonsterSpell:
+	
 
 
-//textmacro instance: CatchPet("A06D","I073","10000")
-            //忠诚单位
-            if ( GetSpellAbilityId() == 'A06D' ) then
-                //忠诚单位无效:
-                if ( IsLoyalUnit(GetSpellTargetUnit()) ) then
-                    call UnitAddItemByIdSwapped('I073', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
-                    return
-                endif
-                if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ) ) ) then
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    call UnitAddItemByIdSwapped('I073', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的人口已满,请通过炼狱提升你的人口数.")
-                    return
-                endif
-                if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= 10000 ) ) then
-                    call UnitAddItemByIdSwapped('I073', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为" + R2S(GetUnitState(GetSpellTargetUnit(), UNIT_STATE_LIFE)) + "超过了网的" + R2S(10000) + "HP捕捉上限!")
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    return
-                endif
-                call Pet__CreatePet(GetOwningPlayer(GetTriggerUnit()) , GetSpellTargetUnit())
-                return
-            endif
-//end of: CatchPet("A06D","I073","10000")
-//textmacro instance: CatchPet("A04P","I074","100000")
-            //忠诚单位
-            if ( GetSpellAbilityId() == 'A04P' ) then
-                //忠诚单位无效:
-                if ( IsLoyalUnit(GetSpellTargetUnit()) ) then
-                    call UnitAddItemByIdSwapped('I074', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
-                    return
-                endif
-                if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ) ) ) then
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    call UnitAddItemByIdSwapped('I074', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的人口已满,请通过炼狱提升你的人口数.")
-                    return
-                endif
-                if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= 100000 ) ) then
-                    call UnitAddItemByIdSwapped('I074', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为" + R2S(GetUnitState(GetSpellTargetUnit(), UNIT_STATE_LIFE)) + "超过了网的" + R2S(100000) + "HP捕捉上限!")
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    return
-                endif
-                call Pet__CreatePet(GetOwningPlayer(GetTriggerUnit()) , GetSpellTargetUnit())
-                return
-            endif
-//end of: CatchPet("A04P","I074","100000")
-//textmacro instance: CatchPet("A04Q","I075","500000")
-            //忠诚单位
-            if ( GetSpellAbilityId() == 'A04Q' ) then
-                //忠诚单位无效:
-                if ( IsLoyalUnit(GetSpellTargetUnit()) ) then
-                    call UnitAddItemByIdSwapped('I075', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
-                    return
-                endif
-                if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ) ) ) then
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    call UnitAddItemByIdSwapped('I075', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的人口已满,请通过炼狱提升你的人口数.")
-                    return
-                endif
-                if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= 500000 ) ) then
-                    call UnitAddItemByIdSwapped('I075', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为" + R2S(GetUnitState(GetSpellTargetUnit(), UNIT_STATE_LIFE)) + "超过了网的" + R2S(500000) + "HP捕捉上限!")
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    return
-                endif
-                call Pet__CreatePet(GetOwningPlayer(GetTriggerUnit()) , GetSpellTargetUnit())
-                return
-            endif
-//end of: CatchPet("A04Q","I075","500000")
-//textmacro instance: CatchPet("A04R","I072","2000000")
-            //忠诚单位
-            if ( GetSpellAbilityId() == 'A04R' ) then
-                //忠诚单位无效:
-                if ( IsLoyalUnit(GetSpellTargetUnit()) ) then
-                    call UnitAddItemByIdSwapped('I072', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
-                    return
-                endif
-                if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ) ) ) then
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    call UnitAddItemByIdSwapped('I072', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的人口已满,请通过炼狱提升你的人口数.")
-                    return
-                endif
-                if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= 2000000 ) ) then
-                    call UnitAddItemByIdSwapped('I072', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为" + R2S(GetUnitState(GetSpellTargetUnit(), UNIT_STATE_LIFE)) + "超过了网的" + R2S(2000000) + "HP捕捉上限!")
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    return
-                endif
-                call Pet__CreatePet(GetOwningPlayer(GetTriggerUnit()) , GetSpellTargetUnit())
-                return
-            endif
-//end of: CatchPet("A04R","I072","2000000")
-//textmacro instance: CatchPet("A04R","I071","2000000")
-            //忠诚单位
-            if ( GetSpellAbilityId() == 'A04R' ) then
-                //忠诚单位无效:
-                if ( IsLoyalUnit(GetSpellTargetUnit()) ) then
-                    call UnitAddItemByIdSwapped('I071', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。")
-                    return
-                endif
-                if ( ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ) ) ) then
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    call UnitAddItemByIdSwapped('I071', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的人口已满,请通过炼狱提升你的人口数.")
-                    return
-                endif
-                if ( ( GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= 2000000 ) ) then
-                    call UnitAddItemByIdSwapped('I071', GetTriggerUnit())
-                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为" + R2S(GetUnitState(GetSpellTargetUnit(), UNIT_STATE_LIFE)) + "超过了网的" + R2S(2000000) + "HP捕捉上限!")
-                    call PlaySoundBJ(gg_snd_Jidibeida)
-                    return
-                endif
-                call Pet__CreatePet(GetOwningPlayer(GetTriggerUnit()) , GetSpellTargetUnit())
-                return
-            endif
-//end of: CatchPet("A04R","I071","2000000")
+	
+ function FocusCow takes unit selected returns nothing
+		if ( GetUnitAbilityLevel(selected, 'A09W') >= 1 ) then
+			call SetUnitState(selected, UNIT_STATE_LIFE, GetUnitState(selected, UNIT_STATE_LIFE) + GetUnitState(selected, UNIT_STATE_MAX_LIFE) * 0.1)
+		endif
+	endfunction
 
-
-    endfunction
 
 //---------------------------------------------------------------------------------------------------
-    
-    function TAttackForbitCon takes nothing returns boolean
-        return ( ( GetUnitAbilityLevelSwapped('A06F', GetAttacker()) == 1 ) and IsUnitInGroup(GetAttacker(), GPet[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))]) == true )
-    endfunction
+	
+ function MonsterSpell___TSpellQianFaEnemyFilter takes nothing returns boolean
+	    return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetAttacker())) == true ) ) )
+	endfunction
 
-    function TAttackForbitAct takes nothing returns nothing
-        call DisplayTextToPlayer(GetOwningPlayer(GetAttacker()), 0, 0, "|cFFFF66CC【消息】|r想攻击的话使用技能“切换形态”。")
-        //停止命令
-        call IssueImmediateOrderById(GetAttacker(), 851972)
-    endfunction
+ function MonsterSpell___TSpellQianFaAct takes nothing returns nothing
+     local integer i
+     local group ydl_group
+     local unit ydl_unit
+     local real x
+     local real y
+
+	    set x=GetUnitX(GetAttackedUnitBJ())
+	    set y=GetUnitY(GetAttackedUnitBJ())
+	    call DisableTrigger(GetTriggeringTrigger())
+	    call SetUnitManaBJ(GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 333.00 ))
+	    //特效
+	    set i=1
+	    loop
+	        exitwhen i > 8
+	        call UnitApplyTimedLifeBJ(5.00, 'BHwe', CreateUnit(GetOwningPlayer(GetAttacker()), 'h00J', x, y, 45 * I2R(i)))
+	        set i=i + 1
+	    endloop
+
+	    //巨能
+	    if ( ( GetUnitTypeId(GetAttacker()) == 'N00Q' ) ) then
+	    		set ydl_group=CreateGroup()
+			    call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell___TSpellQianFaEnemyFilter))
+			    loop
+			        set ydl_unit=FirstOfGroup(ydl_group)
+			        exitwhen ydl_unit == null
+			        call GroupRemoveUnit(ydl_group, ydl_unit)
+			        //造成75%生命的伤害
+		            call UnitDamageTarget(GetAttacker(), ydl_unit, ( 0.5 * GetUnitStateSwap(UNIT_STATE_LIFE, ydl_unit) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
+			    endloop
+		 	elseif ( ( GetUnitTypeId(GetAttacker()) == 'Nngs' ) or ( GetUnitTypeId(GetAttacker()) == 'Nbrn' ) ) then
+		//仙炼或生克
+	    		set ydl_group=CreateGroup()
+				call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell___TSpellQianFaEnemyFilter))
+				loop
+				    set ydl_unit=FirstOfGroup(ydl_group)
+				    exitwhen ydl_unit == null
+				    call GroupRemoveUnit(ydl_group, ydl_unit)
+			        //造成50%生命的伤害
+			        call UnitDamageTarget(GetAttacker(), ydl_unit, ( 0.3 * GetUnitStateSwap(UNIT_STATE_LIFE, ydl_unit) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
+				endloop
+
+	    endif
+
+	    //文字
+	    call CreateSpellTextTag("虚--千罚之光" , GetAttacker() , 100 , 100 , 0 , 2)
+
+	    call PolledWait(5.00)
+	    call EnableTrigger(GetTriggeringTrigger())
+
+	    call DestroyGroup(ydl_group)
+	    set ydl_group=null
+	    set ydl_unit=null
+	endfunction
+
+ function MonsterSpell___TSpellQianFaCon takes nothing returns boolean
+	    return ( ( ( GetUnitTypeId(GetAttacker()) == 'Nngs' ) or ( GetUnitTypeId(GetAttacker()) == 'Nbrn' ) or ( GetUnitTypeId(GetAttacker()) == 'N00Q' ) ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 333.00 ) and ( GetRandomInt(1, 10) == 1 ) )
+	endfunction
 
 //---------------------------------------------------------------------------------------------------
-    
-    function Pet__TPetChangeForm takes nothing returns nothing
-        //切换形态1:
-        if ( GetSpellAbilityId() == 'A06G' ) then
-            call UnitAddType(GetTriggerUnit(), UNIT_TYPE_PEON)
-            call UnitAddAbilityBJ('A06F', GetTriggerUnit())
-            call UnitRemoveAbilityBJ('A06G', GetTriggerUnit())
-            call UnitAddAbilityBJ('Avul', GetTriggerUnit())
-        endif
+	
 
-        //切换形态2:
-        if ( GetSpellAbilityId() == 'A06F' ) then
-            call UnitRemoveType(GetTriggerUnit(), UNIT_TYPE_PEON)
-            call UnitRemoveAbilityBJ('Avul', GetTriggerUnit())
-            call UnitAddAbilityBJ('A06G', GetTriggerUnit())
-            call UnitRemoveAbilityBJ('A06F', GetTriggerUnit())
-        endif
-    endfunction
+ function MonsterSpell___TSpellJunlinAct takes nothing returns nothing
+
+        call SetUnitOwner(GetAttackedUnitBJ(), GetOwningPlayer(GetAttacker()), true)
+	    call CreateSpellTextTag("臣服于我" , GetAttacker() , 100 , 0 , 0 , 2)
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ())))
+	endfunction
+
+ function MonsterSpell___TSpellJunlinCon takes nothing returns boolean
+	    return ( ( GetUnitAbilityLevel(GetAttacker(), 'A0P1') >= 1 ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00 ) and ( GetRandomInt(1, 10) == 1 ) and ( IsEnemy(GetAttackedUnitBJ() , GetAttacker()) == true ) and ( GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER ) and ( IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true ) )
+	endfunction
 //---------------------------------------------------------------------------------------------------
-    
-    
-    function Pet__TPetDeathCon takes nothing returns boolean
-        return ( IsUnitIllusionBJ(GetDyingUnit()) == false and IsUnitInGroup(GetDyingUnit(), GPet[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))]) == true )
-    endfunction
+	
+ function MonsterSpell___TSpellPetAct takes nothing returns nothing
+  local real per= ( 0.02 * ( GetUnitLevel(GetAttacker()) - GetUnitLevel(GetAttackedUnitBJ()) + 1 ) )
+		call UnitDamageTarget(GetAttacker(), GetAttackedUnitBJ(), GetUnitState(GetAttacker(), UNIT_STATE_MAX_LIFE) * per, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+		call BJDebugMsg("PET:" + R2S(per))
+	endfunction
 
-    function Pet__TPetDeathAct takes nothing returns nothing
-        local integer index= GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))
-        local integer i= 1
-
-        call SetPlayerStateBJ(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED, ( GetPlayerState(GetOwningPlayer(GetDyingUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) - 1 ))
-        //物品给仓库
-        loop
-            exitwhen i > 6
-            call UnitAddItemSwapped(UnitItemInSlotBJ(GetDyingUnit(), i), UDepot[index])
-            set i=i + 1
-        endloop
-        call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(GetDyingUnit())), GetUnitX(UDepot[index]), GetUnitY(UDepot[index]), 10.00)
-        call DisplayTextToPlayer(GetOwningPlayer(GetDyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你的宠物“" + ( GetUnitName(GetDyingUnit()) + "”已阵亡，物品存放于你的仓库。" ) ))
-        call FlushChildHashtable(YDHT, GetHandleId(GetDyingUnit()))
-        call RemoveUnit(GetDyingUnit())
-
-    endfunction
+ function MonsterSpell___TSpellPetCon takes nothing returns boolean
+	    return ( ( ( GetUnitAbilityLevel(GetAttackedUnitBJ(), 'A0P0') >= 1 ) or ( GetUnitAbilityLevel(GetAttackedUnitBJ(), 'A0P0') >= 1 ) ) and ( IsEnemy(GetAttackedUnitBJ() , GetAttacker()) == true ) and GetUnitLevel(GetAttacker()) >= 50 and GetUnitLevel(GetAttacker()) >= GetUnitLevel(GetAttackedUnitBJ()) )
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
-    function Pet__InitPet takes nothing returns nothing
-        local trigger t= CreateTrigger()
-        local integer i= 1
-        loop
-            exitwhen i > 6
-            set GPet[i]=CreateGroup()
-            set i=i + 1
-        endloop
+	
+ function MonsterSpell___TSpellDratAct takes nothing returns nothing
+  local integer i= - 1
+     local real x1
+     local real y1
+     local real x2
+     local real y2
+     local unit drat
+     local real facing
 
-        //抓宠物与宠物切换形态
-        call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-        call TriggerAddAction(t, function TCatchPetAct)
-        call TriggerAddAction(t, function Pet__TPetChangeForm)
+	    set x1=GetUnitX(GetAttackedUnitBJ())
+	    set y1=GetUnitY(GetAttackedUnitBJ())
+	    set x2=GetUnitX(GetAttacker())
+	    set y2=GetUnitY(GetAttacker())
+	    set facing=Atan2BJ(y2 - y1, x2 - x1)
 
-        //没切换攻击形态时
-        set t=CreateTrigger()
-        call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-        call TriggerAddCondition(t, Condition(function TAttackForbitCon))
-        call TriggerAddAction(t, function TAttackForbitAct)
+	    call DisableTrigger(GetTriggeringTrigger())
+	    call SetUnitManaBJ(GetAttackedUnitBJ(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) - 333.00 ))
 
-        //宠物死亡事件
-        set t=CreateTrigger()
-        call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
-        call TriggerAddCondition(t, Condition(function Pet__TPetDeathCon))
-        call TriggerAddAction(t, function Pet__TPetDeathAct)
-    endfunction
+	    //巨能
+	    if ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'N00Q' ) ) then
+	    	loop
+	    		exitwhen i > 1
+	    		set drat=CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()), 'hs00', x1, y1, facing)
+	        	call UnitApplyTimedLifeBJ(10.00, 'BHwe', drat)
+	        	    call DIYRushSlide(drat , facing + i * 30 , 20000.00 , 10.00 , 0.05 , DRAT_JUNENG * ( 1 + 0.2 * I2R(level_juneng) ) , 60. , false , true , false , "origin" , "" , "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl")
+	    		set i=i + 1
+	    	endloop
+		 	elseif ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nngs' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nbrn' ) ) then
+		//仙炼或生克
+	    		set drat=CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()), 'hs00', x1, y1, facing)
+	        	call UnitApplyTimedLifeBJ(10.00, 'BHwe', drat)
+	        	    call DIYRushSlide(drat , facing , 20000.00 , 10.00 , 0.05 , DRAT_XIANLIAN , 60. , false , true , false , "origin" , "" , "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl")
+	    endif
+
+	    //文字
+	    call CreateSpellTextTag("虚--弹射飞镖" , GetAttacker() , 0 , 100 , 1000 , 2)
+	    call PolledWait(10.00)
+	    call EnableTrigger(GetTriggeringTrigger())
+
+	    set drat=null
+	endfunction
+
+ function MonsterSpell___TSpellDratCon takes nothing returns boolean
+	    return ( ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nngs' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nbrn' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'N00Q' ) ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 333.00 ) and ( GetRandomInt(1, 10) == 1 ) )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+ function MonsterSpell___InitMonsterSpell takes nothing returns nothing
+  local trigger t= CreateTrigger()
+		//巨能,仙炼还有生克的千罚之光
+	    set TSpellQianfa=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(TSpellQianfa, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(TSpellQianfa, Condition(function MonsterSpell___TSpellQianFaCon))
+	    call TriggerAddAction(TSpellQianfa, function MonsterSpell___TSpellQianFaAct)
+	    call DisableTrigger(TSpellQianfa)
+
+	    //巨能,仙炼还有生克的手里剑
+	    set TSpellDart=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(TSpellDart, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(TSpellDart, Condition(function MonsterSpell___TSpellDratCon))
+	    call TriggerAddAction(TSpellDart, function MonsterSpell___TSpellDratAct)
+	    call DisableTrigger(TSpellDart)
+
+	    //臣服于我
+	    set t=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(t, Condition(function MonsterSpell___TSpellJunlinCon))
+	    call TriggerAddAction(t, function MonsterSpell___TSpellJunlinAct)
+
+	    //宠物掉血
+	    set t=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(t, Condition(function MonsterSpell___TSpellPetCon))
+	    call TriggerAddAction(t, function MonsterSpell___TSpellPetAct)
+
+	    set t=null
+	endfunction
+
+//library MonsterSpell ends
 
 
-//library Pet ends
+// BEGIN IMPORT OF MonsterSpell.j
 
-
-// BEGIN IMPORT OF Pet.j
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -1511,6 +1492,10 @@ endfunction
 
 
 // END IMPORT OF dependency/YDWETimerSystem.j
+// BEGIN IMPORT OF dependency/YDWETimerPattern.j
+
+
+// END IMPORT OF dependency/YDWETimerPattern.j
 // BEGIN IMPORT OF dependency/YDWEBase_common.j
 
 //===========================================================================
@@ -1525,15 +1510,12 @@ endfunction
 // END IMPORT OF LHBase.j
 
 
-
-
-
-// END IMPORT OF Pet.j
+// END IMPORT OF MonsterSpell.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Pet__InitPet")
+call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("MonsterSpell___InitMonsterSpell")
 
 endfunction
 

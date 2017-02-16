@@ -19,7 +19,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	*/
 	function FocusCow takes unit selected returns nothing
 		if(GetUnitAbilityLevel(selected,'A09W') >= 1)then
-			call SetUnitState(selected,UNIT_STATE_LIFE,GetUnitState(selected,UNIT_STATE_LIFE)+GetUnitState(selected,UNIT_STATE_MAX_LIFE)*0.05)
+			call SetUnitState(selected,UNIT_STATE_LIFE,GetUnitState(selected,UNIT_STATE_LIFE)+GetUnitState(selected,UNIT_STATE_MAX_LIFE)*0.1)
 		endif
 	endfunction
 
@@ -92,7 +92,33 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
+	/*
+	    臣服于我
+	*/
 
+	private function TSpellJunlinAct takes nothing returns nothing
+
+        call SetUnitOwner( GetAttackedUnitBJ(),GetOwningPlayer(GetAttacker()), true )
+	    call CreateSpellTextTag("臣服于我",GetAttacker(),100,0,0,2)
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()) ))
+	endfunction
+
+	private function TSpellJunlinCon takes nothing returns boolean
+	    return ((GetUnitAbilityLevel(GetAttacker(),'A0P1') >= 1) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00) and (GetRandomInt(1, 100) <= udg_Nandu_JJJ * 2) and (IsEnemy(GetAttackedUnitBJ(),GetAttacker()) == true) and (GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER) and (IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    宠物相斗
+	*/
+	private function TSpellPetAct takes nothing returns nothing
+		local real per = (0.02*(GetUnitLevel(GetAttacker()) - GetUnitLevel(GetAttackedUnitBJ()) + 1))
+		call UnitDamageTarget( GetAttacker(), GetAttackedUnitBJ(), GetUnitState(GetAttacker(),UNIT_STATE_MAX_LIFE)*per, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+		call BJDebugMsg("PET:"+R2S(per))
+	endfunction
+
+	private function TSpellPetCon takes nothing returns boolean
+	    return (((GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1) or (GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1)) and (IsEnemy(GetAttackedUnitBJ(),GetAttacker()) == true) and GetUnitLevel(GetAttacker()) >= 50 and GetUnitLevel(GetAttacker()) >= GetUnitLevel(GetAttackedUnitBJ()))
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -145,6 +171,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitMonsterSpell takes nothing returns nothing
+		local trigger t = CreateTrigger()
 		//巨能,仙炼还有生克的千罚之光
 	    set TSpellQianfa = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ( TSpellQianfa, EVENT_PLAYER_UNIT_ATTACKED )
@@ -158,6 +185,20 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	    call TriggerAddCondition(TSpellDart, Condition(function TSpellDratCon))
 	    call TriggerAddAction(TSpellDart, function TSpellDratAct)
 	    call DisableTrigger(TSpellDart)
+
+	    //臣服于我
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(t, Condition(function TSpellJunlinCon))
+	    call TriggerAddAction(t, function TSpellJunlinAct)
+
+	    //宠物掉血
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(t, Condition(function TSpellPetCon))
+	    call TriggerAddAction(t, function TSpellPetAct)
+
+	    set t = null
 	endfunction
 endlibrary
 

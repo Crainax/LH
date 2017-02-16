@@ -23,8 +23,11 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
 		if (GetUnitTypeId(GetSoldUnit() == 'guy1') then
 			if (centerCredit[index] < CREDIT_SOLIDER_1) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有"+I2S(centerCredit[index]+",不足")
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有"+I2S(centerCredit[index]+",不足"+I2S(CREDIT_SOLIDER_1))
+				call RemoveUnit(GetSoldUnit())
+				return
 			endif
+			set centerCredit[index] = centerCredit[index] - 1
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
