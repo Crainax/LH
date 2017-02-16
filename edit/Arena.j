@@ -9,14 +9,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 		constant integer ARENA_MAX_LEVEL = 50
 
 		/*
-		    需要注释
-		*/
-		/*rect gg_rct_Arena_1
-		rect gg_rct_Arena_2
-		rect gg_rct_Arena_all
-		rect gg_rct_Arena_forbit*/
-
-		/*
 		    功能
 		*/
 		private trigger TDieEvent
@@ -236,7 +228,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	*/
 
 	private function TSpellFuwangCon takes nothing returns boolean
-	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 15) == 1))
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 10) == 1))
 	endfunction
 
 	private function TSpellFuwangAct takes nothing returns nothing
@@ -541,7 +533,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	endfunction
 
 	private function TArenaStartCon takes nothing returns boolean
-	    return ((GetItemTypeId(GetSoldItem()) == 'I04D') and BuyerFilter(GetBuyingUnit()))
+	    return ((GetItemTypeId(GetSoldItem()) == 'I04D') and BuyerFilter(GetBuyingUnit()) == true and (GetBuyingUnit() == defier))
 	endfunction
 
 //---------------------------------------------------------------------------------------------------

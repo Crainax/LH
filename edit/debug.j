@@ -12,6 +12,9 @@
 	test credit 增加积分
 	test invu 基地无敌
 	test vu 基地不无敌
+	test leval 等级上400
+	test mowang 测试基地爆炸
+	test mingwang 测试基地爆炸
 
 */
 library_once Debug initializer Initdebug requires LHBase,Boss
@@ -205,13 +208,33 @@ library_once Debug initializer Initdebug requires LHBase,Boss
 
 		//基地无敌
 		if (chat == "test invu") then
-		call SetUnitInvulnerable(gg_unit_haro_0030,true)
+			call SetUnitInvulnerable(gg_unit_haro_0030,true)
 			return
 		endif
 
 		//基地不无敌
 		if (chat == "test vu") then
-		call SetUnitInvulnerable(gg_unit_haro_0030,false)
+			call SetUnitInvulnerable(gg_unit_haro_0030,false)
+			return
+		endif
+
+		//等级400
+		if (chat == "test level") then
+			call SetHeroLevel(udg_H[1],400,true)
+			return
+		endif
+
+		//魔王拆家速度
+		if (chat == "test mowang") then
+       		call SetPlayerTechResearchedSwap( 'R00O', 100, Player(6) )
+			call CreateUnit(Player(11),'Uwar',GetUnitX(gg_unit_haro_0030),GetUnitY(gg_unit_haro_0030),0)
+			return
+		endif
+
+		//冥王拆家速度
+		if (chat == "test mingwang") then
+            call UnitAddAbilityBJ( 'A0EG', gg_unit_haro_0030 )
+			call CreateUnit(Player(11),'Nkjx',GetUnitX(gg_unit_haro_0030),GetUnitY(gg_unit_haro_0030),0)
 			return
 		endif
 

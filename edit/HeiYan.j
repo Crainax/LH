@@ -363,7 +363,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		call KillUnit(FirstOfGroup(GSacri))
 		call SetUnitLifeBJ(Heiyan,GetUnitState(Heiyan,UNIT_STATE_LIFE) + GetUnitState(Heiyan,UNIT_STATE_MAX_LIFE) * 0.05)
 		call ImmuteDamageInterval(Heiyan,0.1)
-		//call PolledWait(0.1)
+		call PolledWait(0.1)
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction

@@ -73,7 +73,6 @@ library_once ItemBase initializer InitItemBase
 
 	private function TOnlyOneHumanCon takes nothing returns boolean
 		return (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))])/*
-			*/ and (GetItemType(GetManipulatedItem()) == ITEM_TYPE_MISCELLANEOUS) /*
 			*/ and (IsUnitIllusionBJ(GetManipulatingUnit()) != true)
 	endfunction
 

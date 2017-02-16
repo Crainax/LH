@@ -1,12 +1,16 @@
 
 
 /////! import "Test.j"
-library_once LHBase //requires Test
+library_once LHBase initializer InitLHBase //requires Test
 
     globals
         unit learnSkillHero
+        /*
+            仓库
+        */
+        unit array UDepot
     endglobals
-
+//---------------------------------------------------------------------------------------------------
 	/*
 	    仙器使用技能进行禁止丢弃判断
 	*/
@@ -20,6 +24,7 @@ library_once LHBase //requires Test
 			*/or (spell =='ACcl') or (spell =='AOhw') or (spell =='AIin') or (spell =='AIil')/*
 			*/or (spell =='A07S') or (spell =='AChx')
 	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    敌人过滤器1,只能造成伤害的
@@ -32,6 +37,7 @@ library_once LHBase //requires Test
         */ and IsUnitVisible(u, GetOwningPlayer(caster))	  and GetUnitAbilityLevel(u,'Avul') < 1    		  /*
         */ and GetUnitPointValue(u) != 123					  and GetUnitPointValue(u) != 0
     endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    敌人过滤器2,只要是敌人都算
@@ -41,7 +47,14 @@ library_once LHBase //requires Test
         */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123				  /*
         */ and GetUnitPointValue(u) != 0
     endfunction
-
+//---------------------------------------------------------------------------------------------------
+    /*
+        忠诚单位过滤器
+    */
+    function IsLoyalUnit takes unit u returns boolean
+        return ((GetUnitTypeId(u) == 'owyv') or (GetUnitTypeId(u) == 'nzom') or (GetUnitTypeId(u) == 'nsog') or (GetUnitTypeId(u) == 'nsoc') or (GetUnitTypeId(u) == 'ninc') or (GetUnitTypeId(u) == 'ninm') or (GetUnitTypeId(u) == 'nsrn') or (GetUnitTypeId(u) == 'nsrh') or (GetUnitTypeId(u) == 'nmit'))
+    endfunction
+//---------------------------------------------------------------------------------------------------
     /*
         创建技能的漂浮文字，漂浮然后消失
     */
@@ -109,4 +122,17 @@ library_once LHBase //requires Test
 	function BuyerFilter takes unit buyer returns boolean
 		return (GetUnitTypeId(buyer) != 'N018')
 	endfunction
+//---------------------------------------------------------------------------------------------------
+    private function InitLHBase takes nothing returns nothing
+        /*
+            仓库初始化
+        */
+        set UDepot[1] = gg_unit_nmgv_0193
+        set UDepot[2] = gg_unit_nmgv_0194
+        set UDepot[3] = gg_unit_nmgv_0195
+        set UDepot[4] = gg_unit_nmgv_0196
+        set UDepot[5] = gg_unit_nmgv_0197
+        set UDepot[6] = gg_unit_nmgv_0198
+
+    endfunction
 endlibrary

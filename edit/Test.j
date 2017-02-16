@@ -32,6 +32,30 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         integer array udg_Paihangbang
         //基地
         unit gg_unit_haro_0030
+
+        /*
+            擂台
+        */
+        rect gg_rct_Arena_1
+        rect gg_rct_Arena_2
+        rect gg_rct_Arena_all
+        rect gg_rct_Arena_forbit
+
+        /*
+            宠物
+        */
+        sound gg_snd_GoodJob
+        sound gg_snd_Jidibeida
+
+        /*
+            仓库
+        */
+        unit gg_unit_nmgv_0193
+        unit gg_unit_nmgv_0194
+        unit gg_unit_nmgv_0195
+        unit gg_unit_nmgv_0196
+        unit gg_unit_nmgv_0197
+        unit gg_unit_nmgv_0198
 	endglobals
 
 	private function InitTest takes nothing returns nothing
