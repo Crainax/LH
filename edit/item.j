@@ -78,18 +78,21 @@ library_once ItemBase initializer InitItemBase
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
-/*
-    删除书本小点BUG
-*/
-private function TBookBUGCon takes nothing returns boolean
-	return GetItemType(GetManipulatedItem()) == ITEM_TYPE_POWERUP
-endfunction
+	/*
+	    删除书本小点BUG
+	*/
+	private function TBookBUGCon takes nothing returns boolean
+		return GetItemType(GetManipulatedItem()) == ITEM_TYPE_POWERUP
+	endfunction
 
-private function TBookBUGAct takes nothing returns nothing
-	call PolledWait(1.0)
-	call RemoveItem(GetManipulatedItem())
-endfunction
-
+	private function TBookBUGAct takes nothing returns nothing
+		call PolledWait(1.0)
+		call RemoveItem(GetManipulatedItem())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    聚宝无法叠加
+	*/
 //---------------------------------------------------------------------------------------------------
 	private function InitItemBase takes nothing returns nothing
 		//人器只能装备一个

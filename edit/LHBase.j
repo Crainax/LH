@@ -43,6 +43,15 @@ library_once LHBase //requires Test
     endfunction
 
     /*
+        与敌人过滤器2一致，但匹配的是玩家
+    */
+   function IsEnemy3 takes unit u, player p returns boolean
+        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)  == true                   /*
+        */ and IsUnitEnemy(u, p)                              and GetUnitPointValue(u) != 123                 /*
+        */ and GetUnitPointValue(u) != 0
+    endfunction
+
+    /*
         创建技能的漂浮文字，漂浮然后消失
     */
     function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
