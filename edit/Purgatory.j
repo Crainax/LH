@@ -37,7 +37,7 @@ library_once Purgatory initializer InitPurgatory
 		//! runtextmacro CreatePurgatoryItem("nwzd","IB02")
 		//! runtextmacro CreatePurgatoryItem("ndqp","IB03")
 		//! runtextmacro CreatePurgatoryItem("nsc2","IB04")
-		//! runtextmacro CreatePurgatoryItem("nsqo","IB05")
+		//! runtextmacro CreatePurgatoryItem("nwns","IB05")
 		//! runtextmacro CreatePurgatoryItem("nsoc","IB06")
 		//! runtextmacro CreatePurgatoryItem("npfl","IB07")
 		//! runtextmacro CreatePurgatoryItem("ninm","IB08")

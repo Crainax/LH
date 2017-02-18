@@ -25,7 +25,7 @@ library_once GoldSystem initializer InitGoldSystem requires LHBase
 
 			if ((udg_gold[i] != 0)) then
 		        call AdjustPlayerStateBJ( udg_gold[i], ConvertedPlayer(i), PLAYER_STATE_RESOURCE_GOLD )
-	    		call CreateSpellTextTag("黄金+"+ I2S(udg_gold[i]),udg_H[i],0,0,0,2)
+	    		call CreateSpellTextTag("黄金+"+ I2S(udg_gold[i]),udg_H[i],255,255,0,2)
 		        set udg_gold[i] = 0
 		    endif
 

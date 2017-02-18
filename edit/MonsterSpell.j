@@ -113,7 +113,6 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	private function TSpellPetAct takes nothing returns nothing
 		local real per = (0.02*(GetUnitLevel(GetAttacker()) - GetUnitLevel(GetAttackedUnitBJ()) + 1))
 		call UnitDamageTarget( GetAttacker(), GetAttackedUnitBJ(), GetUnitState(GetAttacker(),UNIT_STATE_MAX_LIFE)*per, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
-		call BJDebugMsg("PET:"+R2S(per))
 	endfunction
 
 	private function TSpellPetCon takes nothing returns boolean

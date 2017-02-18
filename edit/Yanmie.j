@@ -18,7 +18,7 @@ library_once Yanmie requires SpellBase
 	*/
 	function BoltShadow takes real x,real y returns nothing
 		local unit u
-		if not (IsFourthSpellOK(yanmie) == true and GetUnitAbilityLevel(yanmie,'AHab') == 1) then
+		if not (IsFourthSpellOK(yanmie) == true and GetUnitAbilityLevel(yanmie,'AHab') == 1 and GetUnitState(yanmie,UNIT_STATE_MANA) >= 600) then
 				return
 			endif	
 		if (CountUnitsInGroup(GShadow) >= ICountShadowMAX) then

@@ -64,6 +64,23 @@ library_once LHBase initializer InitLHBase //requires Test
         */ and GetUnitPointValue(u) != 0
     endfunction
 
+//---------------------------------------------------------------------------------------------------
+    /*
+        删除单位组里面的所有单位并清空自定义数据
+    */
+    function DeleteGroup takes group g returns nothing
+        
+        local unit l_unit
+        loop
+            set l_unit = FirstOfGroup(g)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(g, l_unit)
+            call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+            call RemoveUnit( l_unit )
+        endloop
+        set l_unit = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
     /*
         创建漂浮文字，漂浮然后消失

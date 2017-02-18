@@ -15,43 +15,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem__CurrentTime
-integer YDWETimerSystem__CurrentIndex
-integer YDWETimerSystem__TaskListHead
-integer YDWETimerSystem__TaskListIdleHead
-integer YDWETimerSystem__TaskListIdleMax
-integer array YDWETimerSystem__TaskListIdle
-integer array YDWETimerSystem__TaskListNext
-integer array YDWETimerSystem__TaskListTime
-trigger array YDWETimerSystem__TaskListProc
-trigger YDWETimerSystem__fnRemoveUnit
-trigger YDWETimerSystem__fnDestroyTimer
-trigger YDWETimerSystem__fnRemoveItem
-trigger YDWETimerSystem__fnDestroyEffect
-trigger YDWETimerSystem__fnDestroyLightning
-trigger YDWETimerSystem__fnRunTrigger
-timer YDWETimerSystem__Timer
-integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
 
-integer YDWETimerSystem__TimerSystem_RunIndex= 0
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -112,12 +112,14 @@ unit array UDepot
 //globals from Exercise:
 constant boolean LIBRARY_Exercise=true
 rect array regionAll
+		//怪物的区域
 rect array regionM1
 rect array regionM2
 rect array regionM3
 rect array regionM4
 rect array regionM5
 rect array regionM6
+timer array Exercise___TiExercise
 //endglobals from Exercise
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -1053,7 +1055,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1105,7 +1107,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem__CurrentIndex
+    return YDWETimerSystem___CurrentIndex
 endfunction
 
 
@@ -1135,7 +1137,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem__TimerSystem_RunIndex
+    return YDWETimerSystem___TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1175,7 +1177,7 @@ endfunction
 //library Test:
 
 
- function Test__InitTest takes nothing returns nothing
+ function Test___InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1211,6 +1213,21 @@ endfunction
         return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) == true and IsUnitEnemy(u, p) and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
     endfunction
 
+//---------------------------------------------------------------------------------------------------
+    
+    function DeleteGroup takes group g returns nothing
+        
+        local unit l_unit
+        loop
+            set l_unit=FirstOfGroup(g)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(g, l_unit)
+            call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+            call RemoveUnit(l_unit)
+        endloop
+        set l_unit=null
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
     
     function CreateTextTagA takes string name,unit u,real red,real green,real blue,real time,real size returns nothing
@@ -1275,7 +1292,7 @@ endfunction
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1291,11 +1308,32 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
-
+	
  function TMonsterFilter1 takes nothing returns boolean
 	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nano' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nanw' ) ) )
 	endfunction
 
+ function TMonsterFilter2 takes nothing returns boolean
+	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nenf' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nbld' ) ) )
+	endfunction
+
+ function TMonsterFilter3 takes nothing returns boolean
+	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nbda' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nbdo' ) ) )
+	endfunction
+
+ function TMonsterFilter4 takes nothing returns boolean
+	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'ncim' ) or ( GetUnitTypeId(GetFilterUnit()) == 'ncnk' ) ) )
+	endfunction
+
+ function TMonsterFilter5 takes nothing returns boolean
+	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'ngns' ) or ( GetUnitTypeId(GetFilterUnit()) == 'ngnw' ) ) )
+	endfunction
+
+ function TMonsterFilter6 takes nothing returns boolean
+	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nhfp' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nenc' ) ) )
+	endfunction
+
+	
  function TMonsterPlayerFilter takes nothing returns boolean
 	    return ( ( GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) )
 	endfunction
@@ -1308,7 +1346,6 @@ endfunction
 
   local group g
   local group g2
-  local unit l_unit
 
 		//区域1
 		set g=GetUnitsInRectMatching(regionM1[1], Condition(function TMonsterFilter1))
@@ -1317,25 +1354,122 @@ endfunction
 			//刷怪
 			if ( CountUnitsInGroup(g) == 0 ) then
 
-			    if ( IsUnitInGroup(udg_H[1], g2) == true ) then
+
+			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
 			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[1]), GetRectCenterY(regionM1[1]), 270)
 			    else
 			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[1]), GetRectCenterY(regionM1[1]), 270)
 			    endif
-			    call DestroyGroup(g2)
-
 			endif
 		else
 			if ( CountUnitsInGroup(g) != 0 ) then
 				//不刷且删兵
-				loop
-				    set l_unit=FirstOfGroup(g)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(g, l_unit)
-			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
-			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
-			        call RemoveUnit(l_unit)
-				endloop
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+		//区域2
+		set g=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterFilter2))
+		set g2=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
+			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域3
+		set g=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterFilter3))
+		set g2=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
+			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域4
+		set g=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterFilter4))
+		set g2=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
+			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域5
+		set g=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterFilter5))
+		set g2=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
+			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域6
+		set g=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterFilter6))
+		set g2=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
+			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
 			endif
 		endif
 	    call DestroyGroup(g)
@@ -1343,7 +1477,6 @@ endfunction
 
 	    set g=null
 	    set g2=null
-	    set l_unit=null
 
 	endfunction
 
@@ -1353,34 +1486,130 @@ endfunction
 
   local group g
   local group g2
-  local unit l_unit
 
 		//区域1
-		set g=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterPlayerFilter))
+		set g=GetUnitsInRectMatching(regionM1[2], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM1[2], Condition(function TMonsterPlayerFilter))
 		if ( CountUnitsInGroup(g2) != 0 ) then
 			//刷怪
 			if ( CountUnitsInGroup(g) == 0 ) then
 
-			    if ( IsUnitInGroup(udg_H[2], g2) == true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
-			    endif
-			    call DestroyGroup(g2)
 
+			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[2]), GetRectCenterY(regionM1[2]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[2]), GetRectCenterY(regionM1[2]), 270)
+			    endif
 			endif
 		else
 			if ( CountUnitsInGroup(g) != 0 ) then
 				//不刷且删兵
-				loop
-				    set l_unit=FirstOfGroup(g)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(g, l_unit)
-			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
-			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
-			        call RemoveUnit(l_unit)
-				endloop
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+		//区域2
+		set g=GetUnitsInRectMatching(regionM2[2], Condition(function TMonsterFilter2))
+		set g2=GetUnitsInRectMatching(regionM2[2], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
+			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[2]), GetRectCenterY(regionM2[2]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[2]), GetRectCenterY(regionM2[2]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域3
+		set g=GetUnitsInRectMatching(regionM3[2], Condition(function TMonsterFilter3))
+		set g2=GetUnitsInRectMatching(regionM3[2], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
+			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[2]), GetRectCenterY(regionM3[2]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[2]), GetRectCenterY(regionM3[2]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域4
+		set g=GetUnitsInRectMatching(regionM4[2], Condition(function TMonsterFilter4))
+		set g2=GetUnitsInRectMatching(regionM4[2], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
+			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[2]), GetRectCenterY(regionM4[2]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[2]), GetRectCenterY(regionM4[2]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域5
+		set g=GetUnitsInRectMatching(regionM5[2], Condition(function TMonsterFilter5))
+		set g2=GetUnitsInRectMatching(regionM5[2], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
+			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[2]), GetRectCenterY(regionM5[2]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[2]), GetRectCenterY(regionM5[2]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域6
+		set g=GetUnitsInRectMatching(regionM6[2], Condition(function TMonsterFilter6))
+		set g2=GetUnitsInRectMatching(regionM6[2], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
+			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[2]), GetRectCenterY(regionM6[2]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[2]), GetRectCenterY(regionM6[2]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
 			endif
 		endif
 	    call DestroyGroup(g)
@@ -1388,7 +1617,6 @@ endfunction
 
 	    set g=null
 	    set g2=null
-	    set l_unit=null
 
 	endfunction
 
@@ -1398,34 +1626,130 @@ endfunction
 
   local group g
   local group g2
-  local unit l_unit
 
 		//区域1
-		set g=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterPlayerFilter))
+		set g=GetUnitsInRectMatching(regionM1[3], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM1[3], Condition(function TMonsterPlayerFilter))
 		if ( CountUnitsInGroup(g2) != 0 ) then
 			//刷怪
 			if ( CountUnitsInGroup(g) == 0 ) then
 
-			    if ( IsUnitInGroup(udg_H[3], g2) == true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
-			    endif
-			    call DestroyGroup(g2)
 
+			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[3]), GetRectCenterY(regionM1[3]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[3]), GetRectCenterY(regionM1[3]), 270)
+			    endif
 			endif
 		else
 			if ( CountUnitsInGroup(g) != 0 ) then
 				//不刷且删兵
-				loop
-				    set l_unit=FirstOfGroup(g)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(g, l_unit)
-			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
-			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
-			        call RemoveUnit(l_unit)
-				endloop
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+		//区域2
+		set g=GetUnitsInRectMatching(regionM2[3], Condition(function TMonsterFilter2))
+		set g2=GetUnitsInRectMatching(regionM2[3], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
+			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[3]), GetRectCenterY(regionM2[3]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[3]), GetRectCenterY(regionM2[3]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域3
+		set g=GetUnitsInRectMatching(regionM3[3], Condition(function TMonsterFilter3))
+		set g2=GetUnitsInRectMatching(regionM3[3], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
+			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[3]), GetRectCenterY(regionM3[3]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[3]), GetRectCenterY(regionM3[3]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域4
+		set g=GetUnitsInRectMatching(regionM4[3], Condition(function TMonsterFilter4))
+		set g2=GetUnitsInRectMatching(regionM4[3], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
+			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[3]), GetRectCenterY(regionM4[3]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[3]), GetRectCenterY(regionM4[3]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域5
+		set g=GetUnitsInRectMatching(regionM5[3], Condition(function TMonsterFilter5))
+		set g2=GetUnitsInRectMatching(regionM5[3], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
+			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[3]), GetRectCenterY(regionM5[3]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[3]), GetRectCenterY(regionM5[3]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域6
+		set g=GetUnitsInRectMatching(regionM6[3], Condition(function TMonsterFilter6))
+		set g2=GetUnitsInRectMatching(regionM6[3], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
+			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[3]), GetRectCenterY(regionM6[3]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[3]), GetRectCenterY(regionM6[3]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
 			endif
 		endif
 	    call DestroyGroup(g)
@@ -1433,7 +1757,6 @@ endfunction
 
 	    set g=null
 	    set g2=null
-	    set l_unit=null
 
 	endfunction
 
@@ -1443,34 +1766,130 @@ endfunction
 
   local group g
   local group g2
-  local unit l_unit
 
 		//区域1
-		set g=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterPlayerFilter))
+		set g=GetUnitsInRectMatching(regionM1[4], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM1[4], Condition(function TMonsterPlayerFilter))
 		if ( CountUnitsInGroup(g2) != 0 ) then
 			//刷怪
 			if ( CountUnitsInGroup(g) == 0 ) then
 
-			    if ( IsUnitInGroup(udg_H[4], g2) == true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
-			    endif
-			    call DestroyGroup(g2)
 
+			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[4]), GetRectCenterY(regionM1[4]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[4]), GetRectCenterY(regionM1[4]), 270)
+			    endif
 			endif
 		else
 			if ( CountUnitsInGroup(g) != 0 ) then
 				//不刷且删兵
-				loop
-				    set l_unit=FirstOfGroup(g)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(g, l_unit)
-			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
-			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
-			        call RemoveUnit(l_unit)
-				endloop
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+		//区域2
+		set g=GetUnitsInRectMatching(regionM2[4], Condition(function TMonsterFilter2))
+		set g2=GetUnitsInRectMatching(regionM2[4], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
+			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[4]), GetRectCenterY(regionM2[4]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[4]), GetRectCenterY(regionM2[4]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域3
+		set g=GetUnitsInRectMatching(regionM3[4], Condition(function TMonsterFilter3))
+		set g2=GetUnitsInRectMatching(regionM3[4], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
+			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[4]), GetRectCenterY(regionM3[4]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[4]), GetRectCenterY(regionM3[4]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域4
+		set g=GetUnitsInRectMatching(regionM4[4], Condition(function TMonsterFilter4))
+		set g2=GetUnitsInRectMatching(regionM4[4], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
+			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[4]), GetRectCenterY(regionM4[4]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[4]), GetRectCenterY(regionM4[4]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域5
+		set g=GetUnitsInRectMatching(regionM5[4], Condition(function TMonsterFilter5))
+		set g2=GetUnitsInRectMatching(regionM5[4], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
+			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[4]), GetRectCenterY(regionM5[4]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[4]), GetRectCenterY(regionM5[4]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域6
+		set g=GetUnitsInRectMatching(regionM6[4], Condition(function TMonsterFilter6))
+		set g2=GetUnitsInRectMatching(regionM6[4], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
+			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[4]), GetRectCenterY(regionM6[4]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[4]), GetRectCenterY(regionM6[4]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
 			endif
 		endif
 	    call DestroyGroup(g)
@@ -1478,7 +1897,6 @@ endfunction
 
 	    set g=null
 	    set g2=null
-	    set l_unit=null
 
 	endfunction
 
@@ -1488,34 +1906,130 @@ endfunction
 
   local group g
   local group g2
-  local unit l_unit
 
 		//区域1
-		set g=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterPlayerFilter))
+		set g=GetUnitsInRectMatching(regionM1[5], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM1[5], Condition(function TMonsterPlayerFilter))
 		if ( CountUnitsInGroup(g2) != 0 ) then
 			//刷怪
 			if ( CountUnitsInGroup(g) == 0 ) then
 
-			    if ( IsUnitInGroup(udg_H[5], g2) == true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
-			    endif
-			    call DestroyGroup(g2)
 
+			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[5]), GetRectCenterY(regionM1[5]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[5]), GetRectCenterY(regionM1[5]), 270)
+			    endif
 			endif
 		else
 			if ( CountUnitsInGroup(g) != 0 ) then
 				//不刷且删兵
-				loop
-				    set l_unit=FirstOfGroup(g)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(g, l_unit)
-			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
-			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
-			        call RemoveUnit(l_unit)
-				endloop
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+		//区域2
+		set g=GetUnitsInRectMatching(regionM2[5], Condition(function TMonsterFilter2))
+		set g2=GetUnitsInRectMatching(regionM2[5], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
+			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[5]), GetRectCenterY(regionM2[5]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[5]), GetRectCenterY(regionM2[5]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域3
+		set g=GetUnitsInRectMatching(regionM3[5], Condition(function TMonsterFilter3))
+		set g2=GetUnitsInRectMatching(regionM3[5], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
+			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[5]), GetRectCenterY(regionM3[5]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[5]), GetRectCenterY(regionM3[5]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域4
+		set g=GetUnitsInRectMatching(regionM4[5], Condition(function TMonsterFilter4))
+		set g2=GetUnitsInRectMatching(regionM4[5], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
+			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[5]), GetRectCenterY(regionM4[5]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[5]), GetRectCenterY(regionM4[5]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域5
+		set g=GetUnitsInRectMatching(regionM5[5], Condition(function TMonsterFilter5))
+		set g2=GetUnitsInRectMatching(regionM5[5], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
+			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[5]), GetRectCenterY(regionM5[5]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[5]), GetRectCenterY(regionM5[5]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域6
+		set g=GetUnitsInRectMatching(regionM6[5], Condition(function TMonsterFilter6))
+		set g2=GetUnitsInRectMatching(regionM6[5], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
+			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[5]), GetRectCenterY(regionM6[5]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[5]), GetRectCenterY(regionM6[5]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
 			endif
 		endif
 	    call DestroyGroup(g)
@@ -1523,7 +2037,6 @@ endfunction
 
 	    set g=null
 	    set g2=null
-	    set l_unit=null
 
 	endfunction
 
@@ -1533,34 +2046,130 @@ endfunction
 
   local group g
   local group g2
-  local unit l_unit
 
 		//区域1
-		set g=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterPlayerFilter))
+		set g=GetUnitsInRectMatching(regionM1[6], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM1[6], Condition(function TMonsterPlayerFilter))
 		if ( CountUnitsInGroup(g2) != 0 ) then
 			//刷怪
 			if ( CountUnitsInGroup(g) == 0 ) then
 
-			    if ( IsUnitInGroup(udg_H[6], g2) == true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
-			    endif
-			    call DestroyGroup(g2)
 
+			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[6]), GetRectCenterY(regionM1[6]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[6]), GetRectCenterY(regionM1[6]), 270)
+			    endif
 			endif
 		else
 			if ( CountUnitsInGroup(g) != 0 ) then
 				//不刷且删兵
-				loop
-				    set l_unit=FirstOfGroup(g)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(g, l_unit)
-			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
-			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
-			        call RemoveUnit(l_unit)
-				endloop
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+		//区域2
+		set g=GetUnitsInRectMatching(regionM2[6], Condition(function TMonsterFilter2))
+		set g2=GetUnitsInRectMatching(regionM2[6], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
+			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[6]), GetRectCenterY(regionM2[6]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[6]), GetRectCenterY(regionM2[6]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域3
+		set g=GetUnitsInRectMatching(regionM3[6], Condition(function TMonsterFilter3))
+		set g2=GetUnitsInRectMatching(regionM3[6], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
+			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[6]), GetRectCenterY(regionM3[6]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[6]), GetRectCenterY(regionM3[6]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域4
+		set g=GetUnitsInRectMatching(regionM4[6], Condition(function TMonsterFilter4))
+		set g2=GetUnitsInRectMatching(regionM4[6], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
+			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[6]), GetRectCenterY(regionM4[6]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[6]), GetRectCenterY(regionM4[6]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域5
+		set g=GetUnitsInRectMatching(regionM5[6], Condition(function TMonsterFilter5))
+		set g2=GetUnitsInRectMatching(regionM5[6], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
+			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[6]), GetRectCenterY(regionM5[6]), 270)
+			    else
+			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[6]), GetRectCenterY(regionM5[6]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    //区域6
+		set g=GetUnitsInRectMatching(regionM6[6], Condition(function TMonsterFilter6))
+		set g2=GetUnitsInRectMatching(regionM6[6], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
+			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[6]), GetRectCenterY(regionM6[6]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[6]), GetRectCenterY(regionM6[6]), 270)
+			    endif
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				call DeleteGroup(g)
 			endif
 		endif
 	    call DestroyGroup(g)
@@ -1568,7 +2177,6 @@ endfunction
 
 	    set g=null
 	    set g2=null
-	    set l_unit=null
 
 	endfunction
 
@@ -1577,44 +2185,44 @@ endfunction
 		
 
 //textmacro instance: TExerciseForbitCon("1")
-  function Exercise__TExerciseForbitCon1 takes nothing returns boolean
-			return ( ( ConvertedPlayer(1) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+  function Exercise___TExerciseForbitCon1 takes nothing returns boolean
+			return ( ( ConvertedPlayer(1) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
 		endfunction
 //end of: TExerciseForbitCon("1")
 //textmacro instance: TExerciseForbitCon("2")
-  function Exercise__TExerciseForbitCon2 takes nothing returns boolean
-			return ( ( ConvertedPlayer(2) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+  function Exercise___TExerciseForbitCon2 takes nothing returns boolean
+			return ( ( ConvertedPlayer(2) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
 		endfunction
 //end of: TExerciseForbitCon("2")
 //textmacro instance: TExerciseForbitCon("3")
-  function Exercise__TExerciseForbitCon3 takes nothing returns boolean
-			return ( ( ConvertedPlayer(3) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+  function Exercise___TExerciseForbitCon3 takes nothing returns boolean
+			return ( ( ConvertedPlayer(3) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
 		endfunction
 //end of: TExerciseForbitCon("3")
 //textmacro instance: TExerciseForbitCon("4")
-  function Exercise__TExerciseForbitCon4 takes nothing returns boolean
-			return ( ( ConvertedPlayer(4) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+  function Exercise___TExerciseForbitCon4 takes nothing returns boolean
+			return ( ( ConvertedPlayer(4) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
 		endfunction
 //end of: TExerciseForbitCon("4")
 //textmacro instance: TExerciseForbitCon("5")
-  function Exercise__TExerciseForbitCon5 takes nothing returns boolean
-			return ( ( ConvertedPlayer(5) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+  function Exercise___TExerciseForbitCon5 takes nothing returns boolean
+			return ( ( ConvertedPlayer(5) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
 		endfunction
 //end of: TExerciseForbitCon("5")
 //textmacro instance: TExerciseForbitCon("6")
-  function Exercise__TExerciseForbitCon6 takes nothing returns boolean
-			return ( ( ConvertedPlayer(6) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+  function Exercise___TExerciseForbitCon6 takes nothing returns boolean
+			return ( ( ConvertedPlayer(6) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
 		endfunction
 //end of: TExerciseForbitCon("6")
 
- function Exercise__TExerciseForbitAct takes nothing returns nothing
+ function Exercise___TExerciseForbitAct takes nothing returns nothing
 		call SetUnitX(GetTriggerUnit(), GetUnitX(gg_unit_haro_0030))
 		call SetUnitY(GetTriggerUnit(), GetUnitY(gg_unit_haro_0030))
 		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你不能进入其他玩家的房间！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
-
- function Exercise__InitExercise takes nothing returns nothing
+	
+ function Exercise___InitExerciseTrigger takes nothing returns nothing
   local trigger t
 
 
@@ -1622,52 +2230,217 @@ endfunction
 			if ( ( GetPlayerSlotState(ConvertedPlayer(1)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(1)) == MAP_CONTROL_USER ) then
 				set t=CreateTrigger()
 			    call TriggerRegisterEnterRectSimple(t, regionAll[1])
-			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon1))
-			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon1))
+			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+
+			    set Exercise___TiExercise[1]=CreateTimer()
+			    call TimerStart(Exercise___TiExercise[1], 5, true, function FlashMonsterPlayer1)
 			endif
 //end of: CreateMonsterTrigger("1")
 //textmacro instance: CreateMonsterTrigger("2")
 			if ( ( GetPlayerSlotState(ConvertedPlayer(2)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(2)) == MAP_CONTROL_USER ) then
 				set t=CreateTrigger()
 			    call TriggerRegisterEnterRectSimple(t, regionAll[2])
-			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon2))
-			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon2))
+			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+
+			    set Exercise___TiExercise[2]=CreateTimer()
+			    call TimerStart(Exercise___TiExercise[2], 5, true, function FlashMonsterPlayer2)
 			endif
 //end of: CreateMonsterTrigger("2")
 //textmacro instance: CreateMonsterTrigger("3")
 			if ( ( GetPlayerSlotState(ConvertedPlayer(3)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(3)) == MAP_CONTROL_USER ) then
 				set t=CreateTrigger()
 			    call TriggerRegisterEnterRectSimple(t, regionAll[3])
-			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon3))
-			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon3))
+			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+
+			    set Exercise___TiExercise[3]=CreateTimer()
+			    call TimerStart(Exercise___TiExercise[3], 5, true, function FlashMonsterPlayer3)
 			endif
 //end of: CreateMonsterTrigger("3")
 //textmacro instance: CreateMonsterTrigger("4")
 			if ( ( GetPlayerSlotState(ConvertedPlayer(4)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(4)) == MAP_CONTROL_USER ) then
 				set t=CreateTrigger()
 			    call TriggerRegisterEnterRectSimple(t, regionAll[4])
-			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon4))
-			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon4))
+			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+
+			    set Exercise___TiExercise[4]=CreateTimer()
+			    call TimerStart(Exercise___TiExercise[4], 5, true, function FlashMonsterPlayer4)
 			endif
 //end of: CreateMonsterTrigger("4")
 //textmacro instance: CreateMonsterTrigger("5")
 			if ( ( GetPlayerSlotState(ConvertedPlayer(5)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(5)) == MAP_CONTROL_USER ) then
 				set t=CreateTrigger()
 			    call TriggerRegisterEnterRectSimple(t, regionAll[5])
-			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon5))
-			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon5))
+			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+
+			    set Exercise___TiExercise[5]=CreateTimer()
+			    call TimerStart(Exercise___TiExercise[5], 5, true, function FlashMonsterPlayer5)
 			endif
 //end of: CreateMonsterTrigger("5")
 //textmacro instance: CreateMonsterTrigger("6")
 			if ( ( GetPlayerSlotState(ConvertedPlayer(6)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(6)) == MAP_CONTROL_USER ) then
 				set t=CreateTrigger()
 			    call TriggerRegisterEnterRectSimple(t, regionAll[6])
-			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon6))
-			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon6))
+			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+
+			    set Exercise___TiExercise[6]=CreateTimer()
+			    call TimerStart(Exercise___TiExercise[6], 5, true, function FlashMonsterPlayer6)
 			endif
 //end of: CreateMonsterTrigger("6")
 
 		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function CloseExerciseTimer takes player p returns nothing
+		call PauseTimer(Exercise___TiExercise[GetConvertedPlayerId(p)])
+		call DestroyTimer(Exercise___TiExercise[GetConvertedPlayerId(p)])
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function Exercise___InitExerciseRegions takes nothing returns nothing
+
+		set regionM1[1]=Rect(- 15488.0, 13952.0, - 14240.0, 15232.0)
+	    set regionM2[1]=Rect(- 13280.0, 13952.0, - 12096.0, 15232.0)
+	    set regionM3[1]=Rect(- 15488.0, 12288.0, - 14208.0, 13536.0)
+	    set regionM4[1]=Rect(- 13312.0, 12288.0, - 12064.0, 13568.0)
+	    set regionM5[1]=Rect(- 15488.0, 10624.0, - 14208.0, 11904.0)
+	    set regionM6[1]=Rect(- 13312.0, 10624.0, - 12032.0, 11904.0)
+		
+	    set regionM1[2]=Rect(- 15488.0, 8960.0, - 14240.0, 10240.0)
+	    set regionM2[2]=Rect(- 13280.0, 8960.0, - 12096.0, 10240.0)
+	    set regionM3[2]=Rect(- 15488.0, 7296.0, - 14208.0, 8544.0)
+	    set regionM4[2]=Rect(- 13312.0, 7296.0, - 12064.0, 8576.0)
+	    set regionM5[2]=Rect(- 15488.0, 5632.0, - 14208.0, 6912.0)
+	    set regionM6[2]=Rect(- 13312.0, 5632.0, - 12032.0, 6912.0)
+
+	    set regionM1[3]=Rect(- 11104.0, 13984.0, - 9888.0, 15232.0)
+	    set regionM2[3]=Rect(- 8960.0, 13952.0, - 7680.0, 15232.0)
+	    set regionM3[3]=Rect(- 11136.0, 12288.0, - 9888.0, 13536.0)
+	    set regionM4[3]=Rect(- 8928.0, 12288.0, - 7680.0, 13568.0)
+	    set regionM5[3]=Rect(- 11136.0, 10624.0, - 9856.0, 11904.0)
+	    set regionM6[3]=Rect(- 8960.0, 10624.0, - 7680.0, 11904.0)
+		
+	    set regionM1[4]=Rect(- 11104.0, 8992.0, - 9888.0, 10240.0)
+	    set regionM2[4]=Rect(- 8960.0, 8960.0, - 7680.0, 10240.0)
+	    set regionM3[4]=Rect(- 11136.0, 7296.0, - 9888.0, 8544.0)
+	    set regionM4[4]=Rect(- 8928.0, 7296.0, - 7680.0, 8576.0)
+	    set regionM5[4]=Rect(- 11136.0, 5632.0, - 9856.0, 6912.0)
+	    set regionM6[4]=Rect(- 8960.0, 5632.0, - 7680.0, 6912.0)
+		
+	    set regionM1[5]=Rect(- 6752.0, 13952.0, - 5536.0, 15200.0)
+	    set regionM2[5]=Rect(- 4736.0, 13952.0, - 3456.0, 15232.0)
+	    set regionM3[5]=Rect(- 6784.0, 12256.0, - 5536.0, 13504.0)
+	    set regionM4[5]=Rect(- 4704.0, 12288.0, - 3456.0, 13568.0)
+	    set regionM5[5]=Rect(- 6784.0, 10592.0, - 5504.0, 11872.0)
+	    set regionM6[5]=Rect(- 4736.0, 10624.0, - 3456.0, 11904.0)
+
+	    set regionM1[6]=Rect(- 6752.0, 8960.0, - 5536.0, 10208.0)
+	    set regionM2[6]=Rect(- 4736.0, 8960.0, - 3456.0, 10240.0)
+	    set regionM3[6]=Rect(- 6784.0, 7264.0, - 5536.0, 8512.0)
+	    set regionM4[6]=Rect(- 4704.0, 7296.0, - 3456.0, 8576.0)
+	    set regionM5[6]=Rect(- 6784.0, 5600.0, - 5504.0, 6880.0)
+	    set regionM6[6]=Rect(- 4736.0, 5632.0, - 3456.0, 6912.0)
+
+	    set regionAll[1]=Rect(- 15808.0, 10400.0, - 11744.0, 15456.0)
+	    set regionAll[2]=Rect(- 15808.0, 5344.0, - 11712.0, 10400.0)
+	    set regionAll[3]=Rect(- 11744.0, 10400.0, - 7232.0, 15456.0)
+	    set regionAll[4]=Rect(- 11744.0, 5312.0, - 7232.0, 10400.0)
+	    set regionAll[5]=Rect(- 7264.0, 10432.0, - 3136.0, 15456.0)
+	    set regionAll[6]=Rect(- 7264.0, 5312.0, - 3136.0, 10432.0)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function EnterExerciseRegion takes nothing returns nothing
+  local real x
+  local real y
+
+
+//textmacro instance: EnterSpecifyExercise("I05J","1")
+		if ( ( GetItemTypeId(GetSoldItem()) == 'I05J' ) ) then
+			set x=GetRectCenterX(regionM1[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+			set y=GetRectCenterY(regionM1[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+
+	        call SetUnitX(GetBuyingUnit(), x)
+	        call SetUnitY(GetBuyingUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	    endif
+//end of: EnterSpecifyExercise("I05J","1")
+//textmacro instance: EnterSpecifyExercise("I053","2")
+		if ( ( GetItemTypeId(GetSoldItem()) == 'I053' ) ) then
+			set x=GetRectCenterX(regionM2[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+			set y=GetRectCenterY(regionM2[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+
+	        call SetUnitX(GetBuyingUnit(), x)
+	        call SetUnitY(GetBuyingUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	    endif
+//end of: EnterSpecifyExercise("I053","2")
+//textmacro instance: EnterSpecifyExercise("I05K","3")
+		if ( ( GetItemTypeId(GetSoldItem()) == 'I05K' ) ) then
+			set x=GetRectCenterX(regionM3[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+			set y=GetRectCenterY(regionM3[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+
+	        call SetUnitX(GetBuyingUnit(), x)
+	        call SetUnitY(GetBuyingUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	    endif
+//end of: EnterSpecifyExercise("I05K","3")
+//textmacro instance: EnterSpecifyExercise("I06Y","4")
+		if ( ( GetItemTypeId(GetSoldItem()) == 'I06Y' ) ) then
+			set x=GetRectCenterX(regionM4[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+			set y=GetRectCenterY(regionM4[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+
+	        call SetUnitX(GetBuyingUnit(), x)
+	        call SetUnitY(GetBuyingUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	    endif
+//end of: EnterSpecifyExercise("I06Y","4")
+//textmacro instance: EnterSpecifyExercise("I06Z","5")
+		if ( ( GetItemTypeId(GetSoldItem()) == 'I06Z' ) ) then
+			set x=GetRectCenterX(regionM5[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+			set y=GetRectCenterY(regionM5[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+
+	        call SetUnitX(GetBuyingUnit(), x)
+	        call SetUnitY(GetBuyingUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	    endif
+//end of: EnterSpecifyExercise("I06Z","5")
+//textmacro instance: EnterSpecifyExercise("I03Z","6")
+		if ( ( GetItemTypeId(GetSoldItem()) == 'I03Z' ) ) then
+			set x=GetRectCenterX(regionM6[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+			set y=GetRectCenterY(regionM6[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
+
+	        call SetUnitX(GetBuyingUnit(), x)
+	        call SetUnitY(GetBuyingUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	    endif
+//end of: EnterSpecifyExercise("I03Z","6")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+ function Exercise___InitExercise takes nothing returns nothing
+		call Exercise___InitExerciseRegions()
+		call Exercise___InitExerciseTrigger()
+
 	endfunction
 
 
@@ -1721,15 +2494,16 @@ endfunction
 // END IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF Test.j
 // END IMPORT OF LHBase.j
+	
 
 
 
 // END IMPORT OF Exercise.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Exercise__InitExercise")
+call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("Exercise___InitExercise")
 
 endfunction
 
