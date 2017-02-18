@@ -64,19 +64,27 @@ library_once LHBase initializer InitLHBase //requires Test
         */ and GetUnitPointValue(u) != 0
     endfunction
 
+
+    /*
+        创建漂浮文字，漂浮然后消失
+    */
+    function CreateTextTagA takes string name,unit u,real red,real green,real blue,real time,real size returns nothing
+
+        local texttag t = CreateTextTagUnitBJ( name, u, 0, size, red, green, blue, 0 )
+        call SetTextTagVelocityBJ( t, 64, 90.00 )
+        if time <= 0 then
+            set time = 0.01
+        endif
+        call SetTextTagPermanent(t,false)
+        call SetTextTagLifespan(t,time)
+        call SetTextTagFadepoint(t,time)
+    endfunction
+
     /*
         创建技能的漂浮文字，漂浮然后消失
     */
     function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
-
-	    local texttag t = CreateTextTagUnitBJ( name, u, 0, 20.00, red, green, blue, 0 )
-	    call SetTextTagVelocityBJ( t, 64, 90.00 )
-	    if time <= 0 then
-	        set time = 0.01
-	    endif
-	    call SetTextTagPermanent(t,false)
-	    call SetTextTagLifespan(t,time)
-	    call SetTextTagFadepoint(t,time)
+        call CreateTextTagA(name,u,red,green,blue,time,16)
     endfunction
 
     /*

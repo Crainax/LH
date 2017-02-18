@@ -15,43 +15,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem___CurrentTime
-integer YDWETimerSystem___CurrentIndex
-integer YDWETimerSystem___TaskListHead
-integer YDWETimerSystem___TaskListIdleHead
-integer YDWETimerSystem___TaskListIdleMax
-integer array YDWETimerSystem___TaskListIdle
-integer array YDWETimerSystem___TaskListNext
-integer array YDWETimerSystem___TaskListTime
-trigger array YDWETimerSystem___TaskListProc
-trigger YDWETimerSystem___fnRemoveUnit
-trigger YDWETimerSystem___fnDestroyTimer
-trigger YDWETimerSystem___fnRemoveItem
-trigger YDWETimerSystem___fnDestroyEffect
-trigger YDWETimerSystem___fnDestroyLightning
-trigger YDWETimerSystem___fnRunTrigger
-timer YDWETimerSystem___Timer
-integer YDWETimerSystem___TimerHandle
+integer YDWETimerSystem__CurrentTime
+integer YDWETimerSystem__CurrentIndex
+integer YDWETimerSystem__TaskListHead
+integer YDWETimerSystem__TaskListIdleHead
+integer YDWETimerSystem__TaskListIdleMax
+integer array YDWETimerSystem__TaskListIdle
+integer array YDWETimerSystem__TaskListNext
+integer array YDWETimerSystem__TaskListTime
+trigger array YDWETimerSystem__TaskListProc
+trigger YDWETimerSystem__fnRemoveUnit
+trigger YDWETimerSystem__fnDestroyTimer
+trigger YDWETimerSystem__fnRemoveItem
+trigger YDWETimerSystem__fnDestroyEffect
+trigger YDWETimerSystem__fnDestroyLightning
+trigger YDWETimerSystem__fnRunTrigger
+timer YDWETimerSystem__Timer
+integer YDWETimerSystem__TimerHandle
 
-integer YDWETimerSystem___TimerSystem_RunIndex= 0
+integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -98,6 +98,10 @@ unit gg_unit_nmgv_0195
 unit gg_unit_nmgv_0196
 unit gg_unit_nmgv_0197
 unit gg_unit_nmgv_0198
+
+        
+integer array udg_gold
+real array udg_I_Jinqianhuodelv
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
@@ -105,15 +109,16 @@ unit learnSkillHero
         
 unit array UDepot
 //endglobals from LHBase
-//globals from MonsterSpell:
-constant boolean LIBRARY_MonsterSpell=true
-trigger TSpellQianfa
-trigger TSpellDart
-		
-constant real DRAT_JUNENG= 30000000
-constant real DRAT_XIANLIAN= 10000000
-integer level_juneng= 1
-//endglobals from MonsterSpell
+//globals from Exercise:
+constant boolean LIBRARY_Exercise=true
+rect array regionAll
+rect array regionM1
+rect array regionM2
+rect array regionM3
+rect array regionM4
+rect array regionM5
+rect array regionM6
+//endglobals from Exercise
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -1048,7 +1053,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1100,7 +1105,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem___CurrentIndex
+    return YDWETimerSystem__CurrentIndex
 endfunction
 
 
@@ -1130,7 +1135,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem___TimerSystem_RunIndex
+    return YDWETimerSystem__TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1170,7 +1175,7 @@ endfunction
 //library Test:
 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1206,17 +1211,23 @@ endfunction
         return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) == true and IsUnitEnemy(u, p) and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
     endfunction
 
+
+    
+    function CreateTextTagA takes string name,unit u,real red,real green,real blue,real time,real size returns nothing
+
+        local texttag t= CreateTextTagUnitBJ(name, u, 0, size, red, green, blue, 0)
+        call SetTextTagVelocityBJ(t, 64, 90.00)
+        if time <= 0 then
+            set time=0.01
+        endif
+        call SetTextTagPermanent(t, false)
+        call SetTextTagLifespan(t, time)
+        call SetTextTagFadepoint(t, time)
+    endfunction
+
     
     function CreateSpellTextTag takes string name,unit u,real red,real green,real blue,real time returns nothing
-
-     local texttag t= CreateTextTagUnitBJ(name, u, 0, 20.00, red, green, blue, 0)
-	    call SetTextTagVelocityBJ(t, 64, 90.00)
-	    if time <= 0 then
-	        set time=0.01
-	    endif
-	    call SetTextTagPermanent(t, false)
-	    call SetTextTagLifespan(t, time)
-	    call SetTextTagFadepoint(t, time)
+        call CreateTextTagA(name , u , red , green , blue , time , 16)
     endfunction
 
     	
@@ -1264,7 +1275,7 @@ endfunction
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase___InitLHBase takes nothing returns nothing
+    function LHBase__InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1276,192 +1287,394 @@ endfunction
     endfunction
 
 //library LHBase ends
-//library MonsterSpell:
-	
-
-
-	
- function FocusCow takes unit selected returns nothing
-		if ( GetUnitAbilityLevel(selected, 'A09W') >= 1 ) then
-			call SetUnitState(selected, UNIT_STATE_LIFE, GetUnitState(selected, UNIT_STATE_LIFE) + GetUnitState(selected, UNIT_STATE_MAX_LIFE) * 0.1)
-		endif
-	endfunction
-
+//library Exercise:
 
 //---------------------------------------------------------------------------------------------------
 	
- function MonsterSpell___TSpellQianFaEnemyFilter takes nothing returns boolean
-	    return ( ( ( IsUnitAliveBJ(GetFilterUnit()) == true ) and ( IsUnitEnemy(GetFilterUnit(), GetOwningPlayer(GetAttacker())) == true ) ) )
+
+ function TMonsterFilter1 takes nothing returns boolean
+	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nano' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nanw' ) ) )
 	endfunction
 
- function MonsterSpell___TSpellQianFaAct takes nothing returns nothing
-     local integer i
-     local group ydl_group
-     local unit ydl_unit
-     local real x
-     local real y
+ function TMonsterPlayerFilter takes nothing returns boolean
+	    return ( ( GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) )
+	endfunction
 
-	    set x=GetUnitX(GetAttackedUnitBJ())
-	    set y=GetUnitY(GetAttackedUnitBJ())
-	    call DisableTrigger(GetTriggeringTrigger())
-	    call SetUnitManaBJ(GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 333.00 ))
-	    //特效
-	    set i=1
-	    loop
-	        exitwhen i > 8
-	        call UnitApplyTimedLifeBJ(5.00, 'BHwe', CreateUnit(GetOwningPlayer(GetAttacker()), 'h00J', x, y, 45 * I2R(i)))
-	        set i=i + 1
-	    endloop
+//---------------------------------------------------------------------------------------------------
+	
+	
+//textmacro instance: FlashMonster("1")
+ function FlashMonsterPlayer1 takes nothing returns nothing
 
-	    //巨能
-	    if ( ( GetUnitTypeId(GetAttacker()) == 'N00Q' ) ) then
-	    		set ydl_group=CreateGroup()
-			    call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell___TSpellQianFaEnemyFilter))
-			    loop
-			        set ydl_unit=FirstOfGroup(ydl_group)
-			        exitwhen ydl_unit == null
-			        call GroupRemoveUnit(ydl_group, ydl_unit)
-			        //造成75%生命的伤害
-		            call UnitDamageTarget(GetAttacker(), ydl_unit, ( 0.5 * GetUnitStateSwap(UNIT_STATE_LIFE, ydl_unit) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
-			    endloop
-		 	elseif ( ( GetUnitTypeId(GetAttacker()) == 'Nngs' ) or ( GetUnitTypeId(GetAttacker()) == 'Nbrn' ) ) then
-		//仙炼或生克
-	    		set ydl_group=CreateGroup()
-				call GroupEnumUnitsInRange(ydl_group, x, y, 900, Condition(function MonsterSpell___TSpellQianFaEnemyFilter))
+  local group g
+  local group g2
+  local unit l_unit
+
+		//区域1
+		set g=GetUnitsInRectMatching(regionM1[1], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM1[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+
+			    if ( IsUnitInGroup(udg_H[1], g2) == true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[1]), GetRectCenterY(regionM1[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[1]), GetRectCenterY(regionM1[1]), 270)
+			    endif
+			    call DestroyGroup(g2)
+
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
 				loop
-				    set ydl_unit=FirstOfGroup(ydl_group)
-				    exitwhen ydl_unit == null
-				    call GroupRemoveUnit(ydl_group, ydl_unit)
-			        //造成50%生命的伤害
-			        call UnitDamageTarget(GetAttacker(), ydl_unit, ( 0.3 * GetUnitStateSwap(UNIT_STATE_LIFE, ydl_unit) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
+				    set l_unit=FirstOfGroup(g)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(g, l_unit)
+			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
+			        call RemoveUnit(l_unit)
 				endloop
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
 
-	    endif
+	    set g=null
+	    set g2=null
+	    set l_unit=null
 
-	    //文字
-	    call CreateSpellTextTag("虚--千罚之光" , GetAttacker() , 100 , 100 , 0 , 2)
-
-	    call PolledWait(5.00)
-	    call EnableTrigger(GetTriggeringTrigger())
-
-	    call DestroyGroup(ydl_group)
-	    set ydl_group=null
-	    set ydl_unit=null
 	endfunction
 
- function MonsterSpell___TSpellQianFaCon takes nothing returns boolean
-	    return ( ( ( GetUnitTypeId(GetAttacker()) == 'Nngs' ) or ( GetUnitTypeId(GetAttacker()) == 'Nbrn' ) or ( GetUnitTypeId(GetAttacker()) == 'N00Q' ) ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 333.00 ) and ( GetRandomInt(1, 10) == 1 ) )
+//end of: FlashMonster("1")
+//textmacro instance: FlashMonster("2")
+ function FlashMonsterPlayer2 takes nothing returns nothing
+
+  local group g
+  local group g2
+  local unit l_unit
+
+		//区域1
+		set g=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+
+			    if ( IsUnitInGroup(udg_H[2], g2) == true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
+			    endif
+			    call DestroyGroup(g2)
+
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				loop
+				    set l_unit=FirstOfGroup(g)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(g, l_unit)
+			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
+			        call RemoveUnit(l_unit)
+				endloop
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    set g=null
+	    set g2=null
+	    set l_unit=null
+
 	endfunction
 
+//end of: FlashMonster("2")
+//textmacro instance: FlashMonster("3")
+ function FlashMonsterPlayer3 takes nothing returns nothing
+
+  local group g
+  local group g2
+  local unit l_unit
+
+		//区域1
+		set g=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+
+			    if ( IsUnitInGroup(udg_H[3], g2) == true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
+			    endif
+			    call DestroyGroup(g2)
+
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				loop
+				    set l_unit=FirstOfGroup(g)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(g, l_unit)
+			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
+			        call RemoveUnit(l_unit)
+				endloop
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    set g=null
+	    set g2=null
+	    set l_unit=null
+
+	endfunction
+
+//end of: FlashMonster("3")
+//textmacro instance: FlashMonster("4")
+ function FlashMonsterPlayer4 takes nothing returns nothing
+
+  local group g
+  local group g2
+  local unit l_unit
+
+		//区域1
+		set g=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+
+			    if ( IsUnitInGroup(udg_H[4], g2) == true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
+			    endif
+			    call DestroyGroup(g2)
+
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				loop
+				    set l_unit=FirstOfGroup(g)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(g, l_unit)
+			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
+			        call RemoveUnit(l_unit)
+				endloop
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    set g=null
+	    set g2=null
+	    set l_unit=null
+
+	endfunction
+
+//end of: FlashMonster("4")
+//textmacro instance: FlashMonster("5")
+ function FlashMonsterPlayer5 takes nothing returns nothing
+
+  local group g
+  local group g2
+  local unit l_unit
+
+		//区域1
+		set g=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+
+			    if ( IsUnitInGroup(udg_H[5], g2) == true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
+			    endif
+			    call DestroyGroup(g2)
+
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				loop
+				    set l_unit=FirstOfGroup(g)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(g, l_unit)
+			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
+			        call RemoveUnit(l_unit)
+				endloop
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    set g=null
+	    set g2=null
+	    set l_unit=null
+
+	endfunction
+
+//end of: FlashMonster("5")
+//textmacro instance: FlashMonster("6")
+ function FlashMonsterPlayer6 takes nothing returns nothing
+
+  local group g
+  local group g2
+  local unit l_unit
+
+		//区域1
+		set g=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterFilter1))
+		set g2=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterPlayerFilter))
+		if ( CountUnitsInGroup(g2) != 0 ) then
+			//刷怪
+			if ( CountUnitsInGroup(g) == 0 ) then
+
+			    if ( IsUnitInGroup(udg_H[6], g2) == true ) then
+			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
+			    else
+			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
+			    endif
+			    call DestroyGroup(g2)
+
+			endif
+		else
+			if ( CountUnitsInGroup(g) != 0 ) then
+				//不刷且删兵
+				loop
+				    set l_unit=FirstOfGroup(g)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(g, l_unit)
+			        call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+			        call FlushChildHashtable(YDHT, ((GetHandleId((l_unit))))) // INLINED!!
+			        call RemoveUnit(l_unit)
+				endloop
+			endif
+		endif
+	    call DestroyGroup(g)
+	    call DestroyGroup(g2)
+
+	    set g=null
+	    set g2=null
+	    set l_unit=null
+
+	endfunction
+
+//end of: FlashMonster("6")
 //---------------------------------------------------------------------------------------------------
-	
+		
 
- function MonsterSpell___TSpellJunlinAct takes nothing returns nothing
+//textmacro instance: TExerciseForbitCon("1")
+  function Exercise__TExerciseForbitCon1 takes nothing returns boolean
+			return ( ( ConvertedPlayer(1) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+		endfunction
+//end of: TExerciseForbitCon("1")
+//textmacro instance: TExerciseForbitCon("2")
+  function Exercise__TExerciseForbitCon2 takes nothing returns boolean
+			return ( ( ConvertedPlayer(2) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+		endfunction
+//end of: TExerciseForbitCon("2")
+//textmacro instance: TExerciseForbitCon("3")
+  function Exercise__TExerciseForbitCon3 takes nothing returns boolean
+			return ( ( ConvertedPlayer(3) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+		endfunction
+//end of: TExerciseForbitCon("3")
+//textmacro instance: TExerciseForbitCon("4")
+  function Exercise__TExerciseForbitCon4 takes nothing returns boolean
+			return ( ( ConvertedPlayer(4) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+		endfunction
+//end of: TExerciseForbitCon("4")
+//textmacro instance: TExerciseForbitCon("5")
+  function Exercise__TExerciseForbitCon5 takes nothing returns boolean
+			return ( ( ConvertedPlayer(5) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+		endfunction
+//end of: TExerciseForbitCon("5")
+//textmacro instance: TExerciseForbitCon("6")
+  function Exercise__TExerciseForbitCon6 takes nothing returns boolean
+			return ( ( ConvertedPlayer(6) == GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
+		endfunction
+//end of: TExerciseForbitCon("6")
 
-        call SetUnitOwner(GetAttackedUnitBJ(), GetOwningPlayer(GetAttacker()), true)
-	    call CreateSpellTextTag("臣服于我" , GetAttacker() , 100 , 0 , 0 , 2)
-	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ())))
-	endfunction
-
- function MonsterSpell___TSpellJunlinCon takes nothing returns boolean
-	    return ( ( GetUnitAbilityLevel(GetAttacker(), 'A0P1') >= 1 ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00 ) and ( GetRandomInt(1, 10) == 1 ) and ( IsEnemy(GetAttackedUnitBJ() , GetAttacker()) == true ) and ( GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER ) and ( IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true ) )
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function MonsterSpell___TSpellPetAct takes nothing returns nothing
-  local real per= ( 0.02 * ( GetUnitLevel(GetAttacker()) - GetUnitLevel(GetAttackedUnitBJ()) + 1 ) )
-		call UnitDamageTarget(GetAttacker(), GetAttackedUnitBJ(), GetUnitState(GetAttacker(), UNIT_STATE_MAX_LIFE) * per, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
-		call BJDebugMsg("PET:" + R2S(per))
-	endfunction
-
- function MonsterSpell___TSpellPetCon takes nothing returns boolean
-	    return ( ( ( GetUnitAbilityLevel(GetAttackedUnitBJ(), 'A0P0') >= 1 ) or ( GetUnitAbilityLevel(GetAttackedUnitBJ(), 'A0P0') >= 1 ) ) and ( IsEnemy(GetAttackedUnitBJ() , GetAttacker()) == true ) and GetUnitLevel(GetAttacker()) >= 50 and GetUnitLevel(GetAttacker()) >= GetUnitLevel(GetAttackedUnitBJ()) )
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
-	
- function MonsterSpell___TSpellDratAct takes nothing returns nothing
-  local integer i= - 1
-     local real x1
-     local real y1
-     local real x2
-     local real y2
-     local unit drat
-     local real facing
-
-	    set x1=GetUnitX(GetAttackedUnitBJ())
-	    set y1=GetUnitY(GetAttackedUnitBJ())
-	    set x2=GetUnitX(GetAttacker())
-	    set y2=GetUnitY(GetAttacker())
-	    set facing=Atan2BJ(y2 - y1, x2 - x1)
-
-	    call DisableTrigger(GetTriggeringTrigger())
-	    call SetUnitManaBJ(GetAttackedUnitBJ(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) - 333.00 ))
-
-	    //巨能
-	    if ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'N00Q' ) ) then
-	    	loop
-	    		exitwhen i > 1
-	    		set drat=CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()), 'hs00', x1, y1, facing)
-	        	call UnitApplyTimedLifeBJ(10.00, 'BHwe', drat)
-	        	    call DIYRushSlide(drat , facing + i * 30 , 20000.00 , 10.00 , 0.05 , DRAT_JUNENG * ( 1 + 0.2 * I2R(level_juneng) ) , 60. , false , true , false , "origin" , "" , "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl")
-	    		set i=i + 1
-	    	endloop
-		 	elseif ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nngs' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nbrn' ) ) then
-		//仙炼或生克
-	    		set drat=CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()), 'hs00', x1, y1, facing)
-	        	call UnitApplyTimedLifeBJ(10.00, 'BHwe', drat)
-	        	    call DIYRushSlide(drat , facing , 20000.00 , 10.00 , 0.05 , DRAT_XIANLIAN , 60. , false , true , false , "origin" , "" , "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl")
-	    endif
-
-	    //文字
-	    call CreateSpellTextTag("虚--弹射飞镖" , GetAttacker() , 0 , 100 , 1000 , 2)
-	    call PolledWait(10.00)
-	    call EnableTrigger(GetTriggeringTrigger())
-
-	    set drat=null
-	endfunction
-
- function MonsterSpell___TSpellDratCon takes nothing returns boolean
-	    return ( ( ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nngs' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'Nbrn' ) or ( GetUnitTypeId(GetAttackedUnitBJ()) == 'N00Q' ) ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttackedUnitBJ()) > 333.00 ) and ( GetRandomInt(1, 10) == 1 ) )
+ function Exercise__TExerciseForbitAct takes nothing returns nothing
+		call SetUnitX(GetTriggerUnit(), GetUnitX(gg_unit_haro_0030))
+		call SetUnitY(GetTriggerUnit(), GetUnitY(gg_unit_haro_0030))
+		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你不能进入其他玩家的房间！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
- function MonsterSpell___InitMonsterSpell takes nothing returns nothing
-  local trigger t= CreateTrigger()
-		//巨能,仙炼还有生克的千罚之光
-	    set TSpellQianfa=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(TSpellQianfa, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(TSpellQianfa, Condition(function MonsterSpell___TSpellQianFaCon))
-	    call TriggerAddAction(TSpellQianfa, function MonsterSpell___TSpellQianFaAct)
-	    call DisableTrigger(TSpellQianfa)
 
-	    //巨能,仙炼还有生克的手里剑
-	    set TSpellDart=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(TSpellDart, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(TSpellDart, Condition(function MonsterSpell___TSpellDratCon))
-	    call TriggerAddAction(TSpellDart, function MonsterSpell___TSpellDratAct)
-	    call DisableTrigger(TSpellDart)
+ function Exercise__InitExercise takes nothing returns nothing
+  local trigger t
 
-	    //臣服于我
-	    set t=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(t, Condition(function MonsterSpell___TSpellJunlinCon))
-	    call TriggerAddAction(t, function MonsterSpell___TSpellJunlinAct)
 
-	    //宠物掉血
-	    set t=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(t, Condition(function MonsterSpell___TSpellPetCon))
-	    call TriggerAddAction(t, function MonsterSpell___TSpellPetAct)
+//textmacro instance: CreateMonsterTrigger("1")
+			if ( ( GetPlayerSlotState(ConvertedPlayer(1)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(1)) == MAP_CONTROL_USER ) then
+				set t=CreateTrigger()
+			    call TriggerRegisterEnterRectSimple(t, regionAll[1])
+			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon1))
+			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			endif
+//end of: CreateMonsterTrigger("1")
+//textmacro instance: CreateMonsterTrigger("2")
+			if ( ( GetPlayerSlotState(ConvertedPlayer(2)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(2)) == MAP_CONTROL_USER ) then
+				set t=CreateTrigger()
+			    call TriggerRegisterEnterRectSimple(t, regionAll[2])
+			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon2))
+			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			endif
+//end of: CreateMonsterTrigger("2")
+//textmacro instance: CreateMonsterTrigger("3")
+			if ( ( GetPlayerSlotState(ConvertedPlayer(3)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(3)) == MAP_CONTROL_USER ) then
+				set t=CreateTrigger()
+			    call TriggerRegisterEnterRectSimple(t, regionAll[3])
+			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon3))
+			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			endif
+//end of: CreateMonsterTrigger("3")
+//textmacro instance: CreateMonsterTrigger("4")
+			if ( ( GetPlayerSlotState(ConvertedPlayer(4)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(4)) == MAP_CONTROL_USER ) then
+				set t=CreateTrigger()
+			    call TriggerRegisterEnterRectSimple(t, regionAll[4])
+			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon4))
+			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			endif
+//end of: CreateMonsterTrigger("4")
+//textmacro instance: CreateMonsterTrigger("5")
+			if ( ( GetPlayerSlotState(ConvertedPlayer(5)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(5)) == MAP_CONTROL_USER ) then
+				set t=CreateTrigger()
+			    call TriggerRegisterEnterRectSimple(t, regionAll[5])
+			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon5))
+			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			endif
+//end of: CreateMonsterTrigger("5")
+//textmacro instance: CreateMonsterTrigger("6")
+			if ( ( GetPlayerSlotState(ConvertedPlayer(6)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(6)) == MAP_CONTROL_USER ) then
+				set t=CreateTrigger()
+			    call TriggerRegisterEnterRectSimple(t, regionAll[6])
+			    call TriggerAddCondition(t, Condition(function Exercise__TExerciseForbitCon6))
+			    call TriggerAddAction(t, function Exercise__TExerciseForbitAct)
+			endif
+//end of: CreateMonsterTrigger("6")
 
-	    set t=null
+		set t=null
 	endfunction
 
-//library MonsterSpell ends
+
+//library Exercise ends
 
 
-// BEGIN IMPORT OF MonsterSpell.j
-
+// BEGIN IMPORT OF Exercise.j
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -1510,12 +1723,13 @@ endfunction
 // END IMPORT OF LHBase.j
 
 
-// END IMPORT OF MonsterSpell.j
+
+// END IMPORT OF Exercise.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test___InitTest")
-call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("MonsterSpell___InitMonsterSpell")
+call ExecuteFunc("Test__InitTest")
+call ExecuteFunc("LHBase__InitLHBase")
+call ExecuteFunc("Exercise__InitExercise")
 
 endfunction
 

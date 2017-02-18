@@ -57,6 +57,12 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         unit gg_unit_nmgv_0196
         unit gg_unit_nmgv_0197
         unit gg_unit_nmgv_0198
+
+        /*
+            金币有关
+        */
+        integer array udg_gold
+        real array udg_I_Jinqianhuodelv
 	endglobals
 
 	private function InitTest takes nothing returns nothing
