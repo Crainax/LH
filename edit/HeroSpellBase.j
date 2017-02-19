@@ -17,6 +17,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan
 
 		//加入英雄内部判断
 		call LearnSkillHeiyan(learnSkillHero,GetLearnedSkill()) 
+		call LearnSkillSeyu(learnSkillHero,GetLearnedSkill()) 
 	endfunction
 
 	//通过判断学习第几个来判断
@@ -25,6 +26,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan
 
 		//加入英雄内部判断
 		call LearnSkillHeiyanI(learnSkillHero,which) 
+		call LearnSkillSeyuI(learnSkillHero,which) 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

@@ -464,9 +464,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			elseif (whichSpell == 3 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
 				//技能3初始化
 				set ISacriMaxCount = ISacriMaxCount + 6
-			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
-				//技能4初始化
-				set ISacriMaxCount = ISacriMaxCount + 6
 				set i = 1
 				//增加上限
 				loop
@@ -474,6 +471,9 @@ library_once Heiyan requires SpellBase,Printer,Attr
 					call AddHPPercent(i,0.5)
 					set i = i +1
 				endloop
+			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
+				//技能4初始化
+				set ISacriMaxCount = ISacriMaxCount + 6
 			elseif (whichSpell == 5 and IsFifthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0DD') == 1) then
 				//技能5初始化
 				set ISacriMaxCount = ISacriMaxCount + 6

@@ -63,6 +63,21 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         */
         integer array udg_gold
         real array udg_I_Jinqianhuodelv
+
+        /*
+            人数
+        */
+        integer udg_RENSHU
+
+        /*
+            多面板
+        */
+        multiboard udg_D
+
+        /*
+            炼狱
+        */
+        integer array udg_I_Lianyu
 	endglobals
 
 	private function InitTest takes nothing returns nothing

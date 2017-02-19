@@ -33,14 +33,14 @@ library_once Purgatory initializer InitPurgatory
 		//! endtextmacro
 
 		//! runtextmacro CreatePurgatoryItem("nfra","IB00")
-		//! runtextmacro CreatePurgatoryItem("nwld","IB01")
-		//! runtextmacro CreatePurgatoryItem("nwzd","IB02")
-		//! runtextmacro CreatePurgatoryItem("ndqp","IB03")
-		//! runtextmacro CreatePurgatoryItem("nsc2","IB04")
-		//! runtextmacro CreatePurgatoryItem("nwns","IB05")
-		//! runtextmacro CreatePurgatoryItem("nsoc","IB06")
-		//! runtextmacro CreatePurgatoryItem("npfl","IB07")
-		//! runtextmacro CreatePurgatoryItem("ninm","IB08")
+		//! runtextmacro CreatePurgatoryItem("nwld","IMJ1")
+		//! runtextmacro CreatePurgatoryItem("nwzd","IMJ2")
+		//! runtextmacro CreatePurgatoryItem("ndqp","IMJ3")
+		//! runtextmacro CreatePurgatoryItem("nsc2","IMJ4")
+		//! runtextmacro CreatePurgatoryItem("nwns","IMJ5")
+		//! runtextmacro CreatePurgatoryItem("nsoc","IMJ6")
+		//! runtextmacro CreatePurgatoryItem("npfl","IMJ7")
+		//! runtextmacro CreatePurgatoryItem("ninm","IMJ8")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

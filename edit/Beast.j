@@ -1,8 +1,7 @@
 
 
 //! import "LHBase.j"
-/////! import "Test.j"
-library_once Beast initializer InitBeast requires LHBase,YDWESetGuard//,Test
+library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 	
 	globals
 
@@ -282,6 +281,32 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard//,Test
 	private function TBeastDamageCon takes nothing returns boolean
 		return ((GetEventDamage() > 0) and (IsUnitIllusion(GetEventDamageSource()) == false) and (GetEventDamageSource() == Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))]))
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    合成装备
+	*/
+	function CombineBeast takes unit u returns nothing
+
+		//! textmacro SummonBeast takes IType1,IType2,IType3
+		if ((GetItemTypeId(GetItemOfTypeFromUnitBJ(u, '$IType1$')) == '$IType1$') and (GetItemTypeId(GetItemOfTypeFromUnitBJ(u, '$IType2$')) == '$IType2$') and (IsItemPawnable(GetItemOfTypeFromUnitBJ(u, '$IType1$')) == true) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(u, '$IType2$')) == true)) then
+            call RemoveItem( GetItemOfTypeFromUnitBJ(u, '$IType2$') )
+            call RemoveItem( GetItemOfTypeFromUnitBJ(u, '$IType1$') )
+            call UnitAddItemById(u, '$IType3$')
+			call DisplayTextToPlayer(GetOwningPlayer(u),0.,0.,"|cFFFF66CC【消息】|r你成功召唤新的魔兽!")
+			return
+		endif
+		//! endtextmacro
+		
+		//! runtextmacro SummonBeast("IB00","IMJ1","IB01")
+		//! runtextmacro SummonBeast("IB01","IMJ2","IB02")
+		//! runtextmacro SummonBeast("IB02","IMJ3","IB03")
+		//! runtextmacro SummonBeast("IB03","IMJ4","IB04")
+		//! runtextmacro SummonBeast("IB04","IMJ5","IB05")
+		//! runtextmacro SummonBeast("IB05","IMJ6","IB06")
+		//! runtextmacro SummonBeast("IB06","IMJ7","IB07")
+		//! runtextmacro SummonBeast("IB07","IMJ8","IB08")
+	endfunction        
+     
 //---------------------------------------------------------------------------------------------------
 
 	/*

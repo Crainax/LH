@@ -102,6 +102,15 @@ unit gg_unit_nmgv_0198
         
 integer array udg_gold
 real array udg_I_Jinqianhuodelv
+
+        
+integer udg_RENSHU
+
+        
+multiboard udg_D
+
+        
+integer array udg_I_Lianyu
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
@@ -121,6 +130,23 @@ rect array regionM5
 rect array regionM6
 timer array Exercise___TiExercise
 //endglobals from Exercise
+//globals from Multiboard:
+constant boolean LIBRARY_Multiboard=true
+		
+integer array centerCredit
+
+//endglobals from Multiboard
+//globals from PIV:
+constant boolean LIBRARY_PIV=true
+boolean array sPIV
+//endglobals from PIV
+//globals from CenterCredit:
+constant boolean LIBRARY_CenterCredit=true
+constant integer CenterCredit___CREDIT_SOLIDER_1= 2500
+constant integer CenterCredit___CREDIT_SOLIDER_2= 5000
+constant integer CenterCredit___CREDIT_SOLIDER_3= 8000
+constant integer CenterCredit___CREDIT_SOLIDER_4= 15000
+//endglobals from CenterCredit
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -2445,9 +2471,214 @@ endfunction
 
 
 //library Exercise ends
+//library Multiboard:
+
+//---------------------------------------------------------------------------------------------------
+	
+ function AddCenterCredit takes unit u returns nothing
+  local integer index
+		if ( udg_RENSHU > 1 ) then
+			set index=GetConvertedPlayerId(GetOwningPlayer(u))
+			set centerCredit[index]=centerCredit[index] + udg_Bo
+			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+ function Multiboard___InitMultiboard takes nothing returns nothing
+		
+	endfunction
+
+//library Multiboard ends
+//library PIV:
+
+//---------------------------------------------------------------------------------------------------
+ function IsPIV takes player p returns boolean
+		return sPIV[GetConvertedPlayerId(p)]
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+ function PIV___InitPIV takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+
+			set sPIV[i]=false
+
+			set i=i + 1
+		endloop
+	endfunction
 
 
-// BEGIN IMPORT OF Exercise.j
+//library PIV ends
+//library CenterCredit:
+	
+
+//---------------------------------------------------------------------------------------------------
+	
+	
+ function CenterCredit___TBuySoliderAct takes nothing returns nothing
+  local integer index= GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
+  local real x
+  local real y
+		call BJDebugMsg("TBuySoliderActOut")
+
+//textmacro instance: BuySoldier("uG01","1")
+		if ( GetUnitTypeId(GetSoldUnit()) == 'uG01' ) then
+			call BJDebugMsg("TBuySoliderActIn")
+			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_1 ) then
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_1))
+				call RemoveUnit(GetSoldUnit())
+
+				return
+			endif
+			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_1
+			set x=GetRectCenterX(regionM1[index])
+			set y=GetRectCenterX(regionM1[index])
+
+			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
+			call SetUnitX(GetSoldUnit(), x)
+			call SetUnitY(GetSoldUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
+	        return
+		endif
+//end of: BuySoldier("uG01","1")
+//textmacro instance: BuySoldier("uG02","2")
+		if ( GetUnitTypeId(GetSoldUnit()) == 'uG02' ) then
+			call BJDebugMsg("TBuySoliderActIn")
+			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_2 ) then
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_2))
+				call RemoveUnit(GetSoldUnit())
+
+				return
+			endif
+			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_2
+			set x=GetRectCenterX(regionM2[index])
+			set y=GetRectCenterX(regionM2[index])
+
+			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
+			call SetUnitX(GetSoldUnit(), x)
+			call SetUnitY(GetSoldUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
+	        return
+		endif
+//end of: BuySoldier("uG02","2")
+//textmacro instance: BuySoldier("uG03","3")
+		if ( GetUnitTypeId(GetSoldUnit()) == 'uG03' ) then
+			call BJDebugMsg("TBuySoliderActIn")
+			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_3 ) then
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_3))
+				call RemoveUnit(GetSoldUnit())
+
+				return
+			endif
+			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_3
+			set x=GetRectCenterX(regionM3[index])
+			set y=GetRectCenterX(regionM3[index])
+
+			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
+			call SetUnitX(GetSoldUnit(), x)
+			call SetUnitY(GetSoldUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
+	        return
+		endif
+//end of: BuySoldier("uG03","3")
+//textmacro instance: BuySoldier("uG04","4")	
+		if ( GetUnitTypeId(GetSoldUnit()) == 'uG04' ) then
+			call BJDebugMsg("TBuySoliderActIn")
+			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_4 ) then
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_4))
+				call RemoveUnit(GetSoldUnit())
+
+				return
+			endif
+			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_4
+			set x=GetRectCenterX(regionM4[index])
+			set y=GetRectCenterX(regionM4[index])
+
+			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
+			call SetUnitX(GetSoldUnit(), x)
+			call SetUnitY(GetSoldUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
+	        return
+		endif
+//end of: BuySoldier("uG04","4")	
+
+		if ( GetUnitTypeId(GetSoldUnit()) == 'uG05' ) then
+			if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) == true ) then // INLINED!!
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
+				call RemoveUnit(GetSoldUnit())
+				return
+			endif
+
+			if ( udg_Bo < 18 ) then
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r当前波数未到18波,尚未可以购买.")
+				call RemoveUnit(GetSoldUnit())
+				return
+			endif
+
+			set x=GetRectCenterX(regionM5[index])
+			set y=GetRectCenterX(regionM5[index])
+			call SetUnitX(GetSoldUnit(), x)
+			call SetUnitY(GetSoldUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
+		endif
+
+		if ( GetUnitTypeId(GetSoldUnit()) == 'uG06' ) then
+			if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) == true ) then // INLINED!!
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
+				call RemoveUnit(GetSoldUnit())
+				return
+			endif
+
+			if ( udg_Bo < 22 ) then
+				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r当前波数未到22波,尚未可以购买.")
+				call RemoveUnit(GetSoldUnit())
+				return
+			endif
+
+			set x=GetRectCenterX(regionM6[index])
+			set y=GetRectCenterX(regionM6[index])
+			call SetUnitX(GetSoldUnit(), x)
+			call SetUnitY(GetSoldUnit(), y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
+	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function CenterCredit___InitCenterCredit takes nothing returns nothing
+  local integer i= 1
+  local trigger t= CreateTrigger()
+		call BJDebugMsg("初始化~")
+		loop
+			exitwhen i > 6
+			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) then
+				call TriggerRegisterUnitEvent(t, CreateUnit(Player(15), 'uS02', GetRectCenterX(regionM1[i]) + 300, GetRectCenterY(regionM1[i]) - 300, 270), EVENT_UNIT_SELL)
+			set i=i + 1
+			endif
+		endloop
+		call TriggerAddAction(t, function CenterCredit___TBuySoliderAct)
+		set t=null
+	endfunction
+
+
+//library CenterCredit ends
+
+
+// BEGIN IMPORT OF CenterCredit.j
+
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -2494,16 +2725,32 @@ endfunction
 // END IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF Test.j
 // END IMPORT OF LHBase.j
+// BEGIN IMPORT OF PIV.j
+// IGNORE DOUBLE IMPORT OF LHBase.j
+
+// END IMPORT OF PIV.j
+// BEGIN IMPORT OF Multiboard.j
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
+
+// END IMPORT OF Multiboard.j
+// BEGIN IMPORT OF Exercise.j
+// IGNORE DOUBLE IMPORT OF LHBase.j
 	
 
 
 
 // END IMPORT OF Exercise.j
+
+// END IMPORT OF CenterCredit.j
 function main takes nothing returns nothing
 
 call ExecuteFunc("Test___InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
 call ExecuteFunc("Exercise___InitExercise")
+call ExecuteFunc("Multiboard___InitMultiboard")
+call ExecuteFunc("PIV___InitPIV")
+call ExecuteFunc("CenterCredit___InitCenterCredit")
 
 endfunction
 

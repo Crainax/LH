@@ -1,6 +1,8 @@
 
 //! import "LHBase.j"
 //! import "Boss.j"
+//! import "PIV.j"
+/////! import "CenterCredit.j"
 /*
     测试指令:
 	test damage 关闭/开启伤害显示
@@ -10,14 +12,18 @@
 	test kill 杀死自己
 	test select 显示生命
 	test credit 增加积分
+	test Scredit 增加守城积分
 	test invu 基地无敌
 	test vu 基地不无敌
 	test leval 等级上400
 	test mowang 测试基地爆炸
 	test mingwang 测试基地爆炸
-
+	test vip      测试VIP
+	test renshu      测试人数
+	test lianyu1	炼狱14层
+	test lianyu2	炼狱69层
 */
-library_once Debug initializer Initdebug requires LHBase,Boss
+library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 
 	globals
 		boolean debug_show_damage = false
@@ -192,6 +198,18 @@ library_once Debug initializer Initdebug requires LHBase,Boss
 			return
 		endif
 
+		if (chat == "test Scredit") then
+			set centerCredit[1] = 50000
+			call BJDebugMsg("增加了守城积分~!")
+			return
+		endif
+
+		if (chat == "test VIP") then
+			set sPIV[1] = true
+			call BJDebugMsg("测试VIP!")
+			return
+		endif
+
 		//对自己造成伤害
 		if (chat == "test kill") then
 		//gg_unit_Otch_0001   gg_unit_nubr_0093
@@ -221,6 +239,24 @@ library_once Debug initializer Initdebug requires LHBase,Boss
 		//等级400
 		if (chat == "test level") then
 			call SetHeroLevel(udg_H[1],400,true)
+			return
+		endif
+
+		if (chat == "test renshu") then
+			set udg_RENSHU = 2
+			call BJDebugMsg("人数为2")
+			return
+		endif
+
+		if (chat == "test lianyu1") then
+			set udg_I_Lianyu[1] = 14
+			call BJDebugMsg("炼狱14层")
+			return
+		endif
+
+		if (chat == "test lianyu2") then
+			set udg_I_Lianyu[1] = 69
+			call BJDebugMsg("炼狱69层")
 			return
 		endif
 

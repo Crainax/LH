@@ -11,6 +11,14 @@ library_once Attr initializer InitAttr requires LHBase
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    敏捷增益
+	*/
+	function AddAgiPercent takes integer playerID , real value returns nothing
+		set udg_I_Xianglian[( playerID + 6 )] =  udg_I_Xianglian[( playerID + 6 )] + value 
+		call TriggerExecute( gg_trg_D7 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing
 		
