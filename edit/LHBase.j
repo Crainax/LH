@@ -1,7 +1,7 @@
 
 
-//! import "Test.j"
-library_once LHBase initializer InitLHBase requires Test
+/////! import "Test.j"
+library_once LHBase initializer InitLHBase //requires Test
 
     globals
         unit learnSkillHero
@@ -37,6 +37,7 @@ library_once LHBase initializer InitLHBase requires Test
         */ and IsUnitVisible(u, GetOwningPlayer(caster))	  and GetUnitAbilityLevel(u,'Avul') < 1    		  /*
         */ and GetUnitPointValue(u) != 123					  and GetUnitPointValue(u) != 0
     endfunction
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -124,10 +125,15 @@ library_once LHBase initializer InitLHBase requires Test
     endfunction
 
     /*
-        创建马甲作为特效
+        创建马甲作为特效(有无时间参数)
     */
+
+    function CreateUnitEffectSpecifyTime takes player whichPlayer,integer unitType,real x,real y,real facing,real time returns nothing
+        call UnitApplyTimedLifeBJ( time, 'BHwe',CreateUnit(whichPlayer,unitType,x,y,facing))
+    endfunction
+
 	function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
-	    call UnitApplyTimedLifeBJ( 1.8, 'BHwe',CreateUnit(whichPlayer,unitType,x,y,facing))
+        call CreateUnitEffectSpecifyTime(whichPlayer,unitType,x,y,facing,5)
     endfunction
 
     /*

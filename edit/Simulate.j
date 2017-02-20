@@ -4,10 +4,11 @@
 //! import "SpellBase.j"
 //! import "HeiYan.j"
 //! import "Yanmie.j"
+/////! import "CenterCredit.j"
 /*
     马甲模拟
 */
-library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie
+library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit
 	
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -154,19 +154,19 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	
 	function SimulateDamageHeiyan takes unit u returns boolean
 		//祭品的伤害
-		if ((IsUnitInGroup(u,GSacri) == true ) then
+		if (IsUnitInGroup(u,GSacri) == true) then
 			call DisableTrigger(GetTriggeringTrigger())
 			if (IsEnemy(GetTriggerUnit(),Heiyan)) then
 				call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			else
 				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.02)
-				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 2
+				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 2)
 			endif
 			call EnableTrigger(GetTriggeringTrigger())
 			return true
 		endif
 
-		if (GetUnitTypeId(u) == 'h011')) then
+		if (GetUnitTypeId(u) == 'h011') then
 			call DisableTrigger(GetTriggeringTrigger())
 			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 16, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
@@ -322,7 +322,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	*/
 
 	private function SimulateDeathHeiyanBoom takes unit u returns nothing
-	    call CreateUnitEffect(GetOwningPlayer(u),'hh04',GetUnitX(u),GetUnitY(u),0)
+	    call CreateUnitEffectSpecifyTime(GetOwningPlayer(u),'hh04',GetUnitX(u),GetUnitY(u),0,1.8)
 	endfunction
 	/*
 	    祭品死亡事件

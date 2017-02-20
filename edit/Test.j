@@ -78,6 +78,11 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             炼狱
         */
         integer array udg_I_Lianyu
+
+        /*
+            虫洞判定区域
+        */
+        rect gg_rct______________095
 	endglobals
 
 	private function InitTest takes nothing returns nothing

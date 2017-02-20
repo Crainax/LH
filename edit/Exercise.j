@@ -234,7 +234,7 @@ library_once Exercise initializer InitExercise requires LHBase
 			    call TriggerRegisterEnterRectSimple( t, regionAll[$Index$] )
 			    call TriggerAddCondition(t, Condition(function TExerciseForbitCon$Index$))
 			    call TriggerAddAction(t, function TExerciseForbitAct)
-
+				call CreateUnit(Player(15),'uS02',GetRectCenterX(regionM1[$Index$])+300,GetRectCenterY(regionM1[$Index$])-300,270)
 			    set TiExercise[$Index$] = CreateTimer()
 			    call TimerStart(TiExercise[$Index$],5,true,function FlashMonsterPlayer$Index$)
 			endif

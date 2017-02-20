@@ -30,7 +30,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    力量增益
 	*/
 	function AddStrPercent takes integer playerID , real value returns nothing
-		set udg_I_Xianglian[( playerID + 6 )] =  udg_I_Xianglian[( playerID + 6 )] + value 
+		set udg_I_Xianglian[( playerID)] =  udg_I_Xianglian[( playerID)] + value 
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 
@@ -38,14 +38,14 @@ library_once Attr initializer InitAttr requires LHBase
 	    获取力量增益
 	*/
 	function GetStrPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 6 )]
+		return udg_I_Xianglian[( playerID)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    智力增益
 	*/
 	function AddIntPercent takes integer playerID , real value returns nothing
-		set udg_I_Xianglian[( playerID + 6 )] =  udg_I_Xianglian[( playerID + 6 )] + value 
+		set udg_I_Xianglian[( playerID + 12 )] =  udg_I_Xianglian[( playerID + 12 )] + value 
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 
@@ -53,7 +53,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    获取智力增益
 	*/
 	function GetIntPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 6 )]
+		return udg_I_Xianglian[( playerID + 12 )]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

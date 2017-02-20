@@ -15,10 +15,10 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
@@ -44,14 +44,14 @@ integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -111,6 +111,9 @@ multiboard udg_D
 
         
 integer array udg_I_Lianyu
+
+        
+rect gg_rct______________095
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
@@ -138,6 +141,13 @@ texttag Seyu__TTPower
 integer Seyu__IPower
 			
 real Seyu__RAddtion
+
+		
+trigger Seyu__TSpellSeyu
+trigger Seyu__TSpellSeyu2
+trigger Seyu__TSpellSeyu3
+constant integer kSeyuFengdong=5
+constant integer kAnShaCount=7
 //endglobals from Seyu
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -1190,7 +1200,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1331,6 +1341,7 @@ endfunction
    function IsEnemy takes unit u,unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false and IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitAliveBJ(u) == true and IsUnitHidden(u) == false and IsUnitEnemy(u, GetOwningPlayer(caster)) and IsUnitVisible(u, GetOwningPlayer(caster)) and GetUnitAbilityLevel(u, 'Avul') < 1 and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
     endfunction
+
 //---------------------------------------------------------------------------------------------------
 
 	
@@ -1400,8 +1411,13 @@ endfunction
     endfunction
 
     
+
+    function CreateUnitEffectSpecifyTime takes player whichPlayer,integer unitType,real x,real y,real facing,real time returns nothing
+        call UnitApplyTimedLifeBJ(time, 'BHwe', CreateUnit(whichPlayer, unitType, x, y, facing))
+    endfunction
+
  function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
-	    call UnitApplyTimedLifeBJ(1.8, 'BHwe', CreateUnit(whichPlayer, unitType, x, y, facing))
+        call CreateUnitEffectSpecifyTime(whichPlayer , unitType , x , y , facing , 5)
     endfunction
 
     
@@ -1427,7 +1443,7 @@ endfunction
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase___InitLHBase takes nothing returns nothing
+    function LHBase__InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1461,28 +1477,28 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function AddStrPercent takes integer playerID,real value returns nothing
-		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
+		set udg_I_Xianglian[( playerID )]=udg_I_Xianglian[( playerID )] + value
 		call TriggerExecute(gg_trg_D7)
 	endfunction
 
 	
  function GetStrPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 6 )]
+		return udg_I_Xianglian[( playerID )]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function AddIntPercent takes integer playerID,real value returns nothing
-		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
+		set udg_I_Xianglian[( playerID + 12 )]=udg_I_Xianglian[( playerID + 12 )] + value
 		call TriggerExecute(gg_trg_D7)
 	endfunction
 
 	
  function GetIntPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 6 )]
+		return udg_I_Xianglian[( playerID + 12 )]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Attr___InitAttr takes nothing returns nothing
+ function Attr__InitAttr takes nothing returns nothing
 		
 
 
@@ -1512,7 +1528,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Printer___InitPrinter takes nothing returns nothing
+ function Printer__InitPrinter takes nothing returns nothing
 		
 	endfunction
 
@@ -1696,7 +1712,7 @@ endfunction
 
 
 	
- function SpellBase___ImmuteDamageTimer takes nothing returns nothing
+ function SpellBase__ImmuteDamageTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
   local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
@@ -1712,7 +1728,7 @@ endfunction
   local timer t= CreateTimer()
 		call SetUnitInvulnerable(u, true)
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
-		call TimerStart(t, time, false, function SpellBase___ImmuteDamageTimer)
+		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
 		set t=null
 	endfunction
 
@@ -1776,11 +1792,90 @@ endfunction
 	
 //---------------------------------------------------------------------------------------------------
 	
+ function Seyu__EnemyFilterSeyu takes nothing returns boolean
+		return IsEnemy(GetFilterUnit() , seyu) == true
+	endfunction
+
+ function GetChongdongGroup takes real radius,integer count returns group
+  local unit chongdong
+  local group result= CreateGroup()
+  local group temp
+  local group l_group= CreateGroup()
+  local unit l_unit
+  local integer i= 1
+		loop
+			exitwhen i > 8
+			set chongdong=(LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(i))))) // INLINED!!
+			if ( ( RectContainsUnit(gg_rct______________095, chongdong) != true ) ) then
+
+				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdong), GetUnitY(chongdong), radius, Condition(function Seyu__EnemyFilterSeyu))
+				set temp=GetRandomSubGroup(count, l_group)
+				call GroupAddGroup(temp, result)
+				call DestroyGroup(l_group)
+				call DestroyGroup(temp)
+				call BJDebugMsg(I2S(i) + "号虫洞循环")
+       		endif
+			set i=i + 1
+		endloop
+
+		set chongdong=null
+		set l_group=null
+		set l_unit=null
+		set temp=null
+		return result
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddChongdongGroup takes group p,real radius,integer count returns nothing
+  local group g= GetChongdongGroup(radius , count)
+		call GroupAddGroup(g, p)
+		set g=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Mantuoluo takes unit speller,real damageRate,integer abilityID returns nothing
+  local unit u= speller
+  local real damage= GetDamageAgi(u) * damageRate
+     local group l_group= CreateGroup()
+     local unit l_unit
+	    call GroupEnumUnitsInRange(l_group, GetUnitX(speller), GetUnitY(speller), 600, Condition(function Seyu__EnemyFilterSeyu))
+	    call AddChongdongGroup(l_group , 600 , R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
+	    
+	    loop
+	        set l_unit=FirstOfGroup(l_group)
+	        exitwhen l_unit == null
+	        call GroupRemoveUnit(l_group, l_unit)
+    		call UnitDamageTarget(u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
+	    endloop
+	    //输出伤害
+	    call PrintSpellAdd((GetOwningPlayer(u) ) , ( GetAbilityName(abilityID) ) , (( damage)*1.0) , "") // INLINED!!
+	    call DestroyGroup(l_group)
+	    set l_group=null
+	    set l_unit=null
+		set u=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function TSpellSeyu2Con takes nothing returns boolean
+	    return ( ( ( GetAttacker() == seyu ) or ( GetUnitTypeId(GetAttacker()) == 'espv' ) ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( (GetPlayerTechCountSimple('R006', GetOwningPlayer((seyu))) == 1) == true ) and ( GetRandomInt(1, 20) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00 ) ) // INLINED!!
+	endfunction
+
+ function TSpellSeyu2Act takes nothing returns nothing
+		call DisableTrigger(GetTriggeringTrigger())
+		call Mantuoluo(seyu , 0.33 , 'AUav')
+		call PolledWait(1)
+		call EnableTrigger(GetTriggeringTrigger())
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
 	//位置刷新，0.05s
  function Seyu__FlashPowerLocation takes nothing returns nothing
 		call SetTextTagPosUnitBJ(Seyu__TTPower, seyu, 25)
 	endfunction
 
+	
 	//数值刷新,1秒1次
  function Seyu__FlashPowerData takes nothing returns nothing
   local integer index= GetConvertedPlayerId(GetOwningPlayer(seyu))
@@ -1790,27 +1885,13 @@ endfunction
 		call SetTextTagTextBJ(Seyu__TTPower, I2S(Seyu__IPower) + "%能量", 20)
 		set delta=I2R(( Seyu__IPower / 10 ) * 10) / 100
 		if ( Seyu__RAddtion != delta ) then
-			call AddStrPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
-			call AddIntPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
+			call AddStrPercent(index , (udg_I_Xianglian[( (index) )]) - Seyu__RAddtion + delta) // INLINED!!
+			call AddIntPercent(index , (udg_I_Xianglian[( (index) + 12 )]) - Seyu__RAddtion + delta) // INLINED!!
 			call AddAgiPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
 			set Seyu__RAddtion=delta
 			call BJDebugMsg("能量加成:" + R2S(Seyu__RAddtion))
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(seyu), GetUnitY(seyu)))
 		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__InitPower takes nothing returns nothing
-  local timer t= CreateTimer()
-		set Seyu__IPower=0
-		set Seyu__RAddtion=0
-		set Seyu__TTPower=CreateTextTagUnitBJ(I2S(Seyu__IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0)
-		call TimerStart(t, 0.05, true, function Seyu__FlashPowerLocation)
-
-		set t=CreateTimer()
-		call TimerStart(t, 1, true, function Seyu__FlashPowerData)
-
-		set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -1821,6 +1902,163 @@ endfunction
  function Seyu__TDeathAddPowerAct takes nothing returns nothing
 		set Seyu__IPower=Seyu__IPower + 1
 		call BJDebugMsg("IPower:" + I2S(Seyu__IPower))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Seyu__InitPower takes nothing returns nothing
+  local timer ti= CreateTimer()
+  local trigger t= CreateTrigger()
+
+		//异界能量触发
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function Seyu__TDeathAddPowerCon))
+		call TriggerAddAction(t, function Seyu__TDeathAddPowerAct)
+
+		set Seyu__IPower=0
+		set Seyu__RAddtion=0
+		set Seyu__TTPower=CreateTextTagUnitBJ(I2S(Seyu__IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0)
+		call TimerStart(ti, 0.05, true, function Seyu__FlashPowerLocation)
+
+		set ti=CreateTimer()
+		call TimerStart(ti, 1, true, function Seyu__FlashPowerData)
+
+		set ti=null
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Seyu__TSpellSeyu3Con takes nothing returns boolean
+    	return GetAttackedUnitBJ() == seyu and GetRandomInt(1, 20) == 1 and GetUnitState(seyu, UNIT_STATE_MANA) >= 400
+	endfunction
+	
+	//空间封冻2秒解冻
+ function Seyu__TSpellSeyu3Timer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit l_unit
+  local group g= LoadGroupHandle(spellTable, id, kSeyuFengdong)
+		loop
+		    set l_unit=FirstOfGroup(g)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(g, l_unit)
+	        call PauseUnit(l_unit, false)
+		endloop
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		call DestroyGroup(g)
+		call FlushChildHashtable(spellTable, id)
+		set g=null
+		set t=null
+		set l_unit=null
+	endfunction
+		
+ function Seyu__TSpellSeyu3Act takes nothing returns nothing
+  local real damage= GetDamageAgi(seyu) * 5
+  local group g= CreateGroup()
+  local group temp= GetChongdongGroup(600 , 1)
+  local timer t= CreateTimer()
+     local group l_group= CreateGroup()
+     local unit l_unit
+		call DisableTrigger(GetTriggeringTrigger())
+		//初始化虫洞单位组
+		call GroupAddUnit(g, GetAttacker())
+		call GroupAddGroup(temp, g)
+	    call PrintSpellAdd((GetOwningPlayer(seyu) ) , ( GetAbilityName('AEar') ) , (( damage)*1.0) , "") // INLINED!!
+	    call CreateTextTagA(("冻" ) , ( seyu ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 2)*1.0) , 16) // INLINED!!
+	    call GroupAddGroup(g, l_group)
+	    //局部单位组伤害
+	    loop
+	        set l_unit=FirstOfGroup(l_group)
+	        exitwhen l_unit == null
+	        call GroupRemoveUnit(l_group, l_unit)
+	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(seyu) ) , ( 'hh00' ) , (( GetUnitX(l_unit) )*1.0) , (( GetUnitY(l_unit) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
+	        call UnitDamageTarget(seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+	        if ( IsUnitAliveBJ(l_unit) == true ) then
+	        	call PauseUnit(l_unit, true)
+	        endif
+	    endloop
+
+		call SaveGroupHandle(spellTable, GetHandleId(t), kSeyuFengdong, g)
+		call TimerStart(t, 2, false, function Seyu__TSpellSeyu3Timer)
+		call DestroyGroup(temp)
+	    call DestroyGroup(l_group)
+		set t=null
+		set g=null
+		set temp=null
+	    set l_group=null
+	    set l_unit=null
+		call PolledWait(8)
+		call EnableTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Seyu__AnShaZhiWuTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local group g
+  local real damage= GetDamageAgi(seyu) * 0.5
+  local integer value= LoadInteger(spellTable, id, kAnShaCount)
+  local group l_group
+  local unit l_unit
+  local unit chongdong
+  local integer i
+		if ( value < 30 ) then
+			//++1
+			call SaveInteger(spellTable, id, kAnShaCount, value + 1)
+	    	set l_group=CreateGroup()
+			call GroupEnumUnitsInRange(l_group, GetUnitX(seyu), GetUnitY(seyu), 600, Condition(function Seyu__EnemyFilterSeyu))
+	    	call AddChongdongGroup(l_group , 600 , R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
+			loop
+			    set l_unit=FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+    			call UnitDamageTarget(seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			endloop
+			call DestroyGroup(l_group)
+			set l_group=null
+			set l_unit=null
+
+			//特效
+	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(seyu) ) , ( 'h00E' ) , (( GetUnitX(seyu) )*1.0) , (( GetUnitY(seyu) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
+			set i=1
+			loop
+				exitwhen i > 8
+				set chongdong=(LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(i))))) // INLINED!!
+				if ( ( RectContainsUnit(gg_rct______________095, chongdong) != true ) ) then
+	       			call CreateUnitEffectSpecifyTime((GetOwningPlayer(chongdong) ) , ( 'h00E' ) , (( GetUnitX(chongdong) )*1.0) , (( GetUnitY(chongdong) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
+	       		endif
+				set i=i + 1
+			endloop
+			set chongdong=null
+		else
+			call PauseTimer(t)
+			call DestroyTimer(t)
+			call FlushChildHashtable(spellTable, id)
+			call BJDebugMsg("结束计时器")
+		endif
+		set t=null
+	endfunction
+
+ function Seyu__AnShaZhiWu takes nothing returns nothing
+  local timer t= CreateTimer()
+	    call PrintSpellAdd((GetOwningPlayer(seyu) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( GetDamageAgi(seyu))*1.0) , "") // INLINED!!
+		call SaveInteger(spellTable, GetHandleId(t), kAnShaCount, 0)
+		call TimerStart(t, 0.5, true, function Seyu__AnShaZhiWuTimer)
+		set t=null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function Seyu__TSpellSeyuCon takes nothing returns boolean
+	    return ( GetSpellAbilityUnit() == seyu )
+	endfunction
+
+ function Seyu__TSpellSeyuAct takes nothing returns nothing
+		if ( ( GetSpellAbilityId() == 'AEfk' ) ) then
+			call Mantuoluo(seyu , 1 , GetSpellAbilityId())
+		elseif ( ( GetSpellAbilityId() == 'AEst' ) ) then
+			call Seyu__AnShaZhiWu()
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -1849,6 +2087,12 @@ endfunction
 
        				set i=i + 1
        			endloop
+
+			    //注册空间封冻技能
+			    set Seyu__TSpellSeyu3=CreateTrigger()
+			    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu3, EVENT_PLAYER_UNIT_ATTACKED)
+			    call TriggerAddCondition(Seyu__TSpellSeyu3, Condition(function Seyu__TSpellSeyu3Con))
+			    call TriggerAddAction(Seyu__TSpellSeyu3, function Seyu__TSpellSeyu3Act)
 			elseif ( whichSpell == 4 and (GetPlayerTechCountSimple('R008', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEsv') == 1 ) then // INLINED!!
 				//技能4初始化
                 call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(6))))), 3) // INLINED!!
@@ -1878,15 +2122,19 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function InitSeyu takes unit u returns nothing
-  local trigger t= CreateTrigger()
 		set seyu=u
 
-		
-		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
-		call TriggerAddCondition(t, Condition(function Seyu__TDeathAddPowerCon))
-		call TriggerAddAction(t, function Seyu__TDeathAddPowerAct)
+		//1
+	    set Seyu__TSpellSeyu=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	    call TriggerAddCondition(Seyu__TSpellSeyu, Condition(function Seyu__TSpellSeyuCon))
+	    call TriggerAddAction(Seyu__TSpellSeyu, function Seyu__TSpellSeyuAct)
 
-		set t=null
+	    //2
+	    set Seyu__TSpellSeyu2=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Seyu__TSpellSeyu2, Condition(function TSpellSeyu2Con))
+	    call TriggerAddAction(Seyu__TSpellSeyu2, function TSpellSeyu2Act)
 	endfunction
 
 //library Seyu ends
@@ -1954,14 +2202,15 @@ endfunction
 // IGNORE DOUBLE IMPORT OF LHBase.j
 // END IMPORT OF Attr.j
 
+
 // END IMPORT OF Seyu.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs4133731465")
+call ExecuteFunc("jasshelper__initstructs8789859")
 call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("Attr___InitAttr")
-call ExecuteFunc("Printer___InitPrinter")
+call ExecuteFunc("LHBase__InitLHBase")
+call ExecuteFunc("Attr__InitAttr")
+call ExecuteFunc("Printer__InitPrinter")
 
 endfunction
 
@@ -1997,7 +2246,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs4133731465 takes nothing returns nothing
+function jasshelper__initstructs8789859 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()

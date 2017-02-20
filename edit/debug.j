@@ -22,6 +22,7 @@
 	test renshu      测试人数
 	test lianyu1	炼狱14层
 	test lianyu2	炼狱69层
+	test Scredit    守家积分
 */
 library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 
