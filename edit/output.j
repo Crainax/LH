@@ -22,25 +22,25 @@ location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem___CurrentTime
-integer YDWETimerSystem___CurrentIndex
-integer YDWETimerSystem___TaskListHead
-integer YDWETimerSystem___TaskListIdleHead
-integer YDWETimerSystem___TaskListIdleMax
-integer array YDWETimerSystem___TaskListIdle
-integer array YDWETimerSystem___TaskListNext
-integer array YDWETimerSystem___TaskListTime
-trigger array YDWETimerSystem___TaskListProc
-trigger YDWETimerSystem___fnRemoveUnit
-trigger YDWETimerSystem___fnDestroyTimer
-trigger YDWETimerSystem___fnRemoveItem
-trigger YDWETimerSystem___fnDestroyEffect
-trigger YDWETimerSystem___fnDestroyLightning
-trigger YDWETimerSystem___fnRunTrigger
-timer YDWETimerSystem___Timer
-integer YDWETimerSystem___TimerHandle
+integer YDWETimerSystem__CurrentTime
+integer YDWETimerSystem__CurrentIndex
+integer YDWETimerSystem__TaskListHead
+integer YDWETimerSystem__TaskListIdleHead
+integer YDWETimerSystem__TaskListIdleMax
+integer array YDWETimerSystem__TaskListIdle
+integer array YDWETimerSystem__TaskListNext
+integer array YDWETimerSystem__TaskListTime
+trigger array YDWETimerSystem__TaskListProc
+trigger YDWETimerSystem__fnRemoveUnit
+trigger YDWETimerSystem__fnDestroyTimer
+trigger YDWETimerSystem__fnRemoveItem
+trigger YDWETimerSystem__fnDestroyEffect
+trigger YDWETimerSystem__fnDestroyLightning
+trigger YDWETimerSystem__fnRunTrigger
+timer YDWETimerSystem__Timer
+integer YDWETimerSystem__TimerHandle
 
-integer YDWETimerSystem___TimerSystem_RunIndex= 0
+integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
@@ -118,35 +118,27 @@ unit learnSkillHero
         
 unit array UDepot
 //endglobals from LHBase
-//globals from Exercise:
-constant boolean LIBRARY_Exercise=true
-rect array regionAll
-		//怪物的区域
-rect array regionM1
-rect array regionM2
-rect array regionM3
-rect array regionM4
-rect array regionM5
-rect array regionM6
-timer array Exercise___TiExercise
-//endglobals from Exercise
-//globals from Multiboard:
-constant boolean LIBRARY_Multiboard=true
-		
-integer array centerCredit
+//globals from Attr:
+constant boolean LIBRARY_Attr=true
+//endglobals from Attr
+//globals from Printer:
+constant boolean LIBRARY_Printer=true
+//endglobals from Printer
+//globals from SpellBase:
+constant boolean LIBRARY_SpellBase=true
+hashtable spellTable= InitHashtable()
+constant integer kUImmuteDamage=3
+//endglobals from SpellBase
+//globals from Seyu:
+constant boolean LIBRARY_Seyu=true
+unit seyu= null
 
-//endglobals from Multiboard
-//globals from PIV:
-constant boolean LIBRARY_PIV=true
-boolean array sPIV
-//endglobals from PIV
-//globals from CenterCredit:
-constant boolean LIBRARY_CenterCredit=true
-constant integer CenterCredit___CREDIT_SOLIDER_1= 2500
-constant integer CenterCredit___CREDIT_SOLIDER_2= 5000
-constant integer CenterCredit___CREDIT_SOLIDER_3= 8000
-constant integer CenterCredit___CREDIT_SOLIDER_4= 15000
-//endglobals from CenterCredit
+		
+texttag Seyu__TTPower
+integer Seyu__IPower
+			
+real Seyu__RAddtion
+//endglobals from Seyu
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -167,9 +159,126 @@ string array yd_PlayerColor
 trigger l__library_init
 
 //JASSHelper struct globals:
+constant integer si__Attract=1
+integer si__Attract_F=0
+integer si__Attract_I=0
+integer array si__Attract_V
+unit array s__Attract_caster
+real array s__Attract_radius
+real array s__Attract_interval
+real array s__Attract_speed
+timer array s__Attract_t
+constant integer si__Missile=2
+integer si__Missile_F=0
+integer si__Missile_I=0
+integer array si__Missile_V
+unit array s__Missile_caster
+string array s__Missile_effx
+real array s__Missile_radius
+real array s__Missile_interval1
+real array s__Missile_interval2
+real array s__Missile_damage
+real array s__Missile_x
+real array s__Missile_y
+timer array s__Missile_t
+trigger st__Attract__staticgetindex
+trigger st__Attract_onDestroy
+trigger st__Attract_destroy
+trigger st__Missile__staticgetindex
+trigger st__Missile_onDestroy
+trigger st__Missile_destroy
+handle f__arg_handle1
+integer f__arg_this
+integer f__result_integer
 
 endglobals
 
+
+//Generated method caller for Attract._staticgetindex
+function sc__Attract__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__Attract__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for Attract.onDestroy
+function sc__Attract_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__Attract_onDestroy)
+endfunction
+
+//Generated allocator of Attract
+function s__Attract__allocate takes nothing returns integer
+ local integer this=si__Attract_F
+    if (this!=0) then
+        set si__Attract_F=si__Attract_V[this]
+    else
+        set si__Attract_I=si__Attract_I+1
+        set this=si__Attract_I
+    endif
+    if (this>8190) then
+        return 0
+    endif
+
+    set si__Attract_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Attract
+function sc__Attract_deallocate takes integer this returns nothing
+    if this==null then
+        return
+    elseif (si__Attract_V[this]!=-1) then
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Attract_onDestroy)
+    set si__Attract_V[this]=si__Attract_F
+    set si__Attract_F=this
+endfunction
+
+//Generated method caller for Missile._staticgetindex
+function sc__Missile__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__Missile__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for Missile.onDestroy
+function sc__Missile_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__Missile_onDestroy)
+endfunction
+
+//Generated allocator of Missile
+function s__Missile__allocate takes nothing returns integer
+ local integer this=si__Missile_F
+    if (this!=0) then
+        set si__Missile_F=si__Missile_V[this]
+    else
+        set si__Missile_I=si__Missile_I+1
+        set this=si__Missile_I
+    endif
+    if (this>8190) then
+        return 0
+    endif
+
+    set si__Missile_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Missile
+function sc__Missile_deallocate takes integer this returns nothing
+    if this==null then
+        return
+    elseif (si__Missile_V[this]!=-1) then
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Missile_onDestroy)
+    set si__Missile_V[this]=si__Missile_F
+    set si__Missile_F=this
+endfunction
 
 //library YDWEBaseCommon:
 
@@ -1133,7 +1242,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem___CurrentIndex
+    return YDWETimerSystem__CurrentIndex
 endfunction
 
 
@@ -1163,7 +1272,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem___TimerSystem_RunIndex
+    return YDWETimerSystem__TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1203,7 +1312,7 @@ endfunction
 //library Test:
 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1330,1354 +1439,462 @@ endfunction
     endfunction
 
 //library LHBase ends
-//library Exercise:
-
+//library Attr:
+	
 //---------------------------------------------------------------------------------------------------
 	
-	
- function TMonsterFilter1 takes nothing returns boolean
-	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nano' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nanw' ) ) )
+ function AddHPPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 18 )]=udg_I_Xianglian[( playerID + 18 )] + value
+		call TriggerExecute(gg_trg_D7)
 	endfunction
-
- function TMonsterFilter2 takes nothing returns boolean
-	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nenf' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nbld' ) ) )
-	endfunction
-
- function TMonsterFilter3 takes nothing returns boolean
-	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nbda' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nbdo' ) ) )
-	endfunction
-
- function TMonsterFilter4 takes nothing returns boolean
-	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'ncim' ) or ( GetUnitTypeId(GetFilterUnit()) == 'ncnk' ) ) )
-	endfunction
-
- function TMonsterFilter5 takes nothing returns boolean
-	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'ngns' ) or ( GetUnitTypeId(GetFilterUnit()) == 'ngnw' ) ) )
-	endfunction
-
- function TMonsterFilter6 takes nothing returns boolean
-	    return ( ( GetOwningPlayer(GetFilterUnit()) == Player(10) ) and ( ( GetUnitTypeId(GetFilterUnit()) == 'nhfp' ) or ( GetUnitTypeId(GetFilterUnit()) == 'nenc' ) ) )
-	endfunction
-
-	
- function TMonsterPlayerFilter takes nothing returns boolean
-	    return ( ( GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER ) and ( IsUnitAliveBJ(GetFilterUnit()) == true ) )
-	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	
+ function AddAgiPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+
 	
-//textmacro instance: FlashMonster("1")
- function FlashMonsterPlayer1 takes nothing returns nothing
-
-  local group g
-  local group g2
-
-		//区域1
-		set g=GetUnitsInRectMatching(regionM1[1], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM1[1], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-
-
-			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[1]), GetRectCenterY(regionM1[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[1]), GetRectCenterY(regionM1[1]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-		//区域2
-		set g=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterFilter2))
-		set g2=GetUnitsInRectMatching(regionM2[1], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
-			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[1]), GetRectCenterY(regionM2[1]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域3
-		set g=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterFilter3))
-		set g2=GetUnitsInRectMatching(regionM3[1], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
-			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[1]), GetRectCenterY(regionM3[1]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域4
-		set g=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterFilter4))
-		set g2=GetUnitsInRectMatching(regionM4[1], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
-			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[1]), GetRectCenterY(regionM4[1]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域5
-		set g=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterFilter5))
-		set g2=GetUnitsInRectMatching(regionM5[1], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
-			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[1]), GetRectCenterY(regionM5[1]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域6
-		set g=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterFilter6))
-		set g2=GetUnitsInRectMatching(regionM6[1], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[1], g2) != true ) then
-			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[1]), GetRectCenterY(regionM6[1]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    set g=null
-	    set g2=null
-
+ function GetAgiPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 6 )]
 	endfunction
-
-//end of: FlashMonster("1")
-//textmacro instance: FlashMonster("2")
- function FlashMonsterPlayer2 takes nothing returns nothing
-
-  local group g
-  local group g2
-
-		//区域1
-		set g=GetUnitsInRectMatching(regionM1[2], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM1[2], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-
-
-			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[2]), GetRectCenterY(regionM1[2]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[2]), GetRectCenterY(regionM1[2]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-		//区域2
-		set g=GetUnitsInRectMatching(regionM2[2], Condition(function TMonsterFilter2))
-		set g2=GetUnitsInRectMatching(regionM2[2], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
-			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[2]), GetRectCenterY(regionM2[2]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[2]), GetRectCenterY(regionM2[2]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域3
-		set g=GetUnitsInRectMatching(regionM3[2], Condition(function TMonsterFilter3))
-		set g2=GetUnitsInRectMatching(regionM3[2], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
-			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[2]), GetRectCenterY(regionM3[2]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[2]), GetRectCenterY(regionM3[2]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域4
-		set g=GetUnitsInRectMatching(regionM4[2], Condition(function TMonsterFilter4))
-		set g2=GetUnitsInRectMatching(regionM4[2], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
-			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[2]), GetRectCenterY(regionM4[2]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[2]), GetRectCenterY(regionM4[2]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域5
-		set g=GetUnitsInRectMatching(regionM5[2], Condition(function TMonsterFilter5))
-		set g2=GetUnitsInRectMatching(regionM5[2], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
-			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[2]), GetRectCenterY(regionM5[2]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[2]), GetRectCenterY(regionM5[2]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域6
-		set g=GetUnitsInRectMatching(regionM6[2], Condition(function TMonsterFilter6))
-		set g2=GetUnitsInRectMatching(regionM6[2], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[2], g2) != true ) then
-			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[2]), GetRectCenterY(regionM6[2]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[2]), GetRectCenterY(regionM6[2]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    set g=null
-	    set g2=null
-
-	endfunction
-
-//end of: FlashMonster("2")
-//textmacro instance: FlashMonster("3")
- function FlashMonsterPlayer3 takes nothing returns nothing
-
-  local group g
-  local group g2
-
-		//区域1
-		set g=GetUnitsInRectMatching(regionM1[3], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM1[3], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-
-
-			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[3]), GetRectCenterY(regionM1[3]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[3]), GetRectCenterY(regionM1[3]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-		//区域2
-		set g=GetUnitsInRectMatching(regionM2[3], Condition(function TMonsterFilter2))
-		set g2=GetUnitsInRectMatching(regionM2[3], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
-			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[3]), GetRectCenterY(regionM2[3]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[3]), GetRectCenterY(regionM2[3]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域3
-		set g=GetUnitsInRectMatching(regionM3[3], Condition(function TMonsterFilter3))
-		set g2=GetUnitsInRectMatching(regionM3[3], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
-			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[3]), GetRectCenterY(regionM3[3]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[3]), GetRectCenterY(regionM3[3]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域4
-		set g=GetUnitsInRectMatching(regionM4[3], Condition(function TMonsterFilter4))
-		set g2=GetUnitsInRectMatching(regionM4[3], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
-			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[3]), GetRectCenterY(regionM4[3]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[3]), GetRectCenterY(regionM4[3]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域5
-		set g=GetUnitsInRectMatching(regionM5[3], Condition(function TMonsterFilter5))
-		set g2=GetUnitsInRectMatching(regionM5[3], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
-			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[3]), GetRectCenterY(regionM5[3]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[3]), GetRectCenterY(regionM5[3]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域6
-		set g=GetUnitsInRectMatching(regionM6[3], Condition(function TMonsterFilter6))
-		set g2=GetUnitsInRectMatching(regionM6[3], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[3], g2) != true ) then
-			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[3]), GetRectCenterY(regionM6[3]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[3]), GetRectCenterY(regionM6[3]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    set g=null
-	    set g2=null
-
-	endfunction
-
-//end of: FlashMonster("3")
-//textmacro instance: FlashMonster("4")
- function FlashMonsterPlayer4 takes nothing returns nothing
-
-  local group g
-  local group g2
-
-		//区域1
-		set g=GetUnitsInRectMatching(regionM1[4], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM1[4], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-
-
-			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[4]), GetRectCenterY(regionM1[4]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[4]), GetRectCenterY(regionM1[4]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-		//区域2
-		set g=GetUnitsInRectMatching(regionM2[4], Condition(function TMonsterFilter2))
-		set g2=GetUnitsInRectMatching(regionM2[4], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
-			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[4]), GetRectCenterY(regionM2[4]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[4]), GetRectCenterY(regionM2[4]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域3
-		set g=GetUnitsInRectMatching(regionM3[4], Condition(function TMonsterFilter3))
-		set g2=GetUnitsInRectMatching(regionM3[4], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
-			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[4]), GetRectCenterY(regionM3[4]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[4]), GetRectCenterY(regionM3[4]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域4
-		set g=GetUnitsInRectMatching(regionM4[4], Condition(function TMonsterFilter4))
-		set g2=GetUnitsInRectMatching(regionM4[4], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
-			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[4]), GetRectCenterY(regionM4[4]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[4]), GetRectCenterY(regionM4[4]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域5
-		set g=GetUnitsInRectMatching(regionM5[4], Condition(function TMonsterFilter5))
-		set g2=GetUnitsInRectMatching(regionM5[4], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
-			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[4]), GetRectCenterY(regionM5[4]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[4]), GetRectCenterY(regionM5[4]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域6
-		set g=GetUnitsInRectMatching(regionM6[4], Condition(function TMonsterFilter6))
-		set g2=GetUnitsInRectMatching(regionM6[4], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[4], g2) != true ) then
-			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[4]), GetRectCenterY(regionM6[4]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[4]), GetRectCenterY(regionM6[4]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    set g=null
-	    set g2=null
-
-	endfunction
-
-//end of: FlashMonster("4")
-//textmacro instance: FlashMonster("5")
- function FlashMonsterPlayer5 takes nothing returns nothing
-
-  local group g
-  local group g2
-
-		//区域1
-		set g=GetUnitsInRectMatching(regionM1[5], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM1[5], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-
-
-			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[5]), GetRectCenterY(regionM1[5]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[5]), GetRectCenterY(regionM1[5]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-		//区域2
-		set g=GetUnitsInRectMatching(regionM2[5], Condition(function TMonsterFilter2))
-		set g2=GetUnitsInRectMatching(regionM2[5], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
-			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[5]), GetRectCenterY(regionM2[5]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[5]), GetRectCenterY(regionM2[5]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域3
-		set g=GetUnitsInRectMatching(regionM3[5], Condition(function TMonsterFilter3))
-		set g2=GetUnitsInRectMatching(regionM3[5], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
-			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[5]), GetRectCenterY(regionM3[5]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[5]), GetRectCenterY(regionM3[5]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域4
-		set g=GetUnitsInRectMatching(regionM4[5], Condition(function TMonsterFilter4))
-		set g2=GetUnitsInRectMatching(regionM4[5], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
-			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[5]), GetRectCenterY(regionM4[5]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[5]), GetRectCenterY(regionM4[5]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域5
-		set g=GetUnitsInRectMatching(regionM5[5], Condition(function TMonsterFilter5))
-		set g2=GetUnitsInRectMatching(regionM5[5], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
-			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[5]), GetRectCenterY(regionM5[5]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[5]), GetRectCenterY(regionM5[5]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域6
-		set g=GetUnitsInRectMatching(regionM6[5], Condition(function TMonsterFilter6))
-		set g2=GetUnitsInRectMatching(regionM6[5], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[5], g2) != true ) then
-			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[5]), GetRectCenterY(regionM6[5]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[5]), GetRectCenterY(regionM6[5]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    set g=null
-	    set g2=null
-
-	endfunction
-
-//end of: FlashMonster("5")
-//textmacro instance: FlashMonster("6")
- function FlashMonsterPlayer6 takes nothing returns nothing
-
-  local group g
-  local group g2
-
-		//区域1
-		set g=GetUnitsInRectMatching(regionM1[6], Condition(function TMonsterFilter1))
-		set g2=GetUnitsInRectMatching(regionM1[6], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-
-
-			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
-			        call CreateUnit(Player(10), 'nano', GetRectCenterX(regionM1[6]), GetRectCenterY(regionM1[6]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nanw', GetRectCenterX(regionM1[6]), GetRectCenterY(regionM1[6]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-		//区域2
-		set g=GetUnitsInRectMatching(regionM2[6], Condition(function TMonsterFilter2))
-		set g2=GetUnitsInRectMatching(regionM2[6], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
-			        call CreateUnit(Player(10), 'nenf', GetRectCenterX(regionM2[6]), GetRectCenterY(regionM2[6]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbld', GetRectCenterX(regionM2[6]), GetRectCenterY(regionM2[6]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域3
-		set g=GetUnitsInRectMatching(regionM3[6], Condition(function TMonsterFilter3))
-		set g2=GetUnitsInRectMatching(regionM3[6], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
-			        call CreateUnit(Player(10), 'nbda', GetRectCenterX(regionM3[6]), GetRectCenterY(regionM3[6]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nbdo', GetRectCenterX(regionM3[6]), GetRectCenterY(regionM3[6]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域4
-		set g=GetUnitsInRectMatching(regionM4[6], Condition(function TMonsterFilter4))
-		set g2=GetUnitsInRectMatching(regionM4[6], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
-			        call CreateUnit(Player(10), 'ncim', GetRectCenterX(regionM4[6]), GetRectCenterY(regionM4[6]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ncnk', GetRectCenterX(regionM4[6]), GetRectCenterY(regionM4[6]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域5
-		set g=GetUnitsInRectMatching(regionM5[6], Condition(function TMonsterFilter5))
-		set g2=GetUnitsInRectMatching(regionM5[6], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
-			        call CreateUnit(Player(10), 'ngns', GetRectCenterX(regionM5[6]), GetRectCenterY(regionM5[6]), 270)
-			    else
-			        call CreateUnit(Player(10), 'ngnw', GetRectCenterX(regionM5[6]), GetRectCenterY(regionM5[6]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    //区域6
-		set g=GetUnitsInRectMatching(regionM6[6], Condition(function TMonsterFilter6))
-		set g2=GetUnitsInRectMatching(regionM6[6], Condition(function TMonsterPlayerFilter))
-		if ( CountUnitsInGroup(g2) != 0 ) then
-			//刷怪
-			if ( CountUnitsInGroup(g) == 0 ) then
-			    if ( IsUnitInGroup(udg_H[6], g2) != true ) then
-			        call CreateUnit(Player(10), 'nhfp', GetRectCenterX(regionM6[6]), GetRectCenterY(regionM6[6]), 270)
-			    else
-			        call CreateUnit(Player(10), 'nenc', GetRectCenterX(regionM6[6]), GetRectCenterY(regionM6[6]), 270)
-			    endif
-			endif
-		else
-			if ( CountUnitsInGroup(g) != 0 ) then
-				//不刷且删兵
-				call DeleteGroup(g)
-			endif
-		endif
-	    call DestroyGroup(g)
-	    call DestroyGroup(g2)
-
-	    set g=null
-	    set g2=null
-
-	endfunction
-
-//end of: FlashMonster("6")
 //---------------------------------------------------------------------------------------------------
+	
+ function AddStrPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+
+	
+ function GetStrPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 6 )]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddIntPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+
+	
+ function GetIntPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 6 )]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+ function Attr___InitAttr takes nothing returns nothing
 		
 
-//textmacro instance: TExerciseForbitCon("1")
-  function Exercise___TExerciseForbitCon1 takes nothing returns boolean
-			return ( ( ConvertedPlayer(1) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
-		endfunction
-//end of: TExerciseForbitCon("1")
-//textmacro instance: TExerciseForbitCon("2")
-  function Exercise___TExerciseForbitCon2 takes nothing returns boolean
-			return ( ( ConvertedPlayer(2) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
-		endfunction
-//end of: TExerciseForbitCon("2")
-//textmacro instance: TExerciseForbitCon("3")
-  function Exercise___TExerciseForbitCon3 takes nothing returns boolean
-			return ( ( ConvertedPlayer(3) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
-		endfunction
-//end of: TExerciseForbitCon("3")
-//textmacro instance: TExerciseForbitCon("4")
-  function Exercise___TExerciseForbitCon4 takes nothing returns boolean
-			return ( ( ConvertedPlayer(4) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
-		endfunction
-//end of: TExerciseForbitCon("4")
-//textmacro instance: TExerciseForbitCon("5")
-  function Exercise___TExerciseForbitCon5 takes nothing returns boolean
-			return ( ( ConvertedPlayer(5) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
-		endfunction
-//end of: TExerciseForbitCon("5")
-//textmacro instance: TExerciseForbitCon("6")
-  function Exercise___TExerciseForbitCon6 takes nothing returns boolean
-			return ( ( ConvertedPlayer(6) != GetOwningPlayer(GetTriggerUnit()) ) and IsEnemy3(GetTriggerUnit() , Player(10)) == true )
-		endfunction
-//end of: TExerciseForbitCon("6")
 
- function Exercise___TExerciseForbitAct takes nothing returns nothing
-		call SetUnitX(GetTriggerUnit(), GetUnitX(gg_unit_haro_0030))
-		call SetUnitY(GetTriggerUnit(), GetUnitY(gg_unit_haro_0030))
-		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你不能进入其他玩家的房间！")
+	endfunction
+
+
+//library Attr ends
+//library Printer:
+
+//---------------------------------------------------------------------------------------------------
+	
+
+ function PrintSpellAdd takes player whichPlayer,string spellName,real damage,string addtional returns nothing
+	    call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r伤害加成" + I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage)) + addtional + "." ) ) ))
+	endfunction
+
+ function PrintSpell takes player whichPlayer,string spellName,real damage returns nothing
+		call PrintSpellAdd(whichPlayer , spellName , damage , "")
+	endfunction
+	
+ function PrintSpellContent takes player whichPlayer,string spellName,string content returns nothing
+	    call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r" + content ))
+	endfunction
+
+ function PrintSpellName takes player whichPlayer,string spellName returns nothing
+		call DisplayTextToPlayer((whichPlayer ), 0, 0, ( "|cFFFF66CC【|r" + ( spellName ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+ function Printer___InitPrinter takes nothing returns nothing
+		
+	endfunction
+
+
+//library Printer ends
+//library SpellBase:
+
+
+//---------------------------------------------------------------------------------------------------
+
+
+  function s__Attract_attract takes nothing returns nothing
+   local real x1
+   local real y1
+   local real x2
+   local real y2
+   local real facing
+   local real distance
+   local integer this= sc__Attract__staticgetindex(GetExpiredTimer())
+   local group l_group= CreateGroup()
+   local unit l_unit
+			if ( IsUnitAliveBJ(s__Attract_caster[this]) ) then
+				call GroupEnumUnitsInRange(l_group, GetUnitX(s__Attract_caster[this]), GetUnitY(s__Attract_caster[this]), s__Attract_radius[this], null)
+				loop
+				    set l_unit=FirstOfGroup(l_group)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(l_group, l_unit)
+				    if ( IsEnemy(l_unit , s__Attract_caster[this]) ) then
+				    	set x2=GetUnitX(l_unit)
+				    	set y2=GetUnitY(l_unit)
+				    	set x1=GetUnitX(s__Attract_caster[this])
+				    	set y1=GetUnitY(s__Attract_caster[this])
+				    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
+				    	if ( distance > 80 ) then
+				    	set facing=Atan2BJ(y1 - y2, x1 - x2)
+				    	call SetUnitX(l_unit, (RMinBJ(RMaxBJ(((x2 + CosBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+				    	call SetUnitY(l_unit, (RMinBJ(RMaxBJ(((y2 + SinBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+				    	endif
+				    endif
+				endloop
+				call DestroyGroup(l_group)
+			else
+				call sc__Attract_deallocate(this)
+			endif
+			set l_group=null
+			set l_unit=null
+  endfunction
+
+        function s__Attract__staticgetindex takes handle h returns integer
+            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+        endfunction
+
+        function s__Attract__staticsetindex takes handle h,integer value returns nothing
+            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
+        endfunction
+
+        function s__Attract_flush takes handle h returns nothing
+            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
+        endfunction
+
+  function s__Attract_create takes unit caster,real radius,real interval,real speed returns integer
+      local integer this= s__Attract__allocate()
+      local timer t
+			set s__Attract_caster[this]=caster
+			set s__Attract_radius[this]=radius
+			set s__Attract_interval[this]=interval
+			set s__Attract_speed[this]=speed
+			return this
+  endfunction
+
+  function s__Attract_start takes integer this returns nothing
+			set s__Attract_t[this]=CreateTimer()
+			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this]))))) )), ( ( (this)))) // INLINED!!
+			call TimerStart(s__Attract_t[this], s__Attract_interval[this], true, function s__Attract_attract)
+  endfunction
+
+  function s__Attract_onDestroy takes integer this returns nothing
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
+			set s__Attract_caster[this]=null
+			call PauseTimer(s__Attract_t[this])
+			call DestroyTimer(s__Attract_t[this])
+			set s__Attract_t[this]=null
+  endfunction
+
+//Generated destructor of Attract
+function s__Attract_deallocate takes integer this returns nothing
+    if this==null then
+        return
+    elseif (si__Attract_V[this]!=-1) then
+        return
+    endif
+    call s__Attract_onDestroy(this)
+    set si__Attract_V[this]=si__Attract_F
+    set si__Attract_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+
+
+  function s__Missile_explode takes nothing returns nothing
+   local integer this= sc__Missile__staticgetindex(GetExpiredTimer())
+   local group l_group= CreateGroup()
+   local unit l_unit
+			call GroupEnumUnitsInRange(l_group, s__Missile_x[this], s__Missile_y[this], s__Missile_radius[this], null)
+			loop
+			    set l_unit=FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+			    if ( IsEnemy(l_unit , s__Missile_caster[this]) == true ) then
+			    	call UnitDamageTarget(s__Missile_caster[this], l_unit, s__Missile_damage[this], false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			    endif
+			endloop
+			call DestroyGroup(l_group)
+			set l_group=null
+			set l_unit=null
+			call sc__Missile_deallocate(this)
+  endfunction
+
+  function s__Missile_launch takes nothing returns nothing
+   local integer this= sc__Missile__staticgetindex(GetExpiredTimer())
+			call DestroyEffect(AddSpecialEffect(s__Missile_effx[this], s__Missile_x[this], s__Missile_y[this]))
+			call PauseTimer(s__Missile_t[this])
+			call TimerStart(s__Missile_t[this], s__Missile_interval2[this], false, function s__Missile_explode)
+
+  endfunction
+
+
+        function s__Missile__staticgetindex takes handle h returns integer
+            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+        endfunction
+
+        function s__Missile__staticsetindex takes handle h,integer value returns nothing
+            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
+        endfunction
+
+        function s__Missile_flush takes handle h returns nothing
+            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
+        endfunction
+
+  function s__Missile_create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns integer
+      local integer this= s__Missile__allocate()
+      local real Rangel= GetRandomReal(- 180, 180)
+      local real Rradius= GetRandomReal(radius, range)
+		   	set s__Missile_x[this]=GetUnitX(caster) + Rradius * CosBJ(Rangel)
+		   	set s__Missile_y[this]=GetUnitY(caster) + Rradius * SinBJ(Rangel)
+			set s__Missile_caster[this]=caster
+			set s__Missile_effx[this]=effx
+			set s__Missile_radius[this]=radius
+			set s__Missile_interval1[this]=interval1
+			set s__Missile_interval2[this]=interval2
+			set s__Missile_damage[this]=damage
+
+			set s__Missile_t[this]=CreateTimer()
+			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this]))))) )), ( ( (this)))) // INLINED!!
+			call UnitApplyTimedLifeBJ(interval1 + interval2, 'BHwe', CreateUnit(GetOwningPlayer(s__Missile_caster[this]), preview, s__Missile_x[this], s__Missile_y[this], 0))
+			call TimerStart(s__Missile_t[this], s__Missile_interval1[this], false, function s__Missile_launch)
+			return this
+  endfunction
+
+
+  function s__Missile_onDestroy takes integer this returns nothing
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
+			set s__Missile_caster[this]=null
+			call PauseTimer(s__Missile_t[this])
+			call DestroyTimer(s__Missile_t[this])
+			set s__Missile_t[this]=null
+  endfunction
+
+//Generated destructor of Missile
+function s__Missile_deallocate takes integer this returns nothing
+    if this==null then
+        return
+    elseif (si__Missile_V[this]!=-1) then
+        return
+    endif
+    call s__Missile_onDestroy(this)
+    set si__Missile_V[this]=si__Missile_F
+    set si__Missile_F=this
+endfunction
+
+
+	
+ function SpellBase___ImmuteDamageTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		call FlushChildHashtable(spellTable, id)
+		call SetUnitInvulnerable(u, false)
+		set u=null
+		set t=null
+	endfunction
+
+ function ImmuteDamageInterval takes unit u,real time returns nothing
+  local timer t= CreateTimer()
+		call SetUnitInvulnerable(u, true)
+		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
+		call TimerStart(t, time, false, function SpellBase___ImmuteDamageTimer)
+		set t=null
+	endfunction
+
+ function ImmuteDamage takes unit u returns nothing
+		call ImmuteDamageInterval(u , 0)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------------------
+
+	
+ function GetDamageStr takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) * 1.80 ) + ( GetHeroAgi(uH, true) ) + ( GetHeroInt(uH, true) * 1.20 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction
+	
+ function GetDamageAgi takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) * 1.80 ) + ( GetHeroInt(uH, true) * 1.20 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction
+
+	
+ function GetDamageInt takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) ) + ( GetHeroInt(uH, true) * 2.0 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Exercise___InitExerciseTrigger takes nothing returns nothing
-  local trigger t
+ function IsSecondSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R006', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsThirdSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R007', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsFourthSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R008', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsFifthSpellOK takes unit hero returns boolean
+		return ( GetPlayerTechCountSimple('R009', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00A', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00B', GetOwningPlayer(hero)) == 1 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 
-//textmacro instance: CreateMonsterTrigger("1")
-			if ( ( GetPlayerSlotState(ConvertedPlayer(1)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(1)) == MAP_CONTROL_USER ) then
-				set t=CreateTrigger()
-			    call TriggerRegisterEnterRectSimple(t, regionAll[1])
-			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon1))
-			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
 
-			    set Exercise___TiExercise[1]=CreateTimer()
-			    call TimerStart(Exercise___TiExercise[1], 5, true, function FlashMonsterPlayer1)
-			endif
-//end of: CreateMonsterTrigger("1")
-//textmacro instance: CreateMonsterTrigger("2")
-			if ( ( GetPlayerSlotState(ConvertedPlayer(2)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(2)) == MAP_CONTROL_USER ) then
-				set t=CreateTrigger()
-			    call TriggerRegisterEnterRectSimple(t, regionAll[2])
-			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon2))
-			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+//library SpellBase ends
+//library Seyu:
+	
+//---------------------------------------------------------------------------------------------------
+	
+	//位置刷新，0.05s
+ function Seyu__FlashPowerLocation takes nothing returns nothing
+		call SetTextTagPosUnitBJ(Seyu__TTPower, seyu, 25)
+	endfunction
 
-			    set Exercise___TiExercise[2]=CreateTimer()
-			    call TimerStart(Exercise___TiExercise[2], 5, true, function FlashMonsterPlayer2)
-			endif
-//end of: CreateMonsterTrigger("2")
-//textmacro instance: CreateMonsterTrigger("3")
-			if ( ( GetPlayerSlotState(ConvertedPlayer(3)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(3)) == MAP_CONTROL_USER ) then
-				set t=CreateTrigger()
-			    call TriggerRegisterEnterRectSimple(t, regionAll[3])
-			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon3))
-			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
+	//数值刷新,1秒1次
+ function Seyu__FlashPowerData takes nothing returns nothing
+  local integer index= GetConvertedPlayerId(GetOwningPlayer(seyu))
+  local real delta
+		//限制能量在0-105之间
+		set Seyu__IPower=IMinBJ(IMaxBJ(Seyu__IPower - 1, 0), 105)
+		call SetTextTagTextBJ(Seyu__TTPower, I2S(Seyu__IPower) + "%能量", 20)
+		set delta=I2R(( Seyu__IPower / 10 ) * 10) / 100
+		if ( Seyu__RAddtion != delta ) then
+			call AddStrPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
+			call AddIntPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
+			call AddAgiPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
+			set Seyu__RAddtion=delta
+			call BJDebugMsg("能量加成:" + R2S(Seyu__RAddtion))
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(seyu), GetUnitY(seyu)))
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Seyu__InitPower takes nothing returns nothing
+  local timer t= CreateTimer()
+		set Seyu__IPower=0
+		set Seyu__RAddtion=0
+		set Seyu__TTPower=CreateTextTagUnitBJ(I2S(Seyu__IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0)
+		call TimerStart(t, 0.05, true, function Seyu__FlashPowerLocation)
 
-			    set Exercise___TiExercise[3]=CreateTimer()
-			    call TimerStart(Exercise___TiExercise[3], 5, true, function FlashMonsterPlayer3)
-			endif
-//end of: CreateMonsterTrigger("3")
-//textmacro instance: CreateMonsterTrigger("4")
-			if ( ( GetPlayerSlotState(ConvertedPlayer(4)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(4)) == MAP_CONTROL_USER ) then
-				set t=CreateTrigger()
-			    call TriggerRegisterEnterRectSimple(t, regionAll[4])
-			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon4))
-			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
-
-			    set Exercise___TiExercise[4]=CreateTimer()
-			    call TimerStart(Exercise___TiExercise[4], 5, true, function FlashMonsterPlayer4)
-			endif
-//end of: CreateMonsterTrigger("4")
-//textmacro instance: CreateMonsterTrigger("5")
-			if ( ( GetPlayerSlotState(ConvertedPlayer(5)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(5)) == MAP_CONTROL_USER ) then
-				set t=CreateTrigger()
-			    call TriggerRegisterEnterRectSimple(t, regionAll[5])
-			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon5))
-			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
-
-			    set Exercise___TiExercise[5]=CreateTimer()
-			    call TimerStart(Exercise___TiExercise[5], 5, true, function FlashMonsterPlayer5)
-			endif
-//end of: CreateMonsterTrigger("5")
-//textmacro instance: CreateMonsterTrigger("6")
-			if ( ( GetPlayerSlotState(ConvertedPlayer(6)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(6)) == MAP_CONTROL_USER ) then
-				set t=CreateTrigger()
-			    call TriggerRegisterEnterRectSimple(t, regionAll[6])
-			    call TriggerAddCondition(t, Condition(function Exercise___TExerciseForbitCon6))
-			    call TriggerAddAction(t, function Exercise___TExerciseForbitAct)
-
-			    set Exercise___TiExercise[6]=CreateTimer()
-			    call TimerStart(Exercise___TiExercise[6], 5, true, function FlashMonsterPlayer6)
-			endif
-//end of: CreateMonsterTrigger("6")
+		set t=CreateTimer()
+		call TimerStart(t, 1, true, function Seyu__FlashPowerData)
 
 		set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function CloseExerciseTimer takes player p returns nothing
-		call PauseTimer(Exercise___TiExercise[GetConvertedPlayerId(p)])
-		call DestroyTimer(Exercise___TiExercise[GetConvertedPlayerId(p)])
+ function Seyu__TDeathAddPowerCon takes nothing returns boolean
+		return ( IsEnemy(GetDyingUnit() , GetKillingUnitBJ()) == true and udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu )
 	endfunction
 	
-//---------------------------------------------------------------------------------------------------
-	
- function Exercise___InitExerciseRegions takes nothing returns nothing
-
-		set regionM1[1]=Rect(- 15488.0, 13952.0, - 14240.0, 15232.0)
-	    set regionM2[1]=Rect(- 13280.0, 13952.0, - 12096.0, 15232.0)
-	    set regionM3[1]=Rect(- 15488.0, 12288.0, - 14208.0, 13536.0)
-	    set regionM4[1]=Rect(- 13312.0, 12288.0, - 12064.0, 13568.0)
-	    set regionM5[1]=Rect(- 15488.0, 10624.0, - 14208.0, 11904.0)
-	    set regionM6[1]=Rect(- 13312.0, 10624.0, - 12032.0, 11904.0)
-		
-	    set regionM1[2]=Rect(- 15488.0, 8960.0, - 14240.0, 10240.0)
-	    set regionM2[2]=Rect(- 13280.0, 8960.0, - 12096.0, 10240.0)
-	    set regionM3[2]=Rect(- 15488.0, 7296.0, - 14208.0, 8544.0)
-	    set regionM4[2]=Rect(- 13312.0, 7296.0, - 12064.0, 8576.0)
-	    set regionM5[2]=Rect(- 15488.0, 5632.0, - 14208.0, 6912.0)
-	    set regionM6[2]=Rect(- 13312.0, 5632.0, - 12032.0, 6912.0)
-
-	    set regionM1[3]=Rect(- 11104.0, 13984.0, - 9888.0, 15232.0)
-	    set regionM2[3]=Rect(- 8960.0, 13952.0, - 7680.0, 15232.0)
-	    set regionM3[3]=Rect(- 11136.0, 12288.0, - 9888.0, 13536.0)
-	    set regionM4[3]=Rect(- 8928.0, 12288.0, - 7680.0, 13568.0)
-	    set regionM5[3]=Rect(- 11136.0, 10624.0, - 9856.0, 11904.0)
-	    set regionM6[3]=Rect(- 8960.0, 10624.0, - 7680.0, 11904.0)
-		
-	    set regionM1[4]=Rect(- 11104.0, 8992.0, - 9888.0, 10240.0)
-	    set regionM2[4]=Rect(- 8960.0, 8960.0, - 7680.0, 10240.0)
-	    set regionM3[4]=Rect(- 11136.0, 7296.0, - 9888.0, 8544.0)
-	    set regionM4[4]=Rect(- 8928.0, 7296.0, - 7680.0, 8576.0)
-	    set regionM5[4]=Rect(- 11136.0, 5632.0, - 9856.0, 6912.0)
-	    set regionM6[4]=Rect(- 8960.0, 5632.0, - 7680.0, 6912.0)
-		
-	    set regionM1[5]=Rect(- 6752.0, 13952.0, - 5536.0, 15200.0)
-	    set regionM2[5]=Rect(- 4736.0, 13952.0, - 3456.0, 15232.0)
-	    set regionM3[5]=Rect(- 6784.0, 12256.0, - 5536.0, 13504.0)
-	    set regionM4[5]=Rect(- 4704.0, 12288.0, - 3456.0, 13568.0)
-	    set regionM5[5]=Rect(- 6784.0, 10592.0, - 5504.0, 11872.0)
-	    set regionM6[5]=Rect(- 4736.0, 10624.0, - 3456.0, 11904.0)
-
-	    set regionM1[6]=Rect(- 6752.0, 8960.0, - 5536.0, 10208.0)
-	    set regionM2[6]=Rect(- 4736.0, 8960.0, - 3456.0, 10240.0)
-	    set regionM3[6]=Rect(- 6784.0, 7264.0, - 5536.0, 8512.0)
-	    set regionM4[6]=Rect(- 4704.0, 7296.0, - 3456.0, 8576.0)
-	    set regionM5[6]=Rect(- 6784.0, 5600.0, - 5504.0, 6880.0)
-	    set regionM6[6]=Rect(- 4736.0, 5632.0, - 3456.0, 6912.0)
-
-	    set regionAll[1]=Rect(- 15808.0, 10400.0, - 11744.0, 15456.0)
-	    set regionAll[2]=Rect(- 15808.0, 5344.0, - 11712.0, 10400.0)
-	    set regionAll[3]=Rect(- 11744.0, 10400.0, - 7232.0, 15456.0)
-	    set regionAll[4]=Rect(- 11744.0, 5312.0, - 7232.0, 10400.0)
-	    set regionAll[5]=Rect(- 7264.0, 10432.0, - 3136.0, 15456.0)
-	    set regionAll[6]=Rect(- 7264.0, 5312.0, - 3136.0, 10432.0)
+ function Seyu__TDeathAddPowerAct takes nothing returns nothing
+		set Seyu__IPower=Seyu__IPower + 1
+		call BJDebugMsg("IPower:" + I2S(Seyu__IPower))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function EnterExerciseRegion takes nothing returns nothing
-  local real x
-  local real y
 
+	//按照12345来判断
+ function LearnSkillSeyuI takes unit learner,integer whichSpell returns nothing
+  local integer i
+		if ( learner == seyu ) then
+			if ( whichSpell == 1 ) then
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(3))))), 3) // INLINED!!
+			elseif ( whichSpell == 2 and (GetPlayerTechCountSimple('R006', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AUav') == 1 ) then // INLINED!!
+				//技能2初始化
+				call Seyu__InitPower()
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(4))))), 3) // INLINED!!
+			elseif ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEar') == 1 ) then // INLINED!!
+				//技能3初始化
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(5))))), 3) // INLINED!!
+				call SetPlayerTechResearchedSwap('R00D', 1, GetOwningPlayer(seyu))
+				set i=1
+       			loop
+       				exitwhen i > 6
+       				
+		            if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
+		                call AddAgiPercent(i , 0.4)
+		            endif
 
-//textmacro instance: EnterSpecifyExercise("I05J","1")
-		if ( ( GetItemTypeId(GetSoldItem()) == 'I05J' ) ) then
-			set x=GetRectCenterX(regionM1[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-			set y=GetRectCenterY(regionM1[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-
-	        call SetUnitX(GetBuyingUnit(), x)
-	        call SetUnitY(GetBuyingUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
-	    endif
-//end of: EnterSpecifyExercise("I05J","1")
-//textmacro instance: EnterSpecifyExercise("I053","2")
-		if ( ( GetItemTypeId(GetSoldItem()) == 'I053' ) ) then
-			set x=GetRectCenterX(regionM2[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-			set y=GetRectCenterY(regionM2[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-
-	        call SetUnitX(GetBuyingUnit(), x)
-	        call SetUnitY(GetBuyingUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
-	    endif
-//end of: EnterSpecifyExercise("I053","2")
-//textmacro instance: EnterSpecifyExercise("I05K","3")
-		if ( ( GetItemTypeId(GetSoldItem()) == 'I05K' ) ) then
-			set x=GetRectCenterX(regionM3[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-			set y=GetRectCenterY(regionM3[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-
-	        call SetUnitX(GetBuyingUnit(), x)
-	        call SetUnitY(GetBuyingUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
-	    endif
-//end of: EnterSpecifyExercise("I05K","3")
-//textmacro instance: EnterSpecifyExercise("I06Y","4")
-		if ( ( GetItemTypeId(GetSoldItem()) == 'I06Y' ) ) then
-			set x=GetRectCenterX(regionM4[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-			set y=GetRectCenterY(regionM4[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-
-	        call SetUnitX(GetBuyingUnit(), x)
-	        call SetUnitY(GetBuyingUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
-	    endif
-//end of: EnterSpecifyExercise("I06Y","4")
-//textmacro instance: EnterSpecifyExercise("I06Z","5")
-		if ( ( GetItemTypeId(GetSoldItem()) == 'I06Z' ) ) then
-			set x=GetRectCenterX(regionM5[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-			set y=GetRectCenterY(regionM5[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-
-	        call SetUnitX(GetBuyingUnit(), x)
-	        call SetUnitY(GetBuyingUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
-	    endif
-//end of: EnterSpecifyExercise("I06Z","5")
-//textmacro instance: EnterSpecifyExercise("I03Z","6")
-		if ( ( GetItemTypeId(GetSoldItem()) == 'I03Z' ) ) then
-			set x=GetRectCenterX(regionM6[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-			set y=GetRectCenterY(regionM6[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))])
-
-	        call SetUnitX(GetBuyingUnit(), x)
-	        call SetUnitY(GetBuyingUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
-	    endif
-//end of: EnterSpecifyExercise("I03Z","6")
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
- function Exercise___InitExercise takes nothing returns nothing
-		call Exercise___InitExerciseRegions()
-		call Exercise___InitExerciseTrigger()
-
-	endfunction
-
-
-//library Exercise ends
-//library Multiboard:
-
-//---------------------------------------------------------------------------------------------------
-	
- function AddCenterCredit takes unit u returns nothing
-  local integer index
-		if ( udg_RENSHU > 1 ) then
-			set index=GetConvertedPlayerId(GetOwningPlayer(u))
-			set centerCredit[index]=centerCredit[index] + udg_Bo
-			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
+       				set i=i + 1
+       			endloop
+			elseif ( whichSpell == 4 and (GetPlayerTechCountSimple('R008', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEsv') == 1 ) then // INLINED!!
+				//技能4初始化
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(6))))), 3) // INLINED!!
+			elseif ( whichSpell == 5 and IsFifthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu, 'AEst') == 1 ) then
+				//技能5初始化
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(7))))), 3) // INLINED!!
+                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(8))))), 3) // INLINED!!
+			endif
 		endif
 	endfunction
 
-//---------------------------------------------------------------------------------------------------
- function Multiboard___InitMultiboard takes nothing returns nothing
-		
-	endfunction
-
-//library Multiboard ends
-//library PIV:
-
-//---------------------------------------------------------------------------------------------------
- function IsPIV takes player p returns boolean
-		return sPIV[GetConvertedPlayerId(p)]
-	endfunction
-	
-//---------------------------------------------------------------------------------------------------
- function PIV___InitPIV takes nothing returns nothing
-  local integer i= 1
-		loop
-			exitwhen i > 6
-
-			set sPIV[i]=false
-
-			set i=i + 1
-		endloop
-	endfunction
-
-
-//library PIV ends
-//library CenterCredit:
-	
-
-//---------------------------------------------------------------------------------------------------
-	
-	
- function CenterCredit___TBuySoliderAct takes nothing returns nothing
-  local integer index= GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
-  local real x
-  local real y
-		call BJDebugMsg("TBuySoliderActOut")
-
-//textmacro instance: BuySoldier("uG01","1")
-		if ( GetUnitTypeId(GetSoldUnit()) == 'uG01' ) then
-			call BJDebugMsg("TBuySoliderActIn")
-			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_1 ) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_1))
-				call RemoveUnit(GetSoldUnit())
-
-				return
+ function LearnSkillSeyu takes unit learner,integer learnSpellID returns nothing
+		if ( learner == seyu ) then
+			if ( learnSpellID == 'AEfk' ) then
+				call LearnSkillSeyuI(learner , 1)
+			elseif ( learnSpellID == 'AUav' ) then
+				call LearnSkillSeyuI(learner , 2)
+			elseif ( learnSpellID == 'AEar' ) then
+				call LearnSkillSeyuI(learner , 3)
+			elseif ( learnSpellID == 'AEsv' ) then
+				call LearnSkillSeyuI(learner , 4)
+			elseif ( learnSpellID == 'AEst' ) then
+				call LearnSkillSeyuI(learner , 5)
 			endif
-			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_1
-			set x=GetRectCenterX(regionM1[index])
-			set y=GetRectCenterX(regionM1[index])
-
-			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
-			call SetUnitX(GetSoldUnit(), x)
-			call SetUnitY(GetSoldUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
-	        return
-		endif
-//end of: BuySoldier("uG01","1")
-//textmacro instance: BuySoldier("uG02","2")
-		if ( GetUnitTypeId(GetSoldUnit()) == 'uG02' ) then
-			call BJDebugMsg("TBuySoliderActIn")
-			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_2 ) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_2))
-				call RemoveUnit(GetSoldUnit())
-
-				return
-			endif
-			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_2
-			set x=GetRectCenterX(regionM2[index])
-			set y=GetRectCenterX(regionM2[index])
-
-			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
-			call SetUnitX(GetSoldUnit(), x)
-			call SetUnitY(GetSoldUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
-	        return
-		endif
-//end of: BuySoldier("uG02","2")
-//textmacro instance: BuySoldier("uG03","3")
-		if ( GetUnitTypeId(GetSoldUnit()) == 'uG03' ) then
-			call BJDebugMsg("TBuySoliderActIn")
-			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_3 ) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_3))
-				call RemoveUnit(GetSoldUnit())
-
-				return
-			endif
-			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_3
-			set x=GetRectCenterX(regionM3[index])
-			set y=GetRectCenterX(regionM3[index])
-
-			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
-			call SetUnitX(GetSoldUnit(), x)
-			call SetUnitY(GetSoldUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
-	        return
-		endif
-//end of: BuySoldier("uG03","3")
-//textmacro instance: BuySoldier("uG04","4")	
-		if ( GetUnitTypeId(GetSoldUnit()) == 'uG04' ) then
-			call BJDebugMsg("TBuySoliderActIn")
-			if ( centerCredit[index] < CenterCredit___CREDIT_SOLIDER_4 ) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有" + I2S(centerCredit[index]) + ",不足" + I2S(CenterCredit___CREDIT_SOLIDER_4))
-				call RemoveUnit(GetSoldUnit())
-
-				return
-			endif
-			set centerCredit[index]=centerCredit[index] - CenterCredit___CREDIT_SOLIDER_4
-			set x=GetRectCenterX(regionM4[index])
-			set y=GetRectCenterX(regionM4[index])
-
-			call MultiboardSetItemValueBJ(udg_D, 9, index + 1, I2S(centerCredit[index]))
-			call SetUnitX(GetSoldUnit(), x)
-			call SetUnitY(GetSoldUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
-	        return
-		endif
-//end of: BuySoldier("uG04","4")	
-
-		if ( GetUnitTypeId(GetSoldUnit()) == 'uG05' ) then
-			if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) == true ) then // INLINED!!
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
-				call RemoveUnit(GetSoldUnit())
-				return
-			endif
-
-			if ( udg_Bo < 18 ) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r当前波数未到18波,尚未可以购买.")
-				call RemoveUnit(GetSoldUnit())
-				return
-			endif
-
-			set x=GetRectCenterX(regionM5[index])
-			set y=GetRectCenterX(regionM5[index])
-			call SetUnitX(GetSoldUnit(), x)
-			call SetUnitY(GetSoldUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
-		endif
-
-		if ( GetUnitTypeId(GetSoldUnit()) == 'uG06' ) then
-			if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) == true ) then // INLINED!!
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
-				call RemoveUnit(GetSoldUnit())
-				return
-			endif
-
-			if ( udg_Bo < 22 ) then
-				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r当前波数未到22波,尚未可以购买.")
-				call RemoveUnit(GetSoldUnit())
-				return
-			endif
-
-			set x=GetRectCenterX(regionM6[index])
-			set y=GetRectCenterX(regionM6[index])
-			call SetUnitX(GetSoldUnit(), x)
-			call SetUnitY(GetSoldUnit(), y)
-	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), x, y, 0.2)
-	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
-	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function CenterCredit___InitCenterCredit takes nothing returns nothing
-  local integer i= 1
+ function InitSeyu takes unit u returns nothing
   local trigger t= CreateTrigger()
-		call BJDebugMsg("初始化~")
-		loop
-			exitwhen i > 6
-			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) then
-				call TriggerRegisterUnitEvent(t, CreateUnit(Player(15), 'uS02', GetRectCenterX(regionM1[i]) + 300, GetRectCenterY(regionM1[i]) - 300, 270), EVENT_UNIT_SELL)
-			set i=i + 1
-			endif
-		endloop
-		call TriggerAddAction(t, function CenterCredit___TBuySoliderAct)
+		set seyu=u
+
+		
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function Seyu__TDeathAddPowerCon))
+		call TriggerAddAction(t, function Seyu__TDeathAddPowerAct)
+
 		set t=null
 	endfunction
 
+//library Seyu ends
 
-//library CenterCredit ends
 
+// BEGIN IMPORT OF Seyu.j
 
-// BEGIN IMPORT OF CenterCredit.j
+// BEGIN IMPORT OF SpellBase.j
 
 // BEGIN IMPORT OF LHBase.j
 
@@ -2725,36 +1942,72 @@ endfunction
 // END IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF Test.j
 // END IMPORT OF LHBase.j
-// BEGIN IMPORT OF PIV.j
+
+ 
+// END IMPORT OF SpellBase.j
+// BEGIN IMPORT OF Printer.j
+
 // IGNORE DOUBLE IMPORT OF LHBase.j
-
-// END IMPORT OF PIV.j
-// BEGIN IMPORT OF Multiboard.j
+// END IMPORT OF Printer.j
+// BEGIN IMPORT OF Attr.j
 
 // IGNORE DOUBLE IMPORT OF LHBase.j
+// END IMPORT OF Attr.j
 
-// END IMPORT OF Multiboard.j
-// BEGIN IMPORT OF Exercise.j
-// IGNORE DOUBLE IMPORT OF LHBase.j
-	
-
-
-
-// END IMPORT OF Exercise.j
-
-// END IMPORT OF CenterCredit.j
+// END IMPORT OF Seyu.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("jasshelper__initstructs4133731465")
+call ExecuteFunc("Test__InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("Exercise___InitExercise")
-call ExecuteFunc("Multiboard___InitMultiboard")
-call ExecuteFunc("PIV___InitPIV")
-call ExecuteFunc("CenterCredit___InitCenterCredit")
+call ExecuteFunc("Attr___InitAttr")
+call ExecuteFunc("Printer___InitPrinter")
 
 endfunction
 
 
 
 //Struct method generated initializers/callers:
+function sa__Attract__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+   return true
+endfunction
+function sa__Attract_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
+			set s__Attract_caster[this]=null
+			call PauseTimer(s__Attract_t[this])
+			call DestroyTimer(s__Attract_t[this])
+			set s__Attract_t[this]=null
+   return true
+endfunction
+function sa__Missile__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+   return true
+endfunction
+function sa__Missile_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
+			set s__Missile_caster[this]=null
+			call PauseTimer(s__Missile_t[this])
+			call DestroyTimer(s__Missile_t[this])
+			set s__Missile_t[this]=null
+   return true
+endfunction
+
+function jasshelper__initstructs4133731465 takes nothing returns nothing
+    set st__Attract__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
+    set st__Attract_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Attract_onDestroy,Condition( function sa__Attract_onDestroy))
+    set st__Missile__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__Missile__staticgetindex,Condition( function sa__Missile__staticgetindex))
+    set st__Missile_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Missile_onDestroy,Condition( function sa__Missile_onDestroy))
+
+
+
+endfunction
 

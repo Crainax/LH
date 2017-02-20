@@ -151,31 +151,33 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	/*
 	    祭品的攻击伤害
 	*/
-	private function TDamageSacriCon takes nothing returns boolean
-		return (IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'h011')
-	endfunction
 	
 	function SimulateDamageHeiyan takes unit u returns boolean
 		//祭品的伤害
-		if ((IsUnitInGroup(GetEventDamageSource(),GSacri) == true or GetUnitTypeId(GetEventDamageSource()) == 'h011')) then
+		if ((IsUnitInGroup(u,GSacri) == true ) then
 			call DisableTrigger(GetTriggeringTrigger())
 			if (IsEnemy(GetTriggerUnit(),Heiyan)) then
-				if (IsUnitInGroup(GetEventDamageSource(),GSacri) == true) then
-					call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				elseif (GetUnitTypeId(GetEventDamageSource()) == 'h011') then
-					call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri*4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				endif
+				call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			else
 				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.02)
+				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 2
 			endif
 			call EnableTrigger(GetTriggeringTrigger())
 			return true
 		endif
-		//泣罗刹后续伤害
-		if (GetUnitTypeId(GetEventDamageSource()) == 'hh04') then
+
+		if (GetUnitTypeId(u) == 'h011')) then
 			call DisableTrigger(GetTriggeringTrigger())
-			call UnitDamageTarget( GetEventDamageSource(), GetTriggerUnit(), DamageSacri*30, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 16, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
+			return true 
+		endif
+		//泣罗刹后续伤害
+		if (GetUnitTypeId(u) == 'hh04') then
+			call DisableTrigger(GetTriggeringTrigger())
+			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri*30, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger(GetTriggeringTrigger())
+			return true
 		endif
 		return false
 	endfunction

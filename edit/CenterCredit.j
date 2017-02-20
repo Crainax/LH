@@ -98,7 +98,20 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	
+	/*
+	    雇佣兵技能
+	*/
+	function SimulateDamageSoldier takes unit u returns boolean
+		if (GetUnitAbilityLevel(u,'A0GZ') >= 1) then
+			call DisableTrigger()
+			call SetUnitLifeBJ(GetTriggerUnit(),100)
+			call UnitDamageTarget( u, GetTriggerUnit(), 1000, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger()
+			return true
+		endif
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
 	private function InitCenterCredit takes nothing returns nothing
 		local integer i = 1
 		local trigger t = CreateTrigger()

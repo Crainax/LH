@@ -36,11 +36,9 @@ library_once Yanmie requires SpellBase
 	*/
 
 	function SimulateDamageYanmie takes unit u returns boolean
-		local real damage
 		//雷神残影50%伤害
 		if (GetUnitTypeId(u) == 'h010') then
-			set damage = GetDamageAgi(yanmie) * 0.4
-			call UnitDamageTarget( yanmie, GetTriggerUnit(), damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( yanmie, GetTriggerUnit(), GetDamageAgi(yanmie) * 0.4, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		return false
