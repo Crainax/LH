@@ -442,6 +442,61 @@ library_once YDWETimerPattern initializer Init requires YDWEBase
         endmethod
     endstruct
 
+    private struct Boomer extends Thread
+
+        static method move takes nothing returns nothing
+            local thistype this = Thread[GetExpiredTimer()]
+            local real xp = GetUnitX(.obj) + .dist * .vel.x
+            local real yp = GetUnitY(.obj) + .dist * .vel.y
+
+            set .x = xp
+            set .y = yp
+
+            set .step = .step - 1.
+            if .step <= 0.0 or YDWECoordinateX(.pos.x) != .pos.x or YDWECoordinateY(.pos.y) != .pos.y then
+                set .switch = 0
+            endif
+
+            if .switch == 0 then            
+                if .amount > 0.0 then
+                    //call this.damage(.caster, .pos.x, .pos.y, 0.0, false, .recycle)
+                    set tmp_data = integer(this)
+                    call GroupEnumUnitsInRange(.g, .pos.x, .pos.y, .radius, function DamageFilter)
+                    call DestroyEffect(AddSpecialEffect(.gsfx, .pos.x, .pos.y))
+                    call KillUnit(.obj)
+                endif
+                call this.destroy()
+            endif
+        endmethod
+
+        static method create takes unit source, unit object, real angle, real distance,real speed, real interval, real damage,real radius, string geff returns thistype
+            local thistype this = thistype.allocate() //thistype(Thread[object])
+            local real vx = 0.0
+            local real vy = 0.0
+            local real l  = 0.0
+            set .des = YDVector3.create()
+            set .pos = YDVector3.create()
+            set .vel = YDVector3.create()
+            set .vel.x = Cos(angle)
+            set .vel.y = Sin(angle)
+            set .dist  = speed * interval
+            //step改成了匀速运动
+            set .step  = distance / speed / interval
+            set .pos.x = GetUnitX(object)
+            set .pos.y = GetUnitY(object)
+            set .caster = source
+            set .obj = object
+            set .radius = radius
+            set .amount = damage
+            set .gsfx = geff
+            set .switch = 1
+            set .g = CreateGroup()
+            set .t = CreateTimer()
+            call TimerStart(.t, interval, true, function thistype.move)
+            set Thread[.t] = integer(this)
+            return this
+        endmethod
+    endstruct
 
     // Jump Attack PUI
     function YDWETimerPatternJumpAttack takes unit u, real face, real dis, real lasttime, real timeout, real high, real damage, string part, string dsfx returns nothing

@@ -56,6 +56,22 @@ library_once Attr initializer InitAttr requires LHBase
 		return udg_I_Xianglian[( playerID + 12 )]
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    金钱增益
+	*/
+	function AddMoneyPercent takes integer playerID , real value returns nothing
+		set udg_I_Jinqianhuodelv[playerID] = udg_I_Jinqianhuodelv[playerID] + value
+		call TriggerExecute( gg_trg_D7 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    技能伤害增益
+	*/
+	function AddSpellPercent takes integer playerID , real value returns nothing
+		set udg_I_Jinengjiacheng[playerID] = udg_I_Jinengjiacheng[playerID] + value
+		call TriggerExecute( gg_trg_D7 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing
 		
