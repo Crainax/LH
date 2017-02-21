@@ -1,7 +1,7 @@
 
 
-/////! import "Test.j"
-library_once LHBase initializer InitLHBase //requires Test
+//! import "Test.j"
+library_once LHBase initializer InitLHBase requires Test
 
     globals
         unit learnSkillHero
@@ -162,6 +162,13 @@ library_once LHBase initializer InitLHBase //requires Test
 	function BuyerFilter takes unit buyer returns boolean
 		return (GetUnitTypeId(buyer) != 'N018')
 	endfunction
+
+    /*
+        判断是否有琉璃璞玉
+    */
+    function HasLiuli takes unit u returns boolean
+        return (GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1')) == 'IXU1')
+    endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
         /*

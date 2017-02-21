@@ -15,10 +15,10 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
@@ -90,7 +90,8 @@ rect gg_rct_Arena_forbit
         
 sound gg_snd_GoodJob
 sound gg_snd_Jidibeida
-
+sound gg_snd_Chenggong
+sound gg_snd_Shibai
         
 unit gg_unit_nmgv_0193
 unit gg_unit_nmgv_0194
@@ -121,34 +122,10 @@ unit learnSkillHero
         
 unit array UDepot
 //endglobals from LHBase
-//globals from Attr:
-constant boolean LIBRARY_Attr=true
-//endglobals from Attr
-//globals from Printer:
-constant boolean LIBRARY_Printer=true
-//endglobals from Printer
-//globals from SpellBase:
-constant boolean LIBRARY_SpellBase=true
-hashtable spellTable= InitHashtable()
-constant integer kUImmuteDamage=3
-//endglobals from SpellBase
-//globals from Seyu:
-constant boolean LIBRARY_Seyu=true
-unit seyu= null
-
-		
-texttag Seyu__TTPower
-integer Seyu__IPower
-			
-real Seyu__RAddtion
-
-		
-trigger Seyu__TSpellSeyu
-trigger Seyu__TSpellSeyu2
-trigger Seyu__TSpellSeyu3
-constant integer kSeyuFengdong=5
-constant integer kAnShaCount=7
-//endglobals from Seyu
+//globals from Diamond:
+constant boolean LIBRARY_Diamond=true
+constant string DIAMOND_CANT_UPDATE= "|cFFFF66CC【消息】|r该宝石不能升级该物品。"
+//endglobals from Diamond
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -169,126 +146,9 @@ string array yd_PlayerColor
 trigger l__library_init
 
 //JASSHelper struct globals:
-constant integer si__Attract=1
-integer si__Attract_F=0
-integer si__Attract_I=0
-integer array si__Attract_V
-unit array s__Attract_caster
-real array s__Attract_radius
-real array s__Attract_interval
-real array s__Attract_speed
-timer array s__Attract_t
-constant integer si__Missile=2
-integer si__Missile_F=0
-integer si__Missile_I=0
-integer array si__Missile_V
-unit array s__Missile_caster
-string array s__Missile_effx
-real array s__Missile_radius
-real array s__Missile_interval1
-real array s__Missile_interval2
-real array s__Missile_damage
-real array s__Missile_x
-real array s__Missile_y
-timer array s__Missile_t
-trigger st__Attract__staticgetindex
-trigger st__Attract_onDestroy
-trigger st__Attract_destroy
-trigger st__Missile__staticgetindex
-trigger st__Missile_onDestroy
-trigger st__Missile_destroy
-handle f__arg_handle1
-integer f__arg_this
-integer f__result_integer
 
 endglobals
 
-
-//Generated method caller for Attract._staticgetindex
-function sc__Attract__staticgetindex takes handle h returns integer
-    set f__arg_handle1=h
-    call TriggerEvaluate(st__Attract__staticgetindex)
- return f__result_integer
-endfunction
-
-//Generated method caller for Attract.onDestroy
-function sc__Attract_onDestroy takes integer this returns nothing
-    set f__arg_this=this
-    call TriggerEvaluate(st__Attract_onDestroy)
-endfunction
-
-//Generated allocator of Attract
-function s__Attract__allocate takes nothing returns integer
- local integer this=si__Attract_F
-    if (this!=0) then
-        set si__Attract_F=si__Attract_V[this]
-    else
-        set si__Attract_I=si__Attract_I+1
-        set this=si__Attract_I
-    endif
-    if (this>8190) then
-        return 0
-    endif
-
-    set si__Attract_V[this]=-1
- return this
-endfunction
-
-//Generated destructor of Attract
-function sc__Attract_deallocate takes integer this returns nothing
-    if this==null then
-        return
-    elseif (si__Attract_V[this]!=-1) then
-        return
-    endif
-    set f__arg_this=this
-    call TriggerEvaluate(st__Attract_onDestroy)
-    set si__Attract_V[this]=si__Attract_F
-    set si__Attract_F=this
-endfunction
-
-//Generated method caller for Missile._staticgetindex
-function sc__Missile__staticgetindex takes handle h returns integer
-    set f__arg_handle1=h
-    call TriggerEvaluate(st__Missile__staticgetindex)
- return f__result_integer
-endfunction
-
-//Generated method caller for Missile.onDestroy
-function sc__Missile_onDestroy takes integer this returns nothing
-    set f__arg_this=this
-    call TriggerEvaluate(st__Missile_onDestroy)
-endfunction
-
-//Generated allocator of Missile
-function s__Missile__allocate takes nothing returns integer
- local integer this=si__Missile_F
-    if (this!=0) then
-        set si__Missile_F=si__Missile_V[this]
-    else
-        set si__Missile_I=si__Missile_I+1
-        set this=si__Missile_I
-    endif
-    if (this>8190) then
-        return 0
-    endif
-
-    set si__Missile_V[this]=-1
- return this
-endfunction
-
-//Generated destructor of Missile
-function sc__Missile_deallocate takes integer this returns nothing
-    if this==null then
-        return
-    elseif (si__Missile_V[this]!=-1) then
-        return
-    endif
-    set f__arg_this=this
-    call TriggerEvaluate(st__Missile_onDestroy)
-    set si__Missile_V[this]=si__Missile_F
-    set si__Missile_F=this
-endfunction
 
 //library YDWEBaseCommon:
 
@@ -1200,7 +1060,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1442,8 +1302,13 @@ endfunction
  function BuyerFilter takes unit buyer returns boolean
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
+
+    
+    function HasLiuli takes unit u returns boolean
+        return ( GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1')) == 'IXU1' )
+    endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1455,695 +1320,149 @@ endfunction
     endfunction
 
 //library LHBase ends
-//library Attr:
-	
+//library Diamond:
+
+
 //---------------------------------------------------------------------------------------------------
-	
- function AddHPPercent takes integer playerID,real value returns nothing
-		set udg_I_Xianglian[( playerID + 18 )]=udg_I_Xianglian[( playerID + 18 )] + value
-		call TriggerExecute(gg_trg_D7)
-	endfunction
+    
+    function Diamond___Diamond100 takes integer itemID,integer newItemID returns boolean
+
+        if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
+            call RemoveItem(GetSpellTargetItem())
+            call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以100%的成功率成功地升级了" + GetItemName(GetSpellTargetItem()) + "！" ) ))
+            call UnitAddItemByIdSwapped(newItemID, GetTriggerUnit())
+            call PlaySoundBJ(gg_snd_Chenggong)
+            return true
+        endif
+        return false
+    endfunction
+
 //---------------------------------------------------------------------------------------------------
-	
- function AddAgiPercent takes integer playerID,real value returns nothing
-		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
-		call TriggerExecute(gg_trg_D7)
-	endfunction
+    
+    function Diamond___DiamondA takes integer itemID,integer newItemID,integer poss returns boolean
+        //琉璃璞玉
+        if ( (GetItemTypeId(GetItemOfTypeFromUnitBJ((GetTriggerUnit()), 'IXU1')) == 'IXU1') == true ) then // INLINED!!
+            return Diamond___Diamond100(itemID , newItemID)
+        endif
+        //非琉璃璞玉
+        if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
+            if ( ( GetRandomInt(1, 100) <= poss ) ) then
+                call RemoveItem(GetSpellTargetItem())
+                call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以" + I2S(poss) + "%的成功率成功地升级了" + GetItemName(GetSpellTargetItem()) + "！" ) ))
+                call UnitAddItemByIdSwapped(newItemID, GetTriggerUnit())
+                call PlaySoundBJ(gg_snd_Chenggong)
+            else
+                call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以" + I2S(poss) + "%的成功率升级" + GetItemName(GetSpellTargetItem()) + "失败！" ) ))
+                call PlaySoundBJ(gg_snd_Shibai)
+            endif
+            return true
+        endif
+        return false
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function Diamond___AddOneDiamond takes nothing returns nothing
+                //复制出来的不能升级
+        if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
+            call UnitAddItemByIdSwapped('I02N', GetTriggerUnit())
+            call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
+            return
+        endif
+
+        if ( Diamond___Diamond100('I04Z' , 'nflg') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('I056' , 'spre') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('I057' , 'fwss') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('I050' , 'uflg') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('I055' , 'tgxp') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('I03Y' , 'dust') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('rej4' , 'drph') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('rej6' , 'dtsb') == true ) then
+            return
+        endif
+        if ( Diamond___Diamond100('pgin' , 'gobm') == true ) then
+            return
+        endif
+        call UnitAddItemByIdSwapped('I02N', GetTriggerUnit())
+        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
+        return
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function Diamond___AddSecondDiamond takes nothing returns nothing
+        if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
+            call UnitAddItemByIdSwapped('I04S', GetTriggerUnit())
+            call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
+            return
+        endif
+
+        if ( Diamond___DiamondA('nflg' , 'esaz' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('spre' , 'asbl' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('fwss' , 'ram4' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('uflg' , 'ram3' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('tgxp' , 'ram2' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('dust' , 'ram1' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('drph' , 'oven' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('dtsb' , 'tels' , 90) == true ) then
+            return
+        endif
+        if ( Diamond___DiamondA('gobm' , 'gvsm' , 90) == true ) then
+            return
+        endif
+
+        call UnitAddItemByIdSwapped('I04S', GetTriggerUnit())
+        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
+        return
+    endfunction
+//---------------------------------------------------------------------------------------------------
+
+    
+    function Diamond___TSpellDiamondAct takes nothing returns nothing
+        if ( GetSpellAbilityId() == 'A02Z' ) then
+            call Diamond___AddOneDiamond()
+        elseif ( GetSpellAbilityId() == 'Amnb' ) then
+            call Diamond___AddSecondDiamond()
+        endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
 	
- function GetAgiPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 6 )]
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function AddStrPercent takes integer playerID,real value returns nothing
-		set udg_I_Xianglian[( playerID )]=udg_I_Xianglian[( playerID )] + value
-		call TriggerExecute(gg_trg_D7)
-	endfunction
-
-	
- function GetStrPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID )]
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function AddIntPercent takes integer playerID,real value returns nothing
-		set udg_I_Xianglian[( playerID + 12 )]=udg_I_Xianglian[( playerID + 12 )] + value
-		call TriggerExecute(gg_trg_D7)
-	endfunction
-
-	
- function GetIntPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 12 )]
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
- function Attr__InitAttr takes nothing returns nothing
+ function Diamond___InitDiamond takes nothing returns nothing
 		
-
-
 	endfunction
 
 
-//library Attr ends
-//library Printer:
+//library Diamond ends
 
-//---------------------------------------------------------------------------------------------------
-	
 
- function PrintSpellAdd takes player whichPlayer,string spellName,real damage,string addtional returns nothing
-	    call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r伤害加成" + I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage)) + addtional + "." ) ) ))
-	endfunction
-
- function PrintSpell takes player whichPlayer,string spellName,real damage returns nothing
-		call PrintSpellAdd(whichPlayer , spellName , damage , "")
-	endfunction
-	
- function PrintSpellContent takes player whichPlayer,string spellName,string content returns nothing
-	    call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r" + content ))
-	endfunction
-
- function PrintSpellName takes player whichPlayer,string spellName returns nothing
-		call DisplayTextToPlayer((whichPlayer ), 0, 0, ( "|cFFFF66CC【|r" + ( spellName ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
- function Printer__InitPrinter takes nothing returns nothing
-		
-	endfunction
-
-
-//library Printer ends
-//library SpellBase:
-
-
-//---------------------------------------------------------------------------------------------------
-
-
-  function s__Attract_attract takes nothing returns nothing
-   local real x1
-   local real y1
-   local real x2
-   local real y2
-   local real facing
-   local real distance
-   local integer this= sc__Attract__staticgetindex(GetExpiredTimer())
-   local group l_group= CreateGroup()
-   local unit l_unit
-			if ( IsUnitAliveBJ(s__Attract_caster[this]) ) then
-				call GroupEnumUnitsInRange(l_group, GetUnitX(s__Attract_caster[this]), GetUnitY(s__Attract_caster[this]), s__Attract_radius[this], null)
-				loop
-				    set l_unit=FirstOfGroup(l_group)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(l_group, l_unit)
-				    if ( IsEnemy(l_unit , s__Attract_caster[this]) ) then
-				    	set x2=GetUnitX(l_unit)
-				    	set y2=GetUnitY(l_unit)
-				    	set x1=GetUnitX(s__Attract_caster[this])
-				    	set y1=GetUnitY(s__Attract_caster[this])
-				    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
-				    	if ( distance > 80 ) then
-				    	set facing=Atan2BJ(y1 - y2, x1 - x2)
-				    	call SetUnitX(l_unit, (RMinBJ(RMaxBJ(((x2 + CosBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
-				    	call SetUnitY(l_unit, (RMinBJ(RMaxBJ(((y2 + SinBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
-				    	endif
-				    endif
-				endloop
-				call DestroyGroup(l_group)
-			else
-				call sc__Attract_deallocate(this)
-			endif
-			set l_group=null
-			set l_unit=null
-  endfunction
-
-        function s__Attract__staticgetindex takes handle h returns integer
-            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
-        endfunction
-
-        function s__Attract__staticsetindex takes handle h,integer value returns nothing
-            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
-        endfunction
-
-        function s__Attract_flush takes handle h returns nothing
-            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
-        endfunction
-
-  function s__Attract_create takes unit caster,real radius,real interval,real speed returns integer
-      local integer this= s__Attract__allocate()
-      local timer t
-			set s__Attract_caster[this]=caster
-			set s__Attract_radius[this]=radius
-			set s__Attract_interval[this]=interval
-			set s__Attract_speed[this]=speed
-			return this
-  endfunction
-
-  function s__Attract_start takes integer this returns nothing
-			set s__Attract_t[this]=CreateTimer()
-			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this]))))) )), ( ( (this)))) // INLINED!!
-			call TimerStart(s__Attract_t[this], s__Attract_interval[this], true, function s__Attract_attract)
-  endfunction
-
-  function s__Attract_onDestroy takes integer this returns nothing
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
-			set s__Attract_caster[this]=null
-			call PauseTimer(s__Attract_t[this])
-			call DestroyTimer(s__Attract_t[this])
-			set s__Attract_t[this]=null
-  endfunction
-
-//Generated destructor of Attract
-function s__Attract_deallocate takes integer this returns nothing
-    if this==null then
-        return
-    elseif (si__Attract_V[this]!=-1) then
-        return
-    endif
-    call s__Attract_onDestroy(this)
-    set si__Attract_V[this]=si__Attract_F
-    set si__Attract_F=this
-endfunction
-
-//---------------------------------------------------------------------------------------------------
-
-
-
-  function s__Missile_explode takes nothing returns nothing
-   local integer this= sc__Missile__staticgetindex(GetExpiredTimer())
-   local group l_group= CreateGroup()
-   local unit l_unit
-			call GroupEnumUnitsInRange(l_group, s__Missile_x[this], s__Missile_y[this], s__Missile_radius[this], null)
-			loop
-			    set l_unit=FirstOfGroup(l_group)
-			    exitwhen l_unit == null
-			    call GroupRemoveUnit(l_group, l_unit)
-			    if ( IsEnemy(l_unit , s__Missile_caster[this]) == true ) then
-			    	call UnitDamageTarget(s__Missile_caster[this], l_unit, s__Missile_damage[this], false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-			    endif
-			endloop
-			call DestroyGroup(l_group)
-			set l_group=null
-			set l_unit=null
-			call sc__Missile_deallocate(this)
-  endfunction
-
-  function s__Missile_launch takes nothing returns nothing
-   local integer this= sc__Missile__staticgetindex(GetExpiredTimer())
-			call DestroyEffect(AddSpecialEffect(s__Missile_effx[this], s__Missile_x[this], s__Missile_y[this]))
-			call PauseTimer(s__Missile_t[this])
-			call TimerStart(s__Missile_t[this], s__Missile_interval2[this], false, function s__Missile_explode)
-
-  endfunction
-
-
-        function s__Missile__staticgetindex takes handle h returns integer
-            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
-        endfunction
-
-        function s__Missile__staticsetindex takes handle h,integer value returns nothing
-            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
-        endfunction
-
-        function s__Missile_flush takes handle h returns nothing
-            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
-        endfunction
-
-  function s__Missile_create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns integer
-      local integer this= s__Missile__allocate()
-      local real Rangel= GetRandomReal(- 180, 180)
-      local real Rradius= GetRandomReal(radius, range)
-		   	set s__Missile_x[this]=GetUnitX(caster) + Rradius * CosBJ(Rangel)
-		   	set s__Missile_y[this]=GetUnitY(caster) + Rradius * SinBJ(Rangel)
-			set s__Missile_caster[this]=caster
-			set s__Missile_effx[this]=effx
-			set s__Missile_radius[this]=radius
-			set s__Missile_interval1[this]=interval1
-			set s__Missile_interval2[this]=interval2
-			set s__Missile_damage[this]=damage
-
-			set s__Missile_t[this]=CreateTimer()
-			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this]))))) )), ( ( (this)))) // INLINED!!
-			call UnitApplyTimedLifeBJ(interval1 + interval2, 'BHwe', CreateUnit(GetOwningPlayer(s__Missile_caster[this]), preview, s__Missile_x[this], s__Missile_y[this], 0))
-			call TimerStart(s__Missile_t[this], s__Missile_interval1[this], false, function s__Missile_launch)
-			return this
-  endfunction
-
-
-  function s__Missile_onDestroy takes integer this returns nothing
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
-			set s__Missile_caster[this]=null
-			call PauseTimer(s__Missile_t[this])
-			call DestroyTimer(s__Missile_t[this])
-			set s__Missile_t[this]=null
-  endfunction
-
-//Generated destructor of Missile
-function s__Missile_deallocate takes integer this returns nothing
-    if this==null then
-        return
-    elseif (si__Missile_V[this]!=-1) then
-        return
-    endif
-    call s__Missile_onDestroy(this)
-    set si__Missile_V[this]=si__Missile_F
-    set si__Missile_F=this
-endfunction
-
-
-	
- function SpellBase__ImmuteDamageTimer takes nothing returns nothing
-  local timer t= GetExpiredTimer()
-  local integer id= GetHandleId(t)
-  local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
-		call PauseTimer(t)
-		call DestroyTimer(t)
-		call FlushChildHashtable(spellTable, id)
-		call SetUnitInvulnerable(u, false)
-		set u=null
-		set t=null
-	endfunction
-
- function ImmuteDamageInterval takes unit u,real time returns nothing
-  local timer t= CreateTimer()
-		call SetUnitInvulnerable(u, true)
-		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
-		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
-		set t=null
-	endfunction
-
- function ImmuteDamage takes unit u returns nothing
-		call ImmuteDamageInterval(u , 0)
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-
-
-//---------------------------------------------------------------------------------------------------
-
-	
- function GetDamageStr takes unit u returns real
-  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-  local real damage= ( ( GetHeroStr(uH, true) * 1.80 ) + ( GetHeroAgi(uH, true) ) + ( GetHeroInt(uH, true) * 1.20 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
-		set uH=null
-		return damage
-	endfunction
-	
- function GetDamageAgi takes unit u returns real
-  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-  local real damage= ( ( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) * 1.80 ) + ( GetHeroInt(uH, true) * 1.20 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
-		set uH=null
-		return damage
-	endfunction
-
-	
- function GetDamageInt takes unit u returns real
-  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-  local real damage= ( ( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) ) + ( GetHeroInt(uH, true) * 2.0 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
-		set uH=null
-		return damage
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function IsSecondSpellOK takes unit hero returns boolean
-		return GetPlayerTechCountSimple('R006', GetOwningPlayer(hero)) == 1
-	endfunction
-
-	
- function IsThirdSpellOK takes unit hero returns boolean
-		return GetPlayerTechCountSimple('R007', GetOwningPlayer(hero)) == 1
-	endfunction
-
-	
- function IsFourthSpellOK takes unit hero returns boolean
-		return GetPlayerTechCountSimple('R008', GetOwningPlayer(hero)) == 1
-	endfunction
-
-	
- function IsFifthSpellOK takes unit hero returns boolean
-		return ( GetPlayerTechCountSimple('R009', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00A', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00B', GetOwningPlayer(hero)) == 1 )
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
-
-
-//library SpellBase ends
-//library Seyu:
-	
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__EnemyFilterSeyu takes nothing returns boolean
-		return IsEnemy(GetFilterUnit() , seyu) == true
-	endfunction
-
- function GetChongdongGroup takes real radius,integer count returns group
-  local unit chongdong
-  local group result= CreateGroup()
-  local group temp
-  local group l_group= CreateGroup()
-  local unit l_unit
-  local integer i= 1
-		loop
-			exitwhen i > 8
-			set chongdong=(LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(i))))) // INLINED!!
-			if ( ( RectContainsUnit(gg_rct______________095, chongdong) != true ) ) then
-
-				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdong), GetUnitY(chongdong), radius, Condition(function Seyu__EnemyFilterSeyu))
-				set temp=GetRandomSubGroup(count, l_group)
-				call GroupAddGroup(temp, result)
-				call DestroyGroup(l_group)
-				call DestroyGroup(temp)
-				call BJDebugMsg(I2S(i) + "号虫洞循环")
-       		endif
-			set i=i + 1
-		endloop
-
-		set chongdong=null
-		set l_group=null
-		set l_unit=null
-		set temp=null
-		return result
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function AddChongdongGroup takes group p,real radius,integer count returns nothing
-  local group g= GetChongdongGroup(radius , count)
-		call GroupAddGroup(g, p)
-		set g=null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Mantuoluo takes unit speller,real damageRate,integer abilityID returns nothing
-  local unit u= speller
-  local real damage= GetDamageAgi(u) * damageRate
-     local group l_group= CreateGroup()
-     local unit l_unit
-	    call GroupEnumUnitsInRange(l_group, GetUnitX(speller), GetUnitY(speller), 600, Condition(function Seyu__EnemyFilterSeyu))
-	    call AddChongdongGroup(l_group , 600 , R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-	    
-	    loop
-	        set l_unit=FirstOfGroup(l_group)
-	        exitwhen l_unit == null
-	        call GroupRemoveUnit(l_group, l_unit)
-    		call UnitDamageTarget(u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
-	    endloop
-	    //输出伤害
-	    call PrintSpellAdd((GetOwningPlayer(u) ) , ( GetAbilityName(abilityID) ) , (( damage)*1.0) , "") // INLINED!!
-	    call DestroyGroup(l_group)
-	    set l_group=null
-	    set l_unit=null
-		set u=null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function TSpellSeyu2Con takes nothing returns boolean
-	    return ( ( ( GetAttacker() == seyu ) or ( GetUnitTypeId(GetAttacker()) == 'espv' ) ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( (GetPlayerTechCountSimple('R006', GetOwningPlayer((seyu))) == 1) == true ) and ( GetRandomInt(1, 20) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00 ) ) // INLINED!!
-	endfunction
-
- function TSpellSeyu2Act takes nothing returns nothing
-		call DisableTrigger(GetTriggeringTrigger())
-		call Mantuoluo(seyu , 0.33 , 'AUav')
-		call PolledWait(1)
-		call EnableTrigger(GetTriggeringTrigger())
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-	
-	//位置刷新，0.05s
- function Seyu__FlashPowerLocation takes nothing returns nothing
-		call SetTextTagPosUnitBJ(Seyu__TTPower, seyu, 25)
-	endfunction
-
-	
-	//数值刷新,1秒1次
- function Seyu__FlashPowerData takes nothing returns nothing
-  local integer index= GetConvertedPlayerId(GetOwningPlayer(seyu))
-  local real delta
-		//限制能量在0-105之间
-		set Seyu__IPower=IMinBJ(IMaxBJ(Seyu__IPower - 1, 0), 105)
-		call SetTextTagTextBJ(Seyu__TTPower, I2S(Seyu__IPower) + "%能量", 20)
-		set delta=I2R(( Seyu__IPower / 10 ) * 10) / 100
-		if ( Seyu__RAddtion != delta ) then
-			call AddStrPercent(index , (udg_I_Xianglian[( (index) )]) - Seyu__RAddtion + delta) // INLINED!!
-			call AddIntPercent(index , (udg_I_Xianglian[( (index) + 12 )]) - Seyu__RAddtion + delta) // INLINED!!
-			call AddAgiPercent(index , (udg_I_Xianglian[( (index) + 6 )]) - Seyu__RAddtion + delta) // INLINED!!
-			set Seyu__RAddtion=delta
-			call BJDebugMsg("能量加成:" + R2S(Seyu__RAddtion))
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(seyu), GetUnitY(seyu)))
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__TDeathAddPowerCon takes nothing returns boolean
-		return ( IsEnemy(GetDyingUnit() , GetKillingUnitBJ()) == true and udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu )
-	endfunction
-	
- function Seyu__TDeathAddPowerAct takes nothing returns nothing
-		set Seyu__IPower=Seyu__IPower + 1
-		call BJDebugMsg("IPower:" + I2S(Seyu__IPower))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__InitPower takes nothing returns nothing
-  local timer ti= CreateTimer()
-  local trigger t= CreateTrigger()
-
-		//异界能量触发
-		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
-		call TriggerAddCondition(t, Condition(function Seyu__TDeathAddPowerCon))
-		call TriggerAddAction(t, function Seyu__TDeathAddPowerAct)
-
-		set Seyu__IPower=0
-		set Seyu__RAddtion=0
-		set Seyu__TTPower=CreateTextTagUnitBJ(I2S(Seyu__IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0)
-		call TimerStart(ti, 0.05, true, function Seyu__FlashPowerLocation)
-
-		set ti=CreateTimer()
-		call TimerStart(ti, 1, true, function Seyu__FlashPowerData)
-
-		set ti=null
-		set t=null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__TSpellSeyu3Con takes nothing returns boolean
-    	return GetAttackedUnitBJ() == seyu and GetRandomInt(1, 20) == 1 and GetUnitState(seyu, UNIT_STATE_MANA) >= 400
-	endfunction
-	
-	//空间封冻2秒解冻
- function Seyu__TSpellSeyu3Timer takes nothing returns nothing
-  local timer t= GetExpiredTimer()
-  local integer id= GetHandleId(t)
-  local unit l_unit
-  local group g= LoadGroupHandle(spellTable, id, kSeyuFengdong)
-		loop
-		    set l_unit=FirstOfGroup(g)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(g, l_unit)
-	        call PauseUnit(l_unit, false)
-		endloop
-		call PauseTimer(t)
-		call DestroyTimer(t)
-		call DestroyGroup(g)
-		call FlushChildHashtable(spellTable, id)
-		set g=null
-		set t=null
-		set l_unit=null
-	endfunction
-		
- function Seyu__TSpellSeyu3Act takes nothing returns nothing
-  local real damage= GetDamageAgi(seyu) * 5
-  local group g= CreateGroup()
-  local group temp= GetChongdongGroup(600 , 1)
-  local timer t= CreateTimer()
-     local group l_group= CreateGroup()
-     local unit l_unit
-		call DisableTrigger(GetTriggeringTrigger())
-		//初始化虫洞单位组
-		call GroupAddUnit(g, GetAttacker())
-		call GroupAddGroup(temp, g)
-	    call PrintSpellAdd((GetOwningPlayer(seyu) ) , ( GetAbilityName('AEar') ) , (( damage)*1.0) , "") // INLINED!!
-	    call CreateTextTagA(("冻" ) , ( seyu ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 2)*1.0) , 16) // INLINED!!
-	    call GroupAddGroup(g, l_group)
-	    //局部单位组伤害
-	    loop
-	        set l_unit=FirstOfGroup(l_group)
-	        exitwhen l_unit == null
-	        call GroupRemoveUnit(l_group, l_unit)
-	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(seyu) ) , ( 'hh00' ) , (( GetUnitX(l_unit) )*1.0) , (( GetUnitY(l_unit) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
-	        call UnitDamageTarget(seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-	        if ( IsUnitAliveBJ(l_unit) == true ) then
-	        	call PauseUnit(l_unit, true)
-	        endif
-	    endloop
-
-		call SaveGroupHandle(spellTable, GetHandleId(t), kSeyuFengdong, g)
-		call TimerStart(t, 2, false, function Seyu__TSpellSeyu3Timer)
-		call DestroyGroup(temp)
-	    call DestroyGroup(l_group)
-		set t=null
-		set g=null
-		set temp=null
-	    set l_group=null
-	    set l_unit=null
-		call PolledWait(8)
-		call EnableTrigger(GetTriggeringTrigger())
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__AnShaZhiWuTimer takes nothing returns nothing
-  local timer t= GetExpiredTimer()
-  local integer id= GetHandleId(t)
-  local group g
-  local real damage= GetDamageAgi(seyu) * 0.5
-  local integer value= LoadInteger(spellTable, id, kAnShaCount)
-  local group l_group
-  local unit l_unit
-  local unit chongdong
-  local integer i
-		if ( value < 30 ) then
-			//++1
-			call SaveInteger(spellTable, id, kAnShaCount, value + 1)
-	    	set l_group=CreateGroup()
-			call GroupEnumUnitsInRange(l_group, GetUnitX(seyu), GetUnitY(seyu), 600, Condition(function Seyu__EnemyFilterSeyu))
-	    	call AddChongdongGroup(l_group , 600 , R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-			loop
-			    set l_unit=FirstOfGroup(l_group)
-			    exitwhen l_unit == null
-			    call GroupRemoveUnit(l_group, l_unit)
-    			call UnitDamageTarget(seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-			endloop
-			call DestroyGroup(l_group)
-			set l_group=null
-			set l_unit=null
-
-			//特效
-	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(seyu) ) , ( 'h00E' ) , (( GetUnitX(seyu) )*1.0) , (( GetUnitY(seyu) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
-			set i=1
-			loop
-				exitwhen i > 8
-				set chongdong=(LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(i))))) // INLINED!!
-				if ( ( RectContainsUnit(gg_rct______________095, chongdong) != true ) ) then
-	       			call CreateUnitEffectSpecifyTime((GetOwningPlayer(chongdong) ) , ( 'h00E' ) , (( GetUnitX(chongdong) )*1.0) , (( GetUnitY(chongdong) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
-	       		endif
-				set i=i + 1
-			endloop
-			set chongdong=null
-		else
-			call PauseTimer(t)
-			call DestroyTimer(t)
-			call FlushChildHashtable(spellTable, id)
-			call BJDebugMsg("结束计时器")
-		endif
-		set t=null
-	endfunction
-
- function Seyu__AnShaZhiWu takes nothing returns nothing
-  local timer t= CreateTimer()
-	    call PrintSpellAdd((GetOwningPlayer(seyu) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( GetDamageAgi(seyu))*1.0) , "") // INLINED!!
-		call SaveInteger(spellTable, GetHandleId(t), kAnShaCount, 0)
-		call TimerStart(t, 0.5, true, function Seyu__AnShaZhiWuTimer)
-		set t=null
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__TSpellSeyuCon takes nothing returns boolean
-	    return ( GetSpellAbilityUnit() == seyu )
-	endfunction
-
- function Seyu__TSpellSeyuAct takes nothing returns nothing
-		if ( ( GetSpellAbilityId() == 'AEfk' ) ) then
-			call Mantuoluo(seyu , 1 , GetSpellAbilityId())
-		elseif ( ( GetSpellAbilityId() == 'AEst' ) ) then
-			call Seyu__AnShaZhiWu()
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
-
-	//按照12345来判断
- function LearnSkillSeyuI takes unit learner,integer whichSpell returns nothing
-  local integer i
-		if ( learner == seyu ) then
-			if ( whichSpell == 1 ) then
-                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(3))))), 3) // INLINED!!
-			elseif ( whichSpell == 2 and (GetPlayerTechCountSimple('R006', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AUav') == 1 ) then // INLINED!!
-				//技能2初始化
-				call Seyu__InitPower()
-                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(4))))), 3) // INLINED!!
-			elseif ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEar') == 1 ) then // INLINED!!
-				//技能3初始化
-                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(5))))), 3) // INLINED!!
-				call SetPlayerTechResearchedSwap('R00D', 1, GetOwningPlayer(seyu))
-				set i=1
-       			loop
-       				exitwhen i > 6
-       				
-		            if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
-		                call AddAgiPercent(i , 0.4)
-		            endif
-
-       				set i=i + 1
-       			endloop
-
-			    //注册空间封冻技能
-			    set Seyu__TSpellSeyu3=CreateTrigger()
-			    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu3, EVENT_PLAYER_UNIT_ATTACKED)
-			    call TriggerAddCondition(Seyu__TSpellSeyu3, Condition(function Seyu__TSpellSeyu3Con))
-			    call TriggerAddAction(Seyu__TSpellSeyu3, function Seyu__TSpellSeyu3Act)
-			elseif ( whichSpell == 4 and (GetPlayerTechCountSimple('R008', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEsv') == 1 ) then // INLINED!!
-				//技能4初始化
-                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(6))))), 3) // INLINED!!
-			elseif ( whichSpell == 5 and IsFifthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu, 'AEst') == 1 ) then
-				//技能5初始化
-                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(7))))), 3) // INLINED!!
-                call SetUnitUserData((LoadUnitHandle(YDHT, StringHash(("空间虫洞" )), StringHash(( I2S(8))))), 3) // INLINED!!
-			endif
-		endif
-	endfunction
-
- function LearnSkillSeyu takes unit learner,integer learnSpellID returns nothing
-		if ( learner == seyu ) then
-			if ( learnSpellID == 'AEfk' ) then
-				call LearnSkillSeyuI(learner , 1)
-			elseif ( learnSpellID == 'AUav' ) then
-				call LearnSkillSeyuI(learner , 2)
-			elseif ( learnSpellID == 'AEar' ) then
-				call LearnSkillSeyuI(learner , 3)
-			elseif ( learnSpellID == 'AEsv' ) then
-				call LearnSkillSeyuI(learner , 4)
-			elseif ( learnSpellID == 'AEst' ) then
-				call LearnSkillSeyuI(learner , 5)
-			endif
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function InitSeyu takes unit u returns nothing
-		set seyu=u
-
-		//1
-	    set Seyu__TSpellSeyu=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	    call TriggerAddCondition(Seyu__TSpellSeyu, Condition(function Seyu__TSpellSeyuCon))
-	    call TriggerAddAction(Seyu__TSpellSeyu, function Seyu__TSpellSeyuAct)
-
-	    //2
-	    set Seyu__TSpellSeyu2=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Seyu__TSpellSeyu2, Condition(function TSpellSeyu2Con))
-	    call TriggerAddAction(Seyu__TSpellSeyu2, function TSpellSeyu2Act)
-	endfunction
-
-//library Seyu ends
-
-
-// BEGIN IMPORT OF Seyu.j
-
-// BEGIN IMPORT OF SpellBase.j
-
+// BEGIN IMPORT OF Diamond.j
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -2191,72 +1510,20 @@ endfunction
 // END IMPORT OF Test.j
 // END IMPORT OF LHBase.j
 
- 
-// END IMPORT OF SpellBase.j
-// BEGIN IMPORT OF Printer.j
-
-// IGNORE DOUBLE IMPORT OF LHBase.j
-// END IMPORT OF Printer.j
-// BEGIN IMPORT OF Attr.j
-
-// IGNORE DOUBLE IMPORT OF LHBase.j
-// END IMPORT OF Attr.j
 
 
-// END IMPORT OF Seyu.j
+
+
+// END IMPORT OF Diamond.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs8789859")
 call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Attr__InitAttr")
-call ExecuteFunc("Printer__InitPrinter")
+call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("Diamond___InitDiamond")
 
 endfunction
 
 
 
 //Struct method generated initializers/callers:
-function sa__Attract__staticgetindex takes nothing returns boolean
-local handle h=f__arg_handle1
-set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
-   return true
-endfunction
-function sa__Attract_onDestroy takes nothing returns boolean
-local integer this=f__arg_this
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
-			set s__Attract_caster[this]=null
-			call PauseTimer(s__Attract_t[this])
-			call DestroyTimer(s__Attract_t[this])
-			set s__Attract_t[this]=null
-   return true
-endfunction
-function sa__Missile__staticgetindex takes nothing returns boolean
-local handle h=f__arg_handle1
-set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
-   return true
-endfunction
-function sa__Missile_onDestroy takes nothing returns boolean
-local integer this=f__arg_this
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
-			set s__Missile_caster[this]=null
-			call PauseTimer(s__Missile_t[this])
-			call DestroyTimer(s__Missile_t[this])
-			set s__Missile_t[this]=null
-   return true
-endfunction
-
-function jasshelper__initstructs8789859 takes nothing returns nothing
-    set st__Attract__staticgetindex=CreateTrigger()
-    call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
-    set st__Attract_onDestroy=CreateTrigger()
-    call TriggerAddCondition(st__Attract_onDestroy,Condition( function sa__Attract_onDestroy))
-    set st__Missile__staticgetindex=CreateTrigger()
-    call TriggerAddCondition(st__Missile__staticgetindex,Condition( function sa__Missile__staticgetindex))
-    set st__Missile_onDestroy=CreateTrigger()
-    call TriggerAddCondition(st__Missile_onDestroy,Condition( function sa__Missile_onDestroy))
-
-
-
-endfunction
 
