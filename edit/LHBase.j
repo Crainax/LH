@@ -1,7 +1,7 @@
 
 
-//! import "Test.j"
-library_once LHBase initializer InitLHBase requires Test
+/////! import "Test.j"
+library_once LHBase initializer InitLHBase //requires Test
 
     globals
         unit learnSkillHero
@@ -162,12 +162,19 @@ library_once LHBase initializer InitLHBase requires Test
 	function BuyerFilter takes unit buyer returns boolean
 		return (GetUnitTypeId(buyer) != 'N018')
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
     /*
         判断是否有琉璃璞玉
     */
     function HasLiuli takes unit u returns boolean
         return (GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1')) == 'IXU1')
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        自杀
+    */
+    function KillSelf takes unit u returns nothing
+        call UnitDamageTarget( u, u, GetUnitState(u,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
     endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing

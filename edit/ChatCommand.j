@@ -15,7 +15,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase
 		local unit u = udg_H[GetConvertedPlayerId(GetTriggerPlayer())]
 		//自杀
 		if (str == "-kill") then
-			call UnitDamageTarget( u, u, GetUnitState(u,UNIT_STATE_MAX_LIFE)*10, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			call KillSelf(u)
 		    call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r自杀成功!" )
 		    return
 		endif
