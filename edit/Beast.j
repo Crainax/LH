@@ -243,12 +243,29 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer unitID = GetUnitTypeId(GetEventDamageSource())
 		local integer playerID = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
 		local item beast = GetBeastInUnit(udg_H[playerID])
+
+
+		//魔兽怒吼
+		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABe9') >= 1) then
+			
+			call SetItemCharges(beast,GetItemCharges(beast)+1)
+			if (GetItemCharges(beast) > CHARGES_BEAST) then
+					call CreateSpellTextTag("魔兽怒吼!",Unit_Beast[playerID],0,100,0,2)
+ 					call SimulateSpell(Unit_Beast[playerID],Unit_Beast[playerID],'A0CR',1,5,"stomp",false,true,false)
+					call SetItemCharges(beast,0)
+			endif
+		endif
+
 		/*
 		    文本宏1，伤害
 		*/
 		//! textmacro DamageBeast1 takes ID
 		if (unitID == 'ub$ID$') then
-			call UnitDamageTarget( udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_$ID$, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			call DisableTrigger(GetTriggeringTrigger())
+			call UnitDamageTarget( Unit_Beast[playerID], GetTriggerUnit(), DAMAGE_BEAST_$ID$, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger(GetTriggeringTrigger())
+			set beast = null
+			return
 		endif
 		//! endtextmacro
 
@@ -263,19 +280,6 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		//! runtextmacro DamageBeast1("08")
 		//! runtextmacro DamageBeast1("09")
 
-		//魔兽怒吼
-		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABe9') >= 1) then
-			
-			call SetItemCharges(beast,GetItemCharges(beast)+1)
-			if (GetItemCharges(beast) > CHARGES_BEAST) then
-					// todo
-					call CreateSpellTextTag("魔兽怒吼!",Unit_Beast[playerID],0,100,0,2)
- 					call SimulateSpell(Unit_Beast[playerID],Unit_Beast[playerID],'A0CR',1,5,"stomp",false,true,false)
-					call SetItemCharges(beast,0)
-			endif
-		endif
-
-		set beast = null
 	endfunction
 
 	private function TBeastDamageCon takes nothing returns boolean

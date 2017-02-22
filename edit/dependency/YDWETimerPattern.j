@@ -36,5 +36,6 @@ library_once YDWETimerPattern
     function DIYRushSlide takes unit u, real face, real dis, real lasttime, real timeout, real damage, real radius, boolean killtrees, boolean cycle, boolean path, string part, string gsfx, string wsfx returns nothing
     endfunction
 
-
+    function CreateBoom takes unit source, real angle, real distance,real speed, real interval, real damage,real radius, string geff returns nothing
+    endfunction
 endlibrary

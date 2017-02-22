@@ -15,8 +15,8 @@ library_once Diamond initializer InitDiamond requires LHBase
     private function Diamond100 takes integer itemID,integer newItemID returns boolean
 
         if (GetItemTypeId(GetSpellTargetItem()) == itemID) then
-            call RemoveItem( GetSpellTargetItem() )
             call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以100%的成功率成功地升级了"+GetItemName(GetSpellTargetItem())+"！" ) ) )
+            call RemoveItem( GetSpellTargetItem() )
             call UnitAddItemByIdSwapped( newItemID, GetTriggerUnit() )
             call PlaySoundBJ( gg_snd_Chenggong )
             return true
@@ -36,8 +36,8 @@ library_once Diamond initializer InitDiamond requires LHBase
         //非琉璃璞玉
         if (GetItemTypeId(GetSpellTargetItem()) == itemID) then
             if ((GetRandomInt(1, 100) <= poss)) then
-                call RemoveItem( GetSpellTargetItem() )
                 call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以"+I2S(poss)+"%的成功率成功地升级了"+GetItemName(GetSpellTargetItem())+"！" ) ) )
+                call RemoveItem( GetSpellTargetItem() )
                 call UnitAddItemByIdSwapped( newItemID, GetTriggerUnit() )
                 call PlaySoundBJ( gg_snd_Chenggong )
             else
@@ -60,13 +60,13 @@ library_once Diamond initializer InitDiamond requires LHBase
         //非琉璃璞玉
         if (GetItemTypeId(GetSpellTargetItem()) == itemID) then
             if ((GetRandomInt(1, 100) <= poss)) then
-                call RemoveItem( GetSpellTargetItem() )
                 call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以"+I2S(poss)+"%的成功率成功地升级了"+GetItemName(GetSpellTargetItem())+"！" ) ) )
+                call RemoveItem( GetSpellTargetItem() )
                 call UnitAddItemByIdSwapped( newItemID, GetTriggerUnit() )
                 call PlaySoundBJ( gg_snd_Chenggong )
             else
-                call RemoveItem( GetSpellTargetItem() )
                 call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以"+I2S(poss)+"%的成功率升级"+GetItemName(GetSpellTargetItem())+"失败,等级降低！" ) ) )
+                call RemoveItem( GetSpellTargetItem() )
                 call UnitAddItemByIdSwapped( oldItemID, GetTriggerUnit() )
                 call PlaySoundBJ( gg_snd_Shibai )
             endif
@@ -620,7 +620,7 @@ library_once Diamond initializer InitDiamond requires LHBase
     /*
         +6祝福宝石
     */
-    private function AddSixthStrDiamond takes nothing returns nothing
+    private function AddSixthBlessDiamond takes nothing returns nothing
         if (IsItemPawnable(GetSpellTargetItem()) == false) then
             call UnitAddItemByIdSwapped( 'bzbe', GetTriggerUnit() )
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -663,7 +663,7 @@ library_once Diamond initializer InitDiamond requires LHBase
     /*
         +6诅咒宝石
     */
-    private function AddSixthStrDiamond takes nothing returns nothing
+    private function AddSixthCurseDiamond takes nothing returns nothing
         if (IsItemPawnable(GetSpellTargetItem()) == false) then
             call UnitAddItemByIdSwapped( 'dphe', GetTriggerUnit() )
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )

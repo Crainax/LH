@@ -2,11 +2,6 @@
 //! import "LHBase.j"
 library_once ItemBase initializer InitItemBase
 
-	globals
-		// unit array udg_H
-	endglobals
-
-
 
 //-------------------------------------------------------------------------------
 	/*
@@ -107,6 +102,50 @@ library_once ItemBase initializer InitItemBase
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    英雄获得翅膀才有火焰技能
+	*/
+	private function TGetWingSpellCon takes nothing returns boolean
+		return GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]
+	endfunction
+	
+	private function TGetWingSpellPickAct takes nothing returns nothing
+		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
+			call UnitAddAbility(GetManipulatingUnit(),'Apxf')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I045') then
+			call UnitAddAbility(GetManipulatingUnit(),'A06O')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I041') then
+			call UnitAddAbility(GetManipulatingUnit(),'A09J')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I04R') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0AO')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05B') then
+			call UnitAddAbility(GetManipulatingUnit(),'Apxf')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05C') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0CU')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05F') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0D0')
+		endif
+	endfunction
+	
+	private function TGetWingSpellDropAct takes nothing returns nothing
+		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'Apxf')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I045') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A06O')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I041') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A09J')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I04R') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0AO')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05B') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'Apxf')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05C') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0CU')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05F') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0D0')
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
 	    删除书本小点BUG
 	*/
 	private function TBookBUGCon takes nothing returns boolean
@@ -119,7 +158,7 @@ library_once ItemBase initializer InitItemBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitItemBase takes nothing returns nothing
-		//人器只能装备一个
+		//人器或者聚宝只能装备一个
 		local trigger t = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 		call TriggerAddCondition(t,Condition(function TOnlyOneItemCon))
@@ -131,6 +170,17 @@ library_once ItemBase initializer InitItemBase
 		call TriggerAddCondition(t,Condition(function TBookBUGCon))
 		call TriggerAddAction(t,function TBookBUGAct)
 
+		//获得翅膀的技能
+		set t = CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function TGetWingSpellCon))
+		call TriggerAddAction(t, function TGetWingSpellPickAct)
+
+		//删掉翅膀的技能
+		set t = CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function TGetWingSpellCon))
+		call TriggerAddAction(t, function TGetWingSpellDropAct)
 		set t = null
 
 	endfunction

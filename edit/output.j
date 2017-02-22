@@ -1,4 +1,7 @@
 globals
+//globals from ItemBase:
+constant boolean LIBRARY_ItemBase=true
+//endglobals from ItemBase
 //globals from YDWEBaseCommon:
 constant boolean LIBRARY_YDWEBaseCommon=true
 trigger array AbilityCastingOverEventQueue
@@ -44,14 +47,14 @@ integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -122,10 +125,6 @@ unit learnSkillHero
         
 unit array UDepot
 //endglobals from LHBase
-//globals from Diamond:
-constant boolean LIBRARY_Diamond=true
-constant string DIAMOND_CANT_UPDATE= "|cFFFF66CC【消息】|r该宝石不能升级该物品。"
-//endglobals from Diamond
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -150,6 +149,148 @@ trigger l__library_init
 endglobals
 
 
+//library ItemBase:
+
+
+//-------------------------------------------------------------------------------
+	
+ function ItemBase__UnitHasHumanInSlot takes unit u,integer slot returns boolean
+		return GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'frhg' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'mlst' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'nspi' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'oli2' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'ofir' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'soul' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'sbok' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'arsc' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gldo' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gsou' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'envl' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rugt' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'shdt' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'crdt' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'pspd' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rump' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rump' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'shen' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'stpg' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rde0' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'oflg' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'frgd' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tbsm' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tfar' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'drph' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'oven' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rej4' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'dtsb' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gobm' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'gvsm' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'pgin' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'rej6' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tels' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'tbak'
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function ItemBase__UnitHasJubaoInSlot takes unit u,integer slot returns boolean
+		return GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'I05P' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'I05Q' or GetItemTypeId(UnitItemInSlotBJ(u, slot)) == 'I05R'
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function ItemBase__TOnlyOneItemAct takes nothing returns nothing
+  local integer i= 1
+  local integer count= 0
+
+		//多个人器的判断
+		loop
+			exitwhen i > 6
+			if ( ItemBase__UnitHasHumanInSlot(GetTriggerUnit() , i) ) then
+				set count=count + 1
+			endif
+			set i=i + 1
+		endloop
+
+		//如果计数君大于1则丢掉
+		if ( count > 1 ) then
+			call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备一个人器！")
+		endif
+
+		//多个聚宝的判断
+		set i=1
+		set count=0
+		loop
+			exitwhen i > 6
+			if ( ItemBase__UnitHasJubaoInSlot(GetTriggerUnit() , i) ) then
+				set count=count + 1
+			endif
+			set i=i + 1
+		endloop
+
+		//如果计数君大于1则丢掉
+		if ( count > 1 ) then
+			call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备一个1级以上的聚宝！")
+		endif
+
+
+	endfunction
+
+ function ItemBase__TOnlyOneItemCon takes nothing returns boolean
+		return ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] ) and ( IsUnitIllusionBJ(GetManipulatingUnit()) != true )
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function ItemBase__TGetWingSpellCon takes nothing returns boolean
+		return GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]
+	endfunction
+	
+ function ItemBase__TGetWingSpellPickAct takes nothing returns nothing
+		if ( GetItemTypeId(GetManipulatedItem()) == 'I043' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'Apxf')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I045' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'A06O')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I041' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'A09J')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I04R' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'A0AO')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I05B' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'Apxf')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I05C' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'A0CU')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I05F' ) then
+			call UnitAddAbility(GetManipulatingUnit(), 'A0D0')
+		endif
+	endfunction
+	
+ function ItemBase__TGetWingSpellDropAct takes nothing returns nothing
+		if ( GetItemTypeId(GetManipulatedItem()) == 'I043' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'Apxf')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I045' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'A06O')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I041' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'A09J')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I04R' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'A0AO')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I05B' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'Apxf')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I05C' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'A0CU')
+		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I05F' ) then
+			call UnitRemoveAbility(GetManipulatingUnit(), 'A0D0')
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function ItemBase__TBookBUGCon takes nothing returns boolean
+		return GetItemType(GetManipulatedItem()) == ITEM_TYPE_POWERUP
+	endfunction
+
+ function ItemBase__TBookBUGAct takes nothing returns nothing
+		call PolledWait(1.0)
+		call RemoveItem(GetManipulatedItem())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+ function ItemBase__InitItemBase takes nothing returns nothing
+		//人器或者聚宝只能装备一个
+  local trigger t= CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+		call TriggerAddCondition(t, Condition(function ItemBase__TOnlyOneItemCon))
+		call TriggerAddAction(t, function ItemBase__TOnlyOneItemAct)
+
+		//删除书本的小点BUG
+		set t=CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+		call TriggerAddCondition(t, Condition(function ItemBase__TBookBUGCon))
+		call TriggerAddAction(t, function ItemBase__TBookBUGAct)
+
+		//获得翅膀的技能
+		set t=CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function ItemBase__TGetWingSpellCon))
+		call TriggerAddAction(t, function ItemBase__TGetWingSpellPickAct)
+
+		//删掉翅膀的技能
+		set t=CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function ItemBase__TGetWingSpellCon))
+		call TriggerAddAction(t, function ItemBase__TGetWingSpellDropAct)
+		set t=null
+
+	endfunction
+
+
+//library ItemBase ends
 //library YDWEBaseCommon:
 
 function YDWECoordinateX takes real x returns real
@@ -1060,7 +1201,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1102,7 +1243,8 @@ endfunction
     function DIYRushSlide takes unit u,real face,real dis,real lasttime,real timeout,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string gsfx,string wsfx returns nothing
     endfunction
 
-
+    function CreateBoom takes unit source,real angle,real distance,real speed,real interval,real damage,real radius,string geff returns nothing
+    endfunction
 
 //library YDWETimerPattern ends
 //library YDWETimerSystem:
@@ -1302,10 +1444,15 @@ endfunction
  function BuyerFilter takes unit buyer returns boolean
 		return ( GetUnitTypeId(buyer) != 'N018' )
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
     
     function HasLiuli takes unit u returns boolean
         return ( GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1')) == 'IXU1' )
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function KillSelf takes unit u returns nothing
+        call UnitDamageTarget(u, u, GetUnitState(u, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
     endfunction
 //---------------------------------------------------------------------------------------------------
     function LHBase___InitLHBase takes nothing returns nothing
@@ -1320,149 +1467,10 @@ endfunction
     endfunction
 
 //library LHBase ends
-//library Diamond:
 
 
-//---------------------------------------------------------------------------------------------------
-    
-    function Diamond___Diamond100 takes integer itemID,integer newItemID returns boolean
+// BEGIN IMPORT OF item.j
 
-        if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
-            call RemoveItem(GetSpellTargetItem())
-            call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以100%的成功率成功地升级了" + GetItemName(GetSpellTargetItem()) + "！" ) ))
-            call UnitAddItemByIdSwapped(newItemID, GetTriggerUnit())
-            call PlaySoundBJ(gg_snd_Chenggong)
-            return true
-        endif
-        return false
-    endfunction
-
-//---------------------------------------------------------------------------------------------------
-    
-    function Diamond___DiamondA takes integer itemID,integer newItemID,integer poss returns boolean
-        //琉璃璞玉
-        if ( (GetItemTypeId(GetItemOfTypeFromUnitBJ((GetTriggerUnit()), 'IXU1')) == 'IXU1') == true ) then // INLINED!!
-            return Diamond___Diamond100(itemID , newItemID)
-        endif
-        //非琉璃璞玉
-        if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
-            if ( ( GetRandomInt(1, 100) <= poss ) ) then
-                call RemoveItem(GetSpellTargetItem())
-                call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以" + I2S(poss) + "%的成功率成功地升级了" + GetItemName(GetSpellTargetItem()) + "！" ) ))
-                call UnitAddItemByIdSwapped(newItemID, GetTriggerUnit())
-                call PlaySoundBJ(gg_snd_Chenggong)
-            else
-                call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以" + I2S(poss) + "%的成功率升级" + GetItemName(GetSpellTargetItem()) + "失败！" ) ))
-                call PlaySoundBJ(gg_snd_Shibai)
-            endif
-            return true
-        endif
-        return false
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    
-    function Diamond___AddOneDiamond takes nothing returns nothing
-                //复制出来的不能升级
-        if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
-            call UnitAddItemByIdSwapped('I02N', GetTriggerUnit())
-            call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
-            return
-        endif
-
-        if ( Diamond___Diamond100('I04Z' , 'nflg') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('I056' , 'spre') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('I057' , 'fwss') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('I050' , 'uflg') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('I055' , 'tgxp') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('I03Y' , 'dust') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('rej4' , 'drph') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('rej6' , 'dtsb') == true ) then
-            return
-        endif
-        if ( Diamond___Diamond100('pgin' , 'gobm') == true ) then
-            return
-        endif
-        call UnitAddItemByIdSwapped('I02N', GetTriggerUnit())
-        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
-        return
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    
-    function Diamond___AddSecondDiamond takes nothing returns nothing
-        if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
-            call UnitAddItemByIdSwapped('I04S', GetTriggerUnit())
-            call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
-            return
-        endif
-
-        if ( Diamond___DiamondA('nflg' , 'esaz' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('spre' , 'asbl' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('fwss' , 'ram4' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('uflg' , 'ram3' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('tgxp' , 'ram2' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('dust' , 'ram1' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('drph' , 'oven' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('dtsb' , 'tels' , 90) == true ) then
-            return
-        endif
-        if ( Diamond___DiamondA('gobm' , 'gvsm' , 90) == true ) then
-            return
-        endif
-
-        call UnitAddItemByIdSwapped('I04S', GetTriggerUnit())
-        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
-        return
-    endfunction
-//---------------------------------------------------------------------------------------------------
-
-    
-    function Diamond___TSpellDiamondAct takes nothing returns nothing
-        if ( GetSpellAbilityId() == 'A02Z' ) then
-            call Diamond___AddOneDiamond()
-        elseif ( GetSpellAbilityId() == 'Amnb' ) then
-            call Diamond___AddSecondDiamond()
-        endif
-    endfunction
-//---------------------------------------------------------------------------------------------------
-
-	
- function Diamond___InitDiamond takes nothing returns nothing
-		
-	endfunction
-
-
-//library Diamond ends
-
-
-// BEGIN IMPORT OF Diamond.j
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -1509,17 +1517,12 @@ endfunction
 // END IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF Test.j
 // END IMPORT OF LHBase.j
-
-
-
-
-
-// END IMPORT OF Diamond.j
+// END IMPORT OF item.j
 function main takes nothing returns nothing
 
+call ExecuteFunc("ItemBase__InitItemBase")
 call ExecuteFunc("Test__InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("Diamond___InitDiamond")
 
 endfunction
 
