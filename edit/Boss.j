@@ -117,7 +117,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 		local real interval
 		local timer t = GetExpiredTimer()
 		if(IsUnitAliveBJ(gg_unit_Nkjx_0241) == true) then
-			set interval = (GetUnitState(gg_unit_Nkjx_0241,UNIT_STATE_LIFE) / GetUnitState(gg_unit_Nkjx_0241,UNIT_STATE_MAX_LIFE) * 0.3) + 0.3
+			set interval = (GetUnitState(gg_unit_Nkjx_0241,UNIT_STATE_LIFE) / GetUnitState(gg_unit_Nkjx_0241,UNIT_STATE_MAX_LIFE) * 0.2) + 0.2
 			call TimerStart(TiMissile,interval,true,function startMissile)
 		else
 			call PauseTimer(t)
@@ -157,7 +157,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 	    //冥刹的死亡导弹
 		set TiMissile = CreateTimer()
 		//开始疯狂导弹
-		call TimerStart(TiMissile,0.6,true,function startMissile)
+		call TimerStart(TiMissile,0.4,true,function startMissile)
 		call TimerStart(refresh,3,true,function refreshMissile)
 		set refresh = null
 	endfunction
@@ -168,6 +168,14 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 	function DestroyMingwang takes nothing returns nothing
 		// body...
 	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	function InitSaisilier takes unit u returns nothing
+        local Attract attract = Attract.create(u,1800,0.05,20)
+        call attract.start()
+	endfunction
+
+	
 //---------------------------------------------------------------------------------------------------
 
 	private function InitBoss takes nothing returns nothing

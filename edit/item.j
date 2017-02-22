@@ -109,6 +109,7 @@ library_once ItemBase initializer InitItemBase
 	endfunction
 	
 	private function TGetWingSpellPickAct takes nothing returns nothing
+		call BJDebugMsg("获得翅膀的技能")
 		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
 			call UnitAddAbility(GetManipulatingUnit(),'Apxf')
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I045') then
@@ -127,6 +128,7 @@ library_once ItemBase initializer InitItemBase
 	endfunction
 	
 	private function TGetWingSpellDropAct takes nothing returns nothing
+		call BJDebugMsg("s翅膀的技能")
 		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
 			call UnitRemoveAbility(GetManipulatingUnit(),'Apxf')
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I045') then
@@ -172,13 +174,13 @@ library_once ItemBase initializer InitItemBase
 
 		//获得翅膀的技能
 		set t = CreateTrigger()
-		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
 		call TriggerAddCondition(t, Condition(function TGetWingSpellCon))
 		call TriggerAddAction(t, function TGetWingSpellPickAct)
 
 		//删掉翅膀的技能
 		set t = CreateTrigger()
-		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DROP_ITEM)
 		call TriggerAddCondition(t, Condition(function TGetWingSpellCon))
 		call TriggerAddAction(t, function TGetWingSpellDropAct)
 		set t = null

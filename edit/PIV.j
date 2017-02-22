@@ -16,7 +16,7 @@ library_once PIV initializer InitPIV requires LHBase
 		loop
 			exitwhen i > 6
 
-			set sPIV[i] = false
+			set sPIV[i] = true
 
 			set i = i +1
 		endloop

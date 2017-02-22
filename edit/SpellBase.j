@@ -147,7 +147,7 @@ library_once SpellBase requires LHBase
 		static method create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns thistype
 		   	local thistype this = thistype.allocate()
 		   	local real Rangel = GetRandomReal(-180,180)
-		   	local real Rradius= GetRandomReal(radius,range)
+		   	local real Rradius= GetRandomReal(0,range)
 		   	set .x = GetUnitX(caster) + Rradius * CosBJ(Rangel)
 		   	set .y = GetUnitY(caster) + Rradius * SinBJ(Rangel)
 			set .caster = caster

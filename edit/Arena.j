@@ -64,9 +64,9 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 		if( IsUnitAliveBJ(challenager) and ( currentLevel < ARENA_MAX_LEVEL)) then
 			call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(challenager), GetUnitY(challenager)) )
-			call SetHeroInt(challenager,int + int / currentLevel ,true)
-			call SetHeroAgi(challenager,agi + agi / currentLevel , true)
-			call SetHeroStr(challenager,str + str / currentLevel , true)
+			call SetHeroInt(challenager,IMinBJ(2100000000,int + int / currentLevel) ,true)
+			call SetHeroAgi(challenager,IMinBJ(2100000000,agi + agi / currentLevel) , true)
+			call SetHeroStr(challenager,IMinBJ(2100000000,str + str / currentLevel) , true)
 			set currentLevel  = currentLevel + 1
 			//设置技能等级
 			call IncUnitAbilityLevel(challenager,'ACbh')
@@ -78,7 +78,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 			call IncUnitAbilityLevel(challenager,'A0EY')
 			call SetTextTagTextBJ(textTag_Level,I2S(currentLevel) + "级",20)
 		else
-			set currentLevel = 1
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
@@ -472,11 +471,13 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                    set challenager = CreateUnit(Player(10), 'Odrt', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    call EnableTrigger( TSpellXuemo1 )
 	                    call EnableTrigger( TSpellXuemo2 )
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 5)) then
 	                    set challenager = CreateUnit(Player(10), 'Ogrh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    call EnableTrigger( TSpellFuwang )
 	                    set attract = Attract.create(challenager,600,0.05,20)
 	                    call attract.start()
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 6)) then
 	                    set challenager = CreateUnit(Player(10), 'Hvsh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    call EnableTrigger( TSpellMeidusha1 )
@@ -485,19 +486,22 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                    set challenager = CreateUnit(Player(10), 'Hpb2', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    call EnableTrigger( TSpellKiller1 )
 	                    call EnableTrigger( TSpellKiller2 )
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 8)) then
 	                    set challenager = CreateUnit(Player(10), 'Hlgr', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    call EnableTrigger( TSpellJinxuan1 )
 	                    call EnableTrigger( TSpellJinxuan2 )
 	                    call EnableTrigger( TSpellJinxuan3 )
 	                    call EnableTrigger( TSpellJinxuan4 )
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                endif
 
 	                //初始化单位
 					call SetUnitX(defier,GetRectCenterX(gg_rct_Arena_1))
 					call SetUnitY(defier,GetRectCenterY(gg_rct_Arena_1))
 	                call SetUnitInvulnerable( challenager, true )
-	                call PauseUnitBJ( true, challenager )
+	                call PauseUnitBJ( true, challenager )	    
+	                set currentLevel = 1
 	                call UnitAddAbilityBJ( 'A0ES', challenager )
 	                call UnitAddAbilityBJ( 'A0B9', challenager )
 	                call UnitAddAbilityBJ( 'A09W', challenager )
@@ -551,7 +555,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	        set challenager = null
 	        call DestroyTextTag( textTag_Level )
 	        call updateLevel()
-
+	    	set currentLevel = 1
 	        call DisableTrigger( TSpellLinger )
 			call DisableTrigger( TSpellZhousi )
 			call DisableTrigger( TSpellXuemo1 )

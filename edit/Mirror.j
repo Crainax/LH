@@ -16,7 +16,11 @@ library_once Mirror requires LHBase
     */
     private function MirrorTimeOut takes nothing returns nothing
         //移动单位回基地
-        call DisplayTextToPlayer(GetOwningPlayer(/**/), 0., 0., "|cFFFF66CC【消息】|r你未能在限定时间内通过转生！")
+        call DisplayTextToPlayer(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0., 0., "|cFFFF66CC【消息】|r你未能在限定时间内通过转生！")
+        call SetUnitPositionLoc(udg_U_Zhuansheng_Dantiao[1],udg_Point_Fuhuo)
+    endfunction
+
+    function DestroyMirrorTimer takes nothing returns nothing
         call TimerDialogDisplay(TiDiaMirror,false)
         call DestroyTimerDialog(TiDiaMirror)
         call PauseTimer(TiMirror)
@@ -35,9 +39,12 @@ library_once Mirror requires LHBase
     /*
         根据难度给转生加上技能与提示
     */
-    function AddMirrorSpell takes unit mirror,unit defier,integer count returns nothing
+    function AddMirrorSpell takes nothing returns nothing
+        local unit mirror = udg_U_Zhuansheng_Dantiao[2]
+        local unit defier = udg_U_Zhuansheng_Dantiao[1]
+        local integer count = udg_Z[GetConvertedPlayerId(GetOwningPlayer(defier))]
         if (count == 20) then
-            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得33%几率30倍攻击技能。")
+            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得33%30倍攻击技能。")
         elseif (count == 40) then
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得神圣护甲技能。")
         elseif (count == 60) then
@@ -53,19 +60,25 @@ library_once Mirror requires LHBase
         endif
 
         if (count >= 20) then
-            call UnitAddAbility(mirror,'aaaa')
-        elseif (count >= 40) then
-            call UnitAddAbility(mirror,'aaaa')
-        elseif (count >= 60) then
-            call UnitAddAbility(mirror,'aaaa')
-        elseif (count >= 80) then
-            call UnitAddAbility(mirror,'aaaa')
-        elseif (count >= 100) then
-            call UnitAddAbility(mirror,'aaaa')
-        elseif (count >= 120) then
-            call UnitAddAbility(mirror,'aaaa')
-        elseif (count >= 150) then
-            call UnitAddAbility(mirror,'aaaa')
+            call UnitAddAbility(mirror,'A0GL')
+        endif
+        if (count >= 40) then
+            call UnitAddAbility(mirror,'A0F1')
+        endif
+        if (count >= 60) then
+            call UnitAddAbility(mirror,'A0GM')
+        endif
+        if (count >= 80) then
+            call UnitAddAbility(mirror,'A0GN')
+        endif
+        if (count >= 100) then
+            call UnitAddAbility(mirror,'A0GO')
+        endif
+        if (count >= 120) then
+            call UnitAddAbility(mirror,'A0GP')
+        endif
+        if (count >= 150) then
+            call UnitAddAbility(mirror,'A0GQ')
         endif
     endfunction
 

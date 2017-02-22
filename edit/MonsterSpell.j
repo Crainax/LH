@@ -9,7 +9,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 		    手里剑技能伤害
 		*/
 		constant real DRAT_JUNENG = 30000000
-		constant real DRAT_XIANLIAN = 10000000
+		constant real DRAT_XIANLIAN = 15000000
 		integer level_juneng = 1
 	endglobals
 

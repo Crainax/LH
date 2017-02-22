@@ -1,6 +1,8 @@
 
 //! import "LHBase.j"
-library_once Revive initializer InitRevive requires LHBase,Beast
+/////! import "Beast.j"
+//! import "Lingxue.j"
+library_once Revive initializer InitRevive requires LHBase,Beast,Lingxue
 	
 
 //---------------------------------------------------------------------------------------------------
@@ -12,6 +14,11 @@ endfunction
 function TReviveHeroAct takes nothing returns nothing
 	call ReviveBeast(GetRevivingUnit())
 	call AfterReviveLingxue(GetRevivingUnit())
+	if (GetPlayerSlotState(GetOwningPlayer(GetRevivingUnit())) == PLAYER_SLOT_STATE_LEFT) then
+		call SetUnitPosition( GetRevivingUnit(), GetRectCenterX(gg_rct_QuitRegion), GetRectCenterY(gg_rct_QuitRegion) )
+	    call SetUnitInvulnerable( GetRevivingUnit(), true )
+	    call PauseUnitBJ( true, GetRevivingUnit() )
+	endif
 endfunction
 
 //---------------------------------------------------------------------------------------------------

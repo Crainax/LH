@@ -168,7 +168,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 
 		if (GetUnitTypeId(u) == 'h011') then
 			call DisableTrigger(GetTriggeringTrigger())
-			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 16, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 50, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
 			return true 
 		endif
@@ -322,7 +322,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	*/
 
 	private function SimulateDeathHeiyanBoom takes unit u returns nothing
-	    call CreateUnitEffectSpecifyTime(GetOwningPlayer(u),'hh04',GetUnitX(u),GetUnitY(u),0,1.8)
+	    call CreateUnitEffectSpecifyTime(GetOwningPlayer(Heiyan),'hh04',GetUnitX(u),GetUnitY(u),0,1.8)
 	endfunction
 	/*
 	    祭品死亡事件
@@ -383,8 +383,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		local integer ii = 1
 		local unit l_unit
 		//如果祭品大于3个,则牺牲3个
-		call BJDebugMsg(I2S(CountUnitsInGroup(GSacri)))
-		if (CountUnitsInGroup(GSacri) >= 3) then
+		if (CountUnitsInGroup(GSacri) >= 1) then
 			loop
 				exitwhen i > 3
 			    set l_unit = FirstOfGroup(GSacri)

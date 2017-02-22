@@ -23,6 +23,7 @@
 	test lianyu1	炼狱14层
 	test lianyu2	炼狱69层
 	test Scredit    守家积分
+	test zhuanshengxx	 转生测试
 */
 library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 
@@ -252,6 +253,42 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 		if (chat == "test lianyu1") then
 			set udg_I_Lianyu[1] = 14
 			call BJDebugMsg("炼狱14层")
+			return
+		endif
+
+		if (chat == "test zhuansheng19") then
+			set udg_Z[1] = 19
+			call BJDebugMsg("转生19")
+			return
+		endif
+		if (chat == "test zhuansheng39") then
+			set udg_Z[1] = 39
+			call BJDebugMsg("转生39")
+			return
+		endif
+		if (chat == "test zhuansheng59") then
+			set udg_Z[1] = 59
+			call BJDebugMsg("转生59")
+			return
+		endif
+		if (chat == "test zhuansheng79") then
+			set udg_Z[1] = 79
+			call BJDebugMsg("转生79")
+			return
+		endif
+		if (chat == "test zhuansheng99") then
+			set udg_Z[1] = 99
+			call BJDebugMsg("转生99")
+			return
+		endif
+		if (chat == "test zhuansheng119") then
+			set udg_Z[1] = 119
+			call BJDebugMsg("转生119")
+			return
+		endif
+		if (chat == "test zhuansheng149") then
+			set udg_Z[1] = 149
+			call BJDebugMsg("转生149")
 			return
 		endif
 

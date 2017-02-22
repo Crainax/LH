@@ -9,6 +9,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
 	globals
 		
+    //复活
+    location udg_Point_Fuhuo
 	//主基地的区域
 	rect gg_rct________1
 	//难度等级，最高7
@@ -84,6 +86,16 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             虫洞判定区域
         */
         rect gg_rct______________095
+
+        /*
+            转生
+        */
+        unit array udg_U_Zhuansheng_Dantiao
+        integer array udg_Z
+        /*
+            复活
+        */
+        rect gg_rct_QuitRegion
 	endglobals
 
 	private function InitTest takes nothing returns nothing
