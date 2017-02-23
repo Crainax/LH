@@ -25,8 +25,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		*/
 		private trigger TSpellSeyu		
 		private trigger TSpellSeyu2		
-		private trigger TSpellSeyu3		
-		key kSeyuFengdong
+		private trigger TSpellSeyu3	
 		key kAnShaCount
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -183,59 +182,27 @@ library_once Seyu requires SpellBase,Printer,Attr
 	private function TSpellSeyu3Con takes nothing returns boolean
     	return GetAttackedUnitBJ() == seyu and GetRandomInt(1,20) == 1 and GetUnitState(seyu,UNIT_STATE_MANA) >= 400
 	endfunction
-	
-	//空间封冻2秒解冻
-	private function TSpellSeyu3Timer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local unit l_unit
-		local group g = LoadGroupHandle(spellTable,id,kSeyuFengdong)
-		loop
-		    set l_unit = FirstOfGroup(g)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(g, l_unit)
-	        call PauseUnit(l_unit,false)
-		endloop
-		call PauseTimer(t)
-		call DestroyTimer(t)
-		call DestroyGroup(g)
-		call FlushChildHashtable(spellTable,id)
-		set g = null
-		set t = null 
-		set l_unit = null 
-	endfunction
 		
 	private function TSpellSeyu3Act takes nothing returns nothing
 		local real damage = GetDamageAgi(seyu) * 5
 		local group g = CreateGroup()
-		local timer t = CreateTimer()
-	    local group l_group = CreateGroup()
 	    local unit l_unit
 		call DisableTrigger(GetTriggeringTrigger())
 		//初始化虫洞单位组
 		call GroupAddUnit(g,GetAttacker())
 		call AddChongdongGroup(g,600,1)
 	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName('AEar'),damage)
-	    call GroupAddGroup(g,l_group)
 	    //局部单位组伤害
 	    loop
-	        set l_unit = FirstOfGroup(l_group)
+	        set l_unit = FirstOfGroup(g)
 	        exitwhen l_unit == null
-	        call GroupRemoveUnit(l_group, l_unit)
+	        call GroupRemoveUnit(g, l_unit)
 	        call CreateUnitEffect(GetOwningPlayer(seyu),'hh00',GetUnitX(l_unit),GetUnitY(l_unit),0)
 	    	call CreateSpellTextTag("冻",l_unit,0,100,0,2)
 	        call UnitDamageTarget( seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-	        if (IsUnitAliveBJ(l_unit) == true) then
-	        	call PauseUnit(l_unit,true)
-	        endif
 	    endloop
-
-		call SaveGroupHandle(spellTable,GetHandleId(t),kSeyuFengdong,g)
-		call TimerStart(t,2,false,function TSpellSeyu3Timer)
-	    call DestroyGroup(l_group)
-		set t = null
+	    call DestroyGroup(g)
 		set g = null
-	    set l_group = null
 	    set l_unit =null
 		call PolledWait(8)
 		call EnableTrigger(GetTriggeringTrigger())

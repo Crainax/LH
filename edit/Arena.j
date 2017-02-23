@@ -430,7 +430,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	function TSpellJinxuan4Act takes nothing returns nothing
 	    call DisableTrigger( GetTriggeringTrigger() )
-	    call SetUnitManaBJ( GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 200.00 ) )
+	    call SetUnitManaBJ( GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 300.00 ) )
 	    call CreateSpellTextTag("魔法窃取！",challenager,0,100,0,2)
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\AnimateDead\\AnimateDeadTarget.mdl", GetUnitX(GetAttacker()), GetUnitY(GetAttacker()) ))
 	    call PolledWait(2.00)
@@ -622,33 +622,34 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	        call CreateItemLoc( 'cnob', point )
 	    elseif (ty == 'Hgam') then
 	        call CreateItemLoc( 'rhth', point )
-	        call DisableTrigger( TSpellLinger )
 	    elseif (ty == 'Hmbr') then
 	        call CreateItemLoc( 'hval', point )
-	        call DisableTrigger( TSpellZhousi )
 	    elseif (ty == 'Odrt') then
 	        call CreateItemLoc( 'afac', point )
-	        call DisableTrigger( TSpellXuemo1 )
-	        call DisableTrigger( TSpellXuemo2 )
 	    elseif (ty == 'Ogrh') then
 	        call CreateItemLoc( 'pmna', point )
-	        call DisableTrigger( TSpellFuwang )
 	    elseif (ty == 'Hvsh') then
 	        call CreateItemLoc( 'evtl', point )
-	        call DisableTrigger( TSpellMeidusha1 )
-	        call DisableTrigger( TSpellMeidusha2 )
 	    elseif (ty == 'Hpb2') then
 	        call CreateItemLoc( 'bspd', point )
-	        call DisableTrigger( TSpellKiller2 )
-	        call DisableTrigger( TSpellKiller1 )
 	    elseif (ty == 'Hlgr') then
 	        call CreateItemLoc( 'mcou', point )
-	        call DisableTrigger( TSpellJinxuan1 )
-	        call DisableTrigger( TSpellJinxuan2 )
-	        call DisableTrigger( TSpellJinxuan3 )
-	        call DisableTrigger( TSpellJinxuan4 )
 	    endif
 
+
+        call DisableTrigger( TSpellLinger )
+		call DisableTrigger( TSpellZhousi )
+		call DisableTrigger( TSpellXuemo1 )
+		call DisableTrigger( TSpellXuemo2 )
+		call DisableTrigger( TSpellFuwang )
+		call DisableTrigger( TSpellMeidusha1 )
+		call DisableTrigger( TSpellMeidusha2 )
+		call DisableTrigger( TSpellKiller1 )
+		call DisableTrigger( TSpellKiller2 )
+		call DisableTrigger( TSpellJinxuan1 )
+		call DisableTrigger( TSpellJinxuan2 )
+		call DisableTrigger( TSpellJinxuan3 )
+		call DisableTrigger( TSpellJinxuan4 )
 	    set currentLevel = 1
 	    set currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] = currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] + 1
 	    call RemoveLocation( point )

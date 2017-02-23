@@ -15,7 +15,7 @@ library_once Purgatory initializer InitPurgatory
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nwzd')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'ndqp')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nsc2')/*
-	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nsqo')/*
+	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nwns')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nsoc')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'npfl')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'ninm')/*

@@ -62,7 +62,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer sr = LoadInteger(beastTable,id,ksr)
 		local integer sg = LoadInteger(beastTable,id,ksg)
 		local integer sb = LoadInteger(beastTable,id,ksb)
-		if(IsUnitAliveBJ(u) == true) then
+		if((IsUnitAliveBJ(u) == true) or (IsUnitType(u,UNIT_TYPE_HERO) == true)) then
 
 			//! textmacro ChangeColor takes Color
 				
