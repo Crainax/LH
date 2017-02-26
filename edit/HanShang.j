@@ -41,19 +41,13 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	    local real y1 = GetUnitY(u)
 	    local real facing = Atan2(y-y1,x-x1)
 	    local real distance = SquareRoot((y-y1)*(y-y1)+(x-x1)*(x-x1))
-	    if (distance < 1000) then
-	    	set n = 1
-	    elseif (distance < 4000) then
-	    	set n =1.5
-	    else 
-	    	set n = (1.5 + (distance - 4000) / 5000)
-	    endif
+	    set n = RMaxBJ( 0.1 , 1 - distance / 24000)
 	    set damage = damage * n
-	    call CreateBoom(CreateUnit(GetOwningPlayer(hanshang),'h007',x1,y1,facing),facing,distance,900,0.08,damage,450,"Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl")
 	    if (abilityID != 0) then
-	    	call PrintSpellAdd(GetOwningPlayer(u),GetAbilityName(abilityID),damage,",距离伤害加成n为"+I2S(R2I(n*100) - 100)+"%.")
+	    	call PrintSpellAdd(GetOwningPlayer(u),GetAbilityName(abilityID),damage,",距离伤害衰减"+I2S(100 - R2I(n*100))+"%.")
 	    endif
-		set u = null
+	    call DamageArea(hanshang,x,y,450,damage)
+	    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

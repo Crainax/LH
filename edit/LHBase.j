@@ -1,7 +1,7 @@
 
 
-//! import "Test.j"
-library_once LHBase initializer InitLHBase requires Test
+/////! import "Test.j"
+library_once LHBase initializer InitLHBase //requires Test
 
     globals
         unit learnSkillHero
@@ -9,6 +9,8 @@ library_once LHBase initializer InitLHBase requires Test
             仓库
         */
         unit array UDepot
+
+        hashtable itemTable = InitHashtable()
     endglobals
 //---------------------------------------------------------------------------------------------------
 	/*

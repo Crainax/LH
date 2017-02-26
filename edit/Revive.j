@@ -14,6 +14,7 @@ endfunction
 function TReviveHeroAct takes nothing returns nothing
 	call ReviveBeast(GetRevivingUnit())
 	call AfterReviveLingxue(GetRevivingUnit())
+	call AfterReviveHeiyan(GetRevivingUnit())
 	if (GetPlayerSlotState(GetOwningPlayer(GetRevivingUnit())) == PLAYER_SLOT_STATE_LEFT) then
 		call SetUnitPosition( GetRevivingUnit(), GetRectCenterX(gg_rct_QuitRegion), GetRectCenterY(gg_rct_QuitRegion) )
 	    call SetUnitInvulnerable( GetRevivingUnit(), true )

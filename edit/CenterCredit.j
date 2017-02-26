@@ -93,6 +93,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 			set y = GetRectCenterY(regionM6[index])
 			call SetUnitX(GetSoldUnit(),x)
 			call SetUnitY(GetSoldUnit(),y)
+			call IssueImmediateOrder(GetSoldUnit(),"stop")
 	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),x,y,0.2)
 	        call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
 	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")

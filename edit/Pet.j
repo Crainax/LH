@@ -69,7 +69,7 @@ library_once Pet initializer InitPet requires LHBase
                 endif
                 if ((GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= $Limit$)) then
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
-                    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为"+I2S(R2I(GetUnitState(GetSpellTargetUnit(),UNIT_STATE_LIFE)))+"超过了网的"+I2S($Limit$)+"HP捕捉上限!" )
+                    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为"+I2S(R2I(GetUnitState(GetSpellTargetUnit(),UNIT_STATE_LIFE)/10000))+"万血,超过了网的"+I2S($Limit$)+"HP捕捉上限!" )
                     call PlaySoundBJ( gg_snd_Jidibeida )
                     return
                 endif

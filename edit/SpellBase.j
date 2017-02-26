@@ -174,6 +174,7 @@ library_once SpellBase requires LHBase
 		endmethod
 
 	endstruct
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    使单位免疫某次伤害。
@@ -201,9 +202,6 @@ library_once SpellBase requires LHBase
 	function ImmuteDamage takes unit u returns nothing
 		call ImmuteDamageInterval(u,0)
 	endfunction
-
-//---------------------------------------------------------------------------------------------------
-
 
 //---------------------------------------------------------------------------------------------------
 

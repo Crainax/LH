@@ -5,7 +5,6 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 	
 	globals
 
-		hashtable beastTable
 		/*
 		    物品对应魔兽单位主索引
 		*/
@@ -55,13 +54,13 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 	private function DiscolorTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		local unit u = LoadUnitHandle(beastTable,id,kU)
-		local integer r = LoadInteger(beastTable,id,kr)
-		local integer g = LoadInteger(beastTable,id,kg)
-		local integer b = LoadInteger(beastTable,id,kb)
-		local integer sr = LoadInteger(beastTable,id,ksr)
-		local integer sg = LoadInteger(beastTable,id,ksg)
-		local integer sb = LoadInteger(beastTable,id,ksb)
+		local unit u = LoadUnitHandle(itemTable,id,kU)
+		local integer r = LoadInteger(itemTable,id,kr)
+		local integer g = LoadInteger(itemTable,id,kg)
+		local integer b = LoadInteger(itemTable,id,kb)
+		local integer sr = LoadInteger(itemTable,id,ksr)
+		local integer sg = LoadInteger(itemTable,id,ksg)
+		local integer sb = LoadInteger(itemTable,id,ksb)
 		if((IsUnitAliveBJ(u) == true) or (IsUnitType(u,UNIT_TYPE_HERO) == true)) then
 
 			//! textmacro ChangeColor takes Color
@@ -74,12 +73,12 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			if(isOutOfRange($Color$)) then
 				set $Color$ = GetModifiedColor($Color$)
 				if (s$Color$ > 0) then
-					call SaveInteger(beastTable,GetHandleId(t),ks$Color$ , GetRandomInt(-60,-20))
+					call SaveInteger(itemTable,GetHandleId(t),ks$Color$ , GetRandomInt(-60,-20))
 				else
-					call SaveInteger(beastTable,GetHandleId(t),ks$Color$ , GetRandomInt(20,60))
+					call SaveInteger(itemTable,GetHandleId(t),ks$Color$ , GetRandomInt(20,60))
 				endif
 			endif
-			call SaveInteger(beastTable,GetHandleId(t),k$Color$, $Color$)
+			call SaveInteger(itemTable,GetHandleId(t),k$Color$, $Color$)
 			//! endtextmacro
 
 			//! runtextmacro ChangeColor("r")
@@ -90,7 +89,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		else
 			call PauseTimer(t)
 			call DestroyTimer(t)
-			call FlushChildHashtable(beastTable,id)
+			call FlushChildHashtable(itemTable,id)
 		endif
 		set t = null
 		set u = null
@@ -98,13 +97,13 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 
 	function Discolor takes unit u returns nothing
 		local timer t = CreateTimer()
-		call SaveUnitHandle(beastTable,GetHandleId(t),kU,u)
-		call SaveInteger(beastTable,GetHandleId(t),kr,GetRandomInt(0,254))
-		call SaveInteger(beastTable,GetHandleId(t),kg,GetRandomInt(0,254))
-		call SaveInteger(beastTable,GetHandleId(t),kb,GetRandomInt(0,254))
-		call SaveInteger(beastTable,GetHandleId(t),ksr,GetRandomInt(20,60))
-		call SaveInteger(beastTable,GetHandleId(t),ksg,GetRandomInt(20,60))
-		call SaveInteger(beastTable,GetHandleId(t),ksb,GetRandomInt(20,60))
+		call SaveUnitHandle(itemTable,GetHandleId(t),kU,u)
+		call SaveInteger(itemTable,GetHandleId(t),kr,GetRandomInt(0,254))
+		call SaveInteger(itemTable,GetHandleId(t),kg,GetRandomInt(0,254))
+		call SaveInteger(itemTable,GetHandleId(t),kb,GetRandomInt(0,254))
+		call SaveInteger(itemTable,GetHandleId(t),ksr,GetRandomInt(20,60))
+		call SaveInteger(itemTable,GetHandleId(t),ksg,GetRandomInt(20,60))
+		call SaveInteger(itemTable,GetHandleId(t),ksb,GetRandomInt(20,60))
 
 		call TimerStart(t,0.1,true,function DiscolorTimer)
 		set t = null 
@@ -115,7 +114,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 	    给单位产生并绑定相对应的魔兽
 	*/
 	private function CreateBeast takes unit captain,integer itemId returns nothing
-		local integer unitID = LoadInteger(beastTable,kBeastItem,itemId)
+		local integer unitID = LoadInteger(itemTable,kBeastItem,itemId)
 		local unit u = CreateUnit(GetOwningPlayer(captain),unitID,GetUnitX(captain),GetUnitY(captain),0)
 		//变色
 		if ((unitID == 'ub08') or (unitID == 'ub09')) then
@@ -317,23 +316,22 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 	    初始化数据，单位与物品的对应关系
 	*/
 	private function initBeastItem takes nothing returns nothing
-		call SaveInteger(beastTable,kBeastItem,'IB00','ub00')
-		call SaveInteger(beastTable,kBeastItem,'IB01','ub01')
-		call SaveInteger(beastTable,kBeastItem,'IB02','ub02')
-		call SaveInteger(beastTable,kBeastItem,'IB03','ub03')
-		call SaveInteger(beastTable,kBeastItem,'IB04','ub04')
-		call SaveInteger(beastTable,kBeastItem,'IB05','ub05')
-		call SaveInteger(beastTable,kBeastItem,'IB06','ub06')
-		call SaveInteger(beastTable,kBeastItem,'IB07','ub07')
-		call SaveInteger(beastTable,kBeastItem,'IB08','ub08')
-		call SaveInteger(beastTable,kBeastItem,'IB09','ub09')
+		call SaveInteger(itemTable,kBeastItem,'IB00','ub00')
+		call SaveInteger(itemTable,kBeastItem,'IB01','ub01')
+		call SaveInteger(itemTable,kBeastItem,'IB02','ub02')
+		call SaveInteger(itemTable,kBeastItem,'IB03','ub03')
+		call SaveInteger(itemTable,kBeastItem,'IB04','ub04')
+		call SaveInteger(itemTable,kBeastItem,'IB05','ub05')
+		call SaveInteger(itemTable,kBeastItem,'IB06','ub06')
+		call SaveInteger(itemTable,kBeastItem,'IB07','ub07')
+		call SaveInteger(itemTable,kBeastItem,'IB08','ub08')
+		call SaveInteger(itemTable,kBeastItem,'IB09','ub09')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	private function InitBeast takes nothing returns nothing
 		//初始化
 		local trigger t = CreateTrigger()
-		set beastTable = InitHashtable()
 		call initBeastItem()
 
 		//只能同时装备一个魔兽

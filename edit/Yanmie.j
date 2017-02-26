@@ -9,7 +9,7 @@ library_once Yanmie requires SpellBase
 		unit yanmie = null
 
 		private group GShadow = null
-		constant integer ICountShadowMAX = 3
+		constant integer ICountShadowMAX = 2
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

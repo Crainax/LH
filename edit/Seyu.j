@@ -184,7 +184,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	endfunction
 		
 	private function TSpellSeyu3Act takes nothing returns nothing
-		local real damage = GetDamageAgi(seyu) * 5
+		local real damage = GetDamageAgi(seyu) * 2.5
 		local group g = CreateGroup()
 	    local unit l_unit
 		call DisableTrigger(GetTriggeringTrigger())

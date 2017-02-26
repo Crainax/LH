@@ -16,19 +16,19 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 		/*
 		    技能
 		*/
-		private trigger TSpellLinger
-		private trigger TSpellZhousi
-		private trigger TSpellXuemo1
-		private trigger TSpellXuemo2
-		private trigger TSpellFuwang
-		private trigger TSpellMeidusha1
-		private trigger TSpellMeidusha2
-		private trigger TSpellKiller1
-		private trigger TSpellKiller2
-		private trigger TSpellJinxuan1
-		private trigger TSpellJinxuan2
-		private trigger TSpellJinxuan3
-		private trigger TSpellJinxuan4
+		private trigger TSpellLinger = null
+		private trigger TSpellZhousi = null
+		private trigger TSpellXuemo1 = null
+		private trigger TSpellXuemo2 = null
+		private trigger TSpellFuwang = null
+		private trigger TSpellMeidusha1 = null
+		private trigger TSpellMeidusha2 = null
+		private trigger TSpellKiller1 = null
+		private trigger TSpellKiller2 = null
+		private trigger TSpellJinxuan1 = null
+		private trigger TSpellJinxuan2 = null
+		private trigger TSpellJinxuan3 = null
+		private trigger TSpellJinxuan4 = null
 
 		/*
 		    当前挑战的人的位置
@@ -157,7 +157,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	private function TSpellZhousiAct takes nothing returns nothing
 		local integer i = 1
-	    call DisableTrigger( GetTriggeringTrigger() )
+	    call DestroyTrigger( GetTriggeringTrigger() )
 	    call IssueImmediateOrder( GetAttacker(), "creepthunderclap" )
 	    loop
 	    	exitwhen i > 6
@@ -430,7 +430,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 
 	function TSpellJinxuan4Act takes nothing returns nothing
 	    call DisableTrigger( GetTriggeringTrigger() )
-	    call SetUnitManaBJ( GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 300.00 ) )
+	    call SetUnitManaBJ( GetAttacker(), ( GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) - 500.00 ) )
 	    call CreateSpellTextTag("魔法窃取！",challenager,0,100,0,2)
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\AnimateDead\\AnimateDeadTarget.mdl", GetUnitX(GetAttacker()), GetUnitY(GetAttacker()) ))
 	    call PolledWait(2.00)
@@ -460,40 +460,99 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                    set challenager = CreateUnit(Player(10), 'Hpb1', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 2)) then
 	                    set challenager = CreateUnit(Player(10), 'Hgam', GetRectCenterX(gg_rct_Arena_2),GetRectCenterY(gg_rct_Arena_2), 180.00)
-	                    call EnableTrigger( TSpellLinger )
 	                    call TimerStart(t,2,TRUE,function LingerAssemble)
+				        //灵儿技能
+					    set TSpellLinger = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellLinger, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellLinger, Condition(function TSpellLingerCon))
+					    call TriggerAddAction(TSpellLinger, function TSpellLingerAct)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 3)) then
 	                    set challenager = CreateUnit(Player(10), 'Hmbr', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                    call EnableTrigger( TSpellZhousi )
 	                    set attract = Attract.create(challenager,600,0.05,20)
 	                    call attract.start()
+					    //宙斯技能
+					    set TSpellZhousi = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellZhousi, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellZhousi, Condition(function TSpellZhousiCon))
+					    call TriggerAddAction(TSpellZhousi, function TSpellZhousiAct)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 4)) then
 	                    set challenager = CreateUnit(Player(10), 'Odrt', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                    call EnableTrigger( TSpellXuemo1 )
-	                    call EnableTrigger( TSpellXuemo2 )
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
+					    //血魔技能
+					    set TSpellXuemo1 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellXuemo1, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellXuemo1, Condition(function TSpellXuemo1Con))
+					    call TriggerAddAction(TSpellXuemo1, function TSpellXuemo1Act)
+					    set TSpellXuemo2 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellXuemo2, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellXuemo2, Condition(function TSpellXuemo2Con))
+					    call TriggerAddAction(TSpellXuemo2, function TSpellXuemo2Act)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 5)) then
 	                    set challenager = CreateUnit(Player(10), 'Ogrh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                    call EnableTrigger( TSpellFuwang )
 	                    set attract = Attract.create(challenager,600,0.05,20)
 	                    call attract.start()
-	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )	
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )    
+	                	//斧王技能
+					    set TSpellFuwang = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellFuwang, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellFuwang, Condition(function TSpellFuwangCon))
+					    call TriggerAddAction(TSpellFuwang, function TSpellFuwangAct)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 6)) then
 	                    set challenager = CreateUnit(Player(10), 'Hvsh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                    call EnableTrigger( TSpellMeidusha1 )
-	                    call EnableTrigger( TSpellMeidusha2 )
+					    //美杜莎技能
+					    set TSpellMeidusha1 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellMeidusha1, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellMeidusha1, Condition(function TSpellMeidusha1Con))
+					    call TriggerAddAction(TSpellMeidusha1, function TSpellMeidusha1Act)
+
+					    set TSpellMeidusha2 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellMeidusha2, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellMeidusha2, Condition(function TSpellMeidusha2Con))
+					    call TriggerAddAction(TSpellMeidusha2, function TSpellMeidusha2Act)
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 7)) then
 	                    set challenager = CreateUnit(Player(10), 'Hpb2', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                    call EnableTrigger( TSpellKiller1 )
-	                    call EnableTrigger( TSpellKiller2 )
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
+					    //杀手技能
+
+					    set TSpellKiller1 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellKiller1, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellKiller1, Condition(function TSpellKiller1Con))
+					    call TriggerAddAction(TSpellKiller1, function TSpellKiller1Act)
+
+					    set TSpellKiller2 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellKiller2, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellKiller2, Condition(function TSpellKiller2Con))
+					    call TriggerAddAction(TSpellKiller2, function TSpellKiller2Act)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 8)) then
 	                    set challenager = CreateUnit(Player(10), 'Hlgr', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                    call EnableTrigger( TSpellJinxuan1 )
-	                    call EnableTrigger( TSpellJinxuan2 )
-	                    call EnableTrigger( TSpellJinxuan3 )
-	                    call EnableTrigger( TSpellJinxuan4 )
+
+	                    //瑾轩技能
+					    set TSpellJinxuan1 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan1, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellJinxuan1, Condition(function TSpellJinxuan1Con))
+					    call TriggerAddAction(TSpellJinxuan1, function TSpellJinxuan1Act)
+
+					    set TSpellJinxuan2 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan2, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellJinxuan2, Condition(function TSpellJinxuan2Con))
+					    call TriggerAddAction(TSpellJinxuan2, function TSpellJinxuan2Act)
+
+					    set TSpellJinxuan3 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellJinxuan3, Condition(function TSpellJinxuan3Con))
+					    call TriggerAddAction(TSpellJinxuan3, function TSpellJinxuan3Act)
+
+					    set TSpellJinxuan4 = CreateTrigger()
+					    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED )
+					    call TriggerAddCondition(TSpellJinxuan4, Condition(function TSpellJinxuan4Con))
+					    call TriggerAddAction(TSpellJinxuan4, function TSpellJinxuan4Act)
+
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 	                endif
 
 	                //初始化单位
@@ -556,21 +615,35 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	        call DestroyTextTag( textTag_Level )
 	        call updateLevel()
 	    	set currentLevel = 1
-	        call DisableTrigger( TSpellLinger )
-			call DisableTrigger( TSpellZhousi )
-			call DisableTrigger( TSpellXuemo1 )
-			call DisableTrigger( TSpellXuemo2 )
-			call DisableTrigger( TSpellFuwang )
-			call DisableTrigger( TSpellMeidusha1 )
-			call DisableTrigger( TSpellMeidusha2 )
-			call DisableTrigger( TSpellKiller1 )
-			call DisableTrigger( TSpellKiller2 )
-			call DisableTrigger( TSpellJinxuan1 )
-			call DisableTrigger( TSpellJinxuan2 )
-			call DisableTrigger( TSpellJinxuan3 )
-			call DisableTrigger( TSpellJinxuan4 )
-	    else
 	    endif
+
+        call DestroyTrigger( TSpellLinger )
+		call DestroyTrigger( TSpellZhousi )
+		call DestroyTrigger( TSpellXuemo1 )
+		call DestroyTrigger( TSpellXuemo2 )
+		call DestroyTrigger( TSpellFuwang )
+		call DestroyTrigger( TSpellMeidusha1 )
+		call DestroyTrigger( TSpellMeidusha2 )
+		call DestroyTrigger( TSpellKiller1 )
+		call DestroyTrigger( TSpellKiller2 )
+		call DestroyTrigger( TSpellJinxuan1 )
+		call DestroyTrigger( TSpellJinxuan2 )
+		call DestroyTrigger( TSpellJinxuan3 )
+		call DestroyTrigger( TSpellJinxuan4 )
+
+		set TSpellLinger = null
+		set TSpellZhousi = null
+		set TSpellXuemo1 = null
+		set TSpellXuemo2 = null
+		set TSpellFuwang = null
+		set TSpellMeidusha1 = null
+		set TSpellMeidusha2 = null
+		set TSpellKiller1 = null
+		set TSpellKiller2 = null
+		set TSpellJinxuan1 = null
+		set TSpellJinxuan2 = null
+		set TSpellJinxuan3 = null
+		set TSpellJinxuan4 = null
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -637,19 +710,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	    endif
 
 
-        call DisableTrigger( TSpellLinger )
-		call DisableTrigger( TSpellZhousi )
-		call DisableTrigger( TSpellXuemo1 )
-		call DisableTrigger( TSpellXuemo2 )
-		call DisableTrigger( TSpellFuwang )
-		call DisableTrigger( TSpellMeidusha1 )
-		call DisableTrigger( TSpellMeidusha2 )
-		call DisableTrigger( TSpellKiller1 )
-		call DisableTrigger( TSpellKiller2 )
-		call DisableTrigger( TSpellJinxuan1 )
-		call DisableTrigger( TSpellJinxuan2 )
-		call DisableTrigger( TSpellJinxuan3 )
-		call DisableTrigger( TSpellJinxuan4 )
 	    set currentLevel = 1
 	    set currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] = currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] + 1
 	    call RemoveLocation( point )
@@ -657,6 +717,34 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战成功!" )
 	    call RemoveUnit( challenager )
 	    set challenager = null
+
+        call DestroyTrigger( TSpellLinger )
+		call DestroyTrigger( TSpellZhousi )
+		call DestroyTrigger( TSpellXuemo1 )
+		call DestroyTrigger( TSpellXuemo2 )
+		call DestroyTrigger( TSpellFuwang )
+		call DestroyTrigger( TSpellMeidusha1 )
+		call DestroyTrigger( TSpellMeidusha2 )
+		call DestroyTrigger( TSpellKiller1 )
+		call DestroyTrigger( TSpellKiller2 )
+		call DestroyTrigger( TSpellJinxuan1 )
+		call DestroyTrigger( TSpellJinxuan2 )
+		call DestroyTrigger( TSpellJinxuan3 )
+		call DestroyTrigger( TSpellJinxuan4 )
+
+		set TSpellLinger = null
+		set TSpellZhousi = null
+		set TSpellXuemo1 = null
+		set TSpellXuemo2 = null
+		set TSpellFuwang = null
+		set TSpellMeidusha1 = null
+		set TSpellMeidusha2 = null
+		set TSpellKiller1 = null
+		set TSpellKiller2 = null
+		set TSpellJinxuan1 = null
+		set TSpellJinxuan2 = null
+		set TSpellJinxuan3 = null
+		set TSpellJinxuan4 = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitArena takes nothing returns nothing
@@ -682,94 +770,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	    call TriggerAddCondition(TDieEvent, Condition(function TDieEventConditions))
 	    call TriggerAddAction(TDieEvent, function TDieEventActions)
 
-	    //灵儿技能
-	    set TSpellLinger = CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ( TSpellLinger, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellLinger, Condition(function TSpellLingerCon))
-	    call TriggerAddAction(TSpellLinger, function TSpellLingerAct)
-	    call DisableTrigger(TSpellLinger)
-
-	    //宙斯技能
-	    set TSpellZhousi = CreateTrigger()
-	    call DisableTrigger(TSpellZhousi)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellZhousi, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellZhousi, Condition(function TSpellZhousiCon))
-	    call TriggerAddAction(TSpellZhousi, function TSpellZhousiAct)
-
-	    //血魔技能
-
-	    set TSpellXuemo1 = CreateTrigger()
-	    call DisableTrigger(TSpellXuemo1)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellXuemo1, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellXuemo1, Condition(function TSpellXuemo1Con))
-	    call TriggerAddAction(TSpellXuemo1, function TSpellXuemo1Act)
-
-	    set TSpellXuemo2 = CreateTrigger()
-	    call DisableTrigger(TSpellXuemo2)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellXuemo2, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellXuemo2, Condition(function TSpellXuemo2Con))
-	    call TriggerAddAction(TSpellXuemo2, function TSpellXuemo2Act)
-
-	    //斧王技能
-	    set TSpellFuwang = CreateTrigger()
-	    call DisableTrigger(TSpellFuwang)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellFuwang, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellFuwang, Condition(function TSpellFuwangCon))
-	    call TriggerAddAction(TSpellFuwang, function TSpellFuwangAct)
-
-
-	    //美杜莎技能
-	    set TSpellMeidusha1 = CreateTrigger()
-	    call DisableTrigger(TSpellMeidusha1)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellMeidusha1, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellMeidusha1, Condition(function TSpellMeidusha1Con))
-	    call TriggerAddAction(TSpellMeidusha1, function TSpellMeidusha1Act)
-
-	    set TSpellMeidusha2 = CreateTrigger()
-	    call DisableTrigger(TSpellMeidusha2)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellMeidusha2, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellMeidusha2, Condition(function TSpellMeidusha2Con))
-	    call TriggerAddAction(TSpellMeidusha2, function TSpellMeidusha2Act)
-
-	    //杀手技能
-
-	    set TSpellKiller1 = CreateTrigger()
-	    call DisableTrigger(TSpellKiller1)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellKiller1, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellKiller1, Condition(function TSpellKiller1Con))
-	    call TriggerAddAction(TSpellKiller1, function TSpellKiller1Act)
-
-	    set TSpellKiller2 = CreateTrigger()
-	    call DisableTrigger(TSpellKiller2)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellKiller2, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellKiller2, Condition(function TSpellKiller2Con))
-	    call TriggerAddAction(TSpellKiller2, function TSpellKiller2Act)
-
-	    //瑾轩技能
-
-	    set TSpellJinxuan1 = CreateTrigger()
-	    call DisableTrigger(TSpellJinxuan1)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan1, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellJinxuan1, Condition(function TSpellJinxuan1Con))
-	    call TriggerAddAction(TSpellJinxuan1, function TSpellJinxuan1Act)
-
-	    set TSpellJinxuan2 = CreateTrigger()
-	    call DisableTrigger(TSpellJinxuan2)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan2, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellJinxuan2, Condition(function TSpellJinxuan2Con))
-	    call TriggerAddAction(TSpellJinxuan2, function TSpellJinxuan2Act)
-
-	    set TSpellJinxuan3 = CreateTrigger()
-	    call DisableTrigger(TSpellJinxuan3)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellJinxuan3, Condition(function TSpellJinxuan3Con))
-	    call TriggerAddAction(TSpellJinxuan3, function TSpellJinxuan3Act)
-
-	    set TSpellJinxuan4 = CreateTrigger()
-	    call DisableTrigger(TSpellJinxuan4)
-	    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED )
-	    call TriggerAddCondition(TSpellJinxuan4, Condition(function TSpellJinxuan4Con))
-	    call TriggerAddAction(TSpellJinxuan4, function TSpellJinxuan4Act)
 
 	    set t = null
 	endfunction

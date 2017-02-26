@@ -23,6 +23,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         unit gg_unit_Npld_0253 
         //英雄
         unit array udg_H
+        //圣主分身
+        unit gg_unit_Ekgg_0259
         //技能伤害
         real array udg_I_Jinengjiacheng
         //增益
@@ -96,6 +98,15 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             复活
         */
         rect gg_rct_QuitRegion
+
+        /*
+            防护罩
+        */
+        integer array udg_I_Er_diansi
+        /*
+            Crainax
+        */
+        integer array udg_Laser
 	endglobals
 
 	private function InitTest takes nothing returns nothing

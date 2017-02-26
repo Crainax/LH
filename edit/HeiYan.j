@@ -88,7 +88,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			if (IsFull() == true) then
 				return
 			endif
-			set lifeTime = 4 + SquareRoot(GetHeroLevel(Heiyan)) / 2
+			set lifeTime = 6 + SquareRoot(GetHeroLevel(Heiyan)) / 2
 			set t = CreateTimer()
 			set angle = GetRandomReal(0,360)
 			set x = YDWECoordinateX(tx + 80 * CosBJ(angle))
@@ -321,7 +321,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 
 		call GroupRemoveUnit(GSacri,GetDyingUnit())
 		set ISacriCount = ISacriCount - 1
-		if(IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
+		if(IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1 and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 600) then
 			call SimulateDeathHeiyanBoom(u)
 		endif
 	endfunction
@@ -375,12 +375,11 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			endloop
 			call DamageArea(Heiyan,x,y,600,GetDamageStr(Heiyan))
 		else
-			call BJDebugMsg("结束了葬九天：？？？？？")
 			call RemoveUnit(UZangJiuTian)
 			call PauseTimer(t)
 			call DestroyTimer(t)
+			set UZangJiuTian = null
 		endif
-		set UZangJiuTian = null
 		set t = null 
 	endfunction
 
@@ -474,7 +473,15 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		endif
 	endfunction
 
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    复活后关闭碰撞
+	*/
+	function AfterReviveHeiyan takes unit u returns nothing
+		if (u == Heiyan) then
+    		call SetUnitPathing( Heiyan, false )
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -484,6 +491,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		local timer t = CreateTimer()		
 		set GSacri = CreateGroup()
 		set Heiyan = u
+		call SetUnitPathing( Heiyan, false )
 		//主英雄技能
 		set TSpellHeiyan1 = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellHeiyan1,u,EVENT_UNIT_SPELL_EFFECT)

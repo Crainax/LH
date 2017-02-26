@@ -19,7 +19,8 @@
 	test mowang 测试基地爆炸
 	test mingwang 测试基地爆炸
 	test vip      测试VIP
-	test renshu      测试人数
+	test renshu      测试人数2
+	test darenshu      测试人数6
 	test lianyu1	炼狱14层
 	test lianyu2	炼狱69层
 	test Scredit    守家积分
@@ -51,6 +52,25 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 				*/GetUnitName(GetTriggerUnit())+"造成了"/*
 				*/+R2S(GetEventDamage())+"伤害.")
 		endif
+	endfunction
+
+	private function ShowMajiaCount takes nothing returns integer
+		local group l_group = GetUnitsInRectAll(GetPlayableMapRect())
+		local unit l_unit
+		local integer count = 0
+		call GroupEnumUnitsInRange(l_group, 0, 0, 99999, null)
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if (GetUnitPointValue(l_unit) == 123 or GetUnitPointValue(l_unit) == 0) then
+		    	set count = count + 1
+		    endif
+		endloop
+		call DestroyGroup(l_group)
+		set l_group = null
+		set l_unit =null
+		return count
 	endfunction
 
 	/*
@@ -206,6 +226,11 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 			return
 		endif
 
+		if (chat == "test majia") then
+			call BJDebugMsg("马甲数量:"+I2S(ShowMajiaCount()))
+			return
+		endif
+
 		if (chat == "test VIP") then
 			set sPIV[1] = true
 			call BJDebugMsg("测试VIP!")
@@ -297,6 +322,19 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 			call BJDebugMsg("炼狱69层")
 			return
 		endif
+
+		if (chat == "test lianyu3") then
+			set udg_I_Lianyu[1] = 59
+			call BJDebugMsg("炼狱59层")
+			return
+		endif
+
+		if (chat == "test darenshu") then
+			set udg_RENSHU = 6
+			call BJDebugMsg("人数调成6")
+			return
+		endif
+
 
 		//魔王拆家速度
 		if (chat == "test mowang") then
