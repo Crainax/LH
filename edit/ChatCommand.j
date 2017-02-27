@@ -9,6 +9,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 	
 	globals
 		private item array IBox
+		private integer IBoxSucceed = 0
 		private integer IBoxCount = 0
 	endglobals
 
@@ -37,6 +38,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 		    	set IBox[1] = null
 		    	set IBox[2] = null
 		    	set IBoxCount = 0
+		    	set IBoxSucceed = IBoxSucceed + 3
 		    endif
 		endfunction
 	//! endtextmacro
@@ -53,33 +55,54 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 			return
 		endif
 
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetUnitName(udg_H[GetConvertedPlayerId(GetTriggerPlayer())])+"使用指令-hc成功将地上的所有宝箱融合成为更高级的宝箱，列表如下：")
     	set IBox[0] = null
     	set IBox[1] = null
     	set IBox[2] = null
     	set IBoxCount = 0
+    	set IBoxSucceed = 0
    		call EnumItemsInRectBJ( GetPlayableMapRect(), function CombineBoxE )
+   		if (IBoxSucceed != 0) then
+	   		call BJDebugMsg(I2S(IBoxSucceed)+"个E级宝箱→→→"+I2S(IBoxSucceed/3)+"个D级宝箱。")
+	    	set IBoxSucceed = 0
+   		endif
     	set IBox[0] = null
     	set IBox[1] = null
     	set IBox[2] = null
     	set IBoxCount = 0
    		call EnumItemsInRectBJ( GetPlayableMapRect(), function CombineBoxD )
+   		if (IBoxSucceed != 0) then
+	   		call BJDebugMsg(I2S(IBoxSucceed)+"个D级宝箱→→→"+I2S(IBoxSucceed/3)+"个C级宝箱。")
+	    	set IBoxSucceed = 0
+   		endif
     	set IBox[0] = null
     	set IBox[1] = null
     	set IBox[2] = null
     	set IBoxCount = 0
    		call EnumItemsInRectBJ( GetPlayableMapRect(), function CombineBoxC )
+   		if (IBoxSucceed != 0) then
+	   		call BJDebugMsg(I2S(IBoxSucceed)+"个C级宝箱→→→"+I2S(IBoxSucceed/3)+"个B级宝箱。")
+	    	set IBoxSucceed = 0
+   		endif
     	set IBox[0] = null
     	set IBox[1] = null
     	set IBox[2] = null
     	set IBoxCount = 0
    		call EnumItemsInRectBJ( GetPlayableMapRect(), function CombineBoxB )
+   		if (IBoxSucceed != 0) then
+	   		call BJDebugMsg(I2S(IBoxSucceed)+"个B级宝箱→→→"+I2S(IBoxSucceed/3)+"个A级宝箱。")
+	    	set IBoxSucceed = 0
+   		endif
     	set IBox[0] = null
     	set IBox[1] = null
     	set IBox[2] = null
     	set IBoxCount = 0
    		call EnumItemsInRectBJ( GetPlayableMapRect(), function CombineBoxA )
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetUnitName(udg_H[GetConvertedPlayerId(GetTriggerPlayer())])+"使用指令-hc成功将地上的所有宝箱合成为更高级的宝箱.")
-	endfunction
+   		if (IBoxSucceed != 0) then
+	   		call BJDebugMsg(I2S(IBoxSucceed)+"个A级宝箱→→→"+I2S(IBoxSucceed/3)+"个S级宝箱。")
+	    	set IBoxSucceed = 0
+   		endif
+   		endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    聊天信息"-"指令
