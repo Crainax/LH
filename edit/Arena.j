@@ -562,6 +562,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                call PauseUnitBJ( true, challenager )	    
 	                set currentLevel = 1
 	                call UnitAddAbilityBJ( 'A0ES', challenager )
+    				call SetUnitPathing( challenager, false )
 	                call UnitAddAbilityBJ( 'A0B9', challenager )
 	                call UnitAddAbilityBJ( 'A09W', challenager )
 	                call UnitAddAbilityBJ( 'A0P1', challenager )
@@ -691,22 +692,31 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	    local integer ty = (GetUnitTypeId(GetDyingUnit()))
 	    if (ty == 'Huth') then
 	        call CreateItemLoc( 'prvt', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Hpb1') then
 	        call CreateItemLoc( 'cnob', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Hgam') then
 	        call CreateItemLoc( 'rhth', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Hmbr') then
 	        call CreateItemLoc( 'hval', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Odrt') then
 	        call CreateItemLoc( 'afac', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Ogrh') then
 	        call CreateItemLoc( 'pmna', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Hvsh') then
 	        call CreateItemLoc( 'evtl', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Hpb2') then
 	        call CreateItemLoc( 'bspd', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    elseif (ty == 'Hlgr') then
 	        call CreateItemLoc( 'mcou', point )
+        	call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(defier)))
 	    endif
 
 

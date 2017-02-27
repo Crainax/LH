@@ -68,6 +68,9 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		local real x
 		local real y 
 		local integer i = 3
+		if (IsFull()) then
+			return
+		endif
 		if (IsDouble == true) then
 			set i = 1
 		endif
@@ -87,6 +90,8 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	    	call GroupAddUnit(GSacri,u)
 			//无敌
 		    call SetUnitInvulnerable(u,true)
+
+		    set i = i +1
 		endloop
 
 		set u =null
@@ -373,6 +378,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 
 	private function ZangJiuTian takes nothing returns nothing
 		local timer t = CreateTimer()
+		call RemoveUnit(UZangJiuTian)
 		set UZangJiuTian = CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()),'hh05',GetUnitX(GetSpellAbilityUnit()),GetUnitY(GetSpellAbilityUnit()),0)
 	    call PrintSpell(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()),GetDamageStr(Heiyan))
 		call TimerStart(t,1,true,function ZangJiuTianTimer)
