@@ -52,21 +52,29 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		endif
 
 		set sPIV[GetConvertedPlayerId(p)] = true 
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功！")
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化英雄
 	*/
 	function InitPIVHero takes unit u returns nothing
-		if not (IsPIV(GetOwningPlayer(u))) then
+		if (IsPIV(GetOwningPlayer(u))) then
+	        call SaveInteger(YDHT,GetHandleId(UnitAddItemByIdSwapped('IXU1', u)),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
+			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
+			call Discolor(u)
 			return
 		endif
 
-        call UnitAddItemByIdSwapped('IXU1', u)
-        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-		call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
-		call Discolor(u)
+		if (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 20) then
+			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
+		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 15) then
+			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,8000)
+		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 10) then
+			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,6000)
+		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 5) then
+			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,4000)
+		endif
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -85,7 +93,9 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 			return
 		endif
 
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！")
+		if (vCode != null) then
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！")
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -190,15 +200,31 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 	    set d = null
 	    set t = null
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化
+	*/
+	function InitAllPIV takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			call CertificatePIV(ConvertedPlayer(i),null)
+			set i = i +1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitPIV takes nothing returns nothing
 		local integer i = 1
 		local trigger t = CreateTrigger()
 
-		//PIV名单
-		//call SaveBoolean(PIVTable,kPIV,560584534,true)
-		//call SaveBoolean(PIVTable,kPIV,632066098,true)
+		loop
+			exitwhen i > 6
+			set sPIV[i] = false
+			set i = i +1
+		endloop
+
+		call SaveBoolean(PIVTable,kPIV,560584534,true)
+		call SaveBoolean(PIVTable,kPIV,632066098,true)
 		call SaveBoolean(PIVTable,kPIV,679792348,true)
 		call SaveBoolean(PIVTable,kPIV,244103987,true)
 		call SaveBoolean(PIVTable,kPIV,1624950439,true)
@@ -206,22 +232,15 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		call SaveBoolean(PIVTable,kPIV,442300691,true)
 		call SaveBoolean(PIVTable,kPIV,127836247,true)
 		call SaveBoolean(PIVTable,kPIV,747551996,true)
-
-		//call SaveBoolean(PIVTable,kPIV,560584534,true)
-		//call SaveBoolean(PIVTable,kPIV,632066098,true)
-		//call SaveBoolean(PIVTable,kPIV,679792348,true)
+		call SaveBoolean(PIVTable,kPIV,1549153604,true)
+		call SaveBoolean(PIVTable,kPIV,243951516,true)
+		call SaveBoolean(PIVTable,kPIV,472054031,true)
+		call SaveBoolean(PIVTable,kPIV,156566316,true)
+		call SaveBoolean(PIVTable,kPIV,805389327,true)
 
 		//test
 		//call SaveBoolean(PIVTable,kPIV,238541434,true)
 
-
-		loop
-			exitwhen i > 6
-
-			set sPIV[i] = false
-			call CertificatePIV(ConvertedPlayer(i),null)
-			set i = i +1
-		endloop
 
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )
 		call TriggerRegisterPlayerChatEvent( t, Player(1), "##", true )

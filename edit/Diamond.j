@@ -18,7 +18,6 @@ library_once Diamond initializer InitDiamond requires LHBase
             call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以100%的成功率成功地升级了"+GetItemName(GetSpellTargetItem())+"！" ) ) )
             call RemoveItem( GetSpellTargetItem() )
             call UnitAddItemByIdSwapped( newItemID, GetTriggerUnit() )
-            call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())))
             call PlaySoundBJ( gg_snd_Chenggong )
             return true
         endif

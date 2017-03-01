@@ -22,14 +22,16 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 		function CombineBox$Level$ takes nothing returns nothing
 
 		    if ((GetItemTypeId(GetEnumItem()) == '$Itemtype$')) then
-				if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) and (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) !=  LoadInteger(YDHT,GetHandleId(GetEnumItem()),0xA75AD423))) then
-					return
+				if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423)) then
+					if ((GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) !=  LoadInteger(YDHT,GetHandleId(GetEnumItem()),0xA75AD423))) then
+						return
+					endif
 				endif
 		    	set IBox[IBoxCount] = GetEnumItem()
 		    	set IBoxCount = IBoxCount + 1
 		    endif
 
-		    if (IBoxCount >= 2) then
+		    if (IBoxCount >= 3) then
 		    	call RemoveItem(IBox[0])
 		    	call RemoveItem(IBox[1])
 		    	call RemoveItem(IBox[2])

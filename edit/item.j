@@ -48,6 +48,26 @@ endglobals
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    判断是否是不可共享的物品类型
+	*/
+	function IsSharedItem takes item i returns boolean
+		return GetItemTypeId(i) == 'fgrg' /*
+			*/ or GetItemTypeId(i) == 'hlst' /*
+			*/ or GetItemTypeId(i) == 'wshs' /*
+			*/ or GetItemTypeId(i) == 'wild' /*
+			*/ or GetItemTypeId(i) == 'totw' /*
+			*/ or GetItemTypeId(i) == 'sror' /*
+			*/ or GetItemTypeId(i) == 'olig' /*
+			*/ or GetItemTypeId(i) == 'srtl' /*
+			*/ or GetItemTypeId(i) == 'shhn' /*
+			*/ or GetItemTypeId(i) == 'flag' /*
+			*/ or GetItemTypeId(i) == 'shcw' /*
+			*/ or GetItemTypeId(i) == 'shtm' /*
+			*/ or GetItemTypeId(i) == 'IXU1' 
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	/*
 	    单位的某一格物品栏是否是聚宝
 	*/
 	private function UnitHasJubaoInSlot takes unit u,integer slot returns boolean

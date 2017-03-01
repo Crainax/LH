@@ -42,8 +42,7 @@ library_once TouristTrap initializer InitTouristTrap requires LHBase
 
 		//! textmacro GiveMaxShen takes BuyType,GiveType
 			if ((GetItemTypeId(GetSoldItem()) == '$BuyType$')) then
-	            call UnitAddItemById(GetBuyingUnit(), '$GiveType$')
-        		call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())))
+        		call SaveInteger(YDHT,GetHandleId(UnitAddItemById(GetBuyingUnit(), '$GiveType$')),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())))
 	            return
 			endif
 		//! endtextmacro
