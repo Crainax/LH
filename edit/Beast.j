@@ -292,6 +292,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 
 		//! textmacro SummonBeast takes IType1,IType2,IType3
 		if ((GetItemTypeId(GetItemOfTypeFromUnitBJ(u, '$IType1$')) == '$IType1$') and (GetItemTypeId(GetItemOfTypeFromUnitBJ(u, '$IType2$')) == '$IType2$') and (IsItemPawnable(GetItemOfTypeFromUnitBJ(u, '$IType1$')) == true) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(u, '$IType2$')) == true)) then
+			call PolledWait(0.1)
             call RemoveItem( GetItemOfTypeFromUnitBJ(u, '$IType2$') )
             call RemoveItem( GetItemOfTypeFromUnitBJ(u, '$IType1$') )
             call UnitAddItemById(u, '$IType3$')

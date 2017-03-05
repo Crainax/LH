@@ -60,13 +60,14 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 	*/
 	function InitPIVHero takes unit u returns nothing
 		if (IsPIV(GetOwningPlayer(u))) then
-	        call SaveInteger(YDHT,GetHandleId(UnitAddItemByIdSwapped('IXU1', u)),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
+			call UnitAddItemByIdSwapped('IXU1', u)
+	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
 			call Discolor(u)
 			return
 		endif
 
-		if (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 20) then
+/*		if (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 20) then
 			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
 		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 15) then
 			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,8000)
@@ -74,7 +75,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,6000)
 		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 5) then
 			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,4000)
-		endif
+		endif */
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -212,6 +213,14 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 			set i = i +1
 		endloop
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    300秒后关闭入口
+	*/
+	function ClosePIV takes nothing returns nothing
+		call FlushParentHashtable(PIVTable)
+	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	private function InitPIV takes nothing returns nothing
 		local integer i = 1
