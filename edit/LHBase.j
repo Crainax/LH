@@ -1,7 +1,7 @@
 
 
-/////! import "Test.j"
-library_once LHBase initializer InitLHBase //requires Test
+//! import "Test.j"
+library_once LHBase initializer InitLHBase requires Test
 
     globals
         unit learnSkillHero
@@ -123,6 +123,19 @@ library_once LHBase initializer InitLHBase //requires Test
 	    	call IssueTargetOrder( u, orderId, target )
         endif
 	    set u = null
+
+    endfunction
+
+    /*
+        技能4的马甲，点目标，限定使用
+    */
+    function SimulateSpell4 takes unit caster,real x,real y,integer spellId,integer spellLevel,real lifeTime,string orderId returns nothing
+        local unit  u = CreateUnit(GetOwningPlayer(caster),'h01B',x,y,0)
+        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+        call UnitAddAbilityBJ( spellId,u )
+        call SetUnitAbilityLevel(u,spellId,spellLevel)
+        call IssuePointOrder(u,orderId,x,y)
+        set u = null
 
     endfunction
 

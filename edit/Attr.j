@@ -20,6 +20,13 @@ library_once Attr initializer InitAttr requires LHBase
 	endfunction
 
 	/*
+	    增加敏捷增益，并立即刷新
+	*/
+	function AddAgiPercentImme takes integer playerID , real value returns nothing
+		call AddAgiPercent(playerID,value)
+	endfunction
+
+	/*
 	    获取敏捷增益
 	*/
 	function GetAgiPercent takes integer playerID returns real
@@ -35,6 +42,13 @@ library_once Attr initializer InitAttr requires LHBase
 	endfunction
 
 	/*
+	    增加力量增益，并立即刷新
+	*/
+	function AddStrPercentImme takes integer playerID , real value returns nothing
+		call AddStrPercent(playerID,value)
+	endfunction
+
+	/*
 	    获取力量增益
 	*/
 	function GetStrPercent takes integer playerID returns real
@@ -47,6 +61,13 @@ library_once Attr initializer InitAttr requires LHBase
 	function AddIntPercent takes integer playerID , real value returns nothing
 		set udg_I_Xianglian[( playerID + 12 )] =  udg_I_Xianglian[( playerID + 12 )] + value 
 		call TriggerExecute( gg_trg_D7 )
+	endfunction
+
+	/*
+	    增加智力增益，并立即刷新
+	*/
+	function AddIntPercentImme takes integer playerID , real value returns nothing
+		call AddIntPercent(playerID,value)
 	endfunction
 
 	/*
@@ -70,6 +91,20 @@ library_once Attr initializer InitAttr requires LHBase
 	function AddSpellPercent takes integer playerID , real value returns nothing
 		set udg_I_Jinengjiacheng[playerID] = udg_I_Jinengjiacheng[playerID] + value
 		call TriggerExecute( gg_trg_D7 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    设置攻击
+	*/
+	function SetAttack takes unit u,integer attack returns nothing
+			// body...
+	endfunction	
+//---------------------------------------------------------------------------------------------------
+	/*
+	    设置防御
+	*/
+	function SetDefense takes unit u,integer defense returns nothing
+		// body...
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
