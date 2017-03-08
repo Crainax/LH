@@ -250,9 +250,9 @@ library_once Seyu requires SpellBase,Printer,Attr
 			endloop
 			set chongdong =null
 		else
+			call FlushChildHashtable(spellTable,id)
 			call PauseTimer(t)
 			call DestroyTimer(t)
-			call FlushChildHashtable(spellTable,id)
 		endif
 		set t = null 
 	endfunction

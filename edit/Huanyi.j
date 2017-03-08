@@ -35,6 +35,10 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		    提升智力倍数
 		*/
 		key kNoneIntTimes
+		/*
+		    泉水
+		*/
+		key kUHuanyiQuan
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -132,7 +136,8 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	private function Lumber takes nothing returns nothing
 		local integer times = GetMultiSpell()
 		local integer attack = GetHeroInt(Huanyi,true) + 0
-		local integer defense = GetHeroAgi(Huanyi,true) + 0
+		local integer defense = GetHeroAgi(Huanyi,true)/100 + 0
+		local integer hp = GetHeroStr(Huanyi,true) * 10 + 0
 		local unit u
 		local integer i = 1
 		loop
@@ -143,6 +148,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			call UnitApplyTimedLifeBJ( 180.00, 'BHwe',u )
 			call SetAttack(u,attack)
 			call SetDefense(u,defense)
+			call SetHP(u,hp)
 			set i = i +1
 		endloop
 		if (times > 1) then
@@ -229,15 +235,93 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    火轮烁日
 	*/
 	private function FireWind takes nothing returns nothing
-		
-	    call YDWETimerPatternRushSlide( drat, facing + i * 30 , 20000.00, 10.00, 0.05, DRAT_JUNENG * (1+0.2*I2R(level_juneng)), 60., false, true, false, "origin", "", "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+
+
+		local integer times = GetMultiSpell()
+		local real damage = GetDamageInt(Huanyi)
+		local integer i = 1
+
+	    local real x1 
+	    local real y1 
+	    local real x2 
+	    local real y2 
+	    local real facing 
+		local unit u
+
+		if (times > 1) then
+	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
+		endif
+	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),damage)
+		loop
+			set times = times - 1
+
+		    set x1 = GetUnitX(Huanyi)
+		    set y1 = GetUnitY(Huanyi)
+		    set x2 = GetSpellTargetX()
+		    set y2 = GetSpellTargetY()
+		    set facing = Atan2BJ(y2-y1,x2-x1)
+			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh4',x1,y1,facing)
+	    	call UnitApplyTimedLifeBJ( 2, 'BHwe', u)
+		    call YDWETimerPatternRushSlide( u, facing , 1400, 2, 0.05, damage, 300., false, true, false, "origin", "", "Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl" )
+			exitwhen times <= 0
+			call PolledWait(0.5)
+		endloop
+
+	    set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻冥天泉
 	*/
+	private function WaterWindTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,kUHuanyiQuan)
+		local group l_group = CreateGroup()
+		local unit l_unit
+		if (IsUnitAliveBJ(u)) then
+			call GroupEnumUnitsInRange(l_group, GetUnitX(u), GetUnitY(u), 600, null)
+			loop
+			    set l_unit = FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+			    if (IsAlly(l_unit,Huanyi)) then
+			    	call RecoverUnitHP(l_unit,0.3)
+			    	call RecoverUnitMP(l_unit,20)
+			    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+			    endif
+			endloop
+			call DestroyGroup(l_group)
+			set l_group = null
+			set l_unit =null
+		else
+			call RemoveUnit(u)
+			call FlushChildHashtable(spellTable,id)
+			call PauseTimer(t)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+		call DestroyGroup(l_group)
+		set l_unit = null
+		set l_group = null
+	endfunction
+
 	private function WaterWind takes nothing returns nothing
-		// body...
+		local integer times = GetMultiSpell()
+		local timer t = CreateTimer()
+		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh4',x1,y1,facing)
+		if (times > 1) then
+	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
+		endif
+    	call UnitApplyTimedLifeBJ( 15*times, 'BHwe', u)
+    	//todo 大光的特效
+    	call SetUnitScalePercent( udg_Unit_Xuli,  100.00 +  times * 50.00  , 100.00 +  times * 50.00, 100.00 +  times * 50.00 )
+		call SaveUnitHandle(spellTable,GetHandleId(t),kUHuanyiQuan,u)
+		call TimerStart(t,1,true,function WaterWindTimer)
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),"持续"+I2S(15*times)+"秒。")
+		set t = null
+		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

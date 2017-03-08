@@ -107,6 +107,13 @@ library_once Attr initializer InitAttr requires LHBase
 		// body...
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    设置生命上限
+	*/
+	function SetHP takes unit u,integer hp returns nothing
+		// body...
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing
 		

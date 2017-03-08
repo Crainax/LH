@@ -1,7 +1,7 @@
 
 
-//! import "Test.j"
-library_once LHBase initializer InitLHBase requires Test
+/////! import "Test.j"
+library_once LHBase initializer InitLHBase //requires Test
 
     globals
         unit learnSkillHero
@@ -26,6 +26,14 @@ library_once LHBase initializer InitLHBase requires Test
 			*/or (spell =='ACcl') or (spell =='AOhw') or (spell =='AIin') or (spell =='AIil')/*
 			*/or (spell =='A07S') or (spell =='AChx')
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+    /*
+        友军过滤器
+    */
+    function IsAlly takes unit u,unit caster returns boolean
+        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) and IsUnitAlly(u, GetOwningPlayer(caster))
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -39,7 +47,6 @@ library_once LHBase initializer InitLHBase requires Test
         */ and IsUnitVisible(u, GetOwningPlayer(caster))	  and GetUnitAbilityLevel(u,'Avul') < 1    		  /*
         */ and GetUnitPointValue(u) != 123					  and GetUnitPointValue(u) != 0
     endfunction
-
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -183,6 +190,20 @@ library_once LHBase initializer InitLHBase requires Test
     */
     function HasLiuli takes unit u returns boolean
         return (GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1')) == 'IXU1')
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        回血,小数表示
+    */
+    function RecoverUnitHP takes unit u,real volume returns nothing
+        call SetUnitLifeBJ(u,GetUnitState(u,UNIT_STATE_LIFE)+GetUnitState(u,UNIT_STATE_MAX_LIFE)*volume)
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        回魔,量表示
+    */
+    function RecoverUnitMP takes unit u,real volume returns nothing
+        call SetUnitManaBJ(u,GetUnitState(u,UNIT_STATE_MANA)+volume)
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
