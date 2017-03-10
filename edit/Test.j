@@ -107,6 +107,20 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             Crainax
         */
         integer array udg_Laser
+
+        /*
+            立即刷新属性值
+        */
+        trigger gg_trg_papa8____________u
+        trigger gg_trg_papa9____________u
+        trigger gg_trg_papa10____________u
+        /*
+            设置攻击与防御的触发
+        */
+        trigger gg_trg_____________800W
+        trigger gg_trg___________________4000______u
+        trigger gg_trg_HP_____________________u
+        unit udg_Unit
 	endglobals
 
 	private function InitTest takes nothing returns nothing

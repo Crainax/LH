@@ -443,6 +443,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 					call AddHPPercent(i,0.5)
 					set i = i +1
 				endloop
+				call AddSpecialEffectTargetUnitBJ("origin",Heiyan,"war3mapImported\\devilaura.mdl")
 			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
 				//技能4初始化
 				set ISacriMaxCount = ISacriMaxCount + 1

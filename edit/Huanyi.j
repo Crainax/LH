@@ -78,16 +78,12 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	/*
 		马甲的死亡触发效果 
 	*/	
-	function SimulateDeathHuanyi takes unit u returns boolean
+	function SimulateDeathHuanyi takes unit u returns nothing
 		
 		if (GetUnitTypeId(u) == 'hhh7') then
 			call DamageArea(Huanyi,GetUnitX(u),GetUnitY(u),300,GetDamageInt(Huanyi)*1.5)
 	    	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u), GetUnitY(u) ))
-	    	//todo 完成马甲死亡事件并检查看看是否需要删除自定义属性之类的东西
-			return true
 		endif
-
-		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -108,7 +104,6 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		local timer t = GetExpiredTimer()
 		local real intTimes = LoadReal(spellTable,GetHandleId(t),kNoneIntTimes)
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),-1 * intTimes)
-		//tood 移除特效
 		call FlushChildHashtable(spellTable,GetHandleId(t))
 		call PauseTimer(t)
 		call DestroyTimer(t)
@@ -123,8 +118,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		call SaveReal(spellTable,GetHandleId(t),kNoneIntTimes,intTimes)
 		call TimerStart(t,time,false,function NoneTimer)
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),intTimes)
-		//todo	特效
-		//todo  立即增加属性的部分
+		call YDWETimerDestroyEffect(time,AddSpecialEffectTargetUnitBJ("overhead",Huanyi,"war3mapImported\\music.mdx"))
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
@@ -172,8 +166,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		loop
 			exitwhen i > times * 2
 			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh2',GetSpellTargetX(),GetSpellTargetY(),0)
-			//todo 特效
-			//todo 攻击防御
+			call SetUnitAnimation( u, "birth" )
 			call UnitApplyTimedLifeBJ( 180.00, 'BHwe',u )
 			call SetAttack(u,attack)
 			call SetDefense(u,defense)
@@ -345,7 +338,6 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
     	call UnitApplyTimedLifeBJ( 15*times, 'BHwe', u)
-    	//todo 大光的特效
     	call SetUnitScalePercent( u,  100.00 +  times * 50.00  , 100.00 +  times * 50.00, 100.00 +  times * 50.00 )
 		call SaveUnitHandle(spellTable,GetHandleId(t),kUHuanyiQuan,u)
 		call TimerStart(t,1,true,function WaterWindTimer)
@@ -434,7 +426,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			set times = times - 1
 			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh7',x,y,0)
     		call UnitApplyTimedLifeBJ( 3, 'BHwe', u)
-    		//todo 飞行高度变化3秒
+    		call SetUnitFlyHeight( u, 0.00, 333.00 )
 			exitwhen times <= 0
 			call PolledWait(0.5)
 		endloop
@@ -470,7 +462,6 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),-1 * attrTimes)
 		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),-1 * attrTimes)
 		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),-1 * attrTimes)
-		//tood 移除特效
 		call FlushChildHashtable(spellTable,GetHandleId(t))
 		call PauseTimer(t)
 		call DestroyTimer(t)
@@ -487,8 +478,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),attrTimes)
 		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),attrTimes)
 		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),attrTimes)
-		//todo	特效
-		//todo  立即增加属性的部分
+		call YDWETimerDestroyEffect(time,AddSpecialEffectTargetUnitBJ("origin",Huanyi,"war3mapImported\\blackbird.mdx"))
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
@@ -696,7 +686,8 @@ library_once Huanyi requires SpellBase,Printer,Attr
 					call AddSpellPercent(i,0.6)
 					set i = i +1
 				endloop
-				//todo 来一个光环特效
+
+				call AddSpecialEffectTargetUnitBJ("origin",Huanyi,"war3mapImported\\sichongjiejie_b.mdx")
 			endif
 		endif
 	endfunction
@@ -740,7 +731,6 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    call TriggerRegisterUnitEvent(t,Huanyi,EVENT_UNIT_HERO_LEVEL)
 	    call TriggerAddAction(t,function TSpellHuanyi2Act)
 	    set t = null
-	    //todo 提升等级后升级冰甲
 	    //初始化技能状态
 	    call UnitAddAbility(Huanyi,'AHH6')
 	    call UnitAddAbility(Huanyi,'AHH7')

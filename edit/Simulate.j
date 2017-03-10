@@ -35,6 +35,7 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 	private function SimulateAllDeath takes nothing returns nothing
 		call SimulateDeathYanmie(GetDyingUnit())
 		call SimulateDeathHeiyan(GetDyingUnit())
+		call SimulateDeathHuanyi(GetDyingUnit())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

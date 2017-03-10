@@ -24,6 +24,7 @@ library_once Attr initializer InitAttr requires LHBase
 	*/
 	function AddAgiPercentImme takes integer playerID , real value returns nothing
 		call AddAgiPercent(playerID,value)
+    	call TriggerExecute( gg_trg_papa9____________u )
 	endfunction
 
 	/*
@@ -46,6 +47,7 @@ library_once Attr initializer InitAttr requires LHBase
 	*/
 	function AddStrPercentImme takes integer playerID , real value returns nothing
 		call AddStrPercent(playerID,value)
+    	call TriggerExecute( gg_trg_papa8____________u )
 	endfunction
 
 	/*
@@ -68,6 +70,7 @@ library_once Attr initializer InitAttr requires LHBase
 	*/
 	function AddIntPercentImme takes integer playerID , real value returns nothing
 		call AddIntPercent(playerID,value)
+    call TriggerExecute( gg_trg_papa10____________u )
 	endfunction
 
 	/*
@@ -97,21 +100,27 @@ library_once Attr initializer InitAttr requires LHBase
 	    设置攻击
 	*/
 	function SetAttack takes unit u,integer attack returns nothing
-			// body...
+	    set udg_Unit = u
+	    call SaveInteger(YDHT,GetHandleId(u),0x5039AFFB,attack)
+	    call TriggerExecute( gg_trg_____________800W )
 	endfunction	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    设置防御
 	*/
-	function SetDefense takes unit u,integer defense returns nothing
-		// body...
+	function SetDefense takes unit u,integer defense returns nothing    
+	    set udg_Unit = u
+	    call SaveInteger(YDHT,GetHandleId(u),0x81FD3994,defense)
+	    call TriggerExecute( gg_trg___________________4000______u )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    设置生命上限
 	*/
 	function SetHP takes unit u,integer hp returns nothing
-		// body...
+	    set udg_Unit = u
+	    call SaveInteger(YDHT,GetHandleId(u),0xFCD961C9,hp)
+    	call TriggerExecute( gg_trg_HP_____________________u )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

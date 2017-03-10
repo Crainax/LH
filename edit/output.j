@@ -15,10 +15,10 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
@@ -44,14 +44,14 @@ integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -130,6 +130,16 @@ rect gg_rct_QuitRegion
 integer array udg_I_Er_diansi
         
 integer array udg_Laser
+
+        
+trigger gg_trg_papa8____________u
+trigger gg_trg_papa9____________u
+trigger gg_trg_papa10____________u
+        
+trigger gg_trg_____________800W
+trigger gg_trg___________________4000______u
+trigger gg_trg_HP_____________________u
+unit udg_Unit
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
@@ -148,7 +158,7 @@ constant boolean LIBRARY_Printer=true
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
 hashtable spellTable= InitHashtable()
-constant integer kUImmuteDamage=7
+constant integer kUImmuteDamage=4
 //endglobals from SpellBase
 //globals from Huanyi:
 constant boolean LIBRARY_Huanyi=true
@@ -168,14 +178,14 @@ integer Huanyi__ICurrentSpell= 'AHH5'
 integer Huanyi__IMoneng= 0
 
 		
-constant integer kNoneIntTimes=9
+constant integer kNoneIntTimes=6
 		
-constant integer kUHuanyiQuan=11
+constant integer kUHuanyiQuan=8
 		
-constant integer kUGuCan=13
-constant integer kIGuCan=15
+constant integer kUGuCan=10
+constant integer kIGuCan=12
 		
-constant integer kHuanyuTimes=17
+constant integer kHuanyuTimes=14
 
 		
 texttag Huanyi__TTMoneng
@@ -1232,7 +1242,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1512,7 +1522,7 @@ endfunction
         call UnitDamageTarget(u, u, GetUnitState(u, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase___InitLHBase takes nothing returns nothing
+    function LHBase__InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1542,6 +1552,7 @@ endfunction
 	
  function AddAgiPercentImme takes integer playerID,real value returns nothing
 		call AddAgiPercent(playerID , value)
+    	call TriggerExecute(gg_trg_papa9____________u)
 	endfunction
 
 	
@@ -1558,6 +1569,7 @@ endfunction
 	
  function AddStrPercentImme takes integer playerID,real value returns nothing
 		call AddStrPercent(playerID , value)
+    	call TriggerExecute(gg_trg_papa8____________u)
 	endfunction
 
 	
@@ -1574,6 +1586,7 @@ endfunction
 	
  function AddIntPercentImme takes integer playerID,real value returns nothing
 		call AddIntPercent(playerID , value)
+    call TriggerExecute(gg_trg_papa10____________u)
 	endfunction
 
 	
@@ -1595,21 +1608,27 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function SetAttack takes unit u,integer attack returns nothing
-			// body...
+	    set udg_Unit=u
+	    call SaveInteger(YDHT, GetHandleId(u), 0x5039AFFB, attack)
+	    call TriggerExecute(gg_trg_____________800W)
 	endfunction	
 //---------------------------------------------------------------------------------------------------
 	
  function SetDefense takes unit u,integer defense returns nothing
-		// body...
+	    set udg_Unit=u
+	    call SaveInteger(YDHT, GetHandleId(u), 0x81FD3994, defense)
+	    call TriggerExecute(gg_trg___________________4000______u)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function SetHP takes unit u,integer hp returns nothing
-		// body...
+	    set udg_Unit=u
+	    call SaveInteger(YDHT, GetHandleId(u), 0xFCD961C9, hp)
+    	call TriggerExecute(gg_trg_HP_____________________u)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Attr___InitAttr takes nothing returns nothing
+ function Attr__InitAttr takes nothing returns nothing
 		
 
 
@@ -1639,7 +1658,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Printer___InitPrinter takes nothing returns nothing
+ function Printer__InitPrinter takes nothing returns nothing
 		
 	endfunction
 
@@ -1824,7 +1843,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function SpellBase___ImmuteDamageTimer takes nothing returns nothing
+ function SpellBase__ImmuteDamageTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
   local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
@@ -1840,7 +1859,7 @@ endfunction
   local timer t= CreateTimer()
 		call SetUnitInvulnerable(u, true)
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
-		call TimerStart(t, time, false, function SpellBase___ImmuteDamageTimer)
+		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
 		set t=null
 	endfunction
 
@@ -1918,16 +1937,12 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 		
- function SimulateDeathHuanyi takes unit u returns boolean
+ function SimulateDeathHuanyi takes unit u returns nothing
 		
 		if ( GetUnitTypeId(u) == 'hhh7' ) then
 			call DamageArea(Huanyi , GetUnitX(u) , GetUnitY(u) , 300 , GetDamageInt(Huanyi) * 1.5)
 	    	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u), GetUnitY(u)))
-	    	//todo 完成马甲死亡事件并检查看看是否需要删除自定义属性之类的东西
-			return true
 		endif
-
-		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -1943,8 +1958,7 @@ endfunction
  function Huanyi__NoneTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local real intTimes= LoadReal(spellTable, GetHandleId(t), kNoneIntTimes)
-		call AddIntPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( - 1 * intTimes)*1.0)) // INLINED!!
-		//tood 移除特效
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 1 * intTimes)
 		call FlushChildHashtable(spellTable, GetHandleId(t))
 		call PauseTimer(t)
 		call DestroyTimer(t)
@@ -1958,9 +1972,8 @@ endfunction
   local timer t= CreateTimer()
 		call SaveReal(spellTable, GetHandleId(t), kNoneIntTimes, intTimes)
 		call TimerStart(t, time, false, function Huanyi__NoneTimer)
-		call AddIntPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( intTimes)*1.0)) // INLINED!!
-		//todo	特效
-		//todo  立即增加属性的部分
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , intTimes)
+		call YDWETimerDestroyEffect(time , AddSpecialEffectTargetUnitBJ("overhead", Huanyi, "war3mapImported\\music.mdx"))
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
@@ -2004,7 +2017,7 @@ endfunction
 		loop
 			exitwhen i > times * 2
 			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh2', GetSpellTargetX(), GetSpellTargetY(), 0)
-			//todo 特效
+			call SetUnitAnimation(u, "birth")
 			//todo 攻击防御
 			call UnitApplyTimedLifeBJ(180.00, 'BHwe', u)
 			call SetAttack(u , attack)
@@ -2167,7 +2180,6 @@ endfunction
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
     	call UnitApplyTimedLifeBJ(15 * times, 'BHwe', u)
-    	//todo 大光的特效
     	call SetUnitScalePercent(u, 100.00 + times * 50.00, 100.00 + times * 50.00, 100.00 + times * 50.00)
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUHuanyiQuan, u)
 		call TimerStart(t, 1, true, function Huanyi__WaterWindTimer)
@@ -2279,10 +2291,9 @@ endfunction
  function Huanyi__FireWaterLumberWindTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local real attrTimes= LoadReal(spellTable, GetHandleId(t), kHuanyuTimes)
-		call AddIntPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( - 1 * attrTimes)*1.0)) // INLINED!!
-		call AddAgiPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( - 1 * attrTimes)*1.0)) // INLINED!!
-		call AddStrPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( - 1 * attrTimes)*1.0)) // INLINED!!
-		//tood 移除特效
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 1 * attrTimes)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 1 * attrTimes)
+		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 1 * attrTimes)
 		call FlushChildHashtable(spellTable, GetHandleId(t))
 		call PauseTimer(t)
 		call DestroyTimer(t)
@@ -2296,11 +2307,10 @@ endfunction
   local timer t= CreateTimer()
 		call SaveReal(spellTable, GetHandleId(t), kHuanyuTimes, attrTimes)
 		call TimerStart(t, time, false, function Huanyi__FireWaterLumberWindTimer)
-		call AddIntPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( attrTimes)*1.0)) // INLINED!!
-		call AddAgiPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( attrTimes)*1.0)) // INLINED!!
-		call AddStrPercent((GetConvertedPlayerId(GetOwningPlayer(Huanyi)) ) , (( attrTimes)*1.0)) // INLINED!!
-		//todo	特效
-		//todo  立即增加属性的部分
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , attrTimes)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , attrTimes)
+		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , attrTimes)
+		call YDWETimerDestroyEffect(time , AddSpecialEffectTargetUnitBJ("origin", Huanyi, "war3mapImported\\blackbird.mdx"))
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
@@ -2492,7 +2502,8 @@ endfunction
 					call AddSpellPercent(i , 0.6)
 					set i=i + 1
 				endloop
-				//todo 来一个光环特效
+
+				call AddSpecialEffectTargetUnitBJ("origin", Huanyi, "war3mapImported\\sichongjiejie_b.mdx")
 			endif
 		endif
 	endfunction
@@ -2534,7 +2545,6 @@ endfunction
 	    call TriggerRegisterUnitEvent(t, Huanyi, EVENT_UNIT_HERO_LEVEL)
 	    call TriggerAddAction(t, function Huanyi__TSpellHuanyi2Act)
 	    set t=null
-	    //todo 提升等级后升级冰甲
 	    //初始化技能状态
 	    call UnitAddAbility(Huanyi, 'AHH6')
 	    call UnitAddAbility(Huanyi, 'AHH7')
@@ -2637,11 +2647,11 @@ endfunction
 // END IMPORT OF Huanyi.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs1356352538")
+call ExecuteFunc("jasshelper__initstructs101843625")
 call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("Attr___InitAttr")
-call ExecuteFunc("Printer___InitPrinter")
+call ExecuteFunc("LHBase__InitLHBase")
+call ExecuteFunc("Attr__InitAttr")
+call ExecuteFunc("Printer__InitPrinter")
 
 endfunction
 
@@ -2677,7 +2687,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs1356352538 takes nothing returns nothing
+function jasshelper__initstructs101843625 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()
