@@ -25,12 +25,14 @@
 	test lianyu2	炼狱69层
 	test Scredit    守家积分
 	test zhuanshengxx	 转生测试
+	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
 */
 library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 
 	globals
 		boolean debug_show_damage = false
 		boolean debug_show_attr = false
+		unit testDyingUnit = null
 	endglobals
 
 	/*
@@ -335,6 +337,15 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 			return
 		endif
 
+		if (chat == "test unitState") then
+			call BJDebugMsg(GetUnitName(testDyingUnit) + "的血量为:" + R2S(GetUnitState(testDyingUnit,UNIT_STATE_LIFE)))
+			if (IsUnitAliveBJ(testDyingUnit)) then
+				call BJDebugMsg("活着的")
+			else
+				call BJDebugMsg("死了的")
+			endif
+			return
+		endif
 
 		//魔王拆家速度
 		if (chat == "test mowang") then
@@ -359,6 +370,16 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 		endif
 
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    设置测试单位
+	*/
+	function SetTestUnit takes unit u returns nothing
+		set testDyingUnit = u
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    查看选中单位的属性

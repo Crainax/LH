@@ -168,7 +168,7 @@ library_once Pet initializer InitPet requires LHBase
     */
 
     function TPetItemCon takes nothing returns boolean
-        return ((IsUnitIllusionBJ(GetTriggerUnit()) != true))
+        return ((not(IsUnitIllusionBJ(GetTriggerUnit()))) and (IsUnitInGroup(GetTriggerUnit(),GPet[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])))
     endfunction
 
     //得到物品

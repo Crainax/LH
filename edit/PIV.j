@@ -248,7 +248,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		call SaveBoolean(PIVTable,kPIV,805389327,true)
 
 		//test
-		//call SaveBoolean(PIVTable,kPIV,238541434,true)
+		debug call SaveBoolean(PIVTable,kPIV,238541434,true)
 
 
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )

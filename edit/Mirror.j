@@ -44,7 +44,7 @@ library_once Mirror requires LHBase
         local unit defier = udg_U_Zhuansheng_Dantiao[1]
         local integer count = udg_Z[GetConvertedPlayerId(GetOwningPlayer(defier))]
         if (count == 20) then
-            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得33%30倍攻击技能。")
+            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得33%30倍攻击与破隐技能。")
         elseif (count == 40) then
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得神圣护甲技能。")
         elseif (count == 60) then
@@ -61,6 +61,7 @@ library_once Mirror requires LHBase
 
         if (count >= 20) then
             call UnitAddAbility(mirror,'A0GL')
+            call UnitAddAbility(mirror,'Adtg')
         endif
         if (count >= 40) then
             call UnitAddAbility(mirror,'A0F1')

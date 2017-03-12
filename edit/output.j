@@ -15,43 +15,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem__CurrentTime
-integer YDWETimerSystem__CurrentIndex
-integer YDWETimerSystem__TaskListHead
-integer YDWETimerSystem__TaskListIdleHead
-integer YDWETimerSystem__TaskListIdleMax
-integer array YDWETimerSystem__TaskListIdle
-integer array YDWETimerSystem__TaskListNext
-integer array YDWETimerSystem__TaskListTime
-trigger array YDWETimerSystem__TaskListProc
-trigger YDWETimerSystem__fnRemoveUnit
-trigger YDWETimerSystem__fnDestroyTimer
-trigger YDWETimerSystem__fnRemoveItem
-trigger YDWETimerSystem__fnDestroyEffect
-trigger YDWETimerSystem__fnDestroyLightning
-trigger YDWETimerSystem__fnRunTrigger
-timer YDWETimerSystem__Timer
-integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
 
-integer YDWETimerSystem__TimerSystem_RunIndex= 0
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -158,7 +158,7 @@ constant boolean LIBRARY_Printer=true
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
 hashtable spellTable= InitHashtable()
-constant integer kUImmuteDamage=4
+constant integer kUImmuteDamage=7
 //endglobals from SpellBase
 //globals from Huanyi:
 constant boolean LIBRARY_Huanyi=true
@@ -166,30 +166,31 @@ constant boolean LIBRARY_Huanyi=true
 unit Huanyi= null
 
 		
-trigger Huanyi__TSpellHuanyi= null
+trigger Huanyi___TSpellHuanyi= null
 
 		
-boolean Huanyi__IsFire= false
-boolean Huanyi__IsWater= false
-boolean Huanyi__IsLumber= false
-boolean Huanyi__IsWind= false
-integer Huanyi__ICurrentSpell= 'AHH5'
+boolean Huanyi___IsFire= false
+boolean Huanyi___IsWater= false
+boolean Huanyi___IsLumber= false
+boolean Huanyi___IsWind= false
+integer Huanyi___ICurrentSpell
 		
-integer Huanyi__IMoneng= 0
+integer Huanyi___IMoneng= 0
 
 		
-constant integer kNoneIntTimes=6
+constant integer kNoneIntTimes=8
 		
-constant integer kUHuanyiQuan=8
+constant integer kUHuanyiQuan=9
 		
-constant integer kUGuCan=10
-constant integer kIGuCan=12
+constant integer kIGuCan=10
 		
-constant integer kHuanyuTimes=14
+constant integer kHuanyuTimes=11
 
 		
-texttag Huanyi__TTMoneng
-effect Huanyi__ELowMoneng= null
+texttag Huanyi___TTMoneng
+effect Huanyi___ELowMoneng= null
+
+unit Huanyi___UGucan= null
 //endglobals from Huanyi
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -220,6 +221,7 @@ real array s__Attract_radius
 real array s__Attract_interval
 real array s__Attract_speed
 timer array s__Attract_t
+boolean array s__Attract_forbitHero
 constant integer si__Missile=2
 integer si__Missile_F=0
 integer si__Missile_I=0
@@ -1242,7 +1244,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1295,7 +1297,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem__CurrentIndex
+    return YDWETimerSystem___CurrentIndex
 endfunction
 
 
@@ -1325,7 +1327,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem__TimerSystem_RunIndex
+    return YDWETimerSystem___TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1365,7 +1367,7 @@ endfunction
 //library Test:
 
 
- function Test__InitTest takes nothing returns nothing
+ function Test___InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1522,7 +1524,7 @@ endfunction
         call UnitDamageTarget(u, u, GetUnitState(u, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1628,7 +1630,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Attr__InitAttr takes nothing returns nothing
+ function Attr___InitAttr takes nothing returns nothing
 		
 
 
@@ -1658,7 +1660,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Printer__InitPrinter takes nothing returns nothing
+ function Printer___InitPrinter takes nothing returns nothing
 		
 	endfunction
 
@@ -1686,7 +1688,7 @@ endfunction
 				    set l_unit=FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if ( IsEnemy(l_unit , s__Attract_caster[this]) ) then
+				    if ( IsEnemy(l_unit , s__Attract_caster[this]) and not ( s__Attract_forbitHero[this] and IsUnitType(l_unit, UNIT_TYPE_HERO) ) ) then
 				    	set x2=GetUnitX(l_unit)
 				    	set y2=GetUnitY(l_unit)
 				    	set x1=GetUnitX(s__Attract_caster[this])
@@ -1726,7 +1728,12 @@ endfunction
 			set s__Attract_radius[this]=radius
 			set s__Attract_interval[this]=interval
 			set s__Attract_speed[this]=speed
+			set s__Attract_forbitHero[this]=false
 			return this
+  endfunction
+
+  function s__Attract_SetForbitHero takes integer this returns nothing
+			set s__Attract_forbitHero[this]=true
   endfunction
 
   function s__Attract_start takes integer this returns nothing
@@ -1843,7 +1850,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function SpellBase__ImmuteDamageTimer takes nothing returns nothing
+ function SpellBase___ImmuteDamageTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
   local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
@@ -1859,7 +1866,7 @@ endfunction
   local timer t= CreateTimer()
 		call SetUnitInvulnerable(u, true)
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
-		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
+		call TimerStart(t, time, false, function SpellBase___ImmuteDamageTimer)
 		set t=null
 	endfunction
 
@@ -1929,8 +1936,8 @@ endfunction
 			return true
 		endif
 		//冰火
-		if ( GetUnitTypeId(u) == 'h01B' ) then
-			call UnitDamageTarget(Huanyi, GetTriggerUnit(), GetDamageInt(Huanyi) * 0.6, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+		if ( GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == Huanyi ) then
+			call UnitDamageTarget(Huanyi, GetTriggerUnit(), GetDamageInt(Huanyi) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
 			return true
 		endif
 		return false
@@ -1946,16 +1953,16 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__GetMultiSpell takes nothing returns integer
+ function Huanyi___GetMultiSpell takes nothing returns integer
 		if not ( (GetPlayerTechCountSimple('R008', GetOwningPlayer((Huanyi))) == 1) == true and GetUnitAbilityLevel(Huanyi, 'AHH3') == 1 ) then // INLINED!!
 			return 1
 		endif
 
-		return IMaxBJ(IMinBJ(Huanyi__IMoneng / 2, 5), 1)
+		return IMaxBJ(IMinBJ(Huanyi___IMoneng / 2, 5), 1)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__NoneTimer takes nothing returns nothing
+ function Huanyi___NoneTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local real intTimes= LoadReal(spellTable, GetHandleId(t), kNoneIntTimes)
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 1 * intTimes)
@@ -1965,36 +1972,35 @@ endfunction
 		set t=null
 	endfunction
 
- function Huanyi__None takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
+ function Huanyi___None takes nothing returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local real intTimes= times * 0.2
   local real time= times * 10
   local timer t= CreateTimer()
 		call SaveReal(spellTable, GetHandleId(t), kNoneIntTimes, intTimes)
-		call TimerStart(t, time, false, function Huanyi__NoneTimer)
+		call TimerStart(t, time, false, function Huanyi___NoneTimer)
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , intTimes)
 		call YDWETimerDestroyEffect(time , AddSpecialEffectTargetUnitBJ("overhead", Huanyi, "war3mapImported\\music.mdx"))
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "成功增加" + I2S(times * 20) + "%的智力，持续" + I2S(times * 10) + "秒。") )) // INLINED!!
+	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH5') ) + "|cFFFF66CC】|r" + ( "成功增加" + I2S(times * 20) + "%的智力，持续" + I2S(times * 10) + "秒。") )) // INLINED!!
 	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 		
- function Huanyi__Fire takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
-  local real x= GetSpellTargetX()
-  local real y= GetSpellTargetY()
+ function Huanyi___Fire takes real x,real y returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local real damage= GetDamageInt(Huanyi)
   local integer i= 1
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( damage)*1.0) , "") // INLINED!!
+	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName('AHH6') ) , (( damage)*1.0) , "") // INLINED!!
 		loop
 			set times=times - 1
 	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(Huanyi) ) , ( 'hhh1' ) , (( x )*1.0) , (( y )*1.0) , (( 0)*1.0) , 5) // INLINED!!
+	        set i=1
 			loop
 				exitwhen i > 6
 	        	call CreateUnitEffectSpecifyTime((GetOwningPlayer(Huanyi) ) , ( 'hhh1' ) , (( x + 400 * CosBJ(i * 60) )*1.0) , (( y + 400 * SinBJ(i * 60) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
@@ -2007,18 +2013,17 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__Lumber takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
+ function Huanyi___Lumber takes nothing returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local integer attack= GetHeroInt(Huanyi, true) + 0
   local integer defense= GetHeroAgi(Huanyi, true) / 100 + 0
   local integer hp= GetHeroStr(Huanyi, true) * 10 + 0
   local unit u
   local integer i= 1
 		loop
-			exitwhen i > times * 2
-			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh2', GetSpellTargetX(), GetSpellTargetY(), 0)
+			exitwhen i > times
+			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh2', GetUnitX(Huanyi), GetUnitY(Huanyi), 0)
 			call SetUnitAnimation(u, "birth")
-			//todo 攻击防御
 			call UnitApplyTimedLifeBJ(180.00, 'BHwe', u)
 			call SetAttack(u , attack)
 			call SetDefense(u , defense)
@@ -2028,71 +2033,70 @@ endfunction
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName('AHH8')) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
 	    set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__Wind takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
+ function Huanyi___Wind takes nothing returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local unit u
   local integer i= 1
 		loop
 			exitwhen i > times
-			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh3', (RMinBJ(RMaxBJ(((GetSpellTargetX() + GetRandomInt(- 100, 100))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetSpellTargetY() + GetRandomInt(- 100, 100))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
+			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh3', (RMinBJ(RMaxBJ(((GetUnitX(Huanyi) + GetRandomInt(- 100, 100))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Huanyi) + GetRandomInt(- 100, 100))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
 			call UnitApplyTimedLifeBJ(15.00, 'BHwe', u)
 			set i=i + 1
 		endloop
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName('AHH9')) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
 	    set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireWater takes nothing returns nothing
+ function Huanyi___FireWater takes nothing returns nothing
 
-  local integer times= Huanyi__GetMultiSpell()
+  local integer times= Huanyi___GetMultiSpell()
   local real damage= GetDamageInt(Huanyi) * 0.6
-  local integer i= 3 * times
+  local integer i= 6 * times
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( damage)*1.0) , "") // INLINED!!
+	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName('AHHA') ) , (( damage)*1.0) , "") // INLINED!!
 		loop
 			set i=i - 1
-	 		call SimulateSpell4(Huanyi , (RMinBJ(RMaxBJ(((GetUnitX(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinX), yd_MapMaxX)) , (RMinBJ(RMaxBJ(((GetUnitY(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinY), yd_MapMaxY)) , 'AhhL' , 1 , 6 , "rainoffire") // INLINED!!
-	 		call SimulateSpell4(Huanyi , (RMinBJ(RMaxBJ(((GetUnitX(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinX), yd_MapMaxX)) , (RMinBJ(RMaxBJ(((GetUnitY(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinY), yd_MapMaxY)) , 'AhhM' , 1 , 6 , "blizzard") // INLINED!!
+	 		call SimulateSpell4(Huanyi , (RMinBJ(RMaxBJ(((GetUnitX(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinX), yd_MapMaxX)) , (RMinBJ(RMaxBJ(((GetUnitY(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinY), yd_MapMaxY)) , 'A05S' , 1 , 6 , "blizzard") // INLINED!!
+	 		call SimulateSpell4(Huanyi , (RMinBJ(RMaxBJ(((GetUnitX(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinX), yd_MapMaxX)) , (RMinBJ(RMaxBJ(((GetUnitY(Huanyi) + GetRandomReal(- 600, 600))*1.0), yd_MapMinY), yd_MapMaxY)) , 'A00U' , 1 , 6 , "blizzard") // INLINED!!
 			exitwhen i <= 0
-			call PolledWait(1.0 / times)
+			call PolledWait(0.5 / times)
 		endloop
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireLumber takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
-  local real damage= GetDamageInt(Huanyi) * 0.8
+ function Huanyi___FireLumber takes real x,real y returns nothing
+  local integer times= Huanyi___GetMultiSpell()
+  local real damage= GetDamageInt(Huanyi) * 0.6
   local integer i= 1
   local integer ii= 1
-  local real x= GetSpellTargetX()
-  local real y= GetSpellTargetY()
   local real range= 150 * times
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( damage)*1.0) , "") // INLINED!!
-		call SetUnitX(GetSpellAbilityUnit(), x)
-		call SetUnitY(GetSpellAbilityUnit(), y)
-		call IssueImmediateOrder(GetSpellAbilityUnit(), "stop")
+		call SetUnitManaBJ(Huanyi, GetUnitState(Huanyi, UNIT_STATE_MANA) - 100)
+	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName('AHHB') ) , (( damage)*1.0) , "") // INLINED!!
+		call SetUnitX(Huanyi, x)
+		call SetUnitY(Huanyi, y)
+		call IssueImmediateOrder(Huanyi, "stop")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", x, y))
 		loop
 			exitwhen i > times - 1
 			set ii=1
 			loop
 				exitwhen ii > i * 2 + 4
-				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", (RMinBJ(RMaxBJ(((x + 150 * CosBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((y + 150 * SinBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", (RMinBJ(RMaxBJ(((x + 150 * i * CosBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((y + 150 * i * SinBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 				set ii=ii + 1
 			endloop
 			set i=i + 1
@@ -2101,35 +2105,31 @@ endfunction
 	endfunction	
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireWind takes nothing returns nothing
+ function Huanyi___FireWind takes real x2,real y2 returns nothing
 
 
-  local integer times= Huanyi__GetMultiSpell()
+  local integer times= Huanyi___GetMultiSpell()
   local real damage= GetDamageInt(Huanyi)
   local integer i= 1
 
      local real x1
      local real y1
-     local real x2
-     local real y2
      local real facing
   local unit u
 
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( damage)*1.0) , "") // INLINED!!
+	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName('AHHC') ) , (( damage)*1.0) , "") // INLINED!!
 		loop
 			set times=times - 1
 
 		    set x1=GetUnitX(Huanyi)
 		    set y1=GetUnitY(Huanyi)
-		    set x2=GetSpellTargetX()
-		    set y2=GetSpellTargetY()
 		    set facing=Atan2BJ(y2 - y1, x2 - x1)
 			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh4', x1, y1, facing)
 	    	call UnitApplyTimedLifeBJ(2, 'BHwe', u)
-		    call YDWETimerPatternRushSlide(u , facing , 1400 , 2 , 0.05 , damage , 300. , false , true , false , "origin" , "" , "Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl")
+		    call YDWETimerPatternRushSlide(u , facing , 1400 , 2 , 0.05 , damage , 300. , false , true , true , "origin" , "" , "Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl")
 			exitwhen times <= 0
 			call PolledWait(0.5)
 		endloop
@@ -2138,7 +2138,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__WaterWindTimer takes nothing returns nothing
+ function Huanyi___WaterWindTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
   local unit u= LoadUnitHandle(spellTable, id, kUHuanyiQuan)
@@ -2172,97 +2172,95 @@ endfunction
 		set l_group=null
 	endfunction
 
- function Huanyi__WaterWind takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
+ function Huanyi___WaterWind takes real x,real y returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local timer t= CreateTimer()
-  local unit u= CreateUnit(GetOwningPlayer(Huanyi), 'hhh5', GetSpellTargetX(), GetSpellTargetY(), 0)
+  local unit u= CreateUnit(GetOwningPlayer(Huanyi), 'hhh5', x, y, 0)
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
     	call UnitApplyTimedLifeBJ(15 * times, 'BHwe', u)
-    	call SetUnitScalePercent(u, 100.00 + times * 50.00, 100.00 + times * 50.00, 100.00 + times * 50.00)
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUHuanyiQuan, u)
-		call TimerStart(t, 1, true, function Huanyi__WaterWindTimer)
-	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "持续" + I2S(15 * times) + "秒。") )) // INLINED!!
+		call TimerStart(t, 1, true, function Huanyi___WaterWindTimer)
+	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHHE') ) + "|cFFFF66CC】|r" + ( "持续" + I2S(15 * times) + "秒。") )) // INLINED!!
 		set t=null
 		set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
 
- function Huanyi__WaterLumberWindTimer takes nothing returns nothing
+ function Huanyi___WaterLumberWindTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
-  local unit u= LoadUnitHandle(spellTable, id, kUGuCan)
   local integer times= LoadInteger(spellTable, id, kIGuCan)
   local integer i= 1
   local integer ii= 1
 		if ( IsUnitAliveBJ(Huanyi) ) then
+			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", GetUnitX(Huanyi___UGucan), GetUnitY(Huanyi___UGucan)))
 			loop
 				exitwhen i > times - 1
 				set ii=1
 				loop
 					exitwhen ii > i * 2 + 4
-					call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(u) + 150 * CosBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(u) + 150 * SinBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
+					call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", (RMinBJ(RMaxBJ(((GetUnitX(Huanyi___UGucan) + 150 * i * CosBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Huanyi___UGucan) + 150 * i * SinBJ(360 * ii / ( i * 2 + 4 )))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
 					set ii=ii + 1
 				endloop
 				set i=i + 1
 			endloop
-			call DamageArea(Huanyi , GetUnitX(Huanyi) , GetUnitY(Huanyi) , times * 150 , GetDamageInt(Huanyi) * 0.4)
+			call DamageArea(Huanyi , GetUnitX(Huanyi___UGucan) , GetUnitY(Huanyi___UGucan) , times * 150 , GetDamageInt(Huanyi) * 0.4)
 		else
-			call RemoveUnit(u)
+			call RemoveUnit(Huanyi___UGucan)
+			set Huanyi___UGucan=null
 			call FlushChildHashtable(spellTable, id)
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
-		set u=null
 		set t=null
 	endfunction
 
- function Huanyi__WaterLumberWind takes nothing returns nothing
+ function Huanyi___WaterLumberWind takes real x,real y returns nothing
 		
-  local integer times= Huanyi__GetMultiSpell()
+  local integer times= Huanyi___GetMultiSpell()
   local timer t= CreateTimer()
-  local unit u= CreateUnit(GetOwningPlayer(Huanyi), 'hhh6', GetSpellTargetX(), GetSpellTargetY(), 0)
+		if ( Huanyi___UGucan != null ) then
+			call RemoveUnit(Huanyi___UGucan)
+		endif
+		set Huanyi___UGucan=CreateUnit(GetOwningPlayer(Huanyi), 'hhh6', x, y, 270)
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-    	call SetUnitScalePercent(u, 100.00 + times * 50.00, 100.00 + times * 50.00, 100.00 + times * 50.00)
-		call SaveUnitHandle(spellTable, GetHandleId(t), kUGuCan, u)
+    	call SetUnitScalePercent(Huanyi___UGucan, 100.00 + times * 20.00, 100.00 + times * 20.00, 100.00 + times * 20.00)
+    	call SetUnitAnimation(Huanyi___UGucan, "stand birth alternate work upgrade")
 		call SaveInteger(spellTable, GetHandleId(t), kIGuCan, times)
-		call TimerStart(t, 1, true, function Huanyi__WaterLumberWindTimer)
-	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+		call TimerStart(t, 1, true, function Huanyi___WaterLumberWindTimer)
+	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName('AHHG')) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
 		set t=null
-		set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireLumberWind takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
+ function Huanyi___FireLumberWind takes nothing returns nothing
+  local integer times= Huanyi___GetMultiSpell()
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( ",眩晕" + I2S(times * 2) + "秒。") )) // INLINED!!
- 		call SimulateSpell(Huanyi , Huanyi , 'AHHM' , times , 6 , "stomp" , false , true , false)
+	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHHH') ) + "|cFFFF66CC】|r" + ( ",眩晕" + I2S(times * 2) + "秒。") )) // INLINED!!
+ 		call SimulateSpell(Huanyi , Huanyi , 'A0BI' , times , 6 , "stomp" , false , true , false)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireWaterWind takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
-  local real x= GetSpellTargetX()
-  local real y= GetSpellTargetY()
+ function Huanyi___FireWaterWind takes real x,real y returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local real damage= GetDamageInt(Huanyi) * 1.5
   local unit u
   local integer i= 1
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( damage)*1.0) , "") // INLINED!!
+	    call PrintSpellAdd((GetOwningPlayer(Huanyi) ) , ( GetAbilityName('AHHI') ) , (( damage)*1.0) , "") // INLINED!!
 		loop
 			set times=times - 1
 			set u=CreateUnit(GetOwningPlayer(Huanyi), 'hhh7', x, y, 0)
-    		call UnitApplyTimedLifeBJ(3, 'BHwe', u)
-    		//todo 飞行高度变化3秒
+    		call SetUnitFlyHeight(u, 0.00, 333.00)
 			exitwhen times <= 0
 			call PolledWait(0.5)
 		endloop
@@ -2270,25 +2268,24 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireWaterLumber takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
-  local real x= GetSpellTargetX()
-  local real y= GetSpellTargetY()
+ function Huanyi___FireWaterLumber takes real x,real y returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local real range= 900 * times
   local integer i= 1
-  local unit u= CreateUnit(GetOwningPlayer(Huanyi), 'hhh8', GetSpellTargetX(), GetSpellTargetY(), 0)
+  local unit u= CreateUnit(GetOwningPlayer(Huanyi), 'hhh8', x, y, 0)
      local integer attract= s__Attract_create(u , range , 0.05 , range / 20)
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "吸引范围" + I2S(R2I(range))) )) // INLINED!!
+	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHHJ') ) + "|cFFFF66CC】|r" + ( "吸引范围" + I2S(R2I(range))) )) // INLINED!!
 		call UnitApplyTimedLifeBJ(5, 'BHwe', u)
+		set s__Attract_forbitHero[(attract)]=true // INLINED!!
 	    call s__Attract_start(attract)
 	    set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FireWaterLumberWindTimer takes nothing returns nothing
+ function Huanyi___FireWaterLumberWindTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local real attrTimes= LoadReal(spellTable, GetHandleId(t), kHuanyuTimes)
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 1 * attrTimes)
@@ -2300,13 +2297,13 @@ endfunction
 		set t=null
 	endfunction
 
- function Huanyi__FireWaterLumberWind takes nothing returns nothing
-  local integer times= Huanyi__GetMultiSpell()
+ function Huanyi___FireWaterLumberWind takes nothing returns nothing
+  local integer times= Huanyi___GetMultiSpell()
   local real attrTimes= times * 0.2
   local real time= times * 10
   local timer t= CreateTimer()
 		call SaveReal(spellTable, GetHandleId(t), kHuanyuTimes, attrTimes)
-		call TimerStart(t, time, false, function Huanyi__FireWaterLumberWindTimer)
+		call TimerStart(t, time, false, function Huanyi___FireWaterLumberWindTimer)
 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , attrTimes)
 		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , attrTimes)
 		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , attrTimes)
@@ -2314,173 +2311,287 @@ endfunction
 		if ( times > 1 ) then
 	    	call CreateTextTagA((I2S(times) + "重施法" ) , ( Huanyi ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 4)*1.0) , 16) // INLINED!!
 		endif
-	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "成功增加" + I2S(times * 20) + "%的三围属性，持续" + I2S(times * 10) + "秒。") )) // INLINED!!
+	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHHK') ) + "|cFFFF66CC】|r" + ( "成功增加" + I2S(times * 20) + "%的三围属性，持续" + I2S(times * 10) + "秒。") )) // INLINED!!
 	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__Fusu takes nothing returns nothing
-		// body...
+ function Huanyi___Fusu takes nothing returns nothing
+  local real x= GetSpellTargetX()
+  local real y= GetSpellTargetY()
+		//幻元伏心
+		call Huanyi___None()
+		call PolledWait(1)
+
+		//七炎焚狱
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 100 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 100)
+		call Huanyi___Fire(x , y)
+		call PolledWait(1)
+		//冰芯之铠
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 15 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 15)
+ 		call SimulateSpell(Huanyi , Huanyi , 'AHH7' , GetHeroLevel(Huanyi) / 2 , 5 , "frostarmor" , false , false , true)
+	    call DisplayTextToPlayer(((GetOwningPlayer(Huanyi) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName('AHH7')) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+		call PolledWait(1)
+ 		//天古木精
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 100 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 100)
+		call Huanyi___Lumber()
+		call PolledWait(1)
+		//幻化残卷
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 200 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 200)
+		call Huanyi___Wind()
+		call PolledWait(1)
+		//冰火双绝
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 150 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 150)
+		call Huanyi___FireWater()
+		call PolledWait(1)
+		//万象归影
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 100 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call Huanyi___FireLumber(x , y)
+		call PolledWait(1)
+		//火轮烁日
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 150 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 150)
+		call Huanyi___FireWind(x , y)
+		call PolledWait(1)
+		//幻冥天泉
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 300 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 300)
+		call Huanyi___WaterWind(x , y)
+		call PolledWait(1)
+		//沧怒古参
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 1500 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 1500)
+		call Huanyi___WaterLumberWind(x , y)
+		call PolledWait(1)
+		//雨玥千里
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 200 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 200)
+		call Huanyi___FireLumberWind()
+		call PolledWait(1)
+		//残月流星
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 100 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 100)
+		call Huanyi___FireWaterWind(x , y)
+		call PolledWait(1)
+		//引力界场
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 360 ) then
+	    	call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 360)
+		call Huanyi___FireWaterLumber(x , y)
+		call PolledWait(1)
+		//寰宇归一
+		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) < 8000 ) then
+			return
+		endif
+		call RecoverUnitMP(Huanyi , - 8000)
+		call Huanyi___FireWaterLumberWind()
+	    call DisplayTextToPlayer((GetOwningPlayer(Huanyi) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHH4') ) + "|cFFFF66CC】|r" + ( ",施法结束.") )) // INLINED!!
+			
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__TSpellHuanyi2Act takes nothing returns nothing
+ function Huanyi___TSpellHuanyi2Act takes nothing returns nothing
 		call SetUnitAbilityLevel(Huanyi, 'AHH7', IMinBJ(100, GetHeroLevel(Huanyi) / 2))
 	endfunction 
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__TSpellHuanyi3Con takes nothing returns boolean
-		return (GetPlayerTechCountSimple('R007', GetOwningPlayer((Huanyi))) == 1) == true and GetUnitAbilityLevel(Huanyi, 'AHH2') == 1 and Huanyi__IMoneng <= 5 and GetRandomInt(1, 2) == 1 // INLINED!!
+ function Huanyi___TSpellHuanyi3Con takes nothing returns boolean
+		return (GetPlayerTechCountSimple('R007', GetOwningPlayer((Huanyi))) == 1) == true and GetUnitAbilityLevel(Huanyi, 'AHH2') == 1 and Huanyi___IMoneng <= 5 and GetRandomInt(1, 2) == 1 // INLINED!!
 	endfunction
 	
- function Huanyi__TSpellHuanyi3Act takes nothing returns nothing
+ function Huanyi___TSpellHuanyi3Act takes nothing returns nothing
 		call SetUnitLifeBJ(Huanyi, GetUnitState(Huanyi, UNIT_STATE_LIFE) + GetEventDamage())
+		call BJDebugMsg("减少伤害")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__FlashPowerData takes nothing returns nothing
-		call SetTextTagPosUnitBJ(Huanyi__TTMoneng, Huanyi, 20)
+ function Huanyi___FlashPowerData takes nothing returns nothing
+		call SetTextTagPosUnitBJ(Huanyi___TTMoneng, Huanyi, 20)
 
-		if ( GetUnitState(Huanyi, UNIT_STATE_MANA) == GetUnitState(Huanyi, UNIT_STATE_MAX_MANA) and Huanyi__IMoneng < 10 ) then
-			call SetUnitManaPercentBJ(Huanyi, 50)
+		if ( ( GetUnitState(Huanyi, UNIT_STATE_MANA) >= GetUnitState(Huanyi, UNIT_STATE_MAX_MANA) * 0.9 ) and Huanyi___IMoneng < 10 ) then
+			call SetUnitManaPercentBJ(Huanyi, 30)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(Huanyi), GetUnitY(Huanyi)))
-			set Huanyi__IMoneng=Huanyi__IMoneng + 1
+			set Huanyi___IMoneng=Huanyi___IMoneng + 1
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , 0.1)
-			if ( Huanyi__ELowMoneng != null and Huanyi__IMoneng > 5 ) then
-				call DestroyEffect(Huanyi__ELowMoneng)
-				set Huanyi__ELowMoneng=null
+			if ( Huanyi___ELowMoneng != null and Huanyi___IMoneng > 5 ) then
+				call DestroyEffect(Huanyi___ELowMoneng)
+				set Huanyi___ELowMoneng=null
 			endif
-		elseif ( ( GetUnitState(Huanyi, UNIT_STATE_MANA) < GetUnitState(Huanyi, UNIT_STATE_MAX_MANA) / 2 ) and Huanyi__IMoneng > 0 ) then
-			call SetUnitManaPercentBJ(Huanyi, 100)
-			set Huanyi__IMoneng=Huanyi__IMoneng - 1
+		elseif ( ( GetUnitState(Huanyi, UNIT_STATE_MANA) < GetUnitState(Huanyi, UNIT_STATE_MAX_MANA) * 0.2 ) and Huanyi___IMoneng > 0 ) then
+			call SetUnitManaPercentBJ(Huanyi, 80)
+			set Huanyi___IMoneng=Huanyi___IMoneng - 1
 	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", GetUnitX(Huanyi), GetUnitY(Huanyi)))
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Huanyi)) , - 0.1)
-			if ( Huanyi__ELowMoneng == null and Huanyi__IMoneng <= 5 ) then
-				set Huanyi__ELowMoneng=AddSpecialEffectTargetUnitBJ("chest", Huanyi, "Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
+			if ( Huanyi___ELowMoneng == null and Huanyi___IMoneng <= 5 ) then
+				set Huanyi___ELowMoneng=AddSpecialEffectTargetUnitBJ("origin", Huanyi, "Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
 			endif
 	    else
 	    	return
 		endif
 
-		call SetTextTagTextBJ(Huanyi__TTMoneng, I2S(Huanyi__IMoneng) + "级魔能", 20)
+		call SetTextTagTextBJ(Huanyi___TTMoneng, I2S(Huanyi___IMoneng) + "级魔能", 20)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function Huanyi__InitPower takes nothing returns nothing
+ function Huanyi___InitPower takes nothing returns nothing
   local timer ti= CreateTimer()
 
-		set Huanyi__IMoneng=0
-		set Huanyi__TTMoneng=CreateTextTagUnitBJ("0级魔能", Huanyi, 0, 20, 0, 50, 100, 0)
-		call TimerStart(ti, 0.05, true, function Huanyi__FlashPowerData)
+		set Huanyi___IMoneng=0
+		set Huanyi___TTMoneng=CreateTextTagUnitBJ("0级魔能", Huanyi, 0, 20, 0, 50, 100, 0)
+		call TimerStart(ti, 0.05, true, function Huanyi___FlashPowerData)
 
-		set Huanyi__ELowMoneng=AddSpecialEffectTargetUnitBJ("chest", Huanyi, "Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
+		set Huanyi___ELowMoneng=AddSpecialEffectTargetUnitBJ("origin", Huanyi, "Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
 		set ti=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Huanyi__SetHuanyiSpell takes nothing returns nothing
-		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi), Huanyi__ICurrentSpell, false)
+ function Huanyi___SetHuanyiSpell takes nothing returns nothing
+		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi), Huanyi___ICurrentSpell, false)
+		if ( Huanyi___ICurrentSpell == 'AHHF' ) then
+			call UnitRemoveAbility(Huanyi, 'AHHF')
+		endif
 		//0排列
-		if ( not ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHH5'
+		if ( not ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHH5'
 		//1排列
-		elseif ( ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHH6'
-		elseif ( not ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHH7'
-		elseif ( not ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHH8'
-		elseif ( not ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHH9'
+		elseif ( ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHH6'
+		elseif ( not ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHH7'
+		elseif ( not ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHH8'
+		elseif ( not ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHH9'
 		//2排列
-		elseif ( ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHA'
-		elseif ( ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHB'
-		elseif ( ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHC'
-		elseif ( not ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHD'
-		elseif ( not ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHE'
-		elseif ( not ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHF'
+		elseif ( ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHA'
+		elseif ( ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHB'
+		elseif ( ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHC'
+		elseif ( not ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHD'
+		elseif ( not ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHE'
+		elseif ( not ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHF'
+			call UnitAddAbility(Huanyi, 'AHHF')
 		//1排列
-		elseif ( not ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHG'
-		elseif ( ( Huanyi__IsFire ) and not ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHH'
-		elseif ( ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and not ( Huanyi__IsLumber ) and ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHI'
-		elseif ( ( Huanyi__IsFire ) and ( Huanyi__IsWater ) and ( Huanyi__IsLumber ) and not ( Huanyi__IsWind ) ) then
-			set Huanyi__ICurrentSpell='AHHJ'
+		elseif ( not ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHG'
+		elseif ( ( Huanyi___IsFire ) and not ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHH'
+		elseif ( ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and not ( Huanyi___IsLumber ) and ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHI'
+		elseif ( ( Huanyi___IsFire ) and ( Huanyi___IsWater ) and ( Huanyi___IsLumber ) and not ( Huanyi___IsWind ) ) then
+			set Huanyi___ICurrentSpell='AHHJ'
 		//0排列
 		else
-			set Huanyi__ICurrentSpell='AHHK'
+			set Huanyi___ICurrentSpell='AHHK'
 		endif
-		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi), Huanyi__ICurrentSpell, true)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi), Huanyi___ICurrentSpell, true)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
 
- function Huanyi__TSpellHuanyiAct takes nothing returns nothing
+ function Huanyi___TSpellHuanyiAct takes nothing returns nothing
 		//四相
 		if ( GetSpellAbilityId() == 'AHH0' ) then
-			set Huanyi__IsFire=not ( Huanyi__IsFire )
-			call Huanyi__SetHuanyiSpell()
+			set Huanyi___IsFire=not ( Huanyi___IsFire )
+			call Huanyi___SetHuanyiSpell()
 		elseif ( GetSpellAbilityId() == 'AHH1' ) then
-			set Huanyi__IsWater=not ( Huanyi__IsWater )
-			call Huanyi__SetHuanyiSpell()
+			set Huanyi___IsWater=not ( Huanyi___IsWater )
+			call Huanyi___SetHuanyiSpell()
 		elseif ( GetSpellAbilityId() == 'AHH2' ) then
-			set Huanyi__IsLumber=not ( Huanyi__IsLumber )
-			call Huanyi__SetHuanyiSpell()
+			set Huanyi___IsLumber=not ( Huanyi___IsLumber )
+			call Huanyi___SetHuanyiSpell()
 		elseif ( GetSpellAbilityId() == 'AHH3' ) then
-			set Huanyi__IsWind=not ( Huanyi__IsWind )
-			call Huanyi__SetHuanyiSpell()
+			set Huanyi___IsWind=not ( Huanyi___IsWind )
+			call Huanyi___SetHuanyiSpell()
 		//复苏
 		elseif ( GetSpellAbilityId() == 'AHH4' ) then
-			call Huanyi__Fusu()
+			call Huanyi___Fusu()
 		//幻元伏心
 		elseif ( GetSpellAbilityId() == 'AHH5' ) then
-			call Huanyi__None()
+			call Huanyi___None()
 		//七炎焚狱
 		elseif ( GetSpellAbilityId() == 'AHH6' ) then
-			call Huanyi__Fire()
+			call Huanyi___Fire(GetSpellTargetX() , GetSpellTargetY())
 		//天古木精
 		elseif ( GetSpellAbilityId() == 'AHH8' ) then
-			call Huanyi__Lumber()
+			call Huanyi___Lumber()
 		//幻化残卷
 		elseif ( GetSpellAbilityId() == 'AHH9' ) then
-			call Huanyi__Wind()
+			call Huanyi___Wind()
 		//冰火双绝
 		elseif ( GetSpellAbilityId() == 'AHHA' ) then
-			call Huanyi__FireWater()
+			call Huanyi___FireWater()
 		//万象归影
 		elseif ( GetSpellAbilityId() == 'AHHB' ) then
-			call Huanyi__FireLumber()
+			call Huanyi___FireLumber(GetSpellTargetX() , GetSpellTargetY())
 		//火轮烁日
 		elseif ( GetSpellAbilityId() == 'AHHC' ) then
-			call Huanyi__FireWind()
+			call Huanyi___FireWind(GetSpellTargetX() , GetSpellTargetY())
 		//幻冥天泉
 		elseif ( GetSpellAbilityId() == 'AHHE' ) then
-			call Huanyi__WaterWind()
+			call Huanyi___WaterWind(GetSpellTargetX() , GetSpellTargetY())
 		//沧怒古参
 		elseif ( GetSpellAbilityId() == 'AHHG' ) then
-			call Huanyi__WaterLumberWind()
+			call Huanyi___WaterLumberWind(GetSpellTargetX() , GetSpellTargetY())
 		//雨玥千里
 		elseif ( GetSpellAbilityId() == 'AHHH' ) then
-			call Huanyi__FireLumberWind()
+			call Huanyi___FireLumberWind()
 		//残月流星
 		elseif ( GetSpellAbilityId() == 'AHHI' ) then
-			call Huanyi__FireWaterWind()
+			call Huanyi___FireWaterWind(GetSpellTargetX() , GetSpellTargetY())
 		//引力界场
 		elseif ( GetSpellAbilityId() == 'AHHJ' ) then
-			call Huanyi__FireWaterLumber()
+			call Huanyi___FireWaterLumber(GetSpellTargetX() , GetSpellTargetY())
 		//寰宇归一
 		elseif ( GetSpellAbilityId() == 'AHHK' ) then
-			call Huanyi__FireWaterLumberWind()
+			call Huanyi___FireWaterLumberWind()
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -2492,7 +2603,7 @@ endfunction
 		if ( learner == Huanyi ) then
 			if ( whichSpell == 2 and (GetPlayerTechCountSimple('R006', GetOwningPlayer((Huanyi))) == 1) == true and GetUnitAbilityLevel(Huanyi, 'AHH1') == 1 ) then // INLINED!!
 				//技能2初始化
-				call Huanyi__InitPower()
+				call Huanyi___InitPower()
 			elseif ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((Huanyi))) == 1) == true and GetUnitAbilityLevel(Huanyi, 'AHH2') == 1 ) then // INLINED!!
 				//技能3初始化
 				set i=1
@@ -2530,20 +2641,21 @@ endfunction
  function InitHuanyi takes unit u returns nothing
   local trigger t= CreateTrigger()
 		set Huanyi=u
+		set Huanyi___ICurrentSpell='AHH5'
 		//主英雄技能
-		set Huanyi__TSpellHuanyi=CreateTrigger()
-	    call TriggerRegisterUnitEvent(Huanyi__TSpellHuanyi, u, EVENT_UNIT_SPELL_EFFECT)
-	    call TriggerAddAction(Huanyi__TSpellHuanyi, function Huanyi__TSpellHuanyiAct)
+		set Huanyi___TSpellHuanyi=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Huanyi___TSpellHuanyi, u, EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerAddAction(Huanyi___TSpellHuanyi, function Huanyi___TSpellHuanyiAct)
 
 	    //魔能等级低于5则减少受到的50%伤害
 	    call TriggerRegisterUnitEvent(t, Huanyi, EVENT_UNIT_DAMAGED)
-	    call TriggerAddCondition(t, Condition(function Huanyi__TSpellHuanyi3Con))
-	    call TriggerAddAction(t, function Huanyi__TSpellHuanyi3Act)
+	    call TriggerAddCondition(t, Condition(function Huanyi___TSpellHuanyi3Con))
+	    call TriggerAddAction(t, function Huanyi___TSpellHuanyi3Act)
 
 	    //冰甲的等级刷新
 	    set t=CreateTrigger()
 	    call TriggerRegisterUnitEvent(t, Huanyi, EVENT_UNIT_HERO_LEVEL)
-	    call TriggerAddAction(t, function Huanyi__TSpellHuanyi2Act)
+	    call TriggerAddAction(t, function Huanyi___TSpellHuanyi2Act)
 	    set t=null
 	    //初始化技能状态
 	    call UnitAddAbility(Huanyi, 'AHH6')
@@ -2555,7 +2667,6 @@ endfunction
 	    call UnitAddAbility(Huanyi, 'AHHC')
 	    call UnitAddAbility(Huanyi, 'AHHD')
 	    call UnitAddAbility(Huanyi, 'AHHE')
-	    call UnitAddAbility(Huanyi, 'AHHF')
 	    call UnitAddAbility(Huanyi, 'AHHG')
 	    call UnitAddAbility(Huanyi, 'AHHH')
 	    call UnitAddAbility(Huanyi, 'AHHI')
@@ -2647,11 +2758,11 @@ endfunction
 // END IMPORT OF Huanyi.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs101843625")
-call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Attr__InitAttr")
-call ExecuteFunc("Printer__InitPrinter")
+call ExecuteFunc("jasshelper__initstructs266611078")
+call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("Attr___InitAttr")
+call ExecuteFunc("Printer___InitPrinter")
 
 endfunction
 
@@ -2687,7 +2798,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs101843625 takes nothing returns nothing
+function jasshelper__initstructs266611078 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()

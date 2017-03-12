@@ -18,7 +18,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	    杀死老牛回5%血.
 	*/
 	function FocusCow takes unit selected returns nothing
-		if(GetUnitAbilityLevel(selected,'A09W') >= 1)then
+		if(GetUnitAbilityLevel(selected,'A09W') >= 1 and IsUnitAliveBJ(selected))then
 			call SetUnitState(selected,UNIT_STATE_LIFE,GetUnitState(selected,UNIT_STATE_LIFE)+GetUnitState(selected,UNIT_STATE_MAX_LIFE)*0.1)
 		endif
 	endfunction

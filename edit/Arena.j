@@ -172,7 +172,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 //---------------------------------------------------------------------------------------------------
 
 	/*
-		    血魔技能1：召唤5个敌方单位复制
+		血魔技能1：召唤5个敌方单位复制
 	*/	
 	private function TSpellXuemo1Con takes nothing returns boolean
 	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 10) == 1))

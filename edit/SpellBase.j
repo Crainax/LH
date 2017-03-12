@@ -15,6 +15,7 @@ library_once SpellBase requires LHBase
 		private real interval
 		private real speed
 		private timer t
+		private boolean forbitHero
 
 		static method attract takes nothing returns nothing
 			local real x1
@@ -32,7 +33,7 @@ library_once SpellBase requires LHBase
 				    set l_unit = FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if(IsEnemy(l_unit,.caster))then
+				    if(IsEnemy(l_unit,.caster) and not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO)))then
 				    	set x2 = GetUnitX(l_unit)
 				    	set y2 = GetUnitY(l_unit)
 				    	set x1 = GetUnitX(.caster)
@@ -72,7 +73,12 @@ library_once SpellBase requires LHBase
 			set .radius = radius
 			set .interval = interval
 			set .speed = speed
+			set .forbitHero = false
 			return this
+		endmethod
+
+		method SetForbitHero takes nothing returns nothing
+			set .forbitHero = true
 		endmethod
 
 		method start takes nothing returns nothing

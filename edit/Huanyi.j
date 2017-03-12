@@ -25,7 +25,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		private boolean IsWater = false
 		private boolean IsLumber = false
 		private boolean IsWind = false
-		private integer ICurrentSpell = 'AHH5'
+		private integer ICurrentSpell
 		/*
 		    魔能数
 		*/
@@ -42,7 +42,6 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		/*
 		    古参
 		*/
-		key kUGuCan
 		key kIGuCan
 		/*
 		    寰宇
@@ -54,6 +53,8 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		*/
 		private texttag TTMoneng
 		private effect ELowMoneng = null
+
+		private unit UGucan = null
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -68,8 +69,8 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			return true 
 		endif
 		//冰火
-		if (GetUnitTypeId(u) == 'h01B') then
-			call UnitDamageTarget( Huanyi, GetTriggerUnit(), GetDamageInt(Huanyi) * 0.6, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+		if (GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == Huanyi) then
+			call UnitDamageTarget( Huanyi, GetTriggerUnit(), GetDamageInt(Huanyi) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		return false
@@ -122,26 +123,25 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),"成功增加"+I2S(times*20)+"%的智力，持续"+I2S(times * 10)+"秒。")
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH5'),"成功增加"+I2S(times*20)+"%的智力，持续"+I2S(times * 10)+"秒。")
 	    set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 		七炎焚狱
 	*/	
-	private function Fire takes nothing returns nothing
+	private function Fire takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real x = GetSpellTargetX()
-		local real y = GetSpellTargetY()
 		local real damage = GetDamageInt(Huanyi)
 		local integer i = 1
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),damage)
+	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName('AHH6'),damage)
 		loop
 			set times = times - 1
 	        call CreateUnitEffect(GetOwningPlayer(Huanyi),'hhh1',x,y,0)
+	        set i = 1
 			loop
 				exitwhen i > 6
 	        	call CreateUnitEffect(GetOwningPlayer(Huanyi),'hhh1',x + 400 * CosBJ(i*60),y+ 400 * SinBJ(i*60),0)
@@ -164,8 +164,8 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		local unit u
 		local integer i = 1
 		loop
-			exitwhen i > times * 2
-			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh2',GetSpellTargetX(),GetSpellTargetY(),0)
+			exitwhen i > times
+			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh2',GetUnitX(Huanyi),GetUnitY(Huanyi),0)
 			call SetUnitAnimation( u, "birth" )
 			call UnitApplyTimedLifeBJ( 180.00, 'BHwe',u )
 			call SetAttack(u,attack)
@@ -176,7 +176,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()))
+	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHH8'))
 	    set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -189,14 +189,14 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		local integer i = 1
 		loop
 			exitwhen i > times
-			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh3',YDWECoordinateX(GetSpellTargetX() + GetRandomInt(-100,100)),YDWECoordinateY(GetSpellTargetY() + GetRandomInt(-100,100)),0)
+			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh3',YDWECoordinateX(GetUnitX(Huanyi) + GetRandomInt(-100,100)),YDWECoordinateY(GetUnitY(Huanyi) + GetRandomInt(-100,100)),0)
 			call UnitApplyTimedLifeBJ( 15.00, 'BHwe',u )
 			set i = i +1
 		endloop
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()))
+	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHH9'))
 	    set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -207,17 +207,17 @@ library_once Huanyi requires SpellBase,Printer,Attr
 
 		local integer times = GetMultiSpell()
 		local real damage = GetDamageInt(Huanyi) * 0.6
-		local integer i = 3 * times
+		local integer i = 6 * times
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),damage)
+	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName('AHHA'),damage)
 		loop
 			set i = i - 1
-	 		call SimulateSpell4(Huanyi,YDWECoordinateX(GetUnitX(Huanyi)+GetRandomReal(-600,600)),YDWECoordinateY(GetUnitY(Huanyi)+GetRandomReal(-600,600)),'AhhL',1,6,"rainoffire")
-	 		call SimulateSpell4(Huanyi,YDWECoordinateX(GetUnitX(Huanyi)+GetRandomReal(-600,600)),YDWECoordinateY(GetUnitY(Huanyi)+GetRandomReal(-600,600)),'AhhM',1,6,"blizzard")
+	 		call SimulateSpell4(Huanyi,YDWECoordinateX(GetUnitX(Huanyi)+GetRandomReal(-600,600)),YDWECoordinateY(GetUnitY(Huanyi)+GetRandomReal(-600,600)),'A05S',1,6,"blizzard")
+	 		call SimulateSpell4(Huanyi,YDWECoordinateX(GetUnitX(Huanyi)+GetRandomReal(-600,600)),YDWECoordinateY(GetUnitY(Huanyi)+GetRandomReal(-600,600)),'A00U',1,6,"blizzard")
 			exitwhen i <= 0
-			call PolledWait(1.0/times)
+			call PolledWait(0.5/times)
 		endloop
 
 	endfunction
@@ -225,28 +225,27 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	/*
 	    万象归影
 	*/
-	private function FireLumber takes nothing returns nothing
+	private function FireLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 0.8
+		local real damage = GetDamageInt(Huanyi) * 0.6
 		local integer i = 1
 		local integer ii = 1
-		local real x = GetSpellTargetX()
-		local real y = GetSpellTargetY()
 		local real range = 150 * times
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),damage)
-		call SetUnitX(GetSpellAbilityUnit(),x)
-		call SetUnitY(GetSpellAbilityUnit(),y)
-		call IssueImmediateOrder(GetSpellAbilityUnit(),"stop")
+		call SetUnitManaBJ(Huanyi,GetUnitState(Huanyi,UNIT_STATE_MANA) - 100)
+	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName('AHHB'),damage)
+		call SetUnitX(Huanyi,x)
+		call SetUnitY(Huanyi,y)
+		call IssueImmediateOrder(Huanyi,"stop")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", x, y ))
 		loop
 			exitwhen i > times - 1
 			set ii = 1
 			loop
-				exitwhen ii > i * 2 + 4
-				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", YDWECoordinateX(x+ 150 * CosBJ(360 * ii/(i * 2 + 4))), YDWECoordinateY(y + 150 * SinBJ(360 * ii/(i * 2 + 4))) ))
+				exitwhen ii > i * 1 + 4
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", YDWECoordinateX(x+ 150 * i *CosBJ(360 * ii/(i * 1 + 4))), YDWECoordinateY(y + 150 * i * SinBJ(360 * ii/(i * 1 + 4))) ))
 				set ii = ii +1
 			endloop
 			set i = i +1
@@ -257,7 +256,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	/*
 	    火轮烁日
 	*/
-	private function FireWind takes nothing returns nothing
+	private function FireWind takes real x2,real y2 returns nothing
 
 
 		local integer times = GetMultiSpell()
@@ -266,26 +265,22 @@ library_once Huanyi requires SpellBase,Printer,Attr
 
 	    local real x1 
 	    local real y1 
-	    local real x2 
-	    local real y2 
 	    local real facing 
 		local unit u
 
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),damage)
+	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName('AHHC'),damage)
 		loop
 			set times = times - 1
 
 		    set x1 = GetUnitX(Huanyi)
 		    set y1 = GetUnitY(Huanyi)
-		    set x2 = GetSpellTargetX()
-		    set y2 = GetSpellTargetY()
 		    set facing = Atan2BJ(y2-y1,x2-x1)
 			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh4',x1,y1,facing)
 	    	call UnitApplyTimedLifeBJ( 2, 'BHwe', u)
-		    call YDWETimerPatternRushSlide( u, facing , 1400, 2, 0.05, damage, 300., false, true, false, "origin", "", "Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl" )
+		    call YDWETimerPatternRushSlide( u, facing , 1400, 2, 0.05, damage, 300., false, true, true, "origin", "", "Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl" )
 			exitwhen times <= 0
 			call PolledWait(0.5)
 		endloop
@@ -330,18 +325,17 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		set l_group = null
 	endfunction
 
-	private function WaterWind takes nothing returns nothing
+	private function WaterWind takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
 		local timer t = CreateTimer()
-		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh5',GetSpellTargetX(),GetSpellTargetY(),0)
+		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh5',x,y,0)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
     	call UnitApplyTimedLifeBJ( 15*times, 'BHwe', u)
-    	call SetUnitScalePercent( u,  100.00 +  times * 50.00  , 100.00 +  times * 50.00, 100.00 +  times * 50.00 )
 		call SaveUnitHandle(spellTable,GetHandleId(t),kUHuanyiQuan,u)
 		call TimerStart(t,1,true,function WaterWindTimer)
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),"持续"+I2S(15*times)+"秒。")
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHE'),"持续"+I2S(15*times)+"秒。")
 		set t = null
 		set u = null
 	endfunction
@@ -353,47 +347,49 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	private function WaterLumberWindTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		local unit u = LoadUnitHandle(spellTable,id,kUGuCan)
 		local integer times = LoadInteger(spellTable,id,kIGuCan)
 		local integer i = 1
 		local integer ii = 1
 		if (IsUnitAliveBJ(Huanyi)) then
+			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", GetUnitX(UGucan), GetUnitY(UGucan) ))
 			loop
 				exitwhen i > times - 1
 				set ii = 1
 				loop
-					exitwhen ii > i * 2 + 4
-					call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", YDWECoordinateX(GetUnitX(u)+ 150 * CosBJ(360 * ii/(i * 2 + 4))), YDWECoordinateY(GetUnitY(u) + 150 * SinBJ(360 * ii/(i * 2 + 4))) ))
+					exitwhen ii > i * 1 + 4
+					call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", YDWECoordinateX(GetUnitX(UGucan)+ 150 * i*  CosBJ(360 * ii/(i * 1 + 4))), YDWECoordinateY(GetUnitY(UGucan) + 150 * i * SinBJ(360 * ii/(i * 1 + 4))) ))
 					set ii = ii +1
 				endloop
 				set i = i +1
 			endloop
-			call DamageArea(Huanyi,GetUnitX(Huanyi),GetUnitY(Huanyi),times * 150,GetDamageInt(Huanyi)*0.4)
+			call DamageArea(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.4)
 		else
-			call RemoveUnit(u)
+			call RemoveUnit(UGucan)
+			set UGucan = null
 			call FlushChildHashtable(spellTable,id)
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
-		set u = null
 		set t = null 
 	endfunction
 
-	private function WaterLumberWind takes nothing returns nothing
+	private function WaterLumberWind takes real x,real y returns nothing
 		
 		local integer times = GetMultiSpell()
 		local timer t = CreateTimer()
-		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh6',GetSpellTargetX(),GetSpellTargetY(),0)
+		if (UGucan != null) then
+			call RemoveUnit(UGucan)
+		endif
+		set UGucan = CreateUnit(GetOwningPlayer(Huanyi),'hhh6',x,y,270)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-    	call SetUnitScalePercent( u,  100.00 +  times * 50.00  , 100.00 +  times * 50.00, 100.00 +  times * 50.00 )
-		call SaveUnitHandle(spellTable,GetHandleId(t),kUGuCan,u)
+    	call SetUnitScalePercent( UGucan,  100.00 +  times * 20.00  , 100.00 +  times * 20.00, 100.00 +  times * 20.00 )
+    	call SetUnitAnimation( UGucan, "stand birth alternate work upgrade" )
 		call SaveInteger(spellTable,GetHandleId(t),kIGuCan,times)
 		call TimerStart(t,1,true,function WaterLumberWindTimer)
-	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()))
+	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHHG'))
 		set t = null
-		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -404,28 +400,25 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),",眩晕"+I2S(times*2)+"秒。")
- 		call SimulateSpell(Huanyi,Huanyi,'AHHM',times,6,"stomp",false,true,false)
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHH'),",眩晕"+I2S(times*2)+"秒。")
+ 		call SimulateSpell(Huanyi,Huanyi,'A0BI',times,6,"stomp",false,true,false)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    残月流星
 	*/
-	private function FireWaterWind takes nothing returns nothing
+	private function FireWaterWind takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real x = GetSpellTargetX()
-		local real y = GetSpellTargetY()
 		local real damage = GetDamageInt(Huanyi) * 1.5
 		local unit u
 		local integer i = 1
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),damage)
+	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName('AHHI'),damage)
 		loop
 			set times = times - 1
 			set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh7',x,y,0)
-    		call UnitApplyTimedLifeBJ( 3, 'BHwe', u)
     		call SetUnitFlyHeight( u, 0.00, 333.00 )
 			exitwhen times <= 0
 			call PolledWait(0.5)
@@ -436,19 +429,18 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	/*
 	    引力界场
 	*/
-	private function FireWaterLumber takes nothing returns nothing
+	private function FireWaterLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real x = GetSpellTargetX()
-		local real y = GetSpellTargetY()
 		local real range = 900 * times
 		local integer i = 1
-		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',GetSpellTargetX(),GetSpellTargetY(),0)
+		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',x,y,0)
 	    local Attract attract = Attract.create(u,range,0.05,range/20)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),"吸引范围"+I2S(R2I(range)))
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHJ'),"吸引范围"+I2S(R2I(range)))
 		call UnitApplyTimedLifeBJ( 5, 'BHwe', u)
+		call attract.SetForbitHero()
 	    call attract.start()
 	    set u = null
 	endfunction
@@ -482,7 +474,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName(GetSpellAbilityId()),"成功增加"+I2S(times*20)+"%的三围属性，持续"+I2S(times * 10)+"秒。")
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHK'),"成功增加"+I2S(times*20)+"%的三围属性，持续"+I2S(times * 10)+"秒。")
 	    set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -490,7 +482,119 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    复苏
 	*/
 	private function Fusu takes nothing returns nothing
-		// body...
+		local real x = GetSpellTargetX()
+		local real y = GetSpellTargetY()
+		//幻元伏心
+		call None()
+		call PolledWait(1)
+
+		//七炎焚狱
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 100) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-100)
+		call Fire(x,y)
+		call PolledWait(1)
+		//冰芯之铠
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 15) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-15)
+ 		call SimulateSpell(Huanyi,Huanyi,'AHH7',GetHeroLevel(Huanyi)/2,5,"frostarmor",false,false,true)
+ 		call SimulateSpell(Huanyi,Huanyi,'AHH7',GetHeroLevel(Huanyi)/2,5,"frostarmor",false,false,true)
+	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHH7'))
+		call PolledWait(1)
+ 		//天古木精
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 100) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-100)
+		call Lumber()
+		call PolledWait(1)
+		//幻化残卷
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 200) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-200)
+		call Wind()
+		call PolledWait(1)
+		//冰火双绝
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 150) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-150)
+		call FireWater()
+		call PolledWait(1)
+		//万象归影
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 100) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-100)
+		call FireLumber(x,y)
+		call PolledWait(1)
+		//火轮烁日
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 150) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-150)
+		call FireWind(x,y)
+		call PolledWait(1)
+		//幻冥天泉
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 300) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-300)
+		call WaterWind(x,y)
+		call PolledWait(1)
+		//沧怒古参
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 1500) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-1500)
+		call WaterLumberWind(x,y)
+		call PolledWait(1)
+		//雨玥千里
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 200) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-200)
+		call FireLumberWind()
+		call PolledWait(1)
+		//残月流星
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 100) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-100)
+		call FireWaterWind(x,y)
+		call PolledWait(1)
+		//引力界场
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 360) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-360)
+		call FireWaterLumber(x,y)
+		call PolledWait(1)
+		//寰宇归一
+		if (GetUnitState(Huanyi,UNIT_STATE_MANA) < 800) then
+	    	call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			return
+		endif
+		call RecoverUnitMP(Huanyi,-800)
+		call FireWaterLumberWind()
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
+			
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -517,8 +621,8 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	private function FlashPowerData takes nothing returns nothing
 		call SetTextTagPosUnitBJ(TTMoneng,Huanyi,20)
 
-		if (GetUnitState(Huanyi,UNIT_STATE_MANA) == GetUnitState(Huanyi,UNIT_STATE_MAX_MANA) and IMoneng < 10) then
-			call SetUnitManaPercentBJ(Huanyi,50)
+		if ((GetUnitState(Huanyi,UNIT_STATE_MANA) >= GetUnitState(Huanyi,UNIT_STATE_MAX_MANA) * 0.9) and IMoneng < 10) then
+			call SetUnitManaPercentBJ(Huanyi,30)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(Huanyi), GetUnitY(Huanyi) ))
 			set IMoneng = IMoneng + 1
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),0.1)
@@ -526,13 +630,13 @@ library_once Huanyi requires SpellBase,Printer,Attr
 				call DestroyEffect(ELowMoneng)
 				set ELowMoneng = null
 			endif
-		elseif((GetUnitState(Huanyi,UNIT_STATE_MANA) < GetUnitState(Huanyi,UNIT_STATE_MAX_MANA)/2)and IMoneng > 0) then
-			call SetUnitManaPercentBJ(Huanyi,100)
+		elseif((GetUnitState(Huanyi,UNIT_STATE_MANA) < GetUnitState(Huanyi,UNIT_STATE_MAX_MANA) * 0.2)and IMoneng > 0) then
+			call SetUnitManaPercentBJ(Huanyi,80)
 			set IMoneng = IMoneng - 1
 	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", GetUnitX(Huanyi), GetUnitY(Huanyi) ))
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Huanyi)),- 0.1)
 			if (ELowMoneng == null and IMoneng <= 5) then
-				set ELowMoneng = AddSpecialEffectTargetUnitBJ("chest",Huanyi,"Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
+				set ELowMoneng = AddSpecialEffectTargetUnitBJ("origin",Huanyi,"Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
 			endif
 	    else
 	    	return
@@ -552,7 +656,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		set TTMoneng = CreateTextTagUnitBJ( "0级魔能", Huanyi, 0, 20, 0, 50, 100, 0 )
 		call TimerStart(ti,0.05,true,function FlashPowerData)
 
-		set ELowMoneng = AddSpecialEffectTargetUnitBJ("chest",Huanyi,"Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
+		set ELowMoneng = AddSpecialEffectTargetUnitBJ("origin",Huanyi,"Abilities\\Spells\\Human\\ManaShield\\ManaShieldCaster.mdl")
 		set ti = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -561,6 +665,9 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	*/
 	private function SetHuanyiSpell takes nothing returns nothing
 		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),ICurrentSpell,false)
+		if (ICurrentSpell == 'AHHF') then
+			call UnitRemoveAbility(Huanyi,'AHHF')
+		endif
 		//0排列
 		if (not(IsFire) and not(IsWater) and not(IsLumber) and not(IsWind)) then
 			set ICurrentSpell = 'AHH5'
@@ -586,6 +693,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			set ICurrentSpell = 'AHHE'
 		elseif (not(IsFire) and not(IsWater) and (IsLumber) and (IsWind)) then
 			set ICurrentSpell = 'AHHF'
+			call UnitAddAbility(Huanyi,'AHHF')
 		//1排列
 		elseif (not(IsFire) and (IsWater) and (IsLumber) and (IsWind)) then
 			set ICurrentSpell = 'AHHG'
@@ -629,7 +737,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			call None()
 		//七炎焚狱
 		elseif (GetSpellAbilityId() == 'AHH6') then 
-			call Fire()
+			call Fire(GetSpellTargetX(),GetSpellTargetY())
 		//天古木精
 		elseif (GetSpellAbilityId() == 'AHH8') then 
 			call Lumber()
@@ -641,25 +749,25 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			call FireWater()
 		//万象归影
 		elseif (GetSpellAbilityId() == 'AHHB') then 
-			call FireLumber()
+			call FireLumber(GetSpellTargetX(),GetSpellTargetY())
 		//火轮烁日
 		elseif (GetSpellAbilityId() == 'AHHC') then 
-			call FireWind()
+			call FireWind(GetSpellTargetX(),GetSpellTargetY())
 		//幻冥天泉
 		elseif (GetSpellAbilityId() == 'AHHE') then 
-			call WaterWind()
+			call WaterWind(GetSpellTargetX(),GetSpellTargetY())
 		//沧怒古参
 		elseif (GetSpellAbilityId() == 'AHHG') then 
-			call WaterLumberWind()
+			call WaterLumberWind(GetSpellTargetX(),GetSpellTargetY())
 		//雨玥千里
 		elseif (GetSpellAbilityId() == 'AHHH') then 
 			call FireLumberWind()
 		//残月流星
 		elseif (GetSpellAbilityId() == 'AHHI') then 
-			call FireWaterWind()
+			call FireWaterWind(GetSpellTargetX(),GetSpellTargetY())
 		//引力界场
 		elseif (GetSpellAbilityId() == 'AHHJ') then 
-			call FireWaterLumber()
+			call FireWaterLumber(GetSpellTargetX(),GetSpellTargetY())
 		//寰宇归一
 		elseif (GetSpellAbilityId() == 'AHHK') then 
 			call FireWaterLumberWind()
@@ -716,6 +824,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	function InitHuanyi takes unit u returns nothing
 		local trigger t = CreateTrigger()
 		set Huanyi = u
+		set ICurrentSpell = 'AHH5'
 		//主英雄技能
 		set TSpellHuanyi = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellHuanyi,u,EVENT_UNIT_SPELL_EFFECT)
@@ -741,7 +850,6 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    call UnitAddAbility(Huanyi,'AHHC')
 	    call UnitAddAbility(Huanyi,'AHHD')
 	    call UnitAddAbility(Huanyi,'AHHE')
-	    call UnitAddAbility(Huanyi,'AHHF')
 	    call UnitAddAbility(Huanyi,'AHHG')
 	    call UnitAddAbility(Huanyi,'AHHH')
 	    call UnitAddAbility(Huanyi,'AHHI')

@@ -1,13 +1,38 @@
-creepanimatedead
-creepheal
-darkconversion
-darkportal
-darksummoning
-decouple
-detectaoe
-detonate
-devour
-devourmagic
-disassociate
-dismount
-dreadlordinferno
+function Test takes nothing returns nothing
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+    call BJDebugMsg(GetAbilityName(GetSpellAbilityId()))    
+    call PolledWait(1)
+endfunction
