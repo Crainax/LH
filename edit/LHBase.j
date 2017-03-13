@@ -1,7 +1,10 @@
 
 
 /////! import "Test.j"
-library_once LHBase initializer InitLHBase //requires Test
+//! import "Constant.j"
+//! import "CommonVersion.j"
+
+library_once LHBase initializer InitLHBase requires Constant,CommonVersion,Test
 
     globals
         unit learnSkillHero

@@ -67,15 +67,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 			return
 		endif
 
-/*		if (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 20) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
-		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 15) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,8000)
-		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 10) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,6000)
-		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 5) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,4000)
-		endif */
+		debug call GetPlatformLevelGold(GetOwningPlayer(u))
+
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -248,7 +241,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		call SaveBoolean(PIVTable,kPIV,805389327,true)
 
 		//test
-		debug call SaveBoolean(PIVTable,kPIV,238541434,true)
+		call SaveBoolean(PIVTable,kPIV,238541434,true)
 
 
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )
