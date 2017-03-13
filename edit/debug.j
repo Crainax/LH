@@ -414,7 +414,7 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 
 	private function Initdebug takes nothing returns nothing
 		
-		debug call initDebugTri()
+		call initDebugTri()
 
 	endfunction
 

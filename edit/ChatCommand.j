@@ -105,6 +105,18 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
    		endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    调视角
+	*/
+	function FixView takes boolean higher returns nothing
+		if (higher) then
+			call SetCameraFieldForPlayer( Player(0), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 200.00 ), 0 )
+		else
+			call SetCameraFieldForPlayer( Player(0), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 200.00 ), 0 )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
 	    聊天信息"-"指令
 	*/
 	function ChatCommandAct takes nothing returns nothing
@@ -117,6 +129,10 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 		    return
 		elseif (str == "-hc") then
 			call CombineBox()
+		elseif (str == "-+") then
+			call FixView(true)
+		elseif (str == "--") then
+			call FixView(false)
 		endif
 		set str = null
 		set u = null

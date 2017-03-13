@@ -234,7 +234,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-		call SetUnitManaBJ(Huanyi,GetUnitState(Huanyi,UNIT_STATE_MANA) - 100)
+		call SetUnitManaBJ(Huanyi,GetUnitState(Huanyi,UNIT_STATE_MANA) - 75)
 	    call PrintSpell(GetOwningPlayer(Huanyi),GetAbilityName('AHHB'),damage)
 		call SetUnitX(Huanyi,x)
 		call SetUnitY(Huanyi,y)
@@ -796,6 +796,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 				endloop
 
 				call AddSpecialEffectTargetUnitBJ("origin",Huanyi,"war3mapImported\\sichongjiejie_b.mdx")
+				call UnitAddAbility(gg_unit_haro_0030,'A0GS')
 			endif
 		endif
 	endfunction

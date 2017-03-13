@@ -26,14 +26,14 @@ library_once Version
 	    黑阎的提示文本
 	*/
 	function GetHeiyanHint takes nothing returns string
-		return "|cff00ccff需要平台等级达到5级才能选取该英雄|r"
+		return "|cff99ccff需要平台等级达到5级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff00ccff需要平台等级达到10级才能选取该英雄|r"
+		return "|cff99ccff需要平台等级达到10级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

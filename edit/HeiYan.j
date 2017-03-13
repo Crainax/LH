@@ -137,7 +137,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		if (IsUnitInGroup(u,GSacri) == true) then
 			call DisableTrigger(GetTriggeringTrigger())
 			if (IsEnemy(GetTriggerUnit(),Heiyan)) then
-				call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 6, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 10, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			else
 				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.12)
 				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 12)
@@ -146,18 +146,12 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			return true
 		endif
 
-		if (GetUnitTypeId(u) == 'h011') then
-			call DisableTrigger(GetTriggeringTrigger())
-			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 50, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			call EnableTrigger(GetTriggeringTrigger())
-			return true 
-		endif
-		//泣罗刹后续伤害
-		if (GetUnitTypeId(u) == 'hh04') then
+		//泣罗刹后续与高级祭品
+		if (GetUnitTypeId(u) == 'h011' or GetUnitTypeId(u) == 'hh04') then
 			call DisableTrigger(GetTriggeringTrigger())
 			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 60, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
-			return true
+			return true 
 		endif
 		return false
 	endfunction
@@ -444,6 +438,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 					set i = i +1
 				endloop
 				call AddSpecialEffectTargetUnitBJ("origin",Heiyan,"war3mapImported\\devilaura.mdl")
+				call UnitAddAbility(gg_unit_haro_0030,'A0GR')
 			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
 				//技能4初始化
 				set ISacriMaxCount = ISacriMaxCount + 1

@@ -109,7 +109,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	function TSpellSeyu2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
 		call Mantuoluo(seyu,0.33,'AUav')
-		call PolledWait(1)
+		call PolledWait(2)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 

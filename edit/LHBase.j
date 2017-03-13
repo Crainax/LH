@@ -4,7 +4,7 @@
 //! import "Constant.j"
 //! import "CommonVersion.j"
 
-library_once LHBase initializer InitLHBase requires Constant,CommonVersion,Test
+library_once LHBase initializer InitLHBase requires Constant,Version//,Test
 
     globals
         unit learnSkillHero
@@ -37,15 +37,9 @@ library_once LHBase initializer InitLHBase requires Constant,CommonVersion,Test
     function IsAlly takes unit u,unit caster returns boolean
         return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) and IsUnitAlly(u, GetOwningPlayer(caster))
     endfunction
+
 //---------------------------------------------------------------------------------------------------
 
-	/*
-	    敌人过滤器1,只能造成伤害的
-	*/
-   function IsEnemy takes unit u, unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster)
-    endfunction
-//---------------------------------------------------------------------------------------------------
     /*
         敌人过滤器，包含魔免单位
     */
@@ -57,6 +51,14 @@ library_once LHBase initializer InitLHBase requires Constant,CommonVersion,Test
         */ and IsUnitVisible(u, GetOwningPlayer(caster))      and GetUnitAbilityLevel(u,'Avul') < 1           /*
         */ and GetUnitPointValue(u) != 123                    and GetUnitPointValue(u) != 0
     endfunction   
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    敌人过滤器1,只能造成伤害的
+	*/
+   function IsEnemy takes unit u, unit caster returns boolean
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster)
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
