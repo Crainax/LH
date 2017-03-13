@@ -387,6 +387,7 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 	private function peekAttr takes nothing returns nothing
 		if (debug_show_attr) then
 			call BJDebugMsg("选中单位生命:" + R2S(GetUnitStateSwap(UNIT_STATE_LIFE,GetTriggerUnit())))
+			call BJDebugMsg("选中单位移动速度:" + R2S(GetUnitMoveSpeed(GetTriggerUnit())))
 		endif
 	endfunction
 

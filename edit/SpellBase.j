@@ -33,7 +33,7 @@ library_once SpellBase requires LHBase
 				    set l_unit = FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if(IsEnemy(l_unit,.caster) and not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO)))then
+				    if(IsEnemyM(l_unit,.caster) and (GetUnitMoveSpeed(l_unit) > 0) and not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO)))then
 				    	set x2 = GetUnitX(l_unit)
 				    	set y2 = GetUnitY(l_unit)
 				    	set x1 = GetUnitX(.caster)
