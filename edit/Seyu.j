@@ -13,7 +13,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		/*
 		    异界能量
 		*/
-		private texttag TTPower
+		private texttag TTPower = null
 		private integer IPower
 		/*
 			增益值 
@@ -23,9 +23,9 @@ library_once Seyu requires SpellBase,Printer,Attr
 		/*
 		    空间封冻技能
 		*/
-		private trigger TSpellSeyu		
-		private trigger TSpellSeyu2		
-		private trigger TSpellSeyu3	
+		private trigger TSpellSeyu = null
+		private trigger TSpellSeyu2 = null
+		private trigger TSpellSeyu3	= null
 		key kAnShaCount
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -142,14 +142,14 @@ library_once Seyu requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-    	异界能量的获取
+    	异界能量的获取与扣除
 	*/
-	private function TDeathAddPowerCon takes nothing returns boolean
-		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu)
-	endfunction
-	
 	private function TDeathAddPowerAct takes nothing returns nothing
-		set IPower = IPower + 1
+		if (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu) then
+			set IPower = IPower + 1
+		elseif (GetDyingUnit() == seyu) then
+			set IPower = IPower - 30
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -159,15 +159,14 @@ library_once Seyu requires SpellBase,Printer,Attr
 		local timer ti = CreateTimer()
 		local trigger t = CreateTrigger()
 
-		//异界能量触发
+		//异界能量触发与损失
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
-		call TriggerAddCondition(t, Condition(function TDeathAddPowerCon))
 		call TriggerAddAction(t, function TDeathAddPowerAct)
 
 		set IPower = 0
 		set RAddtion = 0
 		set TTPower = CreateTextTagUnitBJ( I2S(IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0 )
-		call TimerStart(ti,0.05,true,function FlashPowerLocation)
+		call TimerStart(ti,0.05,(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu,function FlashPowerLocation)
 
 		set ti = CreateTimer()
 		call TimerStart(ti,1,true,function FlashPowerData)
@@ -359,5 +358,6 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    call TriggerRegisterAnyUnitEventBJ( TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellSeyu2, Condition(function TSpellSeyu2Con))
 	    call TriggerAddAction(TSpellSeyu2, function TSpellSeyu2Act)
+
 	endfunction
 endlibrary

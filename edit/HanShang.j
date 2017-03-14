@@ -14,17 +14,18 @@ library_once Hanshang requires SpellBase,Printer,Attr
 		/*
 		    技能
 		*/
-		private trigger TSpellHanshang
+		private trigger TSpellHanshang = null
 
-		private trigger TSpellHanshang2
+		private trigger TSpellHanshang2 = null
 
-		private trigger TSpellHanshang3
+		private trigger TSpellHanshang3 = null
 
-		private trigger TSpellHanshang4
+		private trigger TSpellHanshang4 = null
 		/*
-		    第三个技能的增益
+		    第三个技能的增益与减伤
 		*/
 		private real RLianjin = 0
+		private integer RLianjin2 = 0
 		key kLianhuanBoomX
 		key kLianhuanBoomY
 	endglobals
@@ -73,16 +74,22 @@ library_once Hanshang requires SpellBase,Printer,Attr
 		local real Rupdate
 		if (lumber > 100000) then
 			set update = 90
+			set RLianjin2 = 0.72
 		elseif (lumber > 10000) then
 			set update = 75
+			set RLianjin2 = 0.6
 		elseif (lumber > 1000) then
 			set update = 60
+			set RLianjin2 = 0.48
 		elseif (lumber > 100) then
 			set update = 45
+			set RLianjin2 = 0.36
 		elseif (lumber > 10) then
 			set update = 30
+			set RLianjin2 = 0.24
 		elseif (lumber > 1) then
 			set update = 15
+			set RLianjin2 = 0.12
 		endif
 		set Rupdate = I2R(update)/100
 		if (RLianjin != Rupdate) then
@@ -156,6 +163,17 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    寒殇金币减少受到的伤害
+	*/
+	private function TSpellHanshang3Con takes nothing returns boolean
+		return IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang,'A0BN') == 1
+	endfunction
+	
+	private function TSpellHanshang3Act takes nothing returns nothing
+		call SetUnitLifeBJ(hanshang,GetUnitState(hanshang,UNIT_STATE_LIFE)+GetEventDamage() * RLianjin2)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    英雄学习技能
 	*/
 
@@ -216,6 +234,12 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	    call TriggerRegisterAnyUnitEventBJ( TSpellHanshang2, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellHanshang2, Condition(function TSpellHanshang2Con))
 	    call TriggerAddAction(TSpellHanshang2, function TSpellHanshang2Act)
+
+	    //魔能等级低于5则减少受到的50%伤害
+	    set TSpellHanshang3 = CreateTrigger()
+	    call TriggerRegisterUnitEvent(TSpellHanshang3,hanshang,EVENT_UNIT_DAMAGED)
+	    call TriggerAddCondition(TSpellHanshang3,Condition(function TSpellHanshang3Con))
+	    call TriggerAddAction(TSpellHanshang3,function TSpellHanshang3Act)
 
 	    //4
 	    set TSpellHanshang4 = CreateTrigger()

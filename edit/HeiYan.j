@@ -40,7 +40,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		    祭品的数量
 		*/
 		private integer ISacriMaxCount = 3
-		private real RSacriLifeTime = 3
 		/*
 		    祭品单位组
 		*/
@@ -86,7 +85,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				set u =  CreateUnit(GetOwningPlayer(Heiyan),'h012' ,x,y,0)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
-		    call UnitApplyTimedLifeBJ( RSacriLifeTime, 'BHwe' , u )
+		    call UnitApplyTimedLifeBJ( 9, 'BHwe' , u )
 	    	call GroupAddUnit(GSacri,u)
 			//无敌
 		    call SetUnitInvulnerable(u,true)
@@ -421,15 +420,12 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		if (learner == Heiyan) then
 			if(whichSpell == 1) then
 				set ISacriMaxCount = ISacriMaxCount + 1
-				set RSacriLifeTime = RSacriLifeTime +1.5
 			elseif (whichSpell == 2 and IsSecondSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C8') == 1) then
 				//技能2初始化
 				set ISacriMaxCount = ISacriMaxCount + 1
-				set RSacriLifeTime = RSacriLifeTime +1.5
 			elseif (whichSpell == 3 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
 				//技能3初始化
 				set ISacriMaxCount = ISacriMaxCount + 1
-				set RSacriLifeTime = RSacriLifeTime +1.5
 				set i = 1
 				//增加上限
 				loop
@@ -442,11 +438,9 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
 				//技能4初始化
 				set ISacriMaxCount = ISacriMaxCount + 1
-				set RSacriLifeTime = RSacriLifeTime +1.5
 			elseif (whichSpell == 5 and IsFifthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0DD') == 1) then
 				//技能5初始化
 				set ISacriMaxCount = ISacriMaxCount + 2
-				set RSacriLifeTime = RSacriLifeTime + 3
 			endif
 		endif
 	endfunction
