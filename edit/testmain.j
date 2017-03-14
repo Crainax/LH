@@ -1,5 +1,4 @@
 
-
-//! import "Heiyan.j"
+//! import "Debug.j"
 function main takes nothing returns nothing
 endfunction

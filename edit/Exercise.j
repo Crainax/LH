@@ -4,12 +4,12 @@ library_once Exercise initializer InitExercise requires LHBase
 	globals
 		rect array regionAll
 		//怪物的区域
-		rect array regionM1
-		rect array regionM2
-		rect array regionM3
-		rect array regionM4
-		rect array regionM5
-		rect array regionM6
+		rect array regionM1 
+		rect array regionM2 
+		rect array regionM3 
+		rect array regionM4 
+		rect array regionM5 
+		rect array regionM6 
 		private timer array TiExercise
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -205,7 +205,7 @@ library_once Exercise initializer InitExercise requires LHBase
 	*/	
 	//! textmacro TExerciseForbitCon takes Index
 		private function TExerciseForbitCon$Index$ takes nothing returns boolean
-			return ((ConvertedPlayer($Index$) != GetOwningPlayer(GetTriggerUnit())) and IsEnemy3(GetTriggerUnit(),Player(10)) == true)
+			return ((ConvertedPlayer($Index$) != GetOwningPlayer(GetTriggerUnit())) and (IsEnemy3(GetTriggerUnit(),Player(10)) or GetUnitTypeId(GetTriggerUnit()) == 'ndgt'))
 		endfunction
 	//! endtextmacro
 

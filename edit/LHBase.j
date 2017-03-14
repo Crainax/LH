@@ -7,7 +7,7 @@
 library_once LHBase initializer InitLHBase requires Constant,Version//,Test
 
     globals
-        unit learnSkillHero
+        unit learnSkillHero = null
         /*
             仓库
         */
@@ -44,8 +44,7 @@ library_once LHBase initializer InitLHBase requires Constant,Version//,Test
         敌人过滤器，包含魔免单位
     */
     function IsEnemyM takes unit u, unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_RESISTANT) == false /*
-        */ and IsUnitType(u, UNIT_TYPE_SLEEPING) == false     and GetUnitState(u, UNIT_STATE_LIFE) > 0.405    /*
+        return IsUnitType(u, UNIT_TYPE_SLEEPING) == false     and GetUnitState(u, UNIT_STATE_LIFE) > 0.405    /*
         */ and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false    and IsUnitAliveBJ(u)  == true                   /*
         */ and IsUnitHidden(u) == false                       and IsUnitEnemy(u, GetOwningPlayer(caster))     /*
         */ and IsUnitVisible(u, GetOwningPlayer(caster))      and GetUnitAbilityLevel(u,'Avul') < 1           /*
@@ -57,7 +56,7 @@ library_once LHBase initializer InitLHBase requires Constant,Version//,Test
 	    敌人过滤器1,只能造成伤害的
 	*/
    function IsEnemy takes unit u, unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster)
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 //---------------------------------------------------------------------------------------------------
 

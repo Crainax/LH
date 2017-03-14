@@ -25,7 +25,7 @@ library_once Hanshang requires SpellBase,Printer,Attr
 		    第三个技能的增益与减伤
 		*/
 		private real RLianjin = 0
-		private integer RLianjin2 = 0
+		private real RLianjin2 = 0
 		key kLianhuanBoomX
 		key kLianhuanBoomY
 	endglobals

@@ -502,8 +502,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			return
 		endif
 		call RecoverUnitMP(Huanyi,-15)
- 		call SimulateSpell(Huanyi,Huanyi,'AHH7',GetHeroLevel(Huanyi)/2,5,"frostarmor",false,false,true)
- 		call SimulateSpell(Huanyi,Huanyi,'AHH7',GetHeroLevel(Huanyi)/2,5,"frostarmor",false,false,true)
+ 		call SimulateSpell(Huanyi,Huanyi,'AHH7',GetHeroLevel(Huanyi)/2,5,"frostarmoron",false,false,true)
 	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHH7'))
 		call PolledWait(1)
  		//天古木精

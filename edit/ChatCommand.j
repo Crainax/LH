@@ -30,6 +30,10 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 		    endif
 
 		    if (IBoxCount >= 3) then
+		    	if (IBox[0] == null or IBox[1] == null or IBox[2] == null) then
+			    	set IBoxCount = 0
+		    		return
+		    	endif
 		    	call RemoveItem(IBox[0])
 		    	call RemoveItem(IBox[1])
 		    	call RemoveItem(IBox[2])
@@ -102,6 +106,10 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 	   		call BJDebugMsg(I2S(IBoxSucceed)+"个A级宝箱→→→"+I2S(IBoxSucceed/3)+"个S级宝箱。")
 	    	set IBoxSucceed = 0
    		endif
+    	set IBox[0] = null
+    	set IBox[1] = null
+    	set IBox[2] = null
+    	set IBoxCount = 0
    		endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

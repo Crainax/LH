@@ -11,7 +11,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 		/*
 		    功能
 		*/
-		private trigger TDieEvent
+		private trigger TDieEvent = null
 
 		/*
 		    技能
@@ -49,7 +49,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 		/*
 		    漂浮文字
 		*/
-		private texttag textTag_Level 
+		private texttag textTag_Level = null
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

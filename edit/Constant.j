@@ -3,12 +3,14 @@
 */
 library_once Constant  
 	
-
+	globals
+		string diffculty = ""
+	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前版本
 	*/
-	function getVersion takes nothing returns string
+	function GetVersion takes nothing returns string
 		return "2.64"
 	endfunction
 //---------------------------------------------------------------------------------------------------

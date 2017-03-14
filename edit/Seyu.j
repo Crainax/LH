@@ -1,4 +1,4 @@
-
+ 
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
@@ -103,7 +103,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    异界能量
 	*/
 	function TSpellSeyu2Con takes nothing returns boolean
-	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00) and GetUnitAbilityLevel(seyu,'AUav') == 1)
+	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00) and GetUnitAbilityLevel(seyu,'AUav') == 1) and IsUnitAliveBJ(seyu)
 	endfunction
 
 	function TSpellSeyu2Act takes nothing returns nothing
@@ -166,7 +166,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		set IPower = 0
 		set RAddtion = 0
 		set TTPower = CreateTextTagUnitBJ( I2S(IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0 )
-		call TimerStart(ti,0.05,(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu,function FlashPowerLocation)
+		call TimerStart(ti,0.05,true,function FlashPowerLocation)
 
 		set ti = CreateTimer()
 		call TimerStart(ti,1,true,function FlashPowerData)
