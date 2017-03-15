@@ -121,6 +121,11 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         trigger gg_trg___________________4000______u
         trigger gg_trg_HP_____________________u
         unit udg_Unit
+        /*
+            宝石区域
+        */
+        rect gg_rct________8
+        rect gg_rct_Diamond2
 	endglobals
 
 	private function InitTest takes nothing returns nothing
