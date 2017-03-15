@@ -10,14 +10,14 @@ library_once Version
 	*/
 	function GetPlatformLevelGold takes player p returns nothing
 		
-		if (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 20) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
-		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 15) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,8000)
-		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 10) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,6000)
-		elseif (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 5) then
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,4000)
+		if (DzAPI_Map_GetMapLevel(p) >= 20) then
+			call SetPlayerState(p,PLAYER_STATE_RESOURCE_GOLD,10000)
+		elseif (DzAPI_Map_GetMapLevel(p) >= 15) then
+			call SetPlayerState(p,PLAYER_STATE_RESOURCE_GOLD,8000)
+		elseif (DzAPI_Map_GetMapLevel(p) >= 10) then
+			call SetPlayerState(p,PLAYER_STATE_RESOURCE_GOLD,6000)
+		elseif (DzAPI_Map_GetMapLevel(p) >= 5) then
+			call SetPlayerState(p,PLAYER_STATE_RESOURCE_GOLD,4000)
 		endif 
 
 	endfunction
@@ -47,14 +47,14 @@ library_once Version
 	    黑阎选取条件
 	*/
 	function GetHeiyanSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 5)
+		return (DzAPI_Map_GetMapLevel(p) >= 5)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(GetOwningPlayer(u)) >= 10)
+		return (DzAPI_Map_GetMapLevel(p) >= 10)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

@@ -227,7 +227,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	*/
 	private function FireLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 0.6
+		local real damage = GetDamageInt(Huanyi) * 0.4
 		local integer i = 1
 		local integer ii = 1
 		local real range = 150 * times
@@ -362,7 +362,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 				endloop
 				set i = i +1
 			endloop
-			call DamageArea(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.4)
+			call DamageArea(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.08)
 		else
 			call RemoveUnit(UGucan)
 			set UGucan = null

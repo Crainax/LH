@@ -1276,7 +1276,7 @@ library_once Diamond initializer InitDiamond requires LHBase
                 endif
             endif
         endif
-        if ((GetRandomInt(1, 20) == 1)) then
+        if ((GetRandomInt(1, 25) == 1)) then
             if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
                 set IAtleast1 = 100
             elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
@@ -1334,6 +1334,19 @@ library_once Diamond initializer InitDiamond requires LHBase
         set group1 = null
         set group2 = null
         set l_unit = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        进入宝石区域
+    */
+    function EnterDiamond2 takes nothing returns nothing
+        if ((GetItemTypeId(GetSoldItem()) == 'I02T')) then
+            call SetUnitX(GetBuyingUnit(),GetRectCenterX(gg_rct_Diamond2))
+            call SetUnitY(GetBuyingUnit(),GetRectCenterY(gg_rct_Diamond2))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond2),GetRectCenterY(gg_rct_Diamond2),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond2), GetRectCenterY(gg_rct_Diamond2)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
     endfunction
 //---------------------------------------------------------------------------------------------------
 

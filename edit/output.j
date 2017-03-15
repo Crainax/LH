@@ -31,36 +31,36 @@ location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem___CurrentTime
-integer YDWETimerSystem___CurrentIndex
-integer YDWETimerSystem___TaskListHead
-integer YDWETimerSystem___TaskListIdleHead
-integer YDWETimerSystem___TaskListIdleMax
-integer array YDWETimerSystem___TaskListIdle
-integer array YDWETimerSystem___TaskListNext
-integer array YDWETimerSystem___TaskListTime
-trigger array YDWETimerSystem___TaskListProc
-trigger YDWETimerSystem___fnRemoveUnit
-trigger YDWETimerSystem___fnDestroyTimer
-trigger YDWETimerSystem___fnRemoveItem
-trigger YDWETimerSystem___fnDestroyEffect
-trigger YDWETimerSystem___fnDestroyLightning
-trigger YDWETimerSystem___fnRunTrigger
-timer YDWETimerSystem___Timer
-integer YDWETimerSystem___TimerHandle
+integer YDWETimerSystem__CurrentTime
+integer YDWETimerSystem__CurrentIndex
+integer YDWETimerSystem__TaskListHead
+integer YDWETimerSystem__TaskListIdleHead
+integer YDWETimerSystem__TaskListIdleMax
+integer array YDWETimerSystem__TaskListIdle
+integer array YDWETimerSystem__TaskListNext
+integer array YDWETimerSystem__TaskListTime
+trigger array YDWETimerSystem__TaskListProc
+trigger YDWETimerSystem__fnRemoveUnit
+trigger YDWETimerSystem__fnDestroyTimer
+trigger YDWETimerSystem__fnRemoveItem
+trigger YDWETimerSystem__fnDestroyEffect
+trigger YDWETimerSystem__fnDestroyLightning
+trigger YDWETimerSystem__fnRunTrigger
+timer YDWETimerSystem__Timer
+integer YDWETimerSystem__TimerHandle
 
-integer YDWETimerSystem___TimerSystem_RunIndex= 0
+integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -1176,7 +1176,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1229,7 +1229,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem___CurrentIndex
+    return YDWETimerSystem__CurrentIndex
 endfunction
 
 
@@ -1259,7 +1259,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem___TimerSystem_RunIndex
+    return YDWETimerSystem__TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1299,7 +1299,7 @@ endfunction
 //library Test:
 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1463,7 +1463,7 @@ endfunction
         call UnitDamageTarget(u, u, GetUnitState(u, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase___InitLHBase takes nothing returns nothing
+    function LHBase__InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1480,7 +1480,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___Diamond100 takes integer itemID,integer newItemID returns boolean
+    function Diamond__Diamond100 takes integer itemID,integer newItemID returns boolean
 
         if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
             call DisplayTextToForce(GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以100%的成功率成功地升级了" + GetItemName(GetSpellTargetItem()) + "！" ) ))
@@ -1494,10 +1494,10 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___DiamondA takes integer itemID,integer newItemID,integer poss returns boolean
+    function Diamond__DiamondA takes integer itemID,integer newItemID,integer poss returns boolean
         //琉璃璞玉
         if ( (GetItemTypeId(GetItemOfTypeFromUnitBJ((GetTriggerUnit()), 'IXU1')) == 'IXU1') == true ) then // INLINED!!
-            return Diamond___Diamond100(itemID , newItemID)
+            return Diamond__Diamond100(itemID , newItemID)
         endif
         //非琉璃璞玉
         if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
@@ -1516,10 +1516,10 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___DiamondB takes integer itemID,integer newItemID,integer oldItemID,integer poss returns boolean
+    function Diamond__DiamondB takes integer itemID,integer newItemID,integer oldItemID,integer poss returns boolean
         //琉璃璞玉
         if ( (GetItemTypeId(GetItemOfTypeFromUnitBJ((GetTriggerUnit()), 'IXU1')) == 'IXU1') == true ) then // INLINED!!
-            return Diamond___Diamond100(itemID , newItemID)
+            return Diamond__Diamond100(itemID , newItemID)
         endif
         //非琉璃璞玉
         if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
@@ -1540,10 +1540,10 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___DiamondC takes integer itemID,integer newItemID,integer oldItemID,integer poss returns boolean
+    function Diamond__DiamondC takes integer itemID,integer newItemID,integer oldItemID,integer poss returns boolean
         //琉璃璞玉
         if ( (GetItemTypeId(GetItemOfTypeFromUnitBJ((GetTriggerUnit()), 'IXU1')) == 'IXU1') == true ) then // INLINED!!
-            return Diamond___Diamond100(itemID , newItemID)
+            return Diamond__Diamond100(itemID , newItemID)
         endif
         //非琉璃璞玉
         if ( GetItemTypeId(GetSpellTargetItem()) == itemID ) then
@@ -1564,7 +1564,7 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddOneDiamond takes nothing returns nothing
+    function Diamond__AddOneDiamond takes nothing returns nothing
                 //复制出来的不能升级
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('I02N', GetTriggerUnit())
@@ -1572,31 +1572,31 @@ endfunction
             return
         endif
 
-        if ( Diamond___Diamond100('I04Z' , 'nflg') == true ) then
+        if ( Diamond__Diamond100('I04Z' , 'nflg') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('I056' , 'spre') == true ) then
+        if ( Diamond__Diamond100('I056' , 'spre') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('I057' , 'fwss') == true ) then
+        if ( Diamond__Diamond100('I057' , 'fwss') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('I050' , 'uflg') == true ) then
+        if ( Diamond__Diamond100('I050' , 'uflg') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('I055' , 'tgxp') == true ) then
+        if ( Diamond__Diamond100('I055' , 'tgxp') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('I03Y' , 'dust') == true ) then
+        if ( Diamond__Diamond100('I03Y' , 'dust') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('rej4' , 'drph') == true ) then
+        if ( Diamond__Diamond100('rej4' , 'drph') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('rej6' , 'dtsb') == true ) then
+        if ( Diamond__Diamond100('rej6' , 'dtsb') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('pgin' , 'gobm') == true ) then
+        if ( Diamond__Diamond100('pgin' , 'gobm') == true ) then
             return
         endif
         call UnitAddItemByIdSwapped('I02N', GetTriggerUnit())
@@ -1605,38 +1605,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSecondDiamond takes nothing returns nothing
+    function Diamond__AddSecondDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('I04S', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
 
-        if ( Diamond___DiamondA('nflg' , 'esaz' , 90) == true ) then
+        if ( Diamond__DiamondA('nflg' , 'esaz' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('spre' , 'asbl' , 90) == true ) then
+        if ( Diamond__DiamondA('spre' , 'asbl' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('fwss' , 'ram4' , 90) == true ) then
+        if ( Diamond__DiamondA('fwss' , 'ram4' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('uflg' , 'ram3' , 90) == true ) then
+        if ( Diamond__DiamondA('uflg' , 'ram3' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('tgxp' , 'ram2' , 90) == true ) then
+        if ( Diamond__DiamondA('tgxp' , 'ram2' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('dust' , 'ram1' , 90) == true ) then
+        if ( Diamond__DiamondA('dust' , 'ram1' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('drph' , 'oven' , 90) == true ) then
+        if ( Diamond__DiamondA('drph' , 'oven' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('dtsb' , 'tels' , 90) == true ) then
+        if ( Diamond__DiamondA('dtsb' , 'tels' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('gobm' , 'gvsm' , 90) == true ) then
+        if ( Diamond__DiamondA('gobm' , 'gvsm' , 90) == true ) then
             return
         endif
 
@@ -1646,38 +1646,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddThirdDiamond takes nothing returns nothing
+    function Diamond__AddThirdDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('azhr', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('esaz' , 'sksh' , 80) == true ) then
+        if ( Diamond__DiamondA('esaz' , 'sksh' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('asbl' , 'ocor' , 80) == true ) then
+        if ( Diamond__DiamondA('asbl' , 'ocor' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('ram4' , 'rat3' , 80) == true ) then
+        if ( Diamond__DiamondA('ram4' , 'rat3' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('ram3' , 'stre' , 80) == true ) then
+        if ( Diamond__DiamondA('ram3' , 'stre' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('ram2' , 'lure' , 80) == true ) then
+        if ( Diamond__DiamondA('ram2' , 'lure' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('ram1' , 'rots' , 80) == true ) then
+        if ( Diamond__DiamondA('ram1' , 'rots' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('oven' , 'frhg' , 80) == true ) then
+        if ( Diamond__DiamondA('oven' , 'frhg' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('tels' , 'ofir' , 80) == true ) then
+        if ( Diamond__DiamondA('tels' , 'ofir' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('gvsm' , 'gldo' , 80) == true ) then
+        if ( Diamond__DiamondA('gvsm' , 'gldo' , 80) == true ) then
             return
         endif
 
@@ -1687,38 +1687,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFourthDiamond takes nothing returns nothing
+    function Diamond__AddFourthDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('gmfr', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('sksh' , 'oslo' , 'esaz' , 70) == true ) then
+        if ( Diamond__DiamondB('sksh' , 'oslo' , 'esaz' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('ocor' , 'blba' , 'asbl' , 70) == true ) then
+        if ( Diamond__DiamondB('ocor' , 'blba' , 'asbl' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rat3' , 'pams' , 'ram4' , 70) == true ) then
+        if ( Diamond__DiamondB('rat3' , 'pams' , 'ram4' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('stre' , 'shrs' , 'ram3' , 70) == true ) then
+        if ( Diamond__DiamondB('stre' , 'shrs' , 'ram3' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('lure' , 'thdm' , 'ram2' , 70) == true ) then
+        if ( Diamond__DiamondB('lure' , 'thdm' , 'ram2' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rots' , 'tmmt' , 'ram1' , 70) == true ) then
+        if ( Diamond__DiamondB('rots' , 'tmmt' , 'ram1' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('frhg' , 'mlst' , 'oven' , 70) == true ) then
+        if ( Diamond__DiamondB('frhg' , 'mlst' , 'oven' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('ofir' , 'soul' , 'tels' , 70) == true ) then
+        if ( Diamond__DiamondB('ofir' , 'soul' , 'tels' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('gldo' , 'gsou' , 'gvsm' , 70) == true ) then
+        if ( Diamond__DiamondB('gldo' , 'gsou' , 'gvsm' , 70) == true ) then
             return
         endif
 
@@ -1728,38 +1728,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFourthStrDiamond takes nothing returns nothing
+    function Diamond__AddFourthStrDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('wolg', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('sksh' , 'oslo' , 'esaz' , 90) == true ) then
+        if ( Diamond__DiamondB('sksh' , 'oslo' , 'esaz' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('ocor' , 'blba' , 'asbl' , 90) == true ) then
+        if ( Diamond__DiamondB('ocor' , 'blba' , 'asbl' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rat3' , 'pams' , 'ram4' , 90) == true ) then
+        if ( Diamond__DiamondB('rat3' , 'pams' , 'ram4' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('stre' , 'shrs' , 'ram3' , 90) == true ) then
+        if ( Diamond__DiamondB('stre' , 'shrs' , 'ram3' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('lure' , 'thdm' , 'ram2' , 90) == true ) then
+        if ( Diamond__DiamondB('lure' , 'thdm' , 'ram2' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rots' , 'tmmt' , 'ram1' , 90) == true ) then
+        if ( Diamond__DiamondB('rots' , 'tmmt' , 'ram1' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('frhg' , 'mlst' , 'oven' , 90) == true ) then
+        if ( Diamond__DiamondB('frhg' , 'mlst' , 'oven' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('ofir' , 'soul' , 'tels' , 90) == true ) then
+        if ( Diamond__DiamondB('ofir' , 'soul' , 'tels' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('gldo' , 'gsou' , 'gvsm' , 90) == true ) then
+        if ( Diamond__DiamondB('gldo' , 'gsou' , 'gvsm' , 90) == true ) then
             return
         endif
 
@@ -1769,38 +1769,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFourthBlessDiamond takes nothing returns nothing
+    function Diamond__AddFourthBlessDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('skrt', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('sksh' , 'oslo' , 60) == true ) then
+        if ( Diamond__DiamondA('sksh' , 'oslo' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('ocor' , 'blba' , 60) == true ) then
+        if ( Diamond__DiamondA('ocor' , 'blba' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('rat3' , 'pams' , 60) == true ) then
+        if ( Diamond__DiamondA('rat3' , 'pams' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('stre' , 'shrs' , 60) == true ) then
+        if ( Diamond__DiamondA('stre' , 'shrs' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('lure' , 'thdm' , 60) == true ) then
+        if ( Diamond__DiamondA('lure' , 'thdm' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('rots' , 'tmmt' , 60) == true ) then
+        if ( Diamond__DiamondA('rots' , 'tmmt' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('frhg' , 'mlst' , 60) == true ) then
+        if ( Diamond__DiamondA('frhg' , 'mlst' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('ofir' , 'soul' , 60) == true ) then
+        if ( Diamond__DiamondA('ofir' , 'soul' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('gldo' , 'gsou' , 60) == true ) then
+        if ( Diamond__DiamondA('gldo' , 'gsou' , 60) == true ) then
             return
         endif
 
@@ -1810,38 +1810,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFifthDiamond takes nothing returns nothing
+    function Diamond__AddFifthDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('jpnt', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('oslo' , 'grsl' , 'sksh' , 60) == true ) then
+        if ( Diamond__DiamondB('oslo' , 'grsl' , 'sksh' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('blba' , 'cosl' , 'ocor' , 60) == true ) then
+        if ( Diamond__DiamondB('blba' , 'cosl' , 'ocor' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('pams' , 'jdrn' , 'rat3' , 60) == true ) then
+        if ( Diamond__DiamondB('pams' , 'jdrn' , 'rat3' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('shrs' , 'kgal' , 'stre' , 60) == true ) then
+        if ( Diamond__DiamondB('shrs' , 'kgal' , 'stre' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('thdm' , 'arsh' , 'lure' , 60) == true ) then
+        if ( Diamond__DiamondB('thdm' , 'arsh' , 'lure' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('tmmt' , 'brag' , 'rots' , 60) == true ) then
+        if ( Diamond__DiamondB('tmmt' , 'brag' , 'rots' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('mlst' , 'nspi' , 'frhg' , 60) == true ) then
+        if ( Diamond__DiamondB('mlst' , 'nspi' , 'frhg' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('soul' , 'sbok' , 'ofir' , 60) == true ) then
+        if ( Diamond__DiamondB('soul' , 'sbok' , 'ofir' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('gsou' , 'envl' , 'gldo' , 60) == true ) then
+        if ( Diamond__DiamondB('gsou' , 'envl' , 'gldo' , 60) == true ) then
             return
         endif
 
@@ -1851,38 +1851,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFifthStrDiamond takes nothing returns nothing
+    function Diamond__AddFifthStrDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('ledg', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('oslo' , 'grsl' , 'sksh' , 80) == true ) then
+        if ( Diamond__DiamondB('oslo' , 'grsl' , 'sksh' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('blba' , 'cosl' , 'ocor' , 80) == true ) then
+        if ( Diamond__DiamondB('blba' , 'cosl' , 'ocor' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('pams' , 'jdrn' , 'rat3' , 80) == true ) then
+        if ( Diamond__DiamondB('pams' , 'jdrn' , 'rat3' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('shrs' , 'kgal' , 'stre' , 80) == true ) then
+        if ( Diamond__DiamondB('shrs' , 'kgal' , 'stre' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('thdm' , 'arsh' , 'lure' , 80) == true ) then
+        if ( Diamond__DiamondB('thdm' , 'arsh' , 'lure' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('tmmt' , 'brag' , 'rots' , 80) == true ) then
+        if ( Diamond__DiamondB('tmmt' , 'brag' , 'rots' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('mlst' , 'nspi' , 'frhg' , 80) == true ) then
+        if ( Diamond__DiamondB('mlst' , 'nspi' , 'frhg' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('soul' , 'sbok' , 'ofir' , 80) == true ) then
+        if ( Diamond__DiamondB('soul' , 'sbok' , 'ofir' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('gsou' , 'envl' , 'gldo' , 80) == true ) then
+        if ( Diamond__DiamondB('gsou' , 'envl' , 'gldo' , 80) == true ) then
             return
         endif
 
@@ -1892,38 +1892,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFifthBlessDiamond takes nothing returns nothing
+    function Diamond__AddFifthBlessDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('wtlg', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('oslo' , 'grsl' , 50) == true ) then
+        if ( Diamond__DiamondA('oslo' , 'grsl' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('blba' , 'cosl' , 50) == true ) then
+        if ( Diamond__DiamondA('blba' , 'cosl' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('pams' , 'jdrn' , 50) == true ) then
+        if ( Diamond__DiamondA('pams' , 'jdrn' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('shrs' , 'kgal' , 50) == true ) then
+        if ( Diamond__DiamondA('shrs' , 'kgal' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('thdm' , 'arsh' , 50) == true ) then
+        if ( Diamond__DiamondA('thdm' , 'arsh' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('tmmt' , 'brag' , 50) == true ) then
+        if ( Diamond__DiamondA('tmmt' , 'brag' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('mlst' , 'nspi' , 50) == true ) then
+        if ( Diamond__DiamondA('mlst' , 'nspi' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('soul' , 'sbok' , 50) == true ) then
+        if ( Diamond__DiamondA('soul' , 'sbok' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('gsou' , 'envl' , 50) == true ) then
+        if ( Diamond__DiamondA('gsou' , 'envl' , 50) == true ) then
             return
         endif
 
@@ -1933,38 +1933,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddFifthCurseDiamond takes nothing returns nothing
+    function Diamond__AddFifthCurseDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('gopr', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
 
-        if ( Diamond___DiamondC('oslo' , 'grsl' , 'esaz' , 90) == true ) then
+        if ( Diamond__DiamondC('oslo' , 'grsl' , 'esaz' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('blba' , 'cosl' , 'asbl' , 90) == true ) then
+        if ( Diamond__DiamondC('blba' , 'cosl' , 'asbl' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('pams' , 'jdrn' , 'ram4' , 90) == true ) then
+        if ( Diamond__DiamondC('pams' , 'jdrn' , 'ram4' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('shrs' , 'kgal' , 'ram3' , 90) == true ) then
+        if ( Diamond__DiamondC('shrs' , 'kgal' , 'ram3' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('thdm' , 'arsh' , 'ram2' , 90) == true ) then
+        if ( Diamond__DiamondC('thdm' , 'arsh' , 'ram2' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('tmmt' , 'brag' , 'ram1' , 90) == true ) then
+        if ( Diamond__DiamondC('tmmt' , 'brag' , 'ram1' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('mlst' , 'nspi' , 'oven' , 90) == true ) then
+        if ( Diamond__DiamondC('mlst' , 'nspi' , 'oven' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('soul' , 'sbok' , 'tels' , 90) == true ) then
+        if ( Diamond__DiamondC('soul' , 'sbok' , 'tels' , 90) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('gsou' , 'envl' , 'gvsm' , 90) == true ) then
+        if ( Diamond__DiamondC('gsou' , 'envl' , 'gvsm' , 90) == true ) then
             return
         endif
 
@@ -1974,38 +1974,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSixthDiamond takes nothing returns nothing
+    function Diamond__AddSixthDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('glsk', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('grsl' , 'flag' , 'oslo' , 50) == true ) then
+        if ( Diamond__DiamondB('grsl' , 'flag' , 'oslo' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('cosl' , 'shhn' , 'blba' , 50) == true ) then
+        if ( Diamond__DiamondB('cosl' , 'shhn' , 'blba' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('jdrn' , 'shcw' , 'pams' , 50) == true ) then
+        if ( Diamond__DiamondB('jdrn' , 'shcw' , 'pams' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('kgal' , 'shtm' , 'shrs' , 50) == true ) then
+        if ( Diamond__DiamondB('kgal' , 'shtm' , 'shrs' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('arsh' , 'srtl' , 'thdm' , 50) == true ) then
+        if ( Diamond__DiamondB('arsh' , 'srtl' , 'thdm' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('brag' , 'olig' , 'tmmt' , 50) == true ) then
+        if ( Diamond__DiamondB('brag' , 'olig' , 'tmmt' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('nspi' , 'oli2' , 'mlst' , 50) == true ) then
+        if ( Diamond__DiamondB('nspi' , 'oli2' , 'mlst' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('sbok' , 'arsc' , 'soul' , 50) == true ) then
+        if ( Diamond__DiamondB('sbok' , 'arsc' , 'soul' , 50) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('envl' , 'rugt' , 'gsou' , 50) == true ) then
+        if ( Diamond__DiamondB('envl' , 'rugt' , 'gsou' , 50) == true ) then
             return
         endif
 
@@ -2015,38 +2015,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSixthStrDiamond takes nothing returns nothing
+    function Diamond__AddSixthStrDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('dthb', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('grsl' , 'flag' , 'oslo' , 70) == true ) then
+        if ( Diamond__DiamondB('grsl' , 'flag' , 'oslo' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('cosl' , 'shhn' , 'blba' , 70) == true ) then
+        if ( Diamond__DiamondB('cosl' , 'shhn' , 'blba' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('jdrn' , 'shcw' , 'pams' , 70) == true ) then
+        if ( Diamond__DiamondB('jdrn' , 'shcw' , 'pams' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('kgal' , 'shtm' , 'shrs' , 70) == true ) then
+        if ( Diamond__DiamondB('kgal' , 'shtm' , 'shrs' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('arsh' , 'srtl' , 'thdm' , 70) == true ) then
+        if ( Diamond__DiamondB('arsh' , 'srtl' , 'thdm' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('brag' , 'olig' , 'tmmt' , 70) == true ) then
+        if ( Diamond__DiamondB('brag' , 'olig' , 'tmmt' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('nspi' , 'oli2' , 'mlst' , 70) == true ) then
+        if ( Diamond__DiamondB('nspi' , 'oli2' , 'mlst' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('sbok' , 'arsc' , 'soul' , 70) == true ) then
+        if ( Diamond__DiamondB('sbok' , 'arsc' , 'soul' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('envl' , 'rugt' , 'gsou' , 70) == true ) then
+        if ( Diamond__DiamondB('envl' , 'rugt' , 'gsou' , 70) == true ) then
             return
         endif
 
@@ -2056,38 +2056,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSixthBlessDiamond takes nothing returns nothing
+    function Diamond__AddSixthBlessDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('bzbe', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('grsl' , 'flag' , 40) == true ) then
+        if ( Diamond__DiamondA('grsl' , 'flag' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('cosl' , 'shhn' , 40) == true ) then
+        if ( Diamond__DiamondA('cosl' , 'shhn' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('jdrn' , 'shcw' , 40) == true ) then
+        if ( Diamond__DiamondA('jdrn' , 'shcw' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('kgal' , 'shtm' , 40) == true ) then
+        if ( Diamond__DiamondA('kgal' , 'shtm' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('arsh' , 'srtl' , 40) == true ) then
+        if ( Diamond__DiamondA('arsh' , 'srtl' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('brag' , 'olig' , 40) == true ) then
+        if ( Diamond__DiamondA('brag' , 'olig' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('nspi' , 'oli2' , 40) == true ) then
+        if ( Diamond__DiamondA('nspi' , 'oli2' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('sbok' , 'arsc' , 40) == true ) then
+        if ( Diamond__DiamondA('sbok' , 'arsc' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('envl' , 'rugt' , 40) == true ) then
+        if ( Diamond__DiamondA('envl' , 'rugt' , 40) == true ) then
             return
         endif
 
@@ -2097,38 +2097,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSixthCurseDiamond takes nothing returns nothing
+    function Diamond__AddSixthCurseDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('dphe', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondC('grsl' , 'flag' , 'sksh' , 80) == true ) then
+        if ( Diamond__DiamondC('grsl' , 'flag' , 'sksh' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('cosl' , 'shhn' , 'ocor' , 80) == true ) then
+        if ( Diamond__DiamondC('cosl' , 'shhn' , 'ocor' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('jdrn' , 'shcw' , 'rat3' , 80) == true ) then
+        if ( Diamond__DiamondC('jdrn' , 'shcw' , 'rat3' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('kgal' , 'shtm' , 'stre' , 80) == true ) then
+        if ( Diamond__DiamondC('kgal' , 'shtm' , 'stre' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('arsh' , 'srtl' , 'lure' , 80) == true ) then
+        if ( Diamond__DiamondC('arsh' , 'srtl' , 'lure' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('brag' , 'olig' , 'rots' , 80) == true ) then
+        if ( Diamond__DiamondC('brag' , 'olig' , 'rots' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('nspi' , 'oli2' , 'frhg' , 80) == true ) then
+        if ( Diamond__DiamondC('nspi' , 'oli2' , 'frhg' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('sbok' , 'arsc' , 'ofir' , 80) == true ) then
+        if ( Diamond__DiamondC('sbok' , 'arsc' , 'ofir' , 80) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('envl' , 'rugt' , 'gldo' , 80) == true ) then
+        if ( Diamond__DiamondC('envl' , 'rugt' , 'gldo' , 80) == true ) then
             return
         endif
 
@@ -2138,20 +2138,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSeventhDiamond takes nothing returns nothing
+    function Diamond__AddSeventhDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('kygh', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('oli2' , 'rump' , 'nspi' , 40) == true ) then
+        if ( Diamond__DiamondB('oli2' , 'rump' , 'nspi' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('arsc' , 'rde0' , 'sbok' , 40) == true ) then
+        if ( Diamond__DiamondB('arsc' , 'rde0' , 'sbok' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rugt' , 'shdt' , 'envl' , 40) == true ) then
+        if ( Diamond__DiamondB('rugt' , 'shdt' , 'envl' , 40) == true ) then
             return
         endif
 
@@ -2161,20 +2161,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSeventhStrDiamond takes nothing returns nothing
+    function Diamond__AddSeventhStrDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('mort', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('oli2' , 'rump' , 'nspi' , 60) == true ) then
+        if ( Diamond__DiamondB('oli2' , 'rump' , 'nspi' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('arsc' , 'rde0' , 'sbok' , 60) == true ) then
+        if ( Diamond__DiamondB('arsc' , 'rde0' , 'sbok' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rugt' , 'shdt' , 'envl' , 60) == true ) then
+        if ( Diamond__DiamondB('rugt' , 'shdt' , 'envl' , 60) == true ) then
             return
         endif
 
@@ -2184,20 +2184,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSeventhBlessDiamond takes nothing returns nothing
+    function Diamond__AddSeventhBlessDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('ches', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('oli2' , 'rump' , 30) == true ) then
+        if ( Diamond__DiamondA('oli2' , 'rump' , 30) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('arsc' , 'rde0' , 30) == true ) then
+        if ( Diamond__DiamondA('arsc' , 'rde0' , 30) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('rugt' , 'shdt' , 30) == true ) then
+        if ( Diamond__DiamondA('rugt' , 'shdt' , 30) == true ) then
             return
         endif
 
@@ -2207,20 +2207,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddSeventhCurseDiamond takes nothing returns nothing
+    function Diamond__AddSeventhCurseDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('cnhn', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondC('oli2' , 'rump' , 'mlst' , 70) == true ) then
+        if ( Diamond__DiamondC('oli2' , 'rump' , 'mlst' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('arsc' , 'rde0' , 'soul' , 70) == true ) then
+        if ( Diamond__DiamondC('arsc' , 'rde0' , 'soul' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('rugt' , 'shdt' , 'gsou' , 70) == true ) then
+        if ( Diamond__DiamondC('rugt' , 'shdt' , 'gsou' , 70) == true ) then
             return
         endif
 
@@ -2230,20 +2230,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddEighthDiamond takes nothing returns nothing
+    function Diamond__AddEighthDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('sehr', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('rump' , 'shen' , 'oli2' , 40) == true ) then
+        if ( Diamond__DiamondB('rump' , 'shen' , 'oli2' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rde0' , 'oflg' , 'arsc' , 40) == true ) then
+        if ( Diamond__DiamondB('rde0' , 'oflg' , 'arsc' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('shdt' , 'crdt' , 'rugt' , 40) == true ) then
+        if ( Diamond__DiamondB('shdt' , 'crdt' , 'rugt' , 40) == true ) then
             return
         endif
 
@@ -2253,20 +2253,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddEighthStrDiamond takes nothing returns nothing
+    function Diamond__AddEighthStrDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('k3m3', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('rump' , 'shen' , 'oli2' , 60) == true ) then
+        if ( Diamond__DiamondB('rump' , 'shen' , 'oli2' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('rde0' , 'oflg' , 'arsc' , 60) == true ) then
+        if ( Diamond__DiamondB('rde0' , 'oflg' , 'arsc' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('shdt' , 'crdt' , 'rugt' , 60) == true ) then
+        if ( Diamond__DiamondB('shdt' , 'crdt' , 'rugt' , 60) == true ) then
             return
         endif
 
@@ -2276,20 +2276,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddEighthBlessDiamond takes nothing returns nothing
+    function Diamond__AddEighthBlessDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('k3m2', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('rump' , 'shen' , 30) == true ) then
+        if ( Diamond__DiamondA('rump' , 'shen' , 30) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('rde0' , 'oflg' , 30) == true ) then
+        if ( Diamond__DiamondA('rde0' , 'oflg' , 30) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('shdt' , 'crdt' , 30) == true ) then
+        if ( Diamond__DiamondA('shdt' , 'crdt' , 30) == true ) then
             return
         endif
 
@@ -2299,20 +2299,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddEighthCurseDiamond takes nothing returns nothing
+    function Diamond__AddEighthCurseDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('kybl', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondC('rump' , 'shen' , 'nspi' , 70) == true ) then
+        if ( Diamond__DiamondC('rump' , 'shen' , 'nspi' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('rde0' , 'oflg' , 'sbok' , 70) == true ) then
+        if ( Diamond__DiamondC('rde0' , 'oflg' , 'sbok' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('shdt' , 'crdt' , 'envl' , 70) == true ) then
+        if ( Diamond__DiamondC('shdt' , 'crdt' , 'envl' , 70) == true ) then
             return
         endif
 
@@ -2322,20 +2322,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddNinthDiamond takes nothing returns nothing
+    function Diamond__AddNinthDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('bzbf', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('shen' , 'stpg' , 'rump' , 40) == true ) then
+        if ( Diamond__DiamondB('shen' , 'stpg' , 'rump' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('oflg' , 'frgd' , 'rde0' , 40) == true ) then
+        if ( Diamond__DiamondB('oflg' , 'frgd' , 'rde0' , 40) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('crdt' , 'pspd' , 'shdt' , 40) == true ) then
+        if ( Diamond__DiamondB('crdt' , 'pspd' , 'shdt' , 40) == true ) then
             return
         endif
 
@@ -2345,20 +2345,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddNinthStrDiamond takes nothing returns nothing
+    function Diamond__AddNinthStrDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('kysn', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondB('shen' , 'stpg' , 'rump' , 60) == true ) then
+        if ( Diamond__DiamondB('shen' , 'stpg' , 'rump' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('oflg' , 'frgd' , 'rde0' , 60) == true ) then
+        if ( Diamond__DiamondB('oflg' , 'frgd' , 'rde0' , 60) == true ) then
             return
         endif
-        if ( Diamond___DiamondB('crdt' , 'pspd' , 'shdt' , 60) == true ) then
+        if ( Diamond__DiamondB('crdt' , 'pspd' , 'shdt' , 60) == true ) then
             return
         endif
 
@@ -2368,20 +2368,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddNinthBlessDiamond takes nothing returns nothing
+    function Diamond__AddNinthBlessDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('ktrm', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondA('shen' , 'stpg' , 30) == true ) then
+        if ( Diamond__DiamondA('shen' , 'stpg' , 30) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('oflg' , 'frgd' , 30) == true ) then
+        if ( Diamond__DiamondA('oflg' , 'frgd' , 30) == true ) then
             return
         endif
-        if ( Diamond___DiamondA('crdt' , 'pspd' , 30) == true ) then
+        if ( Diamond__DiamondA('crdt' , 'pspd' , 30) == true ) then
             return
         endif
 
@@ -2391,20 +2391,20 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___AddNinthCurseDiamond takes nothing returns nothing
+    function Diamond__AddNinthCurseDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('shwd', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___DiamondC('shen' , 'stpg' , 'oli2' , 70) == true ) then
+        if ( Diamond__DiamondC('shen' , 'stpg' , 'oli2' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('oflg' , 'frgd' , 'arsc' , 70) == true ) then
+        if ( Diamond__DiamondC('oflg' , 'frgd' , 'arsc' , 70) == true ) then
             return
         endif
-        if ( Diamond___DiamondC('crdt' , 'pspd' , 'rugt' , 70) == true ) then
+        if ( Diamond__DiamondC('crdt' , 'pspd' , 'rugt' , 70) == true ) then
             return
         endif
 
@@ -2414,38 +2414,38 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___XueJingDiamond takes nothing returns nothing
+    function Diamond__XueJingDiamond takes nothing returns nothing
         if ( IsItemPawnable(GetSpellTargetItem()) == false ) then
             call UnitAddItemByIdSwapped('k3m1', GetTriggerUnit())
             call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE)
             return
         endif
         
-        if ( Diamond___Diamond100('oli2' , 'rump') == true ) then
+        if ( Diamond__Diamond100('oli2' , 'rump') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('arsc' , 'rde0') == true ) then
+        if ( Diamond__Diamond100('arsc' , 'rde0') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('rugt' , 'shdt') == true ) then
+        if ( Diamond__Diamond100('rugt' , 'shdt') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('shen' , 'stpg') == true ) then
+        if ( Diamond__Diamond100('shen' , 'stpg') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('oflg' , 'frgd') == true ) then
+        if ( Diamond__Diamond100('oflg' , 'frgd') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('crdt' , 'pspd') == true ) then
+        if ( Diamond__Diamond100('crdt' , 'pspd') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('rump' , 'shen') == true ) then
+        if ( Diamond__Diamond100('rump' , 'shen') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('rde0' , 'oflg') == true ) then
+        if ( Diamond__Diamond100('rde0' , 'oflg') == true ) then
             return
         endif
-        if ( Diamond___Diamond100('shdt' , 'crdt') == true ) then
+        if ( Diamond__Diamond100('shdt' , 'crdt') == true ) then
             return
         endif
 
@@ -2457,61 +2457,61 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
     
-    function Diamond___TSpellDiamondAct takes nothing returns nothing
+    function Diamond__TSpellDiamondAct takes nothing returns nothing
         if ( GetSpellAbilityId() == 'A02Z' ) then
-            call Diamond___AddOneDiamond()
+            call Diamond__AddOneDiamond()
         elseif ( GetSpellAbilityId() == 'Amnb' ) then
-            call Diamond___AddSecondDiamond()
+            call Diamond__AddSecondDiamond()
         elseif ( GetSpellAbilityId() == 'Ambb' ) then
-            call Diamond___AddThirdDiamond()
+            call Diamond__AddThirdDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACfl' ) ) then
-            call Diamond___AddFourthDiamond()
+            call Diamond__AddFourthDiamond()
         elseif ( ( GetSpellAbilityId() == 'Aenw' ) ) then
-            call Diamond___AddFourthStrDiamond()
+            call Diamond__AddFourthStrDiamond()
         elseif ( ( GetSpellAbilityId() == 'Aenr' ) ) then
-            call Diamond___AddFourthBlessDiamond()
+            call Diamond__AddFourthBlessDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACcy' ) ) then
-            call Diamond___AddFifthDiamond()
+            call Diamond__AddFifthDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACbn' ) ) then
-            call Diamond___AddFifthStrDiamond()
+            call Diamond__AddFifthStrDiamond()
         elseif ( ( GetSpellAbilityId() == 'SCc1' ) ) then
-            call Diamond___AddFifthBlessDiamond()
+            call Diamond__AddFifthBlessDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACfb' ) ) then
-            call Diamond___AddFifthCurseDiamond()
+            call Diamond__AddFifthCurseDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACls' ) ) then
-            call Diamond___AddSixthDiamond()
+            call Diamond__AddSixthDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACbf' ) ) then
-            call Diamond___AddSixthStrDiamond()
+            call Diamond__AddSixthStrDiamond()
         elseif ( ( GetSpellAbilityId() == 'Afod' ) ) then
-            call Diamond___AddSixthBlessDiamond()
+            call Diamond__AddSixthBlessDiamond()
         elseif ( ( GetSpellAbilityId() == 'ACdc' ) ) then
-            call Diamond___AddSixthCurseDiamond()
+            call Diamond__AddSixthCurseDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DG' ) ) then
-            call Diamond___AddSeventhDiamond()
+            call Diamond__AddSeventhDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DI' ) ) then
-            call Diamond___AddSeventhStrDiamond()
+            call Diamond__AddSeventhStrDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DH' ) ) then
-            call Diamond___AddSeventhBlessDiamond()
+            call Diamond__AddSeventhBlessDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DN' ) ) then
-            call Diamond___AddSeventhCurseDiamond()
+            call Diamond__AddSeventhCurseDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DJ' ) ) then
-            call Diamond___AddEighthDiamond()
+            call Diamond__AddEighthDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DK' ) ) then
-            call Diamond___AddEighthStrDiamond()
+            call Diamond__AddEighthStrDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DL' ) ) then
-            call Diamond___AddEighthBlessDiamond()
+            call Diamond__AddEighthBlessDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DM' ) ) then
-            call Diamond___AddEighthCurseDiamond()
+            call Diamond__AddEighthCurseDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DO' ) ) then
-            call Diamond___AddNinthDiamond()
+            call Diamond__AddNinthDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DR' ) ) then
-            call Diamond___AddNinthStrDiamond()
+            call Diamond__AddNinthStrDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DQ' ) ) then
-            call Diamond___AddNinthBlessDiamond()
+            call Diamond__AddNinthBlessDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0DP' ) ) then
-            call Diamond___AddNinthCurseDiamond()
+            call Diamond__AddNinthCurseDiamond()
         elseif ( ( GetSpellAbilityId() == 'A0EK' ) ) then
-            call Diamond___XueJingDiamond()
+            call Diamond__XueJingDiamond()
         endif
     endfunction
 //---------------------------------------------------------------------------------------------------
@@ -2527,7 +2527,7 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___CreateDiamonMonster takes integer whichType,integer aLevel returns nothing
+    function Diamond__CreateDiamonMonster takes integer whichType,integer aLevel returns nothing
         local real x= 0
         local real y= 0
         local unit u
@@ -2578,7 +2578,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nnmg' , 1)
+                        call Diamond__CreateDiamonMonster('nnmg' , 1)
                         set i=i + 1
                     endloop
                 else
@@ -2604,7 +2604,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nmyr' , 2)
+                        call Diamond__CreateDiamonMonster('nmyr' , 2)
                         set i=i + 1
                     endloop
                 else
@@ -2630,7 +2630,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nnsw' , 3)
+                        call Diamond__CreateDiamonMonster('nnsw' , 3)
                         set i=i + 1
                     endloop
                 else
@@ -2656,7 +2656,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nsnp' , 4)
+                        call Diamond__CreateDiamonMonster('nsnp' , 4)
                         set i=i + 1
                     endloop
                 else
@@ -2682,7 +2682,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nhyc' , 5)
+                        call Diamond__CreateDiamonMonster('nhyc' , 5)
                         set i=i + 1
                     endloop
                 else
@@ -2708,7 +2708,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nnrg' , 6)
+                        call Diamond__CreateDiamonMonster('nnrg' , 6)
                         set i=i + 1
                     endloop
                 else
@@ -2734,7 +2734,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nplb' , 7)
+                        call Diamond__CreateDiamonMonster('nplb' , 7)
                         set i=i + 1
                     endloop
                 else
@@ -2760,7 +2760,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('ntrv' , 8)
+                        call Diamond__CreateDiamonMonster('ntrv' , 8)
                         set i=i + 1
                     endloop
                 else
@@ -2786,7 +2786,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nmmu' , 9)
+                        call Diamond__CreateDiamonMonster('nmmu' , 9)
                         set i=i + 1
                     endloop
                 else
@@ -2812,7 +2812,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nanb' , 5)
+                        call Diamond__CreateDiamonMonster('nanb' , 5)
                         set i=i + 1
                     endloop
                 else
@@ -2838,7 +2838,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nanm' , 5)
+                        call Diamond__CreateDiamonMonster('nanm' , 5)
                         set i=i + 1
                     endloop
                 else
@@ -2864,7 +2864,7 @@ endfunction
                     set i=1
                     loop
                         exitwhen i > 20
-                        call Diamond___CreateDiamonMonster('nane' , 5)
+                        call Diamond__CreateDiamonMonster('nane' , 5)
                         set i=i + 1
                     endloop
                 else
@@ -2885,7 +2885,7 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function Diamond___MonsterDropDiamond takes nothing returns nothing
+    function Diamond__MonsterDropDiamond takes nothing returns nothing
         if ( ( GetUnitTypeId(GetDyingUnit()) == 'nnmg' ) ) then
             call CreateItem('I02N', GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()))
         elseif ( ( GetUnitTypeId(GetDyingUnit()) == 'nmyr' ) ) then
@@ -2924,14 +2924,14 @@ endfunction
                 set IAtleast1=( IAtleast1 - 1 )
                 if ( ( IAtleast1 == 2 ) ) then
                     set IAtleast1=100
-                    call Diamond___MonsterDropDiamond()
+                    call Diamond__MonsterDropDiamond()
                     return
                 endif
             elseif ( RectContainsUnit(gg_rct_Diamond2, GetDyingUnit()) ) then
                 set IAtleast2=( IAtleast2 - 1 )
                 if ( ( IAtleast2 == 2 ) ) then
                     set IAtleast2=100
-                    call Diamond___MonsterDropDiamond()
+                    call Diamond__MonsterDropDiamond()
                     return
                 endif
             endif
@@ -2942,20 +2942,66 @@ endfunction
             elseif ( RectContainsUnit(gg_rct_Diamond2, GetDyingUnit()) ) then
                 set IAtleast2=100
             endif
-            call Diamond___MonsterDropDiamond()
+            call Diamond__MonsterDropDiamond()
         endif
         
     endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function TLeaveDiamondRegionCon takes nothing returns boolean
+        return ( ( GetPlayerController(GetOwningPlayer(GetLeavingUnit())) == MAP_CONTROL_USER ) )
+    endfunction
 
+    function TLeaveDiamondRegion1Act takes nothing returns nothing
+        local group group1= GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
+        local group group2= null
+        local unit l_unit= null
+        if ( ( CountUnitsInGroup(group1) == 0 ) ) then
+            set group2=GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
+            loop
+                set l_unit=FirstOfGroup(group2)
+                exitwhen l_unit == null
+                call GroupRemoveUnit(group2, l_unit)
+                call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+                call RemoveUnit(l_unit)
+            endloop
+            call DestroyGroup(group2)
+        endif
+        call DestroyGroup(group1)
+        set group1=null
+        set group2=null
+        set l_unit=null
+    endfunction
+
+    function TLeaveDiamondRegion2Act takes nothing returns nothing
+        local group group1= GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
+        local group group2= null
+        local unit l_unit= null
+        if ( ( CountUnitsInGroup(group1) == 0 ) ) then
+            set group2=GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
+            loop
+                set l_unit=FirstOfGroup(group2)
+                exitwhen l_unit == null
+                call GroupRemoveUnit(group2, l_unit)
+                call FlushChildHashtable(YDHT, GetHandleId(l_unit))
+                call RemoveUnit(l_unit)
+            endloop
+            call DestroyGroup(group2)
+        endif
+        call DestroyGroup(group1)
+        set group1=null
+        set group2=null
+        set l_unit=null
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function Diamond___InitDiamond takes nothing returns nothing
+ function Diamond__InitDiamond takes nothing returns nothing
 		
         local trigger t= CreateTrigger()
 
         call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-        call TriggerAddAction(t, function Diamond___TSpellDiamondAct)
+        call TriggerAddAction(t, function Diamond__TSpellDiamondAct)
 
         //开始刷宝石
         set t=CreateTrigger()
@@ -2968,6 +3014,16 @@ endfunction
         call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
         call TriggerAddCondition(t, Condition(function TDropDiamondCon))
         call TriggerAddAction(t, function TDropDiamondAct)
+
+        //宝石区离开事件
+        set t=CreateTrigger()
+        call TriggerRegisterLeaveRectSimple(t, gg_rct________8)
+        call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+        call TriggerAddAction(t, function TLeaveDiamondRegion1Act)
+        set t=CreateTrigger()
+        call TriggerRegisterLeaveRectSimple(t, gg_rct_Diamond2)
+        call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+        call TriggerAddAction(t, function TLeaveDiamondRegion2Act)
 
         set t=null
 	endfunction
@@ -3035,9 +3091,9 @@ endfunction
 function main takes nothing returns nothing
 
 call ExecuteFunc("Version__InitVersion")
-call ExecuteFunc("Test___InitTest")
-call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("Diamond___InitDiamond")
+call ExecuteFunc("Test__InitTest")
+call ExecuteFunc("LHBase__InitLHBase")
+call ExecuteFunc("Diamond__InitDiamond")
 
 endfunction
 

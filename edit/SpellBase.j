@@ -119,8 +119,8 @@ library_once SpellBase requires LHBase
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if(IsEnemyM(l_unit,.caster) == true) then
-			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			    if(IsEnemy(l_unit,.caster) == true) then
+			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			    endif
 			endloop
 			call DestroyGroup(l_group)
