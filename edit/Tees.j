@@ -1,10 +1,8 @@
 
 
 
-/*
-function Trig_Z7Conditions takes nothing returns boolean
-    return ((GetPlayerController(GetOwningPlayer(GetLeavingUnit())) == MAP_CONTROL_USER))
-endfunction
+
+
 
 function Trig_Z7Func002003002 takes nothing returns boolean
     return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) == true) and (GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER)))
@@ -19,36 +17,65 @@ function Trig_Z7Func003Func002A takes nothing returns nothing
     call RemoveUnit( GetEnumUnit() )
 endfunction
 
-function Trig_Z7Actions takes nothing returns nothing
-    local group ydl_group
-    local unit ydl_unit
-    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
-    set ydl_localvar_step = ydl_localvar_step + 3
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
-    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xAA168BFB, GetUnitsInRectMatching(gg_rct________8, Condition(function Trig_Z7Func002003002)))
-    if ((CountUnitsInGroup(YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xAA168BFB)) == 0)) then
-        call YDTriggerSetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x9E80183F, GetUnitsInRectMatching(gg_rct________8, Condition(function Trig_Z7Func003Func001003002)))
-        call ForGroupBJ( YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x9E80183F), function Trig_Z7Func003Func002A )
-        call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x9E80183F) )
-    else
-    endif
-    call DestroyGroup( YDTriggerGetEx(group, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xAA168BFB) )
-    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
-    set ydl_group = null
-    set ydl_unit = null
+function TLeaveDiamondRegionCon takes nothing returns boolean
+    return ((GetPlayerController(GetOwningPlayer(GetLeavingUnit())) == MAP_CONTROL_USER))
 endfunction
+
+function TLeaveDiamondRegion1Act takes nothing returns nothing
+	local group group1 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
+	local group group2 = null
+	local unit l_unit = null
+    if ((CountUnitsInGroup(group1) == 0)) then
+		set group2 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
+        loop
+            set l_unit = FirstOfGroup(group2)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(group2, l_unit)
+	        call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+	        call RemoveUnit( l_unit )
+        endloop
+    	call DestroyGroup( group2 )
+    endif
+    call DestroyGroup( group1 )
+    set group1 = null
+    set group2 = null
+    set l_unit = null
+endfunction
+
+function TLeaveDiamondRegion2Act takes nothing returns nothing
+	local group group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
+	local group group2 = null
+	local unit l_unit = null
+    if ((CountUnitsInGroup(group1) == 0)) then
+		set group2 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
+        loop
+            set l_unit = FirstOfGroup(group2)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(group2, l_unit)
+	        call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+	        call RemoveUnit( l_unit )
+        endloop
+    	call DestroyGroup( group2 )
+    endif
+    call DestroyGroup( group1 )
+    set group1 = null
+    set group2 = null
+    set l_unit = null
+endfunction
+
 
 //===========================================================================
 function InitTrig_Z7 takes nothing returns nothing
-    set gg_trg_Z7 = CreateTrigger()
-#ifdef DEBUG
-    call YDWESaveTriggerName(gg_trg_Z7, "Z7")
-#endif
-    call TriggerRegisterLeaveRectSimple( gg_trg_Z7, gg_rct________8 )
-    call TriggerAddCondition(gg_trg_Z7, Condition(function Trig_Z7Conditions))
-    call TriggerAddAction(gg_trg_Z7, function Trig_Z7Actions)
+    set t = CreateTrigger()
+    call TriggerRegisterLeaveRectSimple( t, gg_rct________8 )
+    call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+    call TriggerAddAction(t, function TLeaveDiamondRegion1Act)
+
+    set t = CreateTrigger()
+    call TriggerRegisterLeaveRectSimple( t, gg_rct_Diamond2 )
+    call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+    call TriggerAddAction(t, function TLeaveDiamondRegion2Act)
+
 endfunction
 
 
-*/
