@@ -103,13 +103,13 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    异界能量
 	*/
 	function TSpellSeyu2Con takes nothing returns boolean
-	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00) and GetUnitAbilityLevel(seyu,'AUav') == 1) and IsUnitAliveBJ(seyu)
+	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00) and GetUnitAbilityLevel(seyu,'AUav') == 1)
 	endfunction
 
 	function TSpellSeyu2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
 		call Mantuoluo(seyu,0.33,'AUav')
-		call PolledWait(2)
+		call PolledWait(1)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 

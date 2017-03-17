@@ -2,7 +2,8 @@
 
 //! import "LHBase.j"
 //! import "SpellBase.j"
-library_once Arena initializer InitArena requires LHBase,SpellBase
+//! import "Diffculty.j"
+library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 
 	globals
 
@@ -427,7 +428,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 2)) then
 	                    set challenager = CreateUnit(Player(10), 'Hgam', GetRectCenterX(gg_rct_Arena_2),GetRectCenterY(gg_rct_Arena_2), 180.00)
 	                    call TimerStart(t,2,TRUE,function LingerAssemble)
-	                            call DisableTrigger( TSpellLinger )
+	                    call EnableTrigger( TSpellLinger )
 
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 3)) then
 	                    set challenager = CreateUnit(Player(10), 'Hmbr', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
@@ -493,7 +494,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase
 	                    call DisplayTextToPlayer( GetOwningPlayer(defier), 0, 0, "|cFFFF66CC【消息】|r挑战开始！" )
 	                    //5秒更新一次等级
 	                    set t = CreateTimer()
-	                    call TimerStart(t,5,TRUE,function updateLevel)
+	                    call TimerStart(t,GetArenaUpdateSpeed(),TRUE,function updateLevel)
 	                    //0.05秒更新一次等级提示的位置
 	                    set t = CreateTimer()
 	                    call TimerStart(t,0.05,TRUE,function updateLevelLoc)

@@ -1,8 +1,9 @@
 //! import "LHBase.j"
+//! import "Diffculty.j"
 /*
     宝石升级装备
 */
-library_once Diamond initializer InitDiamond requires LHBase 
+library_once Diamond initializer InitDiamond requires LHBase,Diffculty
 
     globals
         constant string DIAMOND_CANT_UPDATE = "|cFFFF66CC【消息】|r该宝石不能升级该物品。"
@@ -1145,6 +1146,7 @@ library_once Diamond initializer InitDiamond requires LHBase
             set y = GetRandomReal(GetRectMinY(gg_rct_Diamond2),GetRectMaxY(gg_rct_Diamond2))
         endif
         set u = CreateUnit(Player(10),whichType,x,y,GetRandomDirectionDeg())
+        call EnhanceDiffAttack(u)
         call SetUnitAbilityLevel(u, 'AB01', aLevel )
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", x, y ))
         set u = null
@@ -1166,7 +1168,7 @@ library_once Diamond initializer InitDiamond requires LHBase
         if (RectContainsUnit(gg_rct________8,GetSellingUnit())) then
             set group1 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
             set group2 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
-        else
+        elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
             set group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
             set group2 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
         endif
@@ -1178,7 +1180,7 @@ library_once Diamond initializer InitDiamond requires LHBase
                 if ((CountUnitsInGroup(group2) != 0)) then
                     if (RectContainsUnit(gg_rct________8,GetSellingUnit())) then
                         set IAtleast1 = 21
-                    else
+                    elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
                         set IAtleast2 = 21
                     endif
                     call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r祝你好运!" )
@@ -1221,32 +1223,45 @@ library_once Diamond initializer InitDiamond requires LHBase
     /*
         根据死亡单位类型去掉落相对应的宝石
     */
-    private function MonsterDropDiamond takes nothing returns nothing
+    private function MonsterDropDiamond takes nothing returns boolean
         if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
             call CreateItem( 'I02N', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmyr')) then
             call CreateItem( 'I04S', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnsw')) then
             call CreateItem( 'azhr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nsnp')) then
             call CreateItem( 'gmfr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nhyc')) then
             call CreateItem( 'jpnt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnrg')) then
             call CreateItem( 'glsk', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nplb')) then
             call CreateItem( 'kygh', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'ntrv')) then
             call CreateItem( 'sehr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmmu')) then
             call CreateItem( 'bzbf', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanb')) then
             call CreateItem( 'thle', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanm')) then
             call CreateItem( 'dkfw', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nane')) then
             call CreateItem( 'phlt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         endif
+        return false
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -1275,14 +1290,15 @@ library_once Diamond initializer InitDiamond requires LHBase
                     return
                 endif
             endif
-        endif
-        if ((GetRandomInt(1, 25) == 1)) then
-            if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
-                set IAtleast1 = 100
-            elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
-                set IAtleast2 = 100
+            if ((GetRandomInt(1, 25) == 1)) then
+                if (MonsterDropDiamond()) then
+                    if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
+                        set IAtleast1 = 100
+                    elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
+                        set IAtleast2 = 100
+                    endif
+                endif
             endif
-            call MonsterDropDiamond()
         endif
         
     endfunction

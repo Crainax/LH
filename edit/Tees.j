@@ -1,81 +1,39 @@
-
-
-
-
-
-
-function Trig_Z7Func002003002 takes nothing returns boolean
-    return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) == true) and (GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER)))
-endfunction
-
-function Trig_Z7Func003Func001003002 takes nothing returns boolean
-    return (((IsUnitAliveBJ(GetFilterUnit()) == true) and (GetOwningPlayer(GetFilterUnit()) == Player(10))))
-endfunction
-
-function Trig_Z7Func003Func002A takes nothing returns nothing
-    call YDTriggerClearTable(YDTriggerAny2I(unit, GetEnumUnit()))
-    call RemoveUnit( GetEnumUnit() )
-endfunction
-
-function TLeaveDiamondRegionCon takes nothing returns boolean
-    return ((GetPlayerController(GetOwningPlayer(GetLeavingUnit())) == MAP_CONTROL_USER))
-endfunction
-
-function TLeaveDiamondRegion1Act takes nothing returns nothing
-	local group group1 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
-	local group group2 = null
-	local unit l_unit = null
-    if ((CountUnitsInGroup(group1) == 0)) then
-		set group2 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
-        loop
-            set l_unit = FirstOfGroup(group2)
-            exitwhen l_unit == null
-            call GroupRemoveUnit(group2, l_unit)
-	        call FlushChildHashtable(YDHT,GetHandleId(l_unit))
-	        call RemoveUnit( l_unit )
-        endloop
-    	call DestroyGroup( group2 )
-    endif
-    call DestroyGroup( group1 )
-    set group1 = null
-    set group2 = null
-    set l_unit = null
-endfunction
-
-function TLeaveDiamondRegion2Act takes nothing returns nothing
-	local group group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
-	local group group2 = null
-	local unit l_unit = null
-    if ((CountUnitsInGroup(group1) == 0)) then
-		set group2 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
-        loop
-            set l_unit = FirstOfGroup(group2)
-            exitwhen l_unit == null
-            call GroupRemoveUnit(group2, l_unit)
-	        call FlushChildHashtable(YDHT,GetHandleId(l_unit))
-	        call RemoveUnit( l_unit )
-        endloop
-    	call DestroyGroup( group2 )
-    endif
-    call DestroyGroup( group1 )
-    set group1 = null
-    set group2 = null
-    set l_unit = null
-endfunction
-
-
-//===========================================================================
-function InitTrig_Z7 takes nothing returns nothing
-    set t = CreateTrigger()
-    call TriggerRegisterLeaveRectSimple( t, gg_rct________8 )
-    call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
-    call TriggerAddAction(t, function TLeaveDiamondRegion1Act)
-
-    set t = CreateTrigger()
-    call TriggerRegisterLeaveRectSimple( t, gg_rct_Diamond2 )
-    call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
-    call TriggerAddAction(t, function TLeaveDiamondRegion2Act)
-
-endfunction
-
-
+旋律0o0
+NEESON
+肉搏龙哥
+小丨情兽
+永恒镇神
+落叶规耕
+白哥哥啊
+大头三
+囚勒个钱
+红尘梦
+观虫
+zm丶yao
+丶简诺龄
+去污粉5415
+OUQIJUN
+yjwgss
+13580703577
+演技不够#5811
+nonona
+归魂路
+菊花猫猫
+高调不是华丽
+sa小混混
+龙星雨
+星雨菜鸟
+su泽
+江山为聘
+听说你有网瘾#5313
+风萧兮兮易水寒
+粗长硬黑久
+妞妞酸酸
+枫叶飘飘灬
+轩灬诺言
+绝望的辣条#5920
+frank#5986
+军爸爸丶
+旧地重游z
+谁打的我
+love默默兽兽

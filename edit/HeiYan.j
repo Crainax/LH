@@ -85,7 +85,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				set u =  CreateUnit(GetOwningPlayer(Heiyan),'h012' ,x,y,0)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
-		    call UnitApplyTimedLifeBJ( 9, 'BHwe' , u )
+		    call UnitApplyTimedLifeBJ( 12, 'BHwe' , u )
 	    	call GroupAddUnit(GSacri,u)
 			//无敌
 		    call SetUnitInvulnerable(u,true)

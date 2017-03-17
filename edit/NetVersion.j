@@ -2,7 +2,9 @@
     网易平台的功能初始化
     debug模式是网易模式
 */
-library_once Version   
+
+//! import "LHBase.j"
+library_once Version  requires LHBase   
 	
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -40,7 +42,7 @@ library_once Version
 	    提示当前平台等级
 	*/
 	function PrintCurrentPlatformLevel takes player p returns nothing
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + DzAPI_Map_GetMapLevel(p) + "！")
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + I2S(DzAPI_Map_GetMapLevel(p)) + "！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -57,6 +59,12 @@ library_once Version
 		return (DzAPI_Map_GetMapLevel(p) >= 10)
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    输出幻逸的密码
+	*/
+	function PrintHuanyiPassword takes nothing returns nothing
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 endlibrary
