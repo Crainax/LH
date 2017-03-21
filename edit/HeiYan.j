@@ -248,7 +248,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
     private function TSpellHeiyan2Act takes nothing returns nothing
     	call DisableTrigger(GetTriggeringTrigger())
 		call QianGuiXie(Heiyan,GetAttackedUnitBJ(),0.4,'A0C8')
-		call PolledWait(5)
+		call PolledWait(2)
     	call EnableTrigger(GetTriggeringTrigger())
     endfunction
 

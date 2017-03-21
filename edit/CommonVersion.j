@@ -23,7 +23,8 @@ library_once Version initializer InitVersion requires Achievement,LHBase
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff该英雄是隐藏英雄，多人通关地狱及以上的难度后在结尾获取密码,"/*		或者成为永久赞助直接选取该英雄|r"*/
+		return "|cff99ccff该英雄是隐藏英雄，多人通关地狱及以上的难度后在结尾获取密码,
+				或者成为永久赞助直接选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -84,14 +85,6 @@ library_once Version initializer InitVersion requires Achievement,LHBase
 
 
 	private function InitVersion takes nothing returns nothing
-	    local trigger t = CreateTrigger()
-	    call TriggerRegisterPlayerChatEvent( t, Player(0), "", false )
-	    call TriggerRegisterPlayerChatEvent( t, Player(1), "", false )
-	    call TriggerRegisterPlayerChatEvent( t, Player(2), "", false )
-	    call TriggerRegisterPlayerChatEvent( t, Player(3), "", false )
-	    call TriggerRegisterPlayerChatEvent( t, Player(4), "", false )
-	    call TriggerRegisterPlayerChatEvent( t, Player(5), "", false )
-	    call TriggerAddAction(t, function TSpeakPassword)
 	endfunction
 
 endlibrary

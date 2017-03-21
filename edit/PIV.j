@@ -1,6 +1,6 @@
 //! import "LHBase.j"
 /////! import "Beast.j"
-library_once PIV initializer InitPIV requires LHBase,Beast
+library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	globals
 		boolean array sPIV
 		private boolean isFirst = true
@@ -62,7 +62,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		if (IsPIV(GetOwningPlayer(u))) then
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-			call SetPlayerState(GetOwningPlayer(u),PLAYER_STATE_RESOURCE_GOLD,10000)
+			call AdjustPlayerStateBJ( 8000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
 			call Discolor(u)
 			return
 		endif
@@ -194,6 +194,72 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 	    set d = null
 	    set t = null
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    17玩吧激活码
+	*/
+	function Qskc_GetL takes player l100,string str,integer l10O,integer l1O0 returns boolean
+		local integer OO11=0
+		local integer lI0O=0
+		local integer l0O1=0
+		local integer O011=0
+		local integer llO0=0
+		local integer ll0O= 0
+		local integer O01l= 0
+		local string OOll=SubStringBJ(str, 11, 9999)
+		local string OOl1=SubStringBJ(str, 1, 10)
+		local integer llOO=StringLength(OOll)-2
+		local integer O0l1=IAbsBJ(StringHash(GetPlayerName(l100)))
+		set ll0O=StringHash(OOll)
+		set ll0O=ll0O+StringHash(I2S(StringLength(OOll)))
+		loop
+		exitwhen llO0>=StringLength(OOll)
+		set ll0O=ll0O+StringHash(SubString(OOll,llO0,llO0+1))
+		set O01l=S2I(SubStringBJ(R2S(IAbsBJ(ll0O)),1,2))+S2I(SubStringBJ(R2S(IAbsBJ(ll0O)),3,4))
+		set llO0=llO0+1
+		endloop
+		if StringLength(str)<90 then
+		return false
+		endif
+		loop
+		exitwhen O011>=O01l
+		set O0l1 =IAbsBJ(StringHash(I2S(O0l1)))
+		set O011 = O011 + 1
+		endloop
+		if O0l1<$3B9ACA00 then
+		set O0l1=O0l1+$3B9ACA00
+		endif
+		loop
+		exitwhen OO11>llOO
+		set lI0O=lI0O+StringHash(SubString(OOll,OO11,OO11+2))+StringHash(I2S(l0O1))
+		set l0O1=l0O1+StringHash(I2S(lI0O))-StringHash(SubString(OOll,OO11,OO11+2))
+		set OO11=OO11+1
+		endloop
+		return lI0O==l10O and l0O1==l1O0 and I2S(O0l1)==OOl1
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    17玩吧验证
+	*/
+	private function Verify17Wanba takes nothing returns nothing
+
+	    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-117135511,628755061))) then
+
+		    if (IsPIV(GetTriggerPlayer())) then
+				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！")
+				return
+			endif
+
+			if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
+				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！")
+				return
+			endif
+
+			call InitPlayerPIV(GetTriggerPlayer())
+
+		endif
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
@@ -357,6 +423,25 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		call SaveBoolean(PIVTable,kPIV,41292785,true)
 		call SaveBoolean(PIVTable,kPIV,199066564,true)
 		call SaveBoolean(PIVTable,kPIV,58301014,true)
+		call SaveBoolean(PIVTable,kPIV,904823142,true)
+		call SaveBoolean(PIVTable,kPIV,13683093,true)
+		call SaveBoolean(PIVTable,kPIV,1242297465,true)
+		call SaveBoolean(PIVTable,kPIV,610812043,true)
+		call SaveBoolean(PIVTable,kPIV,225975698,true)
+		call SaveBoolean(PIVTable,kPIV,1778330124,true)
+		call SaveBoolean(PIVTable,kPIV,1021570043,true)
+		call SaveBoolean(PIVTable,kPIV,22278263,true)
+		call SaveBoolean(PIVTable,kPIV,534339887,true)
+		call SaveBoolean(PIVTable,kPIV,46380924,true)
+		call SaveBoolean(PIVTable,kPIV,434531878,true)
+		call SaveBoolean(PIVTable,kPIV,48827206,true)
+		call SaveBoolean(PIVTable,kPIV,23689807,true)
+		call SaveBoolean(PIVTable,kPIV,601303810,true)
+		call SaveBoolean(PIVTable,kPIV,2024814813,true)
+		call SaveBoolean(PIVTable,kPIV,1965676132,true)
+		call SaveBoolean(PIVTable,kPIV,1356170852,true)
+		call SaveBoolean(PIVTable,kPIV,730864612,true)
+		call SaveBoolean(PIVTable,kPIV,415945636,true)
 
 		//test
 		//call SaveBoolean(PIVTable,kPIV,238541434,true)
@@ -369,6 +454,16 @@ library_once PIV initializer InitPIV requires LHBase,Beast
 		call TriggerRegisterPlayerChatEvent( t, Player(4), "##", true )
 		call TriggerRegisterPlayerChatEvent( t, Player(5), "##", true )
 	    call TriggerAddAction(t, function CreatePIVDialog)
+
+	    set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent( t, Player(0), "", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "", false )
+	    call TriggerAddAction(t, function Verify17Wanba)
+
 	    set t = null
 	endfunction
 

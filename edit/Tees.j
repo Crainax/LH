@@ -1,39 +1,12 @@
-旋律0o0
-NEESON
-肉搏龙哥
-小丨情兽
-永恒镇神
-落叶规耕
-白哥哥啊
-大头三
-囚勒个钱
-红尘梦
-观虫
-zm丶yao
-丶简诺龄
-去污粉5415
-OUQIJUN
-yjwgss
-13580703577
-演技不够#5811
-nonona
-归魂路
-菊花猫猫
-高调不是华丽
-sa小混混
-龙星雨
-星雨菜鸟
-su泽
-江山为聘
-听说你有网瘾#5313
-风萧兮兮易水寒
-粗长硬黑久
-妞妞酸酸
-枫叶飘飘灬
-轩灬诺言
-绝望的辣条#5920
-frank#5986
-军爸爸丶
-旧地重游z
-谁打的我
-love默默兽兽
+	/*
+	    获取位数字,1是个位
+	*/
+	private function GetBit takes integer num,integer bit returns integer
+		local string s = I2S(num)
+		local integer length = StringLength(s)
+		if (length < bit) then
+			return 0
+		endif
+
+		return S2I(SubStringBJ(s,length - bit + 1,length - bit + 1))
+	endfunction
