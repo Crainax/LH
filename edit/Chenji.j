@@ -36,7 +36,7 @@ library_once Chenji requires SpellBase,Printer
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(u), GetUnitY(u)) )
         call UnitApplyTimedLifeBJ( 5.00, 'BTLF', u )
         set u = null
-        call PolledWait(0.10)
+        call PolledWait(0.50)
         call EnableTrigger( GetTriggeringTrigger() )
     endfunction
 //---------------------------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 //! import "LHBase.j"
 //! import "Boss.j"
 //! import "PIV.j"
+/////! import "Diamond.j"
 /////! import "CenterCredit.j"
 /*
     测试指令:
@@ -27,7 +28,7 @@
 	test zhuanshengxx	 转生测试
 	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
 */
-library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
+library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,Diamond
 
 	globals
 		boolean debug_show_damage = false
@@ -334,6 +335,12 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit
 		if (chat == "test darenshu") then
 			set udg_RENSHU = 6
 			call BJDebugMsg("人数调成6")
+			return
+		endif
+
+		if (chat == "test baoshi") then
+			call BJDebugMsg("IAtleast1:"+I2S(IAtleast1))
+			call BJDebugMsg("IAtleast2:"+I2S(IAtleast2))
 			return
 		endif
 

@@ -1,8 +1,9 @@
 //! import "LHBase.j"
+//! import "Diffculty.j"
 /*
     宝石升级装备
 */
-library_once Diamond initializer InitDiamond requires LHBase 
+library_once Diamond initializer InitDiamond requires LHBase,Diffculty
 
     globals
         constant string DIAMOND_CANT_UPDATE = "|cFFFF66CC【消息】|r该宝石不能升级该物品。"
@@ -1145,6 +1146,7 @@ library_once Diamond initializer InitDiamond requires LHBase
             set y = GetRandomReal(GetRectMinY(gg_rct_Diamond2),GetRectMaxY(gg_rct_Diamond2))
         endif
         set u = CreateUnit(Player(10),whichType,x,y,GetRandomDirectionDeg())
+        call EnhanceDiffAttack(u)
         call SetUnitAbilityLevel(u, 'AB01', aLevel )
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", x, y ))
         set u = null
@@ -1166,7 +1168,7 @@ library_once Diamond initializer InitDiamond requires LHBase
         if (RectContainsUnit(gg_rct________8,GetSellingUnit())) then
             set group1 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
             set group2 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
-        else
+        elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
             set group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
             set group2 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
         endif
@@ -1178,7 +1180,7 @@ library_once Diamond initializer InitDiamond requires LHBase
                 if ((CountUnitsInGroup(group2) != 0)) then
                     if (RectContainsUnit(gg_rct________8,GetSellingUnit())) then
                         set IAtleast1 = 21
-                    else
+                    elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
                         set IAtleast2 = 21
                     endif
                     call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r祝你好运!" )
@@ -1221,32 +1223,45 @@ library_once Diamond initializer InitDiamond requires LHBase
     /*
         根据死亡单位类型去掉落相对应的宝石
     */
-    private function MonsterDropDiamond takes nothing returns nothing
+    private function MonsterDropDiamond takes nothing returns boolean
         if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
             call CreateItem( 'I02N', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmyr')) then
             call CreateItem( 'I04S', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnsw')) then
             call CreateItem( 'azhr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nsnp')) then
             call CreateItem( 'gmfr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nhyc')) then
             call CreateItem( 'jpnt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnrg')) then
             call CreateItem( 'glsk', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nplb')) then
             call CreateItem( 'kygh', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'ntrv')) then
             call CreateItem( 'sehr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmmu')) then
             call CreateItem( 'bzbf', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanb')) then
             call CreateItem( 'thle', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanm')) then
             call CreateItem( 'dkfw', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         elseif ((GetUnitTypeId(GetDyingUnit()) == 'nane')) then
             call CreateItem( 'phlt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+            return true
         endif
+        return false
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -1275,18 +1290,80 @@ library_once Diamond initializer InitDiamond requires LHBase
                     return
                 endif
             endif
-        endif
-        if ((GetRandomInt(1, 20) == 1)) then
-            if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
-                set IAtleast1 = 100
-            elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
-                set IAtleast2 = 100
+            if ((GetRandomInt(1, 25) == 1)) then
+                if (MonsterDropDiamond()) then
+                    if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
+                        set IAtleast1 = 100
+                    elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
+                        set IAtleast2 = 100
+                    endif
+                endif
             endif
-            call MonsterDropDiamond()
         endif
         
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        离开宝石区域
+    */
+    function TLeaveDiamondRegionCon takes nothing returns boolean
+        return ((GetPlayerController(GetOwningPlayer(GetLeavingUnit())) == MAP_CONTROL_USER))
+    endfunction
 
+    function TLeaveDiamondRegion1Act takes nothing returns nothing
+        local group group1 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
+        local group group2 = null
+        local unit l_unit = null
+        if ((CountUnitsInGroup(group1) == 0)) then
+            set group2 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
+            loop
+                set l_unit = FirstOfGroup(group2)
+                exitwhen l_unit == null
+                call GroupRemoveUnit(group2, l_unit)
+                call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+                call RemoveUnit( l_unit )
+            endloop
+            call DestroyGroup( group2 )
+        endif
+        call DestroyGroup( group1 )
+        set group1 = null
+        set group2 = null
+        set l_unit = null
+    endfunction
+
+    function TLeaveDiamondRegion2Act takes nothing returns nothing
+        local group group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
+        local group group2 = null
+        local unit l_unit = null
+        if ((CountUnitsInGroup(group1) == 0)) then
+            set group2 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
+            loop
+                set l_unit = FirstOfGroup(group2)
+                exitwhen l_unit == null
+                call GroupRemoveUnit(group2, l_unit)
+                call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+                call RemoveUnit( l_unit )
+            endloop
+            call DestroyGroup( group2 )
+        endif
+        call DestroyGroup( group1 )
+        set group1 = null
+        set group2 = null
+        set l_unit = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        进入宝石区域
+    */
+    function EnterDiamond2 takes nothing returns nothing
+        if ((GetItemTypeId(GetSoldItem()) == 'I02T')) then
+            call SetUnitX(GetBuyingUnit(),GetRectCenterX(gg_rct_Diamond2))
+            call SetUnitY(GetBuyingUnit(),GetRectCenterY(gg_rct_Diamond2))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond2),GetRectCenterY(gg_rct_Diamond2),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond2), GetRectCenterY(gg_rct_Diamond2)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -1310,6 +1387,16 @@ library_once Diamond initializer InitDiamond requires LHBase
         call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_DEATH )
         call TriggerAddCondition(t, Condition(function TDropDiamondCon))
         call TriggerAddAction(t, function TDropDiamondAct)
+
+        //宝石区离开事件
+        set t = CreateTrigger()
+        call TriggerRegisterLeaveRectSimple( t, gg_rct________8 )
+        call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+        call TriggerAddAction(t, function TLeaveDiamondRegion1Act)
+        set t = CreateTrigger()
+        call TriggerRegisterLeaveRectSimple( t, gg_rct_Diamond2 )
+        call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+        call TriggerAddAction(t, function TLeaveDiamondRegion2Act)
 
         set t = null
 	endfunction

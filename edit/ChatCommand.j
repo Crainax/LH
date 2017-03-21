@@ -117,9 +117,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 	*/
 	function FixView takes boolean higher returns nothing
 		if (higher) then
-			call SetCameraFieldForPlayer( Player(0), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 200.00 ), 0 )
+			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 200.00 ), 0 )
 		else
-			call SetCameraFieldForPlayer( Player(0), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 200.00 ), 0 )
+			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 200.00 ), 0 )
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

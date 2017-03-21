@@ -85,7 +85,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				set u =  CreateUnit(GetOwningPlayer(Heiyan),'h012' ,x,y,0)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
-		    call UnitApplyTimedLifeBJ( 9, 'BHwe' , u )
+		    call UnitApplyTimedLifeBJ( 12, 'BHwe' , u )
 	    	call GroupAddUnit(GSacri,u)
 			//无敌
 		    call SetUnitInvulnerable(u,true)
@@ -248,7 +248,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
     private function TSpellHeiyan2Act takes nothing returns nothing
     	call DisableTrigger(GetTriggeringTrigger())
 		call QianGuiXie(Heiyan,GetAttackedUnitBJ(),0.4,'A0C8')
-		call PolledWait(5)
+		call PolledWait(2)
     	call EnableTrigger(GetTriggeringTrigger())
     endfunction
 
