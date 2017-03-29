@@ -23,6 +23,7 @@ function Int2Bin takes integer num returns string
 	return result
 endfunction
 
+
 function Bin2Int takes string bin returns integer
 	local integer i = StringLength(bin)
 	local integer result = 0

@@ -11,7 +11,7 @@ library_once Constant
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.68"
+		return "2.69"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
