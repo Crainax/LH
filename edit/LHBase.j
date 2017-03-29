@@ -1,9 +1,9 @@
 
 
-/////! import "Test.j"
+//! import "Test.j"
 //! import "Constant.j"
 
-library_once LHBase initializer InitLHBase requires Constant//,Test
+library_once LHBase initializer InitLHBase requires Constant,Test
 
     globals
         unit learnSkillHero = null

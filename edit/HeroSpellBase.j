@@ -21,6 +21,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan
 		call LearnSkillHanshang(learnSkillHero,GetLearnedSkill()) 
 		call LearnSkillHuanyi(learnSkillHero,GetLearnedSkill()) 
 		call LearnSkillChenji(learnSkillHero,GetLearnedSkill()) 
+		call LearnSkillMengji(learnSkillHero,GetLearnedSkill()) 
 	endfunction
 
 	//通过判断学习第几个来判断
@@ -33,6 +34,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan
 		call LearnSkillHanshangI(learnSkillHero,which) 
 		call LearnSkillHuanyiI(learnSkillHero,which) 
 		call LearnSkillChenjiI(learnSkillHero,which) 
+		call LearnSkillMengjiI(learnSkillHero,which) 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
