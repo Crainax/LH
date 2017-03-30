@@ -223,6 +223,22 @@ library_once LHBase initializer InitLHBase requires Constant,Test
         call UnitDamageTarget( u, u, GetUnitState(u,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        单位是否有空物品栏
+    */
+    function IsUnitHasSlot takes unit u returns boolean
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            if (GetItemTypeId(UnitItemInSlotBJ(u,i)) == null) then
+                return true
+            endif
+            set i = i +1
+        endloop
+
+        return false
+    endfunction
+//---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
         /*
             仓库初始化

@@ -51,10 +51,46 @@ library_once Mengji requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    判断英雄是否拿着圣弓
+	*/
+	private function HasShenggong takes nothing returns boolean
+		return
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
 	    六涛天虹-拟态
 	*/
+	private function NitaiTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		call RemoveItem(LoadItemHandle(spellTable,id,1))
+		if (IsUnitHasSlot(mengji)) then
+			//有空位则给英雄
+			call UnitAddItem( mengji,Liutao)
+	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),"，拟态结束，圣弓回归至英雄身上.")
+		else
+			//没有位置则移到英雄脚下
+			call SetItemPosition(Liutao,GetUnitX(mengji),GetUnitY(mengji))
+			call SetItemVisible(Liutao,true)
+			call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji),GetUnitY(mengji), 2.00)
+	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),"，拟态结束，由于背包已满，圣弓回归至英雄脚下.")
+		endif
+		call PauseTimer(t)
+		call FlushChildHashtable(spellTable,id)
+		call DestroyTimer(t)
+		set t = null 
+	endfunction
+
 	private function Nitai takes nothing returns nothing
-		
+		local timer t = CreateTimer()
+		call UnitRemoveItemSwapped(Liutao,mengji)
+		call SetItemVisible(Liutao,false)
+		call UnitAddItemByIdSwapped(GetItemTypeId(GetSpellTargetItem()), mengji)
+		call SaveItemHandle(spellTable,GetHandleId(t),1,GetLastCreatedItem())
+		call TimerStart(t,30,false,function NitaiTimer)
+	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName(GetSpellAbilityId()),"拟合出"+GetItemName(GetSpellTargetItem()))
+		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
