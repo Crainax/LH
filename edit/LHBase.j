@@ -239,6 +239,21 @@ library_once LHBase initializer InitLHBase requires Constant,Test
         return false
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        判断坐标是否在区域内
+    */
+    private function IsInRect takes real x, real y,rect reg returns boolean
+        return (GetRectMaxX(reg) >= x and GetRectMinX(reg) <= x and GetRectMaxY(reg) >= y and GetRectMinY(reg) <= y )
+    endfunction
+//---------------------------------------------------------------------------------------------------
+
+    /*
+        判断是否不在闪烁禁区内
+    */
+    function IsInForbitRegion takes real x,real y returns boolean
+        return (IsInRect(x,y,gg_rct_______a3)) or (IsInRect(x,y,gg_rct_Arena_forbit))
+    endfunction
+//---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
         /*
             仓库初始化

@@ -126,6 +126,10 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         */
         rect gg_rct________8
         rect gg_rct_Diamond2
+        /*
+            转生禁区
+        */
+        rect gg_rct_______a3
 	endglobals
 
 	private function InitTest takes nothing returns nothing

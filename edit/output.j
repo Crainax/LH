@@ -147,6 +147,8 @@ unit udg_Unit
         
 rect gg_rct________8
 rect gg_rct_Diamond2
+        
+rect gg_rct_______a3
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
@@ -165,18 +167,32 @@ constant boolean LIBRARY_Printer=true
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
 hashtable spellTable= InitHashtable()
-constant integer kUImmuteDamage=11
+constant integer kUImmuteDamage=6
 //endglobals from SpellBase
 //globals from Mengji:
 constant boolean LIBRARY_Mengji=true
 unit mengji= null
 
 integer Mengji__ITianhong= 0
+real Mengji__HuanmengX= 0.
+real Mengji__HuanmengY= 0.
 		
 trigger Mengji__TSpellMengji= null
+
+trigger Mengji__TSpellMengji01= null
+trigger Mengji__TSpellMengji02= null
+trigger Mengji__TSpellMengji03= null
+trigger Mengji__TSpellMengji2= null
+trigger Mengji__TSpellMengji3= null
 trigger Mengji__TSpellMengji41= null
 trigger Mengji__TSpellMengji42= null
 trigger Mengji__TSpellMengji43= null
+
+		
+item Mengji__Liutao= null
+item Mengji__Nihe= null
+		
+boolean array Mengji__shunHints
 //endglobals from Mengji
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -1529,6 +1545,31 @@ endfunction
         call UnitDamageTarget(u, u, GetUnitState(u, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
     endfunction
 //---------------------------------------------------------------------------------------------------
+    
+    function IsUnitHasSlot takes unit u returns boolean
+        local integer i= 1
+        loop
+            exitwhen i > 6
+            if ( GetItemTypeId(UnitItemInSlotBJ(u, i)) == null ) then
+                return true
+            endif
+            set i=i + 1
+        endloop
+
+        return false
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function LHBase__IsInRect takes real x,real y,rect reg returns boolean
+        return ( GetRectMaxX(reg) >= x and GetRectMinX(reg) <= x and GetRectMaxY(reg) >= y and GetRectMinY(reg) <= y )
+    endfunction
+//---------------------------------------------------------------------------------------------------
+
+    
+    function IsInForbitRegion takes real x,real y returns boolean
+        return ( LHBase__IsInRect(x , y , gg_rct_______a3) ) or ( LHBase__IsInRect(x , y , gg_rct_Arena_forbit) )
+    endfunction
+//---------------------------------------------------------------------------------------------------
     function LHBase__InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
@@ -1947,19 +1988,122 @@ endfunction
 			call RecoverUnitHP(GetTriggerUnit() , 0.1)
 			return true
 		endif
+		if ( GetUnitTypeId(u) == 'hhm4' ) then
+			call UnitDamageTarget(mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			return true
+		endif
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Mengji__Nitai takes nothing returns nothing
-		
+ function Mengji__HasShenggong takes nothing returns boolean
+		return UnitHasItem(mengji, Mengji__Liutao)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
+ function Mengji__NitaiTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+		call RemoveItem(Mengji__Nihe)
+		if ( IsUnitHasSlot(mengji) ) then
+			//有空位则给英雄
+			call UnitAddItem(mengji, Mengji__Liutao)
+	    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHM4') ) + "|cFFFF66CC】|r" + ( "，拟态结束，圣弓回归至英雄身上.") )) // INLINED!!
+		else
+			//没有位置则移到英雄脚下
+			call SetItemPosition(Mengji__Liutao, GetUnitX(mengji), GetUnitY(mengji))
+			call SetItemVisible(Mengji__Liutao, true)
+			call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji), GetUnitY(mengji), 2.00)
+	    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHM4') ) + "|cFFFF66CC】|r" + ( "，拟态结束，由于背包已满，圣弓回归至英雄脚下.") )) // INLINED!!
+		endif
+		call PauseTimer(t)
+		call FlushChildHashtable(spellTable, id)
+		call DestroyTimer(t)
+		set t=null
+		set Mengji__Nihe=null
+	endfunction
+
+ function Mengji__Nitai takes nothing returns nothing
+  local timer t= CreateTimer()
+		call UnitRemoveItemSwapped(Mengji__Liutao, mengji)
+		call SetItemVisible(Mengji__Liutao, false)
+		call UnitAddItemByIdSwapped(GetItemTypeId(GetSpellTargetItem()), mengji)
+		set Mengji__Nihe=GetLastCreatedItem()
+		call TimerStart(t, 30, false, function Mengji__NitaiTimer)
+	    call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "拟合出" + GetItemName(GetSpellTargetItem())) )) // INLINED!!
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function RuohuanmengChatBack takes nothing returns nothing
+		if ( ( not ( (UnitHasItem(mengji, Mengji__Liutao)) ) ) and Mengji__Nihe == null ) then // INLINED!!
+		    if ( IsUnitHasSlot(mengji) ) then
+				//有空位则给英雄
+				call UnitAddItem(mengji, Mengji__Liutao)
+		    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHM8') ) + "|cFFFF66CC】|r" + ( ",圣弓回归至英雄身上.") )) // INLINED!!
+			else
+				//没有位置则移到英雄脚下
+				call SetItemPosition(Mengji__Liutao, GetUnitX(mengji), GetUnitY(mengji))
+				call SetItemVisible(Mengji__Liutao, true)
+				call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji), GetUnitY(mengji), 2.00)
+		    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHM8') ) + "|cFFFF66CC】|r" + ( "，由于背包已满，圣弓回归至英雄脚下.") )) // INLINED!!
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Mengji__RuohuanmengAttackCon takes nothing returns boolean
+		return GetAttacker() == mengji and (UnitHasItem(mengji, Mengji__Liutao)) // INLINED!!
+	endfunction
+
+ function Mengji__RuohuanmengAttack takes nothing returns nothing
+  local integer times= GetItemCharges(Mengji__Liutao)
+		if ( GetItemTypeId(Mengji__Liutao) == 'tian' ) then
+			call SetItemCharges(Mengji__Liutao, IMinBJ(100, times + 1))
+		else
+			call SetItemCharges(Mengji__Liutao, IMinBJ(1000, times + 1))
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function RuohuanmengDeathCon takes nothing returns boolean
+	    return ( ( GetEventDamage() >= GetUnitStateSwap(UNIT_STATE_LIFE, GetTriggerUnit()) ) and GetItemCharges(Mengji__Liutao) >= 100 and IsUnitAliveBJ(mengji) )
+	endfunction
+
+ function RuohuanmengDeathAct takes nothing returns nothing
+		call SetItemCharges(Mengji__Liutao, IMaxBJ(0, GetItemCharges(Mengji__Liutao) - 100))
+	    call UnitAddAbilityBJ('AHM9', GetTriggerUnit())
+	    call PolledWait(0.01)
+	    call UnitRemoveAbilityBJ('AHM9', GetTriggerUnit())
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+    function Mengji__RuohuanmengTimer takes nothing returns nothing
+    	if ( Mengji__HuanmengX != GetUnitX(mengji) or Mengji__HuanmengY != GetUnitY(mengji) ) then
+    		set Mengji__HuanmengX=GetUnitX(mengji)
+    		set Mengji__HuanmengY=GetUnitY(mengji)
+    		//移动
+    		//todo M8:90%闪避技能,M7:回血
+    		if ( GetUnitAbilityLevel(mengji, 'AHM7') == 1 ) then
+    			call UnitRemoveAbility(mengji, 'AHM7')
+    			call UnitAddAbility(mengji, 'AHM8')
+    		endif
+    	else
+    		//静止
+    		//todo 回血技能
+    		if ( GetUnitAbilityLevel(mengji, 'AHM8') == 1 ) then
+    			call UnitRemoveAbility(mengji, 'AHM8')
+    			call UnitAddAbility(mengji, 'AHM7')
+    		endif
+    	endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+	
  function Mengji__Tanyoujian takes real damageRate,integer abilityID,real x2,real y2,integer count returns nothing
 
-  local real damage= GetDamageInt(mengji) * damageRate * 0.75
+  local real damage= GetDamageInt(mengji) * damageRate
      local real x1= GetUnitX(mengji)
      local real y1= GetUnitY(mengji)
      local real facing= Atan2BJ(y2 - y1, x2 - x1)
@@ -1985,6 +2129,18 @@ endfunction
  		call SimulateSpell(mengji , GetSpellTargetUnit() , 'AHtb' , 1 , 15 , "magicleash" , false , false , true)
 	    call DisplayTextToPlayer(((GetOwningPlayer(mengji) ) ), 0, 0, ( "|cFFFF66CC【|r" + ( ( GetAbilityName(GetSpellAbilityId())) ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+    function Mengji__TSpellMengji2Con takes nothing returns boolean
+    	return GetAttacker() == mengji and (GetPlayerTechCountSimple('R006', GetOwningPlayer((mengji))) == 1) == true and GetUnitState(mengji, UNIT_STATE_MANA) >= 250 and (UnitHasItem(mengji, Mengji__Liutao)) and GetUnitAbilityLevel(mengji, 'AHM2') == 1 // INLINED!!
+    endfunction
+    
+    function Mengji__TSpellMengji2Act takes nothing returns nothing
+    	call DisableTrigger(GetTriggeringTrigger())
+		call Mengji__Tanyoujian(0.4 , 'AHM2' , GetUnitX(GetAttackedUnitBJ()) , GetUnitY(GetAttackedUnitBJ()) , 1)
+		call PolledWait(5)
+    	call EnableTrigger(GetTriggeringTrigger())
+    endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Mengji__Sanchuanjian takes nothing returns nothing
@@ -2015,8 +2171,57 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+ function Mengji__SanchuanShunTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local integer playerID= LoadInteger(spellTable, GetHandleId(t), 1)
+		if not ( Mengji__shunHints[playerID] ) then
+			call DisplayTextToPlayer(ConvertedPlayer(playerID), 0., 0., "|cffff66cc【消息】|r你已获得来自|cffcc99ff阴阳三川箭|r光环的效果,|cffffff00使用M键可以瞬移至任意地点|r,冷却5s.")
+		else
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable, id)
+			call DestroyTimer(t)
+		endif
+		set t=null
+	endfunction
+
  function Mengji__InitShunyi takes nothing returns nothing
-		// body...
+  local timer t= null
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			if ( udg_H[i] != null ) then
+				set t=CreateTimer()
+				call SaveInteger(spellTable, GetHandleId(t), 1, i)
+				call TimerStart(t, 4, true, function Mengji__SanchuanShunTimer)
+				set Mengji__shunHints[i]=false
+    			call TriggerRegisterUnitEvent(Mengji__TSpellMengji3, udg_H[i], EVENT_UNIT_ISSUED_POINT_ORDER)
+			endif
+			set i=i + 1
+		endloop
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Mengji__TSpellMengji3Con takes nothing returns boolean
+		//todo 禁区,并在幻逸加上
+	    return ( ( GetIssuedOrderIdBJ() == String2OrderIdBJ("move") ) and ( not ( Mengji__shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] ) ) )
+	endfunction
+
+ function Mengji__TSpellMengji3Act takes nothing returns nothing
+		if ( IsInForbitRegion(GetOrderPointX() , GetOrderPointY()) ) then
+			call IssueImmediateOrder(GetTriggerUnit(), "stop")
+	        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.")
+	        return
+		endif
+		set Mengji__shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=true
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())))
+		call SetUnitX(GetTriggerUnit(), GetOrderPointX())
+		call SetUnitY(GetTriggerUnit(), GetOrderPointY())
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetOrderPointX(), GetOrderPointY()))
+		call PolledWait(5)
+		set Mengji__shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]=false
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -2080,7 +2285,7 @@ endfunction
  function Mengji__TSpellMengjiAct takes nothing returns nothing
   local integer i= 1
 		if ( GetSpellAbilityId() == 'AHM1' ) then
-			call Mengji__Tanyoujian(1 , GetSpellAbilityId() , GetSpellTargetX() , GetSpellTargetY() , 5)
+			call Mengji__Tanyoujian(0.75 , GetSpellAbilityId() , GetSpellTargetX() , GetSpellTargetY() , 5)
 		elseif ( GetSpellAbilityId() == 'AHM2' ) then
 			call Mengji__Zhenhunsuo()
 		elseif ( GetSpellAbilityId() == 'AHM3' ) then
@@ -2136,12 +2341,45 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
  function Mengji__InitMengji takes unit u returns nothing
+
+     local timer t= CreateTimer()
 		set mengji=u
+
+		//todo 天虹初始化  ctia 超天
+		set Mengji__Liutao=GetItemOfTypeFromUnitBJ(mengji, 'tian')
+	    call SaveInteger(YDHT, GetHandleId(Mengji__Liutao), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(mengji)))
+
+		//若幻梦
+	    set Mengji__TSpellMengji01=CreateTrigger()
+	    call TriggerRegisterPlayerChatEvent(Mengji__TSpellMengji01, GetOwningPlayer(mengji), "-th", true)
+	    call TriggerAddAction(Mengji__TSpellMengji01, function RuohuanmengChatBack)
+	    set Mengji__TSpellMengji02=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Mengji__TSpellMengji02, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Mengji__TSpellMengji02, Condition(function Mengji__RuohuanmengAttackCon))
+	    call TriggerAddAction(Mengji__TSpellMengji02, function Mengji__RuohuanmengAttack)
+	    set Mengji__TSpellMengji03=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Mengji__TSpellMengji03, mengji, EVENT_UNIT_DAMAGED)
+	    call TriggerAddCondition(Mengji__TSpellMengji03, Condition(function RuohuanmengDeathCon))
+	    call TriggerAddAction(Mengji__TSpellMengji03, function RuohuanmengDeathAct)
 
 		//主英雄技能
 		set Mengji__TSpellMengji=CreateTrigger()
 	    call TriggerRegisterUnitEvent(Mengji__TSpellMengji, u, EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(Mengji__TSpellMengji, function Mengji__TSpellMengjiAct)
+
+	    //若幻梦静止与动
+	    call TimerStart(t, 0.5, true, function Mengji__RuohuanmengTimer)
+
+	    //英雄第二个技能攻击事件
+	    set Mengji__TSpellMengji2=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Mengji__TSpellMengji2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Mengji__TSpellMengji2, Condition(function Mengji__TSpellMengji2Con))
+	    call TriggerAddAction(Mengji__TSpellMengji2, function Mengji__TSpellMengji2Act)
+
+	    //英雄第三个技能瞬移事件
+	    set Mengji__TSpellMengji3=CreateTrigger()
+	    call TriggerAddCondition(Mengji__TSpellMengji3, Condition(function Mengji__TSpellMengji3Con))
+	    call TriggerAddAction(Mengji__TSpellMengji3, function Mengji__TSpellMengji3Act)
 
 	    //瞬伐心
 	    set Mengji__TSpellMengji41=CreateTrigger()
@@ -2149,18 +2387,17 @@ endfunction
 	    call TriggerAddCondition(Mengji__TSpellMengji41, Condition(function Mengji__TSpellMengji4Con))
 	    call TriggerAddAction(Mengji__TSpellMengji41, function Mengji__TSpellMengji41Act)
 	    call DisableTrigger(Mengji__TSpellMengji41)
-
 	    set Mengji__TSpellMengji42=CreateTrigger()
 	    call TriggerRegisterUnitEvent(Mengji__TSpellMengji42, mengji, EVENT_UNIT_ISSUED_POINT_ORDER)
 	    call TriggerAddCondition(Mengji__TSpellMengji42, Condition(function Mengji__TSpellMengji4Con))
 	    call TriggerAddAction(Mengji__TSpellMengji42, function Mengji__TSpellMengji42Act)
 	    call DisableTrigger(Mengji__TSpellMengji42)
-
 	    set Mengji__TSpellMengji43=CreateTrigger()
 	    call TriggerRegisterPlayerEventEndCinematic(Mengji__TSpellMengji43, GetOwningPlayer(mengji))
 	    call TriggerAddAction(Mengji__TSpellMengji43, function TSpellMengji43Act)
 	    call DisableTrigger(Mengji__TSpellMengji43)
 
+	    set t=null
 	endfunction
 
 
@@ -2236,11 +2473,10 @@ endfunction
 
 
 
-
 // END IMPORT OF Mengji.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs3740781")
+call ExecuteFunc("jasshelper__initstructs27154046")
 call ExecuteFunc("Test__InitTest")
 call ExecuteFunc("LHBase__InitLHBase")
 call ExecuteFunc("Attr__InitAttr")
@@ -2280,7 +2516,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs3740781 takes nothing returns nothing
+function jasshelper__initstructs27154046 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()
