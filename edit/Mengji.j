@@ -115,13 +115,13 @@ library_once Mengji requires SpellBase,Printer,Attr
 		    if (IsUnitHasSlot(mengji)) then
 				//有空位则给英雄
 				call UnitAddItem( mengji,Liutao)
-		    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM8'),",圣弓回归至英雄身上.")
+		    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GY'),",圣弓回归至英雄身上.")
 			else
 				//没有位置则移到英雄脚下
 				call SetItemPosition(Liutao,GetUnitX(mengji),GetUnitY(mengji))
 				call SetItemVisible(Liutao,true)
 				call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji),GetUnitY(mengji), 2.00)
-		    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM8'),"，由于背包已满，圣弓回归至英雄脚下.")
+		    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GY'),"，由于背包已满，圣弓回归至英雄脚下.")
 			endif
 		endif
 	endfunction
@@ -135,7 +135,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 
 	private function RuohuanmengAttack takes nothing returns nothing
 		local integer times = GetItemCharges(Liutao)
-		if (GetItemTypeId(Liutao) == 'tian') then
+		if (GetItemTypeId(Liutao) == 'I049') then
 			call SetItemCharges(Liutao,IMinBJ(100,times + 1))
 		else
 			call SetItemCharges(Liutao,IMinBJ(1000,times + 1))
@@ -151,9 +151,9 @@ library_once Mengji requires SpellBase,Printer,Attr
 
 	function RuohuanmengDeathAct takes nothing returns nothing
 		call SetItemCharges(Liutao,IMaxBJ(0,GetItemCharges(Liutao) - 100))
-	    call UnitAddAbilityBJ( 'AHM9', GetTriggerUnit() )
+	    call UnitAddAbilityBJ( 'A0GV', GetTriggerUnit() )
 	    call PolledWait(0.01)
-	    call UnitRemoveAbilityBJ( 'AHM9', GetTriggerUnit() )
+	    call UnitRemoveAbilityBJ( 'A0GV', GetTriggerUnit() )
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -166,16 +166,16 @@ library_once Mengji requires SpellBase,Printer,Attr
     		set HuanmengY = GetUnitY(mengji)
     		//移动
     		//todo M8:90%闪避技能,M7:回血
-    		if (GetUnitAbilityLevel(mengji,'AHM7') == 1) then
-    			call UnitRemoveAbility(mengji,'AHM7')
-    			call UnitAddAbility(mengji,'AHM8')
+    		if (GetUnitAbilityLevel(mengji,'A0GX') == 1) then
+    			call UnitRemoveAbility(mengji,'A0GX')
+    			call UnitAddAbility(mengji,'A0GY')
     		endif
     	else
     		//静止
     		//todo 回血技能
-    		if (GetUnitAbilityLevel(mengji,'AHM8') == 1) then
-    			call UnitRemoveAbility(mengji,'AHM8')
-    			call UnitAddAbility(mengji,'AHM7')
+    		if (GetUnitAbilityLevel(mengji,'A0GY') == 1) then
+    			call UnitRemoveAbility(mengji,'A0GY')
+    			call UnitAddAbility(mengji,'A0GX')
     		endif
     	endif
     endfunction
@@ -194,8 +194,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local integer i = -1 * count / 2
 		loop
 			exitwhen i > count / 2
-			//todo 箭的马甲
-			set u = CreateUnit(GetOwningPlayer(mengji),'hhh4',x1,y1,facing + i * 20)
+			set u = CreateUnit(GetOwningPlayer(mengji),'hhm5',x1,y1,facing + i * 20)
 	    	call UnitApplyTimedLifeBJ( 2, 'BHwe', u)
 		    call YDWETimerPatternRushSlide( u, facing + i * 20 , 2000, 2, 0.05, damage, 300., false, true, true, "origin", "Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl", "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
 			set i = i + 1
@@ -397,7 +396,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		elseif (GetSpellAbilityId() == 'AHM5') then 
 			call Linglongwu()
 		//拟态
-		elseif (GetSpellAbilityId() == 'AHM6') then 
+		elseif (GetSpellAbilityId() == 'A0GW') then 
 			call Nitai()
 		endif
 
@@ -444,15 +443,16 @@ library_once Mengji requires SpellBase,Printer,Attr
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
-	private function InitMengji takes unit u returns nothing
+	function InitMengji takes unit u returns nothing
 
 	    local timer t = CreateTimer()
 		set mengji = u
 
 		//todo 天虹初始化  ctia 超天
-		set Liutao = GetItemOfTypeFromUnitBJ(mengji, 'tian')
+		set Liutao = GetItemOfTypeFromUnitBJ(mengji, 'I049')
 	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
 
+		call SetPlayerAbilityAvailable(GetOwningPlayer(mengji),'A0GV',false)
 		//若幻梦
 	    set TSpellMengji01 = CreateTrigger()
 	    call TriggerRegisterPlayerChatEvent( TSpellMengji01, GetOwningPlayer(mengji), "-th", true )
