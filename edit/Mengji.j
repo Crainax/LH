@@ -36,6 +36,12 @@ library_once Mengji requires SpellBase,Printer,Attr
 		    瞬移提示
 		*/
 		private boolean array shunHints
+		/*
+		    玲珑舞两个单位及闪电特效
+		*/
+		private unit ULinglong1 = null 
+		private unit ULinglong2 = null
+		private lightning array LLinglong
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -56,8 +62,13 @@ library_once Mengji requires SpellBase,Printer,Attr
 			call RecoverUnitHP(GetTriggerUnit(),0.1)
 			return true
 		endif
-		if (GetUnitTypeId(u) == 'hhm4') then
+		//瞬伐心
+		if (GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == mengji) then
 			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			return true
+		endif
+		if (GetUnitTypeId(u) == 'hhm4') then
+			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		return false
@@ -100,6 +111,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local timer t = CreateTimer()
 		call UnitRemoveItemSwapped(Liutao,mengji)
 		call SetItemVisible(Liutao,false)
+		call SetItemPawnable(Liutao,false)
 		call UnitAddItemByIdSwapped(GetItemTypeId(GetSpellTargetItem()), mengji)
 		set Nihe = GetLastCreatedItem()
 		call TimerStart(t,30,false,function NitaiTimer)
@@ -344,7 +356,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    local real facing = Atan2BJ(y2-y1,x2-x1)
 	    local real x = x2 - CosBJ(facing) * 100
 	    local real y = y2 - SinBJ(facing) * 100
- 		local unit u = CreateUnit(Player(10),'hhm4',x,y,0)
+ 		local unit u = CreateUnit(GetOwningPlayer(mengji),'h01B',x,y,0)
         call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call IssuePointOrder(u,"carrionswarm",x2,y2)
         call IssueImmediateOrder(mengji,"stop")
@@ -373,10 +385,77 @@ library_once Mengji requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    圣弓与超圣弓的转换
+	*/
+	private function ExchangeChao takes boolean higher returns nothing
+		local integer charges = GetItemCharges(Liutao)
+		call RemoveItem(Liutao)
+		if (higher) then
+			set Liutao = CreateItem('I04A',GetUnitX(mengji),GetUnitY(mengji))
+		else
+			set Liutao = CreateItem('I049',GetUnitX(mengji),GetUnitY(mengji))
+		endif
+		call SetItemCharges(Liutao,charges)
+		if (Nihe != null) then
+			call SetItemVisible(Liutao,false)
+		else
+			if (IsUnitHasSlot(mengji)) then
+				//有空位则给英雄
+				call UnitAddItem( mengji,Liutao)
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
 	    浣海玲珑舞
 	*/
+	private function LinglongwuTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local unit u = null
+		local integer id = GetHandleId(t)
+		local integer count = LoadInteger(spellTable,id,1)
+		if (IsUnitInRange(mengji,ULinglong1,900)) then
+ 			set u = CreateUnit(GetOwningPlayer(mengji),'hhm4',GetUnitX(mengji),GetUnitY(mengji),0)
+	        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+	        call IssuePointOrder(u,"carrionswarm",YDWECoordinateX(GetUnitX(mengji)+GetRandomReal(-100,100)),YDWECoordinateY(GetUnitY(mengji)+GetRandomReal(-100,100)))
+	        call MoveLightningEx(LLinglong[1],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),750)
+	        call MoveLightningEx(LLinglong[2],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count + 120)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count + 120)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count + 120)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count + 120)),750)
+	        call MoveLightningEx(LLinglong[3],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count+240)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count+240)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count+240)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count+240)),750)
+			call SaveInteger(spellTable,GetHandleId(t),1,ModuloInteger(count+9,360))
+			set u = null
+		else
+			call RemoveUnit(ULinglong1)
+			call RemoveUnit(ULinglong2)
+			call DestroyLightningBJ(LLinglong[1])
+			call DestroyLightningBJ(LLinglong[2])
+			call DestroyLightningBJ(LLinglong[3])
+			set ULinglong1 = null
+			set ULinglong2 = null
+			set LLinglong[1] = null
+			set LLinglong[2] = null
+			set LLinglong[3] = null
+			call ExchangeChao(false)
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable,id)
+			call DestroyTimer(t)
+		endif
+		set t = null 
+	endfunction
+
 	private function Linglongwu takes nothing returns nothing
 
+		local timer t = CreateTimer()
+		set ULinglong1 = CreateUnit(GetOwningPlayer(mengji),'hhm6',GetUnitX(mengji),GetUnitY(mengji),0)
+		set ULinglong2 = CreateUnit(GetOwningPlayer(mengji),'hhm7',GetUnitX(mengji),GetUnitY(mengji),0)
+		//todo 闪电效果
+		set LLinglong[1] = AddLightningEx("DRAB,DRAL,DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),750)
+		set LLinglong[2] = AddLightningEx("DRAB,DRAL,DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)-450),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+779),YDWECoordinateY(GetUnitY(ULinglong1)),750)
+		set LLinglong[3] = AddLightningEx("DRAB,DRAL,DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)-450),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)-779),YDWECoordinateY(GetUnitY(ULinglong1)),750)
+		call ExchangeChao(true)
+		call SaveInteger(spellTable,GetHandleId(t),1,0)
+		call TimerStart(t,0.05,true,function LinglongwuTimer)
+		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

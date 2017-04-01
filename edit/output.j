@@ -19,10 +19,10 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
@@ -167,7 +167,7 @@ constant boolean LIBRARY_Printer=true
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
 hashtable spellTable= InitHashtable()
-constant integer kUImmuteDamage=6
+constant integer kUImmuteDamage=3
 //endglobals from SpellBase
 //globals from Mengji:
 constant boolean LIBRARY_Mengji=true
@@ -193,6 +193,10 @@ item Mengji__Liutao= null
 item Mengji__Nihe= null
 		
 boolean array Mengji__shunHints
+		
+unit Mengji__ULinglong1= null
+unit Mengji__ULinglong2= null
+lightning array Mengji__LLinglong
 //endglobals from Mengji
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -1560,17 +1564,17 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function LHBase__IsInRect takes real x,real y,rect reg returns boolean
+    function LHBase___IsInRect takes real x,real y,rect reg returns boolean
         return ( GetRectMaxX(reg) >= x and GetRectMinX(reg) <= x and GetRectMaxY(reg) >= y and GetRectMinY(reg) <= y )
     endfunction
 //---------------------------------------------------------------------------------------------------
 
     
     function IsInForbitRegion takes real x,real y returns boolean
-        return ( LHBase__IsInRect(x , y , gg_rct_______a3) ) or ( LHBase__IsInRect(x , y , gg_rct_Arena_forbit) )
+        return ( LHBase___IsInRect(x , y , gg_rct_______a3) ) or ( LHBase___IsInRect(x , y , gg_rct_Arena_forbit) )
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1676,7 +1680,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Attr__InitAttr takes nothing returns nothing
+ function Attr___InitAttr takes nothing returns nothing
 		
 
 
@@ -1706,7 +1710,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Printer__InitPrinter takes nothing returns nothing
+ function Printer___InitPrinter takes nothing returns nothing
 		
 	endfunction
 
@@ -1988,8 +1992,13 @@ endfunction
 			call RecoverUnitHP(GetTriggerUnit() , 0.1)
 			return true
 		endif
-		if ( GetUnitTypeId(u) == 'hhm4' ) then
+		//瞬伐心
+		if ( GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == mengji ) then
 			call UnitDamageTarget(mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			return true
+		endif
+		if ( GetUnitTypeId(u) == 'hhm4' ) then
+			call UnitDamageTarget(mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
 			return true
 		endif
 		return false
@@ -2028,6 +2037,7 @@ endfunction
   local timer t= CreateTimer()
 		call UnitRemoveItemSwapped(Mengji__Liutao, mengji)
 		call SetItemVisible(Mengji__Liutao, false)
+		call SetItemPawnable(Mengji__Liutao, false)
 		call UnitAddItemByIdSwapped(GetItemTypeId(GetSpellTargetItem()), mengji)
 		set Mengji__Nihe=GetLastCreatedItem()
 		call TimerStart(t, 30, false, function Mengji__NitaiTimer)
@@ -2041,13 +2051,13 @@ endfunction
 		    if ( IsUnitHasSlot(mengji) ) then
 				//有空位则给英雄
 				call UnitAddItem(mengji, Mengji__Liutao)
-		    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHM8') ) + "|cFFFF66CC】|r" + ( ",圣弓回归至英雄身上.") )) // INLINED!!
+		    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('A0GY') ) + "|cFFFF66CC】|r" + ( ",圣弓回归至英雄身上.") )) // INLINED!!
 			else
 				//没有位置则移到英雄脚下
 				call SetItemPosition(Mengji__Liutao, GetUnitX(mengji), GetUnitY(mengji))
 				call SetItemVisible(Mengji__Liutao, true)
 				call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji), GetUnitY(mengji), 2.00)
-		    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('AHM8') ) + "|cFFFF66CC】|r" + ( "，由于背包已满，圣弓回归至英雄脚下.") )) // INLINED!!
+		    	call DisplayTextToPlayer((GetOwningPlayer(mengji) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName('A0GY') ) + "|cFFFF66CC】|r" + ( "，由于背包已满，圣弓回归至英雄脚下.") )) // INLINED!!
 			endif
 		endif
 	endfunction
@@ -2059,7 +2069,7 @@ endfunction
 
  function Mengji__RuohuanmengAttack takes nothing returns nothing
   local integer times= GetItemCharges(Mengji__Liutao)
-		if ( GetItemTypeId(Mengji__Liutao) == 'tian' ) then
+		if ( GetItemTypeId(Mengji__Liutao) == 'I049' ) then
 			call SetItemCharges(Mengji__Liutao, IMinBJ(100, times + 1))
 		else
 			call SetItemCharges(Mengji__Liutao, IMinBJ(1000, times + 1))
@@ -2073,9 +2083,9 @@ endfunction
 
  function RuohuanmengDeathAct takes nothing returns nothing
 		call SetItemCharges(Mengji__Liutao, IMaxBJ(0, GetItemCharges(Mengji__Liutao) - 100))
-	    call UnitAddAbilityBJ('AHM9', GetTriggerUnit())
+	    call UnitAddAbilityBJ('A0GV', GetTriggerUnit())
 	    call PolledWait(0.01)
-	    call UnitRemoveAbilityBJ('AHM9', GetTriggerUnit())
+	    call UnitRemoveAbilityBJ('A0GV', GetTriggerUnit())
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -2086,16 +2096,16 @@ endfunction
     		set Mengji__HuanmengY=GetUnitY(mengji)
     		//移动
     		//todo M8:90%闪避技能,M7:回血
-    		if ( GetUnitAbilityLevel(mengji, 'AHM7') == 1 ) then
-    			call UnitRemoveAbility(mengji, 'AHM7')
-    			call UnitAddAbility(mengji, 'AHM8')
+    		if ( GetUnitAbilityLevel(mengji, 'A0GX') == 1 ) then
+    			call UnitRemoveAbility(mengji, 'A0GX')
+    			call UnitAddAbility(mengji, 'A0GY')
     		endif
     	else
     		//静止
     		//todo 回血技能
-    		if ( GetUnitAbilityLevel(mengji, 'AHM8') == 1 ) then
-    			call UnitRemoveAbility(mengji, 'AHM8')
-    			call UnitAddAbility(mengji, 'AHM7')
+    		if ( GetUnitAbilityLevel(mengji, 'A0GY') == 1 ) then
+    			call UnitRemoveAbility(mengji, 'A0GY')
+    			call UnitAddAbility(mengji, 'A0GX')
     		endif
     	endif
     endfunction
@@ -2112,8 +2122,7 @@ endfunction
   local integer i= - 1 * count / 2
 		loop
 			exitwhen i > count / 2
-			//todo 箭的马甲
-			set u=CreateUnit(GetOwningPlayer(mengji), 'hhh4', x1, y1, facing + i * 20)
+			set u=CreateUnit(GetOwningPlayer(mengji), 'hhm5', x1, y1, facing + i * 20)
 	    	call UnitApplyTimedLifeBJ(2, 'BHwe', u)
 		    call YDWETimerPatternRushSlide(u , facing + i * 20 , 2000 , 2 , 0.05 , damage , 300. , false , true , true , "origin" , "Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl" , "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl")
 			set i=i + 1
@@ -2249,7 +2258,7 @@ endfunction
      local real facing= Atan2BJ(y2 - y1, x2 - x1)
      local real x= x2 - CosBJ(facing) * 100
      local real y= y2 - SinBJ(facing) * 100
-   local unit u= CreateUnit(Player(10), 'hhm4', x, y, 0)
+   local unit u= CreateUnit(GetOwningPlayer(mengji), 'h01B', x, y, 0)
         call UnitApplyTimedLifeBJ(5.00, 'BHwe', u)
         call IssuePointOrder(u, "carrionswarm", x2, y2)
         call IssueImmediateOrder(mengji, "stop")
@@ -2276,8 +2285,73 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+ function Mengji__ExchangeChao takes boolean higher returns nothing
+  local integer charges= GetItemCharges(Mengji__Liutao)
+		call RemoveItem(Mengji__Liutao)
+		if ( higher ) then
+			set Mengji__Liutao=CreateItem('I04A', GetUnitX(mengji), GetUnitY(mengji))
+		else
+			set Mengji__Liutao=CreateItem('I049', GetUnitX(mengji), GetUnitY(mengji))
+		endif
+		call SetItemCharges(Mengji__Liutao, charges)
+		if ( Mengji__Nihe != null ) then
+			call SetItemVisible(Mengji__Liutao, false)
+		else
+			if ( IsUnitHasSlot(mengji) ) then
+				//有空位则给英雄
+				call UnitAddItem(mengji, Mengji__Liutao)
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function Mengji__LinglongwuTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local unit u= null
+  local integer id= GetHandleId(t)
+  local integer count= LoadInteger(spellTable, id, 1)
+		if ( IsUnitInRange(mengji, Mengji__ULinglong1, 900) ) then
+ 			set u=CreateUnit(GetOwningPlayer(mengji), 'hhm4', GetUnitX(mengji), GetUnitY(mengji), 0)
+	        call UnitApplyTimedLifeBJ(5.00, 'BHwe', u)
+	        call IssuePointOrder(u, "carrionswarm", (RMinBJ(RMaxBJ(((GetUnitX(mengji) + GetRandomReal(- 100, 100))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(mengji) + GetRandomReal(- 100, 100))*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+	        call MoveLightningEx(Mengji__LLinglong[1], true, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900 * CosBJ(count))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1) + 900 * SinBJ(count))*1.0), yd_MapMinY), yd_MapMaxY)), 0, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900 * CosBJ(count))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1) + 900 * SinBJ(count))*1.0), yd_MapMinY), yd_MapMaxY)), 750) // INLINED!!
+	        call MoveLightningEx(Mengji__LLinglong[2], true, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900 * CosBJ(count + 120))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1) + 900 * SinBJ(count + 120))*1.0), yd_MapMinY), yd_MapMaxY)), 0, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900 * CosBJ(count + 120))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1) + 900 * SinBJ(count + 120))*1.0), yd_MapMinY), yd_MapMaxY)), 750) // INLINED!!
+	        call MoveLightningEx(Mengji__LLinglong[3], true, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900 * CosBJ(count + 240))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1) + 900 * SinBJ(count + 240))*1.0), yd_MapMinY), yd_MapMaxY)), 0, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900 * CosBJ(count + 240))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1) + 900 * SinBJ(count + 240))*1.0), yd_MapMinY), yd_MapMaxY)), 750) // INLINED!!
+			call SaveInteger(spellTable, GetHandleId(t), 1, ModuloInteger(count + 9, 360))
+			set u=null
+		else
+			call RemoveUnit(Mengji__ULinglong1)
+			call RemoveUnit(Mengji__ULinglong2)
+			call DestroyLightningBJ(Mengji__LLinglong[1])
+			call DestroyLightningBJ(Mengji__LLinglong[2])
+			call DestroyLightningBJ(Mengji__LLinglong[3])
+			set Mengji__ULinglong1=null
+			set Mengji__ULinglong2=null
+			set Mengji__LLinglong[1]=null
+			set Mengji__LLinglong[2]=null
+			set Mengji__LLinglong[3]=null
+			call Mengji__ExchangeChao(false)
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable, id)
+			call DestroyTimer(t)
+		endif
+		set t=null
+	endfunction
+
  function Mengji__Linglongwu takes nothing returns nothing
 
+  local timer t= CreateTimer()
+		set Mengji__ULinglong1=CreateUnit(GetOwningPlayer(mengji), 'hhm6', GetUnitX(mengji), GetUnitY(mengji), 0)
+		set Mengji__ULinglong2=CreateUnit(GetOwningPlayer(mengji), 'hhm7', GetUnitX(mengji), GetUnitY(mengji), 0)
+		//todo 闪电效果
+		set Mengji__LLinglong[1]=AddLightningEx("DRAB,DRAL,DRAM", true, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1))*1.0), yd_MapMinY), yd_MapMaxY)), 0, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 900)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1))*1.0), yd_MapMinY), yd_MapMaxY)), 750) // INLINED!!
+		set Mengji__LLinglong[2]=AddLightningEx("DRAB,DRAL,DRAM", true, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) - 450)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1))*1.0), yd_MapMinY), yd_MapMaxY)), 0, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) + 779)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1))*1.0), yd_MapMinY), yd_MapMaxY)), 750) // INLINED!!
+		set Mengji__LLinglong[3]=AddLightningEx("DRAB,DRAL,DRAM", true, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) - 450)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1))*1.0), yd_MapMinY), yd_MapMaxY)), 0, (RMinBJ(RMaxBJ(((GetUnitX(Mengji__ULinglong1) - 779)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(Mengji__ULinglong1))*1.0), yd_MapMinY), yd_MapMaxY)), 750) // INLINED!!
+		call Mengji__ExchangeChao(true)
+		call SaveInteger(spellTable, GetHandleId(t), 1, 0)
+		call TimerStart(t, 0.05, true, function Mengji__LinglongwuTimer)
+		set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -2295,7 +2369,7 @@ endfunction
 		elseif ( GetSpellAbilityId() == 'AHM5' ) then
 			call Mengji__Linglongwu()
 		//拟态
-		elseif ( GetSpellAbilityId() == 'AHM6' ) then
+		elseif ( GetSpellAbilityId() == 'A0GW' ) then
 			call Mengji__Nitai()
 		endif
 
@@ -2340,15 +2414,16 @@ endfunction
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
- function Mengji__InitMengji takes unit u returns nothing
+ function InitMengji takes unit u returns nothing
 
      local timer t= CreateTimer()
 		set mengji=u
 
 		//todo 天虹初始化  ctia 超天
-		set Mengji__Liutao=GetItemOfTypeFromUnitBJ(mengji, 'tian')
+		set Mengji__Liutao=GetItemOfTypeFromUnitBJ(mengji, 'I049')
 	    call SaveInteger(YDHT, GetHandleId(Mengji__Liutao), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(mengji)))
 
+		call SetPlayerAbilityAvailable(GetOwningPlayer(mengji), 'A0GV', false)
 		//若幻梦
 	    set Mengji__TSpellMengji01=CreateTrigger()
 	    call TriggerRegisterPlayerChatEvent(Mengji__TSpellMengji01, GetOwningPlayer(mengji), "-th", true)
@@ -2476,11 +2551,11 @@ endfunction
 // END IMPORT OF Mengji.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs27154046")
+call ExecuteFunc("jasshelper__initstructs282605380")
 call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Attr__InitAttr")
-call ExecuteFunc("Printer__InitPrinter")
+call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("Attr___InitAttr")
+call ExecuteFunc("Printer___InitPrinter")
 
 endfunction
 
@@ -2516,7 +2591,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs27154046 takes nothing returns nothing
+function jasshelper__initstructs282605380 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()
