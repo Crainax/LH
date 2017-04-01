@@ -26,6 +26,13 @@ library_once Version initializer InitVersion requires Achievement,LHBase
 		return "|cff99ccff该英雄是隐藏英雄，多人通关地狱及以上的难度后在结尾获取密码,
 				或者成为永久赞助直接选取该英雄|r"
 	endfunction
+	/*
+	    幻逸的提示文本
+	*/
+	function GetMengjiHint takes nothing returns string
+		return "|cff99ccff该英雄是隐藏英雄，多人通关|cFFFF0000末日|r及以上的难度后在结尾获取密码,
+				或者成为永久赞助直接选取该英雄|r"
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    黑阎选取条件

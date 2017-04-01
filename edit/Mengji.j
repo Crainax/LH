@@ -25,7 +25,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 		private trigger TSpellMengji3 = null
 		private trigger TSpellMengji41 = null
 		private trigger TSpellMengji42 = null
-		private trigger TSpellMengji43 = null
 
 		/*
 		    六涛天虹
@@ -64,11 +63,11 @@ library_once Mengji requires SpellBase,Printer,Attr
 		endif
 		//瞬伐心
 		if (GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == mengji) then
-			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		if (GetUnitTypeId(u) == 'hhm4') then
-			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		return false
@@ -92,13 +91,13 @@ library_once Mengji requires SpellBase,Printer,Attr
 		if (IsUnitHasSlot(mengji)) then
 			//有空位则给英雄
 			call UnitAddItem( mengji,Liutao)
-	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),"，拟态结束，圣弓回归至英雄身上.")
+	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GX'),"，拟态结束，圣弓回归至英雄身上.")
 		else
 			//没有位置则移到英雄脚下
 			call SetItemPosition(Liutao,GetUnitX(mengji),GetUnitY(mengji))
 			call SetItemVisible(Liutao,true)
 			call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji),GetUnitY(mengji), 2.00)
-	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),"，拟态结束，由于背包已满，圣弓回归至英雄脚下.")
+	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GX'),"，拟态结束，由于背包已满，圣弓回归至英雄脚下.")
 		endif
 		call PauseTimer(t)
 		call FlushChildHashtable(spellTable,id)
@@ -109,15 +108,19 @@ library_once Mengji requires SpellBase,Printer,Attr
 
 	private function Nitai takes nothing returns nothing
 		local timer t = CreateTimer()
+		local item temp = GetSpellTargetItem()
+		local integer spellID = GetSpellAbilityId()
 		call UnitRemoveItemSwapped(Liutao,mengji)
 		call SetItemVisible(Liutao,false)
-		call SetItemPawnable(Liutao,false)
-		call UnitAddItemByIdSwapped(GetItemTypeId(GetSpellTargetItem()), mengji)
+		call UnitAddItemByIdSwapped(GetItemTypeId(temp), mengji)
 		set Nihe = GetLastCreatedItem()
+		call SetItemPawnable(Nihe,false)
 		call TimerStart(t,30,false,function NitaiTimer)
-	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName(GetSpellAbilityId()),"拟合出"+GetItemName(GetSpellTargetItem()))
+	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName(spellID),"拟合出"+GetItemName(temp))
 		set t = null
+		set temp = null
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    若幻梦的装备回归
@@ -148,7 +151,9 @@ library_once Mengji requires SpellBase,Printer,Attr
 	private function RuohuanmengAttack takes nothing returns nothing
 		local integer times = GetItemCharges(Liutao)
 		if (GetItemTypeId(Liutao) == 'I049') then
-			call SetItemCharges(Liutao,IMinBJ(100,times + 1))
+			if (times < 100) then
+				call SetItemCharges(Liutao,times + 1)
+			endif
 		else
 			call SetItemCharges(Liutao,IMinBJ(1000,times + 1))
 		endif
@@ -177,14 +182,12 @@ library_once Mengji requires SpellBase,Printer,Attr
     		set HuanmengX = GetUnitX(mengji)
     		set HuanmengY = GetUnitY(mengji)
     		//移动
-    		//todo M8:90%闪避技能,M7:回血
     		if (GetUnitAbilityLevel(mengji,'A0GX') == 1) then
     			call UnitRemoveAbility(mengji,'A0GX')
     			call UnitAddAbility(mengji,'A0GY')
     		endif
     	else
     		//静止
-    		//todo 回血技能
     		if (GetUnitAbilityLevel(mengji,'A0GY') == 1) then
     			call UnitRemoveAbility(mengji,'A0GY')
     			call UnitAddAbility(mengji,'A0GX')
@@ -197,7 +200,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 	*/
 	private function Tanyoujian takes real damageRate,integer abilityID,real x2,real y2,integer count returns nothing
 
-		local real damage = GetDamageInt(mengji) * damageRate
+		local real damage = GetDamageAgi(mengji) * damageRate
 	    local real x1 = GetUnitX(mengji)
 	    local real y1 = GetUnitY(mengji)
 	    local real facing = Atan2BJ(y2-y1,x2-x1)
@@ -219,9 +222,15 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    玄音镇魂锁
 	*/
 	private function Zhenhunsuo takes nothing returns nothing
-		//todo 枷锁技能
- 		call SimulateSpell(mengji,GetSpellTargetUnit(),'AHtb',1,15,"magicleash",false,false,true)
- 		call SimulateSpell(mengji,GetSpellTargetUnit(),'AHtb',1,15,"magicleash",false,false,true)
+ 		local unit  u = CreateUnit(GetOwningPlayer(mengji),'h000',GetUnitX(mengji),GetUnitY(mengji),0)
+	    call UnitApplyTimedLifeBJ( 12.00, 'BHwe',u )
+        call UnitAddAbilityBJ( 'A0H0',u )
+    	call IssueTargetOrder( u, "magicleash", GetSpellTargetUnit() )
+ 		set u = CreateUnit(GetOwningPlayer(mengji),'h000',GetUnitX(mengji),GetUnitY(mengji),0)
+	    call UnitApplyTimedLifeBJ( 12.00, 'BHwe',u )
+        call UnitAddAbilityBJ( 'A0H0',u )
+    	call IssueTargetOrder( u, "magicleash", GetSpellTargetUnit() )
+	    set u = null
 	    call PrintSpellName(GetOwningPlayer(mengji),GetAbilityName(GetSpellAbilityId()))
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -243,11 +252,10 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    阴阳三川箭
 	*/
 	private function Sanchuanjian takes nothing returns nothing
-		local real damage = GetDamageInt(mengji) * 0.2
+		local real damage = GetDamageAgi(mengji) * 0.2
 		local real x = YDWECoordinateX(GetSpellTargetX() + GetRandomInt(-100,100))
 		local real y = YDWECoordinateY(GetSpellTargetY() + GetRandomInt(-100,100))
 
-		//todo三川箭的模拟，3个马甲
         local unit u = CreateUnit(GetOwningPlayer(mengji),'hhm1',x,y,0)
         call UnitApplyTimedLifeBJ( 22.00, 'BHwe',u )
         call IssuePointOrder(u,"stampede",GetSpellTargetX(),GetSpellTargetY())
@@ -258,7 +266,6 @@ library_once Mengji requires SpellBase,Printer,Attr
         call UnitApplyTimedLifeBJ( 22.00, 'BHwe',u )
         call IssuePointOrder(u,"stampede",GetSpellTargetX(),GetSpellTargetY())
 
-        //todo 冰箭
 		set x = YDWECoordinateX(GetSpellTargetX() + GetRandomInt(-100,100))
 		set y = YDWECoordinateY(GetSpellTargetY() + GetRandomInt(-100,100))
  		set u = CreateUnit(Player(10),'hhm3',x,y,0)
@@ -277,7 +284,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local integer id = GetHandleId(t)
 		local integer playerID = LoadInteger(spellTable,GetHandleId(t),1)
 		if not (shunHints[playerID]) then
-			call DisplayTextToPlayer(ConvertedPlayer(playerID), 0., 0., "|cffff66cc【消息】|r你已获得来自|cffcc99ff阴阳三川箭|r光环的效果,|cffffff00使用M键可以瞬移至任意地点|r,冷却5s.")
+			call DisplayTextToPlayer(ConvertedPlayer(playerID), 0., 0., "|cffff66cc【消息】|r你已获得来自|cffffff00阴阳三川箭|r光环的效果,|cffffcc00使用M键可以瞬移至任意地点|r,冷却5s.")
 		else
 			call PauseTimer(t)
 			call FlushChildHashtable(spellTable,id)
@@ -307,7 +314,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    共享瞬移
 	*/
 	private function TSpellMengji3Con takes nothing returns boolean
-		//todo 禁区,并在幻逸加上
 	    return ((GetIssuedOrderIdBJ() == String2OrderIdBJ("move")) and (not (shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])))
 	endfunction
 
@@ -332,19 +338,15 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    万界瞬伐心
 	*/
 	private function Shunfaxin takes nothing returns nothing
-		local real damage = GetDamageInt(mengji) * 0.1
+		local real damage = GetDamageAgi(mengji) * 0.1
 
 	    call EnableTrigger(TSpellMengji41)
 	    call EnableTrigger(TSpellMengji42)
-	    call EnableTrigger(TSpellMengji43)
 	    call PrintSpell(GetOwningPlayer(mengji),GetAbilityName('AHM4'),damage)
 	    call PolledWait(30)
-	    if (IsTriggerEnabled(TSpellMengji43)) then
-		    call DisableTrigger(TSpellMengji41)
-		    call DisableTrigger(TSpellMengji42)
-		    call DisableTrigger(TSpellMengji43)
-		    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),",施法结束.")
-	    endif
+	    call DisableTrigger(TSpellMengji41)
+	    call DisableTrigger(TSpellMengji42)
+	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),",施法结束.")
 	endfunction
 
 	/*
@@ -358,8 +360,8 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    local real y = y2 - SinBJ(facing) * 100
  		local unit u = CreateUnit(GetOwningPlayer(mengji),'h01B',x,y,0)
         call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+        call UnitAddAbility(u,'A0H4')
         call IssuePointOrder(u,"carrionswarm",x2,y2)
-        call IssueImmediateOrder(mengji,"stop")
 	endfunction
 
 	private function TSpellMengji4Con takes nothing returns boolean
@@ -374,27 +376,20 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    call ShunfaxinArrow(GetOrderPointX(),GetOrderPointY())
 	endfunction
 
-	/*
-	    按下Esc键取消
-	*/
-	function TSpellMengji43Act takes nothing returns nothing
-	    call DisableTrigger(TSpellMengji41)
-	    call DisableTrigger(TSpellMengji42)
-	    call DisableTrigger(TSpellMengji43)
-	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('AHM4'),",施法结束.")
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    圣弓与超圣弓的转换
 	*/
 	private function ExchangeChao takes boolean higher returns nothing
 		local integer charges = GetItemCharges(Liutao)
+		call FlushChildHashtable(YDHT,GetHandleId(Liutao))
 		call RemoveItem(Liutao)
 		if (higher) then
 			set Liutao = CreateItem('I04A',GetUnitX(mengji),GetUnitY(mengji))
 		else
 			set Liutao = CreateItem('I049',GetUnitX(mengji),GetUnitY(mengji))
 		endif
+	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
 		call SetItemCharges(Liutao,charges)
 		if (Nihe != null) then
 			call SetItemVisible(Liutao,false)
@@ -415,14 +410,15 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local unit u = null
 		local integer id = GetHandleId(t)
 		local integer count = LoadInteger(spellTable,id,1)
+		local real angel = GetRandomReal(0,360)
 		if (IsUnitInRange(mengji,ULinglong1,900)) then
  			set u = CreateUnit(GetOwningPlayer(mengji),'hhm4',GetUnitX(mengji),GetUnitY(mengji),0)
 	        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
-	        call IssuePointOrder(u,"carrionswarm",YDWECoordinateX(GetUnitX(mengji)+GetRandomReal(-100,100)),YDWECoordinateY(GetUnitY(mengji)+GetRandomReal(-100,100)))
+	        call IssuePointOrder(u,"carrionswarm",YDWECoordinateX(GetUnitX(mengji)+100*CosBJ(angel)),YDWECoordinateY(GetUnitY(mengji)+100*SinBJ(angel)))
 	        call MoveLightningEx(LLinglong[1],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),750)
 	        call MoveLightningEx(LLinglong[2],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count + 120)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count + 120)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count + 120)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count + 120)),750)
 	        call MoveLightningEx(LLinglong[3],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count+240)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count+240)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count+240)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count+240)),750)
-			call SaveInteger(spellTable,GetHandleId(t),1,ModuloInteger(count+9,360))
+			call SaveInteger(spellTable,GetHandleId(t),1,ModuloInteger(count+6,360))
 			set u = null
 		else
 			call RemoveUnit(ULinglong1)
@@ -446,15 +442,15 @@ library_once Mengji requires SpellBase,Printer,Attr
 	private function Linglongwu takes nothing returns nothing
 
 		local timer t = CreateTimer()
-		set ULinglong1 = CreateUnit(GetOwningPlayer(mengji),'hhm6',GetUnitX(mengji),GetUnitY(mengji),0)
-		set ULinglong2 = CreateUnit(GetOwningPlayer(mengji),'hhm7',GetUnitX(mengji),GetUnitY(mengji),0)
-		//todo 闪电效果
-		set LLinglong[1] = AddLightningEx("DRAB,DRAL,DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),750)
-		set LLinglong[2] = AddLightningEx("DRAB,DRAL,DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)-450),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+779),YDWECoordinateY(GetUnitY(ULinglong1)),750)
-		set LLinglong[3] = AddLightningEx("DRAB,DRAL,DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)-450),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)-779),YDWECoordinateY(GetUnitY(ULinglong1)),750)
+		set ULinglong1 = CreateUnit(GetOwningPlayer(mengji),'h00S',GetUnitX(mengji),GetUnitY(mengji),0)
+		set ULinglong2 = CreateUnit(GetOwningPlayer(mengji),'h00T',GetUnitX(mengji),GetUnitY(mengji),0)
+		set LLinglong[1] = AddLightningEx("DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),750)
+		set LLinglong[2] = AddLightningEx("DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)-450),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+779),YDWECoordinateY(GetUnitY(ULinglong1)),750)
+		set LLinglong[3] = AddLightningEx("DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)-450),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)-779),YDWECoordinateY(GetUnitY(ULinglong1)),750)
 		call ExchangeChao(true)
 		call SaveInteger(spellTable,GetHandleId(t),1,0)
-		call TimerStart(t,0.05,true,function LinglongwuTimer)
+		call TimerStart(t,0.1,true,function LinglongwuTimer)
+	    call PrintSpell(GetOwningPlayer(mengji),GetAbilityName('AHM5'),GetDamageAgi(mengji)*0.2)
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -475,7 +471,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		elseif (GetSpellAbilityId() == 'AHM5') then 
 			call Linglongwu()
 		//拟态
-		elseif (GetSpellAbilityId() == 'A0GW') then 
+		elseif (GetSpellAbilityId() == 'A0GW' and IsCanCopy(GetSpellTargetItem())) then 
 			call Nitai()
 		endif
 
@@ -495,8 +491,8 @@ library_once Mengji requires SpellBase,Printer,Attr
 			elseif (whichSpell == 3 and IsThirdSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM3') == 1) then
 				//技能3初始化
 				call InitShunyi()
-				call AddSpecialEffectTargetUnitBJ("origin",mengji,"war3mapImported\\devilaura.mdl")
-				call UnitAddAbility(gg_unit_haro_0030,'A0GR')
+				call AddSpecialEffectTargetUnitBJ("origin",mengji,"war3mapImported\\BlightwalkerAura.mdx")
+				call UnitAddAbility(gg_unit_haro_0030,'A0EL')
 			elseif (whichSpell == 4 and IsFourthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM4') == 1) then
 				//技能4初始化
 			elseif (whichSpell == 5 and IsFifthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM5') == 1) then
@@ -527,10 +523,17 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    local timer t = CreateTimer()
 		set mengji = u
 
-		//todo 天虹初始化  ctia 超天
 		set Liutao = GetItemOfTypeFromUnitBJ(mengji, 'I049')
 	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
-
+	    /*
+	        六涛的属性值
+	    */
+	    call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
+	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
+	    call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
+	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.5)
+	    call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.4)
+	    call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(mengji),'A0GV',false)
 		//若幻梦
 	    set TSpellMengji01 = CreateTrigger()
@@ -575,11 +578,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    call TriggerAddCondition(TSpellMengji42, Condition(function TSpellMengji4Con))
 	    call TriggerAddAction(TSpellMengji42, function TSpellMengji42Act)
 	    call DisableTrigger(TSpellMengji42)
-	    set TSpellMengji43 = CreateTrigger()
-	    call TriggerRegisterPlayerEventEndCinematic( TSpellMengji43, GetOwningPlayer(mengji) )
-	    call TriggerAddAction(TSpellMengji43, function TSpellMengji43Act)
-	    call DisableTrigger(TSpellMengji43)
-
 	    set t = null
 	endfunction
 

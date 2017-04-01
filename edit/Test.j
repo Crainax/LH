@@ -130,6 +130,10 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             转生禁区
         */
         rect gg_rct_______a3
+        /*
+            伤害加成
+        */
+        real array udg_I_Shanghai
 	endglobals
 
 	private function InitTest takes nothing returns nothing

@@ -33,14 +33,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	    黑阎的提示文本
 	*/
 	function GetHeiyanHint takes nothing returns string
-		return "|cff99ccff需要平台等级达到5级才能选取该英雄|r"
+		return "|cff99ccff需要平台等级达到2级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff需要平台等级达到10级才能选取该英雄|r"
+		return "|cff99ccff需要平台等级达到6级才能选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    梦霁的提示文本
+	*/
+	function GetMengjiHint takes nothing returns string
+		return "|cff99ccff需要平台等级达到11级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -54,20 +61,34 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	    黑阎选取条件
 	*/
 	function GetHeiyanSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 5)
+		return (DzAPI_Map_GetMapLevel(p) >= 2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 10)
+		return (DzAPI_Map_GetMapLevel(p) >= 6)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    梦霁选取条件
+	*/
+	function GetMengjiSelectedCon takes player p returns boolean
+		return (DzAPI_Map_GetMapLevel(p) >= 11)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    输出幻逸的密码
 	*/
 	function PrintHuanyiPassword takes nothing returns nothing
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    输出梦霁的密码
+	*/
+	function PrintMengjiPassword takes nothing returns nothing
 
 	endfunction
 //---------------------------------------------------------------------------------------------------

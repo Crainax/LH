@@ -1,9 +1,9 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 
-library_once LHBase initializer InitLHBase requires Constant,Test
+library_once LHBase initializer InitLHBase requires Constant//,Test
 
     globals
         unit learnSkillHero = null
@@ -36,7 +36,13 @@ library_once LHBase initializer InitLHBase requires Constant,Test
     function IsAlly takes unit u,unit caster returns boolean
         return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) and IsUnitAlly(u, GetOwningPlayer(caster))
     endfunction
-
+//---------------------------------------------------------------------------------------------------
+    /*
+        禁止复制的装备
+    */
+    function IsCanCopy takes item i returns boolean
+        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1'))
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
     /*
@@ -72,7 +78,7 @@ library_once LHBase initializer InitLHBase requires Constant,Test
         忠诚单位过滤器
     */
     function IsLoyalUnit takes unit u returns boolean
-        return ((GetUnitTypeId(u) == 'owyv') or (GetUnitTypeId(u) == 'nzom') or (GetUnitTypeId(u) == 'nsog') or (GetUnitTypeId(u) == 'nsoc') or (GetUnitTypeId(u) == 'ninc') or (GetUnitTypeId(u) == 'ninm') or (GetUnitTypeId(u) == 'nsrn') or (GetUnitTypeId(u) == 'nsrh') or (GetUnitTypeId(u) == 'nmit'))
+        return ((GetUnitTypeId(u) == 'owyv') or (GetUnitTypeId(u) == 'nzom') or (GetUnitTypeId(u) == 'nsog') or (GetUnitTypeId(u) == 'nsoc') or (GetUnitTypeId(u) == 'ninc') or (GetUnitTypeId(u) == 'ninm') or (GetUnitTypeId(u) == 'nsrn') or (GetUnitTypeId(u) == 'nsrh') or (GetUnitTypeId(u) == 'nmit') or (GetUnitTypeId(u) == 'I049') or (GetUnitTypeId(u) == 'I04A'))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
