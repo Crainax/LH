@@ -62,7 +62,10 @@ library_once Diffculty requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	function GetDiffculty takes nothing returns integer
-		if (udg_Nandu > 20) then
+
+		if (udg_Nandu_JJJ > 7) then
+			return 9
+		elseif (udg_Nandu > 20) then
 			return 8
 		elseif (udg_Nandu > 10) then
 			return 7

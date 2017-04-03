@@ -63,7 +63,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		endif
 		//瞬伐心
 		if (GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == mengji) then
-			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.35, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		if (GetUnitTypeId(u) == 'hhm4') then
@@ -318,7 +318,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 	endfunction
 
 	private function TSpellMengji3Act takes nothing returns nothing
-		if (IsInForbitRegion(GetOrderPointX(),GetOrderPointY())) then
+		if (IsInForbitRegion(GetOrderPointX(),GetOrderPointY(),GetTriggerUnit())) then
 			call IssueImmediateOrder( GetTriggerUnit(), "stop" )
 	        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达." )
 	        return
@@ -524,7 +524,9 @@ library_once Mengji requires SpellBase,Printer,Attr
 		set mengji = u
 
 		set Liutao = GetItemOfTypeFromUnitBJ(mengji, 'I049')
+		//todo 归属不太对
 	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
+
 	    /*
 	        六涛的属性值
 	    */

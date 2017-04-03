@@ -19,6 +19,7 @@ function TReviveHeroAct takes nothing returns nothing
 		call SetUnitPosition( GetRevivingUnit(), GetRectCenterX(gg_rct_QuitRegion), GetRectCenterY(gg_rct_QuitRegion) )
 	    call SetUnitInvulnerable( GetRevivingUnit(), true )
 	    call PauseUnitBJ( true, GetRevivingUnit() )
+	    call ShowUnitHide(GetRevivingUnit())
 	endif
 endfunction
 

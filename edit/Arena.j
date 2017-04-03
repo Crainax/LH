@@ -30,6 +30,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 		private trigger TSpellJinxuan2 = null
 		private trigger TSpellJinxuan3 = null
 		private trigger TSpellJinxuan4 = null
+		private trigger TSpellYuansha = null
 
 		/*
 		    当前挑战的人的位置
@@ -77,6 +78,8 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 			call IncUnitAbilityLevel(challenager,'AL04')
 			call IncUnitAbilityLevel(challenager,'AL05')
 			call IncUnitAbilityLevel(challenager,'A0EY')
+			call IncUnitAbilityLevel(challenager,'A0H6')
+			call IncUnitAbilityLevel(challenager,'A0H7')
 			call SetTextTagTextBJ(textTag_Level,I2S(currentLevel) + "级",20)
 		else
 			call PauseTimer(t)
@@ -136,6 +139,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 					call SetUnitY(GetAttackedUnitBJ(),GetRectCenterY(gg_rct_Arena_1))
 			    endif
 			endloop
+	    	call CreateSpellTextTag("万箭定心！",challenager,100,100,0,2)
 		else
 			call PauseTimer(t)
 			call DestroyTimer(t)
@@ -405,29 +409,58 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
+	/*
+	    辕煞技能： 免疫外部人员伤害技能
+	*/
+	function TSpellYuanshaCon takes nothing returns boolean
+	    return ((GetOwningPlayer(GetEventDamageSource()) != GetOwningPlayer(defier)) and (GetEventDamage() > 10))
+	endfunction
+
+	function TSpellYuanshaAct takes nothing returns nothing
+		call SetUnitLifeBJ(challenager,GetUnitState(challenager,UNIT_STATE_LIFE)+GetEventDamage())
+		if (GetRandomInt(1,5) == 1) then
+	    	call CreateSpellTextTag("局外免疫！",challenager,0,0,100,2)
+		endif
+	endfunction
+
+	/*
+	    辕煞技能2:每0.25秒闪烁一次
+	*/
+	private function YuanshaMove takes nothing returns nothing
+		local real x = GetRandomReal(GetRectMinX(gg_rct_Arena_Spell),GetRectMaxX(gg_rct_Arena_Spell))
+		local real y = GetRandomReal(GetRectMinY(gg_rct_Arena_Spell),GetRectMaxY(gg_rct_Arena_Spell))
+		if(IsUnitAliveBJ(challenager)) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", x, y ))
+			call SetUnitX(challenager,x)
+			call SetUnitY(challenager,y)
+		else
+			call PauseTimer(GetExpiredTimer())
+			call DestroyTimer(GetExpiredTimer())
+			return
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    挑战擂台开始Trigger
 	*/
 	function TArenaStartAct takes nothing returns nothing
-		local timer t
 		local Attract attract
 
 		//符合条件再开始
 	    if ((IsUnitType(GetBuyingUnit(), UNIT_TYPE_HERO) == true)) then
 	        if ((challenager == null)) then
-	            if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] != 9)) then
+	            if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] != 10)) then
 	            	//开始啦
 	                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战将在3秒后开始。" )
 	                
-	                set t = CreateTimer()
 	                if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 0)) then
 	                    set challenager = CreateUnit(Player(10), 'Huth', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 1)) then
 	                    set challenager = CreateUnit(Player(10), 'Hpb1', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 2)) then
 	                    set challenager = CreateUnit(Player(10), 'Hgam', GetRectCenterX(gg_rct_Arena_2),GetRectCenterY(gg_rct_Arena_2), 180.00)
-	                    call TimerStart(t,2,TRUE,function LingerAssemble)
+	                    call TimerStart(CreateTimer(),2,TRUE,function LingerAssemble)
 	                    call EnableTrigger( TSpellLinger )
 
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 3)) then
@@ -474,9 +507,18 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 						call EnableTrigger( TSpellJinxuan2 )
 						call EnableTrigger( TSpellJinxuan3 )
 						call EnableTrigger( TSpellJinxuan4 )
+	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 9)) then
+	                    set challenager = CreateUnit(Player(10), 'Hdgo', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
+
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
+						call EnhanceDiffAttack(challenager)
+	                    call TimerStart(CreateTimer(),0.25,TRUE,function YuanshaMove)
+						call EnableTrigger( TSpellYuansha )
 	                endif
 
 	                //初始化单位
+
 					call SetUnitX(defier,GetRectCenterX(gg_rct_Arena_1))
 					call SetUnitY(defier,GetRectCenterY(gg_rct_Arena_1))
 	                call SetUnitInvulnerable( challenager, true )
@@ -493,11 +535,9 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	                    call PauseUnitBJ( false, challenager )
 	                    call DisplayTextToPlayer( GetOwningPlayer(defier), 0, 0, "|cFFFF66CC【消息】|r挑战开始！" )
 	                    //5秒更新一次等级
-	                    set t = CreateTimer()
-	                    call TimerStart(t,GetArenaUpdateSpeed(),TRUE,function updateLevel)
+	                    call TimerStart(CreateTimer(),GetArenaUpdateSpeed(),TRUE,function updateLevel)
 	                    //0.05秒更新一次等级提示的位置
-	                    set t = CreateTimer()
-	                    call TimerStart(t,0.05,TRUE,function updateLevelLoc)
+	                    call TimerStart(CreateTimer(),0.05,TRUE,function updateLevelLoc)
    						call TriggerRegisterUnitEvent(TDieEvent, challenager, EVENT_UNIT_DEATH)
 	                else
 	                endif
@@ -511,7 +551,6 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r请让英雄购买！" )
 	    endif
 	    
-	    set t = null
 	endfunction
 
 	private function TArenaStartCon takes nothing returns boolean
@@ -551,6 +590,8 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 		call DisableTrigger( TSpellJinxuan2 )
 		call DisableTrigger( TSpellJinxuan3 )
 		call DisableTrigger( TSpellJinxuan4 )
+		call DisableTrigger( TSpellYuansha )
+
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -594,46 +635,46 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 
 	function TDieEventActions takes nothing returns nothing
 	   
-	    local location point = GetUnitLoc(GetDyingUnit())
 	    local integer ty = (GetUnitTypeId(GetDyingUnit()))
 	    if (ty == 'Huth') then
-	        call CreateItemLoc( 'prvt', point )
+	        call CreateItem( 'prvt', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 	    elseif (ty == 'Hpb1') then
-	        call CreateItemLoc( 'cnob', point )
+	        call CreateItem( 'cnob', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 	    elseif (ty == 'Hgam') then
-	        call CreateItemLoc( 'rhth', point )
+	        call CreateItem( 'rhth', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
         	call DisableTrigger( TSpellLinger )
 	    elseif (ty == 'Hmbr') then
-	        call CreateItemLoc( 'hval', point )
+	        call CreateItem( 'hval', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellZhousi )
 	    elseif (ty == 'Odrt') then
-	        call CreateItemLoc( 'afac', point )
+	        call CreateItem( 'afac', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellXuemo1 )
 			call DisableTrigger( TSpellXuemo2 )
 	    elseif (ty == 'Ogrh') then
-	        call CreateItemLoc( 'pmna', point )
+	        call CreateItem( 'pmna', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellFuwang )
 	    elseif (ty == 'Hvsh') then
-	        call CreateItemLoc( 'evtl', point )
+	        call CreateItem( 'evtl', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellMeidusha1 )
 			call DisableTrigger( TSpellMeidusha2 )
 	    elseif (ty == 'Hpb2') then
-	        call CreateItemLoc( 'bspd', point )
+	        call CreateItem( 'bspd', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 	        call DisableTrigger( TSpellKiller1 )
 			call DisableTrigger( TSpellKiller2 )
 	    elseif (ty == 'Hlgr') then
-	        call CreateItemLoc( 'mcou', point )
+	        call CreateItem( 'mcou', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 	        call DisableTrigger( TSpellJinxuan1 )
 			call DisableTrigger( TSpellJinxuan2 )
 			call DisableTrigger( TSpellJinxuan3 )
 			call DisableTrigger( TSpellJinxuan4 )
+		elseif (ty == 'Hdgo') then
+	        call CreateItem( 'ciri', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
+			call DisableTrigger( TSpellYuansha )
 	    endif
 
 
 	    set currentLevel = 1
 	    set currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] = currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] + 1
-	    call RemoveLocation( point )
-	    set point = null
 	    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战成功!" )
 	    call RemoveUnit( challenager )
 	    set challenager = null
@@ -745,10 +786,16 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	    call DisableTrigger(TSpellJinxuan3)
 
 	    set TSpellJinxuan4 = CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan3, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerRegisterAnyUnitEventBJ( TSpellJinxuan4, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellJinxuan4, Condition(function TSpellJinxuan4Con))
 	    call TriggerAddAction(TSpellJinxuan4, function TSpellJinxuan4Act)
 	    call DisableTrigger(TSpellJinxuan4)
+
+	    //辕煞
+	    set TSpellYuansha = CreateTrigger()
+	    call TriggerAddCondition(TSpellYuansha, Condition(function TSpellYuanshaCon))
+	    call TriggerAddAction(TSpellYuansha, function TSpellYuanshaAct)
+	    call DisableTrigger(TSpellYuansha)
 
 	    set t = null
 	endfunction

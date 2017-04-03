@@ -206,6 +206,17 @@ endglobals
 	        call DestroyTimer(GetExpiredTimer())
 	        set TiDiaNecklace = null
 	endfunction
+
+	private function ReviveRing takes nothing returns nothing
+			local unit u = null
+	        call PingMinimap( -10630.00, -8642.00, 2.00 )
+	        set u = CreateUnit(Player(10),'Ekgg',-10630.00, -8642.00 , 180)
+	        call SetHeroLevel( u, ( GetHeroLevel(u) + 1 ), true )
+	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + "|cFFFF6699千年孤魂|r|cffffcc00弑魂|r复活了。" ) )
+	        set u = null
+	        call PauseTimer(GetExpiredTimer())
+	        call DestroyTimer(GetExpiredTimer())
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    死亡掉落
@@ -215,11 +226,9 @@ endglobals
 	    if ((GetUnitTypeId(GetDyingUnit()) == 'Naka')) then
 	        call CreateItem( 'rat9', GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) )
 	        call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit())) )
-	        call PolledWait(30.00)
-	        call PingMinimap( -10630.00, -8642.00, 2.00 )
-	        call ReviveHero( GetDyingUnit(), -10630.00, -8642.00, true )
-	        call SetHeroLevel( GetDyingUnit(), ( GetHeroLevel(GetDyingUnit()) + 1 ), true )
-	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + "|cFFFF6699千年孤魂|r|cffffcc00弑魂|r复活了。" ) )
+	        call TimerStart(CreateTimer(),30,false,function ReviveRing)
+	        call PolledWait(0.5)
+	        call RemoveUnit(GetDyingUnit())
 	    endif
 	    if (GetDyingUnit() == UCrainax) then
 	        call CreateItem( 'rde3', GetUnitX(UCrainax),GetUnitY(UCrainax) )

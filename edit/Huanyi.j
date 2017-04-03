@@ -91,7 +91,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    获取多重施法的重数:1-5
 	*/
 	private function GetMultiSpell takes nothing returns integer
-		if not(IsFourthSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH3') == 1) then
+		if not(IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
 			return 1
 		endif
 
@@ -158,9 +158,9 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	*/
 	private function Lumber takes nothing returns nothing
 		local integer times = GetMultiSpell()
-		local integer attack = GetHeroInt(Huanyi,true) + 0
-		local integer defense = GetHeroAgi(Huanyi,true)/100 + 0
-		local integer hp = GetHeroStr(Huanyi,true) * 10 + 0
+		local integer attack = GetHeroInt(Huanyi,true) + GetAttack(Huanyi)
+		local integer defense = GetHeroAgi(Huanyi,true)/100 + GetDefense(Huanyi)
+		local integer hp = GetHeroStr(Huanyi,true) * 10 + GetHP(Huanyi)
 		local unit u
 		local integer i = 1
 		loop
@@ -231,6 +231,10 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		local integer i = 1
 		local integer ii = 1
 		local real range = 150 * times
+		if (IsInForbitRegion(x,y,Huanyi)) then
+	        call DisplayTextToPlayer( GetOwningPlayer(Huanyi), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达." )
+	        return
+		endif
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
@@ -433,8 +437,14 @@ library_once Huanyi requires SpellBase,Printer,Attr
 		local integer times = GetMultiSpell()
 		local real range = 900 * times
 		local integer i = 1
-		local unit u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',x,y,0)
-	    local Attract attract = Attract.create(u,range,0.05,range/20)
+		local unit u
+	    local Attract attract
+	    if (IsTerrainPathable(x, y, PATHING_TYPE_WALKABILITY)) then
+	    	call DisplayTextToPlayer(GetOwningPlayer(Huanyi), 0., 0., "|cFFFF66CC【消息】|r目标地点不能通行,技能施法无效！")
+	    	return
+	    endif
+		set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',x,y,0)
+	    set attract = Attract.create(u,range,0.05,range/20)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
@@ -607,7 +617,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	    幻逸魔能等级减少受到的伤害
 	*/
 	private function TSpellHuanyi3Con takes nothing returns boolean
-		return IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1 and IMoneng <= 5 and GetRandomInt(1,2) == 1
+		return IsFourthSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH3') == 1 and IMoneng <= 5 and GetRandomInt(1,2) == 1
 	endfunction
 	
 	private function TSpellHuanyi3Act takes nothing returns nothing
@@ -784,7 +794,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			if (whichSpell == 2 and IsSecondSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH1') == 1) then
 				//技能2初始化
 				call InitPower()
-			elseif (whichSpell == 3 and IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
+			elseif (whichSpell == 4 and IsFourthSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH3') == 1) then
 				//技能3初始化
 				set i = 1
 				//增加技能伤害

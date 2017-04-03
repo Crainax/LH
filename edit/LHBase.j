@@ -41,7 +41,7 @@ library_once LHBase initializer InitLHBase requires Constant//,Test
         禁止复制的装备
     */
     function IsCanCopy takes item i returns boolean
-        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1'))
+        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A'))
     endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -254,10 +254,10 @@ library_once LHBase initializer InitLHBase requires Constant//,Test
 //---------------------------------------------------------------------------------------------------
 
     /*
-        判断是否不在闪烁禁区内
+        判断是否在闪烁禁区内
     */
-    function IsInForbitRegion takes real x,real y returns boolean
-        return (IsInRect(x,y,gg_rct_______a3)) or (IsInRect(x,y,gg_rct_Arena_forbit))
+    function IsInForbitRegion takes real x,real y,unit u returns boolean
+        return (IsInRect(x,y,gg_rct_______a3) and (not(RectContainsUnit(gg_rct_______a3, u)))) or (IsInRect(x,y,gg_rct_Arena_forbit) and (not(RectContainsUnit(gg_rct_Arena_forbit, u))))
     endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing

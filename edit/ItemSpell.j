@@ -8,7 +8,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase
 	    转移物品
 	*/
 	private function TransferItemCon takes nothing returns boolean
-		return (GetSpellAbilityId() == 'A0GT')
+		return (GetSpellAbilityId() == 'A0GT') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])
 	endfunction
 
 	private function TransferItemAct takes nothing returns nothing

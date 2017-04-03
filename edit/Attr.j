@@ -120,6 +120,10 @@ library_once Attr initializer InitAttr requires LHBase
 	    call SaveInteger(YDHT,GetHandleId(u),0x5039AFFB,attack)
 	    call TriggerExecute( gg_trg_____________800W )
 	endfunction	
+
+	function GetAttack takes unit u returns integer
+		return LoadInteger(YDHT,GetHandleId(u),0x5039AFFB)
+	endfunction	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    设置防御
@@ -129,6 +133,10 @@ library_once Attr initializer InitAttr requires LHBase
 	    call SaveInteger(YDHT,GetHandleId(u),0x81FD3994,defense)
 	    call TriggerExecute( gg_trg___________________4000______u )
 	endfunction
+
+	function GetDefense takes unit u returns integer
+		return LoadInteger(YDHT,GetHandleId(u),0x81FD3994)
+	endfunction	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    设置生命上限
@@ -138,6 +146,10 @@ library_once Attr initializer InitAttr requires LHBase
 	    call SaveInteger(YDHT,GetHandleId(u),0xFCD961C9,hp)
     	call TriggerExecute( gg_trg_HP_____________________u )
 	endfunction
+	
+	function GetHP takes unit u returns integer
+		return LoadInteger(YDHT,GetHandleId(u),0xFCD961C9)
+	endfunction	
 //---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing

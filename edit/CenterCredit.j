@@ -21,7 +21,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 	*/
 	
 	private function TBuySoliderCon takes nothing returns boolean
-		return (GetUnitTypeId(GetSellingUnit()) == 'uS02')
+		return (GetUnitTypeId(GetSellingUnit()) == 'uS02') and RectContainsUnit(regionM1[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))],GetSellingUnit())
 	endfunction
 
 	private function TBuySoliderAct takes nothing returns nothing
@@ -104,7 +104,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 	    雇佣兵技能
 	*/
 	function SimulateDamageSoldier takes unit u returns boolean
-		if (GetUnitAbilityLevel(u,'A0GZ') >= 1) then
+		if (GetUnitAbilityLevel(u,'A0GZ') >= 1 and (not(IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO)))) then
 			call DisableTrigger(GetTriggeringTrigger())
 			call SetUnitLifeBJ(GetTriggerUnit(),100)
 			call UnitDamageTarget( u, GetTriggerUnit(), 1000, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )

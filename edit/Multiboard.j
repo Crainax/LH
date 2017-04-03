@@ -18,6 +18,10 @@ library_once Multiboard initializer InitMultiboard requires LHBase
 			set index = GetConvertedPlayerId(GetOwningPlayer(u))
 			set centerCredit[index] = centerCredit[index] + udg_Bo
 			call MultiboardSetItemValueBJ( udg_D, 9,  index + 1 , I2S(centerCredit[index]) )
+		else
+			set index = GetConvertedPlayerId(GetOwningPlayer(u))
+			set centerCredit[index] = centerCredit[index] + udg_Bo / 2
+			call MultiboardSetItemValueBJ( udg_D, 9,  index + 1 , I2S(centerCredit[index]) )
 		endif
 	endfunction
 

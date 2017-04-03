@@ -82,7 +82,7 @@ library_once Pet initializer InitPet requires LHBase
         //! runtextmacro CatchPet("A04P","I074","100000")
         //! runtextmacro CatchPet("A04Q","I075","500000")
         //! runtextmacro CatchPet("A04R","I072","2000000")
-        //! runtextmacro CatchPet("A0E1","I071","2000000")
+        //! runtextmacro CatchPet("A0E1","I071","20000000")
 
 
     endfunction

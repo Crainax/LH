@@ -133,22 +133,22 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	function InitAchievementName takes unit u returns nothing
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
 		if (GetBit(achieve[id],8) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
 		elseif (GetBit(achieve[id],7) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 		elseif (GetBit(achieve[id],6) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 		elseif (GetBit(achieve[id],5) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 		elseif (GetBit(achieve[id],4) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 		elseif (GetBit(achieve[id],3) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 		elseif (GetBit(achieve[id],2) > 0) then
 			call SetPlayerName(GetOwningPlayer(u),"【太平源】"+GetPlayerName(GetOwningPlayer(u)))
 		elseif (GetBit(achieve[id],1) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】|r"+GetPlayerName(GetOwningPlayer(u)))
+			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

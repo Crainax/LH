@@ -15,6 +15,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 	rect gg_rct________1
 	//难度等级，最高7
 	integer udg_Nandu_JJJ
+    integer udg_Nandu
 	//冥王
         unit gg_unit_Nkjx_0241 
         //左
@@ -45,6 +46,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         rect gg_rct_Arena_2
         rect gg_rct_Arena_all
         rect gg_rct_Arena_forbit
+        rect gg_rct_Arena_Spell
 
         /*
             宠物
