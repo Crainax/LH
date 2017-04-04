@@ -55,7 +55,7 @@ library_once Battle initializer InitBattle requires LHBase
 	/*
 	    战斗调整
 	*/
-	function GetMonsterSpeed takes nothing returns real
+	function 	 takes nothing returns real
 		if (IsFastly()) then
 			return 1.
 		endif
