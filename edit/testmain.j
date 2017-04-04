@@ -1,4 +1,4 @@
 
-//! import "Arena.j"
+//! import "Battle.j"
 function main takes nothing returns nothing
 endfunction

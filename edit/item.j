@@ -210,7 +210,7 @@ endglobals
 	private function ReviveRing takes nothing returns nothing
 			local unit u = null
 	        call PingMinimap( -10630.00, -8642.00, 2.00 )
-	        set u = CreateUnit(Player(10),'Ekgg',-10630.00, -8642.00 , 180)
+	        set u = CreateUnit(Player(10),'Naka',-10630.00, -8642.00 , 180)
 	        call SetHeroLevel( u, ( GetHeroLevel(u) + 1 ), true )
 	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + "|cFFFF6699千年孤魂|r|cffffcc00弑魂|r复活了。" ) )
 	        set u = null

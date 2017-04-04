@@ -22,6 +22,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         unit gg_unit_Uear_0242 
         //右
         unit gg_unit_Npld_0253 
+        //战斗调整
+        unit gg_unit_ndrz_0019
         //英雄
         unit array udg_H
         //圣主分身
