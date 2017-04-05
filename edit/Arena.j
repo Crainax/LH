@@ -66,7 +66,9 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 
 		if( IsUnitAliveBJ(challenager) and ( currentLevel < ARENA_MAX_LEVEL)) then
 			call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(challenager), GetUnitY(challenager)) )
-			call SetHeroInt(challenager,IMinBJ(2100000000,int + int / currentLevel) ,true)
+			if ((int + int / currentLevel) > 0) then
+				call SetHeroInt(challenager,IMinBJ(2100000000,int + int / currentLevel) ,true)
+			endif
 			call SetHeroAgi(challenager,IMinBJ(2100000000,agi + agi / currentLevel) , true)
 			call SetHeroStr(challenager,IMinBJ(2100000000,str + str / currentLevel) , true)
 			set currentLevel  = currentLevel + 1

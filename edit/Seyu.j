@@ -1,4 +1,4 @@
- 
+
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
@@ -24,7 +24,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		    空间封冻技能
 		*/
 		private trigger TSpellSeyu = null
-		private trigger TSpellSeyu2 = null
+		private trigger TSpellSeyu2	= null
 		private trigger TSpellSeyu3	= null
 		key kAnShaCount
 	endglobals
@@ -103,7 +103,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    异界能量
 	*/
 	function TSpellSeyu2Con takes nothing returns boolean
-	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00) and GetUnitAbilityLevel(seyu,'AUav') == 1)
+	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00))
 	endfunction
 
 	function TSpellSeyu2Act takes nothing returns nothing
@@ -142,14 +142,14 @@ library_once Seyu requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-    	异界能量的获取与扣除
+    	异界能量的获取
 	*/
+	private function TDeathAddPowerCon takes nothing returns boolean
+		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu)
+	endfunction
+	
 	private function TDeathAddPowerAct takes nothing returns nothing
-		if (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu) then
-			set IPower = IPower + 1
-		elseif (GetDyingUnit() == seyu) then
-			set IPower = IPower - 30
-		endif
+		set IPower = IPower + 1
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -159,8 +159,9 @@ library_once Seyu requires SpellBase,Printer,Attr
 		local timer ti = CreateTimer()
 		local trigger t = CreateTrigger()
 
-		//异界能量触发与损失
+		//异界能量触发
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+		call TriggerAddCondition(t, Condition(function TDeathAddPowerCon))
 		call TriggerAddAction(t, function TDeathAddPowerAct)
 
 		set IPower = 0
@@ -249,9 +250,9 @@ library_once Seyu requires SpellBase,Printer,Attr
 			endloop
 			set chongdong =null
 		else
-			call FlushChildHashtable(spellTable,id)
 			call PauseTimer(t)
 			call DestroyTimer(t)
+			call FlushChildHashtable(spellTable,id)
 		endif
 		set t = null 
 	endfunction
@@ -358,6 +359,5 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    call TriggerRegisterAnyUnitEventBJ( TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellSeyu2, Condition(function TSpellSeyu2Con))
 	    call TriggerAddAction(TSpellSeyu2, function TSpellSeyu2Act)
-
 	endfunction
 endlibrary

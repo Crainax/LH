@@ -152,7 +152,10 @@ library_once Pet initializer InitPet requires LHBase
         //物品给仓库
         loop
             exitwhen i > 6
-            call UnitAddItemSwapped( UnitItemInSlotBJ(GetDyingUnit(), i), UDepot[index] )
+            if (IsUnitHasSlot(UDepot[index])) then
+                call UnitAddItemSwapped( UnitItemInSlotBJ(GetDyingUnit(), i), UDepot[index] )
+            else
+                call SetItemPosition(UnitItemInSlotBJ(GetDyingUnit(), i),GetUnitX(UDepot[index]),GetUnitY(UDepot[index]))
             set i = i +1
         endloop
         call PingMinimapForForce(GetForceOfPlayer(ConvertedPlayer(index)), GetUnitX(UDepot[index]),GetUnitY(UDepot[index]), 10.00)

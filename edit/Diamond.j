@@ -1147,7 +1147,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         endif
         set u = CreateUnit(Player(10),whichType,x,y,GetRandomDirectionDeg())
         call EnhanceDiffAttack(u)
-        call SetUnitAbilityLevel(u, 'AB01', aLevel )
+        call SetUnitAbilityLevel(u, 'AB01', GetWanjieAddInt(aLevel,9) )
         call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", x, y ))
         set u = null
     endfunction

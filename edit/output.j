@@ -19,43 +19,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem___CurrentTime
-integer YDWETimerSystem___CurrentIndex
-integer YDWETimerSystem___TaskListHead
-integer YDWETimerSystem___TaskListIdleHead
-integer YDWETimerSystem___TaskListIdleMax
-integer array YDWETimerSystem___TaskListIdle
-integer array YDWETimerSystem___TaskListNext
-integer array YDWETimerSystem___TaskListTime
-trigger array YDWETimerSystem___TaskListProc
-trigger YDWETimerSystem___fnRemoveUnit
-trigger YDWETimerSystem___fnDestroyTimer
-trigger YDWETimerSystem___fnRemoveItem
-trigger YDWETimerSystem___fnDestroyEffect
-trigger YDWETimerSystem___fnDestroyLightning
-trigger YDWETimerSystem___fnRunTrigger
-timer YDWETimerSystem___Timer
-integer YDWETimerSystem___TimerHandle
+integer YDWETimerSystem__CurrentTime
+integer YDWETimerSystem__CurrentIndex
+integer YDWETimerSystem__TaskListHead
+integer YDWETimerSystem__TaskListIdleHead
+integer YDWETimerSystem__TaskListIdleMax
+integer array YDWETimerSystem__TaskListIdle
+integer array YDWETimerSystem__TaskListNext
+integer array YDWETimerSystem__TaskListTime
+trigger array YDWETimerSystem__TaskListProc
+trigger YDWETimerSystem__fnRemoveUnit
+trigger YDWETimerSystem__fnDestroyTimer
+trigger YDWETimerSystem__fnRemoveItem
+trigger YDWETimerSystem__fnDestroyEffect
+trigger YDWETimerSystem__fnDestroyLightning
+trigger YDWETimerSystem__fnRunTrigger
+timer YDWETimerSystem__Timer
+integer YDWETimerSystem__TimerHandle
 
-integer YDWETimerSystem___TimerSystem_RunIndex= 0
+integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -164,10 +164,11 @@ unit array UDepot
 
 hashtable itemTable= InitHashtable()
 //endglobals from LHBase
-//globals from Battle:
-constant boolean LIBRARY_Battle=true
-boolean array BSkip
-//endglobals from Battle
+//globals from Diffculty:
+constant boolean LIBRARY_Diffculty=true
+		
+integer NanDiff= 0
+//endglobals from Diffculty
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -1167,7 +1168,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem___CurrentIndex
+    return YDWETimerSystem__CurrentIndex
 endfunction
 
 
@@ -1197,7 +1198,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem___TimerSystem_RunIndex
+    return YDWETimerSystem__TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1237,7 +1238,7 @@ endfunction
 //library Test:
 
 
- function Test__InitTest takes nothing returns nothing
+ function Test___InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -1425,17 +1426,17 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function LHBase__IsInRect takes real x,real y,rect reg returns boolean
+    function LHBase___IsInRect takes real x,real y,rect reg returns boolean
         return ( GetRectMaxX(reg) >= x and GetRectMinX(reg) <= x and GetRectMaxY(reg) >= y and GetRectMinY(reg) <= y )
     endfunction
 //---------------------------------------------------------------------------------------------------
 
     
     function IsInForbitRegion takes real x,real y,unit u returns boolean
-        return ( LHBase__IsInRect(x , y , gg_rct_______a3) and ( not ( RectContainsUnit(gg_rct_______a3, u) ) ) ) or ( LHBase__IsInRect(x , y , gg_rct_Arena_forbit) and ( not ( RectContainsUnit(gg_rct_Arena_forbit, u) ) ) )
+        return ( LHBase___IsInRect(x , y , gg_rct_______a3) and ( not ( RectContainsUnit(gg_rct_______a3, u) ) ) ) or ( LHBase___IsInRect(x , y , gg_rct_Arena_forbit) and ( not ( RectContainsUnit(gg_rct_Arena_forbit, u) ) ) )
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1447,90 +1448,150 @@ endfunction
     endfunction
 
 //library LHBase ends
-//library Battle:
+//library Diffculty:
 	
-//---------------------------------------------------------------------------------------------------
-	
-	
- function TStartFastMonsterCon takes nothing returns boolean
-	    return ( GetItemTypeId(GetSoldItem()) == 'I04P' )
-	endfunction
-
- function TStartFastMonsterAct takes nothing returns nothing
-  local integer i= 1
-		set BSkip[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]=true
-        call PingMinimap(8189.00, 1461, 8.00)
-		loop
-			exitwhen i > 6
-			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
-				if ( BSkip[i] ) then
-    				call BJDebugMsg("|cFFFF66CC【消息】|r" + GetUnitName(udg_H[i]) + "打开了急速出怪的开关,需要全员打开才能急速出怪！")
-    			else
-    				call BJDebugMsg("|cFFFF66CC【消息】|r" + GetUnitName(udg_H[i]) + "还未打开急速出怪的开关,需要全员打开才能急速出怪！")
-				endif
-			endif
-			set i=i + 1
-		endloop
-
-	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Battle__IsFastly takes nothing returns boolean
-  local integer i= 1
-  local integer count= 0
-		loop
-			exitwhen i > 6
-			set BSkip[i]=true
-			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) and BSkip[i] ) then
-				set count=count + 1
-			endif
-			set i=i + 1
-		endloop
+ function GetDiffculty takes nothing returns integer
 
-		return count >= udg_RENSHU
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
-	
- function GetMonsterSpeed takes nothing returns real
-		if ( Battle__IsFastly() ) then
-			return 1.
-		endif
-		return I2R(GetUnitUserData(gg_unit_ndrz_0019))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function GetBoSpeed takes nothing returns real
-		if ( Battle__IsFastly() ) then
-			return 51.
+		if ( udg_Nandu_JJJ > 7 ) then
+			return 9
+		elseif ( udg_Nandu > 20 ) then
+			return 8
+		elseif ( udg_Nandu > 10 ) then
+			return 7
+		elseif ( udg_Nandu > 8 ) then
+			return 6
+		elseif ( udg_Nandu > 6 ) then
+			return 5
+		elseif ( udg_Nandu > 4 ) then
+			return 4
+		elseif ( udg_Nandu > 2 ) then
+			return 3
+		elseif ( udg_Nandu > 1 ) then
+			return 2
 		else
-			return 300.
+			return 1
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Battle__InitBattle takes nothing returns nothing
-  local integer i= 1
-     local trigger t= CreateTrigger()
-		loop
-			exitwhen i > 6
-			set BSkip[i]=true
-			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) then
-				set BSkip[i]=false
-			endif
-			set i=i + 1
-		endloop
+ function IsWanjie takes nothing returns boolean
+		return GetDiffculty() == 9
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function EnhanceDiffAttack takes unit u returns nothing
+		if ( NanDiff <= 0 ) then
+			return
+		endif
 
-	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SELL_ITEM)
-	    call TriggerAddCondition(t, Condition(function TStartFastMonsterCon))
-	    call TriggerAddAction(t, function TStartFastMonsterAct)
-	    set t=null
+		//100倍攻击加强
+		if ( GetUnitAbilityLevel(u, 'A09V') >= 1 ) then
+			call SetUnitAbilityLevel(u, 'A09V', NanDiff + 1)
+			return
+		endif
+
+		call UnitAddAbility(u, 'A0EY')
+		call SetUnitAbilityLevel(u, 'A0EY', NanDiff)
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+		
+ function EnhanceWanjieAttack takes unit u returns nothing
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			call EnhanceDiffAttack(u)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetJunengTech takes nothing returns integer
+
+		if ( NanDiff == 1 ) then
+			return 'R00T'
+		elseif ( NanDiff == 2 ) then
+			return 'R00U'
+		elseif ( NanDiff == 3 ) then
+			return 'R00V'
+		else
+			return 'R00R'
+		endif
 	endfunction
 
-//library Battle ends
+//---------------------------------------------------------------------------------------------------
+	
+ function GetArenaUpdateSpeed takes nothing returns real
+		if ( NanDiff == 1 ) then
+			return 4.
+		elseif ( NanDiff == 2 ) then
+			return 3.
+		elseif ( NanDiff == 3 ) then
+			return 2.
+		else
+			return 5.
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetWanjieInt takes integer value,real rate returns integer
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			return R2I(I2R(value) * rate)
+		endif
 
-// BEGIN IMPORT OF Battle.j
+		return value
+	endfunction
+
+	
+ function GetWanjieReal takes real value,real rate returns real
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			return value * rate
+		endif
+
+		return value
+	endfunction
+	
+ function GetWanjieAddInt takes integer value,integer add returns integer
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			return value + add
+		endif
+
+		return value
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddWanjieSpell takes unit u returns nothing
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			if ( udg_Bo > 10 ) then
+				//闪烁技能
+				call UnitAddAbility(u, 'eeee')
+			endif
+
+			//todo 60倍攻击
+			call UnitAddAbility(u, 'dddd')
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function InitWanjie takes nothing returns nothing
+
+		//光环（加防和回血）
+     local unit u= CreateUnit(Player(10), 'h00U', 0, 0, 0)
+		//前三野与前30层科技 3倍生命
+    	call SetPlayerTechResearchedSwap('aaaa', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('aaaa', 1, Player(11))
+    	//11-24波怪物，20倍生命
+    	call SetPlayerTechResearchedSwap('bbbb', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('bbbb', 1, Player(11))
+    	//加宝石射程
+    	call SetPlayerTechResearchedSwap('cccc', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('cccc', 1, Player(11))
+	endfunction
+
+//library Diffculty ends
+
+// BEGIN IMPORT OF Diffculty.j
+
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -1581,14 +1642,11 @@ endfunction
 // END IMPORT OF Constant.j
 
 // END IMPORT OF LHBase.j
-
-
-// END IMPORT OF Battle.j
+// END IMPORT OF Diffculty.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Battle__InitBattle")
+call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("LHBase___InitLHBase")
 
 endfunction
 

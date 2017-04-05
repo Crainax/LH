@@ -4,11 +4,44 @@ library_once Diffculty requires LHBase
 	
 	globals
 		/*
-		    地狱1,末日2,轮回3
+		    地狱1,末日2,轮回万劫3
 		*/
 		integer NanDiff = 0
 	endglobals
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取当前难度序号
+	*/
+	function GetDiffculty takes nothing returns integer
+
+		if (udg_Nandu_JJJ > 7) then
+			return 9
+		elseif (udg_Nandu > 20) then
+			return 8
+		elseif (udg_Nandu > 10) then
+			return 7
+		elseif (udg_Nandu > 8) then
+			return 6
+		elseif (udg_Nandu > 6) then
+			return 5
+		elseif (udg_Nandu > 4) then
+			return 4
+		elseif (udg_Nandu > 2) then
+			return 3
+		elseif (udg_Nandu > 1) then
+			return 2
+		else
+			return 1
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断当前难度是否是万劫
+	*/
+	function IsWanjie takes nothing returns boolean
+		return GetDiffculty() == 9
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    加强攻击力
@@ -27,6 +60,15 @@ library_once Diffculty requires LHBase
 		call UnitAddAbility(u,'A0EY')
 		call SetUnitAbilityLevel(u,'A0EY',NanDiff)
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    万劫的加强攻击力todo
+	*/	
+	function EnhanceWanjieAttack takes unit u returns nothing
+		if(IsWanjie()) then
+			call EnhanceDiffAttack(u)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -61,27 +103,68 @@ library_once Diffculty requires LHBase
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	function GetDiffculty takes nothing returns integer
-
-		if (udg_Nandu_JJJ > 7) then
-			return 9
-		elseif (udg_Nandu > 20) then
-			return 8
-		elseif (udg_Nandu > 10) then
-			return 7
-		elseif (udg_Nandu > 8) then
-			return 6
-		elseif (udg_Nandu > 6) then
-			return 5
-		elseif (udg_Nandu > 4) then
-			return 4
-		elseif (udg_Nandu > 2) then
-			return 3
-		elseif (udg_Nandu > 1) then
-			return 2
-		else
-			return 1
+	/*
+	    万劫数据才value*rate
+	*/
+	function GetWanjieInt takes integer value,real rate returns integer
+		if(IsWanjie()) then
+			return R2I(I2R(value) * rate)
 		endif
+
+		return value
 	endfunction
 
+	/*
+	    万劫数据才value*rate，实数版 
+	*/
+	function GetWanjieReal takes real value ,real rate returns real
+		if (IsWanjie()) then
+			return value * rate
+		endif
+
+		return value
+	endfunction
+	/*
+	    万劫数据才
+	*/
+	function GetWanjieAddInt takes integer value,integer add returns integer
+		if (IsWanjie()) then
+			return value + add
+		endif
+
+		return value
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    万劫给怪物加闪烁技能，波数11波后60倍攻击
+	*/
+	function AddWanjieSpell takes unit u returns nothing
+		if (IsWanjie()) then
+			if (udg_Bo > 10) then
+				//闪烁技能
+				call UnitAddAbility(u,'eeee')
+			endif
+
+			//todo 60倍攻击
+			call UnitAddAbility(u,'dddd')
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化万劫难度
+	*/
+	function InitWanjie takes nothing returns nothing
+
+		//光环（加防和回血）
+    	local unit u = CreateUnit(Player(10),'h00U',0,0,0)
+		//前三野与前30层科技 3倍生命
+    	call SetPlayerTechResearchedSwap(  'aaaa', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'aaaa', 1 , Player(11))
+    	//11-24波怪物，20倍生命
+    	call SetPlayerTechResearchedSwap(  'bbbb', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'bbbb', 1 , Player(11))
+    	//加宝石射程
+    	call SetPlayerTechResearchedSwap(  'cccc', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'cccc', 1 , Player(11))
+	endfunction
 endlibrary
