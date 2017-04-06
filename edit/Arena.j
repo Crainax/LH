@@ -426,7 +426,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	endfunction
 
 	/*
-	    辕煞技能2:每0.25秒闪烁一次
+	    辕煞技能2:每1秒闪烁一次
 	*/
 	private function YuanshaMove takes nothing returns nothing
 		local real x = GetRandomReal(GetRectMinX(gg_rct_Arena_Spell),GetRectMaxX(gg_rct_Arena_Spell))
@@ -515,7 +515,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 						call EnhanceDiffAttack(challenager)
-	                    call TimerStart(CreateTimer(),0.25,TRUE,function YuanshaMove)
+	                    call TimerStart(CreateTimer(),1,TRUE,function YuanshaMove)
 						call EnableTrigger( TSpellYuansha )
 	                endif
 

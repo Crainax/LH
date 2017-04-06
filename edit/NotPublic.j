@@ -34,21 +34,14 @@ library_once NotPublic initializer InitNotPublic
 	    call TriggerAddAction(t, function TSixtySecondAct)
 
 	    set t = CreateTrigger()
-	    call TriggerRegisterPlayerChatEvent( t, Player(0), "loopinghelltest2", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(1), "loopinghelltest2", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(2), "loopinghelltest2", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(3), "loopinghelltest2", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(4), "loopinghelltest2", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(5), "loopinghelltest2", true )
+	    call TriggerRegisterPlayerChatEvent( t, Player(0), "loopinghelltest", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "loopinghelltest", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "loopinghelltest", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "loopinghelltest", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "loopinghelltest", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "loopinghelltest", true )
 	    call TriggerAddAction(t, function VerifyTesting)
 
 	    set t = null
 	 endfunction
 endlibrary
-
-
-
-//===========================================================================
-function InitTrig____________________009 takes nothing returns nothing
-endfunction
-

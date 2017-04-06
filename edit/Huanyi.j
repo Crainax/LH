@@ -366,7 +366,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 				endloop
 				set i = i +1
 			endloop
-			call DamageArea(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.08)
+			call DamageArea(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.3)
 		else
 			call RemoveUnit(UGucan)
 			set UGucan = null

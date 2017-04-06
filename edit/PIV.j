@@ -49,10 +49,13 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		if (isFirst) then
 			set isFirst = false
 			set udg_I_Er_diansi[1] = 3
+			call BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5波的特权.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.")
 		endif
 
 		set sPIV[GetConvertedPlayerId(p)] = true 
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权！")
+		debug call SavePIV(p,GetPIVCode(GetPlayerName(p)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -269,6 +272,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		loop
 			exitwhen i > 6
 			call CertificatePIV(ConvertedPlayer(i),null)
+			//todo 到这里了
+			debug call IsSavePIV(ConvertedPlayer(i),null)
 			set i = i +1
 		endloop
 	endfunction
@@ -442,6 +447,9 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		call SaveBoolean(PIVTable,kPIV,1356170852,true)
 		call SaveBoolean(PIVTable,kPIV,730864612,true)
 		call SaveBoolean(PIVTable,kPIV,415945636,true)
+		call SaveBoolean(PIVTable,kPIV,162905578,true)
+		call SaveBoolean(PIVTable,kPIV,69068141,true)
+		call SaveBoolean(PIVTable,kPIV,541279117,true)
 
 		//test
 		//call SaveBoolean(PIVTable,kPIV,238541434,true)

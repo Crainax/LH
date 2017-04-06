@@ -63,7 +63,9 @@ endglobals
 			*/ or GetItemTypeId(i) == 'flag' /*
 			*/ or GetItemTypeId(i) == 'shcw' /*
 			*/ or GetItemTypeId(i) == 'shtm' /*
-			*/ or GetItemTypeId(i) == 'IXU1' 
+			*/ or GetItemTypeId(i) == 'IXU1' /*
+			*/ or GetItemTypeId(i) == 'I049' /*
+			*/ or GetItemTypeId(i) == 'I04A' 
 	endfunction
 	
 //---------------------------------------------------------------------------------------------------

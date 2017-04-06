@@ -9,6 +9,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	
 	globals
 		integer array achieve
+		integer array vipCode
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -33,21 +34,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	    黑阎的提示文本
 	*/
 	function GetHeiyanHint takes nothing returns string
-		return "|cff99ccff需要平台等级达到2级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到2级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff需要平台等级达到6级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
-		return "|cff99ccff需要平台等级达到11级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -101,6 +102,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
+    			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -132,7 +134,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	*/
 	function InitAchievementName takes unit u returns nothing
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
-		if (GetBit(achieve[id],8) > 0) then
+		if (GetBit(achieve[id],9) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff008000【万劫录】"+GetPlayerName(GetOwningPlayer(u))+"|r")
+			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+		elseif (GetBit(achieve[id],8) > 0) then
 			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+GetPlayerName(GetOwningPlayer(u))+"|r")
 			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
 		elseif (GetBit(achieve[id],7) > 0) then
@@ -165,7 +170,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				if (level == 8) then
+				if (level == 9) then
+					if (GetBit(achieve[i],9) == 0) then
+						set achieve[i] = achieve[i] + 100000000
+						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cff008000【万劫录】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
+					endif
+				elseif (level == 8) then
 					if (GetBit(achieve[i],8) == 0) then
 						set achieve[i] = achieve[i] + 10000000
 						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cffff00ff【轮回舰】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
@@ -210,7 +220,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
     			call DzAPI_Map_StoreString( ConvertedPlayer(i),  "achieve", I2S(achieve[i]) )
 
 
-				if (GetBit(achieve[i],8) > 0) then
+				if (GetBit(achieve[i],9) > 0) then
+    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "万劫录" )
+				elseif (GetBit(achieve[i],8) > 0) then
     					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "轮回舰" )
 				elseif (GetBit(achieve[i],7) > 0) then
     					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "末日车" )
@@ -232,6 +244,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 			set i = i +1
 		endloop
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    存储VIP进服务器
+	*/
+	function SavePIV takes player p,integer i returns nothing
+    	call DzAPI_Map_StoreInteger( p,  "vip", i )
+	endfunction
+
+	function IsSavePIV takes player p,integer i returns boolean
+		return vipCode[GetConvertedPlayerId(p)] == i
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

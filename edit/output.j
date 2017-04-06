@@ -19,43 +19,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem__CurrentTime
-integer YDWETimerSystem__CurrentIndex
-integer YDWETimerSystem__TaskListHead
-integer YDWETimerSystem__TaskListIdleHead
-integer YDWETimerSystem__TaskListIdleMax
-integer array YDWETimerSystem__TaskListIdle
-integer array YDWETimerSystem__TaskListNext
-integer array YDWETimerSystem__TaskListTime
-trigger array YDWETimerSystem__TaskListProc
-trigger YDWETimerSystem__fnRemoveUnit
-trigger YDWETimerSystem__fnDestroyTimer
-trigger YDWETimerSystem__fnRemoveItem
-trigger YDWETimerSystem__fnDestroyEffect
-trigger YDWETimerSystem__fnDestroyLightning
-trigger YDWETimerSystem__fnRunTrigger
-timer YDWETimerSystem__Timer
-integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
 
-integer YDWETimerSystem__TimerSystem_RunIndex= 0
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -104,6 +104,15 @@ sound gg_snd_GoodJob
 sound gg_snd_Jidibeida
 sound gg_snd_Chenggong
 sound gg_snd_Shibai
+
+        
+rect gg_rct____1
+rect gg_rct____2
+rect gg_rct____3
+rect gg_rct____4
+rect gg_rct____5
+rect gg_rct____6
+
         
 unit gg_unit_nmgv_0193
 unit gg_unit_nmgv_0194
@@ -164,11 +173,16 @@ unit array UDepot
 
 hashtable itemTable= InitHashtable()
 //endglobals from LHBase
-//globals from Diffculty:
-constant boolean LIBRARY_Diffculty=true
-		
-integer NanDiff= 0
-//endglobals from Diffculty
+//globals from Wing:
+constant boolean LIBRARY_Wing=true
+constant integer kWingDialog1=10
+constant integer kWingDialog2=11
+constant integer kWingDialog3=12
+constant integer kWingDialog4=13
+constant integer kWingDialog5=14
+constant integer kWingDialog6=15
+constant integer kWingUnit=16
+//endglobals from Wing
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -198,7 +212,7 @@ endglobals
 //---------------------------------------------------------------------------------------------------
 	
  function GetVersion takes nothing returns string
-		return "2.71"
+		return "2.73"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -1168,7 +1182,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem__CurrentIndex
+    return YDWETimerSystem___CurrentIndex
 endfunction
 
 
@@ -1198,7 +1212,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem__TimerSystem_RunIndex
+    return YDWETimerSystem___TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1252,6 +1266,11 @@ endfunction
 		return ( spell == 'Acht' ) or ( spell == 'A03A' ) or ( spell == 'A0BM' ) or ( spell == 'A07Z' ) or ( spell == 'A07T' ) or ( spell == 'A05Z' ) or ( spell == 'ACro' ) or ( spell == 'Acht' ) or ( spell == 'A07X' ) or ( spell == 'A05Y' ) or ( spell == 'AChv' ) or ( spell == 'A07V' ) or ( spell == 'Awrg' ) or ( spell == 'A05X' ) or ( spell == 'A07C' ) or ( spell == 'A07D' ) or ( spell == 'Awrh' ) or ( spell == 'A075' ) or ( spell == 'A06W' ) or ( spell == 'A06Y' ) or ( spell == 'A06Q' ) or ( spell == 'A07R' ) or ( spell == 'ACcl' ) or ( spell == 'AOhw' ) or ( spell == 'AIin' ) or ( spell == 'AIil' ) or ( spell == 'A07S' ) or ( spell == 'AChx' )
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+    
+    function IsYuansu takes unit u returns boolean
+        return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy'
+    endfunction
 //---------------------------------------------------------------------------------------------------
     
     function IsAlly takes unit u,unit caster returns boolean
@@ -1448,150 +1467,109 @@ endfunction
     endfunction
 
 //library LHBase ends
-//library Diffculty:
+//library Wing:
 	
 
 //---------------------------------------------------------------------------------------------------
 	
- function GetDiffculty takes nothing returns integer
+ function Wing__WingDialogClick takes nothing returns nothing
+     local dialog d= GetClickedDialogBJ()
+     local unit u= LoadUnitHandle(itemTable, GetHandleId(d), kWingUnit)
 
-		if ( udg_Nandu_JJJ > 7 ) then
-			return 9
-		elseif ( udg_Nandu > 20 ) then
-			return 8
-		elseif ( udg_Nandu > 10 ) then
-			return 7
-		elseif ( udg_Nandu > 8 ) then
-			return 6
-		elseif ( udg_Nandu > 6 ) then
-			return 5
-		elseif ( udg_Nandu > 4 ) then
-			return 4
-		elseif ( udg_Nandu > 2 ) then
-			return 3
-		elseif ( udg_Nandu > 1 ) then
-			return 2
-		else
-			return 1
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function IsWanjie takes nothing returns boolean
-		return GetDiffculty() == 9
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function EnhanceDiffAttack takes unit u returns nothing
-		if ( NanDiff <= 0 ) then
-			return
-		endif
 
-		//100倍攻击加强
-		if ( GetUnitAbilityLevel(u, 'A09V') >= 1 ) then
-			call SetUnitAbilityLevel(u, 'A09V', NanDiff + 1)
-			return
-		endif
+//textmacro instance: WingClick("1")
 
-		call UnitAddAbility(u, 'A0EY')
-		call SetUnitAbilityLevel(u, 'A0EY', NanDiff)
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(itemTable, GetHandleId(d), 1) ) then
+	        	call SetUnitX(u, GetRectCenterX(gg_rct____1))
+	        	call SetUnitY(u, GetRectCenterY(gg_rct____1))
+		        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), GetRectCenterX(gg_rct____1), GetRectCenterY(gg_rct____1), 0.2)
+		        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____1), GetRectCenterY(gg_rct____1)))
+		        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	        endif
+//end of: WingClick("1")
+//textmacro instance: WingClick("2")
 
-	endfunction
-//---------------------------------------------------------------------------------------------------
-		
- function EnhanceWanjieAttack takes unit u returns nothing
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
-			call EnhanceDiffAttack(u)
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function GetJunengTech takes nothing returns integer
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(itemTable, GetHandleId(d), 2) ) then
+	        	call SetUnitX(u, GetRectCenterX(gg_rct____2))
+	        	call SetUnitY(u, GetRectCenterY(gg_rct____2))
+		        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), GetRectCenterX(gg_rct____2), GetRectCenterY(gg_rct____2), 0.2)
+		        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____2), GetRectCenterY(gg_rct____2)))
+		        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	        endif
+//end of: WingClick("2")
+//textmacro instance: WingClick("3")
 
-		if ( NanDiff == 1 ) then
-			return 'R00T'
-		elseif ( NanDiff == 2 ) then
-			return 'R00U'
-		elseif ( NanDiff == 3 ) then
-			return 'R00V'
-		else
-			return 'R00R'
-		endif
-	endfunction
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(itemTable, GetHandleId(d), 3) ) then
+	        	call SetUnitX(u, GetRectCenterX(gg_rct____3))
+	        	call SetUnitY(u, GetRectCenterY(gg_rct____3))
+		        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), GetRectCenterX(gg_rct____3), GetRectCenterY(gg_rct____3), 0.2)
+		        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____3), GetRectCenterY(gg_rct____3)))
+		        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	        endif
+//end of: WingClick("3")
+//textmacro instance: WingClick("4")
 
-//---------------------------------------------------------------------------------------------------
-	
- function GetArenaUpdateSpeed takes nothing returns real
-		if ( NanDiff == 1 ) then
-			return 4.
-		elseif ( NanDiff == 2 ) then
-			return 3.
-		elseif ( NanDiff == 3 ) then
-			return 2.
-		else
-			return 5.
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function GetWanjieInt takes integer value,real rate returns integer
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
-			return R2I(I2R(value) * rate)
-		endif
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(itemTable, GetHandleId(d), 4) ) then
+	        	call SetUnitX(u, GetRectCenterX(gg_rct____4))
+	        	call SetUnitY(u, GetRectCenterY(gg_rct____4))
+		        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), GetRectCenterX(gg_rct____4), GetRectCenterY(gg_rct____4), 0.2)
+		        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____4), GetRectCenterY(gg_rct____4)))
+		        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	        endif
+//end of: WingClick("4")
+//textmacro instance: WingClick("5")
 
-		return value
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(itemTable, GetHandleId(d), 5) ) then
+	        	call SetUnitX(u, GetRectCenterX(gg_rct____5))
+	        	call SetUnitY(u, GetRectCenterY(gg_rct____5))
+		        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), GetRectCenterX(gg_rct____5), GetRectCenterY(gg_rct____5), 0.2)
+		        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____5), GetRectCenterY(gg_rct____5)))
+		        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	        endif
+//end of: WingClick("5")
+//textmacro instance: WingClick("6")
+
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(itemTable, GetHandleId(d), 6) ) then
+	        	call SetUnitX(u, GetRectCenterX(gg_rct____6))
+	        	call SetUnitY(u, GetRectCenterY(gg_rct____6))
+		        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()), GetRectCenterX(gg_rct____6), GetRectCenterY(gg_rct____6), 0.2)
+		        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____6), GetRectCenterY(gg_rct____6)))
+		        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。")
+	        endif
+//end of: WingClick("6")
+
+        call FlushChildHashtable(itemTable, GetHandleId(d))
+    	call DialogDisplay(GetOwningPlayer(u), d, false)
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d=null
+        set u=null
+        call DestroyTrigger(GetTriggeringTrigger())
 	endfunction
 
-	
- function GetWanjieReal takes real value,real rate returns real
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
-			return value * rate
-		endif
+ function CreateWingDialog takes unit u returns nothing
+     local trigger t= CreateTrigger()
+     local dialog d= DialogCreate()
 
-		return value
-	endfunction
-	
- function GetWanjieAddInt takes integer value,integer add returns integer
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
-			return value + add
-		endif
-
-		return value
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function AddWanjieSpell takes unit u returns nothing
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
-			if ( udg_Bo > 10 ) then
-				//闪烁技能
-				call UnitAddAbility(u, 'eeee')
-			endif
-
-			//todo 60倍攻击
-			call UnitAddAbility(u, 'dddd')
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function InitWanjie takes nothing returns nothing
-
-		//光环（加防和回血）
-     local unit u= CreateUnit(Player(10), 'h00U', 0, 0, 0)
-		//前三野与前30层科技 3倍生命
-    	call SetPlayerTechResearchedSwap('aaaa', 1, Player(10))
-    	call SetPlayerTechResearchedSwap('aaaa', 1, Player(11))
-    	//11-24波怪物，20倍生命
-    	call SetPlayerTechResearchedSwap('bbbb', 1, Player(10))
-    	call SetPlayerTechResearchedSwap('bbbb', 1, Player(11))
-    	//加宝石射程
-    	call SetPlayerTechResearchedSwap('cccc', 1, Player(10))
-    	call SetPlayerTechResearchedSwap('cccc', 1, Player(11))
+	    call DialogSetMessage(d, "请选择进入的翅膀区")
+	    call SaveButtonHandle(itemTable, GetHandleId(d), kWingDialog1, DialogAddButton(d, "翅膀1区", '1'))
+	    call SaveButtonHandle(itemTable, GetHandleId(d), kWingDialog2, DialogAddButton(d, "翅膀2区", '2'))
+	    call SaveButtonHandle(itemTable, GetHandleId(d), kWingDialog3, DialogAddButton(d, "翅膀3区", '3'))
+	    call SaveButtonHandle(itemTable, GetHandleId(d), kWingDialog4, DialogAddButton(d, "翅膀4区", '4'))
+	    call SaveButtonHandle(itemTable, GetHandleId(d), kWingDialog5, DialogAddButton(d, "翅膀5区", '5'))
+	    call SaveButtonHandle(itemTable, GetHandleId(d), kWingDialog6, DialogAddButton(d, "翅膀6区", '6'))
+	    call SaveUnitHandle(itemTable, GetHandleId(d), kWingUnit, u)
+	    call DialogDisplay(GetOwningPlayer(u), d, true)
+	    call TriggerRegisterDialogEvent(t, d)
+	    call TriggerAddAction(t, function Wing__WingDialogClick)
+	    set d=null
+	    set t=null
 	endfunction
 
-//library Diffculty ends
 
-// BEGIN IMPORT OF Diffculty.j
+//library Wing ends
 
+// BEGIN IMPORT OF Wing.j
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -1642,7 +1620,8 @@ endfunction
 // END IMPORT OF Constant.j
 
 // END IMPORT OF LHBase.j
-// END IMPORT OF Diffculty.j
+
+// END IMPORT OF Wing.j
 function main takes nothing returns nothing
 
 call ExecuteFunc("Test___InitTest")

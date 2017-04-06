@@ -59,11 +59,11 @@ library_once Diffculty requires LHBase
 
 		call UnitAddAbility(u,'A0EY')
 		call SetUnitAbilityLevel(u,'A0EY',NanDiff)
-
+		
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    万劫的加强攻击力todo
+	    万劫的加强攻击力
 	*/	
 	function EnhanceWanjieAttack takes unit u returns nothing
 		if(IsWanjie()) then
@@ -108,7 +108,7 @@ library_once Diffculty requires LHBase
 	*/
 	function GetWanjieInt takes integer value,real rate returns integer
 		if(IsWanjie()) then
-			return R2I(I2R(value) * rate)
+			return IMinBJ(2100000000,R2I(I2R(value) * rate))
 		endif
 
 		return value
@@ -125,7 +125,7 @@ library_once Diffculty requires LHBase
 		return value
 	endfunction
 	/*
-	    万劫数据才
+	    万劫数据才value + add
 	*/
 	function GetWanjieAddInt takes integer value,integer add returns integer
 		if (IsWanjie()) then
@@ -134,6 +134,8 @@ library_once Diffculty requires LHBase
 
 		return value
 	endfunction
+
+	 
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万劫给怪物加闪烁技能，波数11波后60倍攻击
@@ -141,12 +143,13 @@ library_once Diffculty requires LHBase
 	function AddWanjieSpell takes unit u returns nothing
 		if (IsWanjie()) then
 			if (udg_Bo > 10) then
-				//闪烁技能
-				call UnitAddAbility(u,'eeee')
+				//60倍技能
+				call UnitAddAbility(u,'A0GL')
 			endif
 
-			//todo 60倍攻击
-			call UnitAddAbility(u,'dddd')
+			//闪烁技能
+			call UnitAddAbility(u,'ANbl')
+			call UnitAddAbility(u,'A0HE')
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -157,14 +160,22 @@ library_once Diffculty requires LHBase
 
 		//光环（加防和回血）
     	local unit u = CreateUnit(Player(10),'h00U',0,0,0)
+    	call ShowUnitHide(u)
+
 		//前三野与前30层科技 3倍生命
-    	call SetPlayerTechResearchedSwap(  'aaaa', 1 , Player(10))
-    	call SetPlayerTechResearchedSwap(  'aaaa', 1 , Player(11))
-    	//11-24波怪物，20倍生命
-    	call SetPlayerTechResearchedSwap(  'bbbb', 1 , Player(10))
-    	call SetPlayerTechResearchedSwap(  'bbbb', 1 , Player(11))
+    	call SetPlayerTechResearchedSwap(  'R00X', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R00X', 1 , Player(11))
+    	//11-24波怪物，10倍生命
+    	call SetPlayerTechResearchedSwap(  'R00Y', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R00Y', 1 , Player(11))
     	//加宝石射程
-    	call SetPlayerTechResearchedSwap(  'cccc', 1 , Player(10))
-    	call SetPlayerTechResearchedSwap(  'cccc', 1 , Player(11))
+    	call SetPlayerTechResearchedSwap(  'R00Z', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R00Z', 1 , Player(11))
+    	call SetPlayerTechResearchedSwap(  'R010', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R010', 1 , Player(11))
+    	call SetPlayerTechResearchedSwap(  'R011', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R011', 1 , Player(11))
+
+    	set u = null
 	endfunction
 endlibrary

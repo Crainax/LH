@@ -156,6 +156,7 @@ library_once Pet initializer InitPet requires LHBase
                 call UnitAddItemSwapped( UnitItemInSlotBJ(GetDyingUnit(), i), UDepot[index] )
             else
                 call SetItemPosition(UnitItemInSlotBJ(GetDyingUnit(), i),GetUnitX(UDepot[index]),GetUnitY(UDepot[index]))
+            endif
             set i = i +1
         endloop
         call PingMinimapForForce(GetForceOfPlayer(ConvertedPlayer(index)), GetUnitX(UDepot[index]),GetUnitY(UDepot[index]), 10.00)

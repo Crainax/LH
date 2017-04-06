@@ -88,14 +88,14 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
 		call RemoveItem(Nihe)
-		if (IsUnitHasSlot(mengji)) then
+		call SetItemVisible(Liutao,true)
+		if (IsUnitHasSlot(mengji) and IsUnitAliveBJ(mengji)) then
 			//有空位则给英雄
 			call UnitAddItem( mengji,Liutao)
 	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GX'),"，拟态结束，圣弓回归至英雄身上.")
 		else
 			//没有位置则移到英雄脚下
 			call SetItemPosition(Liutao,GetUnitX(mengji),GetUnitY(mengji))
-			call SetItemVisible(Liutao,true)
 			call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji),GetUnitY(mengji), 2.00)
 	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GX'),"，拟态结束，由于背包已满，圣弓回归至英雄脚下.")
 		endif
@@ -115,7 +115,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		call UnitAddItemByIdSwapped(GetItemTypeId(temp), mengji)
 		set Nihe = GetLastCreatedItem()
 		call SetItemPawnable(Nihe,false)
-		call TimerStart(t,30,false,function NitaiTimer)
+		call TimerStart(t,10,false,function NitaiTimer)
 	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName(spellID),"拟合出"+GetItemName(temp))
 		set t = null
 		set temp = null
@@ -126,19 +126,11 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    若幻梦的装备回归
 	*/
 	function RuohuanmengChatBack takes nothing returns nothing
-		if ((not(HasShenggong())) and Nihe == null) then
-		    if (IsUnitHasSlot(mengji)) then
-				//有空位则给英雄
-				call UnitAddItem( mengji,Liutao)
-		    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GY'),",圣弓回归至英雄身上.")
-			else
-				//没有位置则移到英雄脚下
-				call SetItemPosition(Liutao,GetUnitX(mengji),GetUnitY(mengji))
-				call SetItemVisible(Liutao,true)
-				call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji),GetUnitY(mengji), 2.00)
-		    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GY'),"，由于背包已满，圣弓回归至英雄脚下.")
-			endif
+		if (Nihe != null) then
+			call RemoveItem(Nihe)
+			set Nihe = null
 		endif
+		call ExchangeChao(false)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

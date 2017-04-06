@@ -31,7 +31,6 @@ library_once Battle initializer InitBattle requires LHBase
 		endloop
 
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    是否是极速模式
@@ -41,7 +40,6 @@ library_once Battle initializer InitBattle requires LHBase
 		local integer count = 0
 		loop
 			exitwhen i > 6
-			set BSkip[i] = true
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and BSkip[i]) then
 				set count = count + 1
 			endif
@@ -55,11 +53,22 @@ library_once Battle initializer InitBattle requires LHBase
 	/*
 	    战斗调整
 	*/
-	function 	 takes nothing returns real
+	function GetMonsterSpeed takes nothing returns real
 		if (IsFastly()) then
-			return 1.
+			return 3.
 		endif
 		return I2R(GetUnitUserData(gg_unit_ndrz_0019))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    刷怪数量
+	*/
+	function GetFastMonsterCount takes integer i returns integer
+		if (IsFastly()) then
+			return i/3
+		endif
+
+		return i
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -81,7 +90,7 @@ library_once Battle initializer InitBattle requires LHBase
     	local trigger t = CreateTrigger()
 		loop
 			exitwhen i > 6
-			set BSkip[i] = true
+			set BSkip[i] = false
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) then
 				set BSkip[i] = false
 			endif

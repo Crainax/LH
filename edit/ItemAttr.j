@@ -105,12 +105,12 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		/*
 		    梵天披风
 		*/
-		call SetItemStr('ciri',380000)
-		call SetItemAgi('ciri',380000)
-		call SetItemInt('ciri',380000)
+		call SetItemStr('ciri',400000)
+		call SetItemAgi('ciri',400000)
+		call SetItemInt('ciri',400000)
 		call SetItemDefense('ciri',20000)
 		call SetItemHP('ciri',9000000)
-		call SetItemSpellPerc('ciri',0.5)
+		call SetItemSpellPerc('ciri',0.8)
 		call SetItemDamagePerc('ciri',0.25)
 	endfunction
 //---------------------------------------------------------------------------------------------------

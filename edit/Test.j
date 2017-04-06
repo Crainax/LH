@@ -57,6 +57,17 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         sound gg_snd_Jidibeida
         sound gg_snd_Chenggong
         sound gg_snd_Shibai
+
+        /*
+            翅膀
+        */
+        rect gg_rct____1
+        rect gg_rct____2
+        rect gg_rct____3
+        rect gg_rct____4
+        rect gg_rct____5
+        rect gg_rct____6
+
         /*
             仓库
         */

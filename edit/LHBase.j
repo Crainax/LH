@@ -1,9 +1,9 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 
-library_once LHBase initializer InitLHBase requires Constant,Test
+library_once LHBase initializer InitLHBase requires Constant//,Test
 
     globals
         unit learnSkillHero = null
@@ -29,6 +29,13 @@ library_once LHBase initializer InitLHBase requires Constant,Test
 			*/or (spell =='A07S') or (spell =='AChx')
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+    /*
+        元素之灵过滤器
+    */
+    function IsYuansu takes unit u returns boolean
+        return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy'
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         友军过滤器

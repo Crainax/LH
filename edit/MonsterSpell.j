@@ -107,6 +107,18 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    元素杀手
+	*/
+
+	private function TSpellYuanshaAct takes nothing returns nothing
+		call UnitDamageTarget( GetAttackedUnitBJ(), GetAttacker(), GetUnitState(GetAttacker(),UNIT_STATE_LIFE)*10, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+	endfunction
+
+	private function TSpellYuanshaCon takes nothing returns boolean
+	    return (GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0HE') >= 1) and (IsYuansu(GetAttacker()))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    宠物相斗
 	*/
 	private function TSpellPetAct takes nothing returns nothing
@@ -189,6 +201,13 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(t, Condition(function TSpellJunlinCon))
 	    call TriggerAddAction(t, function TSpellJunlinAct)
+
+	    //元素杀手
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(t, Condition(function TSpellYuanshaCon))
+	    call TriggerAddAction(t, function TSpellYuanshaAct)
+
 
 	    //宠物掉血
 	    set t = CreateTrigger()
