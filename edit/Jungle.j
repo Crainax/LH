@@ -19,7 +19,7 @@ library_once Jungle initializer InitJungle requires LHBase,Diffculty
 
 	private function Jungle4DropAct takes nothing returns nothing
 		local integer i = 1
-    	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))])+"成功地击杀了"+GetUnitName(GetDyingUnit())+",所有玩家奖励1500木材！")
+    	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))])+"成功地击杀了"+GetUnitName(GetDyingUnit())+",所有玩家奖励1000木材！")
     	loop
     		exitwhen i > 6
 			call AdjustPlayerStateBJ( 1500, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )

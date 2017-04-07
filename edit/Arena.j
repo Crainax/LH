@@ -515,7 +515,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 						call EnhanceDiffAttack(challenager)
-	                    call TimerStart(CreateTimer(),1,TRUE,function YuanshaMove)
+	                    call TimerStart(CreateTimer(),0.5,TRUE,function YuanshaMove)
 						call EnableTrigger( TSpellYuansha )
 	                endif
 

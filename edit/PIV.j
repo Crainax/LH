@@ -264,6 +264,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
+
 	/*
 	    初始化
 	*/
@@ -272,11 +273,13 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		loop
 			exitwhen i > 6
 			call CertificatePIV(ConvertedPlayer(i),null)
-			//todo 到这里了
-			debug call IsSavePIV(ConvertedPlayer(i),null)
+			debug if (IsSavePIV(ConvertedPlayer(i),GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) then
+			debug 		call CertificatePIV(ConvertedPlayer(i),I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))))
+			debug endif
 			set i = i +1
 		endloop
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    300秒后关闭入口
@@ -309,7 +312,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		call SaveBoolean(PIVTable,kPIV,243951516,true)
 		call SaveBoolean(PIVTable,kPIV,472054031,true)
 		call SaveBoolean(PIVTable,kPIV,156566316,true)
-		call SaveBoolean(PIVTable,kPIV,805389327,true)
+		//call SaveBoolean(PIVTable,kPIV,805389327,true)
 		//2.64:
 		call SaveBoolean(PIVTable,kPIV,1386963254,true)
 		call SaveBoolean(PIVTable,kPIV,920323633,true)

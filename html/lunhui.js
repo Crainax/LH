@@ -246,10 +246,10 @@ function NameProdVIP(s, cycle_num) {
 	return udl_vip
 }
 
-function GetDIYVIP(s) {
+function GetMengjiAll(s) {
 	var udl_vip = StringHash(s)
 
-	for (var i=0; i<5; i++){
+	for (var i=0; i<9; i++){
 		udl_vip = StringHash(udl_vip.toString())
 	}
 
@@ -309,7 +309,7 @@ function GetVIP3(s, which_vip)
 	}
 	function GetVIP11(s, which_vip)
 	{
-		return (NameProdVIP(s, which_vip).toString()+a11);
+		return (NameProdVIP(s, which_vip).toString());
 	}
 	function GetVIP12(s, which_vip)
 	{
@@ -351,7 +351,7 @@ function GetVIP3(s, which_vip)
 function OutVIP()
 	{
 	var sss = document.getElementById("input").value;
-	var st = GetDIYVIP(sss).toString()
+	var st = GetMengjiAll(sss).toString()
 	document.getElementById("output1").value = GetVIP1(sss,121);
 	document.getElementById("output2").value = GetVIP2(sss,64);
 	document.getElementById("output3").value = GetVIP3(sss,149);
@@ -363,5 +363,6 @@ function OutVIP()
 	document.getElementById("output9").value = GetVIP9(sss,36);
 	document.getElementById("output10").value = GetVIP10(sss,52);
 	document.getElementById("output11").value = "开局在选英雄前输入\"##\", 然后会出现对话框,跟着对话框提示走,依次输入激活码"+parseInt(st.substring(1)).toString()+"        即可激活.\n上面那个激活码绑定你的名字“"+sss+"”，如果有什么问题或者出现什么问题的话都可以私聊我。";
+	document.getElementById("output12").value = GetMengjiAll(sss);
 	}
 	

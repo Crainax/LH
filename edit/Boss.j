@@ -171,7 +171,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 //---------------------------------------------------------------------------------------------------
 
 	function InitSaisilier takes unit u returns nothing
-        local Attract attract = Attract.create(u,1800,0.05,20)
+        local Attract attract = Attract.create(u,1800,0.05,14)
         call attract.start()
 	endfunction
 

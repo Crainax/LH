@@ -79,6 +79,31 @@ library_once Mengji requires SpellBase,Printer,Attr
 	private function HasShenggong takes nothing returns boolean
 		return UnitHasItem(mengji, Liutao)
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    圣弓与超圣弓的转换
+	*/
+	private function ExchangeChao takes boolean higher returns nothing
+		local integer charges = GetItemCharges(Liutao)
+		call FlushChildHashtable(YDHT,GetHandleId(Liutao))
+		call RemoveItem(Liutao)
+		if (higher) then
+			set Liutao = CreateItem('I04A',GetUnitX(mengji),GetUnitY(mengji))
+		else
+			set Liutao = CreateItem('I049',GetUnitX(mengji),GetUnitY(mengji))
+		endif
+	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
+		call SetItemCharges(Liutao,charges)
+		if (Nihe != null) then
+			call SetItemVisible(Liutao,false)
+		else
+			if (IsUnitHasSlot(mengji)) then
+				//有空位则给英雄
+				call UnitAddItem( mengji,Liutao)
+			endif
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -110,12 +135,13 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local timer t = CreateTimer()
 		local item temp = GetSpellTargetItem()
 		local integer spellID = GetSpellAbilityId()
+		//call SetItemPosition(Liutao,0,0)
 		call UnitRemoveItemSwapped(Liutao,mengji)
 		call SetItemVisible(Liutao,false)
 		call UnitAddItemByIdSwapped(GetItemTypeId(temp), mengji)
 		set Nihe = GetLastCreatedItem()
 		call SetItemPawnable(Nihe,false)
-		call TimerStart(t,10,false,function NitaiTimer)
+		call TimerStart(t,60,false,function NitaiTimer)
 	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName(spellID),"拟合出"+GetItemName(temp))
 		set t = null
 		set temp = null
@@ -130,7 +156,11 @@ library_once Mengji requires SpellBase,Printer,Attr
 			call RemoveItem(Nihe)
 			set Nihe = null
 		endif
-		call ExchangeChao(false)
+		if (IsUnitInRange(mengji,ULinglong1,900)) then
+			call ExchangeChao(true)
+		else
+			call ExchangeChao(false)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -369,30 +399,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
-	/*
-	    圣弓与超圣弓的转换
-	*/
-	private function ExchangeChao takes boolean higher returns nothing
-		local integer charges = GetItemCharges(Liutao)
-		call FlushChildHashtable(YDHT,GetHandleId(Liutao))
-		call RemoveItem(Liutao)
-		if (higher) then
-			set Liutao = CreateItem('I04A',GetUnitX(mengji),GetUnitY(mengji))
-		else
-			set Liutao = CreateItem('I049',GetUnitX(mengji),GetUnitY(mengji))
-		endif
-	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
-		call SetItemCharges(Liutao,charges)
-		if (Nihe != null) then
-			call SetItemVisible(Liutao,false)
-		else
-			if (IsUnitHasSlot(mengji)) then
-				//有空位则给英雄
-				call UnitAddItem( mengji,Liutao)
-			endif
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
 
 	/*
 	    浣海玲珑舞
@@ -464,7 +470,11 @@ library_once Mengji requires SpellBase,Printer,Attr
 			call Linglongwu()
 		//拟态
 		elseif (GetSpellAbilityId() == 'A0GW' and IsCanCopy(GetSpellTargetItem())) then 
-			call Nitai()
+			if (IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3) and IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3)) then
+				call DisplayTextToPlayer(GetOwningPlayer(mengji), 0., 0., "|cFFFF66CC【消息】|r此处禁止拟态.")
+			else
+				call Nitai()
+			endif
 		endif
 
 	endfunction
