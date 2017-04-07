@@ -154,6 +154,13 @@ library_once Diffculty requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    地狱难度的数据提示
+	*/
+	function PrintDiyuDifficulty takes nothing returns nothing
+		call BJDebugMsg("|cFFFF66CC【消息】|r地狱难度下，会额外提高以下怪物的难度：")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化万劫难度
 	*/
 	function InitWanjie takes nothing returns nothing
