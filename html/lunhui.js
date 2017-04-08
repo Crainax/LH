@@ -256,6 +256,16 @@ function GetMengjiAll(s) {
 	return udl_vip
 }
 
+function GetDIYVIP(s) {
+	var udl_vip = StringHash(s)
+
+	for (var i=0; i<5; i++){
+		udl_vip = StringHash(udl_vip.toString())
+	}
+
+	return udl_vip
+}
+
 var a1 ="0O/lq1O%gh\vwww.qq.comY*ΛθaedΘκXafo2@!γQ!ΔΓζΛ$αΩδOvWηκζφγη0c%τγfoγΞκ\t\t\r\r\r\r\r\r\r\r\t\t\r  \r"
 var a2 ="00/lw10$fi\vwww.qq.comθ+$ΘοαeηΦQLΔeΞ&ξ2ατRμριRφΣΓφ%&eιξWK=ανRS!ΨΛτ\t\t\r\r\r\r\r\r\r\r \t\r  \r"
 var a3 ="O0/lq1O%tq\vwww.qq.comιUWΞRζ0W*##foΞσΩΘd2Yο!θΛΓ%οVUΣvΠΠΣγα2p2&ρ0Pfo1\t\t\r\r\r\r\r\r\r\r  \r\t \r"
@@ -351,7 +361,7 @@ function GetVIP3(s, which_vip)
 function OutVIP()
 	{
 	var sss = document.getElementById("input").value;
-	var st = GetMengjiAll(sss).toString()
+	var st = GetDIYVIP(sss).toString()
 	document.getElementById("output1").value = GetVIP1(sss,121);
 	document.getElementById("output2").value = GetVIP2(sss,64);
 	document.getElementById("output3").value = GetVIP3(sss,149);
