@@ -11,7 +11,7 @@ library_once LHBase initializer InitLHBase requires Constant//,Test
             仓库
         */
         unit array UDepot
-
+        string array playerName
         hashtable itemTable = InitHashtable()
     endglobals
 //---------------------------------------------------------------------------------------------------
