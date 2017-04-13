@@ -5,6 +5,7 @@ library_once Constant
 	
 	globals
 		string diffculty = ""
+		constant integer HERO_COUNT = 15
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
