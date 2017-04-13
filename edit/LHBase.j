@@ -13,6 +13,7 @@ library_once LHBase initializer InitLHBase requires Constant//,Test
         unit array UDepot
         string array playerName
         hashtable itemTable = InitHashtable()
+        hashtable LHTable = InitHashtable()
     endglobals
 //---------------------------------------------------------------------------------------------------
 	/*

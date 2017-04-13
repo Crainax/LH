@@ -10,6 +10,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	globals
 		integer array achieve
 		integer array vipCode
+		string array heroCountString
+
+		/*
+		    计时存档次数
+		*/
+		key kSaveHeroTimes
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -103,6 +109,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
+    			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -247,7 +254,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    存储VIP进服务器
+	    存储VIP进服务器与再次判定
 	*/
 	function SavePIV takes player p,integer i returns nothing
     	call DzAPI_Map_StoreInteger( p,  "vip", i )
@@ -257,6 +264,122 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 		return vipCode[GetConvertedPlayerId(p)] == i
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    自增
+	*/
+	function IncreaseHeroCount takes player p, integer i returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		local integer length
+		local integer times 
+		local string temp 
+		if (i<1 or i>31) then
+			return
+		endif
+		if (StringLength(heroCountString[index]) < 62) then
+			set heroCountString[index] = "00000000000000000000000000000000000000000000000000000000000000"
+		endif
+		set length = StringLength(heroCountString[index])
+		set times = S2I(SubStringBJ(heroCountString[index],2*i -1,2*i))
+		set temp = heroCountString[index]
+
+		set times = IMinBJ(99,times+1)
+		set heroCountString[index] = SubStringBJ(temp,1,2*i - 2)
+		if (times < 10) then
+			set heroCountString[index] = heroCountString[index] + "0" +I2S(times)
+		else
+			set heroCountString[index] = heroCountString[index] + I2S(times)
+		endif
+		set heroCountString[index] = heroCountString[index] + SubStringBJ(temp,2*i+1,length)
+		set temp = null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取某个英雄使用次数
+	*/
+	function GetSpecifyHeroTimes takes player p,integer heroIndex returns integer
+		if (heroIndex>0) then
+			return S2I(SubStringBJ(heroCountString[GetConvertedPlayerId(p)],2*heroIndex -1,2*heroIndex))
+		else
+			return 0
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    获取当前英雄使用次数
+	*/
+	function GetHeroTimes takes player p returns integer
+		local unit u = udg_H[GetConvertedPlayerId(p)]
+		local integer i = GetHeroIndex(GetUnitTypeId(u))
+		set u = null
+		return GetSpecifyHeroTimes(p,i)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取最高使用的英雄
+	*/
+	function GetBestHero takes player p returns integer
+		local integer max = 0
+		local integer maxIndex = 0
+		local integer i = 1
+		loop 
+			exitwhen i > HERO_COUNT
+			if ((GetSpecifyHeroTimes(p,i) > max) or (GetSpecifyHeroTimes(p,i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i)) then
+				set max = GetSpecifyHeroTimes(p,i)
+				set maxIndex = i
+			endif
+			set i = i +1
+		endloop
+
+		return maxIndex
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    打印所有英雄
+	*/
+	function PrintAllHeroTimes takes player p returns nothing
+		local string result = ""
+		local integer i = 1
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
+		loop
+			exitwhen i > HERO_COUNT
+			set result = result + GetIndexHeroColorName(i) + "的使用次数:" + I2S(GetSpecifyHeroTimes(p,i)) + ","
+			if (ModuloInteger(i,3) == 0) then
+				call DisplayTextToPlayer(p, 0., 0., result)
+				set result = ""
+			endif
+			set i = i +1
+		endloop
+		set result = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    存储所有英雄的使用次数
+	*/
+	private function SaveAllHeroTimes takes player p returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local player p = ConvertedPlayer(LoadInteger(LHTable,id,kSaveHeroTimes))
+		call IncreaseHeroCount(p,GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])))
+		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		call PrintAllHeroTimes(p)
+		call PauseTimer(t)
+		call FlushChildHashtable(LHTable,id)
+		call DestroyTimer(t)
+		set i = null
+		set t = null 
+	endfunction
+
+	function CreateAllHeroTimesTimer takes player p returns nothing
+		local timer t = CreateTimer()
+		call SaveInteger(LHTable,GetHandleId(t),kSaveHeroTimes,GetConvertedPlayerId(p))
+		call TimerStart(t,10,false,function SaveAllHeroTimes)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
 	/*
 	    初始化
 	*/

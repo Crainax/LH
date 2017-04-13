@@ -2,31 +2,37 @@
 globals
 	//62的长度,可以存31个英雄
 	string array heroCountString
+	unit array udg_H
+	constant integer HERO_COUNT = 15
 endglobals
 
 function GetIncreaseHeroString takes player p, integer i returns string
-	local integer index = GetConvertedPlayerId(p)
-	local integer length = StringLength(heroCountString[index])
-	local integer times = S2I(SubStringBJ(heroCountString[index],2*i -1,2*i))
-	local string temp = heroCountString[index]
-	call BJDebugMsg(heroCountString[index])
-	call BJDebugMsg("times:"+I2S(times))
-	set times = IMinBJ(99,times+1)
-	set heroCountString[index] = SubStringBJ(temp,1,2*i - 2)
-	if (times < 10) then
-		set heroCountString[index] = heroCountString[index] + "0" +I2S(times)
-	else
-		set heroCountString[index] = heroCountString[index] + I2S(times)
-	endif
-	set heroCountString[index] = heroCountString[index] + SubStringBJ(temp,2*i+1,length)
-	call BJDebugMsg("out:"+heroCountString[index])
-	set temp = null
-	return heroCountString[index]
-endfunction
+		local integer index = GetConvertedPlayerId(p)
+		local integer length
+		local integer times 
+		local string temp 
+		if (i<1 or i>31) then
+			return null
+		endif
+		if (StringLength(heroCountString[index]) < 62) then
+			set heroCountString[index] = "00000000000000000000000000000000000000000000000000000000000000"
+		endif
+		set length = StringLength(heroCountString[index])
+		set times = S2I(SubStringBJ(heroCountString[index],2*i -1,2*i))
+		set temp = heroCountString[index]
 
-function GetHeroIndexTimes takes player p, integer i returns integer
-	return S2I(SubStringBJ(heroCountString[GetConvertedPlayerId(p)],2*i -1,2*i))
-endfunction
+		set times = IMinBJ(99,times+1)
+		set heroCountString[index] = SubStringBJ(temp,1,2*i - 2)
+		if (times < 10) then
+			set heroCountString[index] = heroCountString[index] + "0" +I2S(times)
+		else
+			set heroCountString[index] = heroCountString[index] + I2S(times)
+		endif
+		set heroCountString[index] = heroCountString[index] + SubStringBJ(temp,2*i+1,length)
+		set temp = null
+		return heroCountString[index]
+	endfunction
+
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -83,7 +89,7 @@ endfunction
 	    获取当前英雄使用次数
 	*/
 function GetHeroTimes takes player p returns integer
-	local unit u = udg_H[GetConvertedPlayerId(GetOwningPlayer(p))]
+	local unit u = udg_H[GetConvertedPlayerId(p)]
 	local integer i = GetHeroIndex(GetUnitTypeId(u))
 	set u = null
 	return GetSpecifyHeroTimes(p,i)
@@ -132,7 +138,7 @@ endfunction
 	/*
 	    获取英雄彩名
 	*/
-	function GetIndexHeroColorName takes integer i returns nothing
+	function GetIndexHeroColorName takes integer i returns string
 		local string result = ""
 		if (i == 1) then
 			set result = "|cffff0000凯撒|r"
@@ -170,7 +176,26 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取
+	    获取最高使用的英雄
+	*/
+	function GetBestHero takes player p returns integer
+		local integer max = 0
+		local integer maxIndex = 0
+		local integer i = 1
+		loop 
+			exitwhen i > HERO_COUNT
+			if ((GetSpecifyHeroTimes(p,i) > max) or (GetSpecifyHeroTimes(p,i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i)) then
+				set max = GetSpecifyHeroTimes(p,i)
+				set maxIndex = i
+			endif
+			set i = i +1
+		endloop
+
+		return maxIndex
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    打印所有英雄
 	*/
 
 function PrintAllHeroTimes takes player p returns nothing
@@ -179,9 +204,9 @@ function PrintAllHeroTimes takes player p returns nothing
 	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
 	loop
 		exitwhen i > HERO_COUNT
+
+		set result = result + GetIndexHeroColorName(i) + "的使用次数:" + I2S(GetSpecifyHeroTimes(p,i)) + ","
 		if (ModuloInteger(i,3) == 0) then
-			
-		else
 			call DisplayTextToPlayer(p, 0., 0., result)
 			set result = ""
 		endif
@@ -193,7 +218,8 @@ endfunction
 function Trig_aActions takes nothing returns nothing
 	local integer target = S2I(GetEventPlayerChatString())
 	call GetIncreaseHeroString(Player(0),target)
-	call BJDebugMsg("HeroTimes:"+I2S(GetHeroIndexTimes(Player(0),target)))
+	call PrintAllHeroTimes(Player(0))
+	call BJDebugMsg("你的最多英雄:"+GetIndexHeroColorName(GetBestHero(Player(0))))
 endfunction
 
 //===========================================================================
