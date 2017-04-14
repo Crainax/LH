@@ -118,43 +118,54 @@ library_once Achievement requires LHBase
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    获取成就索引条件是否满足了
+	*/
+	function IsAchieveOK takes player p,integer achieveID returns boolean
+		local integer id = GetConvertedPlayerId(p)
+		return (GetBit(achieve[id],9) > 0 and achieveID = 19) or (GetBit(achieve[id],8) > 0 and achieveID = 18) or (GetBit(achieve[id],7) > 0 and achieveID = 17) or (GetBit(achieve[id],6) > 0 and achieveID = 16) or (GetBit(achieve[id],5) > 0 and achieveID = 15) or (GetBit(achieve[id],4) > 0 and achieveID = 14) or (GetBit(achieve[id],3) > 0 and achieveID = 13) or (GetBit(achieve[id],2) > 0 and achieveID = 12) or (GetBit(achieve[id],1) > 0 and achieveID = 11)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
 	    初始成就名
 	*/
-	function InitAchievement takes integer id returns nothing
-
-		if (achiEff[id] != null) then
-			call DestroyEffect(achiEff[id])
-			set achiEff[id] = null
-		endif
-		if (GetBit(achieve2[id],9) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff008000【万劫录】"+ playerName[id] +"|r")
-			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
-			set achiPage[id] = 19
-		elseif (GetBit(achieve2[id],8) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+ playerName[id] +"|r")
-			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
-			set achiPage[id] = 18
-		elseif (GetBit(achieve2[id],7) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】"+ playerName[id] +"|r")
-			set achiPage[id] = 17
-		elseif (GetBit(achieve2[id],6) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】"+ playerName[id] +"|r")
-			set achiPage[id] = 16
-		elseif (GetBit(achieve2[id],5) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】"+ playerName[id] +"|r")
-			set achiPage[id] = 15
-		elseif (GetBit(achieve2[id],4) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】"+ playerName[id] +"|r")
-			set achiPage[id] = 14
-		elseif (GetBit(achieve2[id],3) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】"+ playerName[id] +"|r")
-			set achiPage[id] = 13
-		elseif (GetBit(achieve2[id],2) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"【太平源】"+ playerName[id] )
-			set achiPage[id] = 12
-		elseif (GetBit(achieve2[id],1) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】"+ playerName[id] +"|r")
-			set achiPage[id] = 11
+	function SetAchievement takes player p,integer achieveID returns nothing
+		local integer id = GetConvertedPlayerId(p)
+		if (IsAchieveOK(p,achieveID) and achieveID == 19) then
+			call SetPlayerName(p,"|cff008000【万劫录】"+ playerName[id] +"|r")
+			if (achiEff[id] != null) then
+				call DestroyEffect(achiEff[id])
+			endif
+			set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 18) then
+			call SetPlayerName(p,"|cffff00ff【轮回舰】"+ playerName[id] +"|r")
+			if (achiEff[id] != null) then
+				call DestroyEffect(achiEff[id])
+			endif
+			set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 17) then
+			call SetPlayerName(p,"|cffff0000【末日车】"+ playerName[id] +"|r")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 16) then
+			call SetPlayerName(p,"|cffff6600【地狱使】"+ playerName[id] +"|r")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 15) then
+			call SetPlayerName(p,"|cffffff00【灭炼狱】"+ playerName[id] +"|r")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 14) then
+			call SetPlayerName(p,"|cff3366ff【定战争】"+ playerName[id] +"|r")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 13) then
+			call SetPlayerName(p,"|cff99cc00【和谐世】"+ playerName[id] +"|r")
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 12) then
+			call SetPlayerName(p,"【太平源】"+ playerName[id] )
+			set achiPage[id] = achieveID
+		elseif (IsAchieveOK(p,achieveID) and achieveID == 11) then
+			call SetPlayerName(p,"|cff999999【天国音】"+ playerName[id] +"|r")
+			set achiPage[id] = achieveID
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -162,8 +173,7 @@ library_once Achievement requires LHBase
 	    存储成就
 	*/
 	function SaveAchievePointer takes player p returns nothing
-		
-		all DzAPI_Map_StoreInteger( p,  "page", achiPage[id] )
+		call DzAPI_Map_StoreInteger( p,  "page", achiPage[id] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

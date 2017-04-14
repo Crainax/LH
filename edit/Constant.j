@@ -138,5 +138,30 @@ library_once Constant
 		return result
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    获取成就名
+	*/
+	function GetAchievementName takes integer achieveID returns string
+		if (achieveID == 19) then
+			return "|cff008000【万劫录】"
+		elseif (achieveID == 18) then
+			return "|cffff00ff【轮回舰】"
+		elseif (achieveID == 17) then
+			return "|cffff0000【末日车】"
+		elseif (achieveID == 16) then
+			return "|cffff6600【地狱使】"
+		elseif (achieveID == 15) then
+			return "|cffffff00【灭炼狱】"
+		elseif (achieveID == 14) then
+			return "|cff3366ff【定战争】"
+		elseif (achieveID == 13) then
+			return "|cff99cc00【和谐世】"
+		elseif (achieveID == 12) then
+			return "【太平源】"
+		elseif (achieveID == 11) then
+			return "|cff999999【天国音】"
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 endlibrary
