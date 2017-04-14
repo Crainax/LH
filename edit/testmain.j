@@ -1,4 +1,4 @@
 
-//! import "Wing.j"
+//! import "NetVersion.j"
 function main takes nothing returns nothing
 endfunction

@@ -358,20 +358,25 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	/*
 	    存储所有英雄的使用次数
 	*/
-	private function SaveAllHeroTimes takes player p returns nothing
+	private function SaveAllHeroTimes takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
 		local player p = ConvertedPlayer(LoadInteger(LHTable,id,kSaveHeroTimes))
-		call IncreaseHeroCount(p,GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])))
+		local integer i = GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))
+		call IncreaseHeroCount(p,i)
 		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+    	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(i) )
 		call PrintAllHeroTimes(p)
 		call PauseTimer(t)
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
-		set i = null
 		set t = null 
+		set p = null
 	endfunction
 
+	/*
+	    开启定时器，然后自增
+	*/
 	function CreateAllHeroTimesTimer takes player p returns nothing
 		local timer t = CreateTimer()
 		call SaveInteger(LHTable,GetHandleId(t),kSaveHeroTimes,GetConvertedPlayerId(p))
