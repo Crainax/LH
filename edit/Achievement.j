@@ -5,6 +5,8 @@
 library_once Achievement requires LHBase
 	
 	globals
+		integer array achiPage
+		integer array achieve
 		integer array achieve2
 		effect array achiEff
 	endglobals
@@ -116,9 +118,9 @@ library_once Achievement requires LHBase
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    初始第2页成就名
+	    初始成就名
 	*/
-	function InitSecondAchievement takes integer id returns nothing
+	function InitAchievement takes integer id returns nothing
 
 		if (achiEff[id] != null) then
 			call DestroyEffect(achiEff[id])
@@ -155,6 +157,15 @@ library_once Achievement requires LHBase
 			set achiPage[id] = 11
 		endif
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    存储成就
+	*/
+	function SaveAchievePointer takes player p returns nothing
+		
+		all DzAPI_Map_StoreInteger( p,  "page", achiPage[id] )
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 /*
 	function Test3 takes integer i returns nothing

@@ -9,13 +9,11 @@
 library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement
 	
 	globals
-		integer array achieve
 		integer array vipCode
 		string array heroCountString
 		/*
 		    成就的页数与目标位数
 		*/
-		integer array achiPage
 
 		/*
 		    计时存档次数
@@ -145,42 +143,27 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    初始第1页成就名
+	    初始旧版本的成就
 	*/
-	function InitPassAchievement takes integer id returns nothing
+	function InitOldAchievement takes integer id returns nothing
 
-		if (achiEff[id] != null) then
-			call DestroyEffect(achiEff[id])
-			set achiEff[id] = null
-		endif
 		if (GetBit(achieve[id],9) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff008000【万劫录】"+ playerName[id] +"|r")
-			set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
 			set achiPage[id] = 19
 		elseif (GetBit(achieve[id],8) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+ playerName[id] +"|r")
-			set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
 			set achiPage[id] = 18
 		elseif (GetBit(achieve[id],7) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】"+ playerName[id] +"|r")
 			set achiPage[id] = 17
 		elseif (GetBit(achieve[id],6) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】"+ playerName[id] +"|r")
 			set achiPage[id] = 16
 		elseif (GetBit(achieve[id],5) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】"+ playerName[id] +"|r")
 			set achiPage[id] = 15
 		elseif (GetBit(achieve[id],4) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】"+ playerName[id] +"|r")
 			set achiPage[id] = 14
 		elseif (GetBit(achieve[id],3) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】"+ playerName[id] +"|r")
 			set achiPage[id] = 13
 		elseif (GetBit(achieve[id],2) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"【太平源】"+ playerName[id] )
 			set achiPage[id] = 12
 		elseif (GetBit(achieve[id],1) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】"+ playerName[id] +"|r")
 			set achiPage[id] = 11
 		endif
 	endfunction
@@ -194,13 +177,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
 		if (StringLength(achiPage[id]) < 2) then
 			set achiPage[id] = 10
-			call InitPassAchievement(id)
-    		call DzAPI_Map_StoreInteger( GetOwningPlayer(u),  "page", achiPage[id] )
-		elseif (GetAchievePage(GetOwningPlayer(u)) == 1)
-			call InitPassAchievement(id)
-		elseif (GetAchievePage(GetOwningPlayer(u)) == 2)
-			call InitSecondAchievement(id)
+			call InitOldAchievement(id)
+			call SaveAchievePointer(GetOwningPlayer(u))
 		endif
+		call SetAchievement(GetOwningPlayer(u),achiPage[id])
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
