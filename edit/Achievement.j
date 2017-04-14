@@ -4,7 +4,24 @@
 */
 library_once Achievement requires LHBase
 	
+	globals
+		integer array achieve2
+		effect array achiEff
+	endglobals
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取位数字,1是个位
+	*/
+	private function GetBit takes integer num,integer bit returns integer
+		local string s = I2S(num)
+		local integer length = StringLength(s)
+		if (length < bit) then
+			return 0
+		endif
+
+		return S2I(SubStringBJ(s,length - bit + 1,length - bit + 1))
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    十转2
@@ -96,6 +113,49 @@ library_once Achievement requires LHBase
 	function GetIntegerBit takes integer int,integer bit returns integer
 		return S2I(SubStringBJ(Int2Bin(int),bit,bit))
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始第2页成就名
+	*/
+	function InitSecondAchievement takes integer id returns nothing
+
+		if (achiEff[id] != null) then
+			call DestroyEffect(achiEff[id])
+			set achiEff[id] = null
+		endif
+		if (GetBit(achieve2[id],9) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff008000【万劫录】"+ playerName[id] +"|r")
+			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+			set achiPage[id] = 19
+		elseif (GetBit(achieve2[id],8) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+ playerName[id] +"|r")
+			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+			set achiPage[id] = 18
+		elseif (GetBit(achieve2[id],7) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】"+ playerName[id] +"|r")
+			set achiPage[id] = 17
+		elseif (GetBit(achieve2[id],6) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】"+ playerName[id] +"|r")
+			set achiPage[id] = 16
+		elseif (GetBit(achieve2[id],5) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】"+ playerName[id] +"|r")
+			set achiPage[id] = 15
+		elseif (GetBit(achieve2[id],4) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】"+ playerName[id] +"|r")
+			set achiPage[id] = 14
+		elseif (GetBit(achieve2[id],3) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】"+ playerName[id] +"|r")
+			set achiPage[id] = 13
+		elseif (GetBit(achieve2[id],2) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"【太平源】"+ playerName[id] )
+			set achiPage[id] = 12
+		elseif (GetBit(achieve2[id],1) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】"+ playerName[id] +"|r")
+			set achiPage[id] = 11
+		endif
+	endfunction
+
 /*
 	function Test3 takes integer i returns nothing
 
@@ -123,15 +183,5 @@ library_once Achievement requires LHBase
 	endfunction
 */
 	
-//---------------------------------------------------------------------------------------------------
-	/*
-	    自增英雄使用次数
-	*/
-	function GetHeroTimes takes nothing returns nothing
-		// body...
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-
 
 endlibrary

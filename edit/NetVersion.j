@@ -5,12 +5,17 @@
 
 //! import "LHBase.j"
 //! import "Diffculty.j"
-library_once Version initializer InitVersion requires LHBase,Diffculty
+//! import "Achievement.j"
+library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement
 	
 	globals
 		integer array achieve
 		integer array vipCode
 		string array heroCountString
+		/*
+		    成就的页数与目标位数
+		*/
+		integer array achiPage
 
 		/*
 		    计时存档次数
@@ -108,7 +113,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
+    			set achieve2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve2"))
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
+    			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
@@ -117,16 +124,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取位数字,1是个位
+	    获取当前成就的类项
 	*/
-	private function GetBit takes integer num,integer bit returns integer
-		local string s = I2S(num)
-		local integer length = StringLength(s)
-		if (length < bit) then
-			return 0
-		endif
-
-		return S2I(SubStringBJ(s,length - bit + 1,length - bit + 1))
+	private function GetAchievePage takes player p returns integer
+		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]),1,1))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取当前成就的位数
+	*/
+	private function GetAchieveTarget takes player p returns integer
+		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]),2,StringLength(achiPage[GetConvertedPlayerId(p)])))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -137,30 +145,61 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    初始第1页成就名
+	*/
+	function InitPassAchievement takes integer id returns nothing
+
+		if (achiEff[id] != null) then
+			call DestroyEffect(achiEff[id])
+			set achiEff[id] = null
+		endif
+		if (GetBit(achieve[id],9) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff008000【万劫录】"+ playerName[id] +"|r")
+			set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+			set achiPage[id] = 19
+		elseif (GetBit(achieve[id],8) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+ playerName[id] +"|r")
+			set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
+			set achiPage[id] = 18
+		elseif (GetBit(achieve[id],7) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】"+ playerName[id] +"|r")
+			set achiPage[id] = 17
+		elseif (GetBit(achieve[id],6) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】"+ playerName[id] +"|r")
+			set achiPage[id] = 16
+		elseif (GetBit(achieve[id],5) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】"+ playerName[id] +"|r")
+			set achiPage[id] = 15
+		elseif (GetBit(achieve[id],4) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】"+ playerName[id] +"|r")
+			set achiPage[id] = 14
+		elseif (GetBit(achieve[id],3) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】"+ playerName[id] +"|r")
+			set achiPage[id] = 13
+		elseif (GetBit(achieve[id],2) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"【太平源】"+ playerName[id] )
+			set achiPage[id] = 12
+		elseif (GetBit(achieve[id],1) > 0) then
+			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】"+ playerName[id] +"|r")
+			set achiPage[id] = 11
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化游戏名
 	*/
 	function InitAchievementName takes unit u returns nothing
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
-		if (GetBit(achieve[id],9) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff008000【万劫录】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
-		elseif (GetBit(achieve[id],8) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff00ff【轮回舰】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-			call AddSpecialEffectTargetUnitBJ("origin",u,"war3mapImported\\lunhuitexiao.mdl")
-		elseif (GetBit(achieve[id],7) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff0000【末日车】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-		elseif (GetBit(achieve[id],6) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffff6600【地狱使】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-		elseif (GetBit(achieve[id],5) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cffffff00【灭炼狱】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-		elseif (GetBit(achieve[id],4) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff3366ff【定战争】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-		elseif (GetBit(achieve[id],3) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff99cc00【和谐世】"+GetPlayerName(GetOwningPlayer(u))+"|r")
-		elseif (GetBit(achieve[id],2) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"【太平源】"+GetPlayerName(GetOwningPlayer(u)))
-		elseif (GetBit(achieve[id],1) > 0) then
-			call SetPlayerName(GetOwningPlayer(u),"|cff999999【天国音】"+GetPlayerName(GetOwningPlayer(u))+"|r")
+		//计时英雄数
+		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
+		if (StringLength(achiPage[id]) < 2) then
+			set achiPage[id] = 10
+			call InitPassAchievement(id)
+    		call DzAPI_Map_StoreInteger( GetOwningPlayer(u),  "page", achiPage[id] )
+		elseif (GetAchievePage(GetOwningPlayer(u)) == 1)
+			call InitPassAchievement(id)
+		elseif (GetAchievePage(GetOwningPlayer(u)) == 2)
+			call InitSecondAchievement(id)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
