@@ -138,12 +138,42 @@ library_once Constant
 		return result
 	endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        获取彩名
+    */
+    function GetColorString takes string s returns string
+        //todo 彩名
+        //todo getbit溢出测试
+        return s
+    endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    条件：彩名成就索引条件
+	*/
+	function IsAchieveColor takes integer achieveID returns boolean
+		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    白名显示条件
+	*/
+	function IsAchieveWhite takes integer achieveID returns boolean
+		return achieveID == 12 or achieveID == 216
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    条件：能量之光特效索引条件
+	*/
+	function IsAchieveLight takes integer achieveID returns boolean
+		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222
+	endfunction
+//---------------------------------------------------------------------------------------------------
 	/*
 	    获取成就名
 	*/
 	function GetAchievementName takes integer achieveID returns string
 		if (achieveID == 19) then
-			return "|cff008000【万劫录】"
+			return GetColorString("【万劫录】")
 		elseif (achieveID == 18) then
 			return "|cffff00ff【轮回舰】"
 		elseif (achieveID == 17) then
@@ -167,7 +197,7 @@ library_once Constant
 		elseif (achieveID == 23) then
 			return "|cffff0000【净心魔】"
 		elseif (achieveID == 24) then
-			return "|cffff00ff【创心魔】"
+			return GetColorString("【创心魔】")
 		elseif (achieveID == 25) then
 			return "|cff99cc00【复世财】"
 		elseif (achieveID == 26) then
@@ -175,17 +205,9 @@ library_once Constant
 		elseif (achieveID == 27) then
 			return "|cffff0000【灭世财】"
 		elseif (achieveID == 28) then
-			return "|cffff00ff【造世财】"
-		elseif (achieveID == 25) then
-			return "|cff99cc00【风驰者】"
-		elseif (achieveID == 26) then
-			return "|cffffff00【电掣侠】"
-		elseif (achieveID == 27) then
-			return "|cffff0000【无影客】"
-		elseif (achieveID == 28) then
-			return "|cffff00ff【逆苍天】"
+			return GetColorString("【造世财】")
 		elseif (achieveID == 29) then
-			return "|cff008000【单轮回】"
+			return GetColorString("【单轮回】")
 		elseif (achieveID == 210) then
 			return "|cffff00ff【单末日】"
 		elseif (achieveID == 211) then
@@ -207,11 +229,19 @@ library_once Constant
 		elseif (achieveID == 219) then
 			return "|cffff0000【五界主】"
 		elseif (achieveID == 220) then
-			return "|cffff00ff【六界王】"
+			return GetColorString("【六界王】")
 		elseif (achieveID == 221) then
 			return "|cff99cc00【千钧劫】"
 		elseif (achieveID == 222) then
 			return "|cffff00ff【末世劫】"
+		elseif (achieveID == 223) then
+			return "|cff99cc00【风驰者】"
+		elseif (achieveID == 224) then
+			return "|cffffff00【电掣侠】"
+		elseif (achieveID == 225) then
+			return "|cffff0000【无影客】"
+		elseif (achieveID == 226) then
+			return GetColorString("【逆苍天】")
 		endif
 		return ""
 	endfunction

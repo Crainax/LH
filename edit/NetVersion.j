@@ -122,20 +122,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取当前成就的类项
-	*/
-	private function GetAchievePage takes player p returns integer
-		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]),1,1))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取当前成就的位数
-	*/
-	private function GetAchieveTarget takes player p returns integer
-		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]),2,StringLength(achiPage[GetConvertedPlayerId(p)])))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    隐藏密码的判定
 	*/
 	function TSpeakPassword takes nothing returns nothing
