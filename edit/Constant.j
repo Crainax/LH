@@ -12,7 +12,12 @@ library_once Constant
 		/*
 		    活动开关
 		*/
-		boolean Huodong = false
+		constant boolean Huodong = false
+		/*
+		    成就页数
+		*/
+		constant integer PAGE_ACHIEVE = 5
+
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -137,15 +142,49 @@ library_once Constant
 		endif
 		return result
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
+    /*
+        获取彩名依赖
+    */
+	function GetRandomColor takes nothing returns string
+		local integer random = GetRandomInt(1,8)
+		if (random == 1) then
+			return "|cff0000ff"
+		elseif (random == 2) then
+			return "|cffcc99ff"
+		elseif (random == 3) then
+			return "|cff99cc00"
+		elseif (random == 4) then
+			return "|cffff0000"
+		elseif (random == 5) then
+			return "|cffff6600"
+		elseif (random == 6) then
+			return "|cffff00ff"
+		elseif (random == 7) then
+			return "|cff808000"
+		else
+			return "|cffffff00"
+		endif
+	endfunction
     /*
         获取彩名
     */
     function GetColorString takes string s returns string
-        //todo 彩名
-        //todo getbit溢出测试
-        return s
+		local integer length = StringLength(s)
+		local string result = ""
+		local integer i =1 
+		if (length == 0) then
+			return ""
+		endif
+		loop
+			exitwhen i > length
+			set result = result + GetRandomColor() + SubStringBJ(s,i,i+2)
+			set i = i + 3
+		endloop
+        return result + "|r"
     endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    条件：彩名成就索引条件
@@ -244,7 +283,176 @@ library_once Constant
 			return GetColorString("【逆苍天】")
 		endif
 		return ""
+	endfunction//---------------------------------------------------------------------------------------------------
+	/*
+	    获取成就名条件
+	*/
+	function GetAchievementCondition takes integer achieveID returns string
+		if (achieveID == 19) then
+			return "通关|cff008000\"万劫\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|r|cff99ccff若你通关了该难度可以加轮回之狱主群申请上|r|cff99cc00封帝万劫录|r|cff99ccff哦!|r"
+		elseif (achieveID == 18) then
+			return "通关|cffff00ff\"轮回\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!|r"
+		elseif (achieveID == 17) then
+			return "通关|cffff0000\"末日\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 16) then
+			return "通关|cffff6600\"地狱\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 15) then
+			return "通关|cffffff00\"炼狱\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 14) then
+			return "通关|cff3366ff\"战争\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 13) then
+			return "通关|cff99cc00\"和谐\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 12) then
+			return "通关\"太平\"难度后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 11) then
+			return "通关|cff999999\"天国\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 21) then
+			return "完成20次转生即可自动获得该成就.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 22) then
+			return "完成50次转生即可自动获得该成就.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 23) then
+			return "完成100次转生即可自动获得该成就.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 24) then
+			return "完成150次转生即可自动获得该成就.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 25) then
+			return "木材大于20000即可自动获得该成就.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 26) then
+			return "木材大于50000即可自动获得该成就.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 27) then
+			return "木材大于100000即可自动获得该成就.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 28) then
+			return "木材大于200000即可自动获得该成就.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 29) then
+			return "单通|cffff00ff\"轮回\"难度|r即可自动获得该成就.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 210) then
+			return "单通|cffff0000\"末日\"难度|r即可自动获得该成就.
+
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 211) then
+			return "单通|cffff6600\"地狱\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 212) then
+			return "单通|cffffff00\"炼狱\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 213) then
+			return "单通|cff3366ff\"战争\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 214) then
+			return "单通|cff99cc00\"和谐\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 215) then
+			return "单通\"太平\"难度后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 216) then
+			return "单通|cff999999\"天国\"难度|r后可以自动获得该成就.
+
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 217) then
+			return "使用所有可以使用的英雄进行至少1场游戏.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 218) then
+			return "使用所有可以使用的英雄进行至少5场游戏.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 219) then
+			return "使用所有可以使用的英雄进行至少10场游戏.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 220) then
+			return "使用所有可以使用的英雄进行至少30场游戏.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 221) then
+			return "在基地剩余0次防护罩时通关游戏.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 222) then
+			return "在基地剩余0次防护罩,且生命低于25%时通关游戏.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 223) then
+			return "在135分钟内击败冥刹.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 224) then
+			return "在120分钟内击败冥刹.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 225) then
+			return "在90分钟内击败冥刹.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 226) then
+			return "在60分钟内击败冥刹.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		endif
+		return ""
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    获取页数与索引对应的成就序号
+	*/
+	function GetAchievementIndex takes integer page,integer index returns integer
+		if (page == 1 or page == 2) then
+			return (page * 10 + index)
+		elseif (page == 3) then
+			return (page * 10 + index)
+		endif
 
+
+		return 0
+	endfunction
 endlibrary

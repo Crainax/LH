@@ -154,9 +154,9 @@ library_once Achievement requires LHBase
 		local integer id = GetConvertedPlayerId(p)
 		if (IsAchieveOK(p,achieveID)) then
 			set achiPage[id] = achieveID
-			//彩名
+			//彩名	
 			if (IsAchieveColor(achieveID)) then
-				call SetPlayerName(p, GetAchievementName(achieveID) + GetColorString(playerName[id]))
+				call SetPlayerName(p, GetAchievementName(achieveID) + GetRandomColor() + playerName[id] + "|r")
 			elseif (IsAchieveWhite(achieveID)) then
 				call SetPlayerName(p, GetAchievementName(achieveID) + playerName[id])
 			else
@@ -179,33 +179,104 @@ library_once Achievement requires LHBase
 		call DzAPI_Map_StoreInteger( p,  "page", achiPage[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
-
-/*
-	function Test3 takes integer i returns nothing
-
-		local string temp
-		local integer length = StringLength(I2S(i))
-
-		//call BJDebugMsg("原数字:" + I2S(i))
-		//call BJDebugMsg("转二:" + Int2Bin(i))
-		//call BJDebugMsg("转二再转十:" + I2S(Bin2Int(Int2Bin(i))))
-
-		call BJDebugMsg("位数:" + SubStringBJ(I2S(i),1,length-1))
-		call BJDebugMsg("操作的数:" + SubStringBJ(I2S(i),length,length))
-		if (S2I(SubStringBJ(I2S(i),length,length)) < 1) then
-			set udg_i = SetIntegerBit(udg_i,S2I(SubStringBJ(I2S(i),1,length-1)),false)
-		else
-			set udg_i = SetIntegerBit(udg_i,S2I(SubStringBJ(I2S(i),1,length-1)),true)
+	/*
+	    创建成就对话框 
+	*/
+	function NextPageAchievement takes player p, dialog d , integer page returns nothing
+	    local integer i = 1
+		if (page == 1) then
+		    loop
+		    	exitwhen i > 9
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 10) + S3(IsAchieveOK(p,i + 10),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i +1
+		    endloop
+		elseif (page == 2) then
+		    loop
+		    	exitwhen i > 8
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 20) + S3(IsAchieveOK(p,i + 20),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i +1
+		    endloop
 		endif
-		call BJDebugMsg("操作结果:"+I2S(udg_i))
 
-
-		call BJDebugMsg("位测试1:"+I2S(GetIntegerBit(udg_i,S2I(SubStringBJ(I2S(i),1,length-1)) - 1)))
-		call BJDebugMsg("位测试2:"+I2S(GetIntegerBit(udg_i,S2I(SubStringBJ(I2S(i),1,length-1)))))
-		call BJDebugMsg("位测试3:"+I2S(GetIntegerBit(udg_i,S2I(SubStringBJ(I2S(i),1,length-1)) + 1)))
-
+    	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
+    	call SaveButtonHandle(LHTable,GetHandleId(d),11,DialogAddButton( d, "关闭|cffff6800(Esc)|r",512))
 	endfunction
-*/
-	
+//---------------------------------------------------------------------------------------------------
+	/*
+	    成就对话框点击事件
+	*/
+	function AchievementDialogClick takes nothing returns nothing
+		local dialog d = GetClickedDialogBJ()
+	    local integer i = 1
+	    local integer page = LoadInteger(LHTable,GetHandleId(d),12)
+	    local player p = LoadPlayerHandle(LHTable,GetHandleId(d),13)
+	    local integer achieveID = LoadInteger(LHTable,GetHandleId(d),14)
+        call DialogClear(d)
 
+        //查看条件
+	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),15)) then
+	    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetAchievementName(achieveID) + "|r成就的获取条件如下所示:")
+	    	call DisplayTextToPlayer(p, 0., 0., GetAchievementName(achieveID) + "|r成就的获取条件如下所示:")
+	    endif
+
+	    //退出
+	    if ((GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),11)) or (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),15)) or (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),16))) then
+	        call FlushChildHashtable(LHTable,GetHandleId(d))
+        	call DialogDisplay( p, d, false )
+	        call DialogDestroy(d)
+	        set d = null
+	        set s = null
+	        set p = null
+	        call DestroyTrigger(GetTriggeringTrigger())
+	        return
+	    endif
+
+	    //下一页
+	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
+	    	set page = I3(page < PAGE_ACHIEVE,page + 1,1)
+    		call SaveInteger(LHTable,GetHandleId(d),12,page)
+	    	call DialogSetMessage( d, "我的成就|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_ACHIEVE)+"页)|r" )
+	    	call NextPageAchievement(p,d,page)
+	    endif
+
+	    //点击指定的成就
+	    loop
+	        exitwhen i > 9
+	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
+	        	set achieveID = GetAchievementIndex(page,i)
+	    		call SaveInteger(LHTable,GetHandleId(d),14,achieveID)
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),15,DialogAddButtonBJ( d, "查看获取条件"))
+		    	if (IsAchieveOK(p,achieveID)) then
+		    		call SaveButtonHandle(LHTable,GetHandleId(d),16,DialogAddButtonBJ( d, "使用该成就"))
+		    	endif
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),11,DialogAddButton( d, "关闭|cffff6800(Esc)|r",512))
+	            exitwhen true
+	        endif
+	        set i = i +1
+	    endloop
+
+        call DialogDisplay( p, d, true )
+	    set d = null
+	    set s = null
+	    set p = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    创建一个成就对话框给玩家
+	*/
+	function CreateWingDialog takes player p returns nothing
+	    local trigger t  = CreateTrigger()
+	    local dialog d = DialogCreate()
+	    call DialogSetMessage( d, "我的成就|cffff6800(第1/"+I2S(PAGE_ACHIEVE)+"页)|r" )
+	    call NextPageAchievement(p,d,1)
+    	call SaveInteger(LHTable,GetHandleId(d),12,1)
+	    call SavePlayerHandle(LHTable,GetHandleId(d),13,p)
+	    call SaveInteger(LHTable,GetHandleId(d),14,10)
+	    call DialogDisplay( p, d, true )
+	    call TriggerRegisterDialogEvent( t, d )
+	    call TriggerAddAction(t, function AchievementDialogClick)
+	    set d = null
+	    set t = null
+	endfunction
 endlibrary

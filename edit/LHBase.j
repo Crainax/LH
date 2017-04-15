@@ -274,7 +274,28 @@ library_once LHBase initializer InitLHBase requires Constant,Test
     function IsInForbitRegion takes real x,real y,unit u returns boolean
         return (IsInRect(x,y,gg_rct_______a3) and (not(RectContainsUnit(gg_rct_______a3, u)))) or (IsInRect(x,y,gg_rct_Arena_forbit) and (not(RectContainsUnit(gg_rct_Arena_forbit, u))))
     endfunction
-
+//---------------------------------------------------------------------------------------------------
+    /*
+        三目运算符,string
+    */
+    private function S3 takes boolean b,string s1,string s2 returns string
+        if (b) then
+            return s1
+        else
+            return s2
+        endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        三目运算符,integer
+    */
+    private function I3 takes boolean b,integer i1,integer i2 returns integer
+        if (b) then
+            return i1
+        else
+            return i2
+        endif
+    endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
         /*
