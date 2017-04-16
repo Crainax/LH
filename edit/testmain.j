@@ -1,4 +1,4 @@
 
-//! import "DebugNet.j"
+//! import "NetVersion.j"
 function main takes nothing returns nothing
 endfunction
