@@ -194,6 +194,20 @@ integer array achieve
 integer array achieve2
 effect array achiEff
 //endglobals from Achievement
+//globals from Diffculty:
+constant boolean LIBRARY_Diffculty=true
+		
+integer NanDiff= 0
+//endglobals from Diffculty
+//globals from Version:
+constant boolean LIBRARY_Version=true
+integer array vipCode
+string array heroCountString
+		
+
+		
+constant integer kSaveHeroTimes=10
+//endglobals from Version
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -1849,7 +1863,7 @@ endfunction
 
 
 
- function Test__InitTest takes nothing returns nothing
+ function Test___InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -2069,7 +2083,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetBit takes integer num,integer bit returns integer
+ function GetBit takes integer num,integer bit returns integer
   local string s= I2S(num)
   local integer length= StringLength(s)
 		if ( length < bit ) then
@@ -2162,12 +2176,12 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetAchievePage takes player p returns integer
+ function Achievement__GetAchievePage takes player p returns integer
 		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 1, 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetAchieveTarget takes player p returns integer
+ function Achievement__GetAchieveTarget takes player p returns integer
 		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 2, StringLength(I2S(achiPage[GetConvertedPlayerId(p)]))))
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -2175,9 +2189,9 @@ endfunction
  function IsAchieveOK takes player p,integer achieveID returns boolean
   local integer id= GetConvertedPlayerId(p)
   local integer page= (S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId((p))]), 1, 1))) // INLINED!!
-  local integer target= Achievement___GetAchieveTarget(p)
+  local integer target= Achievement__GetAchieveTarget(p)
 		if ( page == 1 ) then
-			return ( Achievement___GetBit(achieve[id] , target) > 0 )
+			return ( GetBit(achieve[id] , target) > 0 )
 		elseif ( page == 2 ) then
 			return ( GetIntegerBit(achieve2[id] , target) > 0 )
 		endif
@@ -2361,8 +2375,471 @@ endfunction
 	endfunction
 
 //library Achievement ends
+//library Diffculty:
+	
 
-// BEGIN IMPORT OF Achievement.j
+//---------------------------------------------------------------------------------------------------
+	
+ function GetDiffculty takes nothing returns integer
+
+		if ( udg_Nandu_JJJ > 7 ) then
+			return 9
+		elseif ( udg_Nandu > 20 ) then
+			return 8
+		elseif ( udg_Nandu > 10 ) then
+			return 7
+		elseif ( udg_Nandu > 8 ) then
+			return 6
+		elseif ( udg_Nandu > 6 ) then
+			return 5
+		elseif ( udg_Nandu > 4 ) then
+			return 4
+		elseif ( udg_Nandu > 2 ) then
+			return 3
+		elseif ( udg_Nandu > 1 ) then
+			return 2
+		else
+			return 1
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function IsWanjie takes nothing returns boolean
+		return GetDiffculty() == 9
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function EnhanceDiffAttack takes unit u returns nothing
+		if ( NanDiff <= 0 ) then
+			return
+		endif
+
+		//100倍攻击加强
+		if ( GetUnitAbilityLevel(u, 'A09V') >= 1 ) then
+			call SetUnitAbilityLevel(u, 'A09V', NanDiff + 1)
+			return
+		endif
+
+		call UnitAddAbility(u, 'A0EY')
+		call SetUnitAbilityLevel(u, 'A0EY', NanDiff)
+		
+	endfunction
+//---------------------------------------------------------------------------------------------------
+		
+ function EnhanceWanjieAttack takes unit u returns nothing
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			call EnhanceDiffAttack(u)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetJunengTech takes nothing returns integer
+
+		if ( NanDiff == 1 ) then
+			return 'R00T'
+		elseif ( NanDiff == 2 ) then
+			return 'R00U'
+		elseif ( NanDiff == 3 ) then
+			return 'R00V'
+		else
+			return 'R00R'
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function GetArenaUpdateSpeed takes nothing returns real
+		if ( NanDiff == 1 ) then
+			return 4.
+		elseif ( NanDiff == 2 ) then
+			return 3.
+		elseif ( NanDiff == 3 ) then
+			return 2.
+		else
+			return 5.
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetWanjieInt takes integer value,real rate returns integer
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			return IMinBJ(2100000000, R2I(I2R(value) * rate))
+		endif
+
+		return value
+	endfunction
+
+	
+ function GetWanjieReal takes real value,real rate returns real
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			return value * rate
+		endif
+
+		return value
+	endfunction
+	
+ function GetWanjieAddInt takes integer value,integer add returns integer
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			return value + add
+		endif
+
+		return value
+	endfunction
+
+	 
+//---------------------------------------------------------------------------------------------------
+	
+ function AddWanjieSpell takes unit u returns nothing
+		if ( (GetDiffculty() == 9) ) then // INLINED!!
+			if ( udg_Bo > 10 ) then
+				//60倍技能
+				call UnitAddAbility(u, 'A0GL')
+			endif
+
+			//闪烁技能
+			call UnitAddAbility(u, 'ANbl')
+			call UnitAddAbility(u, 'A0HE')
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function PrintDifficulty takes nothing returns nothing
+  local integer d= GetDiffculty()
+		if ( d == 6 ) then
+			call BJDebugMsg("|cFFFF66CC【消息】|r地狱难度下，会额外提高以下怪物的难度：")
+			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高100%,生命提高66%.")
+		elseif ( d == 7 ) then
+			call BJDebugMsg("|cFFFF66CC【消息】|r|cffff0000末日|r难度下，会额外提高以下怪物的难度：")
+			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高200%,生命提高133%.")
+		elseif ( d == 8 ) then
+			call BJDebugMsg("|cFFFF66CC【消息】|r|cffff00ff轮回|r难度下，会额外提高以下怪物的难度：")
+			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高300%,有几率无视闪避,生命提高200%.")
+		elseif ( d == 9 ) then
+			call BJDebugMsg("|cFFFF66CC【消息】|r|cff008000万劫|r难度下，会额外提高以下怪物的难度：")
+			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高300%,有几率无视闪避,生命提高200%.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱前30层与天庭均会增强同上属性.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r所有单位增加50%基础防御,所有非英雄单位增加2%生命回复速度.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r野怪每次升级会升2级.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r进攻怪获得技能\"闪烁\",10波以后怪物提高20倍生命与20倍攻击.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r熊猫与大法BOSS提高50倍生命与20倍生命.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r英雄获得经验减少25%.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r通关该难度可以加轮回之狱主群把你名字永久保存在|cff99cc00封帝万劫录|r中哦!")
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function InitWanjie takes nothing returns nothing
+
+		//光环（加防和回血）
+     local unit u= CreateUnit(Player(10), 'h00U', 0, 0, 0)
+    	call ShowUnitHide(u)
+
+		//前三野与前30层科技 3倍生命
+    	call SetPlayerTechResearchedSwap('R00X', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('R00X', 1, Player(11))
+    	//11-24波怪物，10倍生命
+    	call SetPlayerTechResearchedSwap('R00Y', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('R00Y', 1, Player(11))
+    	//加宝石射程
+    	call SetPlayerTechResearchedSwap('R00Z', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('R00Z', 1, Player(11))
+    	call SetPlayerTechResearchedSwap('R010', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('R010', 1, Player(11))
+    	call SetPlayerTechResearchedSwap('R011', 1, Player(10))
+    	call SetPlayerTechResearchedSwap('R011', 1, Player(11))
+
+    	set u=null
+	endfunction
+
+//library Diffculty ends
+//library Version:
+	
+
+//---------------------------------------------------------------------------------------------------
+	
+ function GetPlatformLevelGold takes player p returns nothing
+		
+		if ( DzAPI_Map_GetMapLevel(p) >= 20 ) then
+			call AdjustPlayerStateBJ(8000, p, PLAYER_STATE_RESOURCE_GOLD)
+		elseif ( DzAPI_Map_GetMapLevel(p) >= 15 ) then
+			call AdjustPlayerStateBJ(6000, p, PLAYER_STATE_RESOURCE_GOLD)
+		elseif ( DzAPI_Map_GetMapLevel(p) >= 10 ) then
+			call AdjustPlayerStateBJ(4000, p, PLAYER_STATE_RESOURCE_GOLD)
+		elseif ( DzAPI_Map_GetMapLevel(p) >= 5 ) then
+			call AdjustPlayerStateBJ(2000, p, PLAYER_STATE_RESOURCE_GOLD)
+		endif
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetHeiyanHint takes nothing returns string
+		return "|cff99ccff需要地图等级达到2级才能选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetHuanyiHint takes nothing returns string
+		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetMengjiHint takes nothing returns string
+		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function PrintCurrentPlatformLevel takes player p returns nothing
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + I2S(DzAPI_Map_GetMapLevel(p)) + "！")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetHeiyanSelectedCon takes player p returns boolean
+		return ( DzAPI_Map_GetMapLevel(p) >= 2 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetHuanyiSelectedCon takes player p returns boolean
+		return ( DzAPI_Map_GetMapLevel(p) >= 6 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetMengjiSelectedCon takes player p returns boolean
+		return ( DzAPI_Map_GetMapLevel(p) >= 11 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function PrintHuanyiPassword takes nothing returns nothing
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function PrintMengjiPassword takes nothing returns nothing
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function InitAllAchievement takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
+    			set achieve[i]=S2I((DzAPI_Map_GetServerValue((ConvertedPlayer(i) ) , "S" + ( "achieve")))) // INLINED!!
+    			set achieve2[i]=DzAPI_Map_GetStoredInteger(ConvertedPlayer(i) , "achieve2")
+    			set vipCode[i]=DzAPI_Map_GetStoredInteger(ConvertedPlayer(i) , "vip")
+    			set achiPage[i]=DzAPI_Map_GetStoredInteger(ConvertedPlayer(i) , "page")
+    			set heroCountString[i]=(DzAPI_Map_GetServerValue((ConvertedPlayer(i) ) , "S" + ( "hero"))) // INLINED!!
+    			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
+			endif
+			set i=i + 1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function TSpeakPassword takes nothing returns nothing
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function InitOldAchievement takes integer id returns nothing
+
+		if ( GetBit(achieve[id] , 9) > 0 ) then
+			set achiPage[id]=19
+		elseif ( GetBit(achieve[id] , 8) > 0 ) then
+			set achiPage[id]=18
+		elseif ( GetBit(achieve[id] , 7) > 0 ) then
+			set achiPage[id]=17
+		elseif ( GetBit(achieve[id] , 6) > 0 ) then
+			set achiPage[id]=16
+		elseif ( GetBit(achieve[id] , 5) > 0 ) then
+			set achiPage[id]=15
+		elseif ( GetBit(achieve[id] , 4) > 0 ) then
+			set achiPage[id]=14
+		elseif ( GetBit(achieve[id] , 3) > 0 ) then
+			set achiPage[id]=13
+		elseif ( GetBit(achieve[id] , 2) > 0 ) then
+			set achiPage[id]=12
+		elseif ( GetBit(achieve[id] , 1) > 0 ) then
+			set achiPage[id]=11
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function SaveAchievement takes nothing returns nothing
+
+  local integer i= 1
+  local integer level= GetDiffculty()
+
+		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+
+		loop
+			exitwhen i > 6
+			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
+				if ( level == 9 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 19)
+				elseif ( level == 8 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 18)
+				elseif ( level == 7 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 17)
+				elseif ( level == 6 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 16)
+				elseif ( level == 5 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 15)
+				elseif ( level == 4 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 14)
+				elseif ( level == 3 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 13)
+				elseif ( level == 2 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 12)
+				elseif ( level == 1 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 11)
+				endif
+			endif
+			set i=i + 1
+		endloop
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SavePIV takes player p,integer i returns nothing
+    	call DzAPI_Map_StoreInteger(p , "vip" , i)
+	endfunction
+
+ function IsSavePIV takes player p,integer i returns boolean
+		return vipCode[GetConvertedPlayerId(p)] == i
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function IncreaseHeroCount takes player p,integer i returns nothing
+  local integer index= GetConvertedPlayerId(p)
+  local integer length
+  local integer times
+  local string temp
+		if ( i < 1 or i > 31 ) then
+			return
+		endif
+		if ( StringLength(heroCountString[index]) < 62 ) then
+			set heroCountString[index]="00000000000000000000000000000000000000000000000000000000000000"
+		endif
+		set length=StringLength(heroCountString[index])
+		set times=S2I(SubStringBJ(heroCountString[index], 2 * i - 1, 2 * i))
+		set temp=heroCountString[index]
+
+		set times=IMinBJ(99, times + 1)
+		set heroCountString[index]=SubStringBJ(temp, 1, 2 * i - 2)
+		if ( times < 10 ) then
+			set heroCountString[index]=heroCountString[index] + "0" + I2S(times)
+		else
+			set heroCountString[index]=heroCountString[index] + I2S(times)
+		endif
+		set heroCountString[index]=heroCountString[index] + SubStringBJ(temp, 2 * i + 1, length)
+		set temp=null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function GetSpecifyHeroTimes takes player p,integer heroIndex returns integer
+		if ( heroIndex > 0 ) then
+			return S2I(SubStringBJ(heroCountString[GetConvertedPlayerId(p)], 2 * heroIndex - 1, 2 * heroIndex))
+		else
+			return 0
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function GetHeroTimes takes player p returns integer
+  local unit u= udg_H[GetConvertedPlayerId(p)]
+  local integer i= GetHeroIndex(GetUnitTypeId(u))
+		set u=null
+		return GetSpecifyHeroTimes(p , i)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function GetBestHero takes player p returns integer
+  local integer max= 0
+  local integer maxIndex= 0
+  local integer i= 1
+		loop
+			exitwhen i > HERO_COUNT
+			if ( ( GetSpecifyHeroTimes(p , i) > max ) or ( GetSpecifyHeroTimes(p , i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i ) ) then
+				set max=GetSpecifyHeroTimes(p , i)
+				set maxIndex=i
+			endif
+			set i=i + 1
+		endloop
+
+		return maxIndex
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function PrintAllHeroTimes takes player p returns nothing
+  local string result= ""
+  local integer i= 1
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
+		loop
+			exitwhen i > HERO_COUNT
+			set result=result + GetIndexHeroColorName(i) + "的使用次数:" + I2S(GetSpecifyHeroTimes(p , i)) + ","
+			if ( ModuloInteger(i, 3) == 0 ) then
+				call DisplayTextToPlayer(p, 0., 0., result)
+				set result=""
+			endif
+			set i=i + 1
+		endloop
+		set result=null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function Version___SaveAllHeroTimes takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local player p= ConvertedPlayer(LoadInteger(LHTable, id, kSaveHeroTimes))
+  local integer i= GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))
+		call IncreaseHeroCount(p , i)
+		call DzAPI_Map_StoreString(p , "hero" , heroCountString[GetConvertedPlayerId(p)])
+    	call DzAPI_Map_Stat_SetStat(p , "hero" , GetIndexHeroName(i))
+		call PrintAllHeroTimes(p)
+		call PauseTimer(t)
+		call FlushChildHashtable(LHTable, id)
+		call DestroyTimer(t)
+		set t=null
+		set p=null
+	endfunction
+
+	
+ function CreateAllHeroTimesTimer takes player p returns nothing
+  local timer t= CreateTimer()
+		call SaveInteger(LHTable, GetHandleId(t), kSaveHeroTimes, GetConvertedPlayerId(p))
+		call TimerStart(t, 10, false, function Version___SaveAllHeroTimes)
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function InitAchievementName takes unit u returns nothing
+  local integer id= GetConvertedPlayerId(GetOwningPlayer(u))
+		//计时英雄数
+		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
+		if ( StringLength(I2S(achiPage[id])) < 2 ) then
+			set achiPage[id]=10
+			call InitOldAchievement(id)
+			call SaveAchievePointer(GetOwningPlayer(u))
+		endif
+		call SetAchievement(GetOwningPlayer(u) , achiPage[id])
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	
+ function InitVersion takes nothing returns nothing
+		call CreateUnit(Player(6), 'n01E', 6144.0, - 320.0, 270.000)
+	endfunction
+
+
+//library Version ends
+
+// BEGIN IMPORT OF NetVersion.j
+
+
 // BEGIN IMPORT OF LHBase.j
 
 
@@ -2421,12 +2898,20 @@ endfunction
 // IGNORE DOUBLE IMPORT OF JBase.j
 
 // END IMPORT OF LHBase.j
+// BEGIN IMPORT OF Diffculty.j
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
+// END IMPORT OF Diffculty.j
+// BEGIN IMPORT OF Achievement.j
+// IGNORE DOUBLE IMPORT OF LHBase.j
 
 // END IMPORT OF Achievement.j
+// END IMPORT OF NetVersion.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test__InitTest")
+call ExecuteFunc("Test___InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("InitVersion")
 
 endfunction
 

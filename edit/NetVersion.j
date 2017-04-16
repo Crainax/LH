@@ -111,7 +111,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
-    			set achieve2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve2"))
+    			set achieve2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve2")
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
     			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
@@ -153,21 +153,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set achiPage[id] = 11
 		endif
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    初始化游戏名
-	*/
-	function InitAchievementName takes unit u returns nothing
-		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
-		//计时英雄数
-		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
-		if (StringLength(achiPage[id]) < 2) then
-			set achiPage[id] = 10
-			call InitOldAchievement(id)
-			call SaveAchievePointer(GetOwningPlayer(u))
-		endif
-		call SetAchievement(GetOwningPlayer(u),achiPage[id])
-	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    存储到服务器
@@ -308,6 +294,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endloop
 		set result = null
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    存储所有英雄的使用次数
@@ -336,6 +323,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call SaveInteger(LHTable,GetHandleId(t),kSaveHeroTimes,GetConvertedPlayerId(p))
 		call TimerStart(t,10,false,function SaveAllHeroTimes)
 		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化游戏名
+	*/
+	function InitAchievementName takes unit u returns nothing
+		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
+		//计时英雄数
+		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
+		if (StringLength(I2S(achiPage[id])) < 2) then
+			set achiPage[id] = 10
+			call InitOldAchievement(id)
+			call SaveAchievePointer(GetOwningPlayer(u))
+		endif
+		call SetAchievement(GetOwningPlayer(u),achiPage[id])
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
