@@ -51,6 +51,12 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		call BJDebugMsg("achieve2:"+ S2I(achieve2[1]))
 
 	endfunction
+
+	function TestAchievement5 takes nothing returns nothing
+	
+		call CreateWingDialog(GetTriggerPlayer())
+
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
@@ -62,8 +68,11 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
 		call TriggerAddAction(t,function TestAchievement)
 		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"showAll",true)
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"show",true)
 		call TriggerAddAction(t,function TestAchievement2)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"hhh",true)
+		call TriggerAddAction(t,function TestAchievement5)
 		set t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"b",false)
 		call TriggerAddAction(t,function TestAchievement3)
