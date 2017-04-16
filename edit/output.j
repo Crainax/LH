@@ -1,4 +1,7 @@
 globals
+//globals from DzAPI:
+constant boolean LIBRARY_DzAPI=true
+//endglobals from DzAPI
 //globals from JBase:
 constant boolean LIBRARY_JBase=true
 //endglobals from JBase
@@ -18,43 +21,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem__CurrentTime
-integer YDWETimerSystem__CurrentIndex
-integer YDWETimerSystem__TaskListHead
-integer YDWETimerSystem__TaskListIdleHead
-integer YDWETimerSystem__TaskListIdleMax
-integer array YDWETimerSystem__TaskListIdle
-integer array YDWETimerSystem__TaskListNext
-integer array YDWETimerSystem__TaskListTime
-trigger array YDWETimerSystem__TaskListProc
-trigger YDWETimerSystem__fnRemoveUnit
-trigger YDWETimerSystem__fnDestroyTimer
-trigger YDWETimerSystem__fnRemoveItem
-trigger YDWETimerSystem__fnDestroyEffect
-trigger YDWETimerSystem__fnDestroyLightning
-trigger YDWETimerSystem__fnRunTrigger
-timer YDWETimerSystem__Timer
-integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
 
-integer YDWETimerSystem__TimerSystem_RunIndex= 0
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Constant:
 constant boolean LIBRARY_Constant=true
@@ -215,6 +218,166 @@ trigger l__library_init
 endglobals
 
 
+//library DzAPI:
+	
+    function DzAPI_Map_SaveServerValue takes player whichPlayer,string key,string value returns boolean
+    return true
+    endfunction
+    function DzAPI_Map_GetServerValue takes player whichPlayer,string key returns string
+    return null
+    endfunction
+    function DzAPI_Map_Ladder_SetStat takes player whichPlayer,string key,string value returns nothing
+    endfunction
+    function DzAPI_Map_IsRPGLobby takes nothing returns boolean
+    return true
+    endfunction
+    function DzAPI_Map_IsRPGLadder takes nothing returns boolean
+    return true
+    endfunction
+    function DzAPI_Map_GetGameStartTime takes nothing returns integer
+    return 0
+    endfunction
+    function DzAPI_Map_Stat_SetStat takes player whichPlayer,string key,string value returns nothing
+    endfunction
+    function DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
+    return 0
+    endfunction
+    function DzAPI_Map_MissionComplete takes player whichPlayer,string key,string value returns nothing
+    endfunction
+    function DzAPI_Map_GetActivityData takes nothing returns string
+    return null
+    endfunction
+    function DzAPI_Map_GetMatchType takes nothing returns integer
+    return 0
+    endfunction
+    function DzAPI_Map_Ladder_SetPlayerStat takes player whichPlayer,string key,string value returns nothing
+    endfunction
+ function DzAPI_Map_StoreInteger takes player whichPlayer,string key,integer value returns nothing
+        set key="I" + key
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , I2S(value))
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredInteger takes player whichPlayer,string key returns integer
+        local integer value
+        set key="I" + key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer , key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+ function DzAPI_Map_GetStoredUnitId takes player whichPlayer,string key returns integer
+        local integer value
+        set key="I" + key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer , key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreReal takes player whichPlayer,string key,real value returns nothing
+        set key="R" + key
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , R2S(value))
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredReal takes player whichPlayer,string key returns real
+        local real value
+        set key="R" + key
+        set value=S2R(DzAPI_Map_GetServerValue(whichPlayer , key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreBoolean takes player whichPlayer,string key,boolean value returns nothing
+        set key="B" + key
+        if ( value ) then
+            call DzAPI_Map_SaveServerValue(whichPlayer , key , "1")
+        else
+            call DzAPI_Map_SaveServerValue(whichPlayer , key , "0")
+        endif
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredBoolean takes player whichPlayer,string key returns boolean
+        local boolean value
+        set key="B" + key
+        set key=DzAPI_Map_GetServerValue(whichPlayer , key)
+        if ( key == "1" ) then
+            set value=true
+        else
+            set value=false
+        endif
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreString takes player whichPlayer,string key,string value returns nothing
+        set key="S" + key
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , value)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredString takes player whichPlayer,string key returns string
+        return DzAPI_Map_GetServerValue(whichPlayer , "S" + key)
+    endfunction
+    function DzAPI_Map_FlushStoredMission takes player whichPlayer,string key returns nothing
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , null)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_Ladder_SubmitIntegerData takes player whichPlayer,string key,integer value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
+    endfunction
+    function DzAPI_Map_Stat_SubmitUnitIdData takes player whichPlayer,string key,integer value returns nothing
+        if ( value == 0 ) then
+            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
+        endif
+    endfunction
+    function DzAPI_Map_Stat_SubmitUnitData takes player whichPlayer,string key,unit value returns nothing
+        call DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer , key , GetUnitTypeId(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitAblityIdData takes player whichPlayer,string key,integer value returns nothing
+        if ( value == 0 ) then
+            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
+        endif
+    endfunction
+    function DzAPI_Map_Ladder_SubmitItemIdData takes player whichPlayer,string key,integer value returns nothing
+        local string S
+        if ( value == 0 ) then
+            set S="0"
+        else
+            set S=I2S(value)
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , S)
+        endif
+        //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
+        set S=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_Ladder_SubmitItemData takes player whichPlayer,string key,item value returns nothing
+        call DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer , key , GetItemTypeId(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitBooleanData takes player whichPlayer,string key,boolean value returns nothing
+        if ( value ) then
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , "1")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , "0")
+        endif
+    endfunction
+    function DzAPI_Map_Ladder_SubmitTitle takes player whichPlayer,string value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer , value , "1")
+    endfunction
+ function DzAPI_Map_Ladder_SubmitPlayerRank takes player whichPlayer,integer value returns nothing
+        call DzAPI_Map_Ladder_SetPlayerStat(whichPlayer , "RankIndex" , I2S(value))
+    endfunction
+ function DzAPI_Map_Ladder_SubmitPlayerExtraExp takes player whichPlayer,integer value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer , "ExtraExp" , I2S(value))
+    endfunction
+
+//library DzAPI ends
 //library JBase:
 	
 //---------------------------------------------------------------------------------------------------
@@ -1200,7 +1363,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem__CurrentIndex
+    return YDWETimerSystem___CurrentIndex
 endfunction
 
 
@@ -1230,7 +1393,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem__TimerSystem_RunIndex
+    return YDWETimerSystem___TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -1685,164 +1848,8 @@ endfunction
 //library Test:
 
 
-    function DzAPI_Map_SaveServerValue takes player whichPlayer,string key,string value returns boolean
-    return true
-    endfunction
-    function DzAPI_Map_GetServerValue takes player whichPlayer,string key returns string
-    return null
-    endfunction
-    function DzAPI_Map_Ladder_SetStat takes player whichPlayer,string key,string value returns nothing
-    endfunction
-    function DzAPI_Map_IsRPGLobby takes nothing returns boolean
-    return true
-    endfunction
-    function DzAPI_Map_IsRPGLadder takes nothing returns boolean
-    return true
-    endfunction
-    function DzAPI_Map_GetGameStartTime takes nothing returns integer
-    return 0
-    endfunction
-    function DzAPI_Map_Stat_SetStat takes player whichPlayer,string key,string value returns nothing
-    endfunction
-    function DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
-    return 0
-    endfunction
-    function DzAPI_Map_MissionComplete takes player whichPlayer,string key,string value returns nothing
-    endfunction
-    function DzAPI_Map_GetActivityData takes nothing returns string
-    return null
-    endfunction
-    function DzAPI_Map_GetMatchType takes nothing returns integer
-    return 0
-    endfunction
-    function DzAPI_Map_Ladder_SetPlayerStat takes player whichPlayer,string key,string value returns nothing
-    endfunction
- function DzAPI_Map_StoreInteger takes player whichPlayer,string key,integer value returns nothing
-        set key="I" + key
-        call DzAPI_Map_SaveServerValue(whichPlayer , key , I2S(value))
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredInteger takes player whichPlayer,string key returns integer
-        local integer value
-        set key="I" + key
-        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer , key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
- function DzAPI_Map_GetStoredUnitId takes player whichPlayer,string key returns integer
-        local integer value
-        set key="I" + key
-        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer , key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_StoreReal takes player whichPlayer,string key,real value returns nothing
-        set key="R" + key
-        call DzAPI_Map_SaveServerValue(whichPlayer , key , R2S(value))
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredReal takes player whichPlayer,string key returns real
-        local real value
-        set key="R" + key
-        set value=S2R(DzAPI_Map_GetServerValue(whichPlayer , key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_StoreBoolean takes player whichPlayer,string key,boolean value returns nothing
-        set key="B" + key
-        if ( value ) then
-            call DzAPI_Map_SaveServerValue(whichPlayer , key , "1")
-        else
-            call DzAPI_Map_SaveServerValue(whichPlayer , key , "0")
-        endif
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredBoolean takes player whichPlayer,string key returns boolean
-        local boolean value
-        set key="B" + key
-        set key=DzAPI_Map_GetServerValue(whichPlayer , key)
-        if ( key == "1" ) then
-            set value=true
-        else
-            set value=false
-        endif
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_StoreString takes player whichPlayer,string key,string value returns nothing
-        set key="S" + key
-        call DzAPI_Map_SaveServerValue(whichPlayer , key , value)
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredString takes player whichPlayer,string key returns string
-        return DzAPI_Map_GetServerValue(whichPlayer , "S" + key)
-    endfunction
-    function DzAPI_Map_FlushStoredMission takes player whichPlayer,string key returns nothing
-        call DzAPI_Map_SaveServerValue(whichPlayer , key , null)
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_Ladder_SubmitIntegerData takes player whichPlayer,string key,integer value returns nothing
-        call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
-    endfunction
-    function DzAPI_Map_Stat_SubmitUnitIdData takes player whichPlayer,string key,integer value returns nothing
-        if ( value == 0 ) then
-            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-        else
-            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
-        endif
-    endfunction
-    function DzAPI_Map_Stat_SubmitUnitData takes player whichPlayer,string key,unit value returns nothing
-        call DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer , key , GetUnitTypeId(value))
-    endfunction
-    function DzAPI_Map_Ladder_SubmitAblityIdData takes player whichPlayer,string key,integer value returns nothing
-        if ( value == 0 ) then
-            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-        else
-            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
-        endif
-    endfunction
-    function DzAPI_Map_Ladder_SubmitItemIdData takes player whichPlayer,string key,integer value returns nothing
-        local string S
-        if ( value == 0 ) then
-            set S="0"
-        else
-            set S=I2S(value)
-            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , S)
-        endif
-        //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
-        set S=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_Ladder_SubmitItemData takes player whichPlayer,string key,item value returns nothing
-        call DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer , key , GetItemTypeId(value))
-    endfunction
-    function DzAPI_Map_Ladder_SubmitBooleanData takes player whichPlayer,string key,boolean value returns nothing
-        if ( value ) then
-            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , "1")
-        else
-            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , "0")
-        endif
-    endfunction
-    function DzAPI_Map_Ladder_SubmitTitle takes player whichPlayer,string value returns nothing
-        call DzAPI_Map_Ladder_SetStat(whichPlayer , value , "1")
-    endfunction
- function DzAPI_Map_Ladder_SubmitPlayerRank takes player whichPlayer,integer value returns nothing
-        call DzAPI_Map_Ladder_SetPlayerStat(whichPlayer , "RankIndex" , I2S(value))
-    endfunction
- function DzAPI_Map_Ladder_SubmitPlayerExtraExp takes player whichPlayer,integer value returns nothing
-        call DzAPI_Map_Ladder_SetStat(whichPlayer , "ExtraExp" , I2S(value))
-    endfunction
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -2062,7 +2069,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement__GetBit takes integer num,integer bit returns integer
+ function Achievement___GetBit takes integer num,integer bit returns integer
   local string s= I2S(num)
   local integer length= StringLength(s)
 		if ( length < bit ) then
@@ -2155,12 +2162,12 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement__GetAchievePage takes player p returns integer
+ function Achievement___GetAchievePage takes player p returns integer
 		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 1, 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement__GetAchieveTarget takes player p returns integer
+ function Achievement___GetAchieveTarget takes player p returns integer
 		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 2, StringLength(I2S(achiPage[GetConvertedPlayerId(p)]))))
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -2168,9 +2175,9 @@ endfunction
  function IsAchieveOK takes player p,integer achieveID returns boolean
   local integer id= GetConvertedPlayerId(p)
   local integer page= (S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId((p))]), 1, 1))) // INLINED!!
-  local integer target= Achievement__GetAchieveTarget(p)
+  local integer target= Achievement___GetAchieveTarget(p)
 		if ( page == 1 ) then
-			return ( Achievement__GetBit(achieve[id] , target) > 0 )
+			return ( Achievement___GetBit(achieve[id] , target) > 0 )
 		elseif ( page == 2 ) then
 			return ( GetIntegerBit(achieve2[id] , target) > 0 )
 		endif
@@ -2400,6 +2407,9 @@ endfunction
 // END IMPORT OF dependency/YDWEBase_common.j
 // BEGIN IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF dependency/YDWEBase_hashtable.j
+
+// BEGIN IMPORT OF DzAPI.j
+// END IMPORT OF DzAPI.j
 // END IMPORT OF Test.j
 // BEGIN IMPORT OF Constant.j
 
@@ -2415,7 +2425,7 @@ endfunction
 // END IMPORT OF Achievement.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("Test__InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
 
 endfunction

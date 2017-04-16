@@ -12,9 +12,43 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
 
 		set achieve[1] = i
-		call BJDebugMsg("成就设置成了:"+I2S(achieve[1]))
+		call BJDebugMsg("成就1设置成了:"+I2S(achieve[1]))
 
 		set s = null
+
+	endfunction
+
+	function TestAchievement3 takes nothing returns nothing
+	
+		local string s = GetEventPlayerChatString()
+
+		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
+
+		set achieve2[1] = i
+		call BJDebugMsg("成就2设置成了:"+I2S(achieve2[1]))
+
+		set s = null
+
+	endfunction
+
+	function TestAchievement4 takes nothing returns nothing
+	
+		local string s = GetEventPlayerChatString()
+
+		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
+
+		set achiPage[1] = i
+		call BJDebugMsg("成就指针设置成了:"+I2S(achiPage[1]))
+
+		set s = null
+
+	endfunction
+
+	function TestAchievement2 takes nothing returns nothing
+		
+		call BJDebugMsg("achiPage:"+ S2I(achiPage[1]))
+		call BJDebugMsg("achieve:"+ S2I(achieve[1]))
+		call BJDebugMsg("achieve2:"+ S2I(achieve2[1]))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -27,6 +61,15 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		local trigger t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
 		call TriggerAddAction(t,function TestAchievement)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"showAll",true)
+		call TriggerAddAction(t,function TestAchievement2)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"b",false)
+		call TriggerAddAction(t,function TestAchievement3)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"c",false)
+		call TriggerAddAction(t,function TestAchievement4)
 		set t = null
 
 	endfunction
