@@ -120,15 +120,15 @@ library_once Achievement requires LHBase
 	/*
 	    获取当前成就的类项
 	*/
-	private function GetAchievePage takes player p returns integer
-		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]),1,1))
+	private function GetAchievePage takes integer i returns integer
+		return S2I(SubStringBJ(I2S(i),1,1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前成就的位数
 	*/
-	private function GetAchieveTarget takes player p returns integer
-		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]),2,StringLength(I2S(achiPage[GetConvertedPlayerId(p)]))))
+	private function GetAchieveTarget takes integer i returns integer
+		return S2I(SubStringBJ(I2S(i),2,StringLength(I2S(i))))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -136,8 +136,8 @@ library_once Achievement requires LHBase
 	*/
 	function IsAchieveOK takes player p,integer achieveID returns boolean
 		local integer id = GetConvertedPlayerId(p)
-		local integer page = GetAchievePage(p)
-		local integer target = GetAchieveTarget(p)
+		local integer page = GetAchievePage(achieveID)
+		local integer target = GetAchieveTarget(achieveID)
 		if (page == 1) then
 			return (GetBit(achieve[id],target) > 0)
 		elseif (page == 2) then
@@ -200,10 +200,10 @@ library_once Achievement requires LHBase
 	function GetAchievementAndSave takes player p , integer achieveID returns nothing
 		local integer id = GetConvertedPlayerId(p)
 		if not(IsAchieveOK(p,achieveID)) then
-			if (S2I(SubStringBJ(I2S(achieveID),1,1)) == 1) then
+			if (GetAchievePage(achieveID) == 1) then
 				set achieve[id] = achieve[id] + R2I(Pow(10,I2R(achieveID-11)))
-			elseif (S2I(SubStringBJ(I2S(achieveID),1,1)) == 2) then
-				set achieve2[id] = SetIntegerBit(achieve2[id],S2I(SubStringBJ(I2S(achieveID),2,StringLength(I2S(achieveID)))),true)
+			elseif (GetAchievePage(achieveID) == 2) then
+				set achieve2[id] = SetIntegerBit(achieve2[id],GetAchieveTarget(achieveID),true)
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\""+GetAchievementName(achieveID)+"|r\",该成就会显示在游戏大厅内及你的名字前面.")
 		    call SetAchievement(p,achieveID)
@@ -266,7 +266,6 @@ library_once Achievement requires LHBase
 	    local integer page = LoadInteger(LHTable,GetHandleId(d),12)
 	    local player p = LoadPlayerHandle(LHTable,GetHandleId(d),13)
 	    local integer achieveID = LoadInteger(LHTable,GetHandleId(d),14)
-        call DialogClear(d)
 
         //查看条件与设置
 	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),15)) then
@@ -281,6 +280,7 @@ library_once Achievement requires LHBase
 
 	    //退出
 	    if ((GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),11)) or (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),15)) or (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),16))) then
+            call DialogClear(d)
 	        call FlushChildHashtable(LHTable,GetHandleId(d))
         	call DialogDisplay( p, d, false )
 	        call DialogDestroy(d)
@@ -292,18 +292,25 @@ library_once Achievement requires LHBase
 
 	    //下一页
 	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
+            call DialogClear(d)
 	    	set page = I3(page < PAGE_ACHIEVE,page + 1,1)
     		call SaveInteger(LHTable,GetHandleId(d),12,page)
 	    	call DialogSetMessage( d, "我的成就|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_ACHIEVE)+"页)|r" )
 	    	call NextPageAchievement(p,d,page)
+        	call DialogDisplay( p, d, true )
+		    set d = null
+		    set p = null
+	    	return
 	    endif
 
 	    //点击指定的成就
 	    loop
 	        exitwhen i > 9
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
+                call DialogClear(d)
 	        	set achieveID = GetAchievementIndex(page,i)
 	    		call SaveInteger(LHTable,GetHandleId(d),14,achieveID)
+	    		call DialogSetMessage( d, GetAchievementName(achieveID) + S3(IsAchieveOK(p,achieveID),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r") )
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),15,DialogAddButtonBJ( d, "查看获取条件"))
 		    	if (IsAchieveOK(p,achieveID)) then
 		    		call SaveButtonHandle(LHTable,GetHandleId(d),16,DialogAddButtonBJ( d, "使用该成就"))
@@ -328,6 +335,8 @@ library_once Achievement requires LHBase
 	    local dialog d = DialogCreate()
 	    call DialogSetMessage( d, "我的成就|cffff6800(第1/"+I2S(PAGE_ACHIEVE)+"页)|r" )
 	    call NextPageAchievement(p,d,1)
+    	call SaveButtonHandle(LHTable,GetHandleId(d),15,null)
+    	call SaveButtonHandle(LHTable,GetHandleId(d),16,null)
     	call SaveInteger(LHTable,GetHandleId(d),12,1)
 	    call SavePlayerHandle(LHTable,GetHandleId(d),13,p)
 	    call SaveInteger(LHTable,GetHandleId(d),14,10)

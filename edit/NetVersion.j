@@ -156,7 +156,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    存储到服务器
+	    存储到服务器,通关
 	*/
 	function SaveAchievement takes nothing returns nothing
 
@@ -168,29 +168,82 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				if (level == 9) then
-					call GetAchievementAndSave(ConvertedPlayer(i),19)
-				elseif (level == 8) then
-					call GetAchievementAndSave(ConvertedPlayer(i),18)
-				elseif (level == 7) then
-					call GetAchievementAndSave(ConvertedPlayer(i),17)
-				elseif (level == 6) then
-					call GetAchievementAndSave(ConvertedPlayer(i),16)
-				elseif (level == 5) then
-					call GetAchievementAndSave(ConvertedPlayer(i),15)
-				elseif (level == 4) then
-					call GetAchievementAndSave(ConvertedPlayer(i),14)
-				elseif (level == 3) then
-					call GetAchievementAndSave(ConvertedPlayer(i),13)
-				elseif (level == 2) then
-					call GetAchievementAndSave(ConvertedPlayer(i),12)
-				elseif (level == 1) then
-					call GetAchievementAndSave(ConvertedPlayer(i),11)
+				//通关称号
+				call GetAchievementAndSave(ConvertedPlayer(i),10 + level)
+
+				//单通称号
+				if (renshu = 1 and level != 9) then
+					call GetAchievementAndSave(ConvertedPlayer(i),I3(level < 8,217 - level,29))
+				endif
+
+				//基地的血
+				if (udg_I_Er_diansi[1] == 0) then
+					call GetAchievementAndSave(ConvertedPlayer(i),221)
+					if (GetUnitState(gg_unit_haro_0030,UNIT_STATE_LIFE) <= 0.25 * GetUnitState(gg_unit_haro_0030,UNIT_STATE_MAX_LIFE)) then
+						call GetAchievementAndSave(ConvertedPlayer(i),222)
+					endif
 				endif
 			endif
 			set i = i +1
 		endloop
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	     击败冥刹后的成就
+	*/
+	function SaveAchievement2 takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+
+				//通关称号,时间
+				if (udg_Second[2] < 135) then
+					call GetAchievementAndSave(ConvertedPlayer(i),223)
+				endif
+				if (udg_Second[2] < 120) then
+					call GetAchievementAndSave(ConvertedPlayer(i),224)
+				endif
+				if (udg_Second[2] < 90) then
+					call GetAchievementAndSave(ConvertedPlayer(i),225)
+				endif
+				if (udg_Second[2] < 60) then
+					call GetAchievementAndSave(ConvertedPlayer(i),226)
+				endif
+					
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    转生的成就
+	*/
+	function SaveAchievement3 takes player p,integer zhuan returns nothing
+		if (zhuan >= 20) then
+			call GetAchievementAndSave(ConvertedPlayer(i),21)
+		elseif (zhuan >= 50) then
+			call GetAchievementAndSave(ConvertedPlayer(i),22)
+		elseif (zhuan >= 100) then
+			call GetAchievementAndSave(ConvertedPlayer(i),23)
+		elseif (zhuan >= 150) then
+			call GetAchievementAndSave(ConvertedPlayer(i),24)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    木材的成就
+	*/
+	function TGetAchievementLumber takes nothing returns nothing
+		call GetAchievementAndSave(GetTriggerPlayer(),25)
+		if (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 50000) then
+			call GetAchievementAndSave(GetTriggerPlayer(),26)
+		else (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 100000) then
+			call GetAchievementAndSave(GetTriggerPlayer(),27)
+		else (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 200000) then
+			call GetAchievementAndSave(GetTriggerPlayer(),28)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -345,7 +398,19 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    初始化
 	*/
 	function InitVersion takes nothing returns nothing
+		local trigger t = CreateTrigger()
+		local integer i = 1
+
 		call CreateUnit(Player(6), 'n01E', 6144.0, - 320.0, 270.000)
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+			    call TriggerRegisterPlayerStateEvent( t, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 20000.00 )
+			endif
+			set i = i +1
+		endloop
+		call TriggerAddAction(t, function TGetAchievementLumber)
+		set t = null
 	endfunction
 
 endlibrary

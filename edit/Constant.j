@@ -3,7 +3,7 @@
 /*
     常量
 */
-library_once Constant requires JBase
+library_once Constant initializer InitConstant requires JBase
 	
 	globals
 		string diffculty = ""
@@ -19,7 +19,10 @@ library_once Constant requires JBase
 		    成就页数
 		*/
 		constant integer PAGE_ACHIEVE = 5
-
+		/*
+		    实际人数(从一开始的)
+		*/
+		integer renshu = 0
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -537,5 +540,19 @@ library_once Constant requires JBase
 			return index + 224
 		endif
 		return 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化
+	*/
+	private function InitConstant takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				set renshu = renshu + 1
+			endif
+			set i = i +1
+		endloop
 	endfunction
 endlibrary

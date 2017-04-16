@@ -44,16 +44,27 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 
 	endfunction
 
+	function TestAchievement6 takes nothing returns nothing
+	
+		local string s = GetEventPlayerChatString()
+
+		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
+		call GetAchievementAndSave(GetTriggerPlayer(),i)
+
+		set s = null
+
+	endfunction
+
 	function TestAchievement2 takes nothing returns nothing
 		
-		call BJDebugMsg("achiPage:"+ S2I(achiPage[1]))
-		call BJDebugMsg("achieve:"+ S2I(achieve[1]))
-		call BJDebugMsg("achieve2:"+ S2I(achieve2[1]))
+		call BJDebugMsg("achiPage:"+ I2S(achiPage[1]))
+		call BJDebugMsg("achieve:"+ I2S(achieve[1]))
+		call BJDebugMsg("achieve2:"+ I2S(achieve2[1]))
 
 	endfunction
 
 	function TestAchievement5 takes nothing returns nothing
-	
+
 		call CreateWingDialog(GetTriggerPlayer())
 
 	endfunction
@@ -63,7 +74,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 	*/
 	private function InitDebugNet takes nothing returns nothing
 		
-		//聊天打开开关进行测试
+		//聊天打开开关进行测试,a1,b2,c指
 		local trigger t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
 		call TriggerAddAction(t,function TestAchievement)
@@ -79,6 +90,9 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		set t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"c",false)
 		call TriggerAddAction(t,function TestAchievement4)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"d",false)
+		call TriggerAddAction(t,function TestAchievement6)
 		set t = null
 
 	endfunction

@@ -252,3 +252,5 @@ library_once Hanshang requires SpellBase,Printer,Attr
 		call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),0.3)
 	endfunction
 endlibrary
+
+
