@@ -183,75 +183,24 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 				if (level == 9) then
-					if (GetBit(achieve[i],9) == 0) then
-						set achieve[i] = achieve[i] + 100000000
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cff008000【万劫录】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),19)
 				elseif (level == 8) then
-					if (GetBit(achieve[i],8) == 0) then
-						set achieve[i] = achieve[i] + 10000000
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cffff00ff【轮回舰】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),18)
 				elseif (level == 7) then
-					if (GetBit(achieve[i],7) == 0) then
-						set achieve[i] = achieve[i] + 1000000
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cffff0000【末日车】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),17)
 				elseif (level == 6) then
-					if (GetBit(achieve[i],6) == 0) then
-						set achieve[i] = achieve[i] + 100000
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cffff6600【地狱使】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),16)
 				elseif (level == 5) then
-					if (GetBit(achieve[i],5) == 0) then
-						set achieve[i] = achieve[i] + 10000
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cffffff00【灭炼狱】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),15)
 				elseif (level == 4) then
-					if (GetBit(achieve[i],4) == 0) then
-						set achieve[i] = achieve[i] + 1000
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cff3366ff【定战争】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),14)
 				elseif (level == 3) then
-					if (GetBit(achieve[i],3) == 0) then
-						set achieve[i] = achieve[i] + 100
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cff99cc00【和谐世】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),13)
 				elseif (level == 2) then
-					if (GetBit(achieve[i],2) == 0) then
-						set achieve[i] = achieve[i] + 10
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"【太平源】\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),12)
 				elseif (level == 1) then
-					if (GetBit(achieve[i],1) == 0) then
-						set achieve[i] = achieve[i] + 1
-						call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"|cff999999【天国音】|r\",该成就会显示在游戏大厅内及下次游戏中你的名字前面.")
-					endif
+					call GetAchievementAndSave(ConvertedPlayer(i),11)
 				endif
-				//存档
-    			call DzAPI_Map_StoreString( ConvertedPlayer(i),  "achieve", I2S(achieve[i]) )
-
-
-				if (GetBit(achieve[i],9) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "万劫录" )
-				elseif (GetBit(achieve[i],8) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "轮回舰" )
-				elseif (GetBit(achieve[i],7) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "末日车" )
-				elseif (GetBit(achieve[i],6) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "地狱使" )
-				elseif (GetBit(achieve[i],5) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "灭炼狱" )
-				elseif (GetBit(achieve[i],4) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "定战争" )
-				elseif (GetBit(achieve[i],3) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "和谐世" )
-				elseif (GetBit(achieve[i],2) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "太平源" )
-				elseif (GetBit(achieve[i],1) > 0) then
-    					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "天国音" )
-				endif
-
 			endif
 			set i = i +1
 		endloop

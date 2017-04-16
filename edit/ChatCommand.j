@@ -141,6 +141,8 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 			call FixView(true)
 		elseif (str == "--") then
 			call FixView(false)
+		debug elseif (str == "-cj") then
+			debug call CreateWingDialog(GetTriggerPlayer())
 		endif
 		set str = null
 		set u = null

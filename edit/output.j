@@ -1,12 +1,7 @@
 globals
-//globals from Constant:
-constant boolean LIBRARY_Constant=true
-string diffculty= ""
-		
-constant integer HERO_COUNT= 15
-		
-boolean Huodong= false
-//endglobals from Constant
+//globals from JBase:
+constant boolean LIBRARY_JBase=true
+//endglobals from JBase
 //globals from YDWEBaseCommon:
 constant boolean LIBRARY_YDWEBaseCommon=true
 trigger array AbilityCastingOverEventQueue
@@ -23,10 +18,10 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
@@ -61,6 +56,17 @@ trigger YDWETriggerEvent__MoveItemEventTrigger= null
 trigger array YDWETriggerEvent__MoveItemEventQueue
 integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
+//globals from Constant:
+constant boolean LIBRARY_Constant=true
+string diffculty= ""
+		
+constant integer HERO_COUNT= 15
+		
+constant boolean Huodong= false
+		
+constant integer PAGE_ACHIEVE= 5
+
+//endglobals from Constant
 //globals from Test:
 constant boolean LIBRARY_Test=true
 		
@@ -209,225 +215,28 @@ trigger l__library_init
 endglobals
 
 
-//library Constant:
+//library JBase:
 	
-//---------------------------------------------------------------------------------------------------
-	
- function GetVersion takes nothing returns string
-		return "2.74"
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function GetHeroIndex takes integer heroType returns integer
-		if ( heroType == 'Ocbh' ) then
-			return 1
-		elseif ( heroType == 'Eevi' ) then
-			return 2
-		elseif ( heroType == 'Hvwd' ) then
-			return 3
-		elseif ( heroType == 'Uktl' ) then
-			return 4
-		elseif ( heroType == 'N018' ) then
-			return 5
-		elseif ( heroType == 'Ewrd' ) then
-			return 6
-		elseif ( heroType == 'Usyl' ) then
-			return 7
-		elseif ( heroType == 'Hjai' ) then
-			return 8
-		elseif ( heroType == 'Harf' ) then
-			return 9
-		elseif ( heroType == 'Nalc' ) then
-			return 10
-		elseif ( heroType == 'Etyr' ) then
-			return 11
-		elseif ( heroType == 'aa12' ) then
-			return 12
-		elseif ( heroType == 'Udea' ) then
-			return 13
-		elseif ( heroType == 'Hkal' ) then
-			return 14
-		elseif ( heroType == 'Hant' ) then
-			return 15
-		endif
-		return 0
-	endfunction	
-//---------------------------------------------------------------------------------------------------
-	
- function GetIndexHeroName takes integer i returns string
-   local string result= ""
-			if ( i == 1 ) then
-				set result="凯撒"
-			elseif ( i == 2 ) then
-				set result="湮灭"
-			elseif ( i == 3 ) then
-				set result="莫琪"
-			elseif ( i == 4 ) then
-				set result="玄雪"
-			elseif ( i == 5 ) then
-				set result="霸绝"
-			elseif ( i == 6 ) then
-				set result="瑟雨"
-			elseif ( i == 7 ) then
-				set result="晓月"
-			elseif ( i == 8 ) then
-				set result="凌雪"
-			elseif ( i == 9 ) then
-				set result="辰寂"
-			elseif ( i == 10 ) then
-				set result="寒殇"
-			elseif ( i == 11 ) then
-				set result="泰雅"
-			elseif ( i == 12 ) then
-				set result="摄焱"
-			elseif ( i == 13 ) then
-				set result="黑阎"
-			elseif ( i == 14 ) then
-				set result="梦霁"
-			elseif ( i == 15 ) then
-				set result="幻逸"
-			endif
-			return result
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function GetIndexHeroColorName takes integer i returns string
-  local string result= ""
-		if ( i == 1 ) then
-			set result="|cffff0000凯撒|r"
-		elseif ( i == 2 ) then
-			set result="|cFFFFCC66湮灭|r"
-		elseif ( i == 3 ) then
-			set result="|cFF999900莫琪|r"
-		elseif ( i == 4 ) then
-			set result="|cFF33FF33玄雪|r"
-		elseif ( i == 5 ) then
-			set result="|cFFCCFF66霸绝|r"
-		elseif ( i == 6 ) then
-			set result="|cFFCCFF33瑟雨|r"
-		elseif ( i == 7 ) then
-			set result="|cffff00ff晓月|r"
-		elseif ( i == 8 ) then
-			set result="|cFFFF3399凌雪|r"
-		elseif ( i == 9 ) then
-			set result="|cFFCCFF00辰寂|r"
-		elseif ( i == 10 ) then
-			set result="|cFF33FF33寒殇|r"
-		elseif ( i == 11 ) then
-			set result="|cFFFF3399泰雅|r"
-		elseif ( i == 12 ) then
-			set result="|cff00ccff摄焱|r"
-		elseif ( i == 13 ) then
-			set result="|cffff6800黑阎|r"
-		elseif ( i == 14 ) then
-			set result="|cffff99cc梦霁|r"
-		elseif ( i == 15 ) then
-			set result="|cff00ccff幻逸|r"
-		endif
-		return result
-	endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function GetColorString takes string s returns string
-        //todo 彩名
-        //todo getbit溢出测试
-        return s
+    function S3 takes boolean b,string s1,string s2 returns string
+        if ( b ) then
+            return s1
+        else
+            return s2
+        endif
     endfunction
 //---------------------------------------------------------------------------------------------------
-	
- function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function IsAchieveWhite takes integer achieveID returns boolean
-		return achieveID == 12 or achieveID == 216
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function IsAchieveLight takes integer achieveID returns boolean
-		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function GetAchievementName takes integer achieveID returns string
-		if ( achieveID == 19 ) then
-			return (("【万劫录】")) // INLINED!!
-		elseif ( achieveID == 18 ) then
-			return "|cffff00ff【轮回舰】"
-		elseif ( achieveID == 17 ) then
-			return "|cffff0000【末日车】"
-		elseif ( achieveID == 16 ) then
-			return "|cffff6600【地狱使】"
-		elseif ( achieveID == 15 ) then
-			return "|cffffff00【灭炼狱】"
-		elseif ( achieveID == 14 ) then
-			return "|cff3366ff【定战争】"
-		elseif ( achieveID == 13 ) then
-			return "|cff99cc00【和谐世】"
-		elseif ( achieveID == 12 ) then
-			return "【太平源】"
-		elseif ( achieveID == 11 ) then
-			return "|cff999999【天国音】"
-		elseif ( achieveID == 21 ) then
-			return "|cff99cc00【定心魔】"
-		elseif ( achieveID == 22 ) then
-			return "|cffffff00【斩心魔】"
-		elseif ( achieveID == 23 ) then
-			return "|cffff0000【净心魔】"
-		elseif ( achieveID == 24 ) then
-			return (("【创心魔】")) // INLINED!!
-		elseif ( achieveID == 25 ) then
-			return "|cff99cc00【复世财】"
-		elseif ( achieveID == 26 ) then
-			return "|cffffff00【盛世财】"
-		elseif ( achieveID == 27 ) then
-			return "|cffff0000【灭世财】"
-		elseif ( achieveID == 28 ) then
-			return (("【造世财】")) // INLINED!!
-		elseif ( achieveID == 29 ) then
-			return (("【单轮回】")) // INLINED!!
-		elseif ( achieveID == 210 ) then
-			return "|cffff00ff【单末日】"
-		elseif ( achieveID == 211 ) then
-			return "|cffff0000【单地狱】"
-		elseif ( achieveID == 212 ) then
-			return "|cffff6600【单炼狱】"
-		elseif ( achieveID == 213 ) then
-			return "|cffffff00【单战争】"
-		elseif ( achieveID == 214 ) then
-			return "|cff3366ff【单和谐】"
-		elseif ( achieveID == 215 ) then
-			return "|cff99cc00【单太平】"
-		elseif ( achieveID == 216 ) then
-			return "【单天国】"
-		elseif ( achieveID == 217 ) then
-			return "|cff99cc00【知天地】"
-		elseif ( achieveID == 218 ) then
-			return "|cffffff00【探乾坤】"
-		elseif ( achieveID == 219 ) then
-			return "|cffff0000【五界主】"
-		elseif ( achieveID == 220 ) then
-			return (("【六界王】")) // INLINED!!
-		elseif ( achieveID == 221 ) then
-			return "|cff99cc00【千钧劫】"
-		elseif ( achieveID == 222 ) then
-			return "|cffff00ff【末世劫】"
-		elseif ( achieveID == 223 ) then
-			return "|cff99cc00【风驰者】"
-		elseif ( achieveID == 224 ) then
-			return "|cffffff00【电掣侠】"
-		elseif ( achieveID == 225 ) then
-			return "|cffff0000【无影客】"
-		elseif ( achieveID == 226 ) then
-			return (("【逆苍天】")) // INLINED!!
-		endif
-		return ""
-	endfunction
-//---------------------------------------------------------------------------------------------------
+    
+    function I3 takes boolean b,integer i1,integer i2 returns integer
+        if ( b ) then
+            return i1
+        else
+            return i2
+        endif
+    endfunction
 
-
-//library Constant ends
+//library JBase ends
 //library YDWEBaseCommon:
 
 function YDWECoordinateX takes real x returns real
@@ -1338,7 +1147,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1458,6 +1267,421 @@ function GetLastMovedItemInItemSlot takes nothing returns item
 endfunction
 
 //library YDWETriggerEvent ends
+//library Constant:
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function GetVersion takes nothing returns string
+		return "2.74"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetHeroIndex takes integer heroType returns integer
+		if ( heroType == 'Ocbh' ) then
+			return 1
+		elseif ( heroType == 'Eevi' ) then
+			return 2
+		elseif ( heroType == 'Hvwd' ) then
+			return 3
+		elseif ( heroType == 'Uktl' ) then
+			return 4
+		elseif ( heroType == 'N018' ) then
+			return 5
+		elseif ( heroType == 'Ewrd' ) then
+			return 6
+		elseif ( heroType == 'Usyl' ) then
+			return 7
+		elseif ( heroType == 'Hjai' ) then
+			return 8
+		elseif ( heroType == 'Harf' ) then
+			return 9
+		elseif ( heroType == 'Nalc' ) then
+			return 10
+		elseif ( heroType == 'Etyr' ) then
+			return 11
+		elseif ( heroType == 'aa12' ) then
+			return 12
+		elseif ( heroType == 'Udea' ) then
+			return 13
+		elseif ( heroType == 'Hkal' ) then
+			return 14
+		elseif ( heroType == 'Hant' ) then
+			return 15
+		endif
+		return 0
+	endfunction	
+//---------------------------------------------------------------------------------------------------
+	
+ function GetIndexHeroName takes integer i returns string
+   local string result= ""
+			if ( i == 1 ) then
+				set result="凯撒"
+			elseif ( i == 2 ) then
+				set result="湮灭"
+			elseif ( i == 3 ) then
+				set result="莫琪"
+			elseif ( i == 4 ) then
+				set result="玄雪"
+			elseif ( i == 5 ) then
+				set result="霸绝"
+			elseif ( i == 6 ) then
+				set result="瑟雨"
+			elseif ( i == 7 ) then
+				set result="晓月"
+			elseif ( i == 8 ) then
+				set result="凌雪"
+			elseif ( i == 9 ) then
+				set result="辰寂"
+			elseif ( i == 10 ) then
+				set result="寒殇"
+			elseif ( i == 11 ) then
+				set result="泰雅"
+			elseif ( i == 12 ) then
+				set result="摄焱"
+			elseif ( i == 13 ) then
+				set result="黑阎"
+			elseif ( i == 14 ) then
+				set result="梦霁"
+			elseif ( i == 15 ) then
+				set result="幻逸"
+			endif
+			return result
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetIndexHeroColorName takes integer i returns string
+  local string result= ""
+		if ( i == 1 ) then
+			set result="|cffff0000凯撒|r"
+		elseif ( i == 2 ) then
+			set result="|cFFFFCC66湮灭|r"
+		elseif ( i == 3 ) then
+			set result="|cFF999900莫琪|r"
+		elseif ( i == 4 ) then
+			set result="|cFF33FF33玄雪|r"
+		elseif ( i == 5 ) then
+			set result="|cFFCCFF66霸绝|r"
+		elseif ( i == 6 ) then
+			set result="|cFFCCFF33瑟雨|r"
+		elseif ( i == 7 ) then
+			set result="|cffff00ff晓月|r"
+		elseif ( i == 8 ) then
+			set result="|cFFFF3399凌雪|r"
+		elseif ( i == 9 ) then
+			set result="|cFFCCFF00辰寂|r"
+		elseif ( i == 10 ) then
+			set result="|cFF33FF33寒殇|r"
+		elseif ( i == 11 ) then
+			set result="|cFFFF3399泰雅|r"
+		elseif ( i == 12 ) then
+			set result="|cff00ccff摄焱|r"
+		elseif ( i == 13 ) then
+			set result="|cffff6800黑阎|r"
+		elseif ( i == 14 ) then
+			set result="|cffff99cc梦霁|r"
+		elseif ( i == 15 ) then
+			set result="|cff00ccff幻逸|r"
+		endif
+		return result
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+    
+ function GetRandomColor takes nothing returns string
+  local integer random= GetRandomInt(1, 8)
+		if ( random == 1 ) then
+			return "|cff0000ff"
+		elseif ( random == 2 ) then
+			return "|cffcc99ff"
+		elseif ( random == 3 ) then
+			return "|cff99cc00"
+		elseif ( random == 4 ) then
+			return "|cffff0000"
+		elseif ( random == 5 ) then
+			return "|cffff6600"
+		elseif ( random == 6 ) then
+			return "|cffff00ff"
+		elseif ( random == 7 ) then
+			return "|cff808000"
+		else
+			return "|cffffff00"
+		endif
+	endfunction
+    
+    function GetColorString takes string s returns string
+  local integer length= StringLength(s)
+  local string result= ""
+  local integer i=1
+		if ( length == 0 ) then
+			return ""
+		endif
+		loop
+			exitwhen i > length
+			set result=result + GetRandomColor() + SubStringBJ(s, i, i + 2)
+			set i=i + 3
+		endloop
+        return result + "|r"
+    endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function IsAchieveColor takes integer achieveID returns boolean
+		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function IsAchieveWhite takes integer achieveID returns boolean
+		return achieveID == 12 or achieveID == 216
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function IsAchieveLight takes integer achieveID returns boolean
+		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetAchievementName takes integer achieveID returns string
+		if ( achieveID == 19 ) then
+			return GetColorString("【万劫录】")
+		elseif ( achieveID == 18 ) then
+			return "|cffff00ff【轮回舰】"
+		elseif ( achieveID == 17 ) then
+			return "|cffff0000【末日车】"
+		elseif ( achieveID == 16 ) then
+			return "|cffff6600【地狱使】"
+		elseif ( achieveID == 15 ) then
+			return "|cffffff00【灭炼狱】"
+		elseif ( achieveID == 14 ) then
+			return "|cff3366ff【定战争】"
+		elseif ( achieveID == 13 ) then
+			return "|cff99cc00【和谐世】"
+		elseif ( achieveID == 12 ) then
+			return "【太平源】"
+		elseif ( achieveID == 11 ) then
+			return "|cff999999【天国音】"
+		elseif ( achieveID == 21 ) then
+			return "|cff99cc00【定心魔】"
+		elseif ( achieveID == 22 ) then
+			return "|cffffff00【斩心魔】"
+		elseif ( achieveID == 23 ) then
+			return "|cffff0000【净心魔】"
+		elseif ( achieveID == 24 ) then
+			return GetColorString("【创心魔】")
+		elseif ( achieveID == 25 ) then
+			return "|cff99cc00【复世财】"
+		elseif ( achieveID == 26 ) then
+			return "|cffffff00【盛世财】"
+		elseif ( achieveID == 27 ) then
+			return "|cffff0000【灭世财】"
+		elseif ( achieveID == 28 ) then
+			return GetColorString("【造世财】")
+		elseif ( achieveID == 29 ) then
+			return GetColorString("【单轮回】")
+		elseif ( achieveID == 210 ) then
+			return "|cffff00ff【单末日】"
+		elseif ( achieveID == 211 ) then
+			return "|cffff0000【单地狱】"
+		elseif ( achieveID == 212 ) then
+			return "|cffff6600【单炼狱】"
+		elseif ( achieveID == 213 ) then
+			return "|cffffff00【单战争】"
+		elseif ( achieveID == 214 ) then
+			return "|cff3366ff【单和谐】"
+		elseif ( achieveID == 215 ) then
+			return "|cff99cc00【单太平】"
+		elseif ( achieveID == 216 ) then
+			return "【单天国】"
+		elseif ( achieveID == 217 ) then
+			return "|cff99cc00【知天地】"
+		elseif ( achieveID == 218 ) then
+			return "|cffffff00【探乾坤】"
+		elseif ( achieveID == 219 ) then
+			return "|cffff0000【五界主】"
+		elseif ( achieveID == 220 ) then
+			return GetColorString("【六界王】")
+		elseif ( achieveID == 221 ) then
+			return "|cff99cc00【千钧劫】"
+		elseif ( achieveID == 222 ) then
+			return "|cffff00ff【末世劫】"
+		elseif ( achieveID == 223 ) then
+			return "|cff99cc00【风驰者】"
+		elseif ( achieveID == 224 ) then
+			return "|cffffff00【电掣侠】"
+		elseif ( achieveID == 225 ) then
+			return "|cffff0000【无影客】"
+		elseif ( achieveID == 226 ) then
+			return GetColorString("【逆苍天】")
+		endif
+		return ""
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetAchievementWhiteName takes integer achieveID returns string
+		if ( achieveID == 19 ) then
+			return "万劫录"
+		elseif ( achieveID == 18 ) then
+			return "轮回舰"
+		elseif ( achieveID == 17 ) then
+			return "末日车"
+		elseif ( achieveID == 16 ) then
+			return "地狱使"
+		elseif ( achieveID == 15 ) then
+			return "灭炼狱"
+		elseif ( achieveID == 14 ) then
+			return "定战争"
+		elseif ( achieveID == 13 ) then
+			return "和谐世"
+		elseif ( achieveID == 12 ) then
+			return "太平源"
+		elseif ( achieveID == 11 ) then
+			return "天国音"
+		elseif ( achieveID == 21 ) then
+			return "定心魔"
+		elseif ( achieveID == 22 ) then
+			return "斩心魔"
+		elseif ( achieveID == 23 ) then
+			return "净心魔"
+		elseif ( achieveID == 24 ) then
+			return "创心魔"
+		elseif ( achieveID == 25 ) then
+			return "复世财"
+		elseif ( achieveID == 26 ) then
+			return "盛世财"
+		elseif ( achieveID == 27 ) then
+			return "灭世财"
+		elseif ( achieveID == 28 ) then
+			return "造世财"
+		elseif ( achieveID == 29 ) then
+			return "单轮回"
+		elseif ( achieveID == 210 ) then
+			return "单末日"
+		elseif ( achieveID == 211 ) then
+			return "单地狱"
+		elseif ( achieveID == 212 ) then
+			return "单炼狱"
+		elseif ( achieveID == 213 ) then
+			return "单战争"
+		elseif ( achieveID == 214 ) then
+			return "单和谐"
+		elseif ( achieveID == 215 ) then
+			return "单太平"
+		elseif ( achieveID == 216 ) then
+			return "单天国"
+		elseif ( achieveID == 217 ) then
+			return "知天地"
+		elseif ( achieveID == 218 ) then
+			return "探乾坤"
+		elseif ( achieveID == 219 ) then
+			return "五界主"
+		elseif ( achieveID == 220 ) then
+			return "六界王"
+		elseif ( achieveID == 221 ) then
+			return "千钧劫"
+		elseif ( achieveID == 222 ) then
+			return "末世劫"
+		elseif ( achieveID == 223 ) then
+			return "风驰者"
+		elseif ( achieveID == 224 ) then
+			return "电掣侠"
+		elseif ( achieveID == 225 ) then
+			return "无影客"
+		elseif ( achieveID == 226 ) then
+			return "逆苍天"
+		endif
+		return ""
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetAchievementCondition takes integer achieveID returns string
+		if ( achieveID == 19 ) then
+			return "通关|cff008000\"万劫\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|r|cff99ccff若你通关了该难度可以加轮回之狱主群申请上|r|cff99cc00封帝万劫录|r|cff99ccff哦!|r"
+		elseif ( achieveID == 18 ) then
+			return "通关|cffff00ff\"轮回\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!|r"
+		elseif ( achieveID == 17 ) then
+			return "通关|cffff0000\"末日\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 16 ) then
+			return "通关|cffff6600\"地狱\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 15 ) then
+			return "通关|cffffff00\"炼狱\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 14 ) then
+			return "通关|cff3366ff\"战争\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 13 ) then
+			return "通关|cff99cc00\"和谐\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 12 ) then
+			return "通关\"太平\"难度后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 11 ) then
+			return "通关|cff999999\"天国\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 21 ) then
+			return "完成20次转生即可自动获得该成就.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 22 ) then
+			return "完成50次转生即可自动获得该成就.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 23 ) then
+			return "完成100次转生即可自动获得该成就.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 24 ) then
+			return "完成150次转生即可自动获得该成就.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 25 ) then
+			return "木材大于20000即可自动获得该成就.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 26 ) then
+			return "木材大于50000即可自动获得该成就.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 27 ) then
+			return "木材大于100000即可自动获得该成就.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 28 ) then
+			return "木材大于200000即可自动获得该成就.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 29 ) then
+			return "单通|cffff00ff\"轮回\"难度|r即可自动获得该成就.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 210 ) then
+			return "单通|cffff0000\"末日\"难度|r即可自动获得该成就.\n\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 211 ) then
+			return "单通|cffff6600\"地狱\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 212 ) then
+			return "单通|cffffff00\"炼狱\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 213 ) then
+			return "单通|cff3366ff\"战争\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 214 ) then
+			return "单通|cff99cc00\"和谐\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 215 ) then
+			return "单通\"太平\"难度后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 216 ) then
+			return "单通|cff999999\"天国\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 217 ) then
+			return "使用所有可以使用的英雄进行至少1场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 218 ) then
+			return "使用所有可以使用的英雄进行至少5场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 219 ) then
+			return "使用所有可以使用的英雄进行至少10场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 220 ) then
+			return "使用所有可以使用的英雄进行至少30场游戏.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 221 ) then
+			return "在基地剩余0次防护罩时通关游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 222 ) then
+			return "在基地剩余0次防护罩,且生命低于25%时通关游戏.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 223 ) then
+			return "在135分钟内击败冥刹.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 224 ) then
+			return "在120分钟内击败冥刹.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 225 ) then
+			return "在90分钟内击败冥刹.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 226 ) then
+			return "在60分钟内击败冥刹.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		endif
+		return ""
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetAchievementIndex takes integer page,integer index returns integer
+		if ( page == 1 or page == 2 ) then
+			return ( page * 10 + index )
+		elseif ( page == 3 ) then
+			return I3(index < 8 , 217 - index , 29)
+		elseif ( page == 4 ) then
+			return index + 216
+		elseif ( page == 5 ) then
+			return index + 224
+		endif
+		return 0
+	endfunction
+
+//library Constant ends
 //library Test:
 
 
@@ -1820,9 +2044,8 @@ endfunction
     function IsInForbitRegion takes real x,real y,unit u returns boolean
         return ( IsInRect(x , y , gg_rct_______a3) and ( not ( RectContainsUnit(gg_rct_______a3, u) ) ) ) or ( IsInRect(x , y , gg_rct_Arena_forbit) and ( not ( RectContainsUnit(gg_rct_Arena_forbit, u) ) ) )
     endfunction
-
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -1839,7 +2062,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetBit takes integer num,integer bit returns integer
+ function Achievement__GetBit takes integer num,integer bit returns integer
   local string s= I2S(num)
   local integer length= StringLength(s)
 		if ( length < bit ) then
@@ -1932,12 +2155,12 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetAchievePage takes player p returns integer
+ function Achievement__GetAchievePage takes player p returns integer
 		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 1, 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetAchieveTarget takes player p returns integer
+ function Achievement__GetAchieveTarget takes player p returns integer
 		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 2, StringLength(I2S(achiPage[GetConvertedPlayerId(p)]))))
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -1945,9 +2168,9 @@ endfunction
  function IsAchieveOK takes player p,integer achieveID returns boolean
   local integer id= GetConvertedPlayerId(p)
   local integer page= (S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId((p))]), 1, 1))) // INLINED!!
-  local integer target= Achievement___GetAchieveTarget(p)
+  local integer target= Achievement__GetAchieveTarget(p)
 		if ( page == 1 ) then
-			return ( Achievement___GetBit(achieve[id] , target) > 0 )
+			return ( Achievement__GetBit(achieve[id] , target) > 0 )
 		elseif ( page == 2 ) then
 			return ( GetIntegerBit(achieve2[id] , target) > 0 )
 		endif
@@ -1960,9 +2183,9 @@ endfunction
   local integer id= GetConvertedPlayerId(p)
 		if ( IsAchieveOK(p , achieveID) ) then
 			set achiPage[id]=achieveID
-			//彩名
+			//彩名	
 			if ( IsAchieveColor(achieveID) ) then
-				call SetPlayerName(p, GetAchievementName(achieveID) + ((playerName[id]))) // INLINED!!
+				call SetPlayerName(p, GetAchievementName(achieveID) + GetRandomColor() + playerName[id] + "|r")
 			elseif ( IsAchieveWhite(achieveID) ) then
 				call SetPlayerName(p, GetAchievementName(achieveID) + playerName[id])
 			else
@@ -1975,18 +2198,160 @@ endfunction
 				endif
 				set achiEff[id]=AddSpecialEffectTargetUnitBJ("origin", udg_H[id], "war3mapImported\\lunhuitexiao.mdl")
 			endif
+			call DzAPI_Map_Stat_SetStat(p , "achi" , GetAchievementWhiteName(achieveID))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function SaveAchievePointer takes player p returns nothing
 		call DzAPI_Map_StoreInteger(p , "page" , achiPage[GetConvertedPlayerId(p)])
+	endfunction 
+//---------------------------------------------------------------------------------------------------
+	
+ function SaveAchieveData1 takes player p returns nothing
+		call DzAPI_Map_StoreString(p , "achieve" , I2S(achieve[GetConvertedPlayerId(p)]))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SaveAchieveData2 takes player p returns nothing
+		call DzAPI_Map_StoreInteger(p , "achieve2" , achieve2[GetConvertedPlayerId(p)])
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function GetAchievementAndSave takes player p,integer achieveID returns nothing
+  local integer id= GetConvertedPlayerId(p)
+		if not ( IsAchieveOK(p , achieveID) ) then
+			if ( S2I(SubStringBJ(I2S(achieveID), 1, 1)) == 1 ) then
+				set achieve[id]=achieve[id] + R2I(Pow(10, I2R(achieveID - 11)))
+			elseif ( S2I(SubStringBJ(I2S(achieveID), 1, 1)) == 2 ) then
+				set achieve2[id]=SetIntegerBit(achieve2[id] , S2I(SubStringBJ(I2S(achieveID), 2, StringLength(I2S(achieveID)))) , true)
+			endif
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"" + GetAchievementName(achieveID) + "|r\",该成就会显示在游戏大厅内及你的名字前面.")
+		    call SetAchievement(p , achieveID)
+			call SaveAchieveData1(p)
+			call SaveAchieveData2(p)
+		    call SaveAchievePointer(p)
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想使用其他的成就，请输入\"-cj\"来切换你的现有成就。")
+		endif
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function NextPageAchievement takes player p,dialog d,integer page returns nothing
+     local integer i= 1
+		if ( page == 1 ) then
+		    loop
+		    	exitwhen i > 9
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetAchievementName(i + 10) + S3(IsAchieveOK(p , i + 10) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r")))
+		    	set i=i + 1
+		    endloop
+		elseif ( page == 2 ) then
+		    loop
+		    	exitwhen i > 8
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetAchievementName(i + 20) + S3(IsAchieveOK(p , i + 20) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r")))
+		    	set i=i + 1
+		    endloop
+		elseif ( page == 3 ) then
+		    loop
+		    	exitwhen i > 7
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetAchievementName(217 - i) + S3(IsAchieveOK(p , 217 - i) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r")))
+		    	set i=i + 1
+		    endloop
+	    	call SaveButtonHandle(LHTable, GetHandleId(d), 8, DialogAddButtonBJ(d, GetAchievementName(29) + S3(IsAchieveOK(p , 29) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r")))
+		elseif ( page == 4 ) then
+		    loop
+		    	exitwhen i > 8
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetAchievementName(i + 216) + S3(IsAchieveOK(p , i + 216) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r")))
+		    	set i=i + 1
+		    endloop
+		elseif ( page == 5 ) then
+		    loop
+		    	exitwhen i > 2
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetAchievementName(i + 224) + S3(IsAchieveOK(p , i + 224) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r")))
+		    	set i=i + 1
+		    endloop
+		endif
+
+    	call SaveButtonHandle(LHTable, GetHandleId(d), 10, DialogAddButtonBJ(d, "下一页"))
+    	call SaveButtonHandle(LHTable, GetHandleId(d), 11, DialogAddButton(d, "关闭|cffff6800(Esc)|r", 512))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AchievementDialogClick takes nothing returns nothing
+  local dialog d= GetClickedDialogBJ()
+     local integer i= 1
+     local integer page= LoadInteger(LHTable, GetHandleId(d), 12)
+     local player p= LoadPlayerHandle(LHTable, GetHandleId(d), 13)
+     local integer achieveID= LoadInteger(LHTable, GetHandleId(d), 14)
+        call DialogClear(d)
+
+        //查看条件与设置
+	    if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 15) ) then
+	    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetAchievementName(achieveID) + "|r成就的获取条件如下所示:")
+	    	call DisplayTextToPlayer(p, 0., 0., GetAchievementCondition(achieveID))
+	    elseif ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 16) ) then
+	    	call SetAchievement(p , achieveID)
+	    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功地将成就设置成了" + GetAchievementName(achieveID) + ".")
+	    	//保存到服务器
+	    	call SaveAchievePointer(p)
+	    endif
+
+	    //退出
+	    if ( ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 11) ) or ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 15) ) or ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 16) ) ) then
+	        call FlushChildHashtable(LHTable, GetHandleId(d))
+        	call DialogDisplay(p, d, false)
+	        call DialogDestroy(d)
+	        set d=null
+	        set p=null
+	        call DestroyTrigger(GetTriggeringTrigger())
+	        return
+	    endif
+
+	    //下一页
+	    if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 10) ) then
+	    	set page=I3(page < PAGE_ACHIEVE , page + 1 , 1)
+    		call SaveInteger(LHTable, GetHandleId(d), 12, page)
+	    	call DialogSetMessage(d, "我的成就|cffff6800(第" + I2S(page) + "/" + I2S(PAGE_ACHIEVE) + "页)|r")
+	    	call NextPageAchievement(p , d , page)
+	    endif
+
+	    //点击指定的成就
+	    loop
+	        exitwhen i > 9
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i) ) then
+	        	set achieveID=GetAchievementIndex(page , i)
+	    		call SaveInteger(LHTable, GetHandleId(d), 14, achieveID)
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), 15, DialogAddButtonBJ(d, "查看获取条件"))
+		    	if ( IsAchieveOK(p , achieveID) ) then
+		    		call SaveButtonHandle(LHTable, GetHandleId(d), 16, DialogAddButtonBJ(d, "使用该成就"))
+		    	endif
+		    	call SaveButtonHandle(LHTable, GetHandleId(d), 11, DialogAddButton(d, "关闭|cffff6800(Esc)|r", 512))
+	            exitwhen true
+	        endif
+	        set i=i + 1
+	    endloop
+
+        call DialogDisplay(p, d, true)
+	    set d=null
+	    set p=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
-
 	
-
+ function CreateWingDialog takes player p returns nothing
+     local trigger t= CreateTrigger()
+     local dialog d= DialogCreate()
+	    call DialogSetMessage(d, "我的成就|cffff6800(第1/" + I2S(PAGE_ACHIEVE) + "页)|r")
+	    call NextPageAchievement(p , d , 1)
+    	call SaveInteger(LHTable, GetHandleId(d), 12, 1)
+	    call SavePlayerHandle(LHTable, GetHandleId(d), 13, p)
+	    call SaveInteger(LHTable, GetHandleId(d), 14, 10)
+	    call DialogDisplay(p, d, true)
+	    call TriggerRegisterDialogEvent(t, d)
+	    call TriggerAddAction(t, function AchievementDialogClick)
+	    set d=null
+	    set t=null
+	endfunction
 
 //library Achievement ends
 
@@ -2038,7 +2403,12 @@ endfunction
 // END IMPORT OF Test.j
 // BEGIN IMPORT OF Constant.j
 
+// BEGIN IMPORT OF JBase.j
+
+// END IMPORT OF JBase.j
+
 // END IMPORT OF Constant.j
+// IGNORE DOUBLE IMPORT OF JBase.j
 
 // END IMPORT OF LHBase.j
 
@@ -2046,7 +2416,7 @@ endfunction
 function main takes nothing returns nothing
 
 call ExecuteFunc("Test___InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
+call ExecuteFunc("LHBase___InitLHBase")
 
 endfunction
 

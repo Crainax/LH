@@ -1,7 +1,9 @@
+
+//! import "JBase.j"
 /*
     常量
 */
-library_once Constant  
+library_once Constant requires JBase
 	
 	globals
 		string diffculty = ""
@@ -283,7 +285,86 @@ library_once Constant
 			return GetColorString("【逆苍天】")
 		endif
 		return ""
-	endfunction//---------------------------------------------------------------------------------------------------
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取大厅成就名
+	*/
+	function GetAchievementWhiteName takes integer achieveID returns string
+		if (achieveID == 19) then
+			return "万劫录"
+		elseif (achieveID == 18) then
+			return "轮回舰"
+		elseif (achieveID == 17) then
+			return "末日车"
+		elseif (achieveID == 16) then
+			return "地狱使"
+		elseif (achieveID == 15) then
+			return "灭炼狱"
+		elseif (achieveID == 14) then
+			return "定战争"
+		elseif (achieveID == 13) then
+			return "和谐世"
+		elseif (achieveID == 12) then
+			return "太平源"
+		elseif (achieveID == 11) then
+			return "天国音"
+		elseif (achieveID == 21) then
+			return "定心魔"
+		elseif (achieveID == 22) then
+			return "斩心魔"
+		elseif (achieveID == 23) then
+			return "净心魔"
+		elseif (achieveID == 24) then
+			return "创心魔"
+		elseif (achieveID == 25) then
+			return "复世财"
+		elseif (achieveID == 26) then
+			return "盛世财"
+		elseif (achieveID == 27) then
+			return "灭世财"
+		elseif (achieveID == 28) then
+			return "造世财"
+		elseif (achieveID == 29) then
+			return "单轮回"
+		elseif (achieveID == 210) then
+			return "单末日"
+		elseif (achieveID == 211) then
+			return "单地狱"
+		elseif (achieveID == 212) then
+			return "单炼狱"
+		elseif (achieveID == 213) then
+			return "单战争"
+		elseif (achieveID == 214) then
+			return "单和谐"
+		elseif (achieveID == 215) then
+			return "单太平"
+		elseif (achieveID == 216) then
+			return "单天国"
+		elseif (achieveID == 217) then
+			return "知天地"
+		elseif (achieveID == 218) then
+			return "探乾坤"
+		elseif (achieveID == 219) then
+			return "五界主"
+		elseif (achieveID == 220) then
+			return "六界王"
+		elseif (achieveID == 221) then
+			return "千钧劫"
+		elseif (achieveID == 222) then
+			return "末世劫"
+		elseif (achieveID == 223) then
+			return "风驰者"
+		elseif (achieveID == 224) then
+			return "电掣侠"
+		elseif (achieveID == 225) then
+			return "无影客"
+		elseif (achieveID == 226) then
+			return "逆苍天"
+		endif
+		return ""
+	endfunction
+//---------------------------------------------------------------------------------------------------
 	/*
 	    获取成就名条件
 	*/
@@ -449,10 +530,12 @@ library_once Constant
 		if (page == 1 or page == 2) then
 			return (page * 10 + index)
 		elseif (page == 3) then
-			return (page * 10 + index)
+			return I3(index < 8,217 - index,29)
+		elseif (page == 4) then
+			return index + 216
+		elseif (page == 5) then
+			return index + 224
 		endif
-
-
 		return 0
 	endfunction
 endlibrary

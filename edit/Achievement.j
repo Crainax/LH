@@ -169,15 +169,51 @@ library_once Achievement requires LHBase
 				endif
 				set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",udg_H[id],"war3mapImported\\lunhuitexiao.mdl")
 			endif
+			call DzAPI_Map_Stat_SetStat( p, "achi", GetAchievementWhiteName(achieveID) )
 		endif	
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    存储成就
+	    存储成就指针
 	*/
 	function SaveAchievePointer takes player p returns nothing
 		call DzAPI_Map_StoreInteger( p,  "page", achiPage[GetConvertedPlayerId(p)] )
+	endfunction 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    存储成就数据1
+	*/
+	function SaveAchieveData1 takes player p returns nothing
+		call DzAPI_Map_StoreString( p,  "achieve", I2S(achieve[GetConvertedPlayerId(p)]) )
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    存储成就数据2
+	*/
+	function SaveAchieveData2 takes player p returns nothing
+		call DzAPI_Map_StoreInteger( p,  "achieve2", achieve2[GetConvertedPlayerId(p)] )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    提示获取数据成功并保存数据
+	*/
+	function GetAchievementAndSave takes player p , integer achieveID returns nothing
+		local integer id = GetConvertedPlayerId(p)
+		if not(IsAchieveOK(p,achieveID)) then
+			if (S2I(SubStringBJ(I2S(achieveID),1,1)) == 1) then
+				set achieve[id] = achieve[id] + R2I(Pow(10,I2R(achieveID-11)))
+			elseif (S2I(SubStringBJ(I2S(achieveID),1,1)) == 2) then
+				set achieve2[id] = SetIntegerBit(achieve2[id],S2I(SubStringBJ(I2S(achieveID),2,StringLength(I2S(achieveID)))),true)
+			endif
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\""+GetAchievementName(achieveID)+"|r\",该成就会显示在游戏大厅内及你的名字前面.")
+		    call SetAchievement(p,achieveID)
+			call SaveAchieveData1(p)
+			call SaveAchieveData2(p)
+		    call SaveAchievePointer(p)
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想使用其他的成就，请输入\"-cj\"来切换你的现有成就。")
+		endif
+	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    创建成就对话框 
@@ -188,13 +224,32 @@ library_once Achievement requires LHBase
 		    loop
 		    	exitwhen i > 9
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 10) + S3(IsAchieveOK(p,i + 10),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
-		    	set i = i +1
+		    	set i = i + 1
 		    endloop
 		elseif (page == 2) then
 		    loop
 		    	exitwhen i > 8
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 20) + S3(IsAchieveOK(p,i + 20),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
-		    	set i = i +1
+		    	set i = i + 1
+		    endloop
+		elseif (page == 3) then
+		    loop
+		    	exitwhen i > 7
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(217 - i) + S3(IsAchieveOK(p,217 - i),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetAchievementName(29) + S3(IsAchieveOK(p,29),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		elseif (page == 4) then
+		    loop
+		    	exitwhen i > 8
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 216) + S3(IsAchieveOK(p,i + 216),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
+		elseif (page == 5) then
+		    loop
+		    	exitwhen i > 2
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 224) + S3(IsAchieveOK(p,i + 224),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
 		    endloop
 		endif
 
@@ -213,10 +268,15 @@ library_once Achievement requires LHBase
 	    local integer achieveID = LoadInteger(LHTable,GetHandleId(d),14)
         call DialogClear(d)
 
-        //查看条件
+        //查看条件与设置
 	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),15)) then
 	    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetAchievementName(achieveID) + "|r成就的获取条件如下所示:")
-	    	call DisplayTextToPlayer(p, 0., 0., GetAchievementName(achieveID) + "|r成就的获取条件如下所示:")
+	    	call DisplayTextToPlayer(p, 0., 0., GetAchievementCondition(achieveID))
+	    elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),16)) then
+	    	call SetAchievement(p,achieveID)
+	    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功地将成就设置成了"+GetAchievementName(achieveID)+".")
+	    	//保存到服务器
+	    	call SaveAchievePointer(p)
 	    endif
 
 	    //退出
@@ -225,7 +285,6 @@ library_once Achievement requires LHBase
         	call DialogDisplay( p, d, false )
 	        call DialogDestroy(d)
 	        set d = null
-	        set s = null
 	        set p = null
 	        call DestroyTrigger(GetTriggeringTrigger())
 	        return
@@ -257,7 +316,6 @@ library_once Achievement requires LHBase
 
         call DialogDisplay( p, d, true )
 	    set d = null
-	    set s = null
 	    set p = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
