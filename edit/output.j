@@ -68,7 +68,8 @@ constant integer HERO_COUNT= 15
 constant boolean Huodong= false
 		
 constant integer PAGE_ACHIEVE= 5
-
+		
+integer renshu= 0
 //endglobals from Constant
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -177,6 +178,8 @@ rect gg_rct_Diamond2
 rect gg_rct_______a3
         
 real array udg_I_Shanghai
+        
+integer array udg_Second
 //endglobals from Test
 //globals from LHBase:
 constant boolean LIBRARY_LHBase=true
@@ -206,7 +209,7 @@ string array heroCountString
 		
 
 		
-constant integer kSaveHeroTimes=10
+constant integer kSaveHeroTimes=9
 //endglobals from Version
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -1821,13 +1824,13 @@ endfunction
 		elseif ( achieveID == 216 ) then
 			return "单通|cff999999\"天国\"难度|r后可以自动获得该成就.\n\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 217 ) then
-			return "使用所有可以使用的英雄进行至少1场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+			return "使用至少12个英雄，每个进行至少1场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 218 ) then
-			return "使用所有可以使用的英雄进行至少5场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+			return "使用至少12个英雄，每个进行至少5场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 219 ) then
-			return "使用所有可以使用的英雄进行至少10场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+			return "使用至少12个英雄，每个进行至少10场游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 220 ) then
-			return "使用所有可以使用的英雄进行至少30场游戏.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+			return "使用至少12个英雄，每个进行至少30场游戏.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 221 ) then
 			return "在基地剩余0次防护罩时通关游戏.\n			\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 222 ) then
@@ -1857,13 +1860,25 @@ endfunction
 		endif
 		return 0
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Constant___InitConstant takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
+				set renshu=renshu + 1
+			endif
+			set i=i + 1
+		endloop
+	endfunction
 
 //library Constant ends
 //library Test:
 
 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -2066,7 +2081,7 @@ endfunction
         return ( IsInRect(x , y , gg_rct_______a3) and ( not ( RectContainsUnit(gg_rct_______a3, u) ) ) ) or ( IsInRect(x , y , gg_rct_Arena_forbit) and ( not ( RectContainsUnit(gg_rct_Arena_forbit, u) ) ) )
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase___InitLHBase takes nothing returns nothing
+    function LHBase__InitLHBase takes nothing returns nothing
         
         set UDepot[1]=CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
         set UDepot[2]=CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
@@ -2176,20 +2191,20 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement__GetAchievePage takes player p returns integer
-		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 1, 1))
+ function Achievement___GetAchievePage takes integer i returns integer
+		return S2I(SubStringBJ(I2S(i), 1, 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement__GetAchieveTarget takes player p returns integer
-		return S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId(p)]), 2, StringLength(I2S(achiPage[GetConvertedPlayerId(p)]))))
+ function Achievement___GetAchieveTarget takes integer i returns integer
+		return S2I(SubStringBJ(I2S(i), 2, StringLength(I2S(i))))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsAchieveOK takes player p,integer achieveID returns boolean
   local integer id= GetConvertedPlayerId(p)
-  local integer page= (S2I(SubStringBJ(I2S(achiPage[GetConvertedPlayerId((p))]), 1, 1))) // INLINED!!
-  local integer target= Achievement__GetAchieveTarget(p)
+  local integer page= (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) // INLINED!!
+  local integer target= Achievement___GetAchieveTarget(achieveID)
 		if ( page == 1 ) then
 			return ( GetBit(achieve[id] , target) > 0 )
 		elseif ( page == 2 ) then
@@ -2242,10 +2257,10 @@ endfunction
  function GetAchievementAndSave takes player p,integer achieveID returns nothing
   local integer id= GetConvertedPlayerId(p)
 		if not ( IsAchieveOK(p , achieveID) ) then
-			if ( S2I(SubStringBJ(I2S(achieveID), 1, 1)) == 1 ) then
+			if ( (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) == 1 ) then // INLINED!!
 				set achieve[id]=achieve[id] + R2I(Pow(10, I2R(achieveID - 11)))
-			elseif ( S2I(SubStringBJ(I2S(achieveID), 1, 1)) == 2 ) then
-				set achieve2[id]=SetIntegerBit(achieve2[id] , S2I(SubStringBJ(I2S(achieveID), 2, StringLength(I2S(achieveID)))) , true)
+			elseif ( (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) == 2 ) then // INLINED!!
+				set achieve2[id]=SetIntegerBit(achieve2[id] , Achievement___GetAchieveTarget(achieveID) , true)
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"" + GetAchievementName(achieveID) + "|r\",该成就会显示在游戏大厅内及你的名字前面.")
 		    call SetAchievement(p , achieveID)
@@ -2304,7 +2319,6 @@ endfunction
      local integer page= LoadInteger(LHTable, GetHandleId(d), 12)
      local player p= LoadPlayerHandle(LHTable, GetHandleId(d), 13)
      local integer achieveID= LoadInteger(LHTable, GetHandleId(d), 14)
-        call DialogClear(d)
 
         //查看条件与设置
 	    if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 15) ) then
@@ -2319,6 +2333,7 @@ endfunction
 
 	    //退出
 	    if ( ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 11) ) or ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 15) ) or ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 16) ) ) then
+            call DialogClear(d)
 	        call FlushChildHashtable(LHTable, GetHandleId(d))
         	call DialogDisplay(p, d, false)
 	        call DialogDestroy(d)
@@ -2330,18 +2345,25 @@ endfunction
 
 	    //下一页
 	    if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 10) ) then
+            call DialogClear(d)
 	    	set page=I3(page < PAGE_ACHIEVE , page + 1 , 1)
     		call SaveInteger(LHTable, GetHandleId(d), 12, page)
 	    	call DialogSetMessage(d, "我的成就|cffff6800(第" + I2S(page) + "/" + I2S(PAGE_ACHIEVE) + "页)|r")
 	    	call NextPageAchievement(p , d , page)
+        	call DialogDisplay(p, d, true)
+		    set d=null
+		    set p=null
+	    	return
 	    endif
 
 	    //点击指定的成就
 	    loop
 	        exitwhen i > 9
 	        if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i) ) then
+                call DialogClear(d)
 	        	set achieveID=GetAchievementIndex(page , i)
 	    		call SaveInteger(LHTable, GetHandleId(d), 14, achieveID)
+	    		call DialogSetMessage(d, GetAchievementName(achieveID) + S3(IsAchieveOK(p , achieveID) , "|cffff9900(已解锁)|r" , "|cff33cccc(未解锁)|r"))
 		    	call SaveButtonHandle(LHTable, GetHandleId(d), 15, DialogAddButtonBJ(d, "查看获取条件"))
 		    	if ( IsAchieveOK(p , achieveID) ) then
 		    		call SaveButtonHandle(LHTable, GetHandleId(d), 16, DialogAddButtonBJ(d, "使用该成就"))
@@ -2364,6 +2386,8 @@ endfunction
      local dialog d= DialogCreate()
 	    call DialogSetMessage(d, "我的成就|cffff6800(第1/" + I2S(PAGE_ACHIEVE) + "页)|r")
 	    call NextPageAchievement(p , d , 1)
+    	call SaveButtonHandle(LHTable, GetHandleId(d), 15, null)
+    	call SaveButtonHandle(LHTable, GetHandleId(d), 16, null)
     	call SaveInteger(LHTable, GetHandleId(d), 12, 1)
 	    call SavePlayerHandle(LHTable, GetHandleId(d), 13, p)
 	    call SaveInteger(LHTable, GetHandleId(d), 14, 10)
@@ -2674,29 +2698,76 @@ endfunction
 		loop
 			exitwhen i > 6
 			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
-				if ( level == 9 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 19)
-				elseif ( level == 8 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 18)
-				elseif ( level == 7 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 17)
-				elseif ( level == 6 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 16)
-				elseif ( level == 5 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 15)
-				elseif ( level == 4 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 14)
-				elseif ( level == 3 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 13)
-				elseif ( level == 2 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 12)
-				elseif ( level == 1 ) then
-					call GetAchievementAndSave(ConvertedPlayer(i) , 11)
+				//通关称号
+				call GetAchievementAndSave(ConvertedPlayer(i) , 10 + level)
+
+				//单通称号
+				if ( renshu == 1 and level != 9 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , I3(level < 8 , 217 - level , 29))
+				endif
+
+				//基地的血
+				if ( udg_I_Er_diansi[1] == 0 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 221)
+					if ( GetUnitState(gg_unit_haro_0030, UNIT_STATE_LIFE) <= 0.25 * GetUnitState(gg_unit_haro_0030, UNIT_STATE_MAX_LIFE) ) then
+						call GetAchievementAndSave(ConvertedPlayer(i) , 222)
+					endif
 				endif
 			endif
 			set i=i + 1
 		endloop
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SaveAchievement2 takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
+
+				//通关称号,时间
+				if ( udg_Second[2] < 135 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 223)
+				endif
+				if ( udg_Second[2] < 120 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 224)
+				endif
+				if ( udg_Second[2] < 90 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 225)
+				endif
+				if ( udg_Second[2] < 60 ) then
+					call GetAchievementAndSave(ConvertedPlayer(i) , 226)
+				endif
+					
+			endif
+			set i=i + 1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SaveAchievement3 takes player p,integer zhuan returns nothing
+		if ( zhuan >= 20 ) then
+			call GetAchievementAndSave(p , 21)
+		elseif ( zhuan >= 50 ) then
+			call GetAchievementAndSave(p , 22)
+		elseif ( zhuan >= 100 ) then
+			call GetAchievementAndSave(p , 23)
+		elseif ( zhuan >= 150 ) then
+			call GetAchievementAndSave(p , 24)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function TGetAchievementLumber takes nothing returns nothing
+		call GetAchievementAndSave(GetTriggerPlayer() , 25)
+		if ( GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 50000 ) then
+			call GetAchievementAndSave(GetTriggerPlayer() , 26)
+		elseif ( GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 100000 ) then
+			call GetAchievementAndSave(GetTriggerPlayer() , 27)
+		elseif ( GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 200000 ) then
+			call GetAchievementAndSave(GetTriggerPlayer() , 28)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -2756,6 +2827,21 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
+ function GetLowerHeroCount takes player p,integer limit returns boolean
+  local integer count= 0
+  local integer i= 1
+		loop
+			exitwhen i > HERO_COUNT
+			if ( GetSpecifyHeroTimes(p , i) >= limit ) then
+				set count=count + 1
+			endif
+			set i=i + 1
+		endloop
+
+		return count >= 12
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
  function GetBestHero takes player p returns integer
   local integer max= 0
   local integer maxIndex= 0
@@ -2789,6 +2875,19 @@ endfunction
 		set result=null
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	
+ function SaveAchievement4 takes player p,integer zhuan returns nothing
+		if ( GetLowerHeroCount(p , 1) ) then
+			call GetAchievementAndSave(p , 217)
+		elseif ( GetLowerHeroCount(p , 5) ) then
+			call GetAchievementAndSave(p , 218)
+		elseif ( GetLowerHeroCount(p , 10) ) then
+			call GetAchievementAndSave(p , 219)
+		elseif ( GetLowerHeroCount(p , 30) ) then
+			call GetAchievementAndSave(p , 220)
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Version___SaveAllHeroTimes takes nothing returns nothing
@@ -2831,7 +2930,19 @@ endfunction
 
 	
  function InitVersion takes nothing returns nothing
+  local trigger t= CreateTrigger()
+  local integer i= 1
+
 		call CreateUnit(Player(6), 'n01E', 6144.0, - 320.0, 270.000)
+		loop
+			exitwhen i > 6
+			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
+			    call TriggerRegisterPlayerStateEvent(t, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 20000.00)
+			endif
+			set i=i + 1
+		endloop
+		call TriggerAddAction(t, function TGetAchievementLumber)
+		set t=null
 	endfunction
 
 
@@ -2909,8 +3020,9 @@ endfunction
 // END IMPORT OF NetVersion.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("Test___InitTest")
-call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("Constant___InitConstant")
+call ExecuteFunc("Test__InitTest")
+call ExecuteFunc("LHBase__InitLHBase")
 call ExecuteFunc("InitVersion")
 
 endfunction

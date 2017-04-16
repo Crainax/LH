@@ -480,19 +480,19 @@ library_once Constant initializer InitConstant requires JBase
 
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 217) then
-			return "使用所有可以使用的英雄进行至少1场游戏.
+			return "使用至少12个英雄，每个进行至少1场游戏.
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 218) then
-			return "使用所有可以使用的英雄进行至少5场游戏.
+			return "使用至少12个英雄，每个进行至少5场游戏.
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 219) then
-			return "使用所有可以使用的英雄进行至少10场游戏.
+			return "使用至少12个英雄，每个进行至少10场游戏.
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 220) then
-			return "使用所有可以使用的英雄进行至少30场游戏.
+			return "使用至少12个英雄，每个进行至少30场游戏.
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"

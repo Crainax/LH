@@ -172,7 +172,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				call GetAchievementAndSave(ConvertedPlayer(i),10 + level)
 
 				//单通称号
-				if (renshu = 1 and level != 9) then
+				if (renshu == 1 and level != 9) then
 					call GetAchievementAndSave(ConvertedPlayer(i),I3(level < 8,217 - level,29))
 				endif
 
@@ -222,13 +222,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function SaveAchievement3 takes player p,integer zhuan returns nothing
 		if (zhuan >= 20) then
-			call GetAchievementAndSave(ConvertedPlayer(i),21)
+			call GetAchievementAndSave(p,21)
 		elseif (zhuan >= 50) then
-			call GetAchievementAndSave(ConvertedPlayer(i),22)
+			call GetAchievementAndSave(p,22)
 		elseif (zhuan >= 100) then
-			call GetAchievementAndSave(ConvertedPlayer(i),23)
+			call GetAchievementAndSave(p,23)
 		elseif (zhuan >= 150) then
-			call GetAchievementAndSave(ConvertedPlayer(i),24)
+			call GetAchievementAndSave(p,24)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -239,9 +239,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call GetAchievementAndSave(GetTriggerPlayer(),25)
 		if (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 50000) then
 			call GetAchievementAndSave(GetTriggerPlayer(),26)
-		else (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 100000) then
+		elseif (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 100000) then
 			call GetAchievementAndSave(GetTriggerPlayer(),27)
-		else (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 200000) then
+		elseif (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 200000) then
 			call GetAchievementAndSave(GetTriggerPlayer(),28)
 		endif
 	endfunction
@@ -311,6 +311,23 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    获取最低使用次数英雄的次数的英雄（能使用的所有英雄）
+	*/
+	function GetLowerHeroCount takes player p,integer limit returns boolean
+		local integer count = 0
+		local integer i = 1
+		loop 
+			exitwhen i > HERO_COUNT
+			if (GetSpecifyHeroTimes(p,i) >= limit) then
+				set count = count + 1
+			endif
+			set i = i +1
+		endloop
+
+		return count >= 12
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取最高使用的英雄
 	*/
 	function GetBestHero takes player p returns integer
@@ -322,7 +339,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			if ((GetSpecifyHeroTimes(p,i) > max) or (GetSpecifyHeroTimes(p,i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i)) then
 				set max = GetSpecifyHeroTimes(p,i)
 				set maxIndex = i
-			endif
+			endif 
 			set i = i +1
 		endloop
 
@@ -348,6 +365,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		set result = null
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    英雄次数的成就
+	*/
+	function SaveAchievement4 takes player p,integer zhuan returns nothing
+		if (GetLowerHeroCount(p,1)) then
+			call GetAchievementAndSave(p,217)
+		elseif (GetLowerHeroCount(p,5)) then
+			call GetAchievementAndSave(p,218)
+		elseif (GetLowerHeroCount(p,10)) then
+			call GetAchievementAndSave(p,219)
+		elseif (GetLowerHeroCount(p,30)) then
+			call GetAchievementAndSave(p,220)
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    存储所有英雄的使用次数

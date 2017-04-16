@@ -6,8 +6,8 @@
 //! import "dependency/YDWEBase_common.j"
 //! import "dependency/YDWEBase_hashtable.j"
 
-/////! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern//,DzAPI
+//! import "DzAPI.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,DzAPI
 
 	globals
 		
@@ -151,6 +151,10 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             伤害加成
         */
         real array udg_I_Shanghai
+        /*
+            时间
+        */
+        integer array udg_Second
 	endglobals
 
 
