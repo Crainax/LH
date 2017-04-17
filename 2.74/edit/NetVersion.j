@@ -5,11 +5,13 @@
 
 //! import "LHBase.j"
 //! import "Diffculty.j"
-library_once Version initializer InitVersion requires LHBase,Diffculty
+//! import "Huodong.j"
+library_once Version initializer InitVersion requires LHBase,Diffculty,Huodong
 	
 	globals
 		integer array achieve
 		integer array vipCode
+		integer array spin
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -20,7 +22,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 		
 		if (DzAPI_Map_GetMapLevel(p) >= 20) then
 			call AdjustPlayerStateBJ( 8000, p , PLAYER_STATE_RESOURCE_GOLD )
-		elseif (DzAPI_Map_GetMapLevel(p) >= 15) then
+		elseif (DzAPI_Map_GetMapLevel(p) >= 15 or IsHuodong()) then
 			call AdjustPlayerStateBJ( 6000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 10) then
 			call AdjustPlayerStateBJ( 4000, p , PLAYER_STATE_RESOURCE_GOLD )
@@ -28,6 +30,34 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 			call AdjustPlayerStateBJ( 2000, p , PLAYER_STATE_RESOURCE_GOLD )
 		endif 
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取位数字,1是个位
+	*/
+	private function GetBit takes integer num,integer bit returns integer
+		local string s = I2S(num)
+		local integer length = StringLength(s)
+		if (length < bit) then
+			return 0
+		endif
+
+		return S2I(SubStringBJ(s,length - bit + 1,length - bit + 1))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断一个玩家是否通关了某一个难度或者以上
+	*/
+	private function IsPass takes player p,integer nan returns boolean
+		local integer i = 9
+		loop
+			exitwhen i <= nan
+			if (GetBit(achieve[GetConvertedPlayerId(p)],i) > 0) then
+				return true
+			endif
+			set i = i - 1
+		endloop
+		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -41,14 +71,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
+		return S3(IsHuodong(),"|cff99ccff活动期间双击可以选择该英雄|r","|cff99ccff需要地图等级达到6级才能选取该英雄|r")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
+		return S3(IsHuodong(),"|cff99ccff活动期间通关炼狱或以上难度双击可以选择该英雄|r","|cff99ccff需要地图等级达到11级才能选取该英雄|r")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -56,6 +86,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	*/
 	function PrintCurrentPlatformLevel takes player p returns nothing
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + I2S(DzAPI_Map_GetMapLevel(p)) + "！")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    彩名皮肤
+	*/
+	function IsColorSpin takes player p returns boolean
+		return spin[GetConvertedPlayerId(p)] > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -69,14 +106,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 6)
+		return (DzAPI_Map_GetMapLevel(p) >= 6) or IsHuodong()
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁选取条件
 	*/
 	function GetMengjiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 11)
+		return (DzAPI_Map_GetMapLevel(p) >= 11) or (IsHuodong() and IsPass(p,5))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -103,23 +140,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
+    			set spin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
 		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取位数字,1是个位
-	*/
-	private function GetBit takes integer num,integer bit returns integer
-		local string s = I2S(num)
-		local integer length = StringLength(s)
-		if (length < bit) then
-			return 0
-		endif
-
-		return S2I(SubStringBJ(s,length - bit + 1,length - bit + 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -238,6 +263,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty
     					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "太平源" )
 				elseif (GetBit(achieve[i],1) > 0) then
     					call DzAPI_Map_Stat_SetStat( ConvertedPlayer(i), "achi", "天国音" )
+				endif
+
+				if (level >= 4 and IsHuodong()) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )]
+					call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你在活动期间获得永久的英雄七彩皮肤特效！")
 				endif
 
 			endif

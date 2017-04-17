@@ -12,8 +12,12 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             仓库
         */
         unit array UDepot
-
+        /*
+            万劫封帝录
+        */
+        unit Uwanjie
         hashtable itemTable = InitHashtable()
+        hashtable LHTable = InitHashtable()
     endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -274,6 +278,32 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function IsInForbitRegion takes real x,real y,unit u returns boolean
         return (IsInRect(x,y,gg_rct_______a3) and (not(RectContainsUnit(gg_rct_______a3, u)))) or (IsInRect(x,y,gg_rct_Arena_forbit) and (not(RectContainsUnit(gg_rct_Arena_forbit, u))))
     endfunction
+
+//---------------------------------------------------------------------------------------------------
+    /*
+        开始定时刷万劫录
+    */
+    private function StartWanjieTimer takes nothing returns nothing
+        local timer t = GetExpiredTimer()
+        local integer id = GetHandleId(t)
+        local integer value = LoadInteger(LHTable,id,1)
+        if (value <= 200) then
+            call SaveInteger(LHTable,GetHandleId(t),1,value + 1)
+            call CreateTextTagA("|cff008000【万劫录】("+I2S(COUNT_WANJIE)+")"+GetWanjieluName(),Uwanjie,20,0,100,6,20)
+        else
+            call PauseTimer(t)
+            call FlushChildHashtable(LHTable,id)
+            call DestroyTimer(t)
+        endif
+        set t = null 
+    endfunction
+
+    function StartWanjie takes nothing returns nothing
+        local timer t = CreateTimer()
+        call SaveInteger(LHTable,GetHandleId(t),1,0)
+        call TimerStart(t,2,true,function StartWanjieTimer)
+        set t = null
+    endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
         /*
@@ -285,6 +315,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set UDepot[4] = CreateUnit(Player(3), 'nmgv', 8960.0, - 1984.0, 270.000)
         set UDepot[5] = CreateUnit(Player(4), 'nmgv', 9728.0, - 1856.0, 270.000)
         set UDepot[6] = CreateUnit(Player(5), 'nmgv', 9728.0, 1216.0, 270.000)
+
+        set Uwanjie = CreateUnit(Player(6), 'n01F', - 14464.0, - 15552.0, 270.000)
 
     endfunction
 endlibrary
