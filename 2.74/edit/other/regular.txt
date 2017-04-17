@@ -1,0 +1,2 @@
+库提取正则:
+^\s*(function|endfunction|return)(.*)$
