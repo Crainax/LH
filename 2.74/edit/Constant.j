@@ -56,6 +56,7 @@ library_once Constant
 		elseif (i == 17) then
 			return "你等到，小NB"
 		endif
+		return ""
 	endfunction
 
 endlibrary

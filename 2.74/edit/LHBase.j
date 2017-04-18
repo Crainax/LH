@@ -287,9 +287,19 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         local timer t = GetExpiredTimer()
         local integer id = GetHandleId(t)
         local integer value = LoadInteger(LHTable,id,1)
+        local texttag tt = null
+        local location point = null
         if (value <= 200) then
             call SaveInteger(LHTable,GetHandleId(t),1,value + 1)
-            call CreateTextTagA("|cff008000【万劫录】("+I2S(COUNT_WANJIE)+")"+GetWanjieluName(),Uwanjie,20,0,100,6,20)
+            set point = Location(GetUnitX(Uwanjie) - 200, GetUnitY(Uwanjie) )
+            set tt = CreateTextTagLocBJ( "|cffFFD700【万劫录】("+I2S(COUNT_WANJIE)+")"+GetWanjieluName(), point, 50.00, 16, 100, 100, 100, 0 )
+            call SetTextTagVelocityBJ( tt, 64, 90.00 )
+            call SetTextTagPermanent(tt,false)
+            call SetTextTagLifespan(tt,5)
+            call SetTextTagFadepoint(tt,5)
+            call RemoveLocation(point)
+            set point = null
+            set tt = null
         else
             call PauseTimer(t)
             call FlushChildHashtable(LHTable,id)
@@ -298,14 +308,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set t = null 
     endfunction
 
-    function StartWanjie takes nothing returns nothing
-        local timer t = CreateTimer()
-        call SaveInteger(LHTable,GetHandleId(t),1,0)
-        call TimerStart(t,2,true,function StartWanjieTimer)
-        set t = null
-    endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
+    
+        local timer t = CreateTimer()
         /*
             仓库初始化
         */
@@ -318,5 +324,9 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
         set Uwanjie = CreateUnit(Player(6), 'n01F', - 14464.0, - 15552.0, 270.000)
 
+        call SaveInteger(LHTable,GetHandleId(t),1,0)
+        call TimerStart(t,2,true,function StartWanjieTimer)
+        
+        set t = null
     endfunction
 endlibrary

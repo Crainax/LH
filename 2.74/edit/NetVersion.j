@@ -266,7 +266,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Huodong
 				endif
 
 				if (level >= 4 and IsHuodong()) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )]
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )
 					call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你在活动期间获得永久的英雄七彩皮肤特效！")
 				endif
 

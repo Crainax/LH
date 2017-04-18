@@ -25,4 +25,16 @@ library_once JBase
             return i2
         endif
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        三目运算符,boolean
+    */
+    function B3 takes boolean b,boolean b1,boolean b2 returns boolean
+        if (b) then
+            return b1
+        else
+            return b2
+        endif
+    endfunction
+    
 endlibrary

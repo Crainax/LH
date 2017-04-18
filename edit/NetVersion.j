@@ -6,11 +6,14 @@
 //! import "LHBase.j"
 //! import "Diffculty.j"
 //! import "Achievement.j"
+//! import "Huodong.j"
 library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement
 	
 	globals
 		integer array vipCode
 		string array heroCountString
+
+		integer array spin
 		/*
 		    成就的页数与目标位数
 		*/
@@ -40,6 +43,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    判断一个玩家是否通关了某一个难度或者以上
+	*/
+	private function IsPass takes player p,integer nan returns boolean
+		local integer i = 9
+		loop
+			exitwhen i <= nan
+			if (GetBit(achieve[GetConvertedPlayerId(p)],i) > 0) then
+				return true
+			endif
+			set i = i - 1
+		endloop
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    黑阎的提示文本
 	*/
 	function GetHeiyanHint takes nothing returns string
@@ -50,14 +68,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
+		return S3(IsHuodong(),"|cff99ccff活动期间双击可以选择该英雄|r","|cff99ccff需要地图等级达到6级才能选取该英雄|r")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
+		return S3(IsHuodong(),"|cff99ccff活动期间通关炼狱或以上难度双击可以选择该英雄|r","|cff99ccff需要地图等级达到11级才能选取该英雄|r")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -65,6 +83,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function PrintCurrentPlatformLevel takes player p returns nothing
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + I2S(DzAPI_Map_GetMapLevel(p)) + "！")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    彩名皮肤
+	*/
+	function IsColorSpin takes player p returns boolean
+		return spin[GetConvertedPlayerId(p)] > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -78,14 +103,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 6)
+		return (DzAPI_Map_GetMapLevel(p) >= 6) or IsHuodong()
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁选取条件
 	*/
 	function GetMengjiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 11)
+		return (DzAPI_Map_GetMapLevel(p) >= 11) or (IsHuodong() and IsPass(p,5))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -115,6 +140,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
     			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
+    			set spin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -134,9 +160,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function InitOldAchievement takes integer id returns nothing
 
 		if (GetBit(achieve[id],9) > 0) then
-			set achiPage[id] = 19
+
 		elseif (GetBit(achieve[id],8) > 0) then
-			set achiPage[id] = 18
+
 		elseif (GetBit(achieve[id],7) > 0) then
 			set achiPage[id] = 17
 		elseif (GetBit(achieve[id],6) > 0) then
@@ -182,6 +208,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					if (GetUnitState(gg_unit_haro_0030,UNIT_STATE_LIFE) <= 0.25 * GetUnitState(gg_unit_haro_0030,UNIT_STATE_MAX_LIFE)) then
 						call GetAchievementAndSave(ConvertedPlayer(i),222)
 					endif
+				endif
+
+				//活动皮肤
+				if (level >= 4 and IsHuodong()) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )
+					call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你在活动期间获得永久的英雄七彩皮肤特效！")
 				endif
 			endif
 			set i = i +1
@@ -247,7 +279,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    存储VIP进服务器与再次判定
+
 	*/
 	function SavePIV takes player p,integer i returns nothing
     	call DzAPI_Map_StoreInteger( p,  "vip", i )

@@ -13,23 +13,27 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
         */
         unit array UDepot
         string array playerName
+        /*
+            万劫封帝录
+        */
+        unit Uwanjie
         hashtable itemTable = InitHashtable()
         hashtable LHTable = InitHashtable()
     endglobals
 //---------------------------------------------------------------------------------------------------
-	/*
-	    仙器使用技能进行禁止丢弃判断
-	*/
-	function IsXianSpell takes integer spell returns boolean
-		return (spell == 'Acht') or (spell =='A03A') or (spell =='A0BM') /*
-			*/or (spell =='A07Z') or (spell =='A07T') or (spell =='A05Z')/*
-			*/or (spell =='ACro') or (spell =='Acht') or (spell =='A07X') or (spell =='A05Y')/*
-			*/or (spell =='AChv') or (spell =='A07V') or (spell =='Awrg') or (spell =='A05X')/*  
-			*/or (spell =='A07C') or (spell =='A07D') or (spell =='Awrh') or (spell =='A075')/*
-			*/or (spell =='A06W') or (spell =='A06Y') or (spell =='A06Q') or (spell =='A07R')/*
-			*/or (spell =='ACcl') or (spell =='AOhw') or (spell =='AIin') or (spell =='AIil')/*
-			*/or (spell =='A07S') or (spell =='AChx')
-	endfunction
+    /*
+        仙器使用技能进行禁止丢弃判断
+    */
+    function IsXianSpell takes integer spell returns boolean
+        return (spell == 'Acht') or (spell =='A03A') or (spell =='A0BM') /*
+            */or (spell =='A07Z') or (spell =='A07T') or (spell =='A05Z')/*
+            */or (spell =='ACro') or (spell =='Acht') or (spell =='A07X') or (spell =='A05Y')/*
+            */or (spell =='AChv') or (spell =='A07V') or (spell =='Awrg') or (spell =='A05X')/*  
+            */or (spell =='A07C') or (spell =='A07D') or (spell =='Awrh') or (spell =='A075')/*
+            */or (spell =='A06W') or (spell =='A06Y') or (spell =='A06Q') or (spell =='A07R')/*
+            */or (spell =='ACcl') or (spell =='AOhw') or (spell =='AIin') or (spell =='AIil')/*
+            */or (spell =='A07S') or (spell =='AChx')
+    endfunction
 
 //---------------------------------------------------------------------------------------------------
     /*
@@ -73,20 +77,20 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
     endfunction   
 //---------------------------------------------------------------------------------------------------
 
-	/*
-	    敌人过滤器1,只能造成伤害的
-	*/
+    /*
+        敌人过滤器1,只能造成伤害的
+    */
    function IsEnemy takes unit u, unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 //---------------------------------------------------------------------------------------------------
 
-	/*
-	    敌人过滤器2,只要是敌人都算
-	*/
+    /*
+        敌人过滤器2,只要是敌人都算
+    */
    function IsEnemy2 takes unit u, unit caster returns boolean
-        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)	== true		              /*
-        */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123				  /*
+        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)  == true                   /*
+        */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123                 /*
         */ and GetUnitPointValue(u) != 0
     endfunction
 //---------------------------------------------------------------------------------------------------
@@ -147,21 +151,21 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
     endfunction
 
     /*
-    	    召唤马甲然后施放技能
-    */	
+            召唤马甲然后施放技能
+    */  
     function SimulateSpell takes unit caster,unit target,integer spellId,integer spellLevel,real lifeTime ,string orderId,boolean isPoint,boolean isImmediate,boolean isTarget returns nothing
-	    local unit  u = CreateUnit(GetOwningPlayer(caster),'h000',GetUnitX(target),GetUnitY(target),0)
-	    call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+        local unit  u = CreateUnit(GetOwningPlayer(caster),'h000',GetUnitX(target),GetUnitY(target),0)
+        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call UnitAddAbilityBJ( spellId,u )
         call SetUnitAbilityLevel(u,spellId,spellLevel)
         if (isPoint) then
-	    	call IssuePointOrder(u,orderId,GetUnitX(target),GetUnitY(target))
+            call IssuePointOrder(u,orderId,GetUnitX(target),GetUnitY(target))
         elseif (isImmediate) then
-	    	call IssueImmediateOrder( u, orderId )
-	    elseif (isTarget) then
-	    	call IssueTargetOrder( u, orderId, target )
+            call IssueImmediateOrder( u, orderId )
+        elseif (isTarget) then
+            call IssueTargetOrder( u, orderId, target )
         endif
-	    set u = null
+        set u = null
 
     endfunction
 
@@ -186,7 +190,7 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
         call UnitApplyTimedLifeBJ( time, 'BHwe',CreateUnit(whichPlayer,unitType,x,y,facing))
     endfunction
 
-	function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
+    function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
         call CreateUnitEffectSpecifyTime(whichPlayer,unitType,x,y,facing,5)
     endfunction
 
@@ -194,28 +198,28 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
         伤害一个区域
     */
     function DamageArea takes unit attacker,real x,real y,real radius,real damage returns nothing
-    	local group l_group = CreateGroup()
-    	local unit l_unit
-    	call GroupEnumUnitsInRange(l_group, x, y, radius, null)
-    	loop
-    	    set l_unit = FirstOfGroup(l_group)
-    	    exitwhen l_unit == null
-    	    call GroupRemoveUnit(l_group, l_unit)
-    	    if (IsEnemy(l_unit,attacker)) then
-    	    	call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-    	    endif
-    	endloop
-    	call DestroyGroup(l_group)
-    	set l_group = null
-    	set l_unit =null
+        local group l_group = CreateGroup()
+        local unit l_unit
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        loop
+            set l_unit = FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if (IsEnemy(l_unit,attacker)) then
+                call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group = null
+        set l_unit =null
     endfunction
 
     /*
         购买者的判断，防止是假分身
     */
-	function BuyerFilter takes unit buyer returns boolean
-		return (GetUnitTypeId(buyer) != 'N018')
-	endfunction
+    function BuyerFilter takes unit buyer returns boolean
+        return (GetUnitTypeId(buyer) != 'N018')
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         判断是否有琉璃璞玉
@@ -275,8 +279,31 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
     function IsInForbitRegion takes real x,real y,unit u returns boolean
         return (IsInRect(x,y,gg_rct_______a3) and (not(RectContainsUnit(gg_rct_______a3, u)))) or (IsInRect(x,y,gg_rct_Arena_forbit) and (not(RectContainsUnit(gg_rct_Arena_forbit, u))))
     endfunction
+
+//---------------------------------------------------------------------------------------------------
+    /*
+        开始定时刷万劫录
+    */
+    private function StartWanjieTimer takes nothing returns nothing
+        local timer t = GetExpiredTimer()
+        local integer id = GetHandleId(t)
+        local integer value = LoadInteger(LHTable,id,1)
+        if (value <= 200) then
+        if (value <= 200) then
+            call SaveInteger(LHTable,GetHandleId(t),1,value + 1)
+            call CreateTextTagA("|cff008000【万劫录】("+I2S(COUNT_WANJIE)+")"+GetWanjieluName(),Uwanjie,20,0,100,6,20)
+        else
+            call PauseTimer(t)
+            call FlushChildHashtable(LHTable,id)
+            call DestroyTimer(t)
+        endif
+        set t = null 
+    endfunction
+
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
+
+        local timer t = CreateTimer()
         /*
             仓库初始化
         */
@@ -287,5 +314,11 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
         set UDepot[5] = CreateUnit(Player(4), 'nmgv', 9728.0, - 1856.0, 270.000)
         set UDepot[6] = CreateUnit(Player(5), 'nmgv', 9728.0, 1216.0, 270.000)
 
+        set Uwanjie = CreateUnit(Player(6), 'n01F', - 14464.0, - 15552.0, 270.000)
+
+        call SaveInteger(LHTable,GetHandleId(t),1,0)
+        call TimerStart(t,2,true,function StartWanjieTimer)
+        
+        set t = null
     endfunction
 endlibrary

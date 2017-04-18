@@ -66,10 +66,11 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call AdjustPlayerStateBJ( 8000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
+			call Discolor(u)
 			return
 		endif
 
-		if (IsPIV(GetOwningPlayer(u)) or IsColorSpin(GetOwningPlayer(u))) then
+		if ((not(IsPIV(GetOwningPlayer(u)))) and IsColorSpin(GetOwningPlayer(u))) then
 			call Discolor(u)
 		endif
 

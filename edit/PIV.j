@@ -70,6 +70,10 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 			return
 		endif
 
+		if ((not(IsPIV(GetOwningPlayer(u)))) and IsColorSpin(GetOwningPlayer(u))) then
+			call Discolor(u)
+		endif
+
 		debug call GetPlatformLevelGold(GetOwningPlayer(u))
 
 	endfunction
