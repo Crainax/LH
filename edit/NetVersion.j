@@ -48,7 +48,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	private function IsPass takes player p,integer nan returns boolean
 		local integer i = 9
 		loop
-			exitwhen i <= nan
+			exitwhen i < nan
 			if (GetBit(achieve[GetConvertedPlayerId(p)],i) > 0) then
 				return true
 			endif
@@ -160,9 +160,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function InitOldAchievement takes integer id returns nothing
 
 		if (GetBit(achieve[id],9) > 0) then
-
+			set achiPage[id] = 19
 		elseif (GetBit(achieve[id],8) > 0) then
-
+			set achiPage[id] = 18
 		elseif (GetBit(achieve[id],7) > 0) then
 			set achiPage[id] = 17
 		elseif (GetBit(achieve[id],6) > 0) then
@@ -255,14 +255,18 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievement3 takes player p,integer zhuan returns nothing
 		if (zhuan >= 20) then
 			call GetAchievementAndSave(p,21)
-		elseif (zhuan >= 50) then
+		endif
+		if (zhuan >= 50) then
 			call GetAchievementAndSave(p,22)
-		elseif (zhuan >= 100) then
+		endif
+		if (zhuan >= 100) then
 			call GetAchievementAndSave(p,23)
-		elseif (zhuan >= 150) then
+		endif
+		if (zhuan >= 150) then
 			call GetAchievementAndSave(p,24)
 		endif
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    木材的成就
@@ -271,15 +275,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call GetAchievementAndSave(GetTriggerPlayer(),25)
 		if (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 50000) then
 			call GetAchievementAndSave(GetTriggerPlayer(),26)
-		elseif (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 100000) then
+		endif
+		if (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 100000) then
 			call GetAchievementAndSave(GetTriggerPlayer(),27)
-		elseif (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 200000) then
+		endif
+		if (GetPlayerState(GetTriggerPlayer(), PLAYER_STATE_RESOURCE_LUMBER) > 200000) then
 			call GetAchievementAndSave(GetTriggerPlayer(),28)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-
+		PIV
 	*/
 	function SavePIV takes player p,integer i returns nothing
     	call DzAPI_Map_StoreInteger( p,  "vip", i )
@@ -401,14 +407,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	/*
 	    英雄次数的成就
 	*/
-	function SaveAchievement4 takes player p,integer zhuan returns nothing
+	function SaveAchievement4 takes player p returns nothing
 		if (GetLowerHeroCount(p,1)) then
 			call GetAchievementAndSave(p,217)
-		elseif (GetLowerHeroCount(p,5)) then
+		endif
+		if (GetLowerHeroCount(p,5)) then
 			call GetAchievementAndSave(p,218)
-		elseif (GetLowerHeroCount(p,10)) then
+		endif
+		if (GetLowerHeroCount(p,10)) then
 			call GetAchievementAndSave(p,219)
-		elseif (GetLowerHeroCount(p,30)) then
+		endif
+		if (GetLowerHeroCount(p,30)) then
 			call GetAchievementAndSave(p,220)
 		endif
 	endfunction
@@ -425,6 +434,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
     	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(i) )
 		call PrintAllHeroTimes(p)
+		call SaveAchievement4(p)
 		call PauseTimer(t)
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)

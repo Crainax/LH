@@ -31,7 +31,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.75"
+		return "2.74"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -550,7 +550,7 @@ library_once Constant initializer InitConstant requires JBase
 	function GetWanjieluName takes nothing returns string
 		local integer i = GetRandomInt(1,COUNT_WANJIE)
 		if (i == 1) then
-			return "玩东方入魔的超#5563"
+			return "玩东方入魔的超"
 		elseif (i == 2) then
 			return "吞雷天尸"
 		elseif (i == 3) then

@@ -1,10 +1,10 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 
-library_once LHBase initializer InitLHBase requires Constant,Test,JBase
+library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     globals
         unit learnSkillHero = null
@@ -288,10 +288,19 @@ library_once LHBase initializer InitLHBase requires Constant,Test,JBase
         local timer t = GetExpiredTimer()
         local integer id = GetHandleId(t)
         local integer value = LoadInteger(LHTable,id,1)
-        if (value <= 200) then
+        local texttag tt = null
+        local location point = null
         if (value <= 200) then
             call SaveInteger(LHTable,GetHandleId(t),1,value + 1)
-            call CreateTextTagA("|cff008000【万劫录】("+I2S(COUNT_WANJIE)+")"+GetWanjieluName(),Uwanjie,20,0,100,6,20)
+            set point = Location(GetUnitX(Uwanjie) - 100, GetUnitY(Uwanjie) )
+            set tt = CreateTextTagLocBJ( "|cffFFD700【万劫录】"+GetWanjieluName(), point, 50.00, 14, 100, 100, 100, 0 )
+            call SetTextTagVelocityBJ( tt, 64, 90.00 )
+            call SetTextTagPermanent(tt,false)
+            call SetTextTagLifespan(tt,5)
+            call SetTextTagFadepoint(tt,5)
+            call RemoveLocation(point)
+            set point = null
+            set tt = null
         else
             call PauseTimer(t)
             call FlushChildHashtable(LHTable,id)

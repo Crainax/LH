@@ -152,6 +152,9 @@ library_once Achievement requires LHBase
 	*/
 	function SetAchievement takes player p,integer achieveID returns nothing
 		local integer id = GetConvertedPlayerId(p)
+		if (udg_H[id] == null) then
+			return
+		endif
 		if (IsAchieveOK(p,achieveID)) then
 			set achiPage[id] = achieveID
 			//彩名	
@@ -199,6 +202,9 @@ library_once Achievement requires LHBase
 	*/
 	function GetAchievementAndSave takes player p , integer achieveID returns nothing
 		local integer id = GetConvertedPlayerId(p)
+		if (udg_H[id] == null) then
+			return
+		endif
 		if not(IsAchieveOK(p,achieveID)) then
 			if (GetAchievePage(achieveID) == 1) then
 				set achieve[id] = achieve[id] + R2I(Pow(10,I2R(achieveID-11)))
@@ -330,7 +336,7 @@ library_once Achievement requires LHBase
 	/*
 	    创建一个成就对话框给玩家
 	*/
-	function CreateWingDialog takes player p returns nothing
+	function CreateAchievementDialog takes player p returns nothing
 	    local trigger t  = CreateTrigger()
 	    local dialog d = DialogCreate()
 	    call DialogSetMessage( d, "我的成就|cffff6800(第1/"+I2S(PAGE_ACHIEVE)+"页)|r" )

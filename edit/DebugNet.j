@@ -65,7 +65,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 
 	function TestAchievement5 takes nothing returns nothing
 
-		call CreateWingDialog(GetTriggerPlayer())
+		call CreateAchievementDialog(GetTriggerPlayer())
 
 	endfunction
 //---------------------------------------------------------------------------------------------------

@@ -1,11 +1,12 @@
 
 //! import "LHBase.j"
 //! import "PIV.j"
+//! import "NetVersion.j"
 /*
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	
 	globals
 		private item array IBox
@@ -142,7 +143,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV
 		elseif (str == "--") then
 			call FixView(false)
 		debug elseif (str == "-cj") then
-			debug call CreateWingDialog(GetTriggerPlayer())
+			debug call CreateAchievementDialog(GetTriggerPlayer())
 		endif
 		set str = null
 		set u = null
