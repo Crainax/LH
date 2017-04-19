@@ -68,6 +68,12 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		call CreateAchievementDialog(GetTriggerPlayer())
 
 	endfunction
+
+	function TestAchievement7 takes nothing returns nothing
+
+		call BJDebugMsg("时间:" + I2S(DzAPI_Map_GetGameStartTime()))
+
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
@@ -93,6 +99,9 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		set t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"d",false)
 		call TriggerAddAction(t,function TestAchievement6)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"shi",false)
+		call TriggerAddAction(t,function TestAchievement7)
 		set t = null
 
 	endfunction

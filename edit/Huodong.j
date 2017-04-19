@@ -4,7 +4,7 @@
 library_once Huodong requires LHBase 
 
 	globals
-		constant boolean isHuodong = true
+		constant boolean isHuodong = false
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -14,5 +14,5 @@ library_once Huodong requires LHBase
 	function IsHuodong takes nothing returns boolean
 		return isHuodong
 	endfunction
-	
+
 endlibrary

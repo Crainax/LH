@@ -3,7 +3,7 @@
 /*
     宠物系统
 */
-library_once Pet initializer InitPet requires LHBase 
+library_once Pet initializer InitPet requires LHBase,Version
 
     globals
         group array GPet
@@ -37,6 +37,7 @@ library_once Pet initializer InitPet requires LHBase
         call GroupAddUnitSimple( u, GPet[GetConvertedPlayerId(owner)] )
         call UnitAddAbilityBJ( 'Avul', u )
         call DisplayTextToPlayer( owner, 0, 0, "|cFFFF66CC【消息】|r捕捉成功！" )
+        debug call IncreasePetCount(owner)
         call SetPlayerStateBJ( owner, PLAYER_STATE_RESOURCE_FOOD_USED, ( GetPlayerState(owner, PLAYER_STATE_RESOURCE_FOOD_USED) + 1 ) )
         set u = null
     endfunction

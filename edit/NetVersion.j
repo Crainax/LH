@@ -12,12 +12,26 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	globals
 		integer array vipCode
 		string array heroCountString
-
+		/*
+		    是否有彩色皮肤
+		*/
 		integer array spin
 		/*
-		    成就的页数与目标位数
+		    抵御了多少次进攻
 		*/
-
+		integer array diyu
+		/*
+		    击败冥刹多少次
+		*/
+		integer array mingcha
+		/*
+		    玩家通关次数
+		*/
+		integer array passTimes
+		/*
+		    抓宠物次数
+		*/
+		integer array petTimes
 		/*
 		    计时存档次数
 		*/
@@ -141,6 +155,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
     			set spin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin")
+    			set diyu[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "defense")
+    			set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
+    			set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
+    			set petTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pet")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -215,6 +233,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )
 					call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你在活动期间获得永久的英雄七彩皮肤特效！")
 				endif
+
+				if (IsHuodong()) then
+					set passTimes[i] = passTimes[i] + 1
+					call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass", passTimes[i] )
+				endif
+
 			endif
 			set i = i +1
 		endloop
@@ -243,7 +267,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				if (udg_Second[2] < 60) then
 					call GetAchievementAndSave(ConvertedPlayer(i),226)
 				endif
-					
+
+				if (IsHuodong()) then
+					set mingcha[i] = mingcha[i] + 1
+					call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "mingcha", mingcha[i] )
+				endif
+
 			endif
 			set i = i +1
 		endloop
@@ -465,6 +494,36 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call SaveAchievePointer(GetOwningPlayer(u))
 		endif
 		call SetAchievement(GetOwningPlayer(u),achiPage[id])
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    自增波数
+	*/
+	function IncreaseDiyuCount takes nothing returns nothing
+		local integer i = 1
+		if not(IsHuodong()) then
+			return
+		endif
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+					set diyu[i] = diyu[i] + 1
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "defense", diyu[i] )
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    自增宠物数量
+	*/
+	function IncreasePetCount takes player p returns nothing
+		local integer i = GetConvertedPlayerId(p)
+		if not(IsHuodong()) then
+			return
+		endif
+		set petTimes[i] = petTimes[i] + 1
+		call DzAPI_Map_StoreInteger( p ,  "pet", petTimes[i] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
