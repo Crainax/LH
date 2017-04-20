@@ -293,7 +293,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         if (value <= 200) then
             call SaveInteger(LHTable,GetHandleId(t),1,value + 1)
             set point = Location(GetUnitX(Uwanjie) - 100, GetUnitY(Uwanjie) )
-            set tt = CreateTextTagLocBJ( "|cffFFD700【万劫录】"+GetWanjieluName(), point, 50.00, 14, 100, 100, 100, 0 )
+            set tt = CreateTextTagLocBJ( "|cffFFD700【万劫录】"+GetWanjieluName(), point, 50.00, 12, 100, 100, 100, 0 )
             call SetTextTagVelocityBJ( tt, 64, 90.00 )
             call SetTextTagPermanent(tt,false)
             call SetTextTagLifespan(tt,5)
