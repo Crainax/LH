@@ -36,6 +36,19 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		    计时存档次数
 		*/
 		key kSaveHeroTimes
+		/*
+		    通关次数
+		*/
+		integer array pass1
+		integer array pass2
+		integer array pass3
+		integer array pass4
+		integer array pass5
+		integer array pass6
+		integer array pass7
+		integer array pass8
+		integer array pass9
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -48,7 +61,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call AdjustPlayerStateBJ( 8000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 15) then
 			call AdjustPlayerStateBJ( 6000, p , PLAYER_STATE_RESOURCE_GOLD )
-		elseif (DzAPI_Map_GetMapLevel(p) >= 10) then
+		elseif (DzAPI_Map_GetMapLevel(p) >= 10 or IsHuodong()) then
 			call AdjustPlayerStateBJ( 4000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 5) then
 			call AdjustPlayerStateBJ( 2000, p , PLAYER_STATE_RESOURCE_GOLD )
@@ -159,6 +172,15 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
     			set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
     			set petTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pet")
+    			set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
+    			set pass2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass2")
+    			set pass3[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass3")
+    			set pass4[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass4")
+    			set pass5[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass5")
+    			set pass6[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass6")
+    			set pass7[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass7")
+    			set pass8[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass8")
+    			set pass9[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass9")
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -226,6 +248,27 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					if (GetUnitState(gg_unit_haro_0030,UNIT_STATE_LIFE) <= 0.25 * GetUnitState(gg_unit_haro_0030,UNIT_STATE_MAX_LIFE)) then
 						call GetAchievementAndSave(ConvertedPlayer(i),222)
 					endif
+				endif
+
+				//通关次数
+				if (level == 1) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass1", pass1[i] + 1 )
+    			elseif (level == 2) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass2", pass2[i] + 1 )
+    			elseif (level == 3) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass3", pass3[i] + 1 )
+    			elseif (level == 4) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass4", pass4[i] + 1 )
+    			elseif (level == 5) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass5", pass5[i] + 1 )
+    			elseif (level == 6) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass6", pass6[i] + 1 )
+    			elseif (level == 7) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass7", pass7[i] + 1 )
+    			elseif (level == 8) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass8", pass8[i] + 1 )
+    			elseif (level == 9) then
+    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass9", pass9[i] + 1 )
 				endif
 
 				//活动皮肤

@@ -14,14 +14,14 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    力量
+	    敏捷
 	*/
 	private function SetItemAgi takes integer itemID,integer value returns nothing
 		call SaveInteger(YDHT,itemID,0x384C9D86,value)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    力量
+	    智力
 	*/
 	private function SetItemInt takes integer itemID,integer value returns nothing
 		call SaveInteger(YDHT,itemID,0x1B5C932E,value)
@@ -38,6 +38,20 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    防御
 	*/
 	private function SetItemDefense takes integer itemID,integer value returns nothing
+		call SaveInteger(YDHT,itemID,0x81FD3994,value)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    吸血todo
+	*/
+	private function SetItemXixue takes integer itemID,integer value returns nothing
+		call SaveInteger(YDHT,itemID,0x81FD3994,value)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    弓直伤todo
+	*/
+	private function SetItemZhishang takes integer itemID,integer value returns nothing
 		call SaveInteger(YDHT,itemID,0x81FD3994,value)
 	endfunction
 //---------------------------------------------------------------------------------------------------
