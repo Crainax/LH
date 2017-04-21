@@ -58,6 +58,36 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        戒指过滤器
+    */
+    function GetRing takes unit u returns item
+        if (UnitHasItemOfTypeBJ(u,'rat9')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'rat9'))
+        elseif (UnitHasItemOfTypeBJ(u,'rlif')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'rlif'))
+        elseif (UnitHasItemOfTypeBJ(u,'lgdh')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'lgdh'))
+        elseif (UnitHasItemOfTypeBJ(u,'clfm')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'clfm'))
+        elseif (UnitHasItemOfTypeBJ(u,'bgst')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'bgst'))
+        elseif (UnitHasItemOfTypeBJ(u,'belv')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'belv'))
+        elseif (UnitHasItemOfTypeBJ(u,'hcun')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'hcun'))
+        elseif (UnitHasItemOfTypeBJ(u,'rag1')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'rag1'))
+        elseif (UnitHasItemOfTypeBJ(u,'penr')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'penr'))
+        elseif (UnitHasItemOfTypeBJ(u,'fgdg')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'fgdg'))
+        elseif (UnitHasItemOfTypeBJ(u,'lhst')) then
+            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'lhst'))
+        endif
+            return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         敌人过滤器,判断玩家的,包含魔免
     */
     function IsEnemyMP takes unit u, player p returns boolean

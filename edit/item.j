@@ -5,6 +5,8 @@ library_once ItemBase initializer InitItemBase
 globals
 	timerdialog TiDiaNecklace
 	unit UCrainax
+
+	boolean array BRing
 endglobals
 //-------------------------------------------------------------------------------
 	/*
@@ -241,6 +243,14 @@ endglobals
 	        call TimerDialogDisplay(TiDiaNecklace,true)
 	        set t = null
 	    endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    提高戒指的量
+	*/
+	private function function_name takes unit u,integer volume returns nothing
+		local item i = GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1'))
+		GetRing(u)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitItemBase takes nothing returns nothing
