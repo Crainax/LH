@@ -42,17 +42,24 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    吸血todo
+	    攻击
 	*/
-	private function SetItemXixue takes integer itemID,integer value returns nothing
-		call SaveInteger(YDHT,itemID,0x81FD3994,value)
+	private function SetItemAttack takes integer itemID,integer value returns nothing
+		call SaveInteger(YDHT,itemID,0x5039AFFB,value)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    弓直伤todo
+	    吸血
+	*/
+	private function SetItemXixue takes integer itemID,integer value returns nothing
+		call SaveInteger(YDHT,itemID,0x1ADEDE7B,value)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    弓直伤
 	*/
 	private function SetItemZhishang takes integer itemID,integer value returns nothing
-		call SaveInteger(YDHT,itemID,0x81FD3994,value)
+		call SaveInteger(YDHT,itemID,0xA6870C96,value)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -128,12 +135,29 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemDamagePerc('ciri',0.25)
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    初始化超神器与戒指
+	*/
+	private function InitErdianBa takes nothing returns nothing
+		/*
+		    诛神噬魔
+		*/
+		call SetItemStr('tlum',320000)
+		call SetItemAgi('tlum',470000)
+		call SetItemInt('tlum',420000)
+		call SetItemSpellPerc('tlum',1.5)
+		call SetItemXixue('tlum',40000)
+		call SetItemZhishang('tlum',8000000)
+		call SetItemAttack('tlum',2000000)
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    初始化
 	*/
 	private function InitItemAttr takes nothing returns nothing
 		call InitErdianQi()
+		call InitErdianBa()
 	endfunction
 
 endlibrary

@@ -1353,35 +1353,27 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
-        进入宝石区域
-    */
-    function EnterDiamond2 takes nothing returns nothing
-        if ((GetItemTypeId(GetSoldItem()) == 'I02T')) then
-            call SetUnitX(GetBuyingUnit(),GetRectCenterX(gg_rct_Diamond2))
-            call SetUnitY(GetBuyingUnit(),GetRectCenterY(gg_rct_Diamond2))
-            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond2),GetRectCenterY(gg_rct_Diamond2),0.2)
-            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond2), GetRectCenterY(gg_rct_Diamond2)))
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
-        endif
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        宝石点击进入
+        宝石对话框
     */
     private function DiamondDialogClick takes nothing returns nothing
         local dialog d = GetClickedDialogBJ()
         local unit u = LoadUnitHandle(LHTable,GetHandleId(d),3)
 
-        //! textmacro WingClick takes Region
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
+            call SetUnitX(u,GetRectCenterX(gg_rct_Diamond2))
+            call SetUnitY(u,GetRectCenterY(gg_rct_Diamond2))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond2),GetRectCenterY(gg_rct_Diamond2),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond2), GetRectCenterY(gg_rct_Diamond2)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
 
-            if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),kWingDialog$Region$)) then
-                call SetUnitX(u,GetRectCenterX(gg_rct____$Region$))
-                call SetUnitY(u,GetRectCenterY(gg_rct____$Region$))
-                call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct____$Region$),GetRectCenterY(gg_rct____$Region$),0.2)
-                call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____$Region$), GetRectCenterY(gg_rct____$Region$)))
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
-            endif
-        //! endtextmacro
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+            call SetUnitX(u,GetRectCenterX(gg_rct________8))
+            call SetUnitY(u,GetRectCenterY(gg_rct________8))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct________8),GetRectCenterY(gg_rct________8),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct________8), GetRectCenterY(gg_rct________8)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
 
         call FlushChildHashtable(LHTable,GetHandleId(d))
         call DialogDisplay( GetOwningPlayer(u), d, false )
@@ -1407,6 +1399,15 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         set t = null
     endfunction
 
+//---------------------------------------------------------------------------------------------------
+    /*
+        进入宝石区域
+    */
+    function EnterDiamond takes nothing returns nothing
+        if ((GetItemTypeId(GetSoldItem()) == 'I02T') or (GetItemTypeId(GetSoldItem()) == 'rspd')) then
+            call CreateDiamondDialog(GetBuyingUnit())
+        endif
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*

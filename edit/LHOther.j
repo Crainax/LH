@@ -40,7 +40,7 @@ library_once LHOther initializer InitLHOther requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
-	private function InitLHOther takes nothing returns not hing
+	private function InitLHOther takes nothing returns nothing
 		//物品叠加
 	    local trigger t = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_PICKUP_ITEM )

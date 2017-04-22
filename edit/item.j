@@ -248,9 +248,8 @@ endglobals
 	/*
 	    提高戒指的量
 	*/
-	private function function_name takes unit u,integer volume returns nothing
-		local item i = GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'IXU1'))
-		GetRing(u)
+	private function UpdateRing takes unit u,integer volume returns nothing
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	private function InitItemBase takes nothing returns nothing

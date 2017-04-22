@@ -58,6 +58,20 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        20个全体的单位
+    */
+    function Is20Unit takes unit u returns boolean
+        return (((GetUnitTypeId(GetDyingUnit()) == 'nanw') or (GetUnitTypeId(GetDyingUnit()) == 'nbld') or (GetUnitTypeId(GetDyingUnit()) == 'nbdo') or (GetUnitTypeId(GetDyingUnit()) == 'ncnk') or (GetUnitTypeId(GetDyingUnit()) == 'nenc') or (GetUnitTypeId(GetDyingUnit()) == 'ngnw')))
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        10个全体的单位
+    */
+    function Is10Unit takes unit u returns boolean
+        return (((GetUnitTypeId(GetDyingUnit()) == 'nano') or (GetUnitTypeId(GetDyingUnit()) == 'nenf') or (GetUnitTypeId(GetDyingUnit()) == 'nbda') or (GetUnitTypeId(GetDyingUnit()) == 'ncim') or (GetUnitTypeId(GetDyingUnit()) == 'ngns') or (GetUnitTypeId(GetDyingUnit()) == 'nhfp')))
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         戒指过滤器
     */
     function GetRing takes unit u returns item
