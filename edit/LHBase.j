@@ -309,7 +309,21 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function IsInForbitRegion takes real x,real y,unit u returns boolean
         return (IsInRect(x,y,gg_rct_______a3) and (not(RectContainsUnit(gg_rct_______a3, u)))) or (IsInRect(x,y,gg_rct_Arena_forbit) and (not(RectContainsUnit(gg_rct_Arena_forbit, u))))
     endfunction
-
+//---------------------------------------------------------------------------------------------------
+    /*
+        获取第一个玩家
+    */
+    function GetFirstPlayer takes nothing returns player
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+                return ConvertedPlayer(i)
+            endif
+            set i = i +1
+        endloop
+        return ConvertedPlayer(1)
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         开始定时刷万劫录

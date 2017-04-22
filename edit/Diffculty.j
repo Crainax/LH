@@ -205,4 +205,11 @@ library_once Diffculty requires LHBase
 
     	set u = null
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    选择游戏模式
+	*/
+	function ChooseGameMode takes nothing returns nothing
+		
+	endfunction
 endlibrary

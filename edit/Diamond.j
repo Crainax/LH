@@ -1365,6 +1365,49 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         endif
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        宝石点击进入
+    */
+    private function DiamondDialogClick takes nothing returns nothing
+        local dialog d = GetClickedDialogBJ()
+        local unit u = LoadUnitHandle(LHTable,GetHandleId(d),3)
+
+        //! textmacro WingClick takes Region
+
+            if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),kWingDialog$Region$)) then
+                call SetUnitX(u,GetRectCenterX(gg_rct____$Region$))
+                call SetUnitY(u,GetRectCenterY(gg_rct____$Region$))
+                call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct____$Region$),GetRectCenterY(gg_rct____$Region$),0.2)
+                call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct____$Region$), GetRectCenterY(gg_rct____$Region$)))
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+            endif
+        //! endtextmacro
+
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+        call DialogDisplay( GetOwningPlayer(u), d, false )
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d = null
+        set u = null
+        call DestroyTrigger(GetTriggeringTrigger())
+    endfunction
+
+    function CreateDiamondDialog takes unit u returns nothing
+        local trigger t  = CreateTrigger()
+        local dialog d = DialogCreate()
+
+        call DialogSetMessage( d, "请选择进入的宝石区" )
+        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "低级宝石区（次）"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "高级宝石区（主）"))
+        call SaveUnitHandle(LHTable,GetHandleId(d),3,u)
+        call DialogDisplay( GetOwningPlayer(u), d, true )
+        call TriggerRegisterDialogEvent( t, d )
+        call TriggerAddAction(t, function DiamondDialogClick)
+        set d = null
+        set t = null
+    endfunction
+
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    宝石初始化
