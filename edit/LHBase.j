@@ -72,6 +72,32 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        戒指1-9过滤器
+    */
+    function GetBasicRing takes unit u returns item
+        if (UnitHasItemOfTypeBJ(u,'rat9'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'rat9')
+        elseif (UnitHasItemOfTypeBJ(u,'rlif'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'rlif')
+        elseif (UnitHasItemOfTypeBJ(u,'lgdh'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'lgdh')
+        elseif (UnitHasItemOfTypeBJ(u,'clfm'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'clfm')
+        elseif (UnitHasItemOfTypeBJ(u,'bgst'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'bgst')
+        elseif (UnitHasItemOfTypeBJ(u,'belv'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'belv')
+        elseif (UnitHasItemOfTypeBJ(u,'hcun'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'hcun')
+        elseif (UnitHasItemOfTypeBJ(u,'rag1'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'rag1')
+        elseif (UnitHasItemOfTypeBJ(u,'penr'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'penr')
+        endif
+        return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         戒指过滤器
     */
     function GetRing takes unit u returns item
