@@ -101,10 +101,6 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         */
         integer array udg_I_Lianyu
         rect gg_rct______________084
-        /*
-            虫洞判定区域
-        */
-        rect gg_rct______________095
 
         /*
             转生

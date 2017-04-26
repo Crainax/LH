@@ -114,10 +114,11 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         戒指max和超鬼过滤器
     */
     function GetMaxRing takes unit u returns item
-        if (UnitHasItemOfTypeBJ(u,'brac'))then
+        if (UnitHasItemOfTypeBJ(u,'brac')) then
             return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'brac')
         elseif (UnitHasItemOfTypeBJ(u,'fgdg'))then
             return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'fgdg')
+        endif
         return null
     endfunction
 //---------------------------------------------------------------------------------------------------
@@ -133,29 +134,29 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function GetRing takes unit u returns item
         if (UnitHasItemOfTypeBJ(u,'rat9')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'rat9'))
+            return GetItemOfTypeFromUnitBJ(u, 'rat9')
         elseif (UnitHasItemOfTypeBJ(u,'rlif')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'rlif'))
+            return GetItemOfTypeFromUnitBJ(u, 'rlif')
         elseif (UnitHasItemOfTypeBJ(u,'lgdh')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'lgdh'))
+            return GetItemOfTypeFromUnitBJ(u, 'lgdh')
         elseif (UnitHasItemOfTypeBJ(u,'clfm')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'clfm'))
+            return GetItemOfTypeFromUnitBJ(u, 'clfm')
         elseif (UnitHasItemOfTypeBJ(u,'bgst')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'bgst'))
+            return GetItemOfTypeFromUnitBJ(u, 'bgst')
         elseif (UnitHasItemOfTypeBJ(u,'belv')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'belv'))
+            return GetItemOfTypeFromUnitBJ(u, 'belv')
         elseif (UnitHasItemOfTypeBJ(u,'hcun')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'hcun'))
+            return GetItemOfTypeFromUnitBJ(u, 'hcun')
         elseif (UnitHasItemOfTypeBJ(u,'rag1')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'rag1'))
+            return GetItemOfTypeFromUnitBJ(u, 'rag1')
         elseif (UnitHasItemOfTypeBJ(u,'penr')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'penr'))
+            return GetItemOfTypeFromUnitBJ(u, 'penr')
         elseif (UnitHasItemOfTypeBJ(u,'fgdg')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'fgdg'))
+            return GetItemOfTypeFromUnitBJ(u, 'fgdg')
         elseif (UnitHasItemOfTypeBJ(u,'lhst')) then
-            return GetItemTypeId(GetItemOfTypeFromUnitBJ(u, 'lhst'))
+            return GetItemOfTypeFromUnitBJ(u, 'lhst')
         endif
-            return null
+        return null
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

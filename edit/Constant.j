@@ -580,7 +580,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (i == 15) then
 			return "风萧兮兮易水寒"
 		elseif (i == 16) then
-			return "丨紫魂丶晓然"
+			return "种子哥"
 		elseif (i == 17) then
 			return "你等到，小NB"
 		endif

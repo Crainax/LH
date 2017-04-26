@@ -127,7 +127,7 @@ library_once Ring initializer InitRing requires LHBase
     				call TriggerExecute( gg_trg_papa8____________u )
    					call TriggerExecute( gg_trg_papa10____________u )
     				call TriggerExecute( gg_trg_papa9____________u )
-    				call DestroyEffect(AddSpecialEffect(Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl, GetUnitX(udg_H[index], udg_H[index] ))
+    				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(udg_H[index]), GetUnitY(udg_H[index])))
 		    	else
 		    		if not (BHintRing[index]) then
 		    			set BHintRing[index] = true
