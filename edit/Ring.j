@@ -1,4 +1,5 @@
 //! import "LHBase.j"
+//! import "LHBase.j"
 
 /*
     戒指
@@ -46,16 +47,10 @@ library_once Ring initializer InitRing requires LHBase
 	    local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 	    local item ring = GetBasicRing(udg_H[index])
 	    local unit u = udg_H[index]
-	    local integer i = 1
+	    local integer i = GetKillCount(GetDyingUnit())
 	    if (ring != null) then
 	    	set ring = GetBasicRing(UDepot[index])
 	    	set u = UDepot[index]
-	    endif
-
-	    if (Is10Unit(GetDyingUnit())) then
-	    	set count = 10
-	    elseif (Is20Unit(GetDyingUnit())) then
-	    	set count = 20
 	    endif
 
 	    if (ring == null) then
@@ -106,6 +101,63 @@ library_once Ring initializer InitRing requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    超戒指
+	*/
+	function TRingMaxCon takes nothing returns boolean
+	    return ((IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) == true) and (IsUnitAliveBJ(GetKillingUnitBJ()) == true) and GetMaxRing(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]) != null)
+	endfunction
+
+	function TRingMaxAct takes nothing returns nothing
+
+	    local integer count = 1
+
+	    local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
+	    local item ring = GetMaxRing(udg_H[index])
+	    local integer i = GetKillCount(GetDyingUnit())
+
+	    call SetItemUserData( ring,  GetItemUserData(ring) + count  )
+
+		//! textmacro ShuaRingMax takes CType,Count
+		    if (GetItemTypeId(ring) == '$CType$') then
+		    	if (GetItemUserData(ring) > 1000) then
+		    		call SetItemCharges(ring,GetItemCharges(ring) + 1)
+					call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + $Count$ ,true)
+					call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true) + $Count$ , true)
+					call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true) + $Count$ , true)
+    				call TriggerExecute( gg_trg_papa8____________u )
+   					call TriggerExecute( gg_trg_papa10____________u )
+    				call TriggerExecute( gg_trg_papa9____________u )
+    				call DestroyEffect(AddSpecialEffect(Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl, GetUnitX(udg_H[index], udg_H[index] ))
+		    	else
+		    		if not (BHintRing[index]) then
+		    			set BHintRing[index] = true
+		                call DisplayTextToPlayer( GetOwningPlayer(GetKillingUnitBJ()), 0, 0, ( "|cFFFF66CC【鬼器】|r" + ( I2S(GetItemUserData(ring)) + "/1000。" ) ) )
+		                call CreateRingTimer(GetOwningPlayer(GetKillingUnitBJ()))
+		            endif
+		    	endif
+		    endif
+		//! endtextmacro
+
+		//! runtextmacro ShuaRingMax("brac","5000")
+		//! runtextmacro ShuaRingMax("fgdg","10000")
+
+	    set ring = null
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    使用超鬼戒指
+	*/
+	private function TRingUseCon takes nothing returns boolean
+		return IsMaxRing(GetManipulatedItem())
+	endfunction
+
+	private function TRingUseAct takes nothing returns nothing
+		call SetItemCharges(GetManipulatedItem(), ( GetItemCharges(GetManipulatedItem()) + 1 ))
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化戒指
 	*/
 	private function InitRing takes nothing returns nothing
@@ -123,6 +175,16 @@ library_once Ring initializer InitRing requires LHBase
 	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_DEATH )
 	    call TriggerAddCondition(t, Condition(function TRingUpdateCon))
 	    call TriggerAddAction(t, function TRingUpdateAct)
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_DEATH )
+	    call TriggerAddCondition(t, Condition(function TRingMaxCon))
+	    call TriggerAddAction(t, function TRingMaxAct)
+	    //使用戒指闪烁后
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_USE_ITEM )
+	    call TriggerAddCondition(t, Condition(function TRingUseCon))
+	    call TriggerAddAction(t, function TRingUseAct)
+
 	    set t = null
 
 	endfunction

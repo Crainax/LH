@@ -9,7 +9,9 @@ library_once Seyu requires SpellBase,Printer,Attr
 	
 	globals
 		unit seyu = null
+		unit array chongdongs
 
+		private integer chongCount = 0
 		/*
 		    异界能量
 		*/
@@ -27,6 +29,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		private trigger TSpellSeyu2	= null
 		private trigger TSpellSeyu3	= null
 		key kAnShaCount
+
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -37,27 +40,24 @@ library_once Seyu requires SpellBase,Printer,Attr
 	endfunction
 
 	function GetChongdongGroup takes real radius,integer count returns group
-		local unit chongdong
 		local group result = CreateGroup()
-		local group temp
-		local group l_group
-		local unit l_unit
+		local group temp = null
+		local group l_group = null
+		local unit l_unit = null
 		local integer i = 1
 		loop
 			exitwhen i > 8
-			set chongdong = YDWEGetUnitByString("空间虫洞", I2S(i))
-			if ((RectContainsUnit(gg_rct______________095, chongdong) != true)) then
+			if (chongdongs[i] != null) then
 				set l_group = CreateGroup()
-				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdong), GetUnitY(chongdong), radius, Condition(function EnemyFilterSeyu))
+				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), radius, Condition(function EnemyFilterSeyu))
 				set temp = GetRandomSubGroup( count, l_group)
 				call GroupAddGroup(temp,result)
 				call DestroyGroup(l_group)
 				call DestroyGroup(temp)
-       		endif
-			set i = i +1
+				set i = i +1
+			endif	
 		endloop
 
-		set chongdong = null
 		set l_group = null
 		set l_unit =null
 		set temp =null
@@ -80,7 +80,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		local unit u = speller
 		local real damage = GetDamageAgi(u) * damageRate
 	    local group l_group = CreateGroup()
-	    local unit l_unit
+	    local unit l_unit = null
 	    call GroupEnumUnitsInRange(l_group, GetUnitX(speller), GetUnitY(speller), 600, Condition(function EnemyFilterSeyu))
 	    call AddChongdongGroup(l_group,600,R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
 	    
@@ -108,8 +108,8 @@ library_once Seyu requires SpellBase,Printer,Attr
 
 	function TSpellSeyu2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call Mantuoluo(seyu,0.33,'AUav')
-		call PolledWait(1)
+		call Mantuoluo(seyu,1,'AUav')
+		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
@@ -214,12 +214,11 @@ library_once Seyu requires SpellBase,Printer,Attr
 	private function AnShaZhiWuTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		local group g 
+		local group g = null
 		local real damage = GetDamageAgi(seyu) * 0.5
 		local integer value = LoadInteger(spellTable,id,kAnShaCount)
-		local group l_group
-		local unit l_unit
-		local unit chongdong
+		local group l_group = null
+		local unit l_unit = null
 		local integer i
 		if (value < 30) then
 			//++1
@@ -242,13 +241,11 @@ library_once Seyu requires SpellBase,Printer,Attr
 			set i = 1
 			loop
 				exitwhen i > 8
-				set chongdong = YDWEGetUnitByString("空间虫洞", I2S(i))
-				if ((RectContainsUnit(gg_rct______________095, chongdong) != true)) then
-	       			call CreateUnitEffect(GetOwningPlayer(chongdong),'h00E',GetUnitX(chongdong),GetUnitY(chongdong),0)
-	       		endif
+				if (chongdongs[i] != null) then
+	       			call CreateUnitEffect(GetOwningPlayer(chongdongs[i]),'h00E',GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),0)
+				endif
 				set i = i +1
 			endloop
-			set chongdong =null
 		else
 			call PauseTimer(t)
 			call DestroyTimer(t)
@@ -290,15 +287,15 @@ library_once Seyu requires SpellBase,Printer,Attr
 		local integer i
 		if (learner == seyu) then
 			if(whichSpell == 1) then
-                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(3)), 3 )
+				set chongCount = chongCount + 1
 			elseif (whichSpell == 2 and IsSecondSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AUav') == 1) then
 				//技能2初始化
 				call InitPower()
-                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(4)), 3 )
+				set chongCount = chongCount + 1
 			elseif (whichSpell == 3 and IsThirdSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEar') == 1) then
 				//技能3初始化
-                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(5)), 3 )
 				call SetPlayerTechResearchedSwap( 'R00D', 1, GetOwningPlayer(seyu) )
+				set chongCount = chongCount + 1
 				set i = 1
        			loop
        				exitwhen i > 6
@@ -317,11 +314,10 @@ library_once Seyu requires SpellBase,Printer,Attr
 			    call TriggerAddAction(TSpellSeyu3, function TSpellSeyu3Act)
 			elseif (whichSpell == 4 and IsFourthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEsv') == 1) then
 				//技能4初始化
-                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(6)), 3 )
+				set chongCount = chongCount + 1
 			elseif (whichSpell == 5 and IsFifthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEst') == 1) then
 				//技能5初始化
-                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(7)), 3 )
-                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(8)), 3 )
+				set chongCount = chongCount + 2
 			endif
 		endif
 	endfunction
@@ -346,8 +342,9 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    初始化瑟雨
 	*/
 	function InitSeyu takes unit u returns nothing
+		local integer i = 1
 		set seyu = u
-
+		set chongCount = 2
 		//1
 	    set TSpellSeyu = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ( TSpellSeyu, EVENT_PLAYER_UNIT_SPELL_EFFECT )
@@ -359,5 +356,12 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    call TriggerRegisterAnyUnitEventBJ( TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellSeyu2, Condition(function TSpellSeyu2Con))
 	    call TriggerAddAction(TSpellSeyu2, function TSpellSeyu2Act)
+
+	    loop
+	    	exitwhen i > 8
+	    	set chongdongs[i] = null
+	    	set i = i +1
+	    endloop
+
 	endfunction
 endlibrary

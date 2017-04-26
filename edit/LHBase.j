@@ -72,6 +72,19 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        获取某个单位应该对应的杀敌数
+    */
+    function GetKillCount takes unit u returns integer
+        if (Is10Unit(u)) then
+            return 10
+        elseif (Is20Unit(u)) then
+            return 20
+        else
+            return 1
+        endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         戒指1-9过滤器
     */
     function GetBasicRing takes unit u returns item
@@ -95,6 +108,24 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'penr')
         endif
         return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        戒指max和超鬼过滤器
+    */
+    function GetMaxRing takes unit u returns item
+        if (UnitHasItemOfTypeBJ(u,'brac'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'brac')
+        elseif (UnitHasItemOfTypeBJ(u,'fgdg'))then
+            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'fgdg')
+        return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是鬼戒指Max或者超鬼
+    */
+    function IsMaxRing takes item i returns boolean
+        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'fgdg'
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -392,11 +423,11 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         endif
         set t = null 
     endfunction
-
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
 
         local timer t = CreateTimer()
+        local trigger t1 = CreateTrigger()
         /*
             仓库初始化
         */
@@ -411,7 +442,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
         call SaveInteger(LHTable,GetHandleId(t),1,0)
         call TimerStart(t,2,true,function StartWanjieTimer)
-        
+
+        set t1 = null
         set t = null
     endfunction
 endlibrary

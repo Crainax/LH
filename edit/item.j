@@ -245,13 +245,6 @@ endglobals
 	    endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	/*
-	    提高戒指的量
-	*/
-	private function UpdateRing takes unit u,integer volume returns nothing
-
-	endfunction
-//---------------------------------------------------------------------------------------------------
 	private function InitItemBase takes nothing returns nothing
 		//人器或者聚宝只能装备一个
 		local trigger t = CreateTrigger()
