@@ -365,3 +365,263 @@ library_once Seyu requires SpellBase,Printer,Attr
 
 	endfunction
 endlibrary
+
+function Trig_____________63Conditions takes nothing returns boolean
+    return ((GetSpellAbilityId() == 'ACst') and (GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER))
+endfunction
+
+function Trig_____________63Func003002003 takes nothing returns boolean
+    return ((GetUnitTypeId(GetFilterUnit()) == 'ndgt'))
+endfunction
+
+function Trig_____________63Actions takes nothing returns nothing
+    if ((GetUnitUserData(gg_unit_haro_0030) != 1)) then
+        call SetUnitUserData( gg_unit_haro_0030, 1 )
+        set udg_Point = GetSpellTargetLoc()
+        call SetUnitPositionLoc( gg_unit_ndgt_0236, udg_Point )
+        call SetUnitOwner( gg_unit_ndgt_0236, GetOwningPlayer(gg_unit_Ewrd_0250), true )
+        call CreateTextTagLocBJ( "TRIGSTR_4032", udg_Point, 0, 40.00, 0.00, 100, 0.00, 0 )
+        call SelectUnitForPlayerSingle( gg_unit_ndgt_0236, GetOwningPlayer(gg_unit_Ewrd_0250) )
+        set udg_Chongdong_Piaofu[1] = GetLastCreatedTextTag()
+        call PingMinimapLocForForce( GetForceOfPlayer(GetOwningPlayer(gg_unit_Ewrd_0250)), udg_Point, 2.00 )
+        call RemoveLocation( udg_Point )
+        call ShowUnitShow( gg_unit_ndgt_0236 )
+        return
+    else
+    endif
+    set udg_Point = GetSpellTargetLoc()
+    set udg_Group = GetUnitsInRangeOfLocMatching(900.00, udg_Point, Condition(function Trig_____________63Func003002003))
+    if ((CountUnitsInGroup(udg_Group) != 0)) then
+        call DisplayTextToPlayer( GetOwningPlayer(gg_unit_Ewrd_0250), 0, 0, "TRIGSTR_4033" )
+        return
+    else
+    endif
+    call DestroyGroup( udg_Group )
+    call RemoveLocation( udg_Point )
+    set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 8
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if ((GetUnitUserData(YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA()))) == 3)) then
+            set udg_Point = GetSpellTargetLoc()
+            call ShowUnitShow( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())) )
+            call SetUnitPositionLoc( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), udg_Point )
+            call SetUnitOwner( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), GetOwningPlayer(gg_unit_Ewrd_0250), true )
+            call CreateTextTagLocBJ( ( "虫洞" + ( I2S(GetForLoopIndexA()) + "号" ) ), udg_Point, 0, 40.00, 0.00, 100, 0.00, 0 )
+            call SelectUnitForPlayerSingle( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), GetOwningPlayer(gg_unit_Ewrd_0250) )
+            set udg_Chongdong_Piaofu[GetForLoopIndexA()] = GetLastCreatedTextTag()
+            call PingMinimapLocForForce( GetForceOfPlayer(GetOwningPlayer(gg_unit_Ewrd_0250)), udg_Point, 2.00 )
+            call RemoveLocation( udg_Point )
+            call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), 0 )
+            return
+        else
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+    set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 8
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if ((GetUnitUserData(YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA()))) == 1)) then
+            set udg_Point = GetSpellTargetLoc()
+            call SetUnitPositionLoc( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), udg_Point )
+            call SetTextTagPosBJ( udg_Chongdong_Piaofu[GetForLoopIndexA()], udg_Point, 0 )
+            call PingMinimapLocForForce( GetForceOfPlayer(GetOwningPlayer(gg_unit_Ewrd_0250)), udg_Point, 2.00 )
+            call SelectUnitForPlayerSingle( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), GetOwningPlayer(gg_unit_Ewrd_0250) )
+            call RemoveLocation( udg_Point )
+            call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), 0 )
+            if ((GetForLoopIndexA() < 8)) then
+                if ((GetUnitUserData(YDWEGetUnitByString("空间虫洞", I2S(( GetForLoopIndexA() + 1 )))) == 0)) then
+                    call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(( GetForLoopIndexA() + 1 ))), 1 )
+                else
+                    call SetUnitUserData( YDWEGetUnitByString("空间虫洞", "1"), 1 )
+                endif
+            else
+                call SetUnitUserData( YDWEGetUnitByString("空间虫洞", "1"), 1 )
+            endif
+            call DoNothing() YDNL exitwhen true//(  )
+        else
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+endfunction
+
+//===========================================================================
+function InitTrig_____________63 takes nothing returns nothing
+    set gg_trg_____________63 = CreateTrigger()
+    call DisableTrigger(gg_trg_____________63)
+#ifdef DEBUG
+    call YDWESaveTriggerName(gg_trg_____________63, "空间虫洞63")
+#endif
+    call TriggerRegisterAnyUnitEventBJ( gg_trg_____________63, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+    call TriggerAddCondition(gg_trg_____________63, Condition(function Trig_____________63Conditions))
+    call TriggerAddAction(gg_trg_____________63, function Trig_____________63Actions)
+endfunction
+
+
+
+function Trig_____________64Actions takes nothing returns nothing
+    local integer ydul_p
+    if ((GetHeroLevel(gg_unit_Ewrd_0250) < 200)) then
+        set ydul_p = 1
+        loop
+            exitwhen ydul_p > 8
+            call SetUnitAbilityLevelSwapped( 'ACfu', YDWEGetUnitByString("空间虫洞", I2S(ydul_p)), ( GetHeroLevel(gg_unit_Ewrd_0250) / 2 ) )
+            set ydul_p = ydul_p + 1
+        endloop
+    else
+        set ydul_p = 1
+        loop
+            exitwhen ydul_p > 8
+            call SetUnitAbilityLevelSwapped( 'ACfu', YDWEGetUnitByString("空间虫洞", I2S(ydul_p)), 100 )
+            set ydul_p = ydul_p + 1
+        endloop
+    endif
+endfunction
+
+//===========================================================================
+function InitTrig_____________64 takes nothing returns nothing
+    set gg_trg_____________64 = CreateTrigger()
+    call DisableTrigger(gg_trg_____________64)
+#ifdef DEBUG
+    call YDWESaveTriggerName(gg_trg_____________64, "空间虫洞64")
+#endif
+    call TriggerRegisterUnitEvent( gg_trg_____________64, gg_unit_Ewrd_0250, EVENT_UNIT_HERO_LEVEL )
+    call TriggerAddAction(gg_trg_____________64, function Trig_____________64Actions)
+endfunction
+
+function Trig_____________119Conditions takes nothing returns boolean
+    return ((GetSpellAbilityId() == 'A0E6'))
+endfunction
+
+function Trig_____________119Actions takes nothing returns nothing
+    set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 8
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if ((GetSpellAbilityUnit() == YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())))) then
+            call SetUnitUserData( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), 3 )
+            set udg_Point = GetRectCenter(gg_rct______________095)
+            call SetUnitOwner( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), Player(0), true )
+            call ShowUnitHide( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())) )
+            call SetUnitPositionLoc( YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), udg_Point )
+            call DestroyTextTag( udg_Chongdong_Piaofu[GetForLoopIndexA()] )
+            call RemoveLocation( udg_Point )
+            return
+        else
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+endfunction
+
+//===========================================================================
+function InitTrig_____________119 takes nothing returns nothing
+    set gg_trg_____________119 = CreateTrigger()
+#ifdef DEBUG
+    call YDWESaveTriggerName(gg_trg_____________119, "取消虫洞119")
+#endif
+    call TriggerRegisterAnyUnitEventBJ( gg_trg_____________119, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+    call TriggerAddCondition(gg_trg_____________119, Condition(function Trig_____________119Conditions))
+    call TriggerAddAction(gg_trg_____________119, function Trig_____________119Actions)
+endfunction
+
+function Trig_____________79Conditions takes nothing returns boolean
+    return ((GetSpellAbilityId() == 'AEsv'))
+endfunction
+
+function Trig_____________79Func002A takes nothing returns nothing
+    call YDTriggerClearTable(YDTriggerAny2I(unit, GetEnumUnit()))
+    call RemoveUnit( GetEnumUnit() )
+endfunction
+
+function Trig_____________79Actions takes nothing returns nothing
+    local group ydl_group
+    local unit ydl_unit
+    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
+    set ydl_localvar_step = ydl_localvar_step + 3
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+    set udg_Group = GetUnitsOfTypeIdAll('espv')
+    call ForGroupBJ( udg_Group, function Trig_____________79Func002A )
+    call DestroyGroup( udg_Group )
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, R2I(( I2R(GetHeroStatBJ(bj_HEROSTAT_AGI, gg_unit_Ewrd_0250, false)) * SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250))) )))
+    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + ( "|cFFFF66CC】|r" + ( "" + ( "攻击力" + ( I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) + "。" ) ) ) ) ) ) )
+    set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 8
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if ((GetUnitUserData(YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA()))) != 2) and (GetUnitUserData(YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA()))) != 3)) then
+            set udg_Point = GetUnitLoc(YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())))
+            call CreateNUnitsAtLoc( 1, 'espv', GetOwningPlayer(gg_unit_Ewrd_0250), udg_Point, bj_UNIT_FACING )
+            call UnitApplyTimedLifeBJ( ( SquareRoot(I2R(GetHeroLevel(gg_unit_Ewrd_0250))) * 10.00 ), 'BTLF', GetLastCreatedUnit() )
+            set udg_Chong_Killer[GetForLoopIndexA()] = GetLastCreatedUnit()
+            set udg_Unit = GetLastCreatedUnit()
+            call YDTriggerSetEx(integer, YDTriggerAny2I(unit, udg_Unit), 0x5039AFFB, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820))
+            call TriggerExecute( gg_trg_____________800W )
+            call RemoveLocation( udg_Point )
+            set udg_Unit = null
+        else
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+    call EnableTrigger( gg_trg_____________80 )
+    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
+    set ydl_group = null
+    set ydl_unit = null
+endfunction
+
+//===========================================================================
+function InitTrig_____________79 takes nothing returns nothing
+    set gg_trg_____________79 = CreateTrigger()
+#ifdef DEBUG
+    call YDWESaveTriggerName(gg_trg_____________79, "空间杀手79")
+#endif
+    call TriggerRegisterAnyUnitEventBJ( gg_trg_____________79, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+    call TriggerAddCondition(gg_trg_____________79, Condition(function Trig_____________79Conditions))
+    call TriggerAddAction(gg_trg_____________79, function Trig_____________79Actions)
+endfunction
+
+function Trig_____________80Actions takes nothing returns nothing
+    local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
+    set ydl_localvar_step = ydl_localvar_step + 3
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, 0)
+    set bj_forLoopAIndex = 1
+    set bj_forLoopAIndexEnd = 8
+    loop
+        exitwhen bj_forLoopAIndex > bj_forLoopAIndexEnd
+        if ((IsUnitAliveBJ(udg_Chong_Killer[GetForLoopIndexA()]) == true)) then
+            if ((IsUnitInRange(udg_Chong_Killer[GetForLoopIndexA()], YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA())), 1800.00) == true)) then
+            else
+                call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetUnitLoc(udg_Chong_Killer[GetForLoopIndexA()]))
+                call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F)) )
+                call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
+                call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetUnitLoc(YDWEGetUnitByString("空间虫洞", I2S(GetForLoopIndexA()))))
+                call SetUnitPositionLoc( udg_Chong_Killer[GetForLoopIndexA()], YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
+                call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F)) )
+                call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
+            endif
+        else
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) + 1 ))
+        endif
+        set bj_forLoopAIndex = bj_forLoopAIndex + 1
+    endloop
+    if ((YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) == 8)) then
+        call DisableTrigger( GetTriggeringTrigger() )
+    else
+    endif
+    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
+endfunction
+
+//===========================================================================
+function InitTrig_____________80 takes nothing returns nothing
+    set gg_trg_____________80 = CreateTrigger()
+    call DisableTrigger(gg_trg_____________80)
+#ifdef DEBUG
+    call YDWESaveTriggerName(gg_trg_____________80, "空间杀手80")
+#endif
+    call TriggerRegisterTimerEventPeriodic( gg_trg_____________80, 1.00 )
+    call TriggerAddAction(gg_trg_____________80, function Trig_____________80Actions)
+endfunction
+
