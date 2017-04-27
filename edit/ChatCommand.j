@@ -145,9 +145,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-ms") then
 			set BMoshou[GetConvertedPlayerId(GetTriggerPlayer())] = not (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())])
 			if (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())]) then
-				call DisplayTextToPlayer(GetTriggerPlayer, 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽将不会被点中，主动技能也会主动释放。")
+				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽将不会被点中，主动技能也会主动释放。")
 			else
-				call DisplayTextToPlayer(GetTriggerPlayer, 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽可以被点中，主动技能也能手动释放。")
+				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽可以被点中，主动技能也能手动释放。")
 			endif
 		debug elseif (str == "-cj") then
 			debug call CreateAchievementDialog(GetTriggerPlayer())

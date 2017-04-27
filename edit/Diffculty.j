@@ -1,6 +1,7 @@
 
 //! import "LHBase.j"
-library_once Diffculty requires LHBase 
+
+library_once Diffculty requires LHBase
 	
 	globals
 		/*
@@ -210,7 +211,26 @@ library_once Diffculty requires LHBase
 	    游戏难度的选取
 	*/
 	function ChooseDifficulty takes nothing returns nothing
-		
+		call DialogSetMessage( udg_X_Nandu, "选择难度" )
+	    call DialogAddButtonBJ( udg_X_Nandu, "天国（12波）") 
+	    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "太平（18波）") 
+	    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（18波）") 
+	    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5波）" )
+	    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5波）" )
+	    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5波）" )
+	    set udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5波）" )
+	    set udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5波）" )
+	    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
+	    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5波）" )
+	    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
+	    call DialogDisplay( Player(0), udg_X_Nandu, true )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -235,7 +255,6 @@ library_once Diffculty requires LHBase
         call DialogClear(d)
         call DialogDestroy(d)
         set d = null
-        set u = null
         call DestroyTrigger(GetTriggeringTrigger())
 	endfunction
 //---------------------------------------------------------------------------------------------------

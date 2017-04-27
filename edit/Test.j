@@ -85,7 +85,11 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         */
         integer array udg_gold
         real array udg_I_Jinqianhuodelv
-
+        /*
+            选择难度对话框
+        */
+        button array udg_X_Nandu_Chuangkou
+        dialog udg_X_Nandu
         /*
             人数
         */

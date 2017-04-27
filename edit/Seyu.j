@@ -12,7 +12,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		unit array chongdongs
 		unit array shashous
 
-		private integer chongCount = 0
+		private integer chongCount = 2
 		/*
 		    异界能量
 		*/
@@ -30,6 +30,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		private trigger TSpellSeyu2	= null
 		private trigger TSpellSeyu3	= null
 		private trigger TSpellSeyuUpdate = null
+		private trigger TSpellChongdong = null
 		key kAnShaCount
 
 		private texttag array TTCD
@@ -108,10 +109,12 @@ library_once Seyu requires SpellBase,Printer,Attr
 	            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(seyu)), GetSpellTargetX(),GetSpellTargetY(), 2.00 )
 	            //冰甲技能的设定
 	            call TSpellSeyuUpdateAct()
+	            return
 			endif
 			set i = i +1
 		endloop
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    取消虫洞
@@ -153,8 +156,8 @@ library_once Seyu requires SpellBase,Printer,Attr
 				call GroupAddGroup(temp,result)
 				call DestroyGroup(l_group)
 				call DestroyGroup(temp)
-				set i = i +1
 			endif	
+			set i = i +1
 		endloop
 
 		set l_group = null
@@ -417,6 +420,14 @@ library_once Seyu requires SpellBase,Printer,Attr
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    虫洞使用技能 
+	*/
+	private function TSpellChongdongCon takes nothing returns boolean
+		return (GetSpellAbilityId() == 'A0E6')
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
 	    英雄使用技能
 	*/
 	private function TSpellSeyuCon takes nothing returns boolean
@@ -431,7 +442,6 @@ library_once Seyu requires SpellBase,Printer,Attr
 			call CreateChongdong()
 		//取消虫洞
 		elseif (GetSpellAbilityId() == 'A0E6') then
-			call CancelChongdong()
 		//空间杀手
 		elseif (GetSpellAbilityId() == 'AEsv') then
 			call Kongjianshashou()
@@ -514,6 +524,11 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    call TriggerRegisterAnyUnitEventBJ( TSpellSeyu, EVENT_PLAYER_UNIT_SPELL_EFFECT )
 	    call TriggerAddCondition(TSpellSeyu, Condition(function TSpellSeyuCon))
 	    call TriggerAddAction(TSpellSeyu, function TSpellSeyuAct)
+		//1
+	    set TSpellChongdong = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( TSpellChongdong, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+	    call TriggerAddCondition(TSpellChongdong, Condition(function TSpellChongdongCon))
+	    call TriggerAddAction(TSpellChongdong, function CancelChongdong)
 
 	    //2
 	    set TSpellSeyu2 = CreateTrigger()
