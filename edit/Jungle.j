@@ -22,7 +22,7 @@ library_once Jungle initializer InitJungle requires LHBase,Diffculty
     	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))])+"成功地击杀了"+GetUnitName(GetDyingUnit())+",所有玩家奖励1000木材！")
     	loop
     		exitwhen i > 6
-			call AdjustPlayerStateBJ( 1500, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )
+			call AdjustPlayerStateBJ( 1000, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )
     		set i = i +1
     	endloop
 

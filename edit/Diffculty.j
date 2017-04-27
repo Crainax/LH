@@ -207,9 +207,52 @@ library_once Diffculty requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    游戏难度的选取
+	*/
+	function ChooseDifficulty takes nothing returns nothing
+		
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    游戏模式选中
+	*/
+	private function GameModeClick takes nothing returns nothing
+	    local dialog d = GetClickedDialogBJ()
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
+			//经典模式
+			set mode = 1
+			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
+		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+			//加速模式
+			set mode = 2
+			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
+		endif	       
+
+		call ChooseDifficulty()
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+    	call DialogDisplay( Player(0), d, false )
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d = null
+        set u = null
+        call DestroyTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    选择游戏模式
 	*/
 	function ChooseGameMode takes nothing returns nothing
-		
+	    local trigger t  = CreateTrigger()
+	    local dialog d = DialogCreate()
+
+	    call DialogSetMessage( d, "请选择游戏模式" )
+	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式（不推荐新手）"))
+	    call DialogDisplay( Player(0), d, true )
+	    call TriggerRegisterDialogEvent( t, d )
+	    call TriggerAddAction(t, function GameModeClick)
+	    set d = null
+	    set t = null
 	endfunction
 endlibrary

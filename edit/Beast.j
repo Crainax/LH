@@ -122,6 +122,9 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		endif
 		set Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] = u 
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(captain), GetUnitY(captain) ))
+		if (BMoshou[GetConvertedPlayerId(GetOwningPlayer(captain))]) then
+			call UnitAddAbility(u,'Aloc')
+		endif
 		call YDWESetGuard(u,captain,1,600,600,600,100)
 		set u = null
 	endfunction
@@ -253,6 +256,13 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
  					call SimulateSpell(Unit_Beast[playerID],Unit_Beast[playerID],'A0CR',1,5,"stomp",false,true,false)
 					call SetItemCharges(beast,0)
 			endif
+		endif
+
+		/*
+		    自动
+		*/
+		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABea') >= 1 and BMoshou[playerID]) then
+			call IssueImmediateOrder(Unit_Beast[playerID],"berserk")
 		endif
 
 		/*

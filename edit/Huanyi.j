@@ -227,7 +227,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	*/
 	private function FireLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 0.4
+		local real damage = GetDamageInt(Huanyi) * 0.2
 		local integer i = 1
 		local integer ii = 1
 		local real range = 150 * times
@@ -250,7 +250,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 			loop
 				exitwhen ii > i * 1 + 4
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", YDWECoordinateX(x+ 150 * i *CosBJ(360 * ii/(i * 1 + 4))), YDWECoordinateY(y + 150 * i * SinBJ(360 * ii/(i * 1 + 4))) ))
-				set ii = ii +1
+				set ii = ii + 1
 			endloop
 			set i = i +1
 		endloop
@@ -360,13 +360,13 @@ library_once Huanyi requires SpellBase,Printer,Attr
 				exitwhen i > times - 1
 				set ii = 1
 				loop
-					exitwhen ii > i * 1 + 4
-					call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", YDWECoordinateX(GetUnitX(UGucan)+ 150 * i*  CosBJ(360 * ii/(i * 1 + 4))), YDWECoordinateY(GetUnitY(UGucan) + 150 * i * SinBJ(360 * ii/(i * 1 + 4))) ))
+					exitwhen ii > i * 1 + 2
+					call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\NightElf\\NECancelDeath\\NECancelDeath.mdl", YDWECoordinateX(GetUnitX(UGucan)+ 150 * i*  CosBJ(360 * ii/(i * 1 + 2))), YDWECoordinateY(GetUnitY(UGucan) + 150 * i * SinBJ(360 * ii/(i * 1 + 2))) ))
 					set ii = ii +1
 				endloop
 				set i = i +1
 			endloop
-			call DamageArea(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.3)
+			call DamageAreaMirror(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.15)
 		else
 			call RemoveUnit(UGucan)
 			set UGucan = null

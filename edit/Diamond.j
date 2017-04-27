@@ -1404,7 +1404,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         进入宝石区域
     */
     function EnterDiamond takes nothing returns nothing
-        if ((GetItemTypeId(GetSoldItem()) == 'I02T') or (GetItemTypeId(GetSoldItem()) == 'rspd')) then
+        if ((GetItemTypeId(GetSoldItem()) == 'rspd')) then
             call CreateDiamondDialog(GetBuyingUnit())
         endif
     endfunction

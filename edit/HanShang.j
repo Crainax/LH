@@ -47,7 +47,7 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	    if (abilityID != 0) then
 	    	call PrintSpellAdd(GetOwningPlayer(u),GetAbilityName(abilityID),damage,",距离伤害衰减"+I2S(100 - R2I(n*100))+"%.")
 	    endif
-	    call DamageArea(hanshang,x,y,450,damage)
+	    call DamageAreaMirror(hanshang,x,y,450,damage)
 	    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
 	endfunction
 //---------------------------------------------------------------------------------------------------

@@ -205,7 +205,7 @@ library_once Exercise initializer InitExercise requires LHBase
 	*/	
 	//! textmacro TExerciseForbitCon takes Index
 		private function TExerciseForbitCon$Index$ takes nothing returns boolean
-			return ((ConvertedPlayer($Index$) != GetOwningPlayer(GetTriggerUnit())) and (IsEnemy3(GetTriggerUnit(),Player(10)) or GetUnitTypeId(GetTriggerUnit()) == 'ndgt'))
+			return ((ConvertedPlayer($Index$) != GetOwningPlayer(GetTriggerUnit())) and (IsEnemy3(GetTriggerUnit(),Player(10))))
 		endfunction
 	//! endtextmacro
 

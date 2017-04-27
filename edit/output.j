@@ -1,4 +1,7 @@
 globals
+//globals from DzAPI:
+constant boolean LIBRARY_DzAPI=true
+//endglobals from DzAPI
 //globals from JBase:
 constant boolean LIBRARY_JBase=true
 //endglobals from JBase
@@ -47,14 +50,14 @@ integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Constant:
 constant boolean LIBRARY_Constant=true
@@ -147,8 +150,6 @@ multiboard udg_D
         
 integer array udg_I_Lianyu
 rect gg_rct______________084
-        
-rect gg_rct______________095
 
         
 unit array udg_U_Zhuansheng_Dantiao
@@ -202,28 +203,25 @@ constant boolean LIBRARY_SpellBase=true
 hashtable spellTable= InitHashtable()
 constant integer kUImmuteDamage=11
 //endglobals from SpellBase
-//globals from Seyu:
-constant boolean LIBRARY_Seyu=true
-unit seyu= null
-unit array chongdongs
-unit array shashous
+//globals from Hanshang:
+constant boolean LIBRARY_Hanshang=true
+unit hanshang= null
 
-integer Seyu__chongCount= 0
+boolean Hanshang__IsLianhuan= false
 		
-texttag Seyu__TTPower= null
-integer Seyu__IPower
-			
-real Seyu__RAddtion
+trigger Hanshang__TSpellHanshang= null
 
+trigger Hanshang__TSpellHanshang2= null
+
+trigger Hanshang__TSpellHanshang3= null
+
+trigger Hanshang__TSpellHanshang4= null
 		
-trigger Seyu__TSpellSeyu= null
-trigger Seyu__TSpellSeyu2= null
-trigger Seyu__TSpellSeyu3= null
-trigger Seyu__TSpellSeyuUpdate= null
-constant integer kAnShaCount=13
-
-texttag array Seyu__TTCD
-//endglobals from Seyu
+real Hanshang__RLianjin= 0
+real Hanshang__RLianjin2= 0
+constant integer kLianhuanBoomX=12
+constant integer kLianhuanBoomY=13
+//endglobals from Hanshang
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
 unit bj_lastAbilityCastingUnit=null
@@ -303,6 +301,7 @@ function s__Attract__allocate takes nothing returns integer
         set this=si__Attract_I
     endif
     if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Attract")
         return 0
     endif
 
@@ -313,8 +312,10 @@ endfunction
 //Generated destructor of Attract
 function sc__Attract_deallocate takes integer this returns nothing
     if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Attract")
         return
     elseif (si__Attract_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Attract")
         return
     endif
     set f__arg_this=this
@@ -346,6 +347,7 @@ function s__Missile__allocate takes nothing returns integer
         set this=si__Missile_I
     endif
     if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Missile")
         return 0
     endif
 
@@ -356,8 +358,10 @@ endfunction
 //Generated destructor of Missile
 function sc__Missile_deallocate takes integer this returns nothing
     if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Missile")
         return
     elseif (si__Missile_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Missile")
         return
     endif
     set f__arg_this=this
@@ -366,6 +370,166 @@ function sc__Missile_deallocate takes integer this returns nothing
     set si__Missile_F=this
 endfunction
 
+//library DzAPI:
+	
+    function DzAPI_Map_SaveServerValue takes player whichPlayer,string key,string value returns boolean
+    return true
+    endfunction
+    function DzAPI_Map_GetServerValue takes player whichPlayer,string key returns string
+    return null
+    endfunction
+    function DzAPI_Map_Ladder_SetStat takes player whichPlayer,string key,string value returns nothing
+    endfunction
+    function DzAPI_Map_IsRPGLobby takes nothing returns boolean
+    return true
+    endfunction
+    function DzAPI_Map_IsRPGLadder takes nothing returns boolean
+    return true
+    endfunction
+    function DzAPI_Map_GetGameStartTime takes nothing returns integer
+    return 0
+    endfunction
+    function DzAPI_Map_Stat_SetStat takes player whichPlayer,string key,string value returns nothing
+    endfunction
+    function DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
+    return 0
+    endfunction
+    function DzAPI_Map_MissionComplete takes player whichPlayer,string key,string value returns nothing
+    endfunction
+    function DzAPI_Map_GetActivityData takes nothing returns string
+    return null
+    endfunction
+    function DzAPI_Map_GetMatchType takes nothing returns integer
+    return 0
+    endfunction
+    function DzAPI_Map_Ladder_SetPlayerStat takes player whichPlayer,string key,string value returns nothing
+    endfunction
+ function DzAPI_Map_StoreInteger takes player whichPlayer,string key,integer value returns nothing
+        set key="I" + key
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , I2S(value))
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredInteger takes player whichPlayer,string key returns integer
+        local integer value
+        set key="I" + key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer , key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+ function DzAPI_Map_GetStoredUnitId takes player whichPlayer,string key returns integer
+        local integer value
+        set key="I" + key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer , key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreReal takes player whichPlayer,string key,real value returns nothing
+        set key="R" + key
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , R2S(value))
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredReal takes player whichPlayer,string key returns real
+        local real value
+        set key="R" + key
+        set value=S2R(DzAPI_Map_GetServerValue(whichPlayer , key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreBoolean takes player whichPlayer,string key,boolean value returns nothing
+        set key="B" + key
+        if ( value ) then
+            call DzAPI_Map_SaveServerValue(whichPlayer , key , "1")
+        else
+            call DzAPI_Map_SaveServerValue(whichPlayer , key , "0")
+        endif
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredBoolean takes player whichPlayer,string key returns boolean
+        local boolean value
+        set key="B" + key
+        set key=DzAPI_Map_GetServerValue(whichPlayer , key)
+        if ( key == "1" ) then
+            set value=true
+        else
+            set value=false
+        endif
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreString takes player whichPlayer,string key,string value returns nothing
+        set key="S" + key
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , value)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredString takes player whichPlayer,string key returns string
+        return DzAPI_Map_GetServerValue(whichPlayer , "S" + key)
+    endfunction
+    function DzAPI_Map_FlushStoredMission takes player whichPlayer,string key returns nothing
+        call DzAPI_Map_SaveServerValue(whichPlayer , key , null)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_Ladder_SubmitIntegerData takes player whichPlayer,string key,integer value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
+    endfunction
+    function DzAPI_Map_Stat_SubmitUnitIdData takes player whichPlayer,string key,integer value returns nothing
+        if ( value == 0 ) then
+            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
+        endif
+    endfunction
+    function DzAPI_Map_Stat_SubmitUnitData takes player whichPlayer,string key,unit value returns nothing
+        call DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer , key , GetUnitTypeId(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitAblityIdData takes player whichPlayer,string key,integer value returns nothing
+        if ( value == 0 ) then
+            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , I2S(value))
+        endif
+    endfunction
+    function DzAPI_Map_Ladder_SubmitItemIdData takes player whichPlayer,string key,integer value returns nothing
+        local string S
+        if ( value == 0 ) then
+            set S="0"
+        else
+            set S=I2S(value)
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , S)
+        endif
+        //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
+        set S=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_Ladder_SubmitItemData takes player whichPlayer,string key,item value returns nothing
+        call DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer , key , GetItemTypeId(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitBooleanData takes player whichPlayer,string key,boolean value returns nothing
+        if ( value ) then
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , "1")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer , key , "0")
+        endif
+    endfunction
+    function DzAPI_Map_Ladder_SubmitTitle takes player whichPlayer,string value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer , value , "1")
+    endfunction
+ function DzAPI_Map_Ladder_SubmitPlayerRank takes player whichPlayer,integer value returns nothing
+        call DzAPI_Map_Ladder_SetPlayerStat(whichPlayer , "RankIndex" , I2S(value))
+    endfunction
+ function DzAPI_Map_Ladder_SubmitPlayerExtraExp takes player whichPlayer,integer value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer , "ExtraExp" , I2S(value))
+    endfunction
+
+//library DzAPI ends
 //library JBase:
 	
 //---------------------------------------------------------------------------------------------------
@@ -1308,7 +1472,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -2033,7 +2197,7 @@ endfunction
 
     
    function IsEnemy takes unit u,unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and (IsEnemyMP((u ) , GetOwningPlayer(( caster)))) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false // INLINED!!
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u , caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -2123,6 +2287,25 @@ endfunction
     function CreateUnitEffect takes player whichPlayer,integer unitType,real x,real y,real facing returns nothing
         call CreateUnitEffectSpecifyTime(whichPlayer , unitType , x , y , facing , 5)
     endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function DamageAreaMirror takes unit attacker,real x,real y,real radius,real damage returns nothing
+        local group l_group= CreateGroup()
+        local unit l_unit
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        loop
+            set l_unit=FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if ( IsEnemy(l_unit , attacker) and ( udg_U_Zhuansheng_Dantiao[2] != l_unit or udg_U_Zhuansheng_Dantiao[1] == attacker ) ) then
+                call UnitDamageTarget(attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group=null
+        set l_unit=null
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
     
     function DamageArea takes unit attacker,real x,real y,real radius,real damage returns nothing
@@ -2141,6 +2324,7 @@ endfunction
         set l_group=null
         set l_unit=null
     endfunction
+//---------------------------------------------------------------------------------------------------
 
     
     function BuyerFilter takes unit buyer returns boolean
@@ -2371,7 +2555,7 @@ endfunction
 	endfunction	
 //---------------------------------------------------------------------------------------------------
 
- function Attr__InitAttr takes nothing returns nothing
+ function Attr___InitAttr takes nothing returns nothing
 		
 
 
@@ -2397,11 +2581,11 @@ endfunction
 	endfunction
 
  function PrintSpellName takes player whichPlayer,string spellName returns nothing
-		call DisplayTextToPlayer((whichPlayer ), 0, 0, ( "|cFFFF66CC【|r" + ( spellName ) + "|cFFFF66CC】|r" + ( "") )) // INLINED!!
+		call PrintSpellContent(whichPlayer , spellName , "")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Printer__InitPrinter takes nothing returns nothing
+ function Printer___InitPrinter takes nothing returns nothing
 		
 	endfunction
 
@@ -2429,7 +2613,7 @@ endfunction
 				    set l_unit=FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if ( (IsEnemyMP((l_unit ) , GetOwningPlayer(( s__Attract_caster[this])))) and ( GetUnitMoveSpeed(l_unit) > 0 ) and not ( s__Attract_forbitHero[this] and IsUnitType(l_unit, UNIT_TYPE_HERO) ) ) then // INLINED!!
+				    if ( IsEnemyM(l_unit , s__Attract_caster[this]) and ( GetUnitMoveSpeed(l_unit) > 0 ) and not ( s__Attract_forbitHero[this] and IsUnitType(l_unit, UNIT_TYPE_HERO) ) ) then
 				    	set x2=GetUnitX(l_unit)
 				    	set y2=GetUnitY(l_unit)
 				    	set x1=GetUnitX(s__Attract_caster[this])
@@ -2437,8 +2621,8 @@ endfunction
 				    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
 				    	if ( distance > 80 ) then
 				    	set facing=Atan2BJ(y1 - y2, x1 - x2)
-				    	call SetUnitX(l_unit, (RMinBJ(RMaxBJ(((x2 + CosBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
-				    	call SetUnitY(l_unit, (RMinBJ(RMaxBJ(((y2 + SinBJ(facing) * s__Attract_speed[this])*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+				    	call SetUnitX(l_unit, YDWECoordinateX(x2 + CosBJ(facing) * s__Attract_speed[this]))
+				    	call SetUnitY(l_unit, YDWECoordinateY(y2 + SinBJ(facing) * s__Attract_speed[this]))
 				    	endif
 				    endif
 				endloop
@@ -2451,15 +2635,15 @@ endfunction
   endfunction
 
         function s__Attract__staticgetindex takes handle h returns integer
-            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
         endfunction
 
         function s__Attract__staticsetindex takes handle h,integer value returns nothing
-            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
         endfunction
 
         function s__Attract_flush takes handle h returns nothing
-            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
         endfunction
 
   function s__Attract_create takes unit caster,real radius,real interval,real speed returns integer
@@ -2479,12 +2663,12 @@ endfunction
 
   function s__Attract_start takes integer this returns nothing
 			set s__Attract_t[this]=CreateTimer()
-			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this]))))) )), ( ( (this)))) // INLINED!!
+			call s__Attract__staticsetindex(s__Attract_t[this], (this))
 			call TimerStart(s__Attract_t[this], s__Attract_interval[this], true, function s__Attract_attract)
   endfunction
 
   function s__Attract_onDestroy takes integer this returns nothing
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
+			call s__Attract_flush(s__Attract_t[this])
 			set s__Attract_caster[this]=null
 			call PauseTimer(s__Attract_t[this])
 			call DestroyTimer(s__Attract_t[this])
@@ -2494,8 +2678,10 @@ endfunction
 //Generated destructor of Attract
 function s__Attract_deallocate takes integer this returns nothing
     if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Attract")
         return
     elseif (si__Attract_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Attract")
         return
     endif
     call s__Attract_onDestroy(this)
@@ -2536,15 +2722,15 @@ endfunction
 
 
         function s__Missile__staticgetindex takes handle h returns integer
-            return (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
         endfunction
 
         function s__Missile__staticsetindex takes handle h,integer value returns nothing
-            call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
         endfunction
 
         function s__Missile_flush takes handle h returns nothing
-            call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
         endfunction
 
   function s__Missile_create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns integer
@@ -2561,7 +2747,7 @@ endfunction
 			set s__Missile_damage[this]=damage
 
 			set s__Missile_t[this]=CreateTimer()
-			call SaveInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this]))))) )), ( ( (this)))) // INLINED!!
+			call s__Missile__staticsetindex(s__Missile_t[this], (this))
 			call UnitApplyTimedLifeBJ(interval1 + interval2, 'BHwe', CreateUnit(GetOwningPlayer(s__Missile_caster[this]), preview, s__Missile_x[this], s__Missile_y[this], 0))
 			call TimerStart(s__Missile_t[this], s__Missile_interval1[this], false, function s__Missile_launch)
 			return this
@@ -2569,7 +2755,7 @@ endfunction
 
 
   function s__Missile_onDestroy takes integer this returns nothing
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
+			call s__Missile_flush(s__Missile_t[this])
 			set s__Missile_caster[this]=null
 			call PauseTimer(s__Missile_t[this])
 			call DestroyTimer(s__Missile_t[this])
@@ -2579,8 +2765,10 @@ endfunction
 //Generated destructor of Missile
 function s__Missile_deallocate takes integer this returns nothing
     if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Missile")
         return
     elseif (si__Missile_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Missile")
         return
     endif
     call s__Missile_onDestroy(this)
@@ -2591,7 +2779,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function SpellBase__ImmuteDamageTimer takes nothing returns nothing
+ function SpellBase___ImmuteDamageTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
   local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
@@ -2607,7 +2795,7 @@ endfunction
   local timer t= CreateTimer()
 		call SetUnitInvulnerable(u, true)
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
-		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
+		call TimerStart(t, time, false, function SpellBase___ImmuteDamageTimer)
 		set t=null
 	endfunction
 
@@ -2664,475 +2852,216 @@ endfunction
 
 
 //library SpellBase ends
-//library Seyu:
+//library Hanshang:
 	
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__ShowChongdongHint takes nothing returns nothing
-  local integer i= 1
-		loop
-			exitwhen i > Seyu__chongCount
-			if ( chongdongs[i] != null ) then
-	            call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(seyu)), GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), 2.00)
-			endif
-			set i=i + 1
-		endloop
-	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function ChongdongFilter takes nothing returns boolean
-	    return ( ( GetUnitTypeId(GetFilterUnit()) == 'ndgt' ) )
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-
-	
- function TSpellSeyuUpdateAct takes nothing returns nothing
-  local integer i= 1
-	    loop
-	    	exitwhen i > Seyu__chongCount
-	    	if ( chongdongs[i] != null ) then
-	            call SetUnitAbilityLevel(chongdongs[i], 'ACfu', IMinBJ(100, GetHeroLevel(seyu) / 2))
-	    	endif
-	    	set i=i + 1
-	    endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function CreateChongdong takes nothing returns nothing
-
-  local integer i= 1
-
-  local group l_group= CreateGroup()
-  local unit l_unit= null
-		call GroupEnumUnitsInRange(l_group, GetSpellTargetX(), GetSpellTargetY(), 900, Condition(function ChongdongFilter))
-		if ( CountUnitsInGroup(l_group) > 0 ) then
-			call DisplayTextToPlayer(GetOwningPlayer(seyu), 0., 0., "|cFFFF66CC【虫洞】|r周围900范围内存在一个虫洞，请在远点的位置释放。")
-			call DestroyGroup(l_group)
-			set l_group=null
-			set l_unit=null
-			return
-		endif
-		call DestroyGroup(l_group)
-		set l_group=null
-		set l_unit=null
-
-		loop
-			if ( i > Seyu__chongCount ) then
-				//空洞满了就提示满了
-				call Seyu__ShowChongdongHint()
-				call DisplayTextToPlayer(GetOwningPlayer(seyu), 0., 0., "|cFFFF66CC【虫洞】|r虫洞可释放的数量已满,请手动取消多余的虫洞!")
-				return
-			endif
-			if ( chongdongs[i] == null ) then
-				set chongdongs[i]=CreateUnit(GetOwningPlayer(seyu), 'ndgt', GetSpellTargetX(), GetSpellTargetY(), 270)
-				set Seyu__TTCD[i]=CreateTextTagUnitBJ("虫洞" + I2S(i) + "号", chongdongs[i], 0, 40.00, 100, 0, 0, 0)
-	            call SelectUnitForPlayerSingle(chongdongs[i], GetOwningPlayer(seyu))
-	            call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(seyu)), GetSpellTargetX(), GetSpellTargetY(), 2.00)
-	            //冰甲技能的设定
-	            call TSpellSeyuUpdateAct()
-			endif
-			set i=i + 1
-		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function CancelChongdong takes nothing returns nothing
-  local integer i= 1
-	    loop
-	        exitwhen i > 8
-	        if ( GetSpellAbilityUnit() == chongdongs[i] ) then
-	        	call RemoveUnit(chongdongs[i])
-	            call DestroyTextTag(Seyu__TTCD[i])
-	            set chongdongs[i]=null
-	            set Seyu__TTCD[i]=null
-	            return
-	        endif
-	        set i=i + 1
-	    endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__EnemyFilterSeyu takes nothing returns boolean
-		return IsEnemy(GetFilterUnit() , seyu) == true
-	endfunction
-
- function GetChongdongGroup takes real radius,integer count returns group
-  local group result= CreateGroup()
-  local group temp= null
-  local group l_group= null
-  local unit l_unit= null
-  local integer i= 1
-		loop
-			exitwhen i > Seyu__chongCount
-			if ( chongdongs[i] != null ) then
-				set l_group=CreateGroup()
-				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), radius, Condition(function Seyu__EnemyFilterSeyu))
-				set temp=GetRandomSubGroup(count, l_group)
-				call GroupAddGroup(temp, result)
-				call DestroyGroup(l_group)
-				call DestroyGroup(temp)
-				set i=i + 1
-			endif
-		endloop
-
-		set l_group=null
-		set l_unit=null
-		set temp=null
-		return result
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function AddChongdongGroup takes group p,real radius,integer count returns nothing
-  local group g= GetChongdongGroup(radius , count)
-		call GroupAddGroup(g, p)
-		set g=null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Mantuoluo takes unit speller,real damageRate,integer abilityID returns nothing
+ function SiShenZhaDan takes unit speller,real x,real y,real damageRate,integer abilityID returns nothing
+  local real n
   local unit u= speller
-  local real damage= GetDamageAgi(u) * damageRate
-     local group l_group= CreateGroup()
-     local unit l_unit= null
-	    call GroupEnumUnitsInRange(l_group, GetUnitX(speller), GetUnitY(speller), 600, Condition(function Seyu__EnemyFilterSeyu))
-	    call AddChongdongGroup(l_group , 600 , R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-	    
-	    loop
-	        set l_unit=FirstOfGroup(l_group)
-	        exitwhen l_unit == null
-	        call GroupRemoveUnit(l_group, l_unit)
-    		call UnitDamageTarget(u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
-	    endloop
-	    //输出伤害
-	    call PrintSpellAdd((GetOwningPlayer(u) ) , ( GetAbilityName(abilityID) ) , (( damage)*1.0) , "") // INLINED!!
-	    call DestroyGroup(l_group)
-	    set l_group=null
-	    set l_unit=null
-		set u=null
+  local real damage= GetDamageAgi(u) * damageRate * 2
+  local real x1= GetUnitX(u)
+     local real y1= GetUnitY(u)
+     local real facing= Atan2(y - y1, x - x1)
+     local real distance= SquareRoot(( y - y1 ) * ( y - y1 ) + ( x - x1 ) * ( x - x1 ))
+	    set n=RMaxBJ(0.1, 1 - distance / 24000)
+	    set damage=damage * n
+	    if ( abilityID != 0 ) then
+	    	call PrintSpellAdd(GetOwningPlayer(u) , GetAbilityName(abilityID) , damage , ",距离伤害衰减" + I2S(100 - R2I(n * 100)) + "%.")
+	    endif
+	    call DamageAreaMirror(hanshang , x , y , 450 , damage)
+	    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function TSpellSeyu2Con takes nothing returns boolean
-	    return ( ( ( GetAttacker() == seyu ) or ( GetUnitTypeId(GetAttacker()) == 'espv' ) ) and ( IsUnitIllusionBJ(GetAttacker()) != true ) and ( (GetPlayerTechCountSimple('R006', GetOwningPlayer((seyu))) == 1) == true ) and ( GetRandomInt(1, 20) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00 ) ) // INLINED!!
+ function Hanshang__TSpellHanshang2Con takes nothing returns boolean
+	    return ( ( GetAttackedUnitBJ() == hanshang ) and ( IsUnitIllusionBJ(GetAttackedUnitBJ()) != true ) and ( IsSecondSpellOK(hanshang) == true ) and ( GetRandomInt(1, 10) == 1 ) and ( GetUnitStateSwap(UNIT_STATE_MANA, hanshang) > 200.00 ) and GetUnitAbilityLevel(hanshang, 'AHbn') >= 1 )
 	endfunction
 
- function TSpellSeyu2Act takes nothing returns nothing
+ function Hanshang__TSpellHanshang2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call Mantuoluo(seyu , 1 , 'AUav')
+		call SiShenZhaDan(hanshang , GetUnitX(GetAttacker()) , GetUnitY(GetAttacker()) , 0.33 , 'AHbn')
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	
-	//位置刷新，0.05s
- function Seyu__FlashPowerLocation takes nothing returns nothing
-		call SetTextTagPosUnitBJ(Seyu__TTPower, seyu, 25)
-	endfunction
-
-	
-	//数值刷新,1秒1次
- function Seyu__FlashPowerData takes nothing returns nothing
-  local integer index= GetConvertedPlayerId(GetOwningPlayer(seyu))
-  local real delta
-		//限制能量在0-105之间
-		set Seyu__IPower=IMinBJ(IMaxBJ(Seyu__IPower - 1, 0), 105)
-		call SetTextTagTextBJ(Seyu__TTPower, I2S(Seyu__IPower) + "%能量", 20)
-		set delta=I2R(( Seyu__IPower / 10 ) * 10) / 100
-		if ( Seyu__RAddtion != delta ) then
-
-			call AddStrPercent(index , delta - Seyu__RAddtion)
-			call AddIntPercent(index , delta - Seyu__RAddtion)
-			call AddAgiPercent(index , delta - Seyu__RAddtion)
-			set Seyu__RAddtion=delta
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(seyu), GetUnitY(seyu)))
+ function Hanshang__LianJinZhiShuTimer takes nothing returns nothing
+  local integer lumber= GetPlayerState(GetOwningPlayer(hanshang), PLAYER_STATE_RESOURCE_LUMBER)
+  local integer update= 0
+  local real Rupdate
+		if ( lumber > 100000 ) then
+			set update=90
+			set Hanshang__RLianjin2=0.72
+		elseif ( lumber > 10000 ) then
+			set update=75
+			set Hanshang__RLianjin2=0.6
+		elseif ( lumber > 1000 ) then
+			set update=60
+			set Hanshang__RLianjin2=0.48
+		elseif ( lumber > 100 ) then
+			set update=45
+			set Hanshang__RLianjin2=0.36
+		elseif ( lumber > 10 ) then
+			set update=30
+			set Hanshang__RLianjin2=0.24
+		elseif ( lumber > 1 ) then
+			set update=15
+			set Hanshang__RLianjin2=0.12
+		endif
+		set Rupdate=I2R(update) / 100
+		if ( Hanshang__RLianjin != Rupdate ) then
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl", GetUnitX(hanshang), GetUnitY(hanshang)))
+			call PrintSpellContent(GetOwningPlayer(hanshang) , GetAbilityName('A0BN') , "额外技能伤害加成" + I2S(update) + "%.")
+			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)) , Rupdate - Hanshang__RLianjin)
+			set Hanshang__RLianjin=Rupdate
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	
- function Seyu__TDeathAddPowerCon takes nothing returns boolean
-		return ( udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu )
-	endfunction
-	
- function Seyu__TDeathAddPowerAct takes nothing returns nothing
-		set Seyu__IPower=Seyu__IPower + 1
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__InitPower takes nothing returns nothing
-  local timer ti= CreateTimer()
-  local trigger t= CreateTrigger()
-
-		//异界能量触发
-		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
-		call TriggerAddCondition(t, Condition(function Seyu__TDeathAddPowerCon))
-		call TriggerAddAction(t, function Seyu__TDeathAddPowerAct)
-
-		set Seyu__IPower=0
-		set Seyu__RAddtion=0
-		set Seyu__TTPower=CreateTextTagUnitBJ(I2S(Seyu__IPower) + "%能量", seyu, 0, 20, 100, 0, 100, 0)
-		call TimerStart(ti, 0.05, true, function Seyu__FlashPowerLocation)
-
-		set ti=CreateTimer()
-		call TimerStart(ti, 1, true, function Seyu__FlashPowerData)
-
-		set ti=null
-		set t=null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__TSpellSeyu3Con takes nothing returns boolean
-    	return GetAttackedUnitBJ() == seyu and GetRandomInt(1, 20) == 1 and GetUnitState(seyu, UNIT_STATE_MANA) >= 400
-	endfunction
-		
- function Seyu__TSpellSeyu3Act takes nothing returns nothing
-  local real damage= GetDamageAgi(seyu) * 2.5
-  local group g= CreateGroup()
-     local unit l_unit
-		call DisableTrigger(GetTriggeringTrigger())
-		//初始化虫洞单位组
-		call GroupAddUnit(g, GetAttacker())
-		call AddChongdongGroup(g , 600 , 1)
-	    call PrintSpellAdd((GetOwningPlayer(seyu) ) , ( GetAbilityName('AEar') ) , (( damage)*1.0) , "") // INLINED!!
-	    //局部单位组伤害
-	    loop
-	        set l_unit=FirstOfGroup(g)
-	        exitwhen l_unit == null
-	        call GroupRemoveUnit(g, l_unit)
-	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(seyu) ) , ( 'hh00' ) , (( GetUnitX(l_unit) )*1.0) , (( GetUnitY(l_unit) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
-	    	call CreateTextTagA(("冻" ) , ( l_unit ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 2)*1.0) , 16) // INLINED!!
-	        call UnitDamageTarget(seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-	    endloop
-	    call DestroyGroup(g)
-		set g=null
-	    set l_unit=null
-		call PolledWait(8)
-		call EnableTrigger(GetTriggeringTrigger())
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
 
 	
- function Kongjianshashou takes nothing returns nothing
-  local integer i= 1
-  local integer ii= 1
-  local integer attack= R2I(I2R(GetHeroAgi(seyu, true)) * SquareRoot(GetHeroLevel(seyu)))
-		call DisplayTextToPlayer((GetOwningPlayer(seyu) ), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) ) + "|cFFFF66CC】|r" + ( "攻击力" + I2S(attack) + ".") )) // INLINED!!
-
-		loop
-			exitwhen i > Seyu__chongCount
-			if ( shashous[i] != null ) then
-	        	call FlushChildHashtable(YDHT, GetHandleId(shashous[i]))
-				call RemoveUnit(shashous[i])
-			endif
-			set i=i + 1
-		endloop
-
-		loop
-			exitwhen ii > Seyu__chongCount
-			if ( chongdongs[ii] != null ) then
-				set shashous[ii]=CreateUnit(GetOwningPlayer(seyu), 'espv', GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), 270)
-				call SetAttack(shashous[ii] , attack)
-			endif
-			set ii=ii + 1
-		endloop
-
-	endfunction
-//---------------------------------------------------------------------------------------------------
 	
- function FlashShashouLocation takes nothing returns nothing
-  local integer i= 1
-
-		loop
-			exitwhen i > Seyu__chongCount
-			if ( IsUnitAliveBJ(shashous[i]) and shashous[i] != null ) then
-				if not ( IsUnitInRange(shashous[i], chongdongs[i], 1800.00) ) then
-					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(shashous[i]), GetUnitY(shashous[i])))
-					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i])))
-					call SetUnitPosition(shashous[i], GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]))
-
-				endif
-			else
-				set shashous[i]=null
-			endif
-			set i=i + 1
-		endloop
-
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function Seyu__AnShaZhiWuTimer takes nothing returns nothing
+ function Hanshang__LianhuanBoomTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
-  local group g= null
-  local real damage= GetDamageAgi(seyu) * 0.5
-  local integer value= LoadInteger(spellTable, id, kAnShaCount)
-  local group l_group= null
-  local unit l_unit= null
-  local integer i
-		if ( value < 30 ) then
-			//++1
-			call SaveInteger(spellTable, id, kAnShaCount, value + 1)
-	    	set l_group=CreateGroup()
-			call GroupEnumUnitsInRange(l_group, GetUnitX(seyu), GetUnitY(seyu), 600, Condition(function Seyu__EnemyFilterSeyu))
-	    	call AddChongdongGroup(l_group , 600 , R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-			loop
-			    set l_unit=FirstOfGroup(l_group)
-			    exitwhen l_unit == null
-			    call GroupRemoveUnit(l_group, l_unit)
-    			call UnitDamageTarget(seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-			endloop
-			call DestroyGroup(l_group)
-			set l_group=null
-			set l_unit=null
-
-			//特效
-	        call CreateUnitEffectSpecifyTime((GetOwningPlayer(seyu) ) , ( 'h00E' ) , (( GetUnitX(seyu) )*1.0) , (( GetUnitY(seyu) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
-			set i=1
-			loop
-				exitwhen i > 8
-				if ( chongdongs[i] != null ) then
-	       			call CreateUnitEffectSpecifyTime((GetOwningPlayer(chongdongs[i]) ) , ( 'h00E' ) , (( GetUnitX(chongdongs[i]) )*1.0) , (( GetUnitY(chongdongs[i]) )*1.0) , (( 0)*1.0) , 5) // INLINED!!
-				endif
-				set i=i + 1
-			endloop
+  local real x= LoadReal(spellTable, id, kLianhuanBoomX)
+  local real y= LoadReal(spellTable, id, kLianhuanBoomY)
+		if ( ( GetUnitState(hanshang, UNIT_STATE_MANA) >= 200 ) and ( Hanshang__IsLianhuan == true ) ) then
+			call SetUnitManaBJ(hanshang, GetUnitState(hanshang, UNIT_STATE_MANA) - 200)
+			call SiShenZhaDan(hanshang , x , y , 2 , 0)
 		else
+        	call IssueImmediateOrder(hanshang, "stop")
+        	set Hanshang__IsLianhuan=false
+			call PrintSpellContent(GetOwningPlayer(hanshang) , GetAbilityName('A0F0') , "施法结束.")
 			call PauseTimer(t)
 			call DestroyTimer(t)
 			call FlushChildHashtable(spellTable, id)
 		endif
 		set t=null
 	endfunction
-
- function Seyu__AnShaZhiWu takes nothing returns nothing
+	
+ function Hanshang__LianhuanBoom takes nothing returns nothing
   local timer t= CreateTimer()
-	    call PrintSpellAdd((GetOwningPlayer(seyu) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( GetDamageAgi(seyu))*1.0) , "") // INLINED!!
-		call SaveInteger(spellTable, GetHandleId(t), kAnShaCount, 0)
-		call TimerStart(t, 0.5, true, function Seyu__AnShaZhiWuTimer)
+		set Hanshang__IsLianhuan=true
+		call EnableTrigger(Hanshang__TSpellHanshang4)
+		call SaveReal(spellTable, GetHandleId(t), kLianhuanBoomX, GetSpellTargetX())
+		call SaveReal(spellTable, GetHandleId(t), kLianhuanBoomY, GetSpellTargetY())
+		call TimerStart(t, 1, true, function Hanshang__LianhuanBoomTimer)
+		call PrintSpellName(GetOwningPlayer(hanshang) , GetAbilityName('A0F0'))
 		set t=null
 	endfunction
 
-//---------------------------------------------------------------------------------------------------
 	
- function Seyu__TSpellSeyuCon takes nothing returns boolean
-	    return ( GetSpellAbilityUnit() == seyu )
+ function Hanshang__TSpellHanshang4Con takes nothing returns boolean
+	    return ( ( GetSpellAbilityId() == 'A0F0' ) )
 	endfunction
 
- function Seyu__TSpellSeyuAct takes nothing returns nothing
-		if ( ( GetSpellAbilityId() == 'AEfk' ) ) then
-			call Mantuoluo(seyu , 1 , GetSpellAbilityId())
-		//放虫洞
-		elseif ( GetSpellAbilityId() == 'ACst' ) then
-			call CreateChongdong()
-		//取消虫洞
-		elseif ( GetSpellAbilityId() == 'A0E6' ) then
-			call CancelChongdong()
-		//空间杀手
-		elseif ( GetSpellAbilityId() == 'AEsv' ) then
-			call Kongjianshashou()
-		elseif ( ( GetSpellAbilityId() == 'AEst' ) ) then
-			call Seyu__AnShaZhiWu()
+ function Hanshang__TSpellHanshang4Act takes nothing returns nothing
+		set Hanshang__IsLianhuan=false
+		call DisableTrigger(Hanshang__TSpellHanshang4)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Hanshang__TSpellHanshangCon takes nothing returns boolean
+	    return ( GetSpellAbilityUnit() == hanshang )
+	endfunction
+
+ function Hanshang__TSpellHanshangAct takes nothing returns nothing
+		if ( ( GetSpellAbilityId() == 'AOs2' ) ) then
+			call SiShenZhaDan(hanshang , GetSpellTargetX() , GetSpellTargetY() , 1 , GetSpellAbilityId())
+		elseif ( ( GetSpellAbilityId() == 'A0F0' ) ) then
+			call Hanshang__LianhuanBoom()
 		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Hanshang__TSpellHanshang3Con takes nothing returns boolean
+		return IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang, 'A0BN') == 1
+	endfunction
+	
+ function Hanshang__TSpellHanshang3Act takes nothing returns nothing
+		call SetUnitLifeBJ(hanshang, GetUnitState(hanshang, UNIT_STATE_LIFE) + GetEventDamage() * Hanshang__RLianjin2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
 
 	//按照12345来判断
- function LearnSkillSeyuI takes unit learner,integer whichSpell returns nothing
+ function LearnSkillHanshangI takes unit learner,integer whichSpell returns nothing
   local integer i
-		if ( learner == seyu ) then
-			if ( whichSpell == 1 ) then
-				set Seyu__chongCount=Seyu__chongCount + 1
-			elseif ( whichSpell == 2 and (GetPlayerTechCountSimple('R006', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AUav') == 1 ) then // INLINED!!
-				//技能2初始化
-				call Seyu__InitPower()
-				set Seyu__chongCount=Seyu__chongCount + 1
-			elseif ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEar') == 1 ) then // INLINED!!
+		if ( learner == hanshang ) then
+			if ( whichSpell == 3 and IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang, 'A0BN') == 1 ) then
 				//技能3初始化
-				call SetPlayerTechResearchedSwap('R00D', 1, GetOwningPlayer(seyu))
-				set Seyu__chongCount=Seyu__chongCount + 1
+		        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)) , 0.25)
 				set i=1
        			loop
        				exitwhen i > 6
        				
 		            if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
-		                call AddAgiPercent(i , 0.4)
+		                call AddMoneyPercent(i , 0.25)
 		            endif
 
        				set i=i + 1
        			endloop
 
-			    //注册空间封冻技能
-			    set Seyu__TSpellSeyu3=CreateTrigger()
-			    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu3, EVENT_PLAYER_UNIT_ATTACKED)
-			    call TriggerAddCondition(Seyu__TSpellSeyu3, Condition(function Seyu__TSpellSeyu3Con))
-			    call TriggerAddAction(Seyu__TSpellSeyu3, function Seyu__TSpellSeyu3Act)
-			elseif ( whichSpell == 4 and (GetPlayerTechCountSimple('R008', GetOwningPlayer((seyu))) == 1) == true and GetUnitAbilityLevel(seyu, 'AEsv') == 1 ) then // INLINED!!
-				//技能4初始化
-				set Seyu__chongCount=Seyu__chongCount + 1
-				//杀手位置刷新
-				call TimerStart(CreateTimer(), 5, true, function FlashShashouLocation)
-			elseif ( whichSpell == 5 and IsFifthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu, 'AEst') == 1 ) then
-				//技能5初始化
-				set Seyu__chongCount=Seyu__chongCount + 2
-			endif
+       			//炼金之术
+       			call TimerStart(CreateTimer(), 3, true, function Hanshang__LianJinZhiShuTimer)
+       		endif
 		endif
 	endfunction
 
- function LearnSkillSeyu takes unit learner,integer learnSpellID returns nothing
-		if ( learner == seyu ) then
-			if ( learnSpellID == 'AEfk' ) then
-				call LearnSkillSeyuI(learner , 1)
-			elseif ( learnSpellID == 'AUav' ) then
-				call LearnSkillSeyuI(learner , 2)
-			elseif ( learnSpellID == 'AEar' ) then
-				call LearnSkillSeyuI(learner , 3)
-			elseif ( learnSpellID == 'AEsv' ) then
-				call LearnSkillSeyuI(learner , 4)
-			elseif ( learnSpellID == 'AEst' ) then
-				call LearnSkillSeyuI(learner , 5)
+ function LearnSkillHanshang takes unit learner,integer learnSpellID returns nothing
+		if ( learner == hanshang ) then
+			if ( learnSpellID == 'AOs2' ) then
+				call LearnSkillHanshangI(learner , 1)
+			elseif ( learnSpellID == 'AHbn' ) then
+				call LearnSkillHanshangI(learner , 2)
+			elseif ( learnSpellID == 'A0BN' ) then
+				call LearnSkillHanshangI(learner , 3)
+			elseif ( learnSpellID == 'A0F0' ) then
+				call LearnSkillHanshangI(learner , 4)
+			elseif ( learnSpellID == 'AUfa' ) then
+				call LearnSkillHanshangI(learner , 5)
 			endif
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function InitSeyu takes unit u returns nothing
-  local integer i= 1
-		set seyu=u
-		set Seyu__chongCount=2
+ function InitHanshang takes unit u returns nothing
+		set hanshang=u
+
 		//1
-	    set Seyu__TSpellSeyu=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-	    call TriggerAddCondition(Seyu__TSpellSeyu, Condition(function Seyu__TSpellSeyuCon))
-	    call TriggerAddAction(Seyu__TSpellSeyu, function Seyu__TSpellSeyuAct)
+	    set Hanshang__TSpellHanshang=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Hanshang__TSpellHanshang, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	    call TriggerAddCondition(Hanshang__TSpellHanshang, Condition(function Hanshang__TSpellHanshangCon))
+	    call TriggerAddAction(Hanshang__TSpellHanshang, function Hanshang__TSpellHanshangAct)
 
 	    //2
-	    set Seyu__TSpellSeyu2=CreateTrigger()
-	    call TriggerRegisterAnyUnitEventBJ(Seyu__TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED)
-	    call TriggerAddCondition(Seyu__TSpellSeyu2, Condition(function TSpellSeyu2Con))
-	    call TriggerAddAction(Seyu__TSpellSeyu2, function TSpellSeyu2Act)
+	    set Hanshang__TSpellHanshang2=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Hanshang__TSpellHanshang2, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Hanshang__TSpellHanshang2, Condition(function Hanshang__TSpellHanshang2Con))
+	    call TriggerAddAction(Hanshang__TSpellHanshang2, function Hanshang__TSpellHanshang2Act)
 
-	    //升级顺便提高虫洞技能等级
-	    set Seyu__TSpellSeyuUpdate=CreateTrigger()
-	    call DisableTrigger(Seyu__TSpellSeyuUpdate)
-	    call TriggerRegisterUnitEvent(Seyu__TSpellSeyuUpdate, seyu, EVENT_UNIT_HERO_LEVEL)
-	    call TriggerAddAction(Seyu__TSpellSeyuUpdate, function TSpellSeyuUpdateAct)
+	    //魔能等级低于5则减少受到的50%伤害
+	    set Hanshang__TSpellHanshang3=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Hanshang__TSpellHanshang3, hanshang, EVENT_UNIT_DAMAGED)
+	    call TriggerAddCondition(Hanshang__TSpellHanshang3, Condition(function Hanshang__TSpellHanshang3Con))
+	    call TriggerAddAction(Hanshang__TSpellHanshang3, function Hanshang__TSpellHanshang3Act)
 
-	    loop
-	    	exitwhen i > 8
-	    	set chongdongs[i]=null
-	    	set Seyu__TTCD[i]=null
-	    	set i=i + 1
-	    endloop
+	    //4
+	    set Hanshang__TSpellHanshang4=CreateTrigger()
+	    call DisableTrigger(Hanshang__TSpellHanshang4)
+	    call TriggerRegisterAnyUnitEventBJ(Hanshang__TSpellHanshang4, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
+	    call TriggerRegisterAnyUnitEventBJ(Hanshang__TSpellHanshang4, EVENT_PLAYER_UNIT_SPELL_FINISH)
+	    call TriggerAddCondition(Hanshang__TSpellHanshang4, Condition(function Hanshang__TSpellHanshang4Con))
+	    call TriggerAddAction(Hanshang__TSpellHanshang4, function Hanshang__TSpellHanshang4Act)
 
+		call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)) , 0.3)
 	endfunction
 
-//library Seyu ends
+//library Hanshang ends
 
-// BEGIN IMPORT OF Seyu.j
+// BEGIN IMPORT OF Hanshang.j
 
 // BEGIN IMPORT OF SpellBase.j
 
@@ -3181,7 +3110,8 @@ endfunction
 // BEGIN IMPORT OF dependency/YDWEBase_hashtable.j
 // END IMPORT OF dependency/YDWEBase_hashtable.j
 
-/////! import "DzAPI.j"
+// BEGIN IMPORT OF DzAPI.j
+// END IMPORT OF DzAPI.j
 // END IMPORT OF Test.j
 // BEGIN IMPORT OF Constant.j
 
@@ -3206,15 +3136,17 @@ endfunction
 // END IMPORT OF Attr.j
 
 
-// END IMPORT OF Seyu.j
+
+
+// END IMPORT OF Hanshang.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs35803031")
+call ExecuteFunc("jasshelper__initstructs2508464625")
 call ExecuteFunc("Constant__InitConstant")
 call ExecuteFunc("Test___InitTest")
 call ExecuteFunc("LHBase__InitLHBase")
-call ExecuteFunc("Attr__InitAttr")
-call ExecuteFunc("Printer__InitPrinter")
+call ExecuteFunc("Attr___InitAttr")
+call ExecuteFunc("Printer___InitPrinter")
 
 endfunction
 
@@ -3223,12 +3155,12 @@ endfunction
 //Struct method generated initializers/callers:
 function sa__Attract__staticgetindex takes nothing returns boolean
 local handle h=f__arg_handle1
-set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
    return true
 endfunction
 function sa__Attract_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Attract_t[this])))))))) // INLINED!!
+			call s__Attract_flush(s__Attract_t[this])
 			set s__Attract_caster[this]=null
 			call PauseTimer(s__Attract_t[this])
 			call DestroyTimer(s__Attract_t[this])
@@ -3237,12 +3169,12 @@ local integer this=f__arg_this
 endfunction
 function sa__Missile__staticgetindex takes nothing returns boolean
 local handle h=f__arg_handle1
-set f__result_integer= (LoadInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
    return true
 endfunction
 function sa__Missile_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-			call RemoveSavedInteger(YDHT, StringHash(("SPellBase" )), StringHash(( I2S((GetHandleId(((s__Missile_t[this])))))))) // INLINED!!
+			call s__Missile_flush(s__Missile_t[this])
 			set s__Missile_caster[this]=null
 			call PauseTimer(s__Missile_t[this])
 			call DestroyTimer(s__Missile_t[this])
@@ -3250,7 +3182,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs35803031 takes nothing returns nothing
+function jasshelper__initstructs2508464625 takes nothing returns nothing
     set st__Attract__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()

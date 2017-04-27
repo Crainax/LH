@@ -129,7 +129,7 @@ library_once Ring initializer InitRing requires LHBase
     				call TriggerExecute( gg_trg_papa9____________u )
     				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(udg_H[index]), GetUnitY(udg_H[index])))
 		    	else
-		    		if not (BHintRing[index]) then
+		    		if not(BHintRing[index]) then
 		    			set BHintRing[index] = true
 		                call DisplayTextToPlayer( GetOwningPlayer(GetKillingUnitBJ()), 0, 0, ( "|cFFFF66CC【鬼器】|r" + ( I2S(GetItemUserData(ring)) + "/1000。" ) ) )
 		                call CreateRingTimer(GetOwningPlayer(GetKillingUnitBJ()))

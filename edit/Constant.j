@@ -23,7 +23,10 @@ library_once Constant initializer InitConstant requires JBase
 		    实际人数(从一开始的)
 		*/
 		integer renshu = 0
-
+		/*
+		    游戏模式
+		*/
+		integer mode = 0
 		constant integer COUNT_WANJIE = 17
 	endglobals
 //---------------------------------------------------------------------------------------------------

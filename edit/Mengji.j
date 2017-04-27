@@ -384,6 +384,8 @@ library_once Mengji requires SpellBase,Printer,Attr
         call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call UnitAddAbility(u,'A0H4')
         call IssuePointOrder(u,"carrionswarm",x2,y2)
+        call PolledWait(0.01)
+        call IssueImmediateOrder(u,"stop")
 	endfunction
 
 	private function TSpellMengji4Con takes nothing returns boolean
@@ -587,66 +589,4 @@ library_once Mengji requires SpellBase,Printer,Attr
 
 endlibrary
 
-/*		key kTanyouU
-		key kTanyouFacing
-		key kTanyouCount
-		key kTanyouGroup
-		key kTanyouNext
-		key kTanyouDamage
-		
-		private function TanyoujianTimer takes nothing returns nothing
-			local timer t = GetExpiredTimer()
-			local integer id = GetHandleId(t)
-			local unit u = LoadUnitHandle(spellTable,id,kTanyouU)
-			local real facing = LoadReal(spellTable,id,kTanyouFacing)
-			local real damage = LoadReal(spellTable,id,kTanyouDamage)
-			local integer count = LoadInteger(spellTable,id,kTanyouCount)
-			local boolean next = LoadBoolean(spellTable,id,kTanyouNext)
-			local group g = LoadGroupHandle(spellTable,id,kTanyouGroup)
-			local group l_group
-			local unit l_unit
-			if (count < 40) then
-				set l_group = CreateGroup()
-				call SaveInteger(spellTable,GetHandleId(t),kTanyouNext,count + 1)
-				call SetUnitX(GetUnitX(u) + CosBJ(facing) * 50)
-				call SetUnitY(GetUnitY(u) + SinBJ(facing) * 50)
-				call GroupEnumUnitsInRange(l_group, GetUnitX(u), GetUnitY(u), 300, null)
-				call GroupAddGroup(l_group,g)
-				loop
-				    set l_unit = FirstOfGroup(l_group)
-				    exitwhen l_unit == null
-				    call GroupRemoveUnit(l_group, l_unit)
-				    if (IsEnemy(l_unit,mengji)) then
-				    	call UnitDamageTarget( mengji, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				    endif
-				endloop
-				call DestroyGroup(l_group)
-			elseif (next) then
-				call SaveBoolean(spellTable,GetHandleId(t),kTanyouNext,false)
-				call SetUnitFacing(ModuloReal(facing + 180,360))
-				call SaveBoolean(spellTable,GetHandleId(t),kTanyouNext,ModuloReal(facing + 180,360))
-			else
-				call RemoveUnit(u)
-				call DestroyGroup(g)
-				call PauseTimer(t)
-				call FlushChildHashtable(spellTable,id)
-				call DestroyTimer(t)
-			endif
-			set u = null
-			set t = null 
-			set g = null
-			set l_group = null
-			set l_unit =null
-		endfunction
-		
-		local timer t = CreateTimer()
-		call SaveUnitHandle(spellTable,GetHandleId(t),kTanyouU,u)
-		call SaveReal(spellTable,GetHandleId(t),kTanyouFacing,facing)
-		call SaveReal(spellTable,GetHandleId(t),kTanyouDamage,damage)
-		call SaveBoolean(spellTable,GetHandleId(t),kTanyouNext,true)
-		call SaveInteger(spellTable,GetHandleId(t),kTanyouCount,0)
-		call SaveGroupHandle(spellTable,GetHandleId(t),kTanyouGroup,CreateGroup())
-		call TimerStart(t,0.05,true,function TanyoujianTimer)
-		set t = null
-		*/
 

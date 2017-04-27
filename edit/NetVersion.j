@@ -245,7 +245,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				//基地的血
 				if (udg_I_Er_diansi[1] == 0) then
 					call GetAchievementAndSave(ConvertedPlayer(i),221)
-					if (GetUnitState(gg_unit_haro_0030,UNIT_STATE_LIFE) <= 0.25 * GetUnitState(gg_unit_haro_0030,UNIT_STATE_MAX_LIFE)) then
+					if (GetUnitState(gg_unit_haro_0030,UNIT_STATE_LIFE) <= (0.25 * GetUnitState(gg_unit_haro_0030,UNIT_STATE_MAX_LIFE))) then
 						call GetAchievementAndSave(ConvertedPlayer(i),222)
 					endif
 				endif
