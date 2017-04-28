@@ -39,7 +39,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		/*
 		    通关次数
 		*/
-		integer array pass1
+		/*integer array pass1
 		integer array pass2
 		integer array pass3
 		integer array pass4
@@ -47,7 +47,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		integer array pass6
 		integer array pass7
 		integer array pass8
-		integer array pass9
+		integer array pass9*/
+
+		/*
+		    死亡次数
+		*/
+		integer array deathCount
 
 	endglobals
 
@@ -164,6 +169,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
     			set achieve2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve2")
+    			set achieve3[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve3")
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
     			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
@@ -172,7 +178,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
     			set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
     			set petTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pet")
-    			set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
+    			/*set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
     			set pass2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass2")
     			set pass3[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass3")
     			set pass4[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass4")
@@ -180,7 +186,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set pass6[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass6")
     			set pass7[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass7")
     			set pass8[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass8")
-    			set pass9[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass9")
+    			set pass9[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass9")*/
+
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -251,7 +258,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				endif
 
 				//通关次数
-				if (level == 1) then
+				/*if (level == 1) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass1", pass1[i] + 1 )
     			elseif (level == 2) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass2", pass2[i] + 1 )
@@ -269,7 +276,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass8", pass8[i] + 1 )
     			elseif (level == 9) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass9", pass9[i] + 1 )
-				endif
+				endif*/
 
 				//活动皮肤
 				if (level >= 4 and IsHuodong()) then
@@ -474,7 +481,52 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endloop
 		set result = null
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    死亡次数的成就：无心冢
+	*/
+	function SaveDeathAchievement takes player p returns nothing
+		set deathCount[GetConvertedPlayerId(p)] = deathCount[GetConvertedPlayerId(p)] + 1
+		if (deathCount[GetConvertedPlayerId(p)] >= 100) then
+			call GetAchievementAndSave(p,231)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    杀怪成就
+	*/
+	function SaveAchievement5 takes player p, integer count returns nothing
+		if (count >= 15000) then
+			call GetAchievementAndSave(p,227)
+		endif
+		if (count >= 40000) then
+			call GetAchievementAndSave(p,228)
+		endif
+		if (count >= 80000) then
+			call GetAchievementAndSave(p,229)
+		endif
+		if (count >= 150000) then
+			call GetAchievementAndSave(p,230)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    总伤害成就
+	*/
+	function SaveAchievement6 takes player p, integer damage2 returns nothing
+		if (damage2 >= 500) then
+			call GetAchievementAndSave(p,32)
+		endif
+		if (damage2 >= 4000) then
+			call GetAchievementAndSave(p,33)
+		endif
+		if (damage2 >= 30000) then
+			call GetAchievementAndSave(p,34)
+		endif
+		if (damage2 >= 600000) then
+			call GetAchievementAndSave(p,35)
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    英雄次数的成就
@@ -582,6 +634,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 			    call TriggerRegisterPlayerStateEvent( t, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 20000.00 )
+			    set deathCount[i] = 0
 			endif
 			set i = i +1
 		endloop

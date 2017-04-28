@@ -93,23 +93,23 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function GetBasicRing takes unit u returns item
         if (UnitHasItemOfTypeBJ(u,'rat9'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'rat9')
+            return GetItemOfTypeFromUnitBJ(u, 'rat9')
         elseif (UnitHasItemOfTypeBJ(u,'rlif'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'rlif')
+            return GetItemOfTypeFromUnitBJ(u, 'rlif')
         elseif (UnitHasItemOfTypeBJ(u,'lgdh'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'lgdh')
+            return GetItemOfTypeFromUnitBJ(u, 'lgdh')
         elseif (UnitHasItemOfTypeBJ(u,'clfm'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'clfm')
+            return GetItemOfTypeFromUnitBJ(u, 'clfm')
         elseif (UnitHasItemOfTypeBJ(u,'bgst'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'bgst')
+            return GetItemOfTypeFromUnitBJ(u, 'bgst')
         elseif (UnitHasItemOfTypeBJ(u,'belv'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'belv')
+            return GetItemOfTypeFromUnitBJ(u, 'belv')
         elseif (UnitHasItemOfTypeBJ(u,'hcun'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'hcun')
+            return GetItemOfTypeFromUnitBJ(u, 'hcun')
         elseif (UnitHasItemOfTypeBJ(u,'rag1'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'rag1')
+            return GetItemOfTypeFromUnitBJ(u, 'rag1')
         elseif (UnitHasItemOfTypeBJ(u,'penr'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'penr')
+            return GetItemOfTypeFromUnitBJ(u, 'penr')
         endif
         return null
     endfunction
@@ -119,9 +119,9 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function GetMaxRing takes unit u returns item
         if (UnitHasItemOfTypeBJ(u,'brac')) then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'brac')
+            return GetItemOfTypeFromUnitBJ(u, 'brac')
         elseif (UnitHasItemOfTypeBJ(u,'fgdg'))then
-            return GetItemOfTypeFromUnitBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))], 'fgdg')
+            return GetItemOfTypeFromUnitBJ(u, 'fgdg')
         endif
         return null
     endfunction

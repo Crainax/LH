@@ -8,6 +8,7 @@ library_once Achievement requires LHBase
 		integer array achiPage
 		integer array achieve
 		integer array achieve2
+		integer array achieve3
 		effect array achiEff
 	endglobals
 
@@ -142,6 +143,8 @@ library_once Achievement requires LHBase
 			return (GetBit(achieve[id],target) > 0)
 		elseif (page == 2) then
 			return (GetIntegerBit(achieve2[id],target) >0)
+		elseif (page == 3) then
+			return (GetIntegerBit(achieve3[id],target) >0)
 		endif
 		return false
 	endfunction
@@ -198,6 +201,13 @@ library_once Achievement requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    存储成就数据3
+	*/
+	function SaveAchieveData3 takes player p returns nothing
+		call DzAPI_Map_StoreInteger( p,  "achieve3", achieve3[GetConvertedPlayerId(p)] )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    提示获取数据成功并保存数据
 	*/
 	function GetAchievementAndSave takes player p , integer achieveID returns nothing
@@ -210,11 +220,14 @@ library_once Achievement requires LHBase
 				set achieve[id] = achieve[id] + R2I(Pow(10,I2R(achieveID-11)))
 			elseif (GetAchievePage(achieveID) == 2) then
 				set achieve2[id] = SetIntegerBit(achieve2[id],GetAchieveTarget(achieveID),true)
+			elseif (GetAchievePage(achieveID) == 3) then
+				set achieve3[id] = SetIntegerBit(achieve3[id],GetAchieveTarget(achieveID),true)
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\""+GetAchievementName(achieveID)+"|r\",该成就会显示在游戏大厅内及你的名字前面.")
 		    call SetAchievement(p,achieveID)
 			call SaveAchieveData1(p)
 			call SaveAchieveData2(p)
+			call SaveAchieveData3(p)
 		    call SaveAchievePointer(p)
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想使用其他的成就，请输入\"-cj\"来切换你的现有成就。")
 		endif
@@ -253,8 +266,14 @@ library_once Achievement requires LHBase
 		    endloop
 		elseif (page == 5) then
 		    loop
-		    	exitwhen i > 2
+		    	exitwhen i > 7
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 224) + S3(IsAchieveOK(p,i + 224),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
+		elseif (page == 6) then
+		    loop
+		    	exitwhen i > 4
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 31) + S3(IsAchieveOK(p,i + 31),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
 		endif

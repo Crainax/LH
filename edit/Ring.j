@@ -37,7 +37,7 @@ library_once Ring initializer InitRing requires LHBase
 	    戒指的升级
 	*/
 	function TRingUpdateCon takes nothing returns boolean
-	    return ((IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) == true) and (IsUnitAliveBJ(GetKillingUnitBJ()) == true) and (GetBasicRing(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]) != null or GetBasicRing(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]) != null))
+	    return ((IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ()))) and (IsUnitAliveBJ(GetKillingUnitBJ())) and (GetBasicRing(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]) != null or GetBasicRing(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))]) != null))
 	endfunction
 
 	function TRingUpdateAct takes nothing returns nothing
@@ -52,7 +52,7 @@ library_once Ring initializer InitRing requires LHBase
 	    	set ring = GetBasicRing(UDepot[index])
 	    	set u = UDepot[index]
 	    endif
-
+	    call BJDebugMsg("hhhhhhhhhhhh")
 	    if (ring == null) then
 	    	set u = null
 	    	return

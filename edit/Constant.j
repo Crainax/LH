@@ -18,7 +18,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    成就页数
 		*/
-		constant integer PAGE_ACHIEVE = 5
+		constant integer PAGE_ACHIEVE = 6
 		/*
 		    实际人数(从一开始的)
 		*/
@@ -27,14 +27,14 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 17
+		constant integer COUNT_WANJIE = 20
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.752"
+		return "2.77"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -200,7 +200,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226
+		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID = 230 or achieveID = 231 or achieveID = 35
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -291,6 +291,24 @@ library_once Constant initializer InitConstant requires JBase
 			return "|cffff0000【无影客】"
 		elseif (achieveID == 226) then
 			return GetColorString("【逆苍天】")
+		elseif (achieveID == 227) then
+			return "|cff99cc00【逐天魔】"
+		elseif (achieveID == 228) then
+			return "|cffffff00【驱天魔】"
+		elseif (achieveID == 229) then
+			return "|cffff0000【伏天魔】"
+		elseif (achieveID == 230) then
+			return GetColorString("【赦天魔】")
+		elseif (achieveID == 231) then
+			return GetColorString("【无心冢】")
+		elseif (achieveID == 32) then
+			return "|cff99cc00【触天式】"
+		elseif (achieveID == 33) then
+			return "|cffffff00【伐天式】"
+		elseif (achieveID == 34) then
+			return "|cffff0000【噬天式】"
+		elseif (achieveID == 35) then
+			return GetColorString("【诛天式】")
 		endif
 		return ""
 	endfunction
@@ -369,6 +387,24 @@ library_once Constant initializer InitConstant requires JBase
 			return "无影客"
 		elseif (achieveID == 226) then
 			return "逆苍天"
+		elseif (achieveID == 227) then
+			return "逐天魔"
+		elseif (achieveID == 228) then
+			return "驱天魔"
+		elseif (achieveID == 229) then
+			return "伏天魔"
+		elseif (achieveID == 230) then
+			return "赦天魔"
+		elseif (achieveID == 231) then
+			return "无心冢"
+		elseif (achieveID == 32) then
+			return "触天式"
+		elseif (achieveID == 33) then
+			return "伐天式"
+		elseif (achieveID == 34) then
+			return "噬天式"
+		elseif (achieveID == 35) then
+			return "诛天式"
 		endif
 		return ""
 	endfunction
@@ -511,19 +547,58 @@ library_once Constant initializer InitConstant requires JBase
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 223) then
-			return "在135分钟内击败冥刹.
+			return "在经典模式中135分钟内击败冥刹.
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 224) then
-			return "在120分钟内击败冥刹.
+			return "在经典模式中120分钟内击败冥刹.
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 225) then
-			return "在90分钟内击败冥刹.
+			return "在经典模式中90分钟内击败冥刹.
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 226) then
-			return "在60分钟内击败冥刹.
+			return "在经典模式中60分钟内击败冥刹.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 227) then
+			return "在单场游戏中杀敌数达到1.5万。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 228) then
+			return "在单场游戏中杀敌数达到4万。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 229) then
+			return "在单场游戏中杀敌数达到8万。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 230) then
+			return "在单场游戏中杀敌数达到15万。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 231) then
+			return "单局游戏死亡次数达到100次。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 32) then
+			return "在单场游戏中造成的总伤害达500亿。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 33) then
+			return "在单场游戏中造成的总伤害达4000亿。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 34) then
+			return "在单场游戏中造成的总伤害达30000亿。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 35) then
+			return "在单场游戏中造成的总伤害达600000亿。
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
@@ -543,6 +618,8 @@ library_once Constant initializer InitConstant requires JBase
 			return index + 216
 		elseif (page == 5) then
 			return index + 224
+		elseif (page == 6) then
+			return index + 31
 		endif
 		return 0
 	endfunction
@@ -586,6 +663,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "种子哥"
 		elseif (i == 17) then
 			return "你等到，小NB"
+		elseif (i == 18) then
+			return "玉之魂"
+		elseif (i == 19) then
+			return "suinxboss"
+		elseif (i == 20) then
+			return "丿风再起时"
 		endif
 		return ""
 	endfunction
