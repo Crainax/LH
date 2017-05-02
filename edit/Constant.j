@@ -27,15 +27,52 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 20
+		constant integer COUNT_WANJIE = 34
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.77"
+		return "2.81"
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断游戏模式是否为经典
+	*/
+	function IsClassic takes nothing returns boolean
+		return mode == 1
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断游戏模式是否为加速
+	*/
+	function IsHighSpeed takes nothing returns boolean
+		return mode == 2
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    整数经典或加速
+	*/
+	function CModeH takes integer i1,integer i2 returns integer
+		if (IsClassic()) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    实数经典或加速
+	*/
+	function RCModeH takes real r1,real r2 returns real
+		if (IsClassic()) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取英雄索引号
@@ -200,7 +237,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID = 230 or achieveID = 231 or achieveID = 35
+		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 231 or achieveID == 35
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -669,6 +706,34 @@ library_once Constant initializer InitConstant requires JBase
 			return "suinxboss"
 		elseif (i == 20) then
 			return "丿风再起时"
+		elseif (i == 21) then
+			return "马蓉被Ri"
+		elseif (i == 22) then
+			return "熊锚"
+		elseif (i == 23) then
+			return "咸菜拉条子"
+		elseif (i == 24) then
+			return "Coffeekaffa"
+		elseif (i == 25) then
+			return "Nightmare丶K3"
+		elseif (i == 26) then
+			return "浅入风华"
+		elseif (i == 27) then
+			return "那你那下次"
+		elseif (i == 28) then
+			return "吃斋念佛人"
+		elseif (i == 29) then
+			return "ychochen"
+		elseif (i == 30) then
+			return "小小小小奶"
+		elseif (i == 31) then
+			return "顶——"
+		elseif (i == 32) then
+			return "天纳万海"
+		elseif (i == 33) then
+			return "疯一样的T怪"
+		elseif (i == 34) then
+			return "xue蓝"
 		endif
 		return ""
 	endfunction

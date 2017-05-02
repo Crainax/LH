@@ -36,6 +36,7 @@ library_once Diffculty requires LHBase
 			return 1
 		endif
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断当前难度是否是万劫
@@ -173,7 +174,7 @@ library_once Diffculty requires LHBase
 			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高300%,有几率无视闪避,生命提高200%.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r炼狱前30层与天庭均会增强同上属性.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r所有单位增加50%基础防御,所有非英雄单位增加2%生命回复速度.")
-			call BJDebugMsg("|cFFFF66CC【消息】|r野怪每次升级会升2级.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r野怪每次升级会升3级.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r进攻怪获得技能\"闪烁\",10波以后怪物提高20倍生命与20倍攻击.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r熊猫与大法BOSS提高50倍生命与20倍生命.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r英雄获得经验减少25%.")
@@ -203,6 +204,9 @@ library_once Diffculty requires LHBase
     	call SetPlayerTechResearchedSwap(  'R010', 1 , Player(11))
     	call SetPlayerTechResearchedSwap(  'R011', 1 , Player(10))
     	call SetPlayerTechResearchedSwap(  'R011', 1 , Player(11))
+    	//冥刹30000E
+    	call SetPlayerTechResearchedSwap(  'R013', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R013', 1 , Player(11))
 
     	set u = null
 	endfunction
@@ -212,11 +216,11 @@ library_once Diffculty requires LHBase
 	*/
 	function ChooseDifficulty takes nothing returns nothing
 		call DialogSetMessage( udg_X_Nandu, "选择难度" )
-	    call DialogAddButtonBJ( udg_X_Nandu, "天国（12波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "天国（特别版24+5波）") 
 	    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "太平（18波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "太平（特别版24+5波）") 
 	    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（18波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（特别版24+5波）") 
 	    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
 	    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5波）" )
 	    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
@@ -230,7 +234,7 @@ library_once Diffculty requires LHBase
 	    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
 	    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5波）" )
 	    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
-	    call DialogDisplay( Player(0), udg_X_Nandu, true )
+	    call DialogDisplay( GetFirstPlayer(), udg_X_Nandu, true )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -242,7 +246,7 @@ library_once Diffculty requires LHBase
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
 			//经典模式
 			set mode = 1
-			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
+			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".")
 		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
 			//加速模式
 			set mode = 2
@@ -267,8 +271,8 @@ library_once Diffculty requires LHBase
 
 	    call DialogSetMessage( d, "请选择游戏模式" )
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式（不推荐新手）"))
-	    call DialogDisplay( Player(0), d, true )
+	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(进阶)"))
+	    call DialogDisplay( GetFirstPlayer(), d, true )
 	    call TriggerRegisterDialogEvent( t, d )
 	    call TriggerAddAction(t, function GameModeClick)
 	    set d = null

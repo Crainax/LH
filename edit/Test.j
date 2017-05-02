@@ -18,6 +18,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 	//难度等级，最高7
 	integer udg_Nandu_JJJ
     integer udg_Nandu
+        //基地总区域
+        rect gg_rct__________u
 	//冥王
         unit gg_unit_Nkjx_0241 
         //左
@@ -40,6 +42,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         integer udg_Bo
         //排行榜
         integer array udg_Paihangbang
+        leaderboard array udg_Paihang
         //基地
         unit gg_unit_haro_0030
 
@@ -59,6 +62,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         sound gg_snd_Jidibeida
         sound gg_snd_Chenggong
         sound gg_snd_Shibai
+        sound gg_snd_Renwu
 
         /*
             翅膀

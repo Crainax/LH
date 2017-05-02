@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Diffculty.j"
 /*
     英雄幻逸的技能
 */
-library_once Huanyi requires SpellBase,Printer,Attr
+library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	
 	globals
 		/*
@@ -88,14 +89,14 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取多重施法的重数:1-5
+	    获取多重施法的重数:1-5(万劫3)
 	*/
 	private function GetMultiSpell takes nothing returns integer
 		if not(IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
 			return 1
 		endif
 
-		return IMaxBJ(IMinBJ(IMoneng/2,5),1)
+		return IMaxBJ(IMinBJ(IMoneng/2,I3(IsWanjie(),3,5)),1)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -227,7 +228,7 @@ library_once Huanyi requires SpellBase,Printer,Attr
 	*/
 	private function FireLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 0.2
+		local real damage = GetDamageInt(Huanyi) * 0.15
 		local integer i = 1
 		local integer ii = 1
 		local real range = 150 * times

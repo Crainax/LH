@@ -37,7 +37,7 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	function SiShenZhaDan takes unit speller,real x,real y,real damageRate,integer abilityID returns nothing
 		local real n
 		local unit u = speller
-		local real damage = GetDamageAgi(u) * damageRate * 2
+		local real damage = GetDamageAgi(u) * damageRate * 1.66
 		local real x1 = GetUnitX(u)
 	    local real y1 = GetUnitY(u)
 	    local real facing = Atan2(y-y1,x-x1)

@@ -49,6 +49,13 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
                 call PlaySoundBJ( gg_snd_Chenggong )
             else
                 call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以"+I2S(poss)+"%的成功率升级"+GetItemName(GetSpellTargetItem())+"失败！" ) ) )
+                if (GetRandomInt(1,5) == 1) then
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r装备到了+4以后推荐使用祝福/强化/诅咒石去升级.")
+                else
+                    if (GetRandomInt(1,4) == 1) then
+                        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r|cffff00ff琉璃璞玉|r可以将宝石成功率提升至100%,可以通过42转或者永久赞助(详情按F9)获取.")
+                    endif
+                endif
                 call PlaySoundBJ( gg_snd_Shibai )
             endif
             return true
@@ -73,6 +80,13 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
                 call PlaySoundBJ( gg_snd_Chenggong )
             else
                 call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以"+I2S(poss)+"%的成功率升级"+GetItemName(GetSpellTargetItem())+"失败,等级降低！" ) ) )
+                if (GetRandomInt(1,5) == 1) then
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r装备到了+4以后推荐使用祝福/强化/诅咒石去升级.")
+                else
+                    if (GetRandomInt(1,4) == 1) then
+                        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r|cffff00ff琉璃璞玉|r可以将宝石成功率提升至100%,可以通过42转或者永久赞助(详情按F9)获取.")
+                    endif
+                endif
                 call RemoveItem( GetSpellTargetItem() )
                 call UnitAddItemByIdSwapped( oldItemID, GetTriggerUnit() )
                 call PlaySoundBJ( gg_snd_Shibai )
@@ -100,6 +114,13 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
             else
                 call RemoveItem( GetSpellTargetItem() )
                 call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以"+I2S(poss)+"%的成功率升级"+GetItemName(GetSpellTargetItem())+"失败,等级降低2级！" ) ) )
+                if (GetRandomInt(1,5) == 1) then
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r装备到了+4以后推荐使用祝福/强化/诅咒石去升级.")
+                else
+                    if (GetRandomInt(1,4) == 1) then
+                        call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r|cffff00ff琉璃璞玉|r可以将宝石成功率提升至100%,可以通过42转或者永久赞助(详情按F9)获取.")
+                    endif
+                endif
                 call UnitAddItemByIdSwapped( oldItemID, GetTriggerUnit() )
                 call PlaySoundBJ( gg_snd_Shibai )
             endif
@@ -1224,43 +1245,94 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         根据死亡单位类型去掉落相对应的宝石
     */
     private function MonsterDropDiamond takes nothing returns boolean
-        if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
-            call CreateItem( 'I02N', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmyr')) then
-            call CreateItem( 'I04S', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnsw')) then
-            call CreateItem( 'azhr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nsnp')) then
-            call CreateItem( 'gmfr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nhyc')) then
-            call CreateItem( 'jpnt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnrg')) then
-            call CreateItem( 'glsk', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nplb')) then
-            call CreateItem( 'kygh', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'ntrv')) then
-            call CreateItem( 'sehr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmmu')) then
-            call CreateItem( 'bzbf', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanb')) then
-            call CreateItem( 'thle', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanm')) then
-            call CreateItem( 'dkfw', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        elseif ((GetUnitTypeId(GetDyingUnit()) == 'nane')) then
-            call CreateItem( 'phlt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
-            return true
-        endif
+        local integer i = 1
+       
+            if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                        call CreateItem( 'I02N', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                        set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmyr')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'I04S', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnsw')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'azhr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nsnp')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'gmfr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nhyc')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'jpnt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnrg')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'glsk', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nplb')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'kygh', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'ntrv')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'sehr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmmu')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'bzbf', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanb')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'thle', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nanm')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'dkfw', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            elseif ((GetUnitTypeId(GetDyingUnit()) == 'nane')) then
+                loop
+                    exitwhen i > CModeH(1,2)
+                    call CreateItem( 'phlt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
+                    set i = i + 1
+                endloop
+                return true
+            endif
+            set i = i +1
         return false
     endfunction
 //---------------------------------------------------------------------------------------------------

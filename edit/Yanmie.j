@@ -9,7 +9,7 @@ library_once Yanmie requires SpellBase
 		unit yanmie = null
 
 		private group GShadow = null
-		constant integer ICountShadowMAX = 2
+		constant integer ICountShadowMAX = 3
 		private trigger TSpellYanmie3 = null
 
 
@@ -60,16 +60,13 @@ library_once Yanmie requires SpellBase
 	    光环杀怪加属性
 	*/
 	private function TSpellYanmie3Con takes nothing returns boolean
-		return (IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) == true) and (IsUnitAliveBJ(GetKillingUnitBJ()) == true) and GetKillingUnitBJ() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] and IsThirdSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'A0C9') == 1
+		return (IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ()))) and udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] != null
 	endfunction
 
 	private function TSpellYanmie3Act takes nothing returns nothing
 		local integer i = GetKillCount(GetDyingUnit())
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 		local integer count = GetHeroLevel(udg_H[index])/100 + 2
-		if (udg_H[index] == null) then
-			return
-		endif
 		call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + count * i ,true)
 		call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true) + count * i , true)
 		call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true) + count * i , true)
@@ -89,8 +86,13 @@ library_once Yanmie requires SpellBase
 				call TriggerAddCondition(TSpellYanmie3, Condition(function TSpellYanmie3Con))
 				call TriggerAddAction(TSpellYanmie3, function TSpellYanmie3Act)
 				//湮灭新光环Todo
-				call AddSpecialEffectTargetUnitBJ("origin",yanmie,"war3mapImported\\BlightwalkerAura.mdx")
-				call UnitAddAbility(gg_unit_haro_0030,'A0EL')
+				call AddSpecialEffectTargetUnitBJ("origin",yanmie,"war3mapImported\\etherealaura.mdx")
+				call UnitAddAbility(gg_unit_haro_0030,'A0HF')
+				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
+				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
+				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
+				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
+				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
 			endif
 		endif
 	endfunction

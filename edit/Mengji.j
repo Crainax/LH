@@ -384,8 +384,11 @@ library_once Mengji requires SpellBase,Printer,Attr
         call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
         call UnitAddAbility(u,'A0H4')
         call IssuePointOrder(u,"carrionswarm",x2,y2)
+        set u = null
         call PolledWait(0.01)
-        call IssueImmediateOrder(u,"stop")
+        call SetUnitX(mengji,x1)
+        call SetUnitY(mengji,y1)
+        call IssueImmediateOrder(mengji,"stop")
 	endfunction
 
 	private function TSpellMengji4Con takes nothing returns boolean

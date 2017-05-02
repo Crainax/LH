@@ -91,7 +91,7 @@ library_once Battle initializer InitBattle requires LHBase
 			return i/3
 		endif
 
-		return i
+		return CModeH(i,i/2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -101,7 +101,7 @@ library_once Battle initializer InitBattle requires LHBase
 		if (IsFastly()) then
 			return 51.
 		else
-			return 300.
+			return RCModeH(300.,150.)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

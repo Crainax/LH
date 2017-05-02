@@ -1,4 +1,4 @@
 
-//! import "Achievement.j"
+//! import "Multiboard.j"
 function main takes nothing returns nothing
 endfunction

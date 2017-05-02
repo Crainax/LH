@@ -1,7 +1,8 @@
 
 //! import "LHBase.j"
+//! import "Netversion.j"
 
-library_once Multiboard initializer InitMultiboard requires LHBase 
+library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	globals
 		
 		integer array centerCredit
@@ -10,8 +11,25 @@ library_once Multiboard initializer InitMultiboard requires LHBase
 		*/
 		integer array Mdamage1
 		integer array Mdamage2
+		
 	endglobals
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    统计总伤害值
+	*/
+	private function TAddAllDamageCon takes nothing returns boolean
+		return GetEventDamage() > 100000 and GetPlayerSlotState(GetOwningPlayer( GetEventDamageSource())) == PLAYER_SLOT_STATE_PLAYING and GetPlayerController(GetOwningPlayer( GetEventDamageSource())) == MAP_CONTROL_USER
+	endfunction
+
+	private function TAddAllDamageAct takes nothing returns nothing
+		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
+		set Mdamage1[index] = Mdamage1[index] + R2I(GetEventDamage())
+		if (Mdamage1[index] > 100000000) then
+			set Mdamage2[index] = Mdamage2[index] + Mdamage1[index] / 100000000
+			set Mdamage1[index] = ModuloInteger(Mdamage1[index],100000000)
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    增加守家积分
@@ -20,14 +38,15 @@ library_once Multiboard initializer InitMultiboard requires LHBase
 		local integer index
 		if (udg_RENSHU > 1) then
 			set index = GetConvertedPlayerId(GetOwningPlayer(u))
-			set centerCredit[index] = centerCredit[index] + udg_Bo
+			set centerCredit[index] = centerCredit[index] + (udg_Bo) * CModeH(1,2)
 			call MultiboardSetItemValueBJ( udg_D, 9,  index + 1 , I2S(centerCredit[index]) )
 		else
 			set index = GetConvertedPlayerId(GetOwningPlayer(u))
-			set centerCredit[index] = centerCredit[index] + udg_Bo / 2
+			set centerCredit[index] = centerCredit[index] + (udg_Bo / 2) * CModeH(1,2)
 			call MultiboardSetItemValueBJ( udg_D, 9,  index + 1 , I2S(centerCredit[index]) )
 		endif
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    每10秒刷新一次伤害总值
@@ -39,21 +58,27 @@ library_once Multiboard initializer InitMultiboard requires LHBase
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 				//刷新多面板
-
+			 	call LeaderboardSetPlayerItemValueBJ( Player(11), udg_Paihang[i], Mdamage1[i] )
+    			call LeaderboardSetPlayerItemLabelBJ( Player(11), udg_Paihang[i], "总伤害("+I2S(Mdamage2[i])+"亿)" )
+				debug call SaveAchievement6(ConvertedPlayer(i),Mdamage2[i])
 			endif
 			set i = i +1
 		endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
-				if (Mdamage1 > 100000000)
-					set Mdamage2 = Mdamage1 / 100000000
-					set Mdamage1 = ModuloInteger(Mdamage1,100000000)
-				endif
 	/*
 	    初始化刷新计时器
 	*/
 	private function InitMultiboard takes nothing returns nothing
-		call CreateTimer(CreateTimer(),10,true,function FlashDamage)
+		local trigger t = CreateTrigger()
+
+		call TimerStart(CreateTimer(),20,true,function FlashDamage)
+
+    	call YDWESyStemAnyUnitDamagedRegistTrigger( t )
+	    call TriggerAddCondition(t, Condition(function TAddAllDamageCon))
+	    call TriggerAddAction(t, function TAddAllDamageAct)
+
+    	set t = null
 	endfunction
 endlibrary

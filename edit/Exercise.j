@@ -220,6 +220,9 @@ library_once Exercise initializer InitExercise requires LHBase
 		call SetUnitX(GetTriggerUnit(),GetUnitX(gg_unit_haro_0030))
 		call SetUnitY(GetTriggerUnit(),GetUnitY(gg_unit_haro_0030))
 		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你不能进入其他玩家的房间！")
+		if (IsSolider(GetTriggerUnit())) then
+			call RemoveUnit(GetTriggerUnit())
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

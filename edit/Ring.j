@@ -42,17 +42,16 @@ library_once Ring initializer InitRing requires LHBase
 
 	function TRingUpdateAct takes nothing returns nothing
 
-	    local integer count = 1
+	    local integer count = GetKillCount(GetDyingUnit())
 
 	    local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 	    local item ring = GetBasicRing(udg_H[index])
 	    local unit u = udg_H[index]
-	    local integer i = GetKillCount(GetDyingUnit())
-	    if (ring != null) then
+	    local integer i = 1
+	    if (ring == null) then
 	    	set ring = GetBasicRing(UDepot[index])
 	    	set u = UDepot[index]
 	    endif
-	    call BJDebugMsg("hhhhhhhhhhhh")
 	    if (ring == null) then
 	    	set u = null
 	    	return
@@ -109,11 +108,10 @@ library_once Ring initializer InitRing requires LHBase
 
 	function TRingMaxAct takes nothing returns nothing
 
-	    local integer count = 1
+	    local integer count = GetKillCount(GetDyingUnit())
 
 	    local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 	    local item ring = GetMaxRing(udg_H[index])
-	    local integer i = GetKillCount(GetDyingUnit())
 
 	    call SetItemUserData( ring,  GetItemUserData(ring) + count  )
 
@@ -121,6 +119,7 @@ library_once Ring initializer InitRing requires LHBase
 		    if (GetItemTypeId(ring) == '$CType$') then
 		    	if (GetItemUserData(ring) > 1000) then
 		    		call SetItemCharges(ring,GetItemCharges(ring) + 1)
+	   				call SetItemUserData( ring,  0  )
 					call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + $Count$ ,true)
 					call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true) + $Count$ , true)
 					call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true) + $Count$ , true)
@@ -139,7 +138,7 @@ library_once Ring initializer InitRing requires LHBase
 		//! endtextmacro
 
 		//! runtextmacro ShuaRingMax("brac","5000")
-		//! runtextmacro ShuaRingMax("fgdg","10000")
+		//! runtextmacro ShuaRingMax("lhst","10000")
 
 	    set ring = null
 

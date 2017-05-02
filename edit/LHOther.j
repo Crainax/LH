@@ -39,6 +39,25 @@ library_once LHOther initializer InitLHOther requires LHBase
 			call DisplayTimedTextToForce( GetPlayersAll(), 20, "|cFFFF66CC【提示】|r有人企图攻击自己的英雄队友，被伟大的Crainax制止了。" )
 	endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        获取经验
+    */
+    function TGetExCon takes nothing returns boolean
+        return ((IsPlayerEnemy(GetOwningPlayer(GetDyingUnit()), Player(0)) == true) and (GetOwningPlayer(GetKillingUnitBJ()) != Player(11)) and (GetOwningPlayer(GetKillingUnitBJ()) != Player(10)) and (IsUnitIllusionBJ(GetDyingUnit()) != true) and (GetOwningPlayer(GetKillingUnitBJ()) != Player(PLAYER_NEUTRAL_AGGRESSIVE)) and (GetUnitPointValue(GetDyingUnit()) != 0) and (GetUnitPointValue(GetDyingUnit()) != 123) and (GetPlayerController(GetOwningPlayer(GetDyingUnit())) != MAP_CONTROL_USER))
+    endfunction
+
+    function TGetExAct takes nothing returns nothing
+       local integer i = 1
+       local integer basicEx = 0
+        loop
+            exitwhen i > 6
+            set basicEx = GetWanjieInt(R2I(I2R(GetUnitPointValue(GetDyingUnit())) * udg_I_Jingyan[i]),0.75)
+            call AddHeroXPSwapped( CModeH(basicEx,basicEx*2), udg_H[i], true )
+            set i = i + 1
+        endloop
+    endfunction
+
+//---------------------------------------------------------------------------------------------------
 
 	private function InitLHOther takes nothing returns nothing
 		//物品叠加
@@ -53,6 +72,11 @@ library_once LHOther initializer InitLHOther requires LHBase
 		call TriggerAddCondition(t, Condition(function TAttackAllyCon))
 		call TriggerAddAction(t, function TAttackAllyAct)
 
+        //获取经验
+		set t = CreateTrigger()
+        call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_DEATH )
+        call TriggerAddCondition(t, Condition(function TGetExCon))
+        call TriggerAddAction(t, function TGetExAct)
 
 	    set t = null
 	endfunction

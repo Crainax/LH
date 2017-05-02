@@ -1,7 +1,8 @@
 
 //! import "Heiyan.j"
+//! import "Seyu.j"
 //! import "LHBase.j"
-library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan
+library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu
 	
 //---------------------------------------------------------------------------------------------------
 	/*

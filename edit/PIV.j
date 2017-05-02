@@ -263,6 +263,13 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 			endif
 
 			call InitPlayerPIV(GetTriggerPlayer())
+		elseif ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),756731533,1299228219))) then
+			debug if (GetSeyu1Spin(GetTriggerPlayer())) then
+			debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已获取了瑟雨皮肤,无须重复激活！")
+			debug return
+			debug endif
+
+			call SetSeyuSpinOK(GetTriggerPlayer())
 
 		endif
 	endfunction

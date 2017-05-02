@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Spin.j"
 /*
     英雄瑟雨的技能
 */
-library_once Seyu requires SpellBase,Printer,Attr 
+library_once Seyu requires SpellBase,Printer,Attr,Spin
 	
 	globals
 		unit seyu = null
@@ -205,7 +206,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    异界能量
 	*/
 	function TSpellSeyu2Con takes nothing returns boolean
-	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00))
+	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 4) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00))
 	endfunction
 
 	function TSpellSeyu2Act takes nothing returns nothing
@@ -318,7 +319,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	function Kongjianshashou takes nothing returns nothing
 		local integer i = 1
 		local integer ii = 1
-		local integer attack = R2I(I2R(GetHeroAgi(seyu,true))*SquareRoot(GetHeroLevel(seyu)))
+		local integer attack = R2I(I2R(GetHeroAgi(seyu,true))*SquareRoot(GetHeroLevel(seyu))) * 5
 		call PrintSpellContent(GetOwningPlayer(seyu),GetAbilityName(GetSpellAbilityId()),"攻击力"+I2S(attack)+".")
 
 		loop
@@ -333,7 +334,8 @@ library_once Seyu requires SpellBase,Printer,Attr
 		loop
 			exitwhen ii > chongCount
 			if (chongdongs[ii] != null) then
-				set shashous[ii] = CreateUnit(GetOwningPlayer(seyu),'espv',GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),270)
+				set shashous[ii] = CreateUnit(GetOwningPlayer(seyu),'espv',GetUnitX(chongdongs[ii]),GetUnitY(chongdongs[ii]),270)
+				call UnitApplyTimedLifeBJ( SquareRoot(I2R(GetHeroLevel(seyu)*10)), 'BHwe',shashous[ii] )
 				call SetAttack(shashous[ii],attack)
 			endif
 			set ii = ii +1
@@ -513,11 +515,28 @@ library_once Seyu requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    瑟雨皮肤
+	*/
+	private function InitSeyuSpin takes unit u returns unit
+		if (IsSeyuSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00C',GetUnitX(u),GetUnitY(u),0)
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+			call RemoveUnit(u)
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化瑟雨
 	*/
 	function InitSeyu takes unit u returns nothing
 		local integer i = 1
-		set seyu = u
+ 		
+ 		//皮肤
+		set seyu = InitSeyuSpin(u)
 		set chongCount = 2
 		//1
 	    set TSpellSeyu = CreateTrigger()
@@ -538,7 +557,6 @@ library_once Seyu requires SpellBase,Printer,Attr
 
 	    //升级顺便提高虫洞技能等级
 	    set TSpellSeyuUpdate = CreateTrigger()
-	    call DisableTrigger(TSpellSeyuUpdate)
 	    call TriggerRegisterUnitEvent( TSpellSeyuUpdate, seyu, EVENT_UNIT_HERO_LEVEL )
 	    call TriggerAddAction(TSpellSeyuUpdate, function TSpellSeyuUpdateAct)
 

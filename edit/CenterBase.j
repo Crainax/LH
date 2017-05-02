@@ -26,7 +26,7 @@ library_once CenterBase initializer InitCenterBase requires LHBase
 	    local integer i = 1
 	    loop
 	    	exitwhen i > 6
-	    	call CustomDefeatBJ( GetEnumPlayer(), "基地爆了！
+	    	call CustomDefeatBJ( ConvertedPlayer(i), "基地爆了！
 	    		通关攻略,寻找战友请加QQ群: 413359254" )
 	    	set i = i +1
 	    endloop

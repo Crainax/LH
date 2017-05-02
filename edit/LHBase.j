@@ -65,26 +65,28 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         20个全体的单位
     */
     function Is20Unit takes unit u returns boolean
-        return (((GetUnitTypeId(GetDyingUnit()) == 'nanw') or (GetUnitTypeId(GetDyingUnit()) == 'nbld') or (GetUnitTypeId(GetDyingUnit()) == 'nbdo') or (GetUnitTypeId(GetDyingUnit()) == 'ncnk') or (GetUnitTypeId(GetDyingUnit()) == 'nenc') or (GetUnitTypeId(GetDyingUnit()) == 'ngnw')))
+        return (((GetUnitTypeId(u) == 'nanw') or (GetUnitTypeId(u) == 'nbld') or (GetUnitTypeId(u) == 'nbdo') or (GetUnitTypeId(u) == 'ncnk') or (GetUnitTypeId(u) == 'nenc') or (GetUnitTypeId(u) == 'ngnw')))
     endfunction
+
 //---------------------------------------------------------------------------------------------------
     /*
         10个全体的单位
     */
     function Is10Unit takes unit u returns boolean
-        return (((GetUnitTypeId(GetDyingUnit()) == 'nano') or (GetUnitTypeId(GetDyingUnit()) == 'nenf') or (GetUnitTypeId(GetDyingUnit()) == 'nbda') or (GetUnitTypeId(GetDyingUnit()) == 'ncim') or (GetUnitTypeId(GetDyingUnit()) == 'ngns') or (GetUnitTypeId(GetDyingUnit()) == 'nhfp')))
+        return (((GetUnitTypeId(u) == 'nano') or (GetUnitTypeId(u) == 'nenf') or (GetUnitTypeId(u) == 'nbda') or (GetUnitTypeId(u) == 'ncim') or (GetUnitTypeId(u) == 'ngns') or (GetUnitTypeId(u) == 'nhfp')))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         获取某个单位应该对应的杀敌数
     */
+
     function GetKillCount takes unit u returns integer
         if (Is10Unit(u)) then
-            return 10
+            return 10 * CModeH(1,2)
         elseif (Is20Unit(u)) then
-            return 20
+            return 20 * CModeH(1,2)
         else
-            return 1
+            return 1 * CModeH(1,2)
         endif
     endfunction
 //---------------------------------------------------------------------------------------------------
@@ -120,8 +122,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function GetMaxRing takes unit u returns item
         if (UnitHasItemOfTypeBJ(u,'brac')) then
             return GetItemOfTypeFromUnitBJ(u, 'brac')
-        elseif (UnitHasItemOfTypeBJ(u,'fgdg'))then
-            return GetItemOfTypeFromUnitBJ(u, 'fgdg')
+        elseif (UnitHasItemOfTypeBJ(u,'lhst'))then
+            return GetItemOfTypeFromUnitBJ(u, 'lhst')
         endif
         return null
     endfunction
@@ -130,7 +132,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         判断是否是鬼戒指Max或者超鬼
     */
     function IsMaxRing takes item i returns boolean
-        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'fgdg'
+        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'lhst'
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -155,8 +157,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return GetItemOfTypeFromUnitBJ(u, 'rag1')
         elseif (UnitHasItemOfTypeBJ(u,'penr')) then
             return GetItemOfTypeFromUnitBJ(u, 'penr')
-        elseif (UnitHasItemOfTypeBJ(u,'fgdg')) then
-            return GetItemOfTypeFromUnitBJ(u, 'fgdg')
+        elseif (UnitHasItemOfTypeBJ(u,'brac')) then
+            return GetItemOfTypeFromUnitBJ(u, 'brac')
         elseif (UnitHasItemOfTypeBJ(u,'lhst')) then
             return GetItemOfTypeFromUnitBJ(u, 'lhst')
         endif
@@ -181,6 +183,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function IsEnemyM takes unit u, unit caster returns boolean
         return IsEnemyMP(u,GetOwningPlayer(caster))
     endfunction   
+//---------------------------------------------------------------------------------------------------
+    /*
+        雇佣兵过滤器
+    */
+    function IsSolider takes unit u returns boolean
+        return (GetUnitTypeId(u) == 'uG01') or (GetUnitTypeId(u) == 'uG02') or (GetUnitTypeId(u) == 'uG03') or (GetUnitTypeId(u) == 'uG04') or (GetUnitTypeId(u) == 'uG05') or (GetUnitTypeId(u) == 'uG06')
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
     /*
@@ -422,6 +431,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         endloop
         return ConvertedPlayer(1)
     endfunction
+
+
 //---------------------------------------------------------------------------------------------------
     /*
         开始定时刷万劫录
@@ -454,7 +465,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     private function InitLHBase takes nothing returns nothing
 
         local timer t = CreateTimer()
-        local trigger t1 = CreateTrigger()
         local integer i = 1
 
         loop
@@ -479,7 +489,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         call SaveInteger(LHTable,GetHandleId(t),1,0)
         call TimerStart(t,2,true,function StartWanjieTimer)
 
-        set t1 = null
+
         set t = null
     endfunction
 endlibrary

@@ -28,6 +28,15 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    3W
+	*/
+	private function SetItem3W takes integer itemID,integer value returns nothing
+		call SetItemStr(itemID,value)
+		call SetItemAgi(itemID,value)
+		call SetItemInt(itemID,value)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    生命
 	*/
 	private function SetItemHP takes integer itemID,integer value returns nothing
@@ -149,6 +158,20 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemXixue('tlum',40000)
 		call SetItemZhishang('tlum',8000000)
 		call SetItemAttack('tlum',2000000)
+		/*
+		    鬼戒指
+		*/
+		 call SetItem3W( 'rat9', 3000)
+	     call SetItem3W( 'rlif', 9000)
+	     call SetItem3W( 'lgdh', 18000)
+	     call SetItem3W( 'clfm', 30000)
+	     call SetItem3W( 'bgst', 45000)
+	     call SetItem3W( 'belv', 63000)
+	     call SetItem3W( 'hcun', 84000)
+	     call SetItem3W( 'rag1', 108000 )
+	     call SetItem3W( 'penr', 135000 )
+	     call SetItem3W( 'brac', 165000 )
+	     call SetItem3W( 'lhst', 240000 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

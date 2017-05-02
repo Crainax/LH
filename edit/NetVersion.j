@@ -53,7 +53,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		    死亡次数
 		*/
 		integer array deathCount
-
+		/*
+		    杀敌数
+		*/
+		integer array killCount
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -121,7 +124,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    彩名皮肤
 	*/
 	function IsColorSpin takes player p returns boolean
-		return spin[GetConvertedPlayerId(p)] > 0
+		return (GetBit(spin[GetConvertedPlayerId(p)],1) > 0)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -143,6 +146,24 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function GetMengjiSelectedCon takes player p returns boolean
 		return (DzAPI_Map_GetMapLevel(p) >= 11) or (IsHuodong() and IsPass(p,5))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    瑟雨皮肤条件
+	*/
+	function GetSeyu1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],2)>0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    瑟雨皮肤OK了
+	*/
+	function SetSeyuSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],2) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -174,11 +195,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
     			set spin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin")
-    			set diyu[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "defense")
+    			/*set diyu[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "defense")
     			set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
     			set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
     			set petTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pet")
-    			/*set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
+    			set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
     			set pass2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass2")
     			set pass3[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass3")
     			set pass4[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass4")
@@ -257,6 +278,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					endif
 				endif
 
+				if (IsHuodong3() and level >=4) then
+					call SetSeyuSpinOK(ConvertedPlayer(i))
+				endif
+
 				//通关次数
 				/*if (level == 1) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass1", pass1[i] + 1 )
@@ -279,6 +304,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				endif*/
 
 				//活动皮肤
+				/*
 				if (level >= 4 and IsHuodong()) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )
 					call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你在活动期间获得永久的英雄七彩皮肤特效！")
@@ -287,7 +313,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				if (IsHuodong()) then
 					set passTimes[i] = passTimes[i] + 1
 					call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass", passTimes[i] )
-				endif
+				endif*/
 
 			endif
 			set i = i +1
@@ -305,17 +331,19 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 
 				//通关称号,时间
-				if (udg_Second[2] < 135) then
-					call GetAchievementAndSave(ConvertedPlayer(i),223)
-				endif
-				if (udg_Second[2] < 120) then
-					call GetAchievementAndSave(ConvertedPlayer(i),224)
-				endif
-				if (udg_Second[2] < 90) then
-					call GetAchievementAndSave(ConvertedPlayer(i),225)
-				endif
-				if (udg_Second[2] < 60) then
-					call GetAchievementAndSave(ConvertedPlayer(i),226)
+				if (IsClassic()) then
+					if (udg_Second[2] < 135) then
+						call GetAchievementAndSave(ConvertedPlayer(i),223)
+					endif
+					if (udg_Second[2] < 120) then
+						call GetAchievementAndSave(ConvertedPlayer(i),224)
+					endif
+					if (udg_Second[2] < 90) then
+						call GetAchievementAndSave(ConvertedPlayer(i),225)
+					endif
+					if (udg_Second[2] < 60) then
+						call GetAchievementAndSave(ConvertedPlayer(i),226)
+					endif
 				endif
 
 				if (IsHuodong()) then
@@ -491,21 +519,24 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call GetAchievementAndSave(p,231)
 		endif
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    杀怪成就
 	*/
+	
 	function SaveAchievement5 takes player p, integer count returns nothing
-		if (count >= 15000) then
+		set killCount[GetConvertedPlayerId(p)] = killCount[GetConvertedPlayerId(p)] + count
+		if (killCount[GetConvertedPlayerId(p)] >= 15000) then
 			call GetAchievementAndSave(p,227)
 		endif
-		if (count >= 40000) then
+		if (killCount[GetConvertedPlayerId(p)] >= 40000) then
 			call GetAchievementAndSave(p,228)
 		endif
-		if (count >= 80000) then
+		if (killCount[GetConvertedPlayerId(p)] >= 80000) then
 			call GetAchievementAndSave(p,229)
 		endif
-		if (count >= 150000) then
+		if (killCount[GetConvertedPlayerId(p)] >= 150000) then
 			call GetAchievementAndSave(p,230)
 		endif
 	endfunction
@@ -635,6 +666,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 			    call TriggerRegisterPlayerStateEvent( t, ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER, GREATER_THAN_OR_EQUAL, 20000.00 )
 			    set deathCount[i] = 0
+			    set killCount[i] = 0
 			endif
 			set i = i +1
 		endloop
