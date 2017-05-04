@@ -27,14 +27,14 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 34
+		constant integer COUNT_WANJIE = 40
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.81"
+		return "2.83"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -88,7 +88,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 4
 		elseif (heroType == 'Nbbc') then
 			return 5
-		elseif (heroType == 'Ewrd') then
+		elseif (heroType == 'Ewrd' or heroType == 'E00C') then
 			return 6
 		elseif (heroType == 'Usyl') then
 			return 7
@@ -734,6 +734,18 @@ library_once Constant initializer InitConstant requires JBase
 			return "疯一样的T怪"
 		elseif (i == 34) then
 			return "xue蓝"
+		elseif (i == 35) then
+			return "至简c"
+		elseif (i == 36) then
+			return "无上神尊"
+		elseif (i == 37) then
+			return "无动于衷"
+		elseif (i == 38) then
+			return "你把我灌醉。"
+		elseif (i == 39) then
+			return "请带着我飞"
+		elseif (i == 40) then
+			return "你的牛奶呢丶"
 		endif
 		return ""
 	endfunction

@@ -67,9 +67,10 @@ library_once Yanmie requires SpellBase
 		local integer i = GetKillCount(GetDyingUnit())
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 		local integer count = GetHeroLevel(udg_H[index])/100 + 2
-		call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + count * i ,true)
-		call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true) + count * i , true)
-		call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true) + count * i , true)
+		//call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + count * i ,true)
+		//call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true) + count * i , true)
+		//call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true) + count * i , true)
+		call AddHero3W(udg_H[index],count * i)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

@@ -587,7 +587,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer i = GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))
 		call IncreaseHeroCount(p,i)
 		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
-    	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(i) )
+    	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
 		call PrintAllHeroTimes(p)
 		call SaveAchievement4(p)
 		call PauseTimer(t)

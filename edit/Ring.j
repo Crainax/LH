@@ -120,9 +120,7 @@ library_once Ring initializer InitRing requires LHBase
 		    	if (GetItemUserData(ring) > 1000) then
 		    		call SetItemCharges(ring,GetItemCharges(ring) + 1)
 	   				call SetItemUserData( ring,  0  )
-					call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + $Count$ ,true)
-					call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true) + $Count$ , true)
-					call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true) + $Count$ , true)
+					call AddHero3W(udg_H[index],$Count$)
     				call TriggerExecute( gg_trg_papa8____________u )
    					call TriggerExecute( gg_trg_papa10____________u )
     				call TriggerExecute( gg_trg_papa9____________u )

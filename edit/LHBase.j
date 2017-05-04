@@ -350,6 +350,21 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set l_unit =null
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        添加3W
+    */
+    function AddHero3W takes unit u, integer value returns nothing
+        local unit hero = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+        if (GetHeroIndex(GetUnitTypeId(hero)) == 9) then
+            call SetHeroStr(hero,GetHeroStr(hero,true) + value * 3 ,true)
+        else
+            call SetHeroInt(hero,GetHeroInt(hero,true) + value ,true)
+            call SetHeroAgi(hero,GetHeroAgi(hero,true) + value ,true)
+            call SetHeroStr(hero,GetHeroStr(hero,true) + value ,true)
+        endif
+        set hero = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
     /*
         购买者的判断，防止是假分身
