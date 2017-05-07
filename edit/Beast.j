@@ -306,7 +306,9 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
             call RemoveItem( GetItemOfTypeFromUnitBJ(u, '$IType2$') )
             call RemoveItem( GetItemOfTypeFromUnitBJ(u, '$IType1$') )
             call UnitAddItemById(u, '$IType3$')
-			call DisplayTextToPlayer(GetOwningPlayer(u),0.,0.,"|cFFFF66CC【消息】|r你成功召唤新的魔兽!")
+			call DisplayTextToPlayer(GetOwningPlayer(u),0.,0.,"|cFFFF66CC【消息】|r你成功召唤新的魔兽,如果想让魔兽进入不可点击状态,请输入\"-ms\"!")
+			call DisplayTextToPlayer(GetOwningPlayer(u),0.,0.,"|cFFFF66CC【消息】|r你成功召唤新的魔兽,如果想让魔兽进入不可点击状态,请输入\"-ms\"!")
+			call DisplayTextToPlayer(GetOwningPlayer(u),0.,0.,"|cFFFF66CC【消息】|r你成功召唤新的魔兽,如果想让魔兽进入不可点击状态,请输入\"-ms\"!")
 			return
 		endif
 		//! endtextmacro
