@@ -1,10 +1,9 @@
 //! import "LHBase.j"
-//! import "Achievement.j"
-
+//! import "CommonHuodong.j"
 /*
     其他平台的提示文本
 */
-library_once Version initializer InitVersion requires Achievement,LHBase
+library_once Version initializer InitVersion requires LHBase,Huodong
 	
 	globals
 		private boolean Bheiyan = false 
@@ -54,6 +53,20 @@ library_once Version initializer InitVersion requires Achievement,LHBase
 	*/
 	function GetMengjiSelectedCon takes player p returns boolean
 		return Bmengji
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    彩名皮肤
+	*/
+	function IsColorSpin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    瑟雨皮肤条件
+	*/
+	function GetSeyu1Spin takes player p returns boolean
+		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
     /*

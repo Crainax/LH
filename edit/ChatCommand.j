@@ -1,7 +1,6 @@
 
 //! import "LHBase.j"
 //! import "PIV.j"
-//! import "NetVersion.j"
 /*
     游戏指令
     -kill自杀
@@ -277,9 +276,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	    call PlaySoundBJ( gg_snd_Renwu )
 	    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "永久赞助", "做图不易,你的如果你喜欢本图,也愿意赞助本图,那么你将获得以下功能:
 
-	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"黑阎\"|r|cffff6800、|r|cff0ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前3个)均能体验24+5波进攻.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.
+	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"黑阎\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前3个)均能体验24+5波进攻.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.
 
-	    	|r|cffffff00赞助后续版本永久有效,永久赞助请加QQ群413359254获取,还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
+	    	|r|cffffff00赞助后续版本永久有效,永久赞助请百度搜索\"17玩吧\"进入轮回专区自助获取,请加QQ群413359254获取,还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
 	    call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
 	    call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00永久赞助|r
 |cFFFF9900点击左上角“任务”查看。|r" )

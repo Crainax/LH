@@ -269,7 +269,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 			debug return
 			debug endif
 
-			call SetSeyuSpinOK(GetTriggerPlayer())
+			debug call SetSeyuSpinOK(GetTriggerPlayer())
 
 		endif
 	endfunction

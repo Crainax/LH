@@ -1,6 +1,5 @@
 
 //! import "LHBase.j"
-//! import "Netversion.j"
 
 library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	globals
@@ -23,7 +22,7 @@ library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	endfunction
 
 	private function TAddAllDamageAct takes nothing returns nothing
-		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
+	local integer index = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
 		set Mdamage1[index] = Mdamage1[index] + R2I(GetEventDamage())
 		if (Mdamage1[index] > 100000000) then
 			set Mdamage2[index] = Mdamage2[index] + Mdamage1[index] / 100000000

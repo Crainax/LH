@@ -216,11 +216,11 @@ library_once Diffculty requires LHBase
 	*/
 	function ChooseDifficulty takes nothing returns nothing
 		call DialogSetMessage( udg_X_Nandu, "选择难度" )
-	    call DialogAddButtonBJ( udg_X_Nandu, "天国（特别版24+5波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "天国（12波）") 
 	    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "太平（特别版24+5波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "太平（18波）") 
 	    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（特别版24+5波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24波）") 
 	    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
 	    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5波）" )
 	    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
