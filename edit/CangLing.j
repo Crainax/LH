@@ -66,9 +66,29 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    联结谛盟
 	*/
 	private function LianJieDiMeng takes nothing returns nothing
-	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName(abilityID),"结盟成功！")
-	    call SetPlayerAllianceStateAllyBJ
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM2'),"结盟成功！")
+    	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
+    	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
+    	call PolledWait(12)
+    	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
+    	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM2'),"结盟结束！")
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    A出不灭真炎
+	*/
+	private function TSpellCangling2Con takes nothing returns boolean
+		return GetAttacker() == cangling and IsSecondSpellOK(cangling) == true and GetUnitState(cangling,UNIT_STATE_MANA) >= 250 and GetUnitAbilityLevel(cangling,'AHM2') == 1 and GetRandomInt(1,20) == 1
+	endfunction
+
+	private function TSpellCangling2Act takes nothing returns nothing
+		call DisableTrigger(GetTriggeringTrigger())
+		call BuMieZhenYan(2,'AHM2',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()))
+		call PolledWait(5)
+		call EnableTrigger(GetTriggeringTrigger())
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    主英雄技能判断
@@ -87,7 +107,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 		elseif (GetSpellAbilityId() == 'AHM5') then 
 			call Linglongwu()
 		endif
-
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -103,7 +122,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 				//技能2初始化
 			elseif (whichSpell == 3 and IsThirdSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM3') == 1) then
 				//技能3初始化
-				call InitShunyi()
+				
 				call AddSpecialEffectTargetUnitBJ("origin",mengji,"war3mapImported\\BlightwalkerAura.mdx")
 				call UnitAddAbility(gg_unit_haro_0030,'A0EL')
 			elseif (whichSpell == 4 and IsFourthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM4') == 1) then
@@ -137,6 +156,12 @@ library_once Mengji requires SpellBase,Printer,Attr
 	function InitCangling takes unit u returns nothing
 
 		set cangling = u
+
+	    //英雄第二个技能攻击事件
+	    set TSpellCangling2 = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(TSpellCangling2,EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(TSpellCangling2, Condition(function TSpellCangling2Con))
+	    call TriggerAddAction(TSpellCangling2, function TSpellCangling2Act)
 
 	endfunction
 
