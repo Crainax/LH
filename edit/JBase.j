@@ -29,7 +29,7 @@ library_once JBase
     /*
         三目运算符,real
     */
-    function R3 takes boolean b,integer r1,integer r2 returns integer
+    function R3 takes boolean b,real r1,real r2 returns real
         if (b) then
             return r1
         else

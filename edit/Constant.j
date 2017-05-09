@@ -10,7 +10,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    英雄数量
 		*/
-		constant integer HERO_COUNT = 15
+		constant integer HERO_COUNT = 16
 		/*
 		    活动开关
 		*/
@@ -108,6 +108,8 @@ library_once Constant initializer InitConstant requires JBase
 			return 14
 		elseif (heroType == 'Hant') then
 			return 15
+		elseif (heroType == 'Nsjs') then
+			return 16
 		endif
 		return 0
 	endfunction	
@@ -147,6 +149,8 @@ library_once Constant initializer InitConstant requires JBase
 				set result = "梦霁"
 			elseif (i == 15) then
 				set result = "幻逸"
+			elseif (i == 16) then
+				set result = "苍凌"
 			endif
 			return result
 	endfunction
@@ -186,6 +190,8 @@ library_once Constant initializer InitConstant requires JBase
 			set result = "|cffff99cc梦霁|r"
 		elseif (i == 15) then
 			set result = "|cff00ccff幻逸|r"
+		elseif (i == 16) then
+			set result = "|cff80ff80苍凌|r"
 		endif
 		return result
 	endfunction

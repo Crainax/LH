@@ -103,14 +103,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return S3(IsHuodong(),"|cff99ccff活动期间双击可以选择该英雄|r","|cff99ccff需要地图等级达到6级才能选取该英雄|r")
+		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
-		return S3(IsHuodong(),"|cff99ccff活动期间通关炼狱或以上难度双击可以选择该英雄|r","|cff99ccff需要地图等级达到11级才能选取该英雄|r")
+		return "|cff99ccff需要地图等级达到8级才能选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    苍凌的提示文本
+	*/
+	function GetCanglingHint takes nothing returns string
+		return "|cff99ccff需要地图等级达到12级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -138,14 +145,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 6) or IsHuodong()
+		return (DzAPI_Map_GetMapLevel(p) >= 6)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁选取条件
 	*/
 	function GetMengjiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 11) or (IsHuodong() and IsPass(p,5))
+		return (DzAPI_Map_GetMapLevel(p) >= 8)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    苍凌选取条件
+	*/
+	function GetCanglingSelectedCon takes player p returns boolean
+		return (DzAPI_Map_GetMapLevel(p) >= 12)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

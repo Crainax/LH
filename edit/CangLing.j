@@ -25,8 +25,8 @@ library_once Cangling requires SpellBase,Printer,Attr
 		*/
 		private unit UGuang	= null
 		private effect EGuang = null
-		private real RGuang = 0
-		private integer RGuang = 10
+		private real RGuang = 0.
+		private integer IGuang = 10
 		private timer TGuang = null
 		/*
 		    一气三化
@@ -37,6 +37,10 @@ library_once Cangling requires SpellBase,Printer,Attr
 		    贪狼芒曜
 		*/
 		private unit UTanlang = null
+		/*
+		    死亡复活的布尔
+		*/
+		private boolean array BWusuo
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -59,6 +63,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 
 		return true
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    碧波宝镯：切换装备栏
@@ -71,14 +76,14 @@ library_once Cangling requires SpellBase,Printer,Attr
 		//保存装备
 		loop
 			exitwhen i > I3(BiBo,12,6)
-			set IBibo[i] = UnitItemInSlotBJ(u,i)
+			set IBibo[i] = UnitItemInSlotBJ(cangling,i)
 			set i = i +1
 		endloop
 		set BiBo = not(BiBo)
 		//丢弃装备
 		loop
 			exitwhen ii > 6
-			set temp = UnitItemInSlotBJ(u,i)
+			set temp = UnitItemInSlotBJ(cangling,i)
 			call SetItemPosition(temp,0,0)
 			call SetItemVisible(temp,false)
 			set ii = ii +1
@@ -87,6 +92,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		loop
 			exitwhen iii > I3(BiBo,12,6)
 			call UnitAddItem(cangling,IBibo[i])
+			set IBibo[i] = null
 			set iii = iii +1
 		endloop
 		set temp = null
@@ -246,9 +252,13 @@ library_once Cangling requires SpellBase,Printer,Attr
 	/*
 	    光阴无梭的光环效果
 	*/
+
 	function IsGuangyinRevive takes nothing returns boolean
-		if (cangling != null and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'AHM3') == 1) then
-			
+		if (cangling != null and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'AHM3') == 1 and BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))]) then
+			call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(GetDyingUnit()))+"被"+GetUnitName(GetKillingUnitBJ())+"干掉了，被|cff808000光阴无梭|r救起,等待3秒原地复活.")
+		    call PolledWait(3.00)
+		    call ReviveHero( GetDyingUnit(), GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()) , true )
+		    call SetUnitManaBJ( GetDyingUnit(), 0.5 * GetUnitState(GetDyingUnit(),UNIT_STATE_MAX_MANA) )
 			return true
 		else
 			return false 	
@@ -259,10 +269,9 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    紫雷护体
 	*/
 	private function ZiLeiHuTi takes nothing returns nothing
-		local real damage = GetDamageAgi() * 0.4
 		if (UCangFeng != null) then
 			if (IsUnitAliveBJ(UCangFeng)) then
-	    		call DamageAreaMirror(cangling,GetUnitX(UCangFeng),GetUnitY(UCangFeng),450,damage)
+	    		call DamageArea(cangling,GetUnitX(UCangFeng),GetUnitY(UCangFeng),450,GetDamageAgi(cangling) * 0.4)
 			endif
 		else
 		    call PauseTimer(GetExpiredTimer())
@@ -338,7 +347,8 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function CreateTanlang takes nothing returns nothing
 		local integer i = GetRandomInt(1,3)
 		local integer ty = 0
-		local real x = 
+		local real x = YDWECoordinateX(GetUnitX(UTanlang) + GetRandomReal(-200,200))
+		local real y = YDWECoordinateY(GetUnitY(UTanlang) + GetRandomReal(-200,200))
 		if (i == 1) then
 			set ty = 'uuu5'
 		elseif (i == 2) then
@@ -346,7 +356,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		else
 			set ty = 'uuu7'
 		endif
-		call UnitApplyTimedLifeBJ( 20, 'BHwe',CreateUnit(GetOwningPlayer(cangling),ty,GetUnitX(UTanlang),GetUnitY(UTanlang),0) )
+		call UnitApplyTimedLifeBJ( 20, 'BHwe',CreateUnit(GetOwningPlayer(cangling),ty,x,y,0) )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -377,8 +387,8 @@ library_once Cangling requires SpellBase,Printer,Attr
 		if (IsUnitAliveBJ(UTanlang)) then
 			call SetUnitFacing(UTanlang,ModuloReal(GetUnitFacing(UTanlang)+3.6,360))
 		else
-			call PauseTimer(t)
-			call DestroyTimer(t)
+			call PauseTimer(GetExpiredTimer())
+			call DestroyTimer(GetExpiredTimer())
 			call BJDebugMsg("停止旋转")
 		endif
 	endfunction
