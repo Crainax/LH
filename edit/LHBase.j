@@ -446,8 +446,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         endloop
         return ConvertedPlayer(1)
     endfunction
-
-
+//---------------------------------------------------------------------------------------------------
+    /*
+        复活英雄（不包括读秒）
+    */
+    function Revive takes unit u,real x,real y returns nothing
+         
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         开始定时刷万劫录

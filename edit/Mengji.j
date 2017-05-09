@@ -462,7 +462,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 	*/
 
 	private function TSpellMengjiAct takes nothing returns nothing
-		local integer i = 1
 		if (GetSpellAbilityId() == 'AHM1') then
 			call Tanyoujian(0.75,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY(),5)
 		elseif (GetSpellAbilityId() == 'AHM2') then
@@ -531,7 +530,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 		set mengji = u
 
 		set Liutao = GetItemOfTypeFromUnitBJ(mengji, 'I049')
-		//todo 归属不太对
 	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
 
 	    /*

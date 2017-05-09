@@ -27,6 +27,17 @@ library_once JBase
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        三目运算符,real
+    */
+    function R3 takes boolean b,integer r1,integer r2 returns integer
+        if (b) then
+            return r1
+        else
+            return r2
+        endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         三目运算符,boolean
     */
     function B3 takes boolean b,boolean b1,boolean b2 returns boolean

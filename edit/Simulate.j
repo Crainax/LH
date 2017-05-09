@@ -28,6 +28,8 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 			return
 		elseif (SimulateDamageMengji(u) == true) then
 			return
+		elseif (SimulateDamageCangLing(u) == true) then
+			return
 		elseif (SimulateDamageSoldier(u) == true) then
 			return
 		endif
