@@ -56,11 +56,14 @@ library_once Cangling requires SpellBase,Printer,Attr
 		loop
 			exitwhen i > I3(BiBo,12,6)
 			if (it == IBibo[i]) then
+
+				call BJDebugMsg(GetItemName(it)+":::false")
 				return false
 			endif
 			set i = i +1
 		endloop
 
+		call BJDebugMsg(GetItemName(it)+":::true")
 		return true
 	endfunction
 
@@ -71,7 +74,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function BiBoBaoZhuo takes nothing returns nothing
 		local integer i = I3(BiBo,7,1)
 		local integer ii = 1
-		local integer iii = I3(BiBo,1,7)
+		local integer iii
 		local item temp = null
 		//保存装备
 		loop
@@ -79,20 +82,22 @@ library_once Cangling requires SpellBase,Printer,Attr
 			set IBibo[i] = UnitItemInSlotBJ(cangling,i)
 			set i = i +1
 		endloop
-		set BiBo = not(BiBo)
 		//丢弃装备
 		loop
 			exitwhen ii > 6
-			set temp = UnitItemInSlotBJ(cangling,i)
+			set temp = UnitItemInSlotBJ(cangling,ii)
+			//call UnitRemoveItemSwapped(temp,mengji)
 			call SetItemPosition(temp,0,0)
 			call SetItemVisible(temp,false)
-			set ii = ii +1
+			set ii = ii + 1
 		endloop
+		set BiBo = not(BiBo)
 		//获得装备
+		set iii = I3(BiBo,7,1)
 		loop
 			exitwhen iii > I3(BiBo,12,6)
-			call UnitAddItem(cangling,IBibo[i])
-			set IBibo[i] = null
+			call UnitAddItem(cangling,IBibo[iii])
+			set IBibo[iii] = null
 			set iii = iii +1
 		endloop
 		set temp = null
@@ -129,16 +134,19 @@ library_once Cangling requires SpellBase,Printer,Attr
 	
 	function SimulateDamageCangling takes unit u returns boolean
 
-		if (GetUnitTypeId(u) == 'hhc1') then
+		if (GetUnitTypeId(u) == 'h00V') then
 			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			if (IsUnitDeadBJ(GetTriggerUnit())) then
+				call SetUnitUserData(GetEventDamageSource(),GetUnitUserData(GetEventDamageSource())+1)
+			endif
 			return true 
 		endif
-		if (GetUnitTypeId(u) == 'uuu5') then
-			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.6, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+		if (GetUnitTypeId(u) == 'h00W') then
+			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.15, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
-		if (GetUnitTypeId(u) == 'uuu6') then
-			call SimulateSpell(GetEventDamageSource(),GetTriggerUnit(),'AHM7',1,5,"hex",false,false,true)
+		if (GetUnitTypeId(u) == 'h00Y') then
+			call SimulateSpell(GetEventDamageSource(),GetTriggerUnit(),'A0HU',1,5,"hex",false,false,true)
 			return true 
 		endif
 		return false
@@ -171,7 +179,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function BuMieZhenYan takes integer lifeTime,integer abilityID,real x,real y returns nothing
 		local real damage = GetDamageAgi(cangling) * 0.4
 		local timer t = CreateTimer()
-		local unit u = CreateUnit(GetOwningPlayer(cangling),'hhc1',x,y,270)
+		local unit u = CreateUnit(GetOwningPlayer(cangling),'h00V',x,y,270)
 		call SetUnitUserData(u,lifeTime)
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
 		call SaveTextTagHandle(spellTable,GetHandleId(t),2,CreateTextTagUnitBJ( I2S(lifeTime)+"秒", u, 0, 20, 100, 0, 100, 0 ))
@@ -185,25 +193,25 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    联结谛盟
 	*/
 	private function LianJieDiMeng takes nothing returns nothing
-	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM2'),"结盟成功！")
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HJ'),"结盟成功！")
     	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
     	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
-    	call PolledWait(12)
+    	call PolledWait(10)
     	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
     	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
-	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM2'),"结盟结束！")
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HJ'),"结盟结束！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    A出不灭真炎
 	*/
 	private function TSpellCangling2Con takes nothing returns boolean
-		return GetAttacker() == cangling and IsSecondSpellOK(cangling) == true and GetUnitState(cangling,UNIT_STATE_MANA) >= 250 and GetUnitAbilityLevel(cangling,'AHM2') == 1 and GetRandomInt(1,20) == 1
+		return GetAttacker() == cangling and IsSecondSpellOK(cangling) == true and GetUnitState(cangling,UNIT_STATE_MANA) >= 250 and GetUnitAbilityLevel(cangling,'A0HJ') == 1 and GetRandomInt(1,20) == 1
 	endfunction
 
 	private function TSpellCangling2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call BuMieZhenYan(2,'AHM2',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()))
+		call BuMieZhenYan(2,'A0HJ',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()))
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
@@ -230,7 +238,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		set IGuang = IGuang - 1
 		if (IsUnitAliveBJ(UGuang) and IGuang > 0) then
 			call UnitDamageTarget( cangling, UGuang, GetDamageAgi(cangling) * RGuang, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-	    	call CreateSpellTextTag(I2S(R2I(RGuang * 100))+"%X!",cangling,0,100,0,4)
+	    	call CreateSpellTextTag(I2S(R2I(RGuang * 100))+"%X!",UGuang,0,100,0,4)
 		else
 			call DestroyGuangYin()
 		endif
@@ -241,28 +249,42 @@ library_once Cangling requires SpellBase,Printer,Attr
 			call DestroyGuangYin()
 			set UGuang = GetSpellTargetUnit()
 		endif
-		set RGuang = R3(RGuang == 0.,0.4,RGuang + 0.2)
+		set RGuang = R3(RGuang == 0.,0.4,RGuang + 0.1)
 		set IGuang = 10
 		if (TGuang == null) then
 			set TGuang = CreateTimer()
 			call TimerStart(TGuang,1,true,function GuangYinWuSuoTimer)
 		endif
 		if (EGuang == null) then
-			call AddSpecialEffectTargetUnitBJ("head",GetSpellTargetUnit(),"Abilities\\Spells\\NightElf\\shadowstrike\\shadowstrike.mdl")
+			set EGuang =  AddSpecialEffectTargetUnitBJ("head",GetSpellTargetUnit(),"Abilities\\Spells\\NightElf\\shadowstrike\\shadowstrike.mdl")
 		endif
-	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM3'),"百分比伤害"+I2S(R2I(RGuang * 100))+"%!")
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HK'),"百分比伤害"+I2S(R2I(RGuang * 100))+"%!")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    光阴无梭的光环效果
 	*/
 
+    private function GuangyinResetTimer takes nothing returns nothing
+    	local timer t = GetExpiredTimer()
+    	local integer id = GetHandleId(t)
+    	local integer pID = LoadInteger(spellTable,id,1)
+    	set BWusuo[pID] = false
+		call PauseTimer(t)
+		call FlushChildHashtable(spellTable,id)
+		call DestroyTimer(t)
+    	set t = null 
+    endfunction
+
 	function IsGuangyinRevive takes nothing returns boolean
-		if (cangling != null and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'AHM3') == 1 and BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))]) then
+		if (cangling != null and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'A0HK') == 1 and not(BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))])) then
+			set BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))] = true
 			call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(GetDyingUnit()))+"被"+GetUnitName(GetKillingUnitBJ())+"干掉了，被|cff808000光阴无梭|r救起,等待3秒原地复活.")
 		    call PolledWait(3.00)
 		    call ReviveHero( GetDyingUnit(), GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()) , true )
 		    call SetUnitManaBJ( GetDyingUnit(), 0.5 * GetUnitState(GetDyingUnit(),UNIT_STATE_MAX_MANA) )
+		    call SaveInteger(CreateTimerBJ(),GetHandleId(t),1,GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit())))
+		    call TimerStart(GetLastCreatedTimerBJ(),27,false,function GuangyinResetTimer)
 			return true
 		else
 			return false 	
@@ -287,22 +309,20 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    阳炎无双
 	*/
 	private function YangYanWuShuang takes nothing returns nothing
-		local group l_group = CreateGroup()
+		local group l_group = GetUnitsOfTypeIdAll('h00V')
 		local unit l_unit = null
-		call GroupEnumUnitsInRange(l_group, 0, 0, 99999, null)
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(GetSpellAbilityUnit()), GetUnitY(GetSpellAbilityUnit()) ))
 		loop
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (GetUnitTypeId(l_unit) == 'hhc1') then
-		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
 			call SetUnitUserData(l_unit,GetUnitUserData(l_unit) + 6)
-		    endif
 		endloop
 		call DestroyGroup(l_group)
 		set l_group = null
 		set l_unit =null
-	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM6'),"成功续命6秒！")
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HS'),"成功续命6秒！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -310,7 +330,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    一气三化
 	*/
 	private function YiQiSanHuaTimer takes nothing returns nothing
-	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM4'),"技能时间结束！")
+	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HL'),"技能时间结束！")
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", GetUnitX(UCangFeng), GetUnitY(UCangFeng) ))
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(UCangHuo), GetUnitY(UCangHuo) ))
 	    call FlushChildHashtable(YDHT,GetHandleId(UCangFeng))
@@ -324,19 +344,27 @@ library_once Cangling requires SpellBase,Printer,Attr
 	endfunction
 
 	private function YiQiSanHua takes nothing returns nothing
-	    call PrintSpellName(GetOwningPlayer(cangling),GetAbilityName('AHM4'))
-	    set UCangFeng = CreateUnit(GetOwningPlayer(cangling),'uuu2',YDWECoordinateX(GetUnitX(cangling) + GetRandomReal(-200,200)),YDWECoordinateY(GetUnitY(cangling) + GetRandomReal(-200,200)),0)
+	    call PrintSpellName(GetOwningPlayer(cangling),GetAbilityName('A0HL'))
+	    set UCangFeng = CreateUnit(GetOwningPlayer(cangling),'Ogld',YDWECoordinateX(GetUnitX(cangling) + GetRandomReal(-200,200)),YDWECoordinateY(GetUnitY(cangling) + GetRandomReal(-200,200)),0)
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", GetUnitX(UCangFeng), GetUnitY(UCangFeng) ))
 	    call SetHeroInt(UCangFeng,GetHeroInt(cangling,true),true)
 	    call SetHeroAgi(UCangFeng,GetHeroAgi(cangling,true),true)
 	    call SetHeroStr(UCangFeng,GetHeroStr(cangling,true),true)
+	    call SetHeroLevel(UCangFeng,GetHeroLevel(cangling),false)
+	    call SelectHeroSkill( UCangFeng, 'A0HI' )
+	    call SelectHeroSkill( UCangFeng, 'A0HJ' )
+	    call SelectHeroSkill( UCangFeng, 'A0HK' )
 	    call SetAttack(UCangFeng,GetAttack(cangling))
 	    call SetDefense(UCangFeng,GetDefense(cangling))
 	    call SetHP(UCangFeng,GetHP(cangling))
-	    set UCangHuo = CreateUnit(GetOwningPlayer(cangling),'uuu3',YDWECoordinateX(GetUnitX(cangling) + GetRandomReal(-200,200)),YDWECoordinateY(GetUnitY(cangling) + GetRandomReal(-200,200)),0)
+	    set UCangHuo = CreateUnit(GetOwningPlayer(cangling),'Orex',YDWECoordinateX(GetUnitX(cangling) + GetRandomReal(-200,200)),YDWECoordinateY(GetUnitY(cangling) + GetRandomReal(-200,200)),0)
 	    call SetHeroInt(UCangHuo,GetHeroInt(cangling,true),true)
 	    call SetHeroAgi(UCangHuo,GetHeroAgi(cangling,true),true)
 	    call SetHeroStr(UCangHuo,GetHeroStr(cangling,true),true)
+	    call SetHeroLevel(UCangHuo,GetHeroLevel(cangling),false)
+	    call SelectHeroSkill( UCangHuo, 'A0HI' )
+	    call SelectHeroSkill( UCangHuo, 'A0HJ' )
+	    call SelectHeroSkill( UCangHuo, 'A0HK' )
 	    call SetAttack(UCangHuo,GetAttack(cangling))
 	    call SetDefense(UCangHuo,GetDefense(cangling))
 	    call SetHP(UCangHuo,GetHP(cangling))
@@ -351,16 +379,20 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function CreateTanlang takes nothing returns nothing
 		local integer i = GetRandomInt(1,3)
 		local integer ty = 0
-		local real x = YDWECoordinateX(GetUnitX(UTanlang) + GetRandomReal(-200,200))
-		local real y = YDWECoordinateY(GetUnitY(UTanlang) + GetRandomReal(-200,200))
+		local real x = YDWECoordinateX(GetUnitX(UTanlang) + GetRandomReal(-600,600))
+		local real y = YDWECoordinateY(GetUnitY(UTanlang) + GetRandomReal(-600,600))
+		local unit u = null
 		if (i == 1) then
-			set ty = 'uuu5'
+			set ty = 'h00W'
 		elseif (i == 2) then
-			set ty = 'uuu6'
+			set ty = 'h00Y'
 		else
-			set ty = 'uuu7'
+			set ty = 'h00Z'
 		endif
-		call UnitApplyTimedLifeBJ( 20, 'BHwe',CreateUnit(GetOwningPlayer(cangling),ty,x,y,0) )
+		set u = CreateUnit(GetOwningPlayer(cangling),ty,x,y,GetRandomReal(0,360))
+		call UnitApplyTimedLifeBJ( 20, 'BHwe', u )
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(u), GetUnitY(u) ))
+		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -379,7 +411,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 			call FlushChildHashtable(spellTable,id)
 			call DestroyTimer(t)
 			set UTanlang = null
-	    	call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('AHM5'),"技能时间结束！")
+	    	call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HM'),"技能时间结束！")
 		endif
 		set t = null 
 	endfunction
@@ -389,17 +421,16 @@ library_once Cangling requires SpellBase,Printer,Attr
 	*/
 	private function TanLangMangYaoRotateTimer takes nothing returns nothing
 		if (IsUnitAliveBJ(UTanlang)) then
-			call SetUnitFacing(UTanlang,ModuloReal(GetUnitFacing(UTanlang)+3.6,360))
+			call SetUnitFacing(UTanlang,ModuloReal(GetUnitFacing(UTanlang)+7.2,360))
 		else
 			call PauseTimer(GetExpiredTimer())
 			call DestroyTimer(GetExpiredTimer())
-			call BJDebugMsg("停止旋转")
 		endif
 	endfunction
 
 	private function TanLangMangYao takes nothing returns nothing
 		local timer t = CreateTimer()
-		set UTanlang = CreateUnit(GetOwningPlayer(cangling),'uuu4',GetUnitX(cangling),GetUnitY(cangling),0)
+		set UTanlang = CreateUnit(GetOwningPlayer(cangling),'h013',GetUnitX(cangling),GetUnitY(cangling),0)
 		call UnitApplyTimedLifeBJ( 45, 'BHwe',UTanlang )
 		call SaveInteger(spellTable,GetHandleId(t),1,45)
 		call TimerStart(t,1,true,function TanLangMangYaoTimer)
@@ -413,21 +444,21 @@ library_once Cangling requires SpellBase,Printer,Attr
 	*/
 
 	private function TSpellCanglingAct takes nothing returns nothing
-		if (GetSpellAbilityId() == 'AHM1') then
+		if (GetSpellAbilityId() == 'A0HI') then
 			call BuMieZhenYan(5,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY())
-		elseif (GetSpellAbilityId() == 'AHM2') then
+		elseif (GetSpellAbilityId() == 'A0HJ') then
 			call LianJieDiMeng()
-		elseif (GetSpellAbilityId() == 'AHM3') then 
+		elseif (GetSpellAbilityId() == 'A0HK') then 
 			call GuangYinWuSuo()
-		elseif (GetSpellAbilityId() == 'AHM4') then 
+		elseif (GetSpellAbilityId() == 'A0HL') then 
 			call YiQiSanHua()
-		elseif (GetSpellAbilityId() == 'AHM5') then 
+		elseif (GetSpellAbilityId() == 'A0HM') then 
 			call TanLangMangYao()
 		//切换背包
-		elseif (GetSpellAbilityId() == 'AHM0') then 
+		elseif (GetSpellAbilityId() == 'A0HH') then 
 			call BiBoBaoZhuo()
 		//阳炎无双
-		elseif (GetSpellAbilityId() == 'AHM6') then 
+		elseif (GetSpellAbilityId() == 'A0HS') then 
 			call YangYanWuShuang()
 
 		endif
@@ -441,25 +472,25 @@ library_once Cangling requires SpellBase,Printer,Attr
 	function LearnSkillCanglingI takes unit learner,integer whichSpell returns nothing
 		local integer i
 		if (learner == cangling) then
-			if (whichSpell == 3 and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'AHM3') == 1) then
+			if (whichSpell == 3 and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'A0HK') == 1) then
 				//技能3初始化
-				call AddSpecialEffectTargetUnitBJ("origin",cangling,"war3mapImported\\BlightwalkerAura.mdx")
-				call UnitAddAbility(gg_unit_haro_0030,'AHM8')
+				call AddSpecialEffectTargetUnitBJ("origin",cangling,"war3mapImported\\yanbao.mdx")
+				call UnitAddAbility(gg_unit_haro_0030,'A0HR')
 			endif
 		endif
 	endfunction
 
 	function LearnSkillCangling takes unit learner,integer learnSpellID returns nothing
 		if (learner == cangling) then
-			if (learnSpellID == 'AHM1') then
+			if (learnSpellID == 'A0HI') then
 				call LearnSkillCanglingI(learner,1)
-			elseif (learnSpellID == 'AHM2') then
+			elseif (learnSpellID == 'A0HJ') then
 				call LearnSkillCanglingI(learner,2)
-			elseif (learnSpellID == 'AHM3') then
+			elseif (learnSpellID == 'A0HK') then
 				call LearnSkillCanglingI(learner,3)
-			elseif (learnSpellID == 'AHM4') then
+			elseif (learnSpellID == 'A0HL') then
 				call LearnSkillCanglingI(learner,4)
-			elseif (learnSpellID == 'AHM5') then
+			elseif (learnSpellID == 'A0HM') then
 				call LearnSkillCanglingI(learner,5)
 			endif
 		endif
@@ -478,6 +509,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    call TriggerAddCondition(TSpellCangling2, Condition(function TSpellCangling2Con))
 	    call TriggerAddAction(TSpellCangling2, function TSpellCangling2Act)
 
+	    //苍凌的所有技能
 		set TSpellCangling = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(TSpellCangling,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellCangling, function TSpellCanglingAct)
