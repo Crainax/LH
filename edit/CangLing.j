@@ -129,8 +129,12 @@ library_once Cangling requires SpellBase,Printer,Attr
 	
 	function SimulateDamageCangling takes unit u returns boolean
 
-		if (GetUnitTypeId(u) == 'uuu1' or GetUnitTypeId(u) == 'uuu5') then
+		if (GetUnitTypeId(u) == 'hhc1') then
 			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			return true 
+		endif
+		if (GetUnitTypeId(u) == 'uuu5') then
+			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.6, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'uuu6') then
@@ -167,7 +171,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function BuMieZhenYan takes integer lifeTime,integer abilityID,real x,real y returns nothing
 		local real damage = GetDamageAgi(cangling) * 0.4
 		local timer t = CreateTimer()
-		local unit u = CreateUnit(GetOwningPlayer(cangling),'uuu1',x,y,270)
+		local unit u = CreateUnit(GetOwningPlayer(cangling),'hhc1',x,y,270)
 		call SetUnitUserData(u,lifeTime)
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
 		call SaveTextTagHandle(spellTable,GetHandleId(t),2,CreateTextTagUnitBJ( I2S(lifeTime)+"秒", u, 0, 20, 100, 0, 100, 0 ))
@@ -290,7 +294,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (GetUnitTypeId(l_unit) == 'uuu1') then
+		    if (GetUnitTypeId(l_unit) == 'hhc1') then
 		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
 			call SetUnitUserData(l_unit,GetUnitUserData(l_unit) + 6)
 		    endif
@@ -463,7 +467,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    初始化凌苍
+	    初始化苍凌
 	*/
 	function InitCangling takes unit u returns nothing
 		set cangling = u
