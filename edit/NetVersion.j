@@ -521,6 +521,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			endif
 			set i = i +1
 		endloop
+		if (result != "") then
+			call DisplayTextToPlayer(p, 0., 0., result)
+		endif
 		set result = null
 	endfunction
 //---------------------------------------------------------------------------------------------------

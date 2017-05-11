@@ -57,29 +57,44 @@ library_once Cangling requires SpellBase,Printer,Attr
 			exitwhen i > I3(BiBo,12,6)
 			if (it == IBibo[i]) then
 
-				call BJDebugMsg(GetItemName(it)+":::false")
 				return false
 			endif
 			set i = i +1
 		endloop
 
-		call BJDebugMsg(GetItemName(it)+":::true")
 		return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    显示所有装备
+	*/
+	/*function ShowAllZhuangbei takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 12
+			if (IBibo[i] == null) then
+				call BJDebugMsg("第"+I2S(i)+"格: null")
+			else
+				call BJDebugMsg("第"+I2S(i)+"格:"+GetItemName(IBibo[i]))
+			endif
+			set i = i +1
+		endloop
+	endfunction*/
+//---------------------------------------------------------------------------------------------------
+
+	/*
 	    碧波宝镯：切换装备栏
 	*/
 	private function BiBoBaoZhuo takes nothing returns nothing
-		local integer i = I3(BiBo,7,1)
+		local integer i = 1
 		local integer ii = 1
 		local integer iii
 		local item temp = null
 		//保存装备
 		loop
-			exitwhen i > I3(BiBo,12,6)
-			set IBibo[i] = UnitItemInSlotBJ(cangling,i)
+			exitwhen i > 6
+			set IBibo[i + I3(BiBo,6,0)] = UnitItemInSlotBJ(cangling,i)
 			set i = i +1
 		endloop
 		//丢弃装备
@@ -193,12 +208,14 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    联结谛盟
 	*/
 	private function LianJieDiMeng takes nothing returns nothing
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(cangling), GetUnitY(cangling) ))
 	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HJ'),"结盟成功！")
     	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
     	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
     	call PolledWait(10)
     	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
     	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(cangling), GetUnitY(cangling) ))
 	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HJ'),"结盟结束！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -206,7 +223,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    A出不灭真炎
 	*/
 	private function TSpellCangling2Con takes nothing returns boolean
-		return GetAttacker() == cangling and IsSecondSpellOK(cangling) == true and GetUnitState(cangling,UNIT_STATE_MANA) >= 250 and GetUnitAbilityLevel(cangling,'A0HJ') == 1 and GetRandomInt(1,20) == 1
+		return (GetAttacker() == cangling or (GetAttacker() == UCangFeng and UCangFeng != null) or (GetAttacker() == UCangHuo and UCangHuo != null)) and IsSecondSpellOK(cangling) == true and GetUnitState(cangling,UNIT_STATE_MANA) >= 250 and GetUnitAbilityLevel(cangling,'A0HJ') == 1 and GetRandomInt(1,20) == 1
 	endfunction
 
 	private function TSpellCangling2Act takes nothing returns nothing
@@ -276,15 +293,21 @@ library_once Cangling requires SpellBase,Printer,Attr
     	set t = null 
     endfunction
 
+    private function StartTimerGuangyin takes unit u returns nothing
+    	local timer t = CreateTimer()
+	    call SaveInteger(spellTable,GetHandleId(t),1,GetConvertedPlayerId(GetOwningPlayer(u)))
+	    call TimerStart(t,27,false,function GuangyinResetTimer)
+	    set t = null
+    endfunction
+
 	function IsGuangyinRevive takes nothing returns boolean
 		if (cangling != null and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'A0HK') == 1 and not(BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))])) then
 			set BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))] = true
 			call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(GetDyingUnit()))+"被"+GetUnitName(GetKillingUnitBJ())+"干掉了，被|cff808000光阴无梭|r救起,等待3秒原地复活.")
 		    call PolledWait(3.00)
+		    call StartTimerGuangyin(GetDyingUnit())
 		    call ReviveHero( GetDyingUnit(), GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()) , true )
 		    call SetUnitManaBJ( GetDyingUnit(), 0.5 * GetUnitState(GetDyingUnit(),UNIT_STATE_MAX_MANA) )
-		    call SaveInteger(CreateTimerBJ(),GetHandleId(t),1,GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit())))
-		    call TimerStart(GetLastCreatedTimerBJ(),27,false,function GuangyinResetTimer)
 			return true
 		else
 			return false 	
@@ -379,8 +402,8 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function CreateTanlang takes nothing returns nothing
 		local integer i = GetRandomInt(1,3)
 		local integer ty = 0
-		local real x = YDWECoordinateX(GetUnitX(UTanlang) + GetRandomReal(-600,600))
-		local real y = YDWECoordinateY(GetUnitY(UTanlang) + GetRandomReal(-600,600))
+		local real x = YDWECoordinateX(GetUnitX(UTanlang) + GetRandomReal(-400,400))
+		local real y = YDWECoordinateY(GetUnitY(UTanlang) + GetRandomReal(-400,400))
 		local unit u = null
 		if (i == 1) then
 			set ty = 'h00W'
@@ -446,7 +469,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function TSpellCanglingAct takes nothing returns nothing
 		if (GetSpellAbilityId() == 'A0HI') then
 			call BuMieZhenYan(5,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY())
-		elseif (GetSpellAbilityId() == 'A0HJ') then
+		elseif (GetSpellAbilityId() == 'A0HJ' and GetSpellAbilityUnit() == cangling) then
 			call LianJieDiMeng()
 		elseif (GetSpellAbilityId() == 'A0HK') then 
 			call GuangYinWuSuo()
@@ -513,6 +536,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		set TSpellCangling = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(TSpellCangling,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellCangling, function TSpellCanglingAct)
+
 
 	    call TimerStart(CreateTimer(),0.05,true,function BiBoBaoZhuoTimer)
 
