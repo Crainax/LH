@@ -4,7 +4,7 @@ library_once MiJing requires LHBase
 	
 
 //---------------------------------------------------------------------------------------------------
-	private function InitMiJing takes nothing returns nothing
+	function InitMiJing takes nothing returns nothing
 			if (renshu == 1) then
     			call AddWeatherEffectSaveLast( gg_rct_M1, 'MEds' )
     		elseif (renshu == 2) then
