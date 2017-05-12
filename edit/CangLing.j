@@ -497,7 +497,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		if (learner == cangling) then
 			if (whichSpell == 3 and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'A0HK') == 1) then
 				//技能3初始化
-				call AddSpecialEffectTargetUnitBJ("origin",cangling,"war3mapImported\\yanbao.mdx")
+				call AddSpecialEffectTargetUnitBJ("origin",cangling,"war3mapImported\\yanbao.mdl")
 				call UnitAddAbility(gg_unit_haro_0030,'A0HR')
 			endif
 		endif
