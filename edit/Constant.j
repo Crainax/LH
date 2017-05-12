@@ -34,7 +34,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.83B"
+		return "2.84"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

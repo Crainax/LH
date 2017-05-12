@@ -6,8 +6,8 @@
 //! import "dependency/YDWEBase_common.j"
 //! import "dependency/YDWEBase_hashtable.j"
 
-//! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,DzAPI
+/////! import "DzAPI.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern//,DzAPI
 
 	globals
 		
@@ -45,6 +45,15 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         leaderboard array udg_Paihang
         //基地
         unit gg_unit_haro_0030
+        /*
+            秘境的区域
+        */
+        rect gg_rct_M1
+        rect gg_rct_M2
+        rect gg_rct_M3
+        rect gg_rct_M4
+        rect gg_rct_M5
+        rect gg_rct_M6
 
         /*
             擂台
