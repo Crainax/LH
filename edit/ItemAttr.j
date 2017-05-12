@@ -31,9 +31,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    3W
 	*/
 	private function SetItem3W takes integer itemID,integer value returns nothing
-		call SetItemStr(itemID,value)
-		call SetItemAgi(itemID,value)
-		call SetItemInt(itemID,value)
+		call SaveInteger(YDHT,itemID,0x5BAE281D,value)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
