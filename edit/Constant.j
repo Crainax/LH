@@ -156,6 +156,49 @@ library_once Constant initializer InitConstant requires JBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    英雄难度
+	*/
+	function GetHeroDifficulty takes unit u returns string
+		local integer id = GetHeroIndex(GetUnitTypeId(u))
+		if (id == 1) then
+			return "操作难度：★☆☆☆☆"
+		elseif (id == 2) then
+			return "操作难度：★★★☆☆"
+		elseif (id == 3) then
+			return "操作难度：★☆☆☆☆"
+		elseif (id == 4) then
+			return "操作难度：★★★☆☆"
+		elseif (id == 5) then
+			return "操作难度：★★★★☆"
+		elseif (id == 6) then
+			return "操作难度：★★☆☆☆"
+		elseif (id == 7) then
+			return "操作难度：★☆☆☆☆"
+		elseif (id == 8) then
+			return "操作难度：★☆☆☆☆"
+		elseif (id == 9) then
+			return "操作难度：★★★★☆"
+		elseif (id == 10) then
+			return "操作难度：★★★★☆"
+		elseif (id == 11) then
+			return "操作难度：★★★☆☆"
+		elseif (id == 12) then
+			return "操作难度：★★★★☆"
+		elseif (id == 13) then
+			return "操作难度：★★☆☆☆"
+		elseif (id == 13) then
+			return "操作难度：★★☆☆☆"
+		elseif (id == 14) then
+			return "操作难度：★☆☆☆☆"
+		elseif (id == 15) then
+			return "操作难度：★★★★★"
+		elseif (id == 16) then
+			return "操作难度：★★☆☆☆"
+		endif
+		return ""
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取英雄彩名
 	*/
 	function GetIndexHeroColorName takes integer i returns string
@@ -755,7 +798,6 @@ library_once Constant initializer InitConstant requires JBase
 		endif
 		return ""
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
