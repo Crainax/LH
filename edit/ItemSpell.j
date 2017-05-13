@@ -57,6 +57,9 @@ library_once ItemSpell initializer InitItemSpell requires LHBase
 		local trigger t = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT)
 		call TriggerAddAction(t, function ItemSpellJudge)
+		//灯的攻击被动
+		set t = CreateTrigger()
+		
 		set t = null
 	endfunction
 

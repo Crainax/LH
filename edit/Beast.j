@@ -120,6 +120,9 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		if ((unitID == 'ub08') or (unitID == 'ub09')) then
 			call Discolor(u)
 		endif
+		if (Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] != null) then
+			call RemoveUnit(Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))])
+		endif
 		set Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] = u 
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(captain), GetUnitY(captain) ))
 		if (BMoshou[GetConvertedPlayerId(GetOwningPlayer(captain))]) then

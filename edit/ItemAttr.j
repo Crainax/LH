@@ -159,17 +159,63 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		/*
 		    鬼戒指
 		*/
-		 call SetItem3W( 'rat9', 3000)
-	     call SetItem3W( 'rlif', 9000)
-	     call SetItem3W( 'lgdh', 18000)
-	     call SetItem3W( 'clfm', 30000)
-	     call SetItem3W( 'bgst', 45000)
-	     call SetItem3W( 'belv', 63000)
-	     call SetItem3W( 'hcun', 84000)
-	     call SetItem3W( 'rag1', 108000 )
-	     call SetItem3W( 'penr', 135000 )
-	     call SetItem3W( 'brac', 165000 )
-	     call SetItem3W( 'lhst', 240000 )
+		call SetItem3W( 'rat9', 3000)
+	    call SetItem3W( 'rlif', 9000)
+	    call SetItem3W( 'lgdh', 18000)
+	    call SetItem3W( 'clfm', 30000)
+	    call SetItem3W( 'bgst', 45000)
+	    call SetItem3W( 'belv', 63000)
+	    call SetItem3W( 'hcun', 84000)
+	    call SetItem3W( 'rag1', 108000 )
+	    call SetItem3W( 'penr', 135000 )
+	    call SetItem3W( 'brac', 165000 )
+	    call SetItem3W( 'lhst', 240000 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化衣服还有新灯
+	*/
+	private function InitErdianJiu takes nothing returns nothing
+
+	    call SetItem3W( 'ILI1', 1000 )
+	    call SetItem3W( 'ILI2', 5000 )
+	    call SetItem3W( 'ILI3', 10000 )
+	    call SetItem3W( 'ILI4', 20000 )
+	    call SetItem3W( 'ILI5', 30000 )
+	    call SetItem3W( 'ILI6', 40000 )
+	    call SetItem3W( 'ILI7', 60000 )
+	    call SetItem3W( 'ILI8', 80000 )
+	    call SetItem3W( 'ILI9', 120000 )
+	    call SetItem3W( 'ILIA', 150000 )
+	    call SetItem3W( 'ILIB', 180000 )
+	    call SetItem3W( 'ILIC', 210000 )
+	    call SetItem3W( 'ILID', 240000 )
+	    call SetItem3W( 'ILIE', 280000 )
+	    call SetItem3W( 'ILIF', 330000 )
+	    call SetItem3W( 'ILIG', 380000 )
+	    call SetItem3W( 'ILIH', 430000 )
+	    call SetItem3W( 'ILII', 480000 )
+	    call SetItem3W( 'ILIJ', 530000 )
+	    call SetItem3W( 'ILIK', 580000 )
+
+		call SetItem3W( 'ILI3', 8000 )
+		call SetItem3W( 'ILI4', 16000 )
+		call SetItem3W( 'ILI5', 25000 )
+		call SetItem3W( 'ILI6', 34000)
+		call SetItem3W( 'ILI7', 50000)
+		call SetItem3W( 'ILI8', 100000)
+		call SetItem3W( 'ILI9', 200000)
+		call SetItem3W( 'ILIA', 300000)
+		call SetItem3W( 'ILIB', 400000)
+		call SetItem3W( 'ILIC', 600000)
+		call SetItem3W( 'ILID', 800000)
+		call SetItem3W( 'ILIE', 1000000)
+		call SetItem3W( 'ILIF', 1300000)
+		call SetItem3W( 'ILIG', 1500000)
+		call SetItem3W( 'ILIH', 1800000)
+		call SetItem3W( 'ILII', 2200000)
+		call SetItem3W( 'ILIJ', 2800000)
+		call SetItem3W( 'ILIK', 3300000)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -179,6 +225,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	private function InitItemAttr takes nothing returns nothing
 		call InitErdianQi()
 		call InitErdianBa()
+		call InitErdianJiu()
 	endfunction
 
 endlibrary
