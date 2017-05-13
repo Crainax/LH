@@ -5,7 +5,6 @@
 library_once Kaisa requires SpellBase,Printer
 	
 	globals
-		unit kaisa = null
 		private trigger TSpellKaisa = null
 	endglobals
 //---------------------------------------------------------------------------------------------------

@@ -5,7 +5,6 @@
 library_once Chenji requires SpellBase,Printer
     
     globals
-        unit chenji = null
         /*
             受到伤害召唤鬼魂
         */

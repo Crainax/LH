@@ -12,7 +12,6 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 		/*
 		    英雄幻逸
 		*/
-		unit Huanyi = null
 
 		/*
 		    技能触发

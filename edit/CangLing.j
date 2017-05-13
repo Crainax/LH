@@ -11,7 +11,6 @@ library_once Cangling requires SpellBase,Printer,Attr
 		/*
 		    英雄
 		*/
-		unit cangling = null
 		/*
 		    物品
 		*/

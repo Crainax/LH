@@ -23,8 +23,55 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         unit Uwanjie
         hashtable itemTable = InitHashtable()
         hashtable LHTable = InitHashtable()
+        /*
+            全局变量 英雄
+        */
+        unit kaisa = null
+        unit yanmie = null
+        unit moqi = null
+        unit lingxue = null
+        unit bajue = null
+        unit seyu = null
+        unit xiaoyue = null
+        unit xuanxue = null
+        unit chenji = null
+        unit hanshang = null
+        unit taiya = null
+        unit sheyan = null
+        unit Heiyan = null
+        unit cangling = null
+        unit mengji = null
+        unit Huanyi = null
+        /*
+            觉醒
+        */ 
+        boolean array BJuexing1
+        boolean array BJuexing2
     endglobals
 //---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是力量英雄
+    */
+    function IsStrHero takes unit u returns boolean
+        return u == kaisa or u == chenji or u ==bajue or u == Heiyan
+    endfunction
+    
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是敏捷英雄
+    */
+    function IsAgiHero takes unit u returns boolean
+        return u == taiya or u == xiaoyue or u == mengji or u == moqi or u == hanshang or u == cangling or u == seyu or u == yanmie
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是智力英雄
+    */
+    function IsIntHero takes unit u returns boolean
+        return u == lingxue or u == xuanxue or u == sheyan or u == Huanyi
+    endfunction
+//---------------------------------------------------------------------------------------------------
+
     /*
         仙器使用技能进行禁止丢弃判断
     */
@@ -163,6 +210,62 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return GetItemOfTypeFromUnitBJ(u, 'lhst')
         endif
         return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        获取英雄身上的是什么灯
+    */
+    function GetDeng takes unit u returns integer
+        if (UnitHasItemOfTypeBJ(u,'ILI1')) then
+            return 1
+        elseif (UnitHasItemOfTypeBJ(u,'ILI2')) then
+            return 2
+        elseif (UnitHasItemOfTypeBJ(u,'ILI3')) then
+            return 3
+        elseif (UnitHasItemOfTypeBJ(u,'ILI4')) then
+            return 4
+        elseif (UnitHasItemOfTypeBJ(u,'ILI5')) then
+            return 5
+        elseif (UnitHasItemOfTypeBJ(u,'ILI6')) then
+            return 6
+        elseif (UnitHasItemOfTypeBJ(u,'ILI7')) then
+            return 7
+        elseif (UnitHasItemOfTypeBJ(u,'ILI8')) then
+            return 8
+        elseif (UnitHasItemOfTypeBJ(u,'ILI9')) then
+            return 9
+        elseif (UnitHasItemOfTypeBJ(u,'ILIA')) then
+            return 10
+        elseif (UnitHasItemOfTypeBJ(u,'ILIB')) then
+            return 11
+        elseif (UnitHasItemOfTypeBJ(u,'ILIC')) then
+            return 12
+        elseif (UnitHasItemOfTypeBJ(u,'ILID')) then
+            return 13
+        elseif (UnitHasItemOfTypeBJ(u,'ILIE')) then
+            return 14
+        elseif (UnitHasItemOfTypeBJ(u,'ILIF')) then
+            return 15
+        elseif (UnitHasItemOfTypeBJ(u,'ILIG')) then
+            return 16
+        elseif (UnitHasItemOfTypeBJ(u,'ILIH')) then
+            return 17
+        elseif (UnitHasItemOfTypeBJ(u,'ILII')) then
+            return 18
+        elseif (UnitHasItemOfTypeBJ(u,'ILIJ')) then
+            return 19
+        elseif (UnitHasItemOfTypeBJ(u,'ILIK')) then
+            return 20
+        endif
+        return 0
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是灯
+    */
+    function IsDeng takes item i returns boolean
+        local integer t = GetItemTypeId(i)
+        return ( t == 'ILI1') or ( t == 'ILI2') or ( t == 'ILI3') or ( t == 'ILI4') or ( t == 'ILI5') or ( t == 'ILI6') or ( t == 'ILI7') or ( t == 'ILI8') or ( t == 'ILI9') or ( t == 'ILIA') or ( t == 'ILIB') or ( t == 'ILIC') or ( t == 'ILID') or ( t == 'ILIE') or ( t == 'ILIF') or ( t == 'ILIG') or ( t == 'ILIH') or ( t == 'ILII') or ( t == 'ILIJ') or ( t == 'ILIK')
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -350,12 +453,34 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set l_unit =null
     endfunction
 //---------------------------------------------------------------------------------------------------
+
+    /*
+        伤害一个区域，附带特效
+    */
+    function DamageAreaEff takes unit attacker,real x,real y,real radius,real damage,string eff returns nothing
+        local group l_group = CreateGroup()
+        local unit l_unit
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        loop
+            set l_unit = FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if (IsEnemy(l_unit,attacker)) then
+                call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+                call DestroyEffect(AddSpecialEffect(eff, GetUnitX(l_unit), GetUnitY(l_unit) ))
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group = null
+        set l_unit =null
+    endfunction
+//---------------------------------------------------------------------------------------------------
     /*
         添加3W
     */
     function AddHero3W takes unit u, integer value returns nothing
         local unit hero = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-        if (GetHeroIndex(GetUnitTypeId(hero)) == 9) then
+        if (hero == chenji) then
             call SetHeroStr(hero,GetHeroStr(hero,true) + value * 3 ,true)
         else
             call SetHeroInt(hero,GetHeroInt(hero,true) + value ,true)

@@ -2,7 +2,6 @@
 library_once Lingxue requires SpellBase 
 	
 	globals
-		unit lingxue = null
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*

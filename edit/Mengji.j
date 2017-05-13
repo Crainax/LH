@@ -8,7 +8,6 @@
 library_once Mengji requires SpellBase,Printer,Attr
 
 	globals
-		unit mengji = null
 
 		private integer ITianhong = 0
 		private real HuanmengX = 0.

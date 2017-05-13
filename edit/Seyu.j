@@ -9,7 +9,6 @@
 library_once Seyu requires SpellBase,Printer,Attr,Spin
 	
 	globals
-		unit seyu = null
 		unit array chongdongs
 		unit array shashous
 

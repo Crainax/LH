@@ -24,7 +24,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    英雄黑阎
 		*/
-		unit Heiyan = null
 
 		/*
 		    阎罗殿

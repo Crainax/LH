@@ -8,7 +8,6 @@
 library_once Hanshang requires SpellBase,Printer,Attr 
 	
 	globals
-		unit hanshang = null
 
 		private boolean IsLianhuan = false
 		/*

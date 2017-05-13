@@ -112,6 +112,13 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    经验获得率
+	*/
+	private function SetItemJingyan takes integer itemID,real value returns nothing
+		call SaveReal(YDHT,itemID,0x3EBF688A,value)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化六涛天虹
 	*/
 	private function InitErdianQi takes nothing returns nothing
@@ -175,8 +182,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	/*
 	    初始化衣服还有新灯
 	*/
-	private function InitErdianJiu takes nothing returns nothing
-
+	private function InitDengClothes takes nothing returns nothing
+		//灯
 	    call SetItem3W( 'ILI1', 1000 )
 	    call SetItem3W( 'ILI2', 5000 )
 	    call SetItem3W( 'ILI3', 10000 )
@@ -197,25 +204,155 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'ILII', 480000 )
 	    call SetItem3W( 'ILIJ', 530000 )
 	    call SetItem3W( 'ILIK', 580000 )
+		call SetItemXixue( 'ILI3', 8000 )
+		call SetItemXixue( 'ILI4', 16000 )
+		call SetItemXixue( 'ILI5', 25000 )
+		call SetItemXixue( 'ILI6', 34000)
+		call SetItemXixue( 'ILI7', 50000)
+		call SetItemXixue( 'ILI8', 100000)
+		call SetItemXixue( 'ILI9', 200000)
+		call SetItemXixue( 'ILIA', 300000)
+		call SetItemXixue( 'ILIB', 400000)
+		call SetItemXixue( 'ILIC', 600000)
+		call SetItemXixue( 'ILID', 800000)
+		call SetItemXixue( 'ILIE', 1000000)
+		call SetItemXixue( 'ILIF', 1300000)
+		call SetItemXixue( 'ILIG', 1500000)
+		call SetItemXixue( 'ILIH', 1800000)
+		call SetItemXixue( 'ILII', 2200000)
+		call SetItemXixue( 'ILIJ', 2800000)
+		call SetItemXixue( 'ILIK', 3300000)
 
-		call SetItem3W( 'ILI3', 8000 )
-		call SetItem3W( 'ILI4', 16000 )
-		call SetItem3W( 'ILI5', 25000 )
-		call SetItem3W( 'ILI6', 34000)
-		call SetItem3W( 'ILI7', 50000)
-		call SetItem3W( 'ILI8', 100000)
-		call SetItem3W( 'ILI9', 200000)
-		call SetItem3W( 'ILIA', 300000)
-		call SetItem3W( 'ILIB', 400000)
-		call SetItem3W( 'ILIC', 600000)
-		call SetItem3W( 'ILID', 800000)
-		call SetItem3W( 'ILIE', 1000000)
-		call SetItem3W( 'ILIF', 1300000)
-		call SetItem3W( 'ILIG', 1500000)
-		call SetItem3W( 'ILIH', 1800000)
-		call SetItem3W( 'ILII', 2200000)
-		call SetItem3W( 'ILIJ', 2800000)
-		call SetItem3W( 'ILIK', 3300000)
+		//衣服
+	    call SetItemDefense( 'rej6' , 1500)
+	    call SetItemDefense( 'dtsb' , 2000)
+	    call SetItemDefense( 'tels' , 3000)
+		call SetItemDefense( 'ofir' , 3800)
+		call SetItemDefense( 'soul' , 5000)
+		call SetItemDefense( 'sbok' , 6000)
+		call SetItemDefense( 'arsc' , 9500)
+		call SetItemDefense( 'rde0' , 13000)
+		call SetItemDefense( 'oflg' , 13000)
+		call SetItemDefense( 'frgd' , 16000)
+		call SetItemDefense( 'rej4' , 2000)
+		call SetItemDefense( 'drph' , 3000)
+		call SetItemDefense( 'oven' , 3800)
+		call SetItemDefense( 'frhg' , 5000)
+		call SetItemDefense( 'mlst' , 6000)
+		call SetItemDefense( 'nspi' , 7000)
+		call SetItemDefense( 'oli2' , 10500)
+		call SetItemDefense( 'rump' , 13000)
+		call SetItemDefense( 'shen' , 15000)
+		call SetItemDefense( 'stpg' , 19000)
+		call SetItemDefense( 'pgin' , 1500)
+		call SetItemDefense( 'gobm' , 2000)
+		call SetItemDefense( 'gvsm' , 3000)
+		call SetItemDefense( 'gldo' , 3800)
+		call SetItemDefense( 'gsou' , 5000)
+		call SetItemDefense( 'envl' , 6000)
+		call SetItemDefense( 'rugt' , 7000)
+		call SetItemDefense( 'shdt' , 11000)
+		call SetItemDefense( 'crdt' , 13000)
+		call SetItemDefense( 'pspd' , 16000)
+	    call SetItemHP('rej6' , 200000)
+		call SetItemHP('dtsb' , 300000)
+		call SetItemHP('tels' , 400000)
+		call SetItemHP('ofir' , 500000)
+		call SetItemHP('soul' , 600000)
+		call SetItemHP('sbok' , 1750000)
+		call SetItemHP('arsc' , 2950000)
+		call SetItemHP('rde0' , 4200000)
+		call SetItemHP('oflg' , 4500000)
+		call SetItemHP('frgd' , 6000000)
+		call SetItemHP('rej4' , 300000)
+		call SetItemHP('drph' , 400000)
+		call SetItemHP('oven' , 500000)
+		call SetItemHP('frhg' , 600000)
+		call SetItemHP('mlst' , 750000)
+		call SetItemHP('nspi' , 1950000)
+		call SetItemHP('oli2' , 3200000)
+		call SetItemHP('rump' , 4500000)
+		call SetItemHP('shen' , 2000000)
+		call SetItemHP('stpg' , 6500000)
+		call SetItemHP('pgin' , 200000)
+		call SetItemHP('gobm' , 300000)
+		call SetItemHP('gvsm' , 400000)
+		call SetItemHP('gldo' , 500000)
+		call SetItemHP('gsou' , 600000)
+		call SetItemHP('envl' , 1750000)
+		call SetItemHP('rugt' , 2950000)
+		call SetItemHP('shdt' , 4200000)
+		call SetItemHP('crdt' , 4500000)
+		call SetItemHP('pspd' , 6000000)
+    	call SetItem3W('rej6' , 10000)
+		call SetItem3W('dtsb' , 16000)
+		call SetItem3W('tels' , 25000)
+		call SetItem3W('ofir' , 50000)
+		call SetItem3W('soul' , 80000)
+		call SetItem3W('sbok' , 120000)
+		call SetItem3W('arsc' , 150000)
+		call SetItem3W('rde0' , 210000)
+		call SetItem3W('oflg' , 270000)
+		call SetItem3W('frgd' , 320000)
+		call SetItem3W('rej4' , 6000)
+		call SetItem3W('drph' , 10000)
+		call SetItem3W('oven' , 16000)
+		call SetItem3W('frhg' , 35000)
+		call SetItem3W('mlst' , 60000)
+		call SetItem3W('nspi' , 100000)
+		call SetItem3W('oli2' , 130000)
+		call SetItem3W('rump' , 160000)
+		call SetItem3W('shen' , 220000)
+		call SetItem3W('stpg' , 280000)
+		call SetItem3W('pgin' , 6000)
+		call SetItem3W('gobm' , 10000)
+		call SetItem3W('gvsm' , 16000)
+		call SetItem3W('gldo' , 35000)
+		call SetItem3W('gsou' , 60000)
+		call SetItem3W('envl' , 100000)
+		call SetItem3W('rugt' , 130000)
+		call SetItem3W('shdt' , 160000)
+		call SetItem3W('crdt' , 220000)
+		call SetItem3W('pspd' , 280000)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    魔兽
+	*/
+	private function InitBeast takes nothing returns nothing
+
+		call SetItemJingyan('I01S', 0.50)
+	    call SetItemJingyan('IB05', 1.75)
+	    call SetItemJingyan('IB03', 1.25)
+	    call SetItemJingyan('IB00', 0.50)
+	    call SetItemJingyan('IB01', 0.75)
+	    call SetItemJingyan('IB09', 3.00)
+	    call SetItemJingyan('IB08', 2.50)
+	    call SetItemJingyan('IB06', 2.00)
+	    call SetItemJingyan('IB07', 2.25)
+	    call SetItemJingyan('IB04', 1.50)
+	    call SetItemJingyan('IB02', 1.00)
+
+	    call SetItemHP('IB05' , 3200000)
+		call SetItemHP('IB03' , 800000)
+		call SetItemHP('IB00' , 50000)
+		call SetItemHP('IB01' , 200000)
+		call SetItemHP('IB09' , 20000000)
+		call SetItemHP('IB08' , 14000000)
+		call SetItemHP('IB06' , 5000000)
+		call SetItemHP('IB07' , 7000000)
+		call SetItemHP('IB04' , 1600000)
+		call SetItemHP('IB02' , 400000)
+	    call SetItem3W( 'IB05' , 32000)
+	    call SetItem3W( 'IB03' , 15000)
+	    call SetItem3W( 'IB01' , 5000)
+	    call SetItem3W( 'IB09' , 150000)
+	    call SetItem3W( 'IB08' , 100000)
+	    call SetItem3W( 'IB06' , 50000)
+	    call SetItem3W( 'IB07' , 70000)
+	    call SetItem3W( 'IB04' , 24000)
+	    call SetItem3W( 'IB02' , 8000)
+    
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -225,7 +362,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	private function InitItemAttr takes nothing returns nothing
 		call InitErdianQi()
 		call InitErdianBa()
-		call InitErdianJiu()
+		call InitDengClothes()
+		call InitBeast()
 	endfunction
 
 endlibrary

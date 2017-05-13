@@ -27,7 +27,7 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 40
+		constant integer COUNT_WANJIE = 43
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -154,6 +154,49 @@ library_once Constant initializer InitConstant requires JBase
 			endif
 			return result
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    英雄难度
+	*/
+	function GetHeroTianFu takes unit u returns integer
+		local integer id = GetHeroIndex(GetUnitTypeId(u))
+		if (id == 1) then
+			return 'AOre'
+		elseif (id == 2) then
+			return 'A072'
+		elseif (id == 3) then
+			return 'A04G'
+		elseif (id == 4) then
+			return 'A042'
+		elseif (id == 5) then
+			return 'Absk'
+		elseif (id == 6) then
+			return 'ACst'
+		elseif (id == 7) then
+			return 'ACfs'
+		elseif (id == 8) then
+			return 'A0FV'
+		elseif (id == 9) then
+			return 'A0F2'
+		elseif (id == 10) then
+			return 'Aens'
+		elseif (id == 11) then
+			return 'ACbc'
+		elseif (id == 12) then
+			return 'A0E7'
+		elseif (id == 13) then
+			return 'A0A3'
+		elseif (id == 14) then
+			return 'A0GX'
+		elseif (id == 15) then
+			return 'AHHD'
+		elseif (id == 16) then
+			return 'A0HH'
+		endif
+		return 0
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    英雄难度
@@ -161,39 +204,39 @@ library_once Constant initializer InitConstant requires JBase
 	function GetHeroDifficulty takes unit u returns string
 		local integer id = GetHeroIndex(GetUnitTypeId(u))
 		if (id == 1) then
-			return "操作难度：★☆☆☆☆"
+			return "|cffffff00操作难度：★☆☆☆☆|r"
 		elseif (id == 2) then
-			return "操作难度：★★★☆☆"
+			return "|cffff8000操作难度：★★★☆☆|r"
 		elseif (id == 3) then
-			return "操作难度：★☆☆☆☆"
+			return "|cffffff00操作难度：★☆☆☆☆|r"
 		elseif (id == 4) then
-			return "操作难度：★★★☆☆"
+			return "|cffff8000操作难度：★★★☆☆|r"
 		elseif (id == 5) then
-			return "操作难度：★★★★☆"
+			return "|cffff4000操作难度：★★★★☆|r"
 		elseif (id == 6) then
-			return "操作难度：★★☆☆☆"
+			return "|cffffc000操作难度：★★☆☆☆|r"
 		elseif (id == 7) then
-			return "操作难度：★☆☆☆☆"
+			return "|cffffff00操作难度：★☆☆☆☆|r"
 		elseif (id == 8) then
-			return "操作难度：★☆☆☆☆"
+			return "|cffffff00操作难度：★☆☆☆☆|r"
 		elseif (id == 9) then
-			return "操作难度：★★★★☆"
+			return "|cffff4000操作难度：★★★★☆|r"
 		elseif (id == 10) then
-			return "操作难度：★★★★☆"
+			return "|cffff4000操作难度：★★★★☆|r"
 		elseif (id == 11) then
-			return "操作难度：★★★☆☆"
+			return "|cffff8000操作难度：★★★☆☆|r"
 		elseif (id == 12) then
-			return "操作难度：★★★★☆"
+			return "|cffff4000操作难度：★★★★☆|r"
 		elseif (id == 13) then
-			return "操作难度：★★☆☆☆"
+			return "|cffffc000操作难度：★★☆☆☆|r"
 		elseif (id == 13) then
-			return "操作难度：★★☆☆☆"
+			return "|cffffc000操作难度：★★☆☆☆|r"
 		elseif (id == 14) then
-			return "操作难度：★☆☆☆☆"
+			return "|cffffff00操作难度：★☆☆☆☆|r"
 		elseif (id == 15) then
-			return "操作难度：★★★★★"
+			return "|cffff0000操作难度：★★★★★|r"
 		elseif (id == 16) then
-			return "操作难度：★★☆☆☆"
+			return "|cffffc000操作难度：★★☆☆☆|r"
 		endif
 		return ""
 	endfunction
@@ -748,7 +791,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (i == 16) then
 			return "种子哥"
 		elseif (i == 17) then
-			return "你等到，小NB"
+			return "清茶i"
 		elseif (i == 18) then
 			return "玉之魂"
 		elseif (i == 19) then
@@ -795,6 +838,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "请带着我飞"
 		elseif (i == 40) then
 			return "你的牛奶呢丶"
+		elseif (i == 41) then
+			return "心亦"
+		elseif (i == 42) then
+			return "逸灬仙"
+		elseif (i == 43) then
+			return "司宸"
 		endif
 		return ""
 	endfunction
