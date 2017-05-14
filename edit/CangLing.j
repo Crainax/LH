@@ -122,19 +122,19 @@ library_once Cangling requires SpellBase,Printer,Attr
 	*/
 	private function BiBoBaoZhuoTimer takes nothing returns nothing
 		if (IsUnitAliveBJ(cangling)) then
-			if (GetUnitState(cangling,UNIT_STATE_LIFE) < 0.1 * GetUnitState(cangling,UNIT_STATE_MAX_LIFE)) then
+			if (GetUnitState(cangling,UNIT_STATE_LIFE) < (0.05 + RJ1(cangling,0.05,0) + RJ2(cangling,0.05,0)) * GetUnitState(cangling,UNIT_STATE_MAX_LIFE)) then
 				call SetUnitLifePercentBJ(cangling,10)
 			endif
 		endif
 
 		if (IsUnitAliveBJ(UCangFeng)) then
-			if (GetUnitState(UCangFeng,UNIT_STATE_LIFE) < 0.1 * GetUnitState(UCangFeng,UNIT_STATE_MAX_LIFE)) then
+			if (GetUnitState(UCangFeng,UNIT_STATE_LIFE) < (0.05 + RJ1(cangling,0.05,0) + RJ2(cangling,0.05,0)) * GetUnitState(UCangFeng,UNIT_STATE_MAX_LIFE)) then
 				call SetUnitLifePercentBJ(UCangFeng,10)
 			endif
 		endif
 
 		if (IsUnitAliveBJ(UCangHuo)) then
-			if (GetUnitState(UCangHuo,UNIT_STATE_LIFE) < 0.1 * GetUnitState(UCangHuo,UNIT_STATE_MAX_LIFE)) then
+			if (GetUnitState(UCangHuo,UNIT_STATE_LIFE) < (0.05 + RJ1(cangling,0.05,0) + RJ2(cangling,0.05,0)) * GetUnitState(UCangHuo,UNIT_STATE_MAX_LIFE)) then
 				call SetUnitLifePercentBJ(UCangHuo,10)
 			endif
 		endif

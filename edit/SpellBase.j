@@ -181,6 +181,53 @@ library_once SpellBase requires LHBase
 
 	endstruct
 //---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是一段觉醒,前面是觉醒能力值
+	*/
+	function IJ1 takes unit u,integer i1,integer i2 returns integer
+		if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是一段觉醒,前面是觉醒能力值
+	*/
+	function RJ1 takes unit u,real r1,real r2 returns real
+		if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是二段觉醒,前面是觉醒能力值
+	*/
+	function IJ2 takes unit u,integer i1,integer i2 returns integer
+		if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+	
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是二段觉醒,前面是觉醒能力值
+	*/
+	function RJ2 takes unit u,real r1,real r2 returns real
+		if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    使单位免疫某次伤害。
@@ -220,6 +267,17 @@ library_once SpellBase requires LHBase
 		set uH = null
 		return damage
 	endfunction
+
+	/*
+	    获取辰寂技能伤害
+	*/
+	function GetDamageChenji takes unit u returns real
+		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		local real damage =  (GetHeroStr(uH, true) * 2.0) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH = null
+		return damage
+	endfunction
+
 	/*
 	    获取基础敏捷英雄技能伤害
 	*/

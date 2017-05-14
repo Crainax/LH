@@ -27,7 +27,7 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 43
+		constant integer COUNT_WANJIE = 44
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -844,6 +844,8 @@ library_once Constant initializer InitConstant requires JBase
 			return "逸灬仙"
 		elseif (i == 43) then
 			return "司宸"
+		elseif (i == 44) then
+			return "灵魂的缠绵"
 		endif
 		return ""
 	endfunction

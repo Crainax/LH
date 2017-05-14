@@ -11,6 +11,7 @@ library_once Yanmie requires SpellBase
 		constant integer ICountShadowMAX = 3
 		private trigger TSpellYanmie3 = null
 
+		private integer Ilingyu = 0
 
 	endglobals
 
@@ -26,6 +27,20 @@ library_once Yanmie requires SpellBase
 			return true
 		endif
 		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    雷神领域
+	*/
+	function CountYanmieLingyu takes nothing returns nothing
+		if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(yanmie))]) then
+			set Ilingyu = Ilingyu + 1
+			if (Ilingyu >= 30) then
+	   			call CreateSpellTextTag("雷神领域",yanmie,0,50,100,2)
+ 				call SimulateSpell(yanmie,yanmie,'A0HV',1,5,"stomp",false,true,false)
+				set Ilingyu = 0
+			endif
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -172,7 +172,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 	private function RuohuanmengAttack takes nothing returns nothing
 		local integer times = GetItemCharges(Liutao)
 		if (GetItemTypeId(Liutao) == 'I049') then
-			if (times < 100) then
+			if (times < IJ2(mengji,200,100)) then
 				call SetItemCharges(Liutao,times + 1)
 			endif
 		else
@@ -206,12 +206,14 @@ library_once Mengji requires SpellBase,Printer,Attr
     		if (GetUnitAbilityLevel(mengji,'A0GX') == 1) then
     			call UnitRemoveAbility(mengji,'A0GX')
     			call UnitAddAbility(mengji,'A0GY')
+    			call SetUnitAbilityLevel(mengji,'A0GY',1+IJ1(mengji,1,0)+IJ2(mengji,1,0))
     		endif
     	else
     		//静止
     		if (GetUnitAbilityLevel(mengji,'A0GY') == 1) then
     			call UnitRemoveAbility(mengji,'A0GY')
     			call UnitAddAbility(mengji,'A0GX')
+    			call SetUnitAbilityLevel(mengji,'A0GX',1+IJ1(mengji,1,0)+IJ2(mengji,1,0))
     		endif
     	endif
     endfunction

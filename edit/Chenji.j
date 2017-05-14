@@ -40,6 +40,47 @@ library_once Chenji requires SpellBase,Printer
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        120剑灵大招:冥河
+    */
+    private function MingheTimer takes nothing returns nothing
+        local timer t = GetExpiredTimer()
+        local integer id = GetHandleId(t)
+        local integer times = LoadInteger(spellTable,id,1)
+        local real x = LoadReal(spellTable,id,2)
+        local real y = LoadReal(spellTable,id,3)
+        local integer i = 1
+        local integer random = GetRandomInt(8,18)
+        local unit u = null
+        if (times <= 10) then
+            call SaveInteger(spellTable,GetHandleId(t),1,times + 1)
+            call DamageArea(chenji,x,y,600,GetDamageChenji(chenji)*8)
+            call CreateUnitEffect(GetOwningPlayer(chenji),'h014',x,y,0)
+            loop
+                exitwhen i > random
+                set u = CreateUnit(GetOwningPlayer(chenji),'h00J',x,y,i* (360 / random) )
+                call UnitApplyTimedLifeBJ( 5, 'BHwe', u)
+                set i = i +1
+            endloop
+        else
+            call PauseTimer(t)
+            call FlushChildHashtable(spellTable,id)
+            call DestroyTimer(t)
+        endif
+        set t = null 
+        set u = null
+    endfunction
+
+    function ChenjiMinghe takes nothing returns nothing
+        local timer t = CreateTimer()
+        call SaveInteger(spellTable,GetHandleId(t),1,0)
+        call SaveReal(spellTable,GetHandleId(t),2,GetSpellTargetX())
+        call SaveReal(spellTable,GetHandleId(t),3,GetSpellTargetY())
+        call TimerStart(t,1,true,function MingheTimer)
+        call PrintSpellContent(GetOwningPlayer(chenji),GetAbilityName('A0G3'),I2S(R2I(GetDamageChenji(chenji)*0.8/100))+"万总伤害.")
+        set t = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         英雄学习技能
     */
 

@@ -92,10 +92,10 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	*/
 	private function GetMultiSpell takes nothing returns integer
 		if not(IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
-			return 1
+			return 1 + IJ2(Huanyi,1,0)
 		endif
 
-		return IMaxBJ(IMinBJ(IMoneng/2,I3(IsWanjie(),3,5)),1)
+		return IMaxBJ(IMinBJ(IMoneng/2,I3(IsWanjie(),4,5)),1) + IJ2(Huanyi,1,0)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -880,6 +880,8 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),'AHHI',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),'AHHJ',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),'AHHK',false)
+		//幻逸回魔
+		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),'A0HX',false)
 	endfunction
 
 endlibrary

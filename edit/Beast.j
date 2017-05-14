@@ -24,14 +24,14 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 
 		constant integer DAMAGE_BEAST_00 = 30000
 		constant integer DAMAGE_BEAST_01 = 160000
-		constant integer DAMAGE_BEAST_02 = 500000
-		constant integer DAMAGE_BEAST_03 = 1300000
-		constant integer DAMAGE_BEAST_04 = 3500000
-		constant integer DAMAGE_BEAST_05 = 8000000
-		constant integer DAMAGE_BEAST_06 = 20000000
-		constant integer DAMAGE_BEAST_07 = 40000000
-		constant integer DAMAGE_BEAST_08 = 60000000
-		constant integer DAMAGE_BEAST_09 = 120000000
+		constant integer DAMAGE_BEAST_02 = 1000000
+		constant integer DAMAGE_BEAST_03 = 2600000
+		constant integer DAMAGE_BEAST_04 = 7000000
+		constant integer DAMAGE_BEAST_05 = 16000000
+		constant integer DAMAGE_BEAST_06 = 40000000
+		constant integer DAMAGE_BEAST_07 = 80000000
+		constant integer DAMAGE_BEAST_08 = 120000000
+		constant integer DAMAGE_BEAST_09 = 200000000
 		/*
 		    充能次数
 		*/
@@ -264,7 +264,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		/*
 		    自动
 		*/
-		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABea') >= 1 and BMoshou[playerID]) then
+		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABea') >= 1 and BMoshou[playerID] and GetUnitState(Unit_Beast[playerID],UNIT_STATE_MANA) > 999) then
 			call IssueImmediateOrder(Unit_Beast[playerID],"berserk")
 		endif
 
@@ -274,7 +274,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		//! textmacro DamageBeast1 takes ID
 		if (unitID == 'ub$ID$') then
 			call DisableTrigger(GetTriggeringTrigger())
-			call UnitDamageTarget( Unit_Beast[playerID], GetTriggerUnit(), DAMAGE_BEAST_$ID$, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( udg_H[playerID], GetTriggerUnit(), DAMAGE_BEAST_$ID$, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
 			set beast = null
 			return

@@ -37,6 +37,22 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
+	    觉醒瑟雨技能
+	*/
+	function JuexingSeyu1 takes nothing returns nothing
+		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'A0G1',true)
+	endfunction
+
+	function JuexingSeyu2 takes nothing returns nothing
+		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'ACr2',true)
+	endfunction
+
+	function QJuexingSeyu takes nothing returns nothing
+		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'ACr2',false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'A0G1',false)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    闪烁虫洞位置
 	*/
 	private function ShowChongdongHint takes nothing returns nothing
@@ -133,6 +149,24 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	        set i = i + 1
 	    endloop
 	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    空间封冻
+	*/
+	private function ChongdongSpell takes nothing returns nothing
+		if (GetSpellAbilityId() == 'A0E6') then
+			call CancelChongdong()
+		//空间免疫
+		elseif (GetSpellAbilityId() == 'ACr2') then
+			call ImmuteDamageInterval(GetSpellTargetUnit(),3)
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
+		//空间囚笼
+		elseif (GetSpellAbilityId() == 'A0G1') then
+ 			call SimulateSpell(GetSpellAbilityUnit(),GetSpellAbilityUnit(),'A0G2',1,6,"stomp",false,true,false)
+		endif
+	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取虫洞单位组
@@ -419,13 +453,6 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		set t = null
 	endfunction
 
-//---------------------------------------------------------------------------------------------------
-	/*
-	    虫洞使用技能 
-	*/
-	private function TSpellChongdongCon takes nothing returns boolean
-		return (GetSpellAbilityId() == 'A0E6')
-	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -545,8 +572,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		//1
 	    set TSpellChongdong = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ( TSpellChongdong, EVENT_PLAYER_UNIT_SPELL_EFFECT )
-	    call TriggerAddCondition(TSpellChongdong, Condition(function TSpellChongdongCon))
-	    call TriggerAddAction(TSpellChongdong, function CancelChongdong)
+	    call TriggerAddAction(TSpellChongdong, function ChongdongSpell)
 
 	    //2
 	    set TSpellSeyu2 = CreateTrigger()
@@ -558,7 +584,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    set TSpellSeyuUpdate = CreateTrigger()
 	    call TriggerRegisterUnitEvent( TSpellSeyuUpdate, seyu, EVENT_UNIT_HERO_LEVEL )
 	    call TriggerAddAction(TSpellSeyuUpdate, function TSpellSeyuUpdateAct)
-
+	    call QJuexingSeyu()
 	    loop
 	    	exitwhen i > 8
 	    	set chongdongs[i] = null

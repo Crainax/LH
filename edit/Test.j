@@ -20,7 +20,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
     integer udg_Nandu
         //基地总区域
         rect gg_rct__________u
-	//冥王
+	   //冥王
         unit gg_unit_Nkjx_0241 
         //左
         unit gg_unit_Uear_0242 
@@ -168,6 +168,14 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             时间
         */
         integer array udg_Second
+        //七星
+        unit array udg_Unit_Qixing
+
+        //辰寂剑灵判断
+        trigger gg_trg_____________127
+        trigger gg_trg_____________129
+        //狼
+        unit array udg_Lang
 	endglobals
 
 
