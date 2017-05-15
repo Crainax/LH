@@ -39,7 +39,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if((IsUnitAliveBJ(l_unit) == true) and (GetUnitAbilityLevel(l_unit,'Avul') < 1) and (GetUnitPointValue(l_unit) != 123) and (IsUnitEnemy(l_unit, Player(11)) == true)) then
+			    if((IsUnitAliveBJ(l_unit) == true) and (GetUnitAbilityLevel(l_unit,'Avul') < 1) and (GetUnitPointValue(l_unit) != 123) and (IsUnitEnemy(l_unit, Player(11)) == true) and (not(IsTerrainPathable(GetUnitX(l_unit), GetUnitY(l_unit), PATHING_TYPE_WALKABILITY)))) then
 			    	set count = count +1
 			    endif
 			endloop

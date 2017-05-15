@@ -146,9 +146,15 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		endif
 
 		//泣罗刹后续与高级祭品
-		if (GetUnitTypeId(u) == 'h011' or GetUnitTypeId(u) == 'hh04') then
+		if (GetUnitTypeId(u) == 'hh04') then
 			call DisableTrigger(GetTriggeringTrigger())
 			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 60, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger(GetTriggeringTrigger())
+			return true 
+		endif
+		if (GetUnitTypeId(u) == 'h011') then
+			call DisableTrigger(GetTriggeringTrigger())
+			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 96, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
 			return true 
 		endif
@@ -339,7 +345,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		call ImmuteDamageInterval(Heiyan,1)
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
 		call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
-		call PolledWait(5)
+		call PolledWait(4)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 

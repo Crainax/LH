@@ -58,7 +58,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	private function ShowChongdongHint takes nothing returns nothing
 		local integer i = 1
 		loop
-			exitwhen i > chongCount
+			exitwhen i > IMinBJ(8,chongCount)
 			if (chongdongs[i] != null) then
 	            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(seyu)), GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), 2.00 )
 			endif
@@ -82,7 +82,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	function TSpellSeyuUpdateAct takes nothing returns nothing
 		local integer i = 1
 	    loop
-	    	exitwhen i > chongCount
+	    	exitwhen i > IMinBJ(8,chongCount)
 	    	if (chongdongs[i] != null) then
 	            call SetUnitAbilityLevel(chongdongs[i], 'ACfu', IMinBJ(100, GetHeroLevel(seyu) / 2) )
 	    	endif
@@ -112,7 +112,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		set l_unit =null
 
 		loop
-			if (i > chongCount) then
+			if (i > IMinBJ(8,chongCount)) then
 				//空洞满了就提示满了
 				call ShowChongdongHint()
 				call DisplayTextToPlayer(GetOwningPlayer(seyu), 0., 0., "|cFFFF66CC【虫洞】|r虫洞可释放的数量已满,请手动取消多余的虫洞!")
@@ -138,7 +138,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	function CancelChongdong takes nothing returns nothing
 		local integer i = 1
 	    loop
-	        exitwhen i > 8
+	        exitwhen i > IMinBJ(8,chongCount)
 	        if (GetSpellAbilityUnit() == chongdongs[i]) then
 	        	call RemoveUnit(chongdongs[i])
 	            call DestroyTextTag( TTCD[i] )
@@ -182,7 +182,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		local unit l_unit = null
 		local integer i = 1
 		loop
-			exitwhen i > chongCount
+			exitwhen i > IMinBJ(8,chongCount)
 			if (chongdongs[i] != null) then
 				set l_group = CreateGroup()
 				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), radius, Condition(function EnemyFilterSeyu))
@@ -356,7 +356,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		call PrintSpellContent(GetOwningPlayer(seyu),GetAbilityName(GetSpellAbilityId()),"攻击力"+I2S(attack)+".")
 
 		loop
-			exitwhen i > chongCount
+			exitwhen i > IMinBJ(8,chongCount)
 			if (shashous[i] != null) then
 	        	call FlushChildHashtable(YDHT,GetHandleId(shashous[i]))
 				call RemoveUnit(shashous[i])
@@ -365,10 +365,10 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		endloop
 
 		loop
-			exitwhen ii > chongCount
+			exitwhen ii > IMinBJ(8,chongCount)
 			if (chongdongs[ii] != null) then
 				set shashous[ii] = CreateUnit(GetOwningPlayer(seyu),'espv',GetUnitX(chongdongs[ii]),GetUnitY(chongdongs[ii]),270)
-				call UnitApplyTimedLifeBJ( SquareRoot(I2R(GetHeroLevel(seyu)*10)), 'BHwe',shashous[ii] )
+				call UnitApplyTimedLifeBJ( 60, 'BHwe',shashous[ii] )
 				call SetAttack(shashous[ii],attack)
 			endif
 			set ii = ii +1
@@ -383,7 +383,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		local integer i = 1
 
 		loop
-			exitwhen i > chongCount
+			exitwhen i > IMinBJ(8,chongCount)
 			if (IsUnitAliveBJ(shashous[i]) and shashous[i] != null) then
 				if not(IsUnitInRange(shashous[i], chongdongs[i], 1800.00)) then
 					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(shashous[i]), GetUnitY(shashous[i]) ))				

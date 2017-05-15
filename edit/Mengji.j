@@ -346,6 +346,10 @@ library_once Mengji requires SpellBase,Printer,Attr
 	        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达." )
 	        return
 		endif
+	    if (IsTerrainPathable(GetOrderPointX(), GetOrderPointY(), PATHING_TYPE_WALKABILITY)) then
+	    	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r目标地点不能通行,瞬移失败！")
+	    	return
+	    endif
 		set shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
 		call SetUnitX(GetTriggerUnit(),GetOrderPointX())
@@ -387,8 +391,10 @@ library_once Mengji requires SpellBase,Printer,Attr
         call IssuePointOrder(u,"carrionswarm",x2,y2)
         set u = null
         call PolledWait(0.01)
-        call SetUnitX(mengji,x1)
-        call SetUnitY(mengji,y1)
+        if (RAbsBJ(GetUnitX(mengji)-x1) < 600) then
+	        call SetUnitX(mengji,x1)
+	        call SetUnitY(mengji,y1)
+        	endif	
         call IssueImmediateOrder(mengji,"stop")
 	endfunction
 
@@ -416,7 +422,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local integer count = LoadInteger(spellTable,id,1)
 		local real angel = GetRandomReal(0,360)
 		if (IsUnitInRange(mengji,ULinglong1,900)) then
- 			set u = CreateUnit(GetOwningPlayer(mengji),'hhm4',GetUnitX(mengji),GetUnitY(mengji),0)
+ 			set u = CreateUnit(GetOwningPlayer(mengji),'hhm4',GetUnitX(mengji),GetUnitY(mengji),angel)
 	        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
 	        call IssuePointOrder(u,"carrionswarm",YDWECoordinateX(GetUnitX(mengji)+100*CosBJ(angel)),YDWECoordinateY(GetUnitY(mengji)+100*SinBJ(angel)))
 	        call MoveLightningEx(LLinglong[1],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),750)
@@ -445,7 +451,11 @@ library_once Mengji requires SpellBase,Printer,Attr
 
 	private function Linglongwu takes nothing returns nothing
 
-		local timer t = CreateTimer()
+		local timer t = null
+		if (ULinglong1 != null) then
+			return
+		endif
+		set t = CreateTimer()
 		set ULinglong1 = CreateUnit(GetOwningPlayer(mengji),'h00S',GetUnitX(mengji),GetUnitY(mengji),0)
 		set ULinglong2 = CreateUnit(GetOwningPlayer(mengji),'h00T',GetUnitX(mengji),GetUnitY(mengji),0)
 		set LLinglong[1] = AddLightningEx("DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),750)

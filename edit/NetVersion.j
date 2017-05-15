@@ -117,7 +117,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    苍凌的提示文本
 	*/
 	function GetCanglingHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到12级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到12级(或者以任一彩名成就进入游戏，可以输入-cj切换)才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -159,7 +159,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    苍凌选取条件
 	*/
 	function GetCanglingSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 12)
+		return (DzAPI_Map_GetMapLevel(p) >= 12) or IsAchieveColor(achiPage[GetConvertedPlayerId(p)])
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -14,7 +14,7 @@ library_once Kaisa requires SpellBase,Printer
 	private function Lianxueyiji takes nothing returns nothing
 		local unit target = GetSpellTargetUnit()
 	    local real facing = Atan2BJ(GetUnitY(target)-GetUnitY(kaisa),GetUnitX(target)-GetUnitX(kaisa))
-		local real damage = RMinBJ(2100000000.,(GetUnitState(kaisa,UNIT_STATE_LIFE ) / 500.0) * SquareRoot(I2R(GetHeroLevel(kaisa))) * GetUnitState(kaisa,UNIT_STATE_MANA ))
+		local real damage = (GetUnitState(kaisa,UNIT_STATE_LIFE ) / 500.0) * SquareRoot(I2R(GetHeroLevel(kaisa))) * GetUnitState(kaisa,UNIT_STATE_MANA )
 	    local integer i = 1
 	    call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName(GetSpellAbilityId()),damage)
 	    loop
