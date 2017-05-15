@@ -12,7 +12,7 @@ library_once Yanmie requires SpellBase
 		private trigger TSpellYanmie3 = null
 
 		private integer Ilingyu = 0
-		private array integer YKillCount
+		private integer array YKillCount
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -69,7 +69,6 @@ library_once Yanmie requires SpellBase
 			call GroupAddUnit(GShadow,u)
 		endif
 	endfunction
-	return 
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -83,8 +82,8 @@ library_once Yanmie requires SpellBase
 		local integer i = GetKillCount(GetDyingUnit())
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 		set YKillCount[index] = YKillCount[index] + i
-		if (YKiYKillCount[index] >= 100) then
-			call AddHero3W(udg_H[index],(GetHeroLevel(udg_H[index]) + 200) * YKiYKillCount[index])
+		if (YKillCount[index] >= 100) then
+			call AddHero3W(udg_H[index],(GetHeroLevel(udg_H[index]) + 200) * YKillCount[index])
 			set YKillCount[index] = 0
 		endif
 		//call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true) + count * i ,true)

@@ -44,11 +44,11 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	endfunction
 
 	function JuexingSeyu2 takes nothing returns nothing
-		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'ACr2',true)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'ACam',true)
 	endfunction
 
 	function QJuexingSeyu takes nothing returns nothing
-		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'ACr2',false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'ACam',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(seyu),'A0G1',false)
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		if (GetSpellAbilityId() == 'A0E6') then
 			call CancelChongdong()
 		//空间免疫
-		elseif (GetSpellAbilityId() == 'ACr2') then
+		elseif (GetSpellAbilityId() == 'ACam') then
 			call ImmuteDamageInterval(GetSpellTargetUnit(),3)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 		//空间囚笼

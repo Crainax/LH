@@ -256,6 +256,7 @@ library_once SpellBase requires LHBase
 		call ImmuteDamageInterval(u,0)
 	endfunction
 
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
