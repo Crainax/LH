@@ -368,7 +368,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 			exitwhen ii > IMinBJ(8,chongCount)
 			if (chongdongs[ii] != null) then
 				set shashous[ii] = CreateUnit(GetOwningPlayer(seyu),'espv',GetUnitX(chongdongs[ii]),GetUnitY(chongdongs[ii]),270)
-				call UnitApplyTimedLifeBJ( 60, 'BHwe',shashous[ii] )
+				call UnitApplyTimedLifeBJ( 120, 'BHwe',shashous[ii] )
 				call SetAttack(shashous[ii],attack)
 			endif
 			set ii = ii +1

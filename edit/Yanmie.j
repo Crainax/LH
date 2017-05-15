@@ -69,12 +69,14 @@ library_once Yanmie requires SpellBase
 			call GroupAddUnit(GShadow,u)
 		endif
 	endfunction
+	return 
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    光环杀怪加属性
 	*/
 	private function TSpellYanmie3Con takes nothing returns boolean
-		return (IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ()))) and udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] != null
+		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] != null and (IsUnitType(GetDyingUnit(), UNIT_TYPE_STRUCTURE) != true) and (IsUnitIllusionBJ(GetDyingUnit()) != true) and (GetUnitPointValue(GetDyingUnit()) != 0) and (GetUnitTypeId(GetDyingUnit()) != 'h000') and (IsUnitAlly(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) != true) and (GetPlayerController(GetOwningPlayer(GetKillingUnitBJ())) == MAP_CONTROL_USER)
 	endfunction
 
 	private function TSpellYanmie3Act takes nothing returns nothing
