@@ -270,10 +270,23 @@ library_once Achievement requires LHBase
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 224) + S3(IsAchieveOK(p,i + 224),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetAchievementName(310) + S3(IsAchieveOK(p,310),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		elseif (page == 6) then
 		    loop
-		    	exitwhen i > 4
+		    	exitwhen i > 8
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 31) + S3(IsAchieveOK(p,i + 31),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
+		elseif (page == 7) then
+		    loop
+		    	exitwhen i > 8
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 310) + S3(IsAchieveOK(p,i + 310),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
+		elseif (page == 8) then
+		    loop
+		    	exitwhen i > 3
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 318) + S3(IsAchieveOK(p,i + 318),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
 		endif

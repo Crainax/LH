@@ -90,7 +90,49 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	private function TSpellQianFaCon takes nothing returns boolean
 	    return (((GetUnitTypeId(GetAttacker()) == 'Nngs') or (GetUnitTypeId(GetAttacker()) == 'Nbrn') or (GetUnitTypeId(GetAttacker()) == 'N00Q')) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 333.00) and (GetRandomInt(1, 10) == 1))
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    巨能传送
+	*/
+	private function DiamondTransmitAct takes nothing returns nothing
+		local group l_group = GetUnitsInRectAll(gg_rct________8)
+		local unit l_unit
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if (IsUnitDeadBJ(l_unit) and IsUnitType(l_unit,UNIT_TYPE_HERO) and (GetPlayerController(ConvertedPlayer(GetOwningPlayer(l_unit))) == MAP_CONTROL_USER) and (l_unit != udg_H[GetConvertedPlayerId(GetOwningPlayer(l_unit))] or IsWanjie())) then
+                call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTo.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+	    		call CreateSpellTextTag("传送离开",l_unit,100,0,50,2)
+		    	call HG(l_unit)
+		    endif
+		endloop
+		call DestroyGroup(l_group)
+		set l_group = null
+		set l_unit =null
+	endfunction
 
+	private function DiamondTransmit takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,1)
+		if (IsUnitAliveBJ(u)) then
+			call DiamondTransmitAct()
+		else
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable,id)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+	endfunction
+	//todo
+	function StartJudgeTransmit takes unit u returns nothing
+		local timer t = CreateTimer()
+		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
+		call TimerStart(t,3,true,function DiamondTransmit)
+		set t = null
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    臣服于我

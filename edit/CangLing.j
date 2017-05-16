@@ -149,14 +149,14 @@ library_once Cangling requires SpellBase,Printer,Attr
 	function SimulateDamageCangling takes unit u returns boolean
 
 		if (GetUnitTypeId(u) == 'h00V') then
-			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.33, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			if (IsUnitDeadBJ(GetTriggerUnit())) then
 				call SetUnitUserData(GetEventDamageSource(),GetUnitUserData(GetEventDamageSource())+1)
 			endif
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h00W') then
-			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.15, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.20, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h00Y') then
@@ -177,7 +177,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		local integer value = GetUnitUserData(u) - 1
 		if (value > 0) then
 			call SetTextTagTextBJ(tt,I2S(value) + "秒",20)
-			call SetUnitUserData(u,value)
+			call SetUnitUserData(u,IMinBJ(value,10))
 		else
 			call RemoveUnit(u)
 			call DestroyTextTag(tt)
@@ -265,7 +265,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 			call DestroyGuangYin()
 			set UGuang = GetSpellTargetUnit()
 		endif
-		set RGuang = R3(RGuang == 0.,0.4,RGuang + 0.1)
+		set RGuang = R3(RGuang == 0.,0.3,RGuang + 0.1)
 		set IGuang = 10
 		if (TGuang == null) then
 			set TGuang = CreateTimer()
@@ -295,7 +295,7 @@ library_once Cangling requires SpellBase,Printer,Attr
     private function StartTimerGuangyin takes unit u returns nothing
     	local timer t = CreateTimer()
 	    call SaveInteger(spellTable,GetHandleId(t),1,GetConvertedPlayerId(GetOwningPlayer(u)))
-	    call TimerStart(t,27,false,function GuangyinResetTimer)
+	    call TimerStart(t,57,false,function GuangyinResetTimer)
 	    set t = null
     endfunction
 
@@ -319,7 +319,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	private function ZiLeiHuTi takes nothing returns nothing
 		if (UCangFeng != null) then
 			if (IsUnitAliveBJ(UCangFeng)) then
-	    		call DamageArea(cangling,GetUnitX(UCangFeng),GetUnitY(UCangFeng),450,GetDamageAgi(cangling) * 0.4)
+	    		call DamageArea(cangling,GetUnitX(UCangFeng),GetUnitY(UCangFeng),450,GetDamageAgi(cangling) * 0.2)
 			endif
 		else
 		    call PauseTimer(GetExpiredTimer())
@@ -412,7 +412,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 			set ty = 'h00Z'
 		endif
 		set u = CreateUnit(GetOwningPlayer(cangling),ty,x,y,GetRandomReal(0,360))
-		call UnitApplyTimedLifeBJ( 20, 'BHwe', u )
+		call UnitApplyTimedLifeBJ( 10, 'BHwe', u )
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(u), GetUnitY(u) ))
 		set u = null
 	endfunction
@@ -454,7 +454,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		local timer t = CreateTimer()
 		set UTanlang = CreateUnit(GetOwningPlayer(cangling),'h013',GetUnitX(cangling),GetUnitY(cangling),0)
 		call UnitApplyTimedLifeBJ( 45, 'BHwe',UTanlang )
-		call SaveInteger(spellTable,GetHandleId(t),1,45)
+		call SaveInteger(spellTable,GetHandleId(t),1,15)
 		call TimerStart(t,1,true,function TanLangMangYaoTimer)
 		call TimerStart(CreateTimer(),0.05,true,function TanLangMangYaoRotateTimer)
 		set t = null

@@ -159,7 +159,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    苍凌选取条件
 	*/
 	function GetCanglingSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 12) or IsAchieveColor(achiPage[GetConvertedPlayerId(p)])
+		return (DzAPI_Map_GetMapLevel(p) >= 12) or IsAchieveLight(achiPage[GetConvertedPlayerId(p)])
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -13,6 +13,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         */
         integer IAtleast1 = 0
         integer IAtleast2 = 0
+        integer IAtleast3 = 0
     endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -1162,9 +1163,12 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         if (RectContainsUnit(gg_rct________8,GetSellingUnit())) then
             set x = GetRandomReal(GetRectMinX(gg_rct________8),GetRectMaxX(gg_rct________8))
             set y = GetRandomReal(GetRectMinY(gg_rct________8),GetRectMaxY(gg_rct________8))
-        else
+        elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
             set x = GetRandomReal(GetRectMinX(gg_rct_Diamond2),GetRectMaxX(gg_rct_Diamond2))
             set y = GetRandomReal(GetRectMinY(gg_rct_Diamond2),GetRectMaxY(gg_rct_Diamond2))
+        else 
+            set x = GetRandomReal(GetRectMinX(gg_rct_Diamond3),GetRectMaxX(gg_rct_Diamond3))
+            set y = GetRandomReal(GetRectMinY(gg_rct_Diamond3),GetRectMaxY(gg_rct_Diamond3))
         endif
         set u = CreateUnit(Player(10),whichType,x,y,GetRandomDirectionDeg())
         call EnhanceDiffAttack(u)
@@ -1192,6 +1196,9 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
             set group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondMonsterFilter))
             set group2 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
+        elseif (RectContainsUnit(gg_rct_Diamond3,GetSellingUnit())) then
+            set group1 = GetUnitsInRectMatching(gg_rct_Diamond3, Condition(function DiamondMonsterFilter))
+            set group2 = GetUnitsInRectMatching(gg_rct_Diamond3, Condition(function DiamondPlayerFilter))
         endif
 
         //! textmacro StartDiamondMonster takes ItemType,UnitType,Level
@@ -1203,6 +1210,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
                         set IAtleast1 = 21
                     elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
                         set IAtleast2 = 21
+                    elseif (RectContainsUnit(gg_rct_Diamond3,GetSellingUnit())) then
+                        set IAtleast3 = 21
                     endif
                     call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r祝你好运!" )
                     set i = 1
@@ -1361,6 +1370,13 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
                     call MonsterDropDiamond()
                     return
                 endif
+            elseif (RectContainsUnit(gg_rct_Diamond3,GetDyingUnit())) then
+                set IAtleast3 = ( IAtleast3 - 1 )
+                if ((IAtleast3 == 2)) then
+                    set IAtleast3 = 100
+                    call MonsterDropDiamond()
+                    return
+                endif
             endif
             if ((GetRandomInt(1, 25) == 1)) then
                 if (MonsterDropDiamond()) then
@@ -1368,6 +1384,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
                         set IAtleast1 = 100
                     elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
                         set IAtleast2 = 100
+                    elseif (RectContainsUnit(gg_rct_Diamond3,GetDyingUnit())) then
+                        set IAtleast3 = 100
                     endif
                 endif
             endif
@@ -1423,6 +1441,27 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         set group2 = null
         set l_unit = null
     endfunction
+
+    function TLeaveDiamondRegion3Act takes nothing returns nothing
+        local group group1 = GetUnitsInRectMatching(gg_rct_Diamond3, Condition(function DiamondPlayerFilter))
+        local group group2 = null
+        local unit l_unit = null
+        if ((CountUnitsInGroup(group1) == 0)) then
+            set group2 = GetUnitsInRectMatching(gg_rct_Diamond3, Condition(function DiamondMonsterFilter))
+            loop
+                set l_unit = FirstOfGroup(group2)
+                exitwhen l_unit == null
+                call GroupRemoveUnit(group2, l_unit)
+                call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+                call RemoveUnit( l_unit )
+            endloop
+            call DestroyGroup( group2 )
+        endif
+        call DestroyGroup( group1 )
+        set group1 = null
+        set group2 = null
+        set l_unit = null
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         宝石对话框
@@ -1436,6 +1475,14 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
             call SetUnitY(u,GetRectCenterY(gg_rct_Diamond2))
             call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond2),GetRectCenterY(gg_rct_Diamond2),0.2)
             call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond2), GetRectCenterY(gg_rct_Diamond2)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),4)) then
+            call SetUnitX(u,GetRectCenterX(gg_rct_Diamond3))
+            call SetUnitY(u,GetRectCenterY(gg_rct_Diamond3))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond3),GetRectCenterY(gg_rct_Diamond3),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond3), GetRectCenterY(gg_rct_Diamond3)))
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
         endif
 
@@ -1461,7 +1508,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         local dialog d = DialogCreate()
 
         call DialogSetMessage( d, "请选择进入的宝石区" )
-        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "低级宝石区（次）"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "低级宝石区1（次）"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, "低级宝石区2（次）"))
         call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "高级宝石区（主）"))
         call SaveUnitHandle(LHTable,GetHandleId(d),3,u)
         call DialogDisplay( GetOwningPlayer(u), d, true )
@@ -1513,6 +1561,10 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         call TriggerRegisterLeaveRectSimple( t, gg_rct_Diamond2 )
         call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
         call TriggerAddAction(t, function TLeaveDiamondRegion2Act)
+        set t = CreateTrigger()
+        call TriggerRegisterLeaveRectSimple( t, gg_rct_Diamond3 )
+        call TriggerAddCondition(t, Condition(function TLeaveDiamondRegionCon))
+        call TriggerAddAction(t, function TLeaveDiamondRegion3Act)
 
         set t = null
 	endfunction

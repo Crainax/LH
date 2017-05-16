@@ -18,7 +18,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    成就页数
 		*/
-		constant integer PAGE_ACHIEVE = 6
+		constant integer PAGE_ACHIEVE = 8
 		/*
 		    实际人数(从一开始的)
 		*/
@@ -34,7 +34,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.84"
+		return "2.98"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -329,7 +329,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 231 or achieveID == 35
+		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 39 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 319 or achieveID == 320 or achieveID == 321
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -429,7 +429,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 230) then
 			return GetColorString("【赦天魔】")
 		elseif (achieveID == 231) then
-			return GetColorString("【无心冢】")
+			return ("|cffff0000【无心冢】")
 		elseif (achieveID == 32) then
 			return "|cff99cc00【触天式】"
 		elseif (achieveID == 33) then
@@ -438,6 +438,38 @@ library_once Constant initializer InitConstant requires JBase
 			return "|cffff0000【噬天式】"
 		elseif (achieveID == 35) then
 			return GetColorString("【诛天式】")
+		elseif (achieveID == 36) then
+			return "|cff99cc00【缘灭罐】"
+		elseif (achieveID == 37) then
+			return "|cffffff00【彼岸花】"
+		elseif (achieveID == 38) then
+			return "|cffff0000【仙瀑光】"
+		elseif (achieveID == 39) then
+			return GetColorString("【烛龙谱】")
+		elseif (achieveID == 310) then
+			return GetColorString("【零失误】")
+		elseif (achieveID == 311) then
+			return "|cff99cc00【破虚者】"
+		elseif (achieveID == 312) then
+			return "|cffffff00【裂虚者】"
+		elseif (achieveID == 313) then
+			return "|cffff0000【断虚者】"
+		elseif (achieveID == 314) then
+			return GetColorString("【弑虚帝】")
+		elseif (achieveID == 315) then
+			return "|cff99cc00【定无双】"
+		elseif (achieveID == 316) then
+			return "|cffffff00【战无双】"
+		elseif (achieveID == 317) then
+			return "|cffff0000【凛无双】"
+		elseif (achieveID == 318) then
+			return GetColorString("【魄无双】")
+		elseif (achieveID == 319) then
+			return GetColorString("【封神门】")
+		elseif (achieveID == 320) then
+			return GetColorString("【圣洁玉】")
+		elseif (achieveID == 321) then
+			return GetColorString("【孤心戒】")
 		endif
 		return ""
 	endfunction
@@ -534,6 +566,38 @@ library_once Constant initializer InitConstant requires JBase
 			return "噬天式"
 		elseif (achieveID == 35) then
 			return "诛天式"
+		elseif (achieveID == 36) then
+			return "缘灭罐"
+		elseif (achieveID == 37) then
+			return "彼岸花"
+		elseif (achieveID == 38) then
+			return "仙瀑光"
+		elseif (achieveID == 39) then
+			return "烛龙谱"
+		elseif (achieveID == 310) then
+			return "零失误"
+		elseif (achieveID == 311) then
+			return "破虚者"
+		elseif (achieveID == 312) then
+			return "断虚者"
+		elseif (achieveID == 313) then
+			return "裂虚者"
+		elseif (achieveID == 314) then
+			return "弑虚帝"
+		elseif (achieveID == 315) then
+			return "定无双"
+		elseif (achieveID == 316) then
+			return "战无双"
+		elseif (achieveID == 317) then
+			return "凛无双"
+		elseif (achieveID == 318) then
+			return "魄无双"
+		elseif (achieveID == 319) then
+			return "封神门"
+		elseif (achieveID == 320) then
+			return "圣洁玉"
+		elseif (achieveID == 321) then
+			return "孤心戒"
 		endif
 		return ""
 	endfunction
@@ -709,10 +773,9 @@ library_once Constant initializer InitConstant requires JBase
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
-		elseif (achieveID == 231) then
-			return "单局游戏死亡次数达到100次。
+		else) then
+			return "单局游戏死亡次数达到100次。（凯撒触发天赋技能也算死亡）
 			
-			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 32) then
 			return "在单场游戏中造成的总伤害达500亿。
@@ -731,6 +794,77 @@ library_once Constant initializer InitConstant requires JBase
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 36) then
+			return "通过秘境挑战13层。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 37) then
+			return "通过秘境挑战15层。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 38) then
+			return "通过秘境挑战17层。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 39) then
+			return "通过秘境挑战20层。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 310) then
+			return "击败冥刹时所有玩家均0死亡。（凯撒触发天赋技能也算死亡）
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 311) then
+			return "击败任意难度巨能融合石6次。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 312) then
+			return "击败任意难度巨能融合石20次。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 313) then
+			return "击败轮回难度巨能融合石12次。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 314) then
+			return "击败轮回难度巨能融合石40次。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 315) then
+			return "总属性之和达到300W.（成就获取在1分钟内，请耐心等待）
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 316) then
+			return "总属性之和达到800W.（成就获取在1分钟内，请耐心等待）
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 317) then
+			return "总属性之和达到2000W.（成就获取在1分钟内，请耐心等待）
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 318) then
+			return "总属性之和达到5000W.（成就获取在1分钟内，请耐心等待）
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 319) then
+			return "在20分钟内将复活点处的门毁坏。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 320) then
+			return "到通关为止基地未受到任何伤害。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 321) then
+			return "鬼MAX戒指或者超鬼戒指吸收灵魂层数达到120.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -746,9 +880,13 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (page == 4) then
 			return index + 216
 		elseif (page == 5) then
-			return index + 224
+			return I3(index < 8,index + 224,310)
 		elseif (page == 6) then
 			return index + 31
+		elseif (page == 7) then
+			return index + 310
+		elseif (page == 8) then
+			return index + 318
 		endif
 		return 0
 	endfunction

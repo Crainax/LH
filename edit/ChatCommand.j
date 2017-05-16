@@ -113,6 +113,19 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
    		endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    清除地上的所有宝石
+	*/
+	private function ClearDiamondFunc takes nothing returns nothing
+	    if (IsDiamond(GetEnumItem()) and IsItemVisible(GetEnumItem())) then
+	    	call RemoveItem(GetEnumItem())
+	    endif
+	endfunction
+
+	private function ClearDiamond takes nothing returns nothing
+   		call EnumItemsInRectBJ( GetPlayableMapRect(), function ClearDiamondFunc )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    调视角
 	*/
 	function FixView takes boolean higher returns nothing
@@ -137,6 +150,8 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		    return
 		elseif (str == "-hc") then
 			call CombineBox()
+		elseif (str == "-bs") then
+			call ClearDiamond()
 		elseif (str == "-+") then
 			call FixView(true)
 		elseif (str == "--") then
@@ -160,7 +175,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	*/
 	private function ShowHint takes nothing returns nothing
 		local string s = null
-		local integer i = GetRandomInt(1,51)
+		local integer i = GetRandomInt(1,57)
 		if(i == 1 ) then
 			set s = "炼狱所爆的魔兽可以提高英雄的生命恢复速度还有魔法恢复速度哦~"
 		elseif(i == 2 ) then
@@ -234,7 +249,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 36) then
 			set s = "注意保持自己的护甲处于正数!当护甲低于0时怪物将对你造成接近于2倍攻击的伤害!"
 		elseif(i == 37) then
-			set s = "翅膀能每2秒对周围一个敌人射出一道火焰造成伤害,不过宠物携带无效."
+			set s = "翅膀能每间隔一定的时间对周围一个敌人射出一道火焰造成伤害,不过宠物携带无效."
 		elseif(i == 38) then
 			set s = "快速升级|cffffff00追魂夺魄戒|r的方法是让召唤物/雇佣兵在练功房帮你刷怪!"
 		elseif(i == 39) then
@@ -263,10 +278,24 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			set s = "轮回之狱主群欢迎你的加入:1群:148199145(满).....2群:413359254....."
 		elseif(i == 51) then
 			set s = "输入-cj可以更换你的成就哦,还可以查询你拥有的所有成就,也可以查询所有成就的获取条件."
+		elseif(i == 52) then
+			set s = "秘境中成功通过某一层有2种方法，一种是将所有灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。"
+		elseif(i == 53) then
+			set s = "英雄可以通过明灯对天赋技能进行一阶或者二阶觉醒，明灯可从秘境中获取，总共有20层挑战～"
+		elseif(i == 54) then
+			set s = "某些英雄有特定的皮肤，这些皮肤可以通过解锁特定的成就来永久获取。（输入-cj查询）"
+		elseif(i == 55) then
+			set s = "当前在线的玩家越多，秘境中同时出现的怪物越多，范围越大，灯的位置也越分散。"
+		elseif(i == 56) then
+			set s = "秘境中的每个明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要任一灯被摧毁，则挑战失败。"
+		elseif(i == 57) then
+			set s = "你可以输入-+来提高视角。"
+		elseif(i == 58) then
+			set s = "如果你想让魔兽自动施法，你可以输入-ms来令魔兽进入不可选定状态。"
 		endif
-		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
+		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
 		call BJDebugMsg("|cFFFF66CC【小提示】|r"+s)
-		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
+		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -278,7 +307,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 
 	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"黑阎\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前3个)均能体验24+5波进攻.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.
 
-	    	|r|cffffff00赞助后续版本永久有效,永久赞助请百度搜索\"17玩吧\"进入轮回专区自助获取,请加QQ群413359254获取,还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
+	    	|r|cffffff00赞助后续版本永久有效,永久赞助请加QQ群413359254获取,还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
 	    call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
 	    call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00永久赞助|r
 |cFFFF9900点击左上角“任务”查看。|r" )

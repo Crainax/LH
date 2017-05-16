@@ -1,7 +1,7 @@
 //! import "LHBase.j"
 //! import "Diffculty.j"
 
-library_once Jungle initializer InitJungle requires LHBase,Diffculty
+library_once Jungle requires LHBase,Diffculty
 
 	globals
 		unit UYeYang = null
@@ -61,6 +61,7 @@ library_once Jungle initializer InitJungle requires LHBase,Diffculty
 		else
 			call RemoveUnit(UYeYang)
 	    	set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
+ 		    call EnhanceDiffAttack(UYeYang)
 	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYang), GetUnitY(UYeYang) ))
 		endif
 
@@ -70,6 +71,7 @@ library_once Jungle initializer InitJungle requires LHBase,Diffculty
 		else
 			call RemoveUnit(UYeYin)
 	    	set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
+		    call EnhanceDiffAttack(UYeYin)
 	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYin), GetUnitY(UYeYin) ))
 		endif
 	endfunction
@@ -79,10 +81,11 @@ library_once Jungle initializer InitJungle requires LHBase,Diffculty
 	*/
 	private function InitJungle takes nothing returns nothing
 	    local trigger t = CreateTrigger()
-
+	    //todo 野区初始化，放到选难度后
 	    set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
 	    set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
-
+	    call EnhanceDiffAttack(UYeYang)
+	    call EnhanceDiffAttack(UYeYin)
 		//死亡奖励木头
 	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_DEATH )
 	    call TriggerAddCondition(t, Condition(function Jungle4DropCon))

@@ -109,6 +109,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        判断是否是1-9宝石或者3种组合石
+    */
+    function IsDiamond takes item i returns boolean
+        return  GetItemTypeId(i) == 'I02N' or GetItemTypeId(i) == 'I04S' or GetItemTypeId(i) == 'azhr' or GetItemTypeId(i) == 'gmfr' or GetItemTypeId(i) == 'jpnt' or GetItemTypeId(i) == 'glsk' or GetItemTypeId(i) == 'kygh' or GetItemTypeId(i) == 'sehr' or GetItemTypeId(i) == 'bzbf' or GetItemTypeId(i) == 'phlt' or GetItemTypeId(i) == 'dkfw' or GetItemTypeId(i) == 'thle'
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         20个全体的单位
     */
     function Is20Unit takes unit u returns boolean
@@ -343,6 +350,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             call RemoveUnit( l_unit )
         endloop
         set l_unit = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        移动回基地
+    */
+    function HG takes unit u returns nothing
+        call SetUnitPositionLoc(u,udg_Point_Fuhuo)
     endfunction
 //---------------------------------------------------------------------------------------------------
 

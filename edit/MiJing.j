@@ -467,20 +467,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase
         call DisableTrigger(TDengUnderAttacked)
         call TriggerAddCondition(TDengUnderAttacked, Condition(function TDengDamageCon))
         call TriggerAddAction(TDengUnderAttacked, function TDengDamageAct)
-
-		if (renshu == 1) then
-            call AddWeatherEffectSaveLast( gg_rct_M1, 'MEds' )
-		elseif (renshu == 2) then
-            call AddWeatherEffectSaveLast( gg_rct_M2, 'MEds' )
-		elseif (renshu == 3) then
-            call AddWeatherEffectSaveLast( gg_rct_M3, 'MEds' )
-		elseif (renshu == 4) then
-            call AddWeatherEffectSaveLast( gg_rct_M4, 'MEds' )
-		elseif (renshu == 5) then
-            call AddWeatherEffectSaveLast( gg_rct_M5, 'MEds' )
-		elseif (renshu == 6) then
-            call AddWeatherEffectSaveLast( gg_rct_M6, 'MEds' )
-		endif
+        //todo加入天气
         set UMijingShangdian = CreateUnit(Player(6), 'n01G', - 6144.0, - 10176.0, 270.000)
         set TDeng = CreateTextTagUnitBJ( "第0层", UMijingShangdian , 0, 25, 100, 0, 100, 0 )
 
