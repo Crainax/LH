@@ -4,7 +4,7 @@
 /*
     戒指
 */
-library_once Ring initializer InitRing requires LHBase 
+library_once Ring initializer InitRing requires LHBase,Version
 	
 	globals
 		boolean array BHintRing
@@ -119,6 +119,7 @@ library_once Ring initializer InitRing requires LHBase
 		    if (GetItemTypeId(ring) == '$CType$') then
 		    	if (GetItemUserData(ring) > 1000) then
 		    		call SetItemCharges(ring,GetItemCharges(ring) + 1)
+		    		debug call SaveRingAchievement(GetOwningPlayer(GetKillingUnitBJ()),GetItemCharges(ring))
 	   				call SetItemUserData( ring,  0  )
 					call AddHero3W(udg_H[index],$Count$)
     				call TriggerExecute( gg_trg_papa8____________u )

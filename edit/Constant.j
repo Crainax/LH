@@ -7,6 +7,7 @@ library_once Constant initializer InitConstant requires JBase
 	
 	globals
 		string diffculty = ""
+		string SgameMode = ""
 		/*
 		    英雄数量
 		*/
@@ -27,14 +28,14 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 44
+		constant integer COUNT_WANJIE = 46
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "2.98"
+		return "3.00B"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -90,7 +91,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 5
 		elseif (heroType == 'Ewrd' or heroType == 'E00C') then
 			return 6
-		elseif (heroType == 'Usyl') then
+		elseif (heroType == 'Usyl' or heroType == 'U001') then
 			return 7
 		elseif (heroType == 'Hjai') then
 			return 8
@@ -329,7 +330,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 39 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 319 or achieveID == 320 or achieveID == 321
+		return achieveID == 19 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 319 or achieveID == 320 or achieveID == 321
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -343,7 +344,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：能量之光特效索引条件
 	*/
 	function IsAchieveLight takes integer achieveID returns boolean
-		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222
+		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222 or achieveID == 39
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -445,7 +446,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 38) then
 			return "|cffff0000【仙瀑光】"
 		elseif (achieveID == 39) then
-			return GetColorString("【烛龙谱】")
+			return "|cffff00ff【烛龙谱】"
 		elseif (achieveID == 310) then
 			return GetColorString("【零失误】")
 		elseif (achieveID == 311) then
@@ -768,12 +769,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "在单场游戏中杀敌数达到8万。
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
-		elseif (achieveID == 230) then
+		elseif (achieveID == 231) then
 			return "在单场游戏中杀敌数达到15万。
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
-		else) then
+		elseif (achieveID == 32) then
 			return "单局游戏死亡次数达到100次。（凯撒触发天赋技能也算死亡）
 			
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
@@ -984,6 +985,10 @@ library_once Constant initializer InitConstant requires JBase
 			return "司宸"
 		elseif (i == 44) then
 			return "灵魂的缠绵"
+		elseif (i == 45) then
+			return "1 1"
+		elseif (i == 46) then
+			return "俏公子"
 		endif
 		return ""
 	endfunction

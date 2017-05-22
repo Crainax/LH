@@ -182,13 +182,14 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	/*
 	    初始化衣服还有新灯
 	*/
+	
 	private function InitDengClothes takes nothing returns nothing
 		//灯
 	    call SetItem3W( 'ILI1', 1000 )
-	    call SetItem3W( 'ILI2', 5000 )
-	    call SetItem3W( 'ILI3', 10000 )
-	    call SetItem3W( 'ILI4', 20000 )
-	    call SetItem3W( 'ILI5', 30000 )
+	    call SetItem3W( 'ILI2', 3000 )
+	    call SetItem3W( 'ILI3', 7500 )
+	    call SetItem3W( 'ILI4', 15000 )
+	    call SetItem3W( 'ILI5', 25000 )
 	    call SetItem3W( 'ILI6', 40000 )
 	    call SetItem3W( 'ILI7', 60000 )
 	    call SetItem3W( 'ILI8', 80000 )
@@ -332,6 +333,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemJingyan('IB07', 2.25)
 	    call SetItemJingyan('IB04', 1.50)
 	    call SetItemJingyan('IB02', 1.00)
+	    call SetItemJingyan('ratc', 5.00)
 
 	    call SetItemHP('IB05' , 3200000)
 		call SetItemHP('IB03' , 800000)

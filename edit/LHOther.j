@@ -31,7 +31,7 @@ library_once LHOther initializer InitLHOther requires LHBase
 	    不能相互攻击
 	*/
 	private function TAttackAllyCon takes nothing returns boolean
-		return ((GetAttacker() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))]) and (GetAttackedUnitBJ() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]))
+		return ((GetPlayerController(GetOwningPlayer(GetAttacker())) == MAP_CONTROL_USER) and (GetAttackedUnitBJ() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]))
 	endfunction
 	
 	private function TAttackAllyAct takes nothing returns nothing

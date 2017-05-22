@@ -216,9 +216,9 @@ library_once Diffculty requires LHBase
 	*/
 	function ChooseDifficulty takes nothing returns nothing
 		call DialogSetMessage( udg_X_Nandu, "选择难度" )
-	    call DialogAddButtonBJ( udg_X_Nandu, "天国（12波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "天国（24波）") 
 	    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "太平（18波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "太平（24波）") 
 	    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
 	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24波）") 
 	    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
@@ -247,10 +247,12 @@ library_once Diffculty requires LHBase
 			//经典模式
 			set mode = 1
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".")
+			set SgameMode = "经典"
 		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
 			//加速模式
 			set mode = 2
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
+			set SgameMode = "加速"
 		endif	       
 
 		call ChooseDifficulty()

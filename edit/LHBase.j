@@ -47,6 +47,9 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         */ 
         boolean array BJuexing1
         boolean array BJuexing2
+        //是否变色
+        timer array TBianse
+
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -323,7 +326,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         忠诚单位过滤器
     */
     function IsLoyalUnit takes unit u returns boolean
-        return ((GetUnitTypeId(u) == 'owyv') or (GetUnitTypeId(u) == 'nzom') or (GetUnitTypeId(u) == 'nsog') or (GetUnitTypeId(u) == 'nsoc') or (GetUnitTypeId(u) == 'ninc') or (GetUnitTypeId(u) == 'ninm') or (GetUnitTypeId(u) == 'nsrn') or (GetUnitTypeId(u) == 'nsrh') or (GetUnitTypeId(u) == 'nmit') or (GetUnitTypeId(u) == 'I049') or (GetUnitTypeId(u) == 'I04A'))
+        return ((GetUnitTypeId(u) == 'owyv') or (GetUnitTypeId(u) == 'nzom') or (GetUnitTypeId(u) == 'nsog') or (GetUnitTypeId(u) == 'nsoc') or (GetUnitTypeId(u) == 'ninc') or (GetUnitTypeId(u) == 'ninm') or (GetUnitTypeId(u) == 'nsrn') or (GetUnitTypeId(u) == 'nsrh') or (GetUnitTypeId(u) == 'nmit'))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -584,13 +587,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             set i = i +1
         endloop
         return ConvertedPlayer(1)
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        复活英雄（不包括读秒）
-    */
-    function Revive takes unit u,real x,real y returns nothing
-         
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

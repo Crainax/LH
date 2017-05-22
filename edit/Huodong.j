@@ -27,5 +27,14 @@ library_once Huodong requires LHBase
 		//return true
 		return ((DzAPI_Map_GetGameStartTime()/10) > 149356800) and ((DzAPI_Map_GetGameStartTime()/10) < 149408640)
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    限时活动4
+	*/
+	function IsHuodong4 takes nothing returns boolean
+		//return true
+		return ((DzAPI_Map_GetGameStartTime()/10) > 149520960) and ((DzAPI_Map_GetGameStartTime()/10) < 149598720)
+	endfunction
+
 
 endlibrary

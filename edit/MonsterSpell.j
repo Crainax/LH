@@ -1,6 +1,7 @@
 
 //! import "LHBase.j"
-library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETimerPattern
+/////! import "Diamond.j"
+library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETimerPattern,Diamond
 	
 	globals
 		trigger TSpellQianfa
@@ -11,6 +12,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 		constant real DRAT_JUNENG = 30000000
 		constant real DRAT_XIANLIAN = 15000000
 		integer level_juneng = 1
+		integer JunengID = 0
 	endglobals
 
 
@@ -22,8 +24,6 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 			call SetUnitState(selected,UNIT_STATE_LIFE,GetUnitState(selected,UNIT_STATE_LIFE)+GetUnitState(selected,UNIT_STATE_MAX_LIFE)*0.05)
 		endif
 	endfunction
-
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    宝石区怪物技能:千罚之光
@@ -94,30 +94,32 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	/*
 	    巨能传送
 	*/
-	private function DiamondTransmitAct takes nothing returns nothing
+	/*private function DiamondTransmitAct takes nothing returns nothing
 		local group l_group = GetUnitsInRectAll(gg_rct________8)
 		local unit l_unit
 		loop
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (IsUnitDeadBJ(l_unit) and IsUnitType(l_unit,UNIT_TYPE_HERO) and (GetPlayerController(ConvertedPlayer(GetOwningPlayer(l_unit))) == MAP_CONTROL_USER) and (l_unit != udg_H[GetConvertedPlayerId(GetOwningPlayer(l_unit))] or IsWanjie())) then
+		    if (IsUnitDeadBJ(l_unit) and IsUnitType(l_unit,UNIT_TYPE_HERO) and (GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER) and (l_unit != udg_H[GetConvertedPlayerId(GetOwningPlayer(l_unit))] or IsWanjie())) then
                 call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTo.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
 	    		call CreateSpellTextTag("传送离开",l_unit,100,0,50,2)
 		    	call HG(l_unit)
 		    endif
 		endloop
+
+        call ClearDiamondRegion(gg_rct________8)
 		call DestroyGroup(l_group)
 		set l_group = null
 		set l_unit =null
-	endfunction
+	endfunction*/
 
 	private function DiamondTransmit takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
 		local unit u = LoadUnitHandle(spellTable,id,1)
 		if (IsUnitAliveBJ(u)) then
-			call DiamondTransmitAct()
+			call TLeaveDiamondRegion1Act()
 		else
 			call PauseTimer(t)
 			call FlushChildHashtable(spellTable,id)
@@ -126,13 +128,15 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 		set u = null
 		set t = null 
 	endfunction
-	//todo
+	
 	function StartJudgeTransmit takes unit u returns nothing
 		local timer t = CreateTimer()
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
 		call TimerStart(t,3,true,function DiamondTransmit)
 		set t = null
 	endfunction
+
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    臣服于我
@@ -171,6 +175,77 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	private function TSpellPetCon takes nothing returns boolean
 	    return (((GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1) or (GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1)) and (IsEnemy(GetAttackedUnitBJ(),GetAttacker()) == true) and GetUnitLevel(GetAttacker()) >= 50 and GetUnitLevel(GetAttacker()) >= GetUnitLevel(GetAttackedUnitBJ()))
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    幽象之爆与类同源
+	*/
+    private function YouxiangZhibao takes nothing returns nothing
+    	local group l_group = CreateGroup()
+    	local unit l_unit
+    	call GroupEnumUnitsInRange(l_group, GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()), 600, null)
+    	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()) ))
+    	loop
+    	    set l_unit = FirstOfGroup(l_group)
+    	    exitwhen l_unit == null
+    	    call GroupRemoveUnit(l_group, l_unit)
+    	    if (IsEnemyM(l_unit,GetDyingUnit()) and (GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER)) then
+    	    	call UnitDamageTarget( GetDyingUnit(), l_unit, GetUnitState(l_unit,UNIT_STATE_LIFE)*0.9, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+    	    endif
+    	endloop
+    	call DestroyGroup(l_group)
+    	set l_group = null
+    	set l_unit =null
+    endfunction
+
+    private function Leitongyuan takes nothing returns nothing
+    	local group l_group = CreateGroup()
+    	local unit l_unit
+    	call GroupEnumUnitsInRange(l_group, GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()), 6000, null)
+    	loop
+    	    set l_unit = FirstOfGroup(l_group)
+    	    exitwhen l_unit == null
+    	    call GroupRemoveUnit(l_group, l_unit)
+    	    if (GetUnitTypeId(GetDyingUnit()) == GetUnitTypeId(l_unit)) then
+    	    	call SetUnitLifePercentBJ(l_unit,100)
+    	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\ImmolationRed\\ImmolationRedTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+    	    endif
+    	endloop
+    	call DestroyGroup(l_group)
+    	set l_group = null
+    	set l_unit =null
+    endfunction
+
+    private function TMijingDeathAct takes nothing returns nothing
+
+    	if (GetUnitAbilityLevel(GetDyingUnit(),'A0I4') >= 1) then
+    		//幽象之爆
+    		call YouxiangZhibao()
+    	endif
+    	if 	(GetUnitAbilityLevel(GetDyingUnit(),'A0I5') >= 1) then
+    		//类同源
+    		call Leitongyuan()
+    	endif
+
+    endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    红龙自动用技能
+	*/
+    private function TMijingAttackSpellCon takes nothing returns boolean
+    	return GetUnitTypeId(GetAttacker()) == 'nrwm'
+    endfunction
+    
+    private function TMijingAttackSpellAct takes nothing returns nothing
+    	if (GetRandomInt(1,10) == 1) then
+    		call IssuePointOrder(GetAttacker(),"clusterrockets",GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()))
+    		return
+    	endif
+    	if (GetRandomInt(1,10) == 1) then
+    		call IssuePointOrder(GetAttacker(),"silence",GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()))
+    		return
+    	endif
+    endfunction
+	    
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -250,6 +325,15 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	    call TriggerAddCondition(t, Condition(function TSpellYuanshaCon))
 	    call TriggerAddAction(t, function TSpellYuanshaAct)
 
+	    //幽象之体
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
+	    call TriggerAddAction(t, function TMijingDeathAct)
+
+	    set t = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(t, Condition(function TMijingAttackSpellCon))
+	    call TriggerAddAction(t, function TMijingAttackSpellAct)
 
 	    //宠物掉血
 	    set t = CreateTrigger()

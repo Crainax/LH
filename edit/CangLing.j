@@ -177,7 +177,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 		local integer value = GetUnitUserData(u) - 1
 		if (value > 0) then
 			call SetTextTagTextBJ(tt,I2S(value) + "秒",20)
-			call SetUnitUserData(u,IMinBJ(value,10))
+			call SetUnitUserData(u,value)
 		else
 			call RemoveUnit(u)
 			call DestroyTextTag(tt)
@@ -211,6 +211,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HJ'),"结盟成功！")
     	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
     	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_ALLIED_VISION )
+    	call ImmuteDamageInterval(cangling,1)
     	call PolledWait(10)
     	call SetPlayerAllianceStateBJ( Player(11), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
     	call SetPlayerAllianceStateBJ( Player(10), GetOwningPlayer(cangling), bj_ALLIANCE_UNALLIED )
@@ -295,7 +296,7 @@ library_once Cangling requires SpellBase,Printer,Attr
     private function StartTimerGuangyin takes unit u returns nothing
     	local timer t = CreateTimer()
 	    call SaveInteger(spellTable,GetHandleId(t),1,GetConvertedPlayerId(GetOwningPlayer(u)))
-	    call TimerStart(t,57,false,function GuangyinResetTimer)
+	    call TimerStart(t,42,false,function GuangyinResetTimer)
 	    set t = null
     endfunction
 
@@ -432,7 +433,6 @@ library_once Cangling requires SpellBase,Printer,Attr
 			call PauseTimer(t)
 			call FlushChildHashtable(spellTable,id)
 			call DestroyTimer(t)
-			set UTanlang = null
 	    	call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HM'),"技能时间结束！")
 		endif
 		set t = null 
@@ -447,13 +447,14 @@ library_once Cangling requires SpellBase,Printer,Attr
 		else
 			call PauseTimer(GetExpiredTimer())
 			call DestroyTimer(GetExpiredTimer())
+			set UTanlang = null
 		endif
 	endfunction
 
 	private function TanLangMangYao takes nothing returns nothing
 		local timer t = CreateTimer()
 		set UTanlang = CreateUnit(GetOwningPlayer(cangling),'h013',GetUnitX(cangling),GetUnitY(cangling),0)
-		call UnitApplyTimedLifeBJ( 45, 'BHwe',UTanlang )
+		call UnitApplyTimedLifeBJ( 25, 'BHwe',UTanlang )
 		call SaveInteger(spellTable,GetHandleId(t),1,15)
 		call TimerStart(t,1,true,function TanLangMangYaoTimer)
 		call TimerStart(CreateTimer(),0.05,true,function TanLangMangYaoRotateTimer)

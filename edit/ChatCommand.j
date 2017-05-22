@@ -130,9 +130,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	*/
 	function FixView takes boolean higher returns nothing
 		if (higher) then
-			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 200.00 ), 0 )
+			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 400.00 ), 0 )
 		else
-			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 200.00 ), 0 )
+			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 400.00 ), 0 )
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -156,6 +156,14 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call FixView(true)
 		elseif (str == "--") then
 			call FixView(false)
+		elseif (str == "-qc") then
+			if (TBianse[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
+
+				call SetUnitVertexColor( udg_H[GetConvertedPlayerId(GetTriggerPlayer())], 255, 255, 255, 255 )
+				call PauseTimer(TBianse[GetConvertedPlayerId(GetTriggerPlayer())])
+				call DestroyTimer(TBianse[GetConvertedPlayerId(GetTriggerPlayer())])
+				call FlushChildHashtable(itemTable,GetHandleId(TBianse[GetConvertedPlayerId(GetTriggerPlayer())]))
+			endif
 		elseif (str == "-ms") then
 			set BMoshou[GetConvertedPlayerId(GetTriggerPlayer())] = not (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())])
 			if (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())]) then
@@ -175,7 +183,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	*/
 	private function ShowHint takes nothing returns nothing
 		local string s = null
-		local integer i = GetRandomInt(1,57)
+		local integer i = GetRandomInt(1,59)
 		if(i == 1 ) then
 			set s = "炼狱所爆的魔兽可以提高英雄的生命恢复速度还有魔法恢复速度哦~"
 		elseif(i == 2 ) then
@@ -292,6 +300,8 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			set s = "你可以输入-+来提高视角。"
 		elseif(i == 58) then
 			set s = "如果你想让魔兽自动施法，你可以输入-ms来令魔兽进入不可选定状态。"
+		elseif(i == 59) then
+			set s = "你可以输入-bs来清除地上的所有宝石."
 		endif
 		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
 		call BJDebugMsg("|cFFFF66CC【小提示】|r"+s)
@@ -313,6 +323,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 |cFFFF9900点击左上角“任务”查看。|r" )
 	    call DestroyTimer( GetExpiredTimer() )
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 
 	private function InitChatCommand takes nothing returns nothing

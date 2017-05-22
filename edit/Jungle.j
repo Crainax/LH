@@ -27,6 +27,7 @@ library_once Jungle requires LHBase,Diffculty
     	endloop
 
     	call AddPlayerTechResearched( Player(10), 'R00W', udg_RENSHU )
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -60,9 +61,11 @@ library_once Jungle requires LHBase,Diffculty
 			call SetJudgeJungle4Invu(UYeYang)
 		else
 			call RemoveUnit(UYeYang)
-	    	set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
- 		    call EnhanceDiffAttack(UYeYang)
-	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYang), GetUnitY(UYeYang) ))
+			if (GetPlayerTechCountSimple('R00W', Player(10)) < 100) then
+		    	set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
+	 		    call EnhanceDiffAttack(UYeYang)
+		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYang), GetUnitY(UYeYang) ))
+			endif
 		endif
 
 		//阴
@@ -70,18 +73,20 @@ library_once Jungle requires LHBase,Diffculty
 			call SetJudgeJungle4Invu(UYeYin)
 		else
 			call RemoveUnit(UYeYin)
-	    	set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
-		    call EnhanceDiffAttack(UYeYin)
-	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYin), GetUnitY(UYeYin) ))
+			if (GetPlayerTechCountSimple('R00W', Player(10)) < 100) then
+		    	set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
+			    call EnhanceDiffAttack(UYeYin)
+		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYin), GetUnitY(UYeYin) ))
+			endif
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
 	*/
-	private function InitJungle takes nothing returns nothing
+	function InitJungle takes nothing returns nothing
 	    local trigger t = CreateTrigger()
-	    //todo 野区初始化，放到选难度后
+	    
 	    set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
 	    set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
 	    call EnhanceDiffAttack(UYeYang)

@@ -2,6 +2,115 @@
 //! import "LHBase.j"
 library_once Attr initializer InitAttr requires LHBase 
 	
+	globals
+		integer array IStr
+		integer array IAgi
+		integer array IInt
+	endglobals
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    获取敏捷增益
+	*/
+	function GetAgiPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 6 )]
+	endfunction
+
+	/*
+	    获取力量增益
+	*/
+	function GetStrPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID)]
+	endfunction
+
+	/*
+	    获取智力增益
+	*/
+	function GetIntPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 12 )]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    刷新英雄的力量值
+	*/
+	function FlashHeroStr takes player p returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		local integer temp = 0
+		if ((GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(p) == MAP_CONTROL_USER) and (GetStrPercent(index) != 0 or IStr[index] != 0)) then
+			set temp = R2I(I2R(GetHeroStr(udg_H[index],true) - IStr[index]) * GetStrPercent(index))
+			if (temp != IStr[index]) then
+				call SetHeroStr(udg_H[index],GetHeroStr(udg_H[index],true)-IStr[index]+temp,true)
+				set IStr[index] = temp
+			endif
+		endif
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	/*
+	    全刷力量
+	*/
+	function FlashAllHeroStr takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			call FlashHeroStr(ConvertedPlayer(i))
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    刷新英雄的敏捷值
+	*/
+	function FlashHeroAgi takes player p returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		local integer temp = 0
+		if ((GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(p) == MAP_CONTROL_USER) and (GetAgiPercent(index) != 0 or IAgi[index] != 0)) then
+			set temp = R2I(I2R(GetHeroAgi(udg_H[index],true) - IAgi[index]) * GetAgiPercent(index))
+			if (temp != IAgi[index]) then
+				call SetHeroAgi(udg_H[index],GetHeroAgi(udg_H[index],true)-IAgi[index]+temp,true)
+				set IAgi[index] = temp
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    全刷敏捷
+	*/
+	function FlashAllHeroAgi takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			call FlashHeroAgi(ConvertedPlayer(i))
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    刷新英雄的智力值
+	*/
+	function FlashHeroInt takes player p returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		local integer temp = 0
+		if ((GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(p) == MAP_CONTROL_USER) and (GetIntPercent(index) != 0 or IInt[index] != 0)) then
+			set temp = R2I(I2R(GetHeroInt(udg_H[index],true) - IInt[index]) * GetIntPercent(index))
+			if (temp != IInt[index]) then
+				call SetHeroInt(udg_H[index],GetHeroInt(udg_H[index],true)-IInt[index]+temp,true)
+				set IInt[index] = temp
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    全刷智力
+	*/
+	function FlashAllHeroInt takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			call FlashHeroInt(ConvertedPlayer(i))
+			set i = i +1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    增加生命上限增益
@@ -24,15 +133,9 @@ library_once Attr initializer InitAttr requires LHBase
 	*/
 	function AddAgiPercentImme takes integer playerID , real value returns nothing
 		call AddAgiPercent(playerID,value)
-    	call TriggerExecute( gg_trg_papa9____________u )
+    	call FlashHeroAgi(ConvertedPlayer(playerID))
 	endfunction
 
-	/*
-	    获取敏捷增益
-	*/
-	function GetAgiPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 6 )]
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    力量增益
@@ -47,15 +150,9 @@ library_once Attr initializer InitAttr requires LHBase
 	*/
 	function AddStrPercentImme takes integer playerID , real value returns nothing
 		call AddStrPercent(playerID,value)
-    	call TriggerExecute( gg_trg_papa8____________u )
+    	call FlashHeroStr(ConvertedPlayer(playerID))
 	endfunction
 
-	/*
-	    获取力量增益
-	*/
-	function GetStrPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID)]
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    智力增益
@@ -70,15 +167,9 @@ library_once Attr initializer InitAttr requires LHBase
 	*/
 	function AddIntPercentImme takes integer playerID , real value returns nothing
 		call AddIntPercent(playerID,value)
-    call TriggerExecute( gg_trg_papa10____________u )
+    	call FlashHeroInt(ConvertedPlayer(playerID))
 	endfunction
 
-	/*
-	    获取智力增益
-	*/
-	function GetIntPercent takes integer playerID returns real
-		return udg_I_Xianglian[( playerID + 12 )]
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    金钱增益
@@ -150,6 +241,7 @@ library_once Attr initializer InitAttr requires LHBase
 	function GetHP takes unit u returns integer
 		return LoadInteger(YDHT,GetHandleId(u),0xFCD961C9)
 	endfunction	
+
 //---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing

@@ -9,6 +9,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		private boolean Bheiyan = false 
 		private boolean Bhuanyi = false 
 		private boolean Bmengji = false 
+		private boolean Bcangling = false 
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -26,11 +27,20 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		return "|cff99ccff该英雄是隐藏英雄，多人通关地狱及以上的难度后在结尾获取密码,
 				或者成为永久赞助直接选取该英雄|r"
 	endfunction
+//---------------------------------------------------------------------------------------------------
 	/*
-	    幻逸的提示文本
+	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
 		return "|cff99ccff该英雄是隐藏英雄，多人通关|cFFFF0000末日|r|cff99ccff及以上的难度后在结尾获取密码,
+				或者成为永久赞助直接选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    苍凌的提示文本
+	*/
+	function GetCanglingHint takes nothing returns string
+	return "|cff99ccff该英雄是隐藏英雄，多人通关|cffff00ff轮回|r|cff99ccff及以上的难度后在结尾获取密码,
 				或者成为永久赞助直接选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -56,6 +66,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    苍凌选取条件
+	*/
+	function GetCanglingSelectedCon takes player p returns boolean
+		return Bcangling
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    彩名皮肤
 	*/
 	function IsColorSpin takes player p returns boolean
@@ -66,6 +83,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	    瑟雨皮肤条件
 	*/
 	function GetSeyu1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    晓月皮肤条件
+	*/
+	function GetXiaoyue1Spin takes player p returns boolean
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -97,6 +121,20 @@ library_once Version initializer InitVersion requires LHBase,Huodong
         return S2I(SubStringBJ(result,IMaxBJ(StringLength(result)-5,1),StringLength(result)))
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        获取激活码
+    */
+    private function GetCanglingCode takes string s returns integer
+        local string result = s
+        local integer i = 1
+        loop
+            exitwhen i > 15
+            set result = I2S(StringHash(result))
+            set i = i +1
+        endloop
+        return S2I(SubStringBJ(result,IMaxBJ(StringLength(result)-5,1),StringLength(result)))
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    隐藏密码的判定
@@ -109,6 +147,8 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			set Bhuanyi = true
 		elseif (chat == "mj"+I2S(GetMengjiCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bmengji = true
+		elseif (chat == "cl"+I2S(GetCanglingCode(GetPlayerName(GetTriggerPlayer())))) then
+			set Bcangling = true
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -135,6 +175,20 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			exitwhen i > 6
 			if (udg_RENSHU > 1 and udg_Nandu_JJJ > 6) then
 				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的梦霁英雄选取密码:mj"+ I2S(GetMengjiCode(playerName[i])))
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    输出苍凌的密码
+	*/
+	function PrintCanglingPassword takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if (udg_RENSHU > 1 and udg_Nandu_JJJ > 7) then
+				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的苍凌英雄选取密码:cl"+ I2S(GetCanglingCode(playerName[i])))
 			endif
 			set i = i +1
 		endloop

@@ -57,8 +57,29 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		    杀敌数
 		*/
 		integer array killCount
+		/*
+		    基地是否没受伤过
+		*/
+		boolean BBaseDamage = false
+		/*
+		    巨能统计
+		*/
+		integer JunengCount = 0
 	endglobals
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    给所有玩家一个成就
+	*/
+	private function SaveAllPlayerAchievement takes integer id returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				call GetAchievementAndSave(ConvertedPlayer(i),id)
+			endif
+			set i = i +1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取平台的金币
@@ -69,7 +90,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call AdjustPlayerStateBJ( 8000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 15) then
 			call AdjustPlayerStateBJ( 6000, p , PLAYER_STATE_RESOURCE_GOLD )
-		elseif (DzAPI_Map_GetMapLevel(p) >= 10 or IsHuodong()) then
+		elseif (DzAPI_Map_GetMapLevel(p) >= 10 or true) then
 			call AdjustPlayerStateBJ( 4000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 5) then
 			call AdjustPlayerStateBJ( 2000, p , PLAYER_STATE_RESOURCE_GOLD )
@@ -117,7 +138,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    苍凌的提示文本
 	*/
 	function GetCanglingHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到12级(或者以任一彩名成就进入游戏，可以输入-cj切换)才能选取该英雄|r"
+	return S3(IsHuodong4(),"|cff99ccff5月20日-28日只需要通关过\"炼狱\"或以上难度即可直接选取|r","|cff99ccff需要地图等级达到12级(或者以任一带能量之光成就进入游戏，可以输入-cj切换)才能选取该英雄|r")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -159,7 +180,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    苍凌选取条件
 	*/
 	function GetCanglingSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 12) or IsAchieveLight(achiPage[GetConvertedPlayerId(p)])
+		return (DzAPI_Map_GetMapLevel(p) >= 12) or IsAchieveLight(achiPage[GetConvertedPlayerId(p)]) or (IsHuodong4() and IsPass(p,5))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -176,6 +197,24 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		if (GetBit(spin[GetConvertedPlayerId(p)],2) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    晓月皮肤条件
+	*/
+	function GetXiaoyue1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],3) > 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    晓月皮肤OK了
+	*/
+	function SetXiaoyueSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],3) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取晓月皮肤\"|cff99ccff月轮绯狱|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -261,7 +300,20 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set achiPage[id] = 11
 		endif
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    统计总死亡次数
+	*/
+	private function GetTotalDeathCount takes nothing returns integer
+		local integer i = 1
+		local integer result = 0
+		loop
+			exitwhen i > 6
+			set result = result + deathCount[i]
+			set i = i +1
+		endloop
+		return result
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    存储到服务器,通关
@@ -292,8 +344,16 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					endif
 				endif
 
-				if (IsHuodong3() and level >=4) then
-					call SetSeyuSpinOK(ConvertedPlayer(i))
+				if (IsHuodong4() and level == 4) then
+					call SetXiaoyueSpinOK(ConvertedPlayer(i))
+				endif
+
+				if not(BBaseDamage) then
+					call GetAchievementAndSave(ConvertedPlayer(i),320)
+				endif
+
+				if (GetTotalDeathCount() < 1) then
+					call GetAchievementAndSave(ConvertedPlayer(i),310)
 				endif
 
 				//通关次数
@@ -369,6 +429,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set i = i +1
 		endloop
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    转生的成就
@@ -525,7 +586,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call DisplayTextToPlayer(p, 0., 0., result)
 		endif
 		set result = null
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想调节视角高度,请输入-+")
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想取消彩色皮肤,请输入-qc")
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    死亡次数的成就：无心冢
@@ -536,7 +600,108 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call GetAchievementAndSave(p,231)
 		endif
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    戒指的成就:孤心戒
+	*/
+	function SaveRingAchievement takes player p,integer count returns nothing
+		if (count >= 120) then
+			call GetAchievementAndSave(p,321)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    秘境的成就
+	*/
+	function SaveMijingAchievement takes integer count returns nothing
+		local integer i = 1
+		if (count <13) then
+			return
+		endif
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				if (count >= 13) then
+					call GetAchievementAndSave(ConvertedPlayer(i),36)
+				endif
+				if (count >= 15) then
+					call GetAchievementAndSave(ConvertedPlayer(i),37)
+				endif
+				if (count >= 17) then
+					call GetAchievementAndSave(ConvertedPlayer(i),38)
+				endif
+				if (count >= 20) then
+					call GetAchievementAndSave(ConvertedPlayer(i),39)
+				endif
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    巨能成就
+	*/
+	function SaveJunengAchievement takes nothing returns nothing
+		set JunengCount = JunengCount + 1
+		if (JunengCount >= 6) then
+			call SaveAllPlayerAchievement(311)
+		endif
+		if (JunengCount >= 20) then
+			call SaveAllPlayerAchievement(312)
+		endif
+		if (JunengCount >= 12 and GetDiffculty() >= 8) then
+			call SaveAllPlayerAchievement(313)
+		endif
+		if (JunengCount >= 40 and GetDiffculty() >= 8) then
+			call SaveAllPlayerAchievement(314)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    A门的成就：封神门
+	*/
+	function SaveDoorAchievement takes nothing returns nothing
+		local integer i = 1
+		if (udg_Second[2] >= 20) then
+			return
+		endif
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				call GetAchievementAndSave(ConvertedPlayer(i),319)
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    属性的成就
+	*/
+	private function SaveAttrAchievement takes nothing returns nothing
+		local integer i = 1
+		local integer attr = 0
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				if (udg_H[i] != null) then
+					set attr = GetHeroStr(udg_H[i],true) + GetHeroInt(udg_H[i],true) + GetHeroAgi(udg_H[i],true)
+					if ( attr > 3000000) then
+						call GetAchievementAndSave(ConvertedPlayer(i),315)
+					endif
+					if ( attr > 8000000) then
+						call GetAchievementAndSave(ConvertedPlayer(i),316)
+					endif
+					if ( attr > 20000000) then
+						call GetAchievementAndSave(ConvertedPlayer(i),317)
+					endif
+					if ( attr > 50000000) then
+						call GetAchievementAndSave(ConvertedPlayer(i),318)
+					endif
+				endif
+			endif
+			set i = i +1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    杀怪成就
@@ -688,6 +853,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set i = i +1
 		endloop
 		call TriggerAddAction(t, function TGetAchievementLumber)
+
+		call TimerStart(CreateTimer(),60,true,function SaveAttrAchievement)
+
 		set t = null
 	endfunction
 

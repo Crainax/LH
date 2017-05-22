@@ -73,6 +73,18 @@ library_once Mengji requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    别人拿圣弓不能加属性
+	*/
+	function GetOtherLiutao takes unit u ,item it returns boolean
+		if (GetItemTypeId(it) == 'I049' or GetItemTypeId(it) == 'I04A' ) then
+			return (u == mengji)
+		else
+			return true
+		endif
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	/*
 	    判断英雄是否拿着圣弓
 	*/
 	private function HasShenggong takes nothing returns boolean
@@ -422,9 +434,11 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local integer count = LoadInteger(spellTable,id,1)
 		local real angel = GetRandomReal(0,360)
 		if (IsUnitInRange(mengji,ULinglong1,900)) then
- 			set u = CreateUnit(GetOwningPlayer(mengji),'hhm4',GetUnitX(mengji),GetUnitY(mengji),angel)
-	        call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
-	        call IssuePointOrder(u,"carrionswarm",YDWECoordinateX(GetUnitX(mengji)+100*CosBJ(angel)),YDWECoordinateY(GetUnitY(mengji)+100*SinBJ(angel)))
+			if (IsUnitAliveBJ(mengji)) then
+				set u = CreateUnit(GetOwningPlayer(mengji),'hhm4',GetUnitX(mengji),GetUnitY(mengji),angel)
+	       		call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
+	        	call IssuePointOrder(u,"carrionswarm",YDWECoordinateX(GetUnitX(mengji)+100*CosBJ(angel)),YDWECoordinateY(GetUnitY(mengji)+100*SinBJ(angel)))
+			endif
 	        call MoveLightningEx(LLinglong[1],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count)),750)
 	        call MoveLightningEx(LLinglong[2],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count + 120)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count + 120)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count + 120)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count + 120)),750)
 	        call MoveLightningEx(LLinglong[3],true,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count+240)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count+240)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900*CosBJ(count+240)),YDWECoordinateY(GetUnitY(ULinglong1)+900*SinBJ(count+240)),750)

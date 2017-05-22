@@ -61,7 +61,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer sr = LoadInteger(itemTable,id,ksr)
 		local integer sg = LoadInteger(itemTable,id,ksg)
 		local integer sb = LoadInteger(itemTable,id,ksb)
-		if((IsUnitAliveBJ(u) == true) or (IsUnitType(u,UNIT_TYPE_HERO) == true)) then
+		if((IsUnitAliveBJ(u) == true) or (IsUnitType(u,UNIT_TYPE_HERO))) then
 
 			//! textmacro ChangeColor takes Color
 				
@@ -85,8 +85,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			//! runtextmacro ChangeColor("g")
 			//! runtextmacro ChangeColor("b")
     		call SetUnitVertexColor( u, r, g, b, 255 )
-
 		else
+			call SetUnitVertexColor( u, 255, 255, 255, 255 )
 			call PauseTimer(t)
 			call DestroyTimer(t)
 			call FlushChildHashtable(itemTable,id)
@@ -106,6 +106,9 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		call SaveInteger(itemTable,GetHandleId(t),ksb,GetRandomInt(20,60))
 
 		call TimerStart(t,0.1,true,function DiscolorTimer)
+		if (IsUnitType(u,UNIT_TYPE_HERO)) then
+			set TBianse[GetConvertedPlayerId(GetOwningPlayer(u))] = t
+		endif
 		set t = null 
 	endfunction
 //---------------------------------------------------------------------------------------------------

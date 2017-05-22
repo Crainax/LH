@@ -7,8 +7,9 @@ globals
 	unit UCrainax
 
 	boolean array BRing
-
+	integer array IZhanhun
 endglobals
+
 
 
 //-------------------------------------------------------------------------------

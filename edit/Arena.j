@@ -270,7 +270,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 	    触发器
 	*/
 	private function TSpellMeidusha1Con takes nothing returns boolean
-	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 80) == 1) )
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 60) == 1) )
 	endfunction
 
 	private function TSpellMeidusha1Act takes nothing returns nothing

@@ -271,6 +271,14 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 
 			debug call SetSeyuSpinOK(GetTriggerPlayer())
 
+		elseif ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),34568491,245622564))) then
+			debug if (GetXiaoyue1Spin(GetTriggerPlayer())) then
+			debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已获取了晓月皮肤,无须重复激活！")
+			debug return
+			debug endif
+
+			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
+
 		endif
 	endfunction
 

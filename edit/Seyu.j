@@ -224,8 +224,10 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	        set l_unit = FirstOfGroup(l_group)
 	        exitwhen l_unit == null
 	        call GroupRemoveUnit(l_group, l_unit)
-    		call UnitDamageTarget( u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+	        if (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == seyu) then
+	    		call UnitDamageTarget( u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+	    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+	        endif
 	    endloop
 	    //输出伤害
 	    call PrintSpell(GetOwningPlayer(u),GetAbilityName(abilityID),damage)

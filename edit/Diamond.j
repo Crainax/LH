@@ -1150,7 +1150,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         宝石区玩家过滤
     */
     function DiamondPlayerFilter takes nothing returns boolean
-        return (((IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) == true) and (GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER)))
+        return ((IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) == true) and (GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER) and (IsUnitAliveBJ(GetFilterUnit()) or (GetFilterUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] and not(IsWanjie()) )))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -1394,6 +1394,25 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        清空宝石区域
+    */
+    function ClearDiamondRegion takes rect r returns nothing
+        local unit l_unit = null
+        local group group2 = GetUnitsInRectMatching(r, Condition(function DiamondMonsterFilter))
+        set group2 = GetUnitsInRectMatching(r, Condition(function DiamondMonsterFilter))
+        loop
+            set l_unit = FirstOfGroup(group2)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(group2, l_unit)
+            call FlushChildHashtable(YDHT,GetHandleId(l_unit))
+            call RemoveUnit( l_unit )
+        endloop
+        call DestroyGroup( group2 )
+        set group2 = null
+        set l_unit = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         离开宝石区域
     */
     function TLeaveDiamondRegionCon takes nothing returns boolean
@@ -1402,23 +1421,11 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
 
     function TLeaveDiamondRegion1Act takes nothing returns nothing
         local group group1 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondPlayerFilter))
-        local group group2 = null
-        local unit l_unit = null
         if ((CountUnitsInGroup(group1) == 0)) then
-            set group2 = GetUnitsInRectMatching(gg_rct________8, Condition(function DiamondMonsterFilter))
-            loop
-                set l_unit = FirstOfGroup(group2)
-                exitwhen l_unit == null
-                call GroupRemoveUnit(group2, l_unit)
-                call FlushChildHashtable(YDHT,GetHandleId(l_unit))
-                call RemoveUnit( l_unit )
-            endloop
-            call DestroyGroup( group2 )
+            call ClearDiamondRegion(gg_rct________8)
         endif
         call DestroyGroup( group1 )
         set group1 = null
-        set group2 = null
-        set l_unit = null
     endfunction
 
     function TLeaveDiamondRegion2Act takes nothing returns nothing

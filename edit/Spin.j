@@ -9,5 +9,12 @@ library_once Spin requires LHBase,Version
 	function IsSeyuSpin1 takes player p returns boolean
 		return GetSeyu1Spin(p)
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    晓月的皮肤条件
+	*/
+	function IsXiaoyueSpin1 takes player p returns boolean
+		return GetXiaoyue1Spin(p)
+	endfunction
 
 endlibrary

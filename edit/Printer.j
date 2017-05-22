@@ -11,7 +11,7 @@ library_once Printer initializer InitPrinter requires LHBase
 		if (damage > 10000) then
 	    	call DisplayTextToPlayer( whichPlayer, 0, 0, ( "|cFFFF66CC【|r" +  spellName +  "|cFFFF66CC】|r伤害加成" +  I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage/10000)) + "万"  + addtional + "." ) ) ) )
 	    else
-	    	call DisplayTextToPlayer( whichPlayer, 0, 0, ( "|cFFFF66CC【|r" +  spellName +  "|cFFFF66CC】|r伤害加成" +  I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage/10000))  + addtional + "." ) ) ) )
+	    	call DisplayTextToPlayer( whichPlayer, 0, 0, ( "|cFFFF66CC【|r" +  spellName +  "|cFFFF66CC】|r伤害加成" +  I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage))  + addtional + "." ) ) ) )
 		endif
 	endfunction
 
