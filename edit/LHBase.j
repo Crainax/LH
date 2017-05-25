@@ -639,7 +639,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set UDepot[5] = CreateUnit(Player(4), 'nmgv', 9728.0, - 1856.0, 270.000)
         set UDepot[6] = CreateUnit(Player(5), 'nmgv', 9728.0, 1216.0, 270.000)
 
-        set Uwanjie = CreateUnit(Player(6), 'n01F', - 14464.0, - 15552.0, 270.000)
+        set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14464.0, - 15552.0, 270.000)
 
         call SaveInteger(LHTable,GetHandleId(t),1,0)
         call TimerStart(t,2,true,function StartWanjieTimer)
