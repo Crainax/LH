@@ -6,8 +6,8 @@
 //! import "dependency/YDWEBase_common.j"
 //! import "dependency/YDWEBase_hashtable.j"
 
-/////! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern//,DzAPI
+//! import "DzAPI.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,DzAPI
 
 	globals
 		

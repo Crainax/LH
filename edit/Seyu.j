@@ -120,7 +120,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 			endif
 			if (chongdongs[i] == null) then
 				set chongdongs[i] = CreateUnit(GetOwningPlayer(seyu),'ndgt',GetSpellTargetX(),GetSpellTargetY(),270)
-				set TTCD[i] = CreateTextTagUnitBJ( "虫洞"+I2S(i)+"号",chongdongs[i] , 0, 40.00, 100, 0, 0, 0 )
+				set TTCD[i] = CreateTextTagUnitBJ( "虫洞"+I2S(i)+"号",chongdongs[i] , 0, 20.00, 100, 0, 0, 0 )
 	            call SelectUnitForPlayerSingle( chongdongs[i], GetOwningPlayer(seyu) )
 	            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(seyu)), GetSpellTargetX(),GetSpellTargetY(), 2.00 )
 	            //冰甲技能的设定
@@ -150,7 +150,6 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
-
 	/*
 	    空间封冻
 	*/
@@ -169,84 +168,54 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取虫洞单位组
+	    敌方单位
 	*/
 	private function EnemyFilterSeyu takes nothing returns boolean
 		return IsEnemy(GetFilterUnit(),seyu) == true
 	endfunction
 
-	function GetChongdongGroup takes real radius,integer count returns group
-		local group result = CreateGroup()
-		local group temp = null
-		local group l_group = null
-		local unit l_unit = null
-		local integer i = 1
-		loop
-			exitwhen i > IMinBJ(8,chongCount)
-			if (chongdongs[i] != null) then
-				set l_group = CreateGroup()
-				call GroupEnumUnitsInRange(l_group, GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]), radius, Condition(function EnemyFilterSeyu))
-				set temp = GetRandomSubGroup( count, l_group)
-				call GroupAddGroup(temp,result)
-				call DestroyGroup(l_group)
-				call DestroyGroup(temp)
-			endif	
-			set i = i +1
-		endloop
-
-		set l_group = null
-		set l_unit =null
-		set temp =null
-		return result
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    把虫洞单位组加到指定单位组中
-	*/
-	function AddChongdongGroup takes group p,real radius,integer count returns nothing
-		local group g = GetChongdongGroup(radius,count)
-		call GroupAddGroup(g,p)
-		set g = null
-	endfunction
+    /*
+        获取一个单位周围的随机一个敌方非魔免单位
+    */
+    function GetRandomUnitAround takes unit u,real radius returns unit
+		local group l_group = CreateGroup()
+	    local unit result = null
+	    call GroupEnumUnitsInRange(l_group, GetUnitX(u), GetUnitY(u), radius, Condition(function EnemyFilterSeyu))
+	    set result = FirstOfGroup(l_group)
+	    call DestroyGroup(l_group)
+	    set l_group = null
+	    return result
+    endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    曼陀罗之刺
 	*/
-	function Mantuoluo takes unit speller,real damageRate,integer abilityID returns nothing
-		local unit u = speller
-		local real damage = GetDamageAgi(u) * damageRate
-	    local group l_group = CreateGroup()
-	    local unit l_unit = null
-	    call GroupEnumUnitsInRange(l_group, GetUnitX(speller), GetUnitY(speller), 600, Condition(function EnemyFilterSeyu))
-	    call AddChongdongGroup(l_group,600,R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-	    
+	function Mantuoluo takes real damageRate,integer abilityID returns nothing
+		local real damage = GetDamageAgi(seyu) * damageRate
+	    local integer i = 1
 	    loop
-	        set l_unit = FirstOfGroup(l_group)
-	        exitwhen l_unit == null
-	        call GroupRemoveUnit(l_group, l_unit)
-	        if (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == seyu) then
-	    		call UnitDamageTarget( u, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-	    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\Impale\\ImpaleHitTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
-	        endif
+	    	exitwhen i > IMinBJ(8,chongCount)
+	    	if (chongdongs[i] != null) then
+	    		call DamageAreaEff(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+	    	endif
+	    	set i = i +1
 	    endloop
+		call DamageAreaEff(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+
 	    //输出伤害
-	    call PrintSpell(GetOwningPlayer(u),GetAbilityName(abilityID),damage)
-	    call DestroyGroup(l_group)
-	    set l_group = null
-	    set l_unit =null
-		set u = null
+	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName(abilityID),damage)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    异界能量
 	*/
 	function TSpellSeyu2Con takes nothing returns boolean
-	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'espv')) and (IsUnitIllusionBJ(GetAttacker()) != true) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 4) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00))
+	    return (((GetAttacker() == seyu) or (GetUnitTypeId(seyu) == 'espv')) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 4) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00))
 	endfunction
 
 	function TSpellSeyu2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call Mantuoluo(seyu,1,'AUav')
+		call Mantuoluo(1,'AUav')
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
@@ -323,25 +292,24 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		
 	private function TSpellSeyu3Act takes nothing returns nothing
 		local real damage = GetDamageAgi(seyu) * 2.5
-		local group g = CreateGroup()
-	    local unit l_unit
+		local integer i = 1
+		local unit u = null
 		call DisableTrigger(GetTriggeringTrigger())
-		//初始化虫洞单位组
-		call GroupAddUnit(g,GetAttacker())
-		call AddChongdongGroup(g,600,1)
-	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName('AEar'),damage)
-	    //局部单位组伤害
-	    loop
-	        set l_unit = FirstOfGroup(g)
-	        exitwhen l_unit == null
-	        call GroupRemoveUnit(g, l_unit)
-	        call CreateUnitEffect(GetOwningPlayer(seyu),'hh00',GetUnitX(l_unit),GetUnitY(l_unit),0)
-	    	call CreateSpellTextTag("冻",l_unit,0,100,0,2)
-	        call UnitDamageTarget( seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-	    endloop
-	    call DestroyGroup(g)
-		set g = null
-	    set l_unit =null
+		loop
+			exitwhen i > IMinBJ(8,chongCount)
+			if (chongdongs[i] != null) then
+				set u = GetRandomUnitAround(chongdongs[i],600)
+	        	call CreateUnitEffect(GetOwningPlayer(u),'hh00',GetUnitX(u),GetUnitY(u),0)
+	    		call CreateSpellTextTag("冻",u,0,100,0,4)
+				call UnitDamageTarget( seyu, u, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			endif
+			set i = i +1
+		endloop
+		set u = GetRandomUnitAround(seyu,600)
+    	call CreateUnitEffect(GetOwningPlayer(u),'hh00',GetUnitX(u),GetUnitY(u),0)
+		call CreateSpellTextTag("冻",u,0,100,0,4)
+		call UnitDamageTarget( seyu, u, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+		set u = null
 		call PolledWait(8)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
@@ -407,35 +375,20 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	private function AnShaZhiWuTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		local group g = null
 		local real damage = GetDamageAgi(seyu) * 0.5
 		local integer value = LoadInteger(spellTable,id,kAnShaCount)
-		local group l_group = null
-		local unit l_unit = null
-		local integer i
+		local integer i = 1
 		if (value < 30) then
 			//++1
 			call SaveInteger(spellTable,id,kAnShaCount,value + 1)
-	    	set l_group = CreateGroup()
-			call GroupEnumUnitsInRange(l_group, GetUnitX(seyu), GetUnitY(seyu), 600, Condition(function EnemyFilterSeyu))
-	    	call AddChongdongGroup(l_group,600,R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-			loop
-			    set l_unit = FirstOfGroup(l_group)
-			    exitwhen l_unit == null
-			    call GroupRemoveUnit(l_group, l_unit)
-    			call UnitDamageTarget( seyu, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			endloop
-			call DestroyGroup(l_group)
-			set l_group = null
-			set l_unit =null
-
 			//特效
 	        call CreateUnitEffect(GetOwningPlayer(seyu),'h00E',GetUnitX(seyu),GetUnitY(seyu),0)
-			set i = 1
+    		call DamageArea(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage)
 			loop
 				exitwhen i > 8
 				if (chongdongs[i] != null) then
 	       			call CreateUnitEffect(GetOwningPlayer(chongdongs[i]),'h00E',GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),0)
+	    			call DamageArea(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage)
 				endif
 				set i = i +1
 			endloop
@@ -466,12 +419,10 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 
 	private function TSpellSeyuAct takes nothing returns nothing
 		if ((GetSpellAbilityId() == 'AEfk')) then
-			call Mantuoluo(seyu,1,GetSpellAbilityId())
+			call Mantuoluo(1,GetSpellAbilityId())
 		//放虫洞
 		elseif (GetSpellAbilityId() == 'ACst') then
 			call CreateChongdong()
-		//取消虫洞
-		elseif (GetSpellAbilityId() == 'A0E6') then
 		//空间杀手
 		elseif (GetSpellAbilityId() == 'AEsv') then
 			call Kongjianshashou()
@@ -508,7 +459,6 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 
        				set i = i +1
        			endloop
-
 			    //注册空间封冻技能
 			    set TSpellSeyu3 = CreateTrigger()
 			    call TriggerRegisterAnyUnitEventBJ(TSpellSeyu3,EVENT_PLAYER_UNIT_ATTACKED)
@@ -587,12 +537,5 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    call TriggerRegisterUnitEvent( TSpellSeyuUpdate, seyu, EVENT_UNIT_HERO_LEVEL )
 	    call TriggerAddAction(TSpellSeyuUpdate, function TSpellSeyuUpdateAct)
 	    call QJuexingSeyu()
-	    loop
-	    	exitwhen i > 8
-	    	set chongdongs[i] = null
-	    	set TTCD[i] = null
-	    	set i = i +1
-	    endloop
-
 	endfunction
 endlibrary
