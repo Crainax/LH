@@ -215,6 +215,10 @@ library_once Attr initializer InitAttr requires LHBase
 	function GetAttack takes unit u returns integer
 		return LoadInteger(YDHT,GetHandleId(u),0x5039AFFB)
 	endfunction	
+
+	function AddAttack takes unit u,integer attack returns nothing
+		call SetAttack(u,GetAttack(u) + attack)
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    设置防御
@@ -228,6 +232,11 @@ library_once Attr initializer InitAttr requires LHBase
 	function GetDefense takes unit u returns integer
 		return LoadInteger(YDHT,GetHandleId(u),0x81FD3994)
 	endfunction	
+
+	function AddDefense takes unit u,integer defense returns nothing
+		call SetDefense(u,GetDefense(u) + defense)
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    设置生命上限
@@ -242,6 +251,9 @@ library_once Attr initializer InitAttr requires LHBase
 		return LoadInteger(YDHT,GetHandleId(u),0xFCD961C9)
 	endfunction	
 
+	function AddHP takes unit u,integer hp returns nothing
+		call SetHP(u,GetHP(u) + hp)
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing
