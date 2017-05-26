@@ -28,38 +28,206 @@ library_once Hanshang requires SpellBase,Printer,Attr
 		key kLianhuanBoomX
 		key kLianhuanBoomY
 	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    鬼斧神工
+	*/
+	private function Guifushengong takes nothing returns nothing
+	if
+    return ((GetSpellAbilityId() == 'Aens') and              (IsCanCopy(GetSpellTargetItem())))
 
+
+	local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
+    set ydl_localvar_step = ydl_localvar_step + 3
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r|cffff00ff鬼斧神工|r|cFFFF66CC】|r成功复制出了" + ( GetItemName(GetSpellTargetItem()) + "。" ) ) )
+    call UnitAddItemByIdSwapped( GetItemTypeId(GetSpellTargetItem()), GetTriggerUnit() )
+    if ((GetItemType(GetSpellTargetItem()) != ITEM_TYPE_CHARGED)) then
+        call YDTriggerSetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, GetLastCreatedItem())
+        call SetItemPawnable( YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820), false )
+        call PolledWait(29.00)
+        call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+        call RemoveItem( YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_5827" )
+    else
+    endif
+    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    死神炸弹
 	*/
-	function SiShenZhaDan takes unit speller,real x,real y,real damageRate,integer abilityID returns nothing
+	function SiShenZhaDan takes real x,real y,real damageRate,integer abilityID returns nothing
 		local real n
-		local unit u = speller
-		local real damage = GetDamageAgi(u) * damageRate * 1.66
-		local real x1 = GetUnitX(u)
-	    local real y1 = GetUnitY(u)
+		local real damage = GetDamageAgi(hanshang) * damageRate * 1.66
+		local real x1 = GetUnitX(hanshang)
+	    local real y1 = GetUnitY(hanshang)
 	    local real facing = Atan2(y-y1,x-x1)
 	    local real distance = SquareRoot((y-y1)*(y-y1)+(x-x1)*(x-x1))
 	    set n = RMaxBJ( 0.1 , 1 - distance / 24000)
 	    set damage = damage * n
 	    if (abilityID != 0) then
-	    	call PrintSpellAdd(GetOwningPlayer(u),GetAbilityName(abilityID),damage,",距离伤害衰减"+I2S(100 - R2I(n*100))+"%.")
+	    	call PrintSpellAdd(GetOwningPlayer(hanshang),GetAbilityName(abilityID),damage,",距离伤害衰减"+I2S(100 - R2I(n*100))+"%.")
 	    endif
 	    call DamageAreaMirror(hanshang,x,y,450,damage)
 	    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    吃装备
+	*/
+	private function Wuqiongtunshi takes nothing returns nothing
+		local integer ydl_localvar_step = YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76)
+    set ydl_localvar_step = ydl_localvar_step + 3
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step)
+    call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+    if ((YDTriggerHas(integer, YDTriggerAny2I(item, GetSpellTargetItem()), 0xA75AD423) == true) and (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != YDTriggerGetEx(integer, YDTriggerAny2I(item, GetSpellTargetItem()), 0xA75AD423))) then
+        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【消息】|r这件东西属于" + ( GetUnitName(udg_H[YDTriggerGetEx(integer, YDTriggerAny2I(item, GetSpellTargetItem()), 0xA75AD423)]) + ",不可吞噬。" ) ) )
+        call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
+        return
+    else
+    endif
+    set udg_Unit = GetTriggerUnit()
+    call YDTriggerSetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F, GetUnitLoc(udg_Unit))
+    call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F)) )
+    call RemoveLocation( YDTriggerGetEx(location, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x5E83114F) )
+    call YDTriggerSetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332, GetSpellTargetItem())
+    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + "|cFFFF66CC】|r吞噬成功，增加的属性值如以下所示：" ) ) )
+    if ((IsItemPawnable(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332)) == true)) then
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5BAE281D) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5BAE281D) * 2 ) / 5 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r全属性|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_STR, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+            call ModifyHeroStat( bj_HEROSTAT_AGI, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+            call ModifyHeroStat( bj_HEROSTAT_INT, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x8D205575) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x8D205575) * 2 ) / 5 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r力量|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_STR, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x384C9D86) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x384C9D86) * 2 ) / 5 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r敏捷|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_AGI, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x1B5C932E) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x1B5C932E) * 2 ) / 5 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r智力|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_INT, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5039AFFB) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5039AFFB) * 2 ) / 5 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r攻击|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call YDTriggerSetEx(integer, YDTriggerAny2I(unit, GetTriggerUnit()), 0x5039AFFB, ( YDTriggerGetEx(integer, YDTriggerAny2I(unit, GetTriggerUnit()), 0x5039AFFB) + YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) ))
+            call TriggerExecute( gg_trg_____________800W )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xFCD961C9) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xFCD961C9) * 2 ) / 5 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|rHP上限|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call TriggerExecute( gg_trg_HP_____________________u )
+        else
+        endif
+        if ((YDTriggerHas(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x06C64278) == true)) then
+            call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616, ( YDTriggerGetEx(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x06C64278) / 5.00 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r力量加成|cFFFF66CC】|r+" + ( I2S(R2I(( YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) * 100.00 ))) + "%。" ) ) )
+            set udg_I_Xianglian[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ( udg_I_Xianglian[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] + YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) )
+        else
+        endif
+        if ((YDTriggerHas(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x6FFF4132) == true)) then
+            call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616, ( YDTriggerGetEx(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x6FFF4132) / 5.00 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r敏捷加成|cFFFF66CC】|r+" + ( I2S(R2I(( YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) * 100.00 ))) + "%。" ) ) )
+            set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 6 )] = ( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 6 )] + YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) )
+        else
+        endif
+        if ((YDTriggerHas(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xC0C6918C) == true)) then
+            call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616, ( YDTriggerGetEx(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xC0C6918C) / 5.00 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r智力加成|cFFFF66CC】|r+" + ( I2S(R2I(( YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) * 100.00 ))) + "%。" ) ) )
+            set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 12 )] = ( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 12 )] + YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) )
+        else
+        endif
+        if ((YDTriggerHas(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xFAA305CD) == true)) then
+            call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616, ( YDTriggerGetEx(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xFAA305CD) / 5.00 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|rHP上限加成|cFFFF66CC】|r+" + ( I2S(R2I(( YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) * 100.00 ))) + "%。" ) ) )
+            set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 18 )] = ( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 18 )] + YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) )
+        else
+        endif
+        if ((YDTriggerHas(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x4C0507D9) == true)) then
+            call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616, ( YDTriggerGetEx(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x4C0507D9) / 5.00 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r攻击加成|cFFFF66CC】|r+" + ( I2S(R2I(( YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) * 100.00 ))) + "%。" ) ) )
+            set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 24 )] = ( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 24 )] + YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) )
+        else
+        endif
+        if ((YDTriggerHas(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x0B6FB20F) == true)) then
+            call YDTriggerSetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616, ( YDTriggerGetEx(real, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x0B6FB20F) / 5.00 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r防御加成|cFFFF66CC】|r+" + ( I2S(R2I(( YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) * 100.00 ))) + "%。" ) ) )
+            set udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 30 )] = ( udg_I_Xianglian[( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 30 )] + YDTriggerGetEx(real, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0xDD66C616) )
+        else
+        endif
+    else
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5BAE281D) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5BAE281D) / 20 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r全属性|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_STR, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+            call ModifyHeroStat( bj_HEROSTAT_AGI, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+            call ModifyHeroStat( bj_HEROSTAT_INT, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x8D205575) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x8D205575) / 20 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r力量|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_STR, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x384C9D86) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x384C9D86) / 20 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r敏捷|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_AGI, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x1B5C932E) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x1B5C932E) / 20 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r智力|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call ModifyHeroStat( bj_HEROSTAT_INT, GetTriggerUnit(), bj_MODIFYMETHOD_ADD, YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5039AFFB) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0x5039AFFB) / 20 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r攻击|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call YDTriggerSetEx(integer, YDTriggerAny2I(unit, GetTriggerUnit()), 0x5039AFFB, ( YDTriggerGetEx(integer, YDTriggerAny2I(unit, GetTriggerUnit()), 0x5039AFFB) + YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) ))
+            call TriggerExecute( gg_trg_____________800W )
+        else
+        endif
+        if ((YDTriggerHas(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xFCD961C9) == true)) then
+            call YDTriggerSetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820, ( YDTriggerGetEx(integer, YDTriggerAny2I(itemcode, GetItemTypeId(YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332))), 0xFCD961C9) / 20 ))
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|rHP上限|cFFFF66CC】|r+" + I2S(YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820)) ) )
+            call YDTriggerSetEx(integer, YDTriggerAny2I(unit, GetTriggerUnit()), 0xFCD961C9, ( YDTriggerGetEx(integer, YDTriggerAny2I(unit, GetTriggerUnit()), 0xFCD961C9) + YDTriggerGetEx(integer, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x25DAB820) ))
+            call TriggerExecute( gg_trg_HP_____________________u )
+        else
+        endif
+    endif
+    call RemoveItem( YDTriggerGetEx(item, YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step, 0x1769D332) )
+    call TriggerExecute( gg_trg_D7 )
+    call YDTriggerClearTable(YDTriggerH2I(GetTriggeringTrigger())*ydl_localvar_step)
+    
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    无穷吞噬
 	*/
 	private function TSpellHanshang2Con takes nothing returns boolean
-	    return ((GetAttackedUnitBJ() == hanshang) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and ( IsSecondSpellOK(hanshang) == true) and (GetRandomInt(1, 10) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, hanshang) > 200.00) and GetUnitAbilityLevel(hanshang,'AHbn') >= 1)
+	    return ((GetAttackedUnitBJ() == hanshang) and ( IsSecondSpellOK(hanshang) == true) and (GetRandomInt(1, 10) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, hanshang) > 200.00) and GetUnitAbilityLevel(hanshang,'AHbn') >= 1)
 	endfunction
 
 	private function TSpellHanshang2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call SiShenZhaDan(hanshang,GetUnitX(GetAttacker()),GetUnitY(GetAttacker()),0.33,'AHbn')
+		call SiShenZhaDan(GetUnitX(GetAttacker()),GetUnitY(GetAttacker()),0.33,'AHbn')
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
@@ -158,6 +326,9 @@ library_once Hanshang requires SpellBase,Printer,Attr
 			call SiShenZhaDan(hanshang,GetSpellTargetX(),GetSpellTargetY(),1,GetSpellAbilityId())
 		elseif ((GetSpellAbilityId() == 'A0F0')) then
 			call LianhuanBoom()
+		//鬼斧神工
+		elseif ((GetSpellAbilityId() == 'A0F0')) then
+			call LianhuanBoom()
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -165,11 +336,12 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	    寒殇金币减少受到的伤害
 	*/
 	private function TSpellHanshang3Con takes nothing returns boolean
-		return IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang,'A0BN') == 1
+		return IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang,'A0BN') == 1 and GetEventDamage() > 100 and GetTriggerUnit() == hanshang and IsUnitAliveBJ(hanshang)
 	endfunction
 	
 	private function TSpellHanshang3Act takes nothing returns nothing
 		call SetUnitLifeBJ(hanshang,GetUnitState(hanshang,UNIT_STATE_LIFE)+GetEventDamage() * RLianjin2)
+		call BJDebugMsg("炼金测试")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -71,7 +71,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    虫洞过滤器
 	*/
 	function ChongdongFilter takes nothing returns boolean
-	    return ((GetUnitTypeId(GetFilterUnit()) == 'ndgt'))
+	    return ((GetUnitTypeId(GetFilterUnit()) == 'h015'))
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 				return
 			endif
 			if (chongdongs[i] == null) then
-				set chongdongs[i] = CreateUnit(GetOwningPlayer(seyu),'ndgt',GetSpellTargetX(),GetSpellTargetY(),270)
+				set chongdongs[i] = CreateUnit(GetOwningPlayer(seyu),'h015',GetSpellTargetX(),GetSpellTargetY(),270)
 				set TTCD[i] = CreateTextTagUnitBJ( "虫洞"+I2S(i)+"号",chongdongs[i] , 0, 20.00, 100, 0, 0, 0 )
 	            call SelectUnitForPlayerSingle( chongdongs[i], GetOwningPlayer(seyu) )
 	            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(seyu)), GetSpellTargetX(),GetSpellTargetY(), 2.00 )
@@ -201,6 +201,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    	set i = i +1
 	    endloop
 		call DamageAreaEff(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+		call CreateUnitEffect(GetOwningPlayer(seyu),'h00E',GetUnitX(seyu),GetUnitY(seyu),0)
 
 	    //输出伤害
 	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName(abilityID),damage)
@@ -210,12 +211,12 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    异界能量
 	*/
 	function TSpellSeyu2Con takes nothing returns boolean
-	    return (((GetAttacker() == seyu) or (GetUnitTypeId(seyu) == 'espv')) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 4) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00))
+	    return (((GetAttacker() == seyu) or (GetUnitTypeId(GetAttacker()) == 'n01I')) and ( IsSecondSpellOK(seyu) == true) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, seyu) > 200.00) and (GetUnitAbilityLevel(seyu,'A0C2') > 0))
 	endfunction
 
 	function TSpellSeyu2Act takes nothing returns nothing
 		call DisableTrigger(GetTriggeringTrigger())
-		call Mantuoluo(1,'AUav')
+		call Mantuoluo(1,'A0C2')
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
@@ -287,11 +288,11 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    空间封冻
 	*/
 	private function TSpellSeyu3Con takes nothing returns boolean
-    	return GetAttackedUnitBJ() == seyu and GetRandomInt(1,20) == 1 and GetUnitState(seyu,UNIT_STATE_MANA) >= 400
+    	return GetAttackedUnitBJ() == seyu and GetRandomInt(1,20) == 1 and GetUnitState(seyu,UNIT_STATE_MANA) >= 400 and IsThirdSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEar') == 1
 	endfunction
 		
 	private function TSpellSeyu3Act takes nothing returns nothing
-		local real damage = GetDamageAgi(seyu) * 2.5
+		local real damage = GetDamageAgi(seyu) * 2
 		local integer i = 1
 		local unit u = null
 		call DisableTrigger(GetTriggeringTrigger())
@@ -309,6 +310,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
     	call CreateUnitEffect(GetOwningPlayer(u),'hh00',GetUnitX(u),GetUnitY(u),0)
 		call CreateSpellTextTag("冻",u,0,100,0,4)
 		call UnitDamageTarget( seyu, u, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName('AEar'),damage)
 		set u = null
 		call PolledWait(8)
 		call EnableTrigger(GetTriggeringTrigger())
@@ -322,7 +324,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	function Kongjianshashou takes nothing returns nothing
 		local integer i = 1
 		local integer ii = 1
-		local integer attack = R2I(I2R(GetHeroAgi(seyu,true))*SquareRoot(GetHeroLevel(seyu))) * 5
+		local integer attack = R2I(I2R(GetHeroAgi(seyu,true))*SquareRoot(GetHeroLevel(seyu)))
 		call PrintSpellContent(GetOwningPlayer(seyu),GetAbilityName(GetSpellAbilityId()),"攻击力"+I2S(attack)+".")
 
 		loop
@@ -337,7 +339,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		loop
 			exitwhen ii > IMinBJ(8,chongCount)
 			if (chongdongs[ii] != null) then
-				set shashous[ii] = CreateUnit(GetOwningPlayer(seyu),'espv',GetUnitX(chongdongs[ii]),GetUnitY(chongdongs[ii]),270)
+				set shashous[ii] = CreateUnit(GetOwningPlayer(seyu),'n01I',GetUnitX(chongdongs[ii]),GetUnitY(chongdongs[ii]),270)
 				call UnitApplyTimedLifeBJ( 120, 'BHwe',shashous[ii] )
 				call SetAttack(shashous[ii],attack)
 			endif
@@ -387,7 +389,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 			loop
 				exitwhen i > 8
 				if (chongdongs[i] != null) then
-	       			call CreateUnitEffect(GetOwningPlayer(chongdongs[i]),'h00E',GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),0)
+	       			call CreateUnitEffect(GetOwningPlayer(seyu),'h00E',GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),0)
 	    			call DamageArea(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage)
 				endif
 				set i = i +1
@@ -441,7 +443,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		if (learner == seyu) then
 			if(whichSpell == 1) then
 				set chongCount = chongCount + 1
-			elseif (whichSpell == 2 and IsSecondSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AUav') == 1) then
+			elseif (whichSpell == 2 and IsSecondSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'A0C2') == 1) then
 				//技能2初始化
 				call InitPower()
 				set chongCount = chongCount + 1
@@ -459,16 +461,9 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 
        				set i = i +1
        			endloop
-			    //注册空间封冻技能
-			    set TSpellSeyu3 = CreateTrigger()
-			    call TriggerRegisterAnyUnitEventBJ(TSpellSeyu3,EVENT_PLAYER_UNIT_ATTACKED)
-			    call TriggerAddCondition(TSpellSeyu3, Condition(function TSpellSeyu3Con))
-			    call TriggerAddAction(TSpellSeyu3, function TSpellSeyu3Act)
 			elseif (whichSpell == 4 and IsFourthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEsv') == 1) then
 				//技能4初始化
 				set chongCount = chongCount + 1
-				//杀手位置刷新
-				call TimerStart(CreateTimer(),5,true,function FlashShashouLocation)
 			elseif (whichSpell == 5 and IsFifthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEst') == 1) then
 				//技能5初始化
 				set chongCount = chongCount + 2
@@ -480,7 +475,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		if (learner == seyu) then
 			if (learnSpellID == 'AEfk') then
 				call LearnSkillSeyuI(learner,1)
-			elseif (learnSpellID == 'AUav') then
+			elseif (learnSpellID == 'A0C2') then
 				call LearnSkillSeyuI(learner,2)
 			elseif (learnSpellID == 'AEar') then
 				call LearnSkillSeyuI(learner,3)
@@ -497,7 +492,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	*/
 	private function InitSeyuSpin takes unit u returns unit
 		if (IsSeyuSpin1(GetOwningPlayer(u))) then
-			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00C',GetUnitX(u),GetUnitY(u),0)
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00E',GetUnitX(u),GetUnitY(u),0)
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
 			call RemoveUnit(u)
@@ -531,6 +526,15 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    call TriggerRegisterAnyUnitEventBJ( TSpellSeyu2, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellSeyu2, Condition(function TSpellSeyu2Con))
 	    call TriggerAddAction(TSpellSeyu2, function TSpellSeyu2Act)
+
+	    //注册空间封冻技能
+	    set TSpellSeyu3 = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(TSpellSeyu3,EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(TSpellSeyu3, Condition(function TSpellSeyu3Con))
+	    call TriggerAddAction(TSpellSeyu3, function TSpellSeyu3Act)
+
+		//杀手位置刷新
+		call TimerStart(CreateTimer(),5,true,function FlashShashouLocation)
 
 	    //升级顺便提高虫洞技能等级
 	    set TSpellSeyuUpdate = CreateTrigger()

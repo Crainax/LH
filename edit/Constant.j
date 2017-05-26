@@ -35,7 +35,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.00B"
+		return "3.01"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -89,7 +89,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 4
 		elseif (heroType == 'Nbbc') then
 			return 5
-		elseif (heroType == 'Ewrd' or heroType == 'E00C') then
+		elseif (heroType == 'E00D' or heroType == 'E00E') then
 			return 6
 		elseif (heroType == 'Usyl' or heroType == 'U001') then
 			return 7
