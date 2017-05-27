@@ -420,7 +420,7 @@ library_once Hanshang requires SpellBase,Printer,Attr
        				exitwhen i > 6
        				
 		            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-		                call AddMoneyPercent(i,0.25)
+		                call AddMoneyPercent(i,0.5)
 		            endif
 
        				set i = i +1

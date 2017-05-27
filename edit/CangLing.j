@@ -52,6 +52,10 @@ library_once Cangling requires SpellBase,Printer,Attr
 			return true
 		endif
 
+		if not(IsItemPawnable(it)) then
+			return true
+		endif
+
 		loop
 			exitwhen i > I3(BiBo,12,6)
 			if (it == IBibo[i]) then
@@ -89,7 +93,17 @@ library_once Cangling requires SpellBase,Printer,Attr
 		local integer i = 1
 		local integer ii = 1
 		local integer iii
+		local integer iiii = 1
 		local item temp = null
+
+		//判断是否有不可丢弃的法魂
+		loop
+			exitwhen iiii > 6
+			if (true) then
+				// body...
+			endif
+			set iiii = iiii +1
+		endloop
 		//保存装备
 		loop
 			exitwhen i > 6
@@ -466,7 +480,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    主英雄技能判断
 	*/
 	private function TSpellCanglingCon takes nothing returns boolean
-		return GetOwningPlayer()
+		return GetOwningPlayer(GetSpellAbilityUnit()) == GetOwningPlayer(cangling)
 	endfunction
 
 	private function TSpellCanglingAct takes nothing returns nothing

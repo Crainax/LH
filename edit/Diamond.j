@@ -1349,7 +1349,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
         掉落触发的条件
     */
     function TDropDiamondCon takes nothing returns boolean
-        return ((IsUnitEnemy(GetKillingUnitBJ(), Player(10)) == true))
+        return (GetOwningPlayer(GetDyingUnit()) == Player(10) or GetOwningPlayer(GetDyingUnit()) == Player(11)) and not (IsUnitIllusion(GetDyingUnit()))
     endfunction
     /*
         掉落触发的动作
