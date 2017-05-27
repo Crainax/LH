@@ -188,6 +188,14 @@ library_once Attr initializer InitAttr requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    防御增益
+	*/
+	function AddDefensePercent takes integer playerID , real value returns nothing
+		set udg_I_Jinengjiacheng[playerID + 30] = udg_I_Jinengjiacheng[playerID + 30] + value
+		call TriggerExecute( gg_trg_D7 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    技能伤害增益
 	*/
 	function AddSpellPercent takes integer playerID , real value returns nothing

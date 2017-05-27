@@ -535,6 +535,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 	    //苍凌的所有技能
 		set TSpellCangling = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(TSpellCangling,EVENT_PLAYER_UNIT_SPELL_EFFECT)
+	    call TriggerAddCondition(TSpellCangling, Condition(function TSpellCanglingCon))
 	    call TriggerAddAction(TSpellCangling, function TSpellCanglingAct)
 
 

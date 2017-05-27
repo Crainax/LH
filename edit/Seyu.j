@@ -191,7 +191,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    曼陀罗之刺
 	*/
 	function Mantuoluo takes real damageRate,integer abilityID returns nothing
-		local real damage = GetDamageAgi(seyu) * damageRate
+		local real damage = GetDamageAgi(seyu) * damageRate * 0.8
 	    local integer i = 1
 	    loop
 	    	exitwhen i > IMinBJ(8,chongCount)
@@ -420,10 +420,10 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	endfunction
 
 	private function TSpellSeyuAct takes nothing returns nothing
-		if ((GetSpellAbilityId() == 'AEfk')) then
+		if ((GetSpellAbilityId() == 'A0IM')) then
 			call Mantuoluo(1,GetSpellAbilityId())
 		//放虫洞
-		elseif (GetSpellAbilityId() == 'ACst') then
+		elseif (GetSpellAbilityId() == 'A0IL') then
 			call CreateChongdong()
 		//空间杀手
 		elseif (GetSpellAbilityId() == 'AEsv') then
@@ -473,7 +473,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 
 	function LearnSkillSeyu takes unit learner,integer learnSpellID returns nothing
 		if (learner == seyu) then
-			if (learnSpellID == 'AEfk') then
+			if (learnSpellID == 'A0IM') then
 				call LearnSkillSeyuI(learner,1)
 			elseif (learnSpellID == 'A0C2') then
 				call LearnSkillSeyuI(learner,2)

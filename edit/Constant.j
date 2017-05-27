@@ -173,7 +173,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (id == 5) then
 			return 'Absk'
 		elseif (id == 6) then
-			return 'ACst'
+			return 'A0IL'
 		elseif (id == 7) then
 			return 'ACfs'
 		elseif (id == 8) then
@@ -181,7 +181,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (id == 9) then
 			return 'A0F2'
 		elseif (id == 10) then
-			return 'Aens'
+			return 'A0II'
 		elseif (id == 11) then
 			return 'ACbc'
 		elseif (id == 12) then

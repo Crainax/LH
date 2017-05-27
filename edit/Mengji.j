@@ -76,7 +76,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    别人拿圣弓不能加属性
 	*/
 	function GetOtherLiutao takes unit u ,item it returns boolean
-		if (GetItemTypeId(it) == 'I049' or GetItemTypeId(it) == 'I04A' ) then
+		if (GetItemTypeId(it) == 'I049' or GetItemTypeId(it) == 'I04A' or it == Nihe) then
 			return (u == mengji)
 		else
 			return true
