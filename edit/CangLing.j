@@ -465,6 +465,9 @@ library_once Cangling requires SpellBase,Printer,Attr
 	/*
 	    主英雄技能判断
 	*/
+	private function TSpellCanglingCon takes nothing returns boolean
+		return GetOwningPlayer()
+	endfunction
 
 	private function TSpellCanglingAct takes nothing returns nothing
 		if (GetSpellAbilityId() == 'A0HI') then
