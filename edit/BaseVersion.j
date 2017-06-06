@@ -3,14 +3,10 @@
 library_once BaseVersion initializer InitBaseVersion requires LHBase,Version
 
 	globals
-		boolean BHanshang = false
 	endglobals
 
 	private function TSpeakPasswordBase takes nothing returns nothing
 		local string chat = GetEventPlayerChatString()
-		if (chat == "OK") then
-			set BHanshang = true
-		endif
 		call TSpeakPassword()
 	endfunction
 

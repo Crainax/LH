@@ -143,7 +143,11 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	*/
 
 	private function TSpellJunlinAct takes nothing returns nothing
-        call SetUnitOwner( GetAttackedUnitBJ(),GetOwningPlayer(GetAttacker()), true )
+		if (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))] == xuanxue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xuanxue))]) then
+	    	call RecoverUnitHP(GetAttackedUnitBJ(),-0.1)
+		else
+        	call SetUnitOwner( GetAttackedUnitBJ(),GetOwningPlayer(GetAttacker()), true )
+		endif
 	    call CreateSpellTextTag("臣服于我",GetAttacker(),100,0,0,2)
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()) ))
 	endfunction

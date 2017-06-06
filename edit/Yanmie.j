@@ -1,9 +1,10 @@
 
 //! import "SpellBase.j"
+//! import "Spin.j"
 /*
     湮灭
 */
-library_once Yanmie requires SpellBase 
+library_once Yanmie requires SpellBase,Spin
 
 	globals
 
@@ -12,6 +13,7 @@ library_once Yanmie requires SpellBase
 		private trigger TSpellYanmie3 = null
 
 		private integer Ilingyu = 0
+		private integer Ishuaxinyifu = 0
 		private integer array YKillCount
 	endglobals
 
@@ -39,6 +41,15 @@ library_once Yanmie requires SpellBase
 	   			call CreateSpellTextTag("雷神领域",yanmie,0,50,100,2)
  				call SimulateSpell(yanmie,yanmie,'A0HV',1,5,"stomp",false,true,false)
 				set Ilingyu = 0
+			endif
+		endif
+		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(yanmie))]) then
+			set Ishuaxinyifu = Ishuaxinyifu + 1
+			if (Ishuaxinyifu >= 200) then
+	   			call CreateSpellTextTag("雷神免疫",yanmie,50,0,100,2)
+	   			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(yanmie),  GetUnitY(yanmie) ))
+	   			set udg_Yifu[GetConvertedPlayerId(GetOwningPlayer(yanmie))] = false
+				set Ishuaxinyifu = 0
 			endif
 		endif
 	endfunction
@@ -121,6 +132,22 @@ library_once Yanmie requires SpellBase
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    初始化皮肤
+	*/
+	function InitYanmieSpin takes unit u returns unit
+		if (IsYanmieSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00F',GetUnitX(u),GetUnitY(u),0)
+			set gg_unit_Eevi_0020 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+			call RemoveUnit(u)
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 
 	/*
@@ -128,9 +155,9 @@ library_once Yanmie requires SpellBase
 	*/
 	function InitYanmie takes unit u returns nothing
 
-		set yanmie = u
+		set yanmie = InitYanmieSpin(u)
 		set GShadow = CreateGroup()
-
+	    call TriggerRegisterUnitEvent( gg_trg_____________3, yanmie, EVENT_UNIT_ISSUED_POINT_ORDER )
 	endfunction
 
 endlibrary

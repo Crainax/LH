@@ -1,8 +1,9 @@
 //!import "LHBase.j"
 //!import "Moqi.j"
 //!import "Seyu.j"
+//!import "Mengji.j"
 
-library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu
+library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 
 
 //---------------------------------------------------------------------------------------------------
@@ -43,6 +44,36 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    三段觉醒
+	*/
+	private function InitHeroJuexing3 takes unit u returns nothing
+		local integer i = GetHeroTianFu(u)
+		call SetUnitAbilityLevel(u,i,4)
+		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能三阶觉醒了!")
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
+		set BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] = true
+		if (u == kaisa) then
+			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)),0.5)
+		elseif (u == yanmie) then
+			call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(yanmie)),0.4)
+		elseif (u == bajue) then
+			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(bajue)),0.6)
+		elseif (u == xiaoyue) then
+			call UnitAddAbility(gg_unit_h00K_0254,'A0IN')
+		elseif (u == lingxue) then
+			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(lingxue)),1)
+		elseif (u == sheyan) then
+			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(sheyan)),0.4)
+		elseif (u == Heiyan) then
+			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)),1)
+		elseif (u == cangling) then
+			call AddHP(cangling,40000000)
+		elseif (u == mengji) then
+			call RuohuanmengChatBack()
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    取消觉醒
 	*/
 	private function CancelJuexing takes unit u returns nothing
@@ -50,8 +81,26 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu
 		call SetUnitAbilityLevel(u,i,1)
 		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能觉醒失效了!")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
+		if (u == kaisa and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(kaisa))]) then
+			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)),-0.5)
+		elseif (u == yanmie and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(yanmie))]) then
+			call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(yanmie)),-0.4)
+		elseif (u == bajue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(bajue))]) then
+			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(bajue)),-0.6)
+		elseif (u == xiaoyue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xiaoyue))]) then
+			call UnitRemoveAbility(gg_unit_h00K_0254,'A0IN')
+		elseif (u == lingxue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(lingxue))]) then
+			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(lingxue)),-1)
+		elseif (u == sheyan and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sheyan))]) then
+			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(sheyan)),-0.4)
+		elseif (u == Heiyan and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Heiyan))]) then
+			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)),-1)
+		elseif (u == cangling and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(cangling))]) then
+			call AddHP(cangling,-40000000)
+		endif
 		set BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] = false
 		set BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] = false
+		set BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] = false
 		if (u == moqi) then
 			call QJuexingMoqi()
 		elseif (u == seyu) then
@@ -62,6 +111,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu
 			call QJuexingSheyan()
 		elseif (u == Huanyi) then
 			call UnitRemoveAbility(Huanyi,'A0HX')
+		elseif (u == mengji) then
+			call RuohuanmengChatBack()
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -90,11 +141,14 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu
 			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
 			return
 		elseif (dengCount == 1) then
-			if (GetDeng(GetTriggerUnit())>= 5) then
+			if (GetDeng(GetTriggerUnit())>= 3) then
 				call InitHeroJuexing1(GetTriggerUnit())
 			endif
-			if (GetDeng(GetTriggerUnit())>= 11) then
+			if (GetDeng(GetTriggerUnit())>= 7) then
 				call InitHeroJuexing2(GetTriggerUnit())
+			endif
+			if (GetDeng(GetTriggerUnit())>= 12) then
+				call InitHeroJuexing3(GetTriggerUnit())
 			endif
 		endif
 

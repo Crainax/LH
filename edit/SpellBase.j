@@ -214,8 +214,6 @@ library_once SpellBase requires LHBase
 			return i2
 		endif
 	endfunction
-	
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是否是二段觉醒,前面是觉醒能力值
@@ -228,6 +226,29 @@ library_once SpellBase requires LHBase
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是三段觉醒,前面是觉醒能力值
+	*/
+	function IJ3 takes unit u,integer i1,integer i2 returns integer
+		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是三段觉醒,前面是觉醒能力值
+	*/
+	function RJ3 takes unit u,real r1,real r2 returns real
+		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    使单位免疫某次伤害。
@@ -239,14 +260,14 @@ library_once SpellBase requires LHBase
 		call PauseTimer(t)
 		call DestroyTimer(t)
 		call FlushChildHashtable(spellTable,id)
-		call SetUnitInvulnerable(u,false)
+		call UnitRemoveAbility(u,'Avul')
 		set u = null
 		set t = null 
 	endfunction
 
 	function ImmuteDamageInterval takes unit u,real time returns nothing
 		local timer t = CreateTimer()
-		call SetUnitInvulnerable(u,true)
+		call UnitAddAbility(u,'Avul')
 		call SaveUnitHandle(spellTable,GetHandleId(t),kUImmuteDamage,u)
 		call TimerStart(t,time,false,function ImmuteDamageTimer)
 		set t = null

@@ -3,7 +3,7 @@
 //! import "LHBase.j"
 //! import "SpellBase.j"
 //! import "Diffculty.j"
-library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
+library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Version
 
 	globals
 
@@ -670,6 +670,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 			call DisableTrigger( TSpellJinxuan3 )
 			call DisableTrigger( TSpellJinxuan4 )
 		elseif (ty == 'Hdgo') then
+			debug call SaveKillLeishi(GetOwningPlayer(defier))
 	        call CreateItem( 'ciri', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellYuansha )
 	    endif
@@ -677,7 +678,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty
 
 	    set currentLevel = 1
 	    set currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] = currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] + 1
-	    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战成功!" )
+	    call DisplayTextToPlayer( GetOwningPlayer(defier), 0, 0, "|cFFFF66CC【消息】|r挑战成功!" )
 	    call RemoveUnit( challenager )
 	    set challenager = null
 

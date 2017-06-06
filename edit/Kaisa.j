@@ -9,6 +9,17 @@ library_once Kaisa requires SpellBase,Printer
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
+	    三阶觉醒
+	*/
+	function KaisaSanjiejuxing takes nothing returns nothing
+		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(kaisa))]) then
+			call SetUnitManaPercentBJ(kaisa,100)
+			call ImmuteDamageInterval(kaisa,3)
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(seyu), GetUnitY(seyu) ))
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    炼血一击
 	*/
 	private function Lianxueyiji takes nothing returns nothing

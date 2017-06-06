@@ -1,5 +1,6 @@
 //! import "LHBase.j"
 /////! import "Beast.j"
+//! import "Netversion.j"
 library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	globals
 		boolean array sPIV
@@ -54,7 +55,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		endif
 
 		set sPIV[GetConvertedPlayerId(p)] = true 
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权！")
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权，如果要关闭赞助功能,请输入-zz")
 		debug call SavePIV(p,GetPIVCode(GetPlayerName(p)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -272,16 +273,36 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 			debug call SetSeyuSpinOK(GetTriggerPlayer())
 
 		elseif ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),34568491,245622564))) then
-			debug if (GetXiaoyue1Spin(GetTriggerPlayer())) then
-			debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已获取了晓月皮肤,无须重复激活！")
-			debug return
-			debug endif
 
-			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
+			debug call SetXiaoyueSpinOK(GetTriggerPlayer())			
+			debug call SetYanmieSpinOK(GetTriggerPlayer())
 
 		endif
-	endfunction
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    关掉赞助指令
+	*/
+	function CancelVIP takes player p returns nothing
+
+	    if not(IsPIV(p)) then
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.")
+			return
+		endif
+		if (udg_H[GetConvertedPlayerId(p)] != null) then
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.")
+			return
+		endif
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.")
+		set sPIV[GetConvertedPlayerId(p)] = false
+		if not(hasPIV()) then
+			set isFirst = true
+			set udg_I_Er_diansi[1] = 1
+			call BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.")
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*

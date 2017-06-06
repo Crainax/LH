@@ -47,6 +47,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         */ 
         boolean array BJuexing1
         boolean array BJuexing2
+        boolean array BJuexing3
         //是否变色
         timer array TBianse
 
@@ -145,6 +146,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         else
             return 1 * CModeH(1,2)
         endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断一个单位是否无敌
+    */
+    function IsWudi takes unit u returns boolean
+        return GetUnitAbilityLevel(u,'Avul') > 0
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -269,6 +277,15 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         endif
         return 0
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是战魂与死亡勋章
+    */
+    function IsZhanfahun takes item i returns boolean
+        local integer id = GetItemTypeId(i)
+        return id == 'I01U' or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'tsct' or id == 'tcas' or id == 'plcl' or id == 'tgrh' or id == 'rst1' or id == 'rnec' or id == 'shas' or id == 'spro' or id == 'phea' or id == 'rin1' or id == 'ward' or id == 'rde1'
+    endfunction
+
 //---------------------------------------------------------------------------------------------------
     /*
         判断是否是灯
@@ -506,6 +523,18 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         endif
         set hero = null
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        溢出属性的处理
+    */
+    function GetLimit takes integer i returns integer
+        if (i < 0 or i > 210000000) then
+            return 210000000
+        else
+            return i
+        endif
+    endfunction
+    
 //---------------------------------------------------------------------------------------------------
 
     /*

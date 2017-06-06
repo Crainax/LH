@@ -91,6 +91,10 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	    获取多重施法的重数:1-5(万劫3)
 	*/
 	private function GetMultiSpell takes nothing returns integer
+		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Huanyi))]) then
+			return I3(IsWanjie(),5,6)
+		endif
+
 		if not(IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
 			return 1 + IJ2(Huanyi,1,0)
 		endif

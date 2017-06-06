@@ -13,6 +13,30 @@ library_once Chenji requires SpellBase,Printer
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
+        获取英雄身上的夜之哀伤
+    */
+    function GetYeai takes nothing returns item
+        if (UnitHasItemOfTypeBJ(chenji,'stel')) then
+            return GetItemOfTypeFromUnitBJ(chenji, 'stel')
+        elseif (UnitHasItemOfTypeBJ(chenji,'I04M')) then
+            return GetItemOfTypeFromUnitBJ(chenji, 'I04M')
+        endif
+        return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        给英雄小无敌
+    */
+    /*function Yeaiwudi takes nothing returns nothing
+        if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(chenji))]) then
+            
+            call ImmuteDamageInterval(chenji,3)
+            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(chenji), GetUnitY(chenji) ))
+        endif
+    endfunction*/
+
+//---------------------------------------------------------------------------------------------------
+    /*
         黑曜诅咒:召鬼魂
     */
 
@@ -76,7 +100,7 @@ library_once Chenji requires SpellBase,Printer
         call SaveReal(spellTable,GetHandleId(t),2,GetSpellTargetX())
         call SaveReal(spellTable,GetHandleId(t),3,GetSpellTargetY())
         call TimerStart(t,1,true,function MingheTimer)
-        call PrintSpellContent(GetOwningPlayer(chenji),GetAbilityName('A0G3'),I2S(R2I(GetDamageChenji(chenji)*0.8/100))+"万总伤害.")
+        call PrintSpellContent(GetOwningPlayer(chenji),GetAbilityName('A0G3'),I2S(R2I(GetDamageChenji(chenji)*0.8*RJ3(chenji,2,1)/100))+"万总伤害.")
         set t = null
     endfunction
 //---------------------------------------------------------------------------------------------------

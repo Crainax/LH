@@ -6,8 +6,8 @@
 //! import "dependency/YDWEBase_common.j"
 //! import "dependency/YDWEBase_hashtable.j"
 
-//! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,DzAPI
+/////! import "DzAPI.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern//,DzAPI
 
 	globals
 		
@@ -20,6 +20,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
     integer udg_Nandu
         //基地总区域
         rect gg_rct__________u
+        //杀阵
+        unit gg_unit_h00K_0254
 	   //冥王
         unit gg_unit_Nkjx_0241 
         //左
@@ -176,6 +178,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         trigger gg_trg_____________129
         //狼
         unit array udg_Lang
+        //湮灭
+        trigger gg_trg_____________3
 	endglobals
 
 

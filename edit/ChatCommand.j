@@ -11,6 +11,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		private item array IBox
 		private integer IBoxSucceed = 0
 		private integer IBoxCount = 0
+		private boolean array BYincang
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -136,6 +137,19 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    隐藏面板
+	*/
+	private function YincangBroad takes nothing returns nothing
+		if not(BYincang[GetConvertedPlayerId(GetTriggerPlayer())]) then
+			call LeaderboardDisplayBJ( false, udg_Paihang[GetConvertedPlayerId(GetTriggerPlayer())] )
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r如果要面板显示请再次输入-yc.")
+		else
+			call LeaderboardDisplayBJ( true, udg_Paihang[GetConvertedPlayerId(GetTriggerPlayer())] )
+   		endif
+   		set BYincang[GetConvertedPlayerId(GetTriggerPlayer())] = not (BYincang[GetConvertedPlayerId(GetTriggerPlayer())])
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    聊天信息"-"指令
@@ -156,6 +170,10 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call FixView(true)
 		elseif (str == "--") then
 			call FixView(false)
+		elseif (str == "-yc") then
+			call YincangBroad()
+		elseif (str == "-zz") then
+			call CancelVIP(GetTriggerPlayer())
 		elseif (str == "-qc") then
 			if (TBianse[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
 

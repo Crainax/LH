@@ -28,6 +28,8 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
 
         private trigger TDengUnderAttacked = null
         unit UMijingShangdian = null
+        //秘境装备
+        private item array IMijing
     endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -216,6 +218,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         set l_unit =null
         return count 
     endfunction
+    
 //---------------------------------------------------------------------------------------------------
     /*
         创建怪物
@@ -224,7 +227,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         local integer i = 1
         local unit u = null
         local rect r = GetMiJingRect()
-        local unit temp = UDeng[GetRandomInt(1,udg_RENSHU)]
+        local unit temp = UDeng[GetRandomInt(1,1)]
         loop
             exitwhen i > udg_RENSHU
             set u = CreateUnit(Player(11),GetMijingMonster(),GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)),GetRandomReal(0,360))
@@ -233,6 +236,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call IssuePointOrderById(u,851983,GetUnitX(temp)+GetRandomReal(-100,100),GetUnitY(temp)+GetRandomReal(-100,100))
             if (IsWanjie()) then
                 call UnitAddAbility(u,'ANbl')
+                call UnitAddAbility(u,'A0IO')
             endif
             call UnitAddAbility(u,'A0IH')
             if ( IDeng <= 10) then
@@ -281,6 +285,22 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        发放奖励
+    */
+    function Fafangmijing takes integer index returns nothing
+        if (udg_H[index] != cangling) then
+            if (IMijing[index] != null) then
+                call RemoveItem(IMijing[index])
+            endif
+        endif
+        //call PolledWait(0.1)
+        set IMijing[index] = UnitAddItemByIdSwapped(GetDengJiangli(), udg_H[index])
+        call DisplayTextToPlayer(ConvertedPlayer(index), 0., 0., "|cFFFF66CC【消息】|r秘境挑战第"+ I2S(IDeng) + "层挑战成功！奖励"+GetItemName(GetLastCreatedItem())+"发放到了你的身上.")
+        call PingMinimapForForce( GetForceOfPlayer(ConvertedPlayer(index)), GetUnitX(udg_H[index]), GetUnitY(udg_H[index]), 5.00 )
+
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         挑战成功的奖励与结算
     */
     private function MijingSucceed takes nothing returns nothing
@@ -288,12 +308,10 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         loop
             exitwhen i > 6
             if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-                call PingMinimapForForce( GetForceOfPlayer(ConvertedPlayer(i)), GetUnitX(UDepot[i]), GetUnitY(UDepot[i]), 5.00 )
-                call UnitAddItemByIdSwapped(GetDengJiangli(), UDepot[i])
+                call Fafangmijing(i)
             endif
             set i = i +1
         endloop
-        call BJDebugMsg("|cFFFF66CC【消息】|r秘境挑战第"+ I2S(IDeng) + "层挑战成功！奖励"+GetItemName(GetLastCreatedItem())+"发放到了你的仓库,输入-h可以召唤仓库.")
         call SetTextTagTextBJ(TDeng,"第"+ I2S(IDeng) + "层",25)
         debug call SaveMijingAchievement(IDeng)
     endfunction
@@ -319,7 +337,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     private function DestroyAllMijing takes nothing returns nothing
         local integer i = 1
         loop
-            exitwhen i > udg_RENSHU
+            exitwhen i > 1
             call RemoveUnit(UDeng[i])
             call DestroyTextTag(TDengProcess[i])
             set UDeng[i] = null
@@ -355,7 +373,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
 
         //失败条件:任一灯爆了
         loop
-            exitwhen i > udg_RENSHU
+            exitwhen i > 1
             if not(IsUnitAliveBJ(UDeng[i])) then 
                 call DestroyAllMijing()
                 call MijingFail()
@@ -409,7 +427,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
             if (IsUnitAliveBJ(l_unit) and GetOwningPlayer(l_unit) == Player(11)) then
-                set temp = UDeng[GetRandomInt(1,udg_RENSHU)]
+                set temp = UDeng[GetRandomInt(1,1)]
                 if not(RectContainsUnit(r, l_unit)) then
                     call SetUnitPosition(l_unit,GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)))
                 endif
@@ -430,6 +448,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     private function StartMijing takes nothing returns nothing
         local integer i = 1
         local rect r = null
+        debug set BJiulun = true
         if (IDeng >= 20) then
             call BJDebugMsg("|cFFFF66CC【消息】|r秘境挑战已经达到最高的20层，20层之后敬请期待.")
             return 
@@ -475,7 +494,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         //获取对应的区域
         set r = GetMiJingRect()
         loop
-            exitwhen i > udg_RENSHU
+            exitwhen i > 1
             //创建对应的灯与对应的文字
             set UDeng[i] = CreateUnit(Player(6),'n01H',GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)),0)
             set TDengProcess[i] = CreateTextTagUnitBJ( "0%", UDeng[i], 0, 20, 100, 100, 0, 0 )
@@ -489,7 +508,6 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         call PolledWait(5)
         call BJDebugMsg("|cFFFF66CC【消息】|r挑战开始！")
         call EnableTrigger(TDengUnderAttacked)
-        //todo 音效的添加
         set TMijingJudge = CreateTimer()
         set TMijingFlash = CreateTimer()
         set TMijingBound = CreateTimer()

@@ -1,8 +1,9 @@
 
 //! import "LHBase.j"
 //! import "NetVersion.j"
+//! import "MiJing.j"
 
-library_once DebugNet initializer InitDebugNet requires LHBase,Version
+library_once DebugNet initializer InitDebugNet requires LHBase,Version,MiJing
 
 
 	function TestAchievement takes nothing returns nothing
@@ -74,6 +75,24 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		call BJDebugMsg("时间:" + I2S(DzAPI_Map_GetGameStartTime()))
 
 	endfunction
+
+	function TestMijing takes nothing returns nothing
+
+		call Fafangmijing(1)
+
+	endfunction
+
+	function TestLeitai takes nothing returns nothing
+
+		call SaveKillLeishi(Player(0))
+
+	endfunction
+
+	function TestDaixin takes nothing returns nothing
+
+		call SaveDaixin(1)
+
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
@@ -82,7 +101,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		
 		//聊天打开开关进行测试,a1,b2,c指
 		local trigger t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
+		/*call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
 		call TriggerAddAction(t,function TestAchievement)
 		set t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"show",true)
@@ -102,6 +121,13 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version
 		set t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"shi",false)
 		call TriggerAddAction(t,function TestAchievement7)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"caji",false)
+		call TriggerAddAction(t,function TestMijing)*/
+
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"memeda",false)
+		call TriggerAddAction(t,function TestLeitai)
 		set t = null
 
 	endfunction

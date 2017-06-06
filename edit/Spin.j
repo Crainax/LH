@@ -8,6 +8,7 @@ library_once Spin requires LHBase,Version
 	*/
 	function IsSeyuSpin1 takes player p returns boolean
 		return GetSeyu1Spin(p)
+		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -15,6 +16,16 @@ library_once Spin requires LHBase,Version
 	*/
 	function IsXiaoyueSpin1 takes player p returns boolean
 		return GetXiaoyue1Spin(p)
+		//return true
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    湮灭的皮肤条件
+	*/
+	function IsYanmieSpin1 takes player p returns boolean
+		return GetYanmie1Spin(p)
+		//return true
 	endfunction
 
 endlibrary

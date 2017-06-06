@@ -99,9 +99,10 @@ library_once Cangling requires SpellBase,Printer,Attr
 		//判断是否有不可丢弃的法魂
 		loop
 			exitwhen iiii > 6
-			if (true) then
-				// body...
-			endif
+			if (IsZhanfahun(UnitItemInSlotBJ(cangling,iiii)) and not(IsItemPawnable(UnitItemInSlotBJ(cangling,iiii)))) then
+				call DisplayTextToPlayer(GetOwningPlayer(cangling), 0., 0., "|cFFFF66CC【消息】|r战魂与法魂冷却期间不能切换装备栏,请等冷却结束.")
+				return
+			endif  
 			set iiii = iiii +1
 		endloop
 		//保存装备
@@ -496,7 +497,11 @@ library_once Cangling requires SpellBase,Printer,Attr
 			call TanLangMangYao()
 		//切换背包
 		elseif (GetSpellAbilityId() == 'A0HH') then 
-			call BiBoBaoZhuo()
+			if (IsInRect(GetUnitX(cangling),GetUnitY(cangling),gg_rct_______a3) and IsInRect(GetUnitX(cangling),GetUnitY(cangling),gg_rct_______a3)) then
+				call DisplayTextToPlayer(GetOwningPlayer(cangling), 0., 0., "|cFFFF66CC【消息】|r此处禁止切换背包.")
+			else
+				call BiBoBaoZhuo()
+			endif
 		//阳炎无双
 		elseif (GetSpellAbilityId() == 'A0HS') then 
 			call YangYanWuShuang()

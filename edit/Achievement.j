@@ -116,7 +116,26 @@ library_once Achievement requires LHBase
 	function GetIntegerBit takes integer int,integer bit returns integer
 		return S2I(SubStringBJ(Int2Bin(int),bit,bit))
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取整数一共有几个1
+	*/
+	function GetIntegerHasOne takes integer num returns integer
+		local integer result = 0
+		local integer number = num
+		local integer i = 1
 
+		loop
+			exitwhen i > 31
+			set result = ModuloInteger(number,2) + result
+			set number = number / 2
+			set i = i + 1
+		endloop
+		if (num < 0) then
+			set result = 1 + result
+		endif
+		return result
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前成就的类项
@@ -241,10 +260,11 @@ library_once Achievement requires LHBase
 	    local integer i = 1
 		if (page == 1) then
 		    loop
-		    	exitwhen i > 9
+		    	exitwhen i > 8
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 10) + S3(IsAchieveOK(p,i + 10),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(325) + S3(IsAchieveOK(p,325),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		elseif (page == 2) then
 		    loop
 		    	exitwhen i > 8
@@ -284,8 +304,10 @@ library_once Achievement requires LHBase
 		    	set i = i + 1
 		    endloop
 		elseif (page == 8) then
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(326) + S3(IsAchieveOK(p,326),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+			set i = 2
 		    loop
-		    	exitwhen i > 3
+		    	exitwhen i > 6
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 318) + S3(IsAchieveOK(p,i + 318),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop

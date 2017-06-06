@@ -65,6 +65,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		    巨能统计
 		*/
 		integer JunengCount = 0
+		/*
+		    带新统计
+		*/
+		integer array Idaixin
+		boolean BJiulun = false
+		//杀擂台十的英雄统计
+		integer array Ileishi
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -80,6 +87,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set i = i +1
 		endloop
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取平台的金币
@@ -97,7 +105,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endif 
 
 	endfunction
-//---------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------1---------------------------------
 	/*
 	    判断一个玩家是否通关了某一个难度或者以上
 	*/
@@ -220,6 +228,24 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    湮灭皮肤条件
+	*/
+	function GetYanmie1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],4) > 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    湮灭皮肤OK了
+	*/
+	function SetYanmieSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],4) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取湮灭皮肤\"|cFFFF0000殛霆无迹|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    输出幻逸的密码
 	*/
 	function PrintHuanyiPassword takes nothing returns nothing
@@ -261,6 +287,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set pass7[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass7")
     			set pass8[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass8")
     			set pass9[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass9")*/
+    			set Idaixin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "daixin")
+    			set Ileishi[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "leishi")
 
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
@@ -316,6 +344,26 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    统计带新人数并保存
+	*/
+	function SaveDaixin takes integer index returns nothing
+		local integer i = 1 
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and (index != i) and (DzAPI_Map_GetMapLevel(ConvertedPlayer(i))<= 5)) then
+				set Idaixin[index] = Idaixin[index] + 1
+			endif
+			set i = i +1
+		endloop
+		if (Idaixin[index] >= 100) then
+			call GetAchievementAndSave(ConvertedPlayer(index),324)
+		else
+			call DisplayTextToPlayer(ConvertedPlayer(index), 0., 0., GetAchievementName(324)+"|r"+I2S(Idaixin[index])+"/100.")
+	    	call DzAPI_Map_StoreInteger( ConvertedPlayer(index),  "daixin", Idaixin[index] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    存储到服务器,通关
 	*/
 	function SaveAchievement takes nothing returns nothing
@@ -329,7 +377,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 				//通关称号
-				call GetAchievementAndSave(ConvertedPlayer(i),10 + level)
+				call GetAchievementAndSave(ConvertedPlayer(i),I3(level == 9,325,10 + level))
 
 				//单通称号
 				if (renshu == 1 and level != 9) then
@@ -344,8 +392,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					endif
 				endif
 
-				if (IsHuodong4() and level == 4) then
-					call SetXiaoyueSpinOK(ConvertedPlayer(i))
+				if (IsHuodong5() and level == 4) then
+					call SetYanmieSpinOK(ConvertedPlayer(i))
 				endif
 
 				if not(BBaseDamage) then
@@ -356,6 +404,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),310)
 				endif
 
+				call SaveDaixin(i)
+
+				if not(BJiulun) then
+					call GetAchievementAndSave(ConvertedPlayer(i),323)
+				endif
 				//通关次数
 				/*if (level == 1) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass1", pass1[i] + 1 )
@@ -605,7 +658,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    戒指的成就:孤心戒
 	*/
 	function SaveRingAchievement takes player p,integer count returns nothing
-		if (count >= 120) then
+		if (count == 120) then
 			call GetAchievementAndSave(p,321)
 		endif
 	endfunction
@@ -662,13 +715,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function SaveDoorAchievement takes nothing returns nothing
 		local integer i = 1
-		if (udg_Second[2] >= 20) then
+		if (udg_Second[2] >= 8) then
 			return
 		endif
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				call GetAchievementAndSave(ConvertedPlayer(i),319)
+				call GetAchievementAndSave(ConvertedPlayer(i),326)
 			endif
 			set i = i +1
 		endloop
@@ -701,6 +754,19 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			endif
 			set i = i +1
 		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    杀擂台十的成就
+	*/
+	function SaveKillLeishi takes player p returns nothing
+		set Ileishi[GetConvertedPlayerId(p)] = SetIntegerBit(Ileishi[GetConvertedPlayerId(p)],GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))+1,true)
+		if (GetIntegerHasOne(Ileishi[GetConvertedPlayerId(p)])>=12) then
+			call GetAchievementAndSave(p,322)
+		else
+			call DisplayTextToPlayer(p, 0., 0., GetAchievementName(322)+"|r"+I2S(GetIntegerHasOne(Ileishi[GetConvertedPlayerId(p)]))+"/12.")
+		endif
+    	call DzAPI_Map_StoreInteger( p,  "leishi", Ileishi[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

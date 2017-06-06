@@ -83,7 +83,27 @@ endglobals
 			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05Q' /*
 			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05R' 
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    只能同时装备一种装备
+	*/
+	private function OnlyOneZhuangbei takes integer itemID returns nothing
+		local integer i = 1
+		local integer count = 0 
+		loop
+			exitwhen i > 6
+			if(GetItemTypeId(UnitItemInSlotBJ(GetTriggerUnit(),i)) == itemID) then
+				set count = count + 1
+			endif
+			set i = i +1
+		endloop
 
+		//如果计数君大于1则丢掉
+		if (count > 1) then
+			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个"+GetItemName(GetManipulatedItem())+"！")
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -125,6 +145,8 @@ endglobals
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个1级以上的聚宝！")
 		endif
 
+		call OnlyOneZhuangbei('ratc')
+		//call OnlyOneZhuangbei('rat6')
 
 	endfunction
 

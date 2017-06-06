@@ -135,8 +135,11 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		if (IsUnitInGroup(u,GSacri) == true) then
 			call DisableTrigger(GetTriggeringTrigger())
 			if (IsEnemy(GetTriggerUnit(),Heiyan)) then
-				call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * IJ2(Heiyan,40,IJ1(Heiyan,20,10)), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-
+				if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Heiyan))]) then
+					call UnitDamageTarget( u, GetTriggerUnit(), RMaxBJ(DamageSacri * IJ2(Heiyan,40,IJ1(Heiyan,20,10)),GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.01*0.5), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				else
+					call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * IJ2(Heiyan,40,IJ1(Heiyan,20,10)), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				endif
 			else
 				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*RJ2(Heiyan,0.48,RJ1(Heiyan,0.24,0.12)) )
 				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 12)

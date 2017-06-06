@@ -34,6 +34,10 @@ library_once Hanshang requires SpellBase,Printer,Attr
 		private timer TDuwu = null
 		private unit UDuwu = null
 		private effect EffectDu = null
+		/*
+		    三阶觉醒计数
+		*/
+		private integer IJuexing = 0
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -63,6 +67,18 @@ library_once Hanshang requires SpellBase,Printer,Attr
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r|cffff00ff鬼斧神工|r|cFFFF66CC】|r成功复制出了" + ( GetItemName(GetSpellTargetItem()) + "。" ) ) )
         set it = UnitAddItemByIdSwapped( GetItemTypeId(GetSpellTargetItem()), GetTriggerUnit() )
         if ((GetItemType(GetSpellTargetItem()) != ITEM_TYPE_CHARGED)) then
+        	if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(hanshang))]) then
+        		set IJuexing = IJuexing + 1
+        		if (IJuexing >= 20) then
+        			call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r|cffff00ff鬼斧神工|r|cFFFF66CC】|r该物品为真品。" ) )
+					set IJuexing = 0
+			        set it = null
+			        set t = null
+					return 
+				else
+        			call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r|cffff00ff鬼斧神工|r|cFFFF66CC】|r还需要使用"+I2S(20 - IJuexing)+"次才为真品。" ) )
+        		endif
+        	endif
             call SetItemPawnable( it , false )
             set t = CreateTimer()
             call SaveItemHandle(spellTable,GetHandleId(t),1,it)

@@ -3,7 +3,7 @@
 /*
     宝石升级装备
 */
-library_once Diamond initializer InitDiamond requires LHBase,Diffculty
+library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
 
     globals
         constant string DIAMOND_CANT_UPDATE = "|cFFFF66CC【消息】|r该宝石不能升级该物品。"
@@ -1213,6 +1213,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty
                     elseif (RectContainsUnit(gg_rct_Diamond3,GetSellingUnit())) then
                         set IAtleast3 = 21
                     endif
+                    debug set BJiulun = true
                     call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r祝你好运!" )
                     set i = 1
                     loop

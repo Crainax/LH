@@ -99,7 +99,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		local integer charges = GetItemCharges(Liutao)
 		call FlushChildHashtable(YDHT,GetHandleId(Liutao))
 		call RemoveItem(Liutao)
-		if (higher) then
+		if (higher or BJuexing3[GetConvertedPlayerId(GetOwningPlayer(mengji))]) then
 			set Liutao = CreateItem('I04A',GetUnitX(mengji),GetUnitY(mengji))
 		else
 			set Liutao = CreateItem('I049',GetUnitX(mengji),GetUnitY(mengji))
@@ -215,20 +215,21 @@ library_once Mengji requires SpellBase,Printer,Attr
     		set HuanmengX = GetUnitX(mengji)
     		set HuanmengY = GetUnitY(mengji)
     		//移动
-    		if (GetUnitAbilityLevel(mengji,'A0GX') == 1) then
+    		if (GetUnitAbilityLevel(mengji,'A0GX') >= 1) then
     			call UnitRemoveAbility(mengji,'A0GX')
     			call UnitAddAbility(mengji,'A0GY')
-    			call SetUnitAbilityLevel(mengji,'A0GY',1+IJ1(mengji,1,0)+IJ2(mengji,1,0))
+    			call SetUnitAbilityLevel(mengji,'A0GY',1+IJ1(mengji,1,0)+IJ2(mengji,1,0)+IJ3(mengji,1,0))
     		endif
     	else
     		//静止
-    		if (GetUnitAbilityLevel(mengji,'A0GY') == 1) then
+    		if (GetUnitAbilityLevel(mengji,'A0GY') >= 1) then
     			call UnitRemoveAbility(mengji,'A0GY')
     			call UnitAddAbility(mengji,'A0GX')
-    			call SetUnitAbilityLevel(mengji,'A0GX',1+IJ1(mengji,1,0)+IJ2(mengji,1,0))
+    			call SetUnitAbilityLevel(mengji,'A0GX',1+IJ1(mengji,1,0)+IJ2(mengji,1,0)+IJ3(mengji,1,0))
     		endif
     	endif
     endfunction
+    
 //---------------------------------------------------------------------------------------------------
 	/*
 	    苍龙探幽箭

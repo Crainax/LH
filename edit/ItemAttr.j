@@ -119,6 +119,21 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    HP加成
+	*/
+	private function SetItemHPPer takes integer itemID,real value returns nothing
+		call SaveReal(YDHT,itemID,0xFAA305CD,value)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    防御加成
+	*/
+	private function SetItemDefensePer takes integer itemID,real value returns nothing
+		call SaveReal(YDHT,itemID,0x0B6FB20F,value)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化六涛天虹
 	*/
 	private function InitErdianQi takes nothing returns nothing
@@ -334,6 +349,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemJingyan('IB04', 1.50)
 	    call SetItemJingyan('IB02', 1.00)
 	    call SetItemJingyan('ratc', 5.00)
+	    call SetItemJingyan('I04L', 6.00)
+	    call SetItemJingyan('I04M', 6.00)
 
 	    call SetItemHP('IB05' , 3200000)
 		call SetItemHP('IB03' , 800000)
@@ -357,6 +374,74 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
     
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    擂台初始化
+	*/
+	private function InitLeitai takes nothing returns nothing
+	//擂台
+	call SetItem3W( 'prvt' , 1500)
+    call SetItem3W( 'cnob' , 5000)
+    call SetItem3W( 'rhth' , 8000)
+    call SetItemStr( 'hval' , 30000)
+    call SetItem3W( 'afac' , 30000)
+    call SetItem3W( 'pmna' , 57000)
+    call SetItem3W( 'evtl' , 100000)
+    call SetItem3W( 'bspd' , 160000)
+
+    call SetItem3W( 'mcou' , 250000)
+	call SetItemSpellPerc( 'mcou' , 0.70)
+	call SetItemAttack( 'mcou' , 2300000)
+	call SetItemDefensePer( 'mcou', 0.15)
+	call SetItemDamagePerc( 'mcou' , 0.20)
+	//皎月
+    call SetItem3W( 'I04L' , 250000)
+	call SetItemSpellPerc( 'I04L' , 0.70)
+	call SetItemAttack( 'I04L' , 2300000)
+	call SetItemDefensePer( 'I04L', 0.15)
+	call SetItemDamagePerc( 'I04L' , 0.20)
+	//混沌夜哀
+    call SetItem3W( 'I04M' , 250000)
+	call SetItemSpellPerc( 'I04M' , 0.70)
+	call SetItemAttack( 'I04M' , 2300000)
+	call SetItemDefensePer( 'I04M', 0.15)
+	call SetItemDamagePerc( 'I04M' , 0.20)
+
+    call SetItemSpellPerc( 'cnob' , 0.15)
+	call SetItemSpellPerc( 'hval' , 0.25)
+	call SetItemSpellPerc( 'afac' , 0.40)
+	call SetItemSpellPerc( 'pmna' , 0.50)
+	call SetItemSpellPerc( 'evtl' , 0.55)
+	call SetItemSpellPerc( 'bspd' , 0.65)
+	call SetItemSpellPerc( 'rde3' , 0.30)
+    call SetItemAttack( 'rhth' , 35000)
+	call SetItemAttack( 'afac' , 200000)
+	call SetItemAttack( 'bspd' , 1500000)
+    call SetItemHP( 'rhth' , 100000)
+    call SetItemHP( 'evtl' , 1000000)
+    call SetItemDefense( 'hval' , 1000)
+    call SetItemHPPer( 'pmna' , 0.10)
+	call SetItemHPPer( 'rde3' , 0.20)
+	call SetItemDefensePer( 'evtl', 0.10)
+	call SetItemDefensePer( 'rde3', 0.20)
+	call SetItemDamagePerc( 'evtl' , 0.10)
+	call SetItemDamagePerc( 'bspd' , 0.15)
+	call SetItemDamagePerc( 'rde3' , 0.20)
+	call SetItemStrPerc('rde3', 0.20)
+	call SetItemAgiPerc( 'rde3', 0.20)
+	call SetItemIntPerc( 'rde3', 0.20)
+	call SetItemAttackPerc( 'rde3', 0.50)
+
+	call SetItemHPPer( 'ssil' , 0.30)
+	call SetItemDefensePer( 'ssil', 0.30)
+	call SetItemDamagePerc( 'ssil' , 0.30)
+	call SetItemStrPerc('ssil', 0.30)
+	call SetItemAgiPerc( 'ssil', 0.30)
+	call SetItemIntPerc( 'ssil', 0.30)
+	call SetItemAttackPerc( 'ssil', 0.75)
+    call SetItemSpellPerc( 'ssil' ,  0.45)
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    初始化
@@ -366,6 +451,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call InitErdianBa()
 		call InitDengClothes()
 		call InitBeast()
+		call InitLeitai()
 	endfunction
 
 endlibrary
