@@ -1,1 +1,1 @@
-GetSichenSelectedCon(GetTriggerPlayer())
+与你童在

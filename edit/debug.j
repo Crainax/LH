@@ -24,6 +24,7 @@
 	test darenshu      测试人数6
 	test lianyu1	炼狱14层
 	test lianyu2	炼狱69层
+	test renkou		100个人口
 	test Scredit    守家积分
 	test zhuanshengxx	 转生测试
 	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
@@ -337,6 +338,12 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 		if (chat == "test darenshu") then
 			set udg_RENSHU = 6
 			call BJDebugMsg("人数调成6")
+			return
+		endif		
+
+		if (chat == "test renkou") then
+			call SetPlayerStateBJ( Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP) + 100 ) )
+			call BJDebugMsg("人口调成100")
 			return
 		endif
 

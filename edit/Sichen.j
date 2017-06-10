@@ -3,12 +3,14 @@
 //! import "Printer.j"
 //! import "Attr.j"
 /*
-    英雄梦霁的技能
+    英雄司宸的技能
 */
 library_once Sichen requires SpellBase,Printer,Attr
 
 	globals
 
+		//触发器
+		private trigger TSpellSichen = null
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -32,31 +34,26 @@ library_once Sichen requires SpellBase,Printer,Attr
 	/*
 	    马甲的死亡
 	*/
-
+	function SimulateDeathSichen takes unit u returns nothing
+		
+	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
 	    主英雄技能判断
 	*/
 
-	private function TSpellMengjiAct takes nothing returns nothing
+	private function TSpellSichenAct takes nothing returns nothing
 		if (GetSpellAbilityId() == 'AHM1') then
-			call Tanyoujian(0.75,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY(),5)
+			//call Tanyoujian(0.75,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY(),5)
 		elseif (GetSpellAbilityId() == 'AHM2') then
-			call Zhenhunsuo()
+			//call Zhenhunsuo()
 		elseif (GetSpellAbilityId() == 'AHM3') then 
-			call Sanchuanjian()
+			//call Sanchuanjian()
 		elseif (GetSpellAbilityId() == 'AHM4') then 
-			call Shunfaxin()
+			//call Shunfaxin()
 		elseif (GetSpellAbilityId() == 'AHM5') then 
-			call Linglongwu()
-		//拟态
-		elseif (GetSpellAbilityId() == 'A0GW' and IsCanCopy(GetSpellTargetItem())) then 
-			if (IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3) and IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3)) then
-				call DisplayTextToPlayer(GetOwningPlayer(mengji), 0., 0., "|cFFFF66CC【消息】|r此处禁止拟态.")
-			else
-				call Nitai()
-			endif
+			//call Linglongwu()
 		endif
 
 	endfunction
@@ -66,37 +63,36 @@ library_once Sichen requires SpellBase,Printer,Attr
 	*/
 
 	//按照12345来判断
-	function LearnSkillMengjiI takes unit learner,integer whichSpell returns nothing
+	function LearnSkillSichenI takes unit learner,integer whichSpell returns nothing
 		local integer i
-		if (learner == mengji) then
+		if (learner == sichen) then
 			if(whichSpell == 1) then
-			elseif (whichSpell == 2 and IsSecondSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM2') == 1) then
+			elseif (whichSpell == 2 and IsSecondSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'AHM2') == 1) then
 				//技能2初始化
-			elseif (whichSpell == 3 and IsThirdSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM3') == 1) then
+			elseif (whichSpell == 3 and IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'AHM3') == 1) then
 				//技能3初始化
-				call InitShunyi()
-				call AddSpecialEffectTargetUnitBJ("origin",mengji,"war3mapImported\\BlightwalkerAura.mdx")
+				call AddSpecialEffectTargetUnitBJ("origin",sichen,"war3mapImported\\BlightwalkerAura.mdx")
 				call UnitAddAbility(gg_unit_haro_0030,'A0EL')
-			elseif (whichSpell == 4 and IsFourthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM4') == 1) then
+			elseif (whichSpell == 4 and IsFourthSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'AHM4') == 1) then
 				//技能4初始化
-			elseif (whichSpell == 5 and IsFifthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM5') == 1) then
+			elseif (whichSpell == 5 and IsFifthSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'AHM5') == 1) then
 				//技能5初始化
 			endif
 		endif
 	endfunction
 
-	function LearnSkillMengji takes unit learner,integer learnSpellID returns nothing
-		if (learner == mengji) then
+	function LearnSkillSichen takes unit learner,integer learnSpellID returns nothing
+		if (learner == sichen) then
 			if (learnSpellID == 'AHM1') then
-				call LearnSkillMengjiI(learner,1)
+				call LearnSkillSichenI(learner,1)
 			elseif (learnSpellID == 'AHM2') then
-				call LearnSkillMengjiI(learner,2)
+				call LearnSkillSichenI(learner,2)
 			elseif (learnSpellID == 'AHM3') then
-				call LearnSkillMengjiI(learner,3)
+				call LearnSkillSichenI(learner,3)
 			elseif (learnSpellID == 'AHM4') then
-				call LearnSkillMengjiI(learner,4)
+				call LearnSkillSichenI(learner,4)
 			elseif (learnSpellID == 'AHM5') then
-				call LearnSkillMengjiI(learner,5)
+				call LearnSkillSichenI(learner,5)
 			endif
 		endif
 	endfunction
