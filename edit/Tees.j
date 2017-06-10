@@ -1,0 +1,1 @@
+GetSichenSelectedCon(GetTriggerPlayer())
