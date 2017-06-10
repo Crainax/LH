@@ -32,6 +32,8 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 			return
 		elseif (SimulateDamageSheyan(u) == true) then
 			return
+		elseif (SimulateDamageSichen(u) == true) then
+			return
 		elseif (SimulateDamageSoldier(u) == true) then
 			return
 		endif
@@ -45,6 +47,7 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		call SimulateDeathYanmie(GetDyingUnit())
 		call SimulateDeathHeiyan(GetDyingUnit())
 		call SimulateDeathHuanyi(GetDyingUnit())
+		call SimulateDeathSichen(GetDyingUnit())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
