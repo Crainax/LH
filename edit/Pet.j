@@ -1,5 +1,5 @@
 //! import "LHBase.j"
-
+//! import "NetVersion.j"
 /*
     宠物系统
 */
@@ -13,7 +13,7 @@ library_once Pet initializer InitPet requires LHBase,Version
     /*
         创建宠物
     */
-    private function CreatePet takes player owner,unit pet returns nothing
+    function CreatePet takes player owner,unit pet returns nothing
         local unit u = pet
 
         call PlaySoundBJ( gg_snd_GoodJob )

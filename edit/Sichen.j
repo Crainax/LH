@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Pet.j"
 /*
     英雄司宸的技能
 */
-library_once Sichen requires SpellBase,Printer,Attr
+library_once Sichen requires SpellBase,Printer,Attr,Pet
 
 	globals
 
@@ -14,10 +15,12 @@ library_once Sichen requires SpellBase,Printer,Attr
 		private trigger TSpellSichen2 = null
 		private trigger TSpellSichen3 = null
 		private trigger TSpellSichenDamage = null
+		private trigger TSpellSichenBuilding = null
 		private trigger TSpellSichenUpdate = null
 		//塔的单位组
 		private group GTower = null
 		private unit  UCili = null
+		private real SichenDamage = 0
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -56,41 +59,47 @@ library_once Sichen requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    初始化无敌光环
+	    无敌条件与无敌的动作
 	*/
-	private function InitWudi takes unit u returns nothing
-		
+	private function CloserWudiTowerCon takes nothing returns boolean
+		return GetTriggerUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]
+	endfunction
+
+	private function CloserWudiTowerAct takes nothing returns nothing
+		local unit u = LoadUnitHandle(spellTable,GetHandleId(GetTriggeringTrigger()),1)
+		if (GetUnitState(u,UNIT_STATE_MANA) > 100 and not(IsWudi(GetTriggerUnit()))) then
+			call ImmuteDamageInterval(GetTriggerUnit(),3)
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+			call RecoverUnitMP(GetTriggerUnit(),-100)
+		endif
+		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    马甲的攻击伤害
+	    初始化无敌光环
 	*/
-	
-	function SimulateDamageSichen takes nothing returns boolean
-
-		if (GetEventDamage() > 0) then
-
-			//塔1
-			if (GetUnitTypeId(GetEventDamageSource()) == 'hhs1') then
-				call UnitDamageTarget( sichen, GetTriggerUnit(), GetDamageAgi(sichen) * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 		
-			//塔2
-			elseif (GetUnitTypeId(GetEventDamageSource()) == 'hhs2') then
-				call UnitDamageTarget( sichen, GetTriggerUnit(), GetDamageAgi(sichen) * 0.5, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
-			//硫炎
-			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01G') then
-				call UnitDamageTarget( sichen, GetTriggerUnit(), GetDamageAgi(sichen) * 0.33, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
-			//火箭
-			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01H') then
-				call UnitDamageTarget( sichen, GetTriggerUnit(), GetDamageAgi(sichen) * 0.75, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
-			endif
-
-		endif
-
-		return false
+	private function InitWudi takes unit u returns nothing
+		local trigger t = CreateTrigger()
+		//todo :无敌塔加上魔法回复与魔法
+	    call TriggerRegisterUnitInRangeSimple(t,300,u)
+	    call TriggerAddCondition(t,Condition(function CloserWudiTowerCon))
+	    call TriggerAddAction(t,function CloserWudiTowerAct)
+	    call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
+	    call SaveTriggerHandle(spellTable,GetHandleId(u),1,t)
+		set t = null
+		call BJDebugMsg("初始化无敌")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    删除无敌光环
+	*/
+	private function DestroyWudi takes unit u returns nothing
+		local trigger t = LoadTriggerHandle(spellTable,GetHandleId(u),1)
+		call FlushChildHashtable(spellTable,GetHandleId(t))
+		call DestroyTrigger(t)
+		call FlushChildHashtable(spellTable,GetHandleId(u))
+		set t = null
+		call BJDebugMsg("删除无敌")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -106,7 +115,7 @@ library_once Sichen requires SpellBase,Printer,Attr
 			elseif (GetUnitTypeId(GetDyingUnit()) == 'h01F' or GetUnitTypeId(GetDyingUnit()) == 'h1s7') then
     			call AddAll3W(-0.02)
 			elseif (GetUnitTypeId(GetDyingUnit()) == 'h1s6' or GetUnitTypeId(GetDyingUnit()) == 'h1s7') then
-				//todo:删除无敌
+				call DestroyWudi(GetDyingUnit())
 			endif
 			call GroupRemoveUnit(GTower,u)
 		endif
@@ -157,6 +166,11 @@ library_once Sichen requires SpellBase,Printer,Attr
     	local unit u = GetConstructedStructure()
     	call GroupAddUnit(GTower,u)
     	if (GetUnitTypeId(u) == 'h0s3') then
+    		if (GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 )) then
+    			call RemoveUnit(u)
+                call DisplayTextToPlayer( GetOwningPlayer(sichen), 0, 0, "|cFFFF66CC【消息】|r你的人口已满." )
+    		endif
+    	elseif (GetUnitTypeId(u) == 'h0s3') then
 			call SetDefense(u,GetSichenDefense()*4)
 			call SetHP(u,GetSichenHP()*4)
     	elseif (GetUnitTypeId(u) == 'h0s6') then
@@ -207,7 +221,9 @@ library_once Sichen requires SpellBase,Printer,Attr
 	*/
 	private function Yunluoliuyan takes integer abilityID,unit caster,integer zhenshu returns nothing
 		local integer i = 1
-	    call PrintSpell(GetOwningPlayer(sichen),GetAbilityName(abilityID),GetDamageAgi(sichen)*0.33)
+		if (abilityID != 0) then
+	    	call PrintSpell(GetOwningPlayer(sichen),GetAbilityName(abilityID),GetDamageAgi(sichen)*0.33)
+		endif
 		loop
 			exitwhen i > zhenshu
 			call UnitApplyTimedLifeBJ( 3.00, 'BHwe',CreateUnit(GetOwningPlayer(sichen),'h01G',GetUnitX(caster),GetUnitY(caster),0) )
@@ -216,6 +232,90 @@ library_once Sichen requires SpellBase,Printer,Attr
 			endif
 			set i = i +1
 		endloop
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    马甲的攻击伤害
+	*/
+	
+	function SimulateDamageSichen takes nothing returns boolean
+
+		if (GetEventDamage() > 0) then
+
+			//塔1
+			if (GetUnitTypeId(GetEventDamageSource()) == 'h01E') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				return true 		
+			//塔2
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s1') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+				return true 
+			//千刃
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s2') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.15, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				return true 
+			//神镜
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s4') then
+				call Yunluoliuyan(0,GetEventDamageSource(),6)
+				return true 
+			//散华
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s5') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				call SetUnitLifeBJ(sichen,GetUnitState(sichen,UNIT_STATE_LIFE)+SichenDamage * 0.02)
+				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetDamageAgi(GetTriggerUnit()) * 0.02)
+				return true 
+			//十绝一灭
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s6') then
+				if (GetUnitUserData(GetEventDamageSource()) >= 10) then
+	    			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+	    			call CreateSpellTextTag("一灭",GetTriggerUnit(),0,100,0,3)
+	    			//todo 改成6倍的文本
+	    			call DamageArea(sichen,GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()),400,SichenDamage * 5)
+	    		else
+					call SetUnitUserData(GetEventDamageSource(),GetUnitUserData(GetEventDamageSource())+1)
+				endif
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.5, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				return true 
+			//穿云
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s7') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				return true 
+			//孤鸿
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s7') then
+
+				if (GetUnitUserData(GetEventDamageSource()) >= 10) then
+	    			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+	    			call CreateSpellTextTag("一灭",GetTriggerUnit(),0,100,0,3)
+	    			call DamageArea(sichen,GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()),400,SichenDamage * 10)
+	    		else
+					call SetUnitUserData(GetEventDamageSource(),GetUnitUserData(GetEventDamageSource())+1)
+				endif
+
+				call SetUnitLifeBJ(sichen,GetUnitState(sichen,UNIT_STATE_LIFE)+SichenDamage * 0.1)
+				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetDamageAgi(GetTriggerUnit()) * 0.1)
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				call Yunluoliuyan(0,GetEventDamageSource(),6)
+				return true 
+			//抓宠物
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s7') then
+				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (not((GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 )))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit()))) then
+					call CreatePet(GetOwningPlayer(sichen),GetTriggerUnit())
+				endif
+			//硫炎
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01G') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.15, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				return true 
+			//火箭
+			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01H') then
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.75, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				return true 
+			endif
+
+		endif
+
+		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -450,8 +550,14 @@ library_once Sichen requires SpellBase,Printer,Attr
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    刷新伤害值
+	*/
+	private function FlashSichenDamage takes nothing returns nothing
+		set SichenDamage = GetDamageAgi(sichen)
+	endfunction
+//---------------------------------------------------------------------------------------------------
 	function InitSichen takes unit u returns nothing
-		local trigger t = CreateTrigger()
 		local integer i = 1
 		set sichen = u
 
@@ -471,7 +577,7 @@ library_once Sichen requires SpellBase,Printer,Attr
 	    call TriggerAddCondition(TSpellSichen3,Condition(function TSpellSichen3Con))
 	    call TriggerAddAction(TSpellSichen3,function TSpellSichen3Act)
 	    //升级解锁科技
-	    set TSpellSichenUpdate = CreateTrigger()
+	    set TSpellSichenUpdate = CreateTrigger() 
 	    call TriggerRegisterUnitEvent( TSpellSichenUpdate, sichen, EVENT_UNIT_HERO_LEVEL )
 	    call TriggerAddAction(TSpellSichenUpdate, function TSpellSichenUpdateAct)
 	    //马甲伤害
@@ -479,11 +585,14 @@ library_once Sichen requires SpellBase,Printer,Attr
 	    call YDWESyStemAnyUnitDamagedRegistTrigger( TSpellSichenDamage )
 	    call TriggerAddAction(TSpellSichenDamage, function SimulateDamageSichen)
 		//完成建造
-	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_CONSTRUCT_FINISH )
-	    call TriggerAddCondition(t,Condition(function TSichenBuildingCon))
-	    call TriggerAddAction(t, function TSichenBuilding)
+		set  TSpellSichenBuilding = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( TSpellSichenBuilding, EVENT_PLAYER_UNIT_CONSTRUCT_FINISH )
+	    call TriggerAddCondition(TSpellSichenBuilding,Condition(function TSichenBuildingCon))
+	    call TriggerAddAction(TSpellSichenBuilding, function TSichenBuilding)
 
 	    call TimerStart(CreateTimer(),1,true,function Huojianzhiyuan)
+	    //刷新伤害
+	    call TimerStart(CreateTimer(),1,true,function FlashSichenDamage)
 
 		call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 
@@ -496,7 +605,6 @@ library_once Sichen requires SpellBase,Printer,Attr
 	    endloop
 		call SetPlayerAbilityAvailable(Player(6),'A0FU',false)
 
-		set t = null
 	endfunction
 
 endlibrary
