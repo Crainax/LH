@@ -1,4 +1,4 @@
 
-//! import "Constant.j"
+//! import "Sichen.j"
 function main takes nothing returns nothing
 endfunction

@@ -132,7 +132,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	function StartJudgeTransmit takes unit u returns nothing
 		local timer t = CreateTimer()
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
-		call TimerStart(t,3,true,function DiamondTransmit)
+		call TimerStart(t,2,true,function DiamondTransmit)
 		set t = null
 	endfunction
 
