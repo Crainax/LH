@@ -311,10 +311,30 @@ library_once Achievement requires LHBase
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 318) + S3(IsAchieveOK(p,i + 318),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
+		elseif (page == 9) then
+			set i = 1
+		    loop
+		    	exitwhen i > 4
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 325) + S3(IsAchieveOK(p,i + 325),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
     	call SaveButtonHandle(LHTable,GetHandleId(d),11,DialogAddButton( d, "关闭|cffff6800(Esc)|r",512))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    创建英雄挑战对话框
+	*/
+	function CreateHeroDialogContent takes player p, dialog d returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 4
+			call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 10) + S3(IsAchieveOK(p,i + 10),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+			set i = i +1
+		endloop
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -403,6 +423,21 @@ library_once Achievement requires LHBase
 	    call DialogDisplay( p, d, true )
 	    call TriggerRegisterDialogEvent( t, d )
 	    call TriggerAddAction(t, function AchievementDialogClick)
+	    set d = null
+	    set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    创建一个英雄挑战对话框给玩家
+	*/
+	function CreateHeroChallenagerDialog takes player p returns nothing
+		local trigger t  = CreateTrigger()
+	    local dialog d = DialogCreate()
+	    call DialogSetMessage( d, "英雄挑战" )
+	    call CreateHeroDialogContent(p,d)
+	    call DialogDisplay( p, d, true )
+	    call TriggerRegisterDialogEvent( t, d )
+	    call TriggerAddAction(t, function HeroChallenagerDialogClick)
 	    set d = null
 	    set t = null
 	endfunction

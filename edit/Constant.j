@@ -19,7 +19,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    成就页数
 		*/
-		constant integer PAGE_ACHIEVE = 8
+		constant integer PAGE_ACHIEVE = 9
 		/*
 		    实际人数(从一开始的)
 		*/
@@ -341,7 +341,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 325 or achieveID == 329
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -924,6 +924,28 @@ library_once Constant initializer InitConstant requires JBase
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 325) then
+			return "自己与所有队友不学2级技能，10级技能，20级技能，40级技能，100级技能通关游戏。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 326) then
+			return "使用小型捕兽网（10W上限）成功捕捉大于等于30级的怪物。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 327) then
+			return "使用小型捕兽网（10W上限）成功捕捉大于等于70级的怪物。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 328) then
+			return "使用小型捕兽网（10W上限）成功捕捉大于等于100级的怪物。
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 329) then
+			return "使用小型捕兽网（10W上限）成功捕捉大于等于150级的怪物。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -948,8 +970,23 @@ library_once Constant initializer InitConstant requires JBase
 			return index + 310
 		elseif (page == 8) then
 			return I3(index == 1,326,index + 318)
+		elseif (page == 9) then
+			return index + 325
 		endif
 		return 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    英雄成就的名字
+	*/
+	function GetHeroChallenageName takes integer i returns string
+		if (i == 1) then
+			return "|cffff66cc赤血白燕|r"
+		elseif (i == 2) then
+			return "|cff99ccff月轮绯狱|r"
+		elseif (i == 3) then
+			return ""
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

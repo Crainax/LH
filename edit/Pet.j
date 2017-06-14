@@ -79,6 +79,9 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
                     call PlaySoundBJ( gg_snd_Jidibeida )
                     return
                 endif
+                if (GetSpellAbilityId() == 'A04P') then
+                    debug call SavePetAchievement(GetOwningPlayer(GetTriggerUnit()),GetUnitLevel(GetSpellTargetUnit()))
+                endif
                 call CreatePet(GetOwningPlayer(GetTriggerUnit()),GetSpellTargetUnit())
                 return
             endif

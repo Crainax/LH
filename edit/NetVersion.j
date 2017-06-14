@@ -70,6 +70,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		*/
 		integer array Idaixin
 		boolean BJiulun = false
+		boolean BHaojie = false
 		//杀擂台十的英雄统计
 		integer array Ileishi
 	endglobals
@@ -408,6 +409,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 				if not(BJiulun) then
 					call GetAchievementAndSave(ConvertedPlayer(i),323)
+				endif
+
+				if not(BHaojie) then
+					call GetAchievementAndSave(ConvertedPlayer(i),325)
 				endif
 				//通关次数
 				/*if (level == 1) then
@@ -804,6 +809,24 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endif
 		if (damage2 >= 600000) then
 			call GetAchievementAndSave(p,35)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+		抓宠物的成就
+	*/	
+	function SavePetAchievement takes player p,integer level returns nothing
+		if (level >= 30) then
+			call GetAchievementAndSave(p,326)
+		endif
+		if (level >= 70) then
+			call GetAchievementAndSave(p,327)
+		endif
+		if (level >= 100) then
+			call GetAchievementAndSave(p,328)
+		endif
+		if (level >= 150) then
+			call GetAchievementAndSave(p,329)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
