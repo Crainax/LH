@@ -27,9 +27,9 @@ library_once TouristTrap initializer InitTouristTrap requires LHBase
 			return
 		endif
 		if (HasLiuli(GetBuyingUnit())) then
-			set lumber = 3000
+			set lumber = 1000
 		else
-			set lumber = 8000
+			set lumber = 3000
 		endif
 
 		if (GetPlayerState(GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER) < lumber) then

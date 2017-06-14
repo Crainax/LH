@@ -1359,27 +1359,27 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (((GetUnitTypeId(GetDyingUnit()) == 'nnmg') or (GetUnitTypeId(GetDyingUnit()) == 'nmyr') or (GetUnitTypeId(GetDyingUnit()) == 'nnsw') or (GetUnitTypeId(GetDyingUnit()) == 'nsnp') or (GetUnitTypeId(GetDyingUnit()) == 'nhyc') or (GetUnitTypeId(GetDyingUnit()) == 'nnrg') or (GetUnitTypeId(GetDyingUnit()) == 'nplb') or (GetUnitTypeId(GetDyingUnit()) == 'ntrv') or (GetUnitTypeId(GetDyingUnit()) == 'nmmu') or (GetUnitTypeId(GetDyingUnit()) == 'nanb') or (GetUnitTypeId(GetDyingUnit()) == 'nanm') or (GetUnitTypeId(GetDyingUnit()) == 'nane')) and (GetPlayerController(GetOwningPlayer(GetDyingUnit())) == MAP_CONTROL_COMPUTER)) then
             if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
                 set IAtleast1 = ( IAtleast1 - 1 )
-                if ((IAtleast1 == 2)) then
+                if ((IAtleast1 == 1)) then
                     set IAtleast1 = 100
                     call MonsterDropDiamond()
                     return
                 endif
             elseif (RectContainsUnit(gg_rct_Diamond2,GetDyingUnit())) then
                 set IAtleast2 = ( IAtleast2 - 1 )
-                if ((IAtleast2 == 2)) then
+                if ((IAtleast2 == 1)) then
                     set IAtleast2 = 100
                     call MonsterDropDiamond()
                     return
                 endif
             elseif (RectContainsUnit(gg_rct_Diamond3,GetDyingUnit())) then
                 set IAtleast3 = ( IAtleast3 - 1 )
-                if ((IAtleast3 == 2)) then
+                if ((IAtleast3 == 1)) then
                     set IAtleast3 = 100
                     call MonsterDropDiamond()
                     return
                 endif
             endif
-            if ((GetRandomInt(1, 25) == 1)) then
+            if ((GetRandomInt(1, 25) == 1) and not(IsTianyan)) then
                 if (MonsterDropDiamond()) then
                     if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
                         set IAtleast1 = 100

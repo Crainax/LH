@@ -36,7 +36,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.08"
+		return "3.15"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -480,7 +480,7 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【封神门】")
 		elseif (achieveID == 320) then
 			return GetColorString("【圣洁玉】")
-		elseif (achieveID == 321) then
+		elseif (achieveID == 321) then 
 			return GetColorString("【孤心戒】")
 		elseif (achieveID == 322) then
 			return GetColorString("【御天启】")
@@ -488,6 +488,16 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【九轮圣】")
 		elseif (achieveID == 324) then
 			return GetColorString("【帝曜芒】")
+		elseif (achieveID == 325) then
+			return GetColorString("【浩劫赋】")
+		elseif (achieveID == 326) then
+			return "|cff99cc00凶兽使"
+		elseif (achieveID == 327) then
+			return "|cffffff00千里眼"
+		elseif (achieveID == 328) then
+			return "|cffff0000执江山"
+		elseif (achieveID == 329) then
+			return GetColorString("【啻主宰】")
 		endif
 		return ""
 	endfunction
@@ -622,6 +632,16 @@ library_once Constant initializer InitConstant requires JBase
 			return "九轮圣"
 		elseif (achieveID == 324) then
 			return "帝曜芒"
+		elseif (achieveID == 325) then
+			return "浩劫赋"
+		elseif (achieveID == 326) then
+			return "凶兽使"
+		elseif (achieveID == 327) then
+			return "千里眼"
+		elseif (achieveID == 328) then
+			return "执江山"
+		elseif (achieveID == 329) then
+			return "啻主宰"
 		endif
 		return ""
 	endfunction

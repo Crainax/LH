@@ -1,9 +1,10 @@
 //! import "LHBase.j"
+//! import "Diffculty.j"
 /////! import "NetVersion.j"
 /*
     宠物系统
 */
-library_once Pet initializer InitPet requires LHBase,Version
+library_once Pet initializer InitPet requires LHBase,Version,Diffculty
 
     globals
         group array GPet
@@ -27,6 +28,9 @@ library_once Pet initializer InitPet requires LHBase,Version
         call RemoveUnit( pet )*/
 
         //添加技能
+        if (IsTianyan) then
+            call RemoveDiffAttack(u)
+        endif
         call UnitAddAbilityBJ( 'AInv', u )
         call UnitAddAbilityBJ( 'A06E', u )
         call UnitAddAbilityBJ( 'A06F', u )

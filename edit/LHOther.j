@@ -1,6 +1,7 @@
 //! import "LHBase.j"
+//! import "Diffculty.j"
 
-library_once LHOther initializer InitLHOther requires LHBase 
+library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 	
 	globals
 		

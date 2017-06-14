@@ -1,6 +1,7 @@
 
 //! import "LHBase.j"
-library_once ItemBase initializer InitItemBase requires LHBase
+//! import "Diffculty.j"
+library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
 globals
 	timerdialog TiDiaNecklace
@@ -229,6 +230,7 @@ endglobals
 	        call PingMinimap( -1658.00, -14973.00, 2.00 )
 	        call RemoveUnit(UCrainax)
 	        set UCrainax = CreateUnit(Player(10),'Ekgg',-1658.00, -14973.00 , 180)
+	        call AddTianyanmokang(UCrainax)
 	        call ReflashCrainaxAttr()
 	        call DisplayTextToForce( GetPlayersAll(), "|cFFFF66CC【消息】|r|cffff9900圣主Crainax的分身|r复活." )
 	        call TimerDialogDisplay(TiDiaNecklace,false)

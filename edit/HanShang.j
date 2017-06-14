@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Diffculty.j"
 /*
     英雄寒殇的技能
 */
-library_once Hanshang requires SpellBase,Printer,Attr 
+library_once Hanshang requires SpellBase,Printer,Attr,Diffculty
 	
 	globals
 
@@ -99,7 +100,8 @@ library_once Hanshang requires SpellBase,Printer,Attr
 	    local real y1 = GetUnitY(hanshang)
 	    local real facing = Atan2(y-y1,x-x1)
 	    local real distance = SquareRoot((y-y1)*(y-y1)+(x-x1)*(x-x1))
-	    set n = RMaxBJ( 0.1 , 1 - distance / 24000)
+	    set n = RMaxBJ( R3(IsWanjie(),0.01,0.1) , 1 - distance / I3(IsWanjie(),2400,24000))
+
 	    set damage = damage * n
 	    if (abilityID != 0) then
 	    	call PrintSpellAdd(GetOwningPlayer(hanshang),GetAbilityName(abilityID),damage,",距离伤害衰减"+I2S(100 - R2I(n*100))+"%.")

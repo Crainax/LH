@@ -48,73 +48,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         获取矩形区域，对应人数的秘境
     */
     private function GetMiJingRect takes nothing returns rect
-        if (udg_RENSHU == 6 ) then
-            return gg_rct_M6
-        endif
-        if (udg_RENSHU == 5 ) then
-            if (IDeng > 5) then
-                return gg_rct_M6
-            endif
-            return gg_rct_M5
-        endif
-        if (udg_RENSHU == 4) then
-            if (IDeng > 5) then
-                return gg_rct_M5
-            elseif (IDeng > 10) then
-                return gg_rct_M6
-            endif
-            return gg_rct_M4
-        endif
-        if (udg_RENSHU == 3 ) then
-            if (IDeng > 5) then
-                return gg_rct_M4
-            elseif (IDeng > 10) then
-                return gg_rct_M5
-            elseif (IDeng > 15) then
-                return gg_rct_M6
-            endif
-            return gg_rct_M3
-        endif
-        if (udg_RENSHU == 2) then
-            if (IDeng > 5) then
-                return gg_rct_M3
-            elseif (IDeng > 10) then
-                return gg_rct_M4
-            elseif (IDeng > 15) then
-                return gg_rct_M5
-            endif
-            return gg_rct_M2
-        endif
-        if (udg_RENSHU == 1) then
-            if (IDeng > 5) then
-                return gg_rct_M2
-            elseif (IDeng > 10) then
-                return gg_rct_M3
-            elseif (IDeng > 15) then
-                return gg_rct_M4
-            endif
-            return gg_rct_M1
-        endif
-        return null
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        怪物总数
-    */
-    private function GetTotalMonster takes nothing returns integer
-        if (udg_RENSHU == 1) then
-            return 15        
-        elseif (udg_RENSHU == 2) then
-            return 24     
-        elseif (udg_RENSHU == 3) then
-            return 33     
-        elseif (udg_RENSHU == 4) then
-            return 42     
-        elseif (udg_RENSHU == 5) then
-            return 51 
-        else
-            return 60
-        endif
+        return gg_rct_M6
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -383,7 +317,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         endloop        
 
         //胜利条件:100%或者没有怪了
-        if (IProcess >= 100 or (GetMijingMonsterCount() == 0) and ITotalMonster >= GetTotalMonster()) then
+        if (IProcess >= 100 or (GetMijingMonsterCount() == 0) and ITotalMonster >= 15) then
             call MijingSucceed()
             call DestroyAllMijing()
             return
@@ -402,7 +336,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     */
     private function FlashMonsterTimer takes nothing returns nothing
         set ITotalMonster = ITotalMonster + udg_RENSHU
-        if (ITotalMonster < GetTotalMonster()) then
+        if (ITotalMonster < 15) then
             //创建怪物
             call CreateMijingMonster()
         else
@@ -528,8 +462,8 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         local real x
         local real y
         if ((GetItemTypeId(GetSoldItem()) == 'I02T')) then
-            set x = GetRectCenterX(gg_rct_M1)
-            set y = GetRectCenterY(gg_rct_M1)
+            set x = GetRectCenterX(gg_rct_M6)
+            set y = GetRectCenterY(gg_rct_M6)
             call SetUnitX(GetBuyingUnit(),x)
             call SetUnitY(GetBuyingUnit(),y)
             call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),x,y,0.2)
@@ -542,18 +476,53 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        秘境人数伤害加倍
+    */
+    private function DamageMijingCon takes nothing returns boolean
+        return (IsUnitInGroup(GetTriggerUnit(),GMijing) or IsUnitInGroup(GetEventDamageSource(),GMijing)) and (GetEventDamage() >= 10.00)
+    endfunction
+
+    private function DamageMijingAct takes nothing returns nothing
+        if (IsUnitInGroup(GetTriggerUnit(),GMijing) and udg_RENSHU > 1) then
+            //减伤
+            call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetEventDamage() *(1.0 - 1.0/I2R(udg_RENSHU)))
+        elseif (IsUnitInGroup(GetEventDamageSource(),GMijing)) then
+            //增伤
+            call DisableTrigger(GetTriggeringTrigger())
+            if (udg_RENSHU > 1) then
+                call UnitDamageTarget( GetEventDamageSource() , GetTriggerUnit(), GetEventDamage() * (udg_RENSHU - 1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+            endif
+            if (IsWanjie()) then
+                call UnitDamageTarget( GetEventDamageSource() , GetTriggerUnit(), 0.01 * udg_RENSHU * GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+            endif
+            if (IsTianyan and GetTriggerUnit() != udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] and (GetPlayerController(GetOwningPlayer(GetEventDamageSource())) == MAP_CONTROL_COMPUTER)) then
+                call UnitDamageTarget( GetEventDamageSource(),GetTriggerUnit() , GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+            endif
+            call EnableTrigger(GetTriggeringTrigger())
+
+        endif
+    endfunction
+
+//---------------------------------------------------------------------------------------------------
+    /*
         初始化秘境
     */
 	function InitMiJing takes nothing returns nothing
-
+        local trigger t = CreateTrigger()
         set TDengUnderAttacked = CreateTrigger()
         call YDWESyStemAnyUnitDamagedRegistTrigger( TDengUnderAttacked )
         call DisableTrigger(TDengUnderAttacked)
         call TriggerAddCondition(TDengUnderAttacked, Condition(function TDengDamageCon))
         call TriggerAddAction(TDengUnderAttacked, function TDengDamageAct)
-        //todo加入天气
         set UMijingShangdian = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01G', - 6144.0, - 10176.0, 270.000)
         set TDeng = CreateTextTagUnitBJ( "第0层", UMijingShangdian , 0, 25, 100, 0, 100, 0 )
+
+        //秘境人数伤害的提高与伤害的减少
+        call YDWESyStemAnyUnitDamagedRegistTrigger( t )
+        call TriggerAddCondition(t, Condition(function DamageMijingCon))
+        call TriggerAddAction(t, function DamageMijingAct)
+
+        set t = null
 	endfunction
 endlibrary
 

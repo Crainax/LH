@@ -529,8 +529,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         溢出属性的处理
     */
     function GetLimit takes integer i returns integer
-        if (i < 0 or i > 210000000) then
-            return 210000000
+        if (i < 0 or i > 2100000000) then
+            return 2100000000
         else
             return i
         endif

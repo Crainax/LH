@@ -20,6 +20,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			call JuexingSeyu1()
 		elseif (u == Huanyi) then
 			call UnitAddAbility(Huanyi,'A0HX')
+		elseif (u == sichen) then
+			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -40,6 +42,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			call TriggerExecute( gg_trg_____________127 )
 		elseif (u == sheyan) then
 			call JuexingSheyan2()
+		elseif (u == sichen) then
+			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -70,6 +74,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			call AddHP(cangling,40000000)
 		elseif (u == mengji) then
 			call RuohuanmengChatBack()
+		elseif (u == sichen) then
+			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -81,6 +87,17 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 		call SetUnitAbilityLevel(u,i,1)
 		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能觉醒失效了!")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
+		if (u == sichen) then
+			if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
+			endif
+			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
+			endif
+			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
+			endif
+		endif
 		if (u == kaisa and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(kaisa))]) then
 			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)),-0.5)
 		elseif (u == yanmie and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(yanmie))]) then

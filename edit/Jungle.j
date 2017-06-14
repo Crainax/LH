@@ -65,6 +65,7 @@ library_once Jungle requires LHBase,Diffculty
 		    	set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
 	 		    call EnhanceDiffAttack(UYeYang)
 		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYang), GetUnitY(UYeYang) ))
+		    	call AddTianyanmokang(UYeYang)
 			endif
 		endif
 
@@ -77,6 +78,7 @@ library_once Jungle requires LHBase,Diffculty
 		    	set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
 			    call EnhanceDiffAttack(UYeYin)
 		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\ReviveHuman\\ReviveHuman.mdl", GetUnitX(UYeYin), GetUnitY(UYeYin) ))
+		    	call AddTianyanmokang(UYeYin)
 			endif
 		endif
 	endfunction

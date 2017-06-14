@@ -44,6 +44,12 @@ library_once Huodong requires LHBase
 		//return true
 		return ((DzAPI_Map_GetGameStartTime()/10) > 149624640) and ((DzAPI_Map_GetGameStartTime()/10) < 149719680)
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天魇难度的开启条件
+	*/
+	function IsTianyanOK takes nothing returns boolean
+		return true
+	endfunction
 
 endlibrary

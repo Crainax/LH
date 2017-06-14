@@ -1,14 +1,18 @@
 
 //! import "LHBase.j"
-
-library_once Diffculty requires LHBase
+//! import "Huodong.j"
+library_once Diffculty requires LHBase,Huodong
 	
 	globals
 		/*
 		    地狱1,末日2,轮回万劫3
 		*/
 		integer NanDiff = 0
+		unit UWanjieGuanghuan = null
+		boolean IsTianyan = false
 	endglobals
+
+
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -65,6 +69,29 @@ library_once Diffculty requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    天魇难度加强魔抗
+	*/
+	function AddTianyanmokang takes unit u returns nothing
+		if (IsTianyan) then
+			call UnitAddAbility(u,'A09G')
+		endif
+	endfunction
+
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    移除技能
+	*/
+	function RemoveDiffAttack takes unit u returns nothing
+		if (GetUnitAbilityLevel(u,'A09V') >= 1) then
+			call SetUnitAbilityLevel(u,'A09V',1)
+		endif
+
+		call UnitRemoveAbility(u,'A0EY')
+		call UnitRemoveAbility(u,'A05O')
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    万劫的加强攻击力
 	*/	
 	function EnhanceWanjieAttack takes unit u returns nothing
@@ -72,6 +99,16 @@ library_once Diffculty requires LHBase
 			call EnhanceDiffAttack(u)
 		endif
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    直接A基地
+	*/
+	function AttackBase takes unit u returns nothing
+		if (IsTianyan and GetUnitTypeId(u) == 'hrif') then
+			call IssueTargetOrder(u,"attack",gg_unit_haro_0030)
+		endif
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取巨能对应等级的科技
@@ -188,8 +225,12 @@ library_once Diffculty requires LHBase
 	function InitWanjie takes nothing returns nothing
 
 		//光环（加防和回血）
-    	local unit u = CreateUnit(Player(10),'h00U',0,0,0)
-    	call ShowUnitHide(u)
+    	set UWanjieGuanghuan = CreateUnit(Player(10),'h00U',0,0,0)
+    	if (IsTianyan) then
+    		call SetUnitAbilityLevel(UWanjieGuanghuan,'A0HD',2)
+    		call UnitAddAbility(UWanjieGuanghuan,'A0JJ')
+    	endif
+    	call ShowUnitHide(UWanjieGuanghuan)
 
 		//前三野与前30层科技 3倍生命
     	call SetPlayerTechResearchedSwap(  'R00X', 1 , Player(10))
@@ -198,8 +239,6 @@ library_once Diffculty requires LHBase
     	call SetPlayerTechResearchedSwap(  'R00Y', 1 , Player(10))
     	call SetPlayerTechResearchedSwap(  'R00Y', 1 , Player(11))
     	//加宝石射程
-    	call SetPlayerTechResearchedSwap(  'R00Z', 1 , Player(10))
-    	call SetPlayerTechResearchedSwap(  'R00Z', 1 , Player(11))
     	call SetPlayerTechResearchedSwap(  'R010', 1 , Player(10))
     	call SetPlayerTechResearchedSwap(  'R010', 1 , Player(11))
     	call SetPlayerTechResearchedSwap(  'R011', 1 , Player(10))
@@ -208,7 +247,52 @@ library_once Diffculty requires LHBase
     	call SetPlayerTechResearchedSwap(  'R013', 1 , Player(10))
     	call SetPlayerTechResearchedSwap(  'R013', 1 , Player(11))
 
-    	set u = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    无限沉默
+	*/
+	private function UnlimitSlienceTianyanTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,1)
+		if (IsUnitAliveBJ(u)) then
+ 			call SimulateSpell(u,u,'A0JK',1,5,"silence",true,false,false)
+		else
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable,id)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+	endfunction
+	
+	function UnlimitSlienceTianyan takes unit u returns nothing
+		local timer t = CreateTimer()
+		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
+		call TimerStart(t,3,true,function UnlimitSlienceTianyanTimer)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天魇
+	*/
+	function InitTianyan takes nothing returns nothing
+		local unit l_unit = null
+		local group g = GetUnitsOfTypeIdAll('uzg2')
+		loop
+		    set l_unit = FirstOfGroup(g)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(g, l_unit)
+		    call AddTianyanmokang(l_unit)
+		endloop
+    	call SetPlayerTechResearchedSwap(  'R00Z', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R00Z', 1 , Player(11))
+    	call SetPlayerTechResearchedSwap(  'R01F', 1 , Player(10))
+    	call SetPlayerTechResearchedSwap(  'R01F', 1 , Player(11))
+    	call DestroyGroup(g)
+    	set g = null
+    	set l_unit = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -234,6 +318,10 @@ library_once Diffculty requires LHBase
 	    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
 	    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5波）" )
 	    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
+	    if (IsTianyanOK()) then
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5波）" )
+		    set udg_X_Nandu_Chuangkou[10] = GetLastCreatedButtonBJ()
+	    endif
 	    call DialogDisplay( GetFirstPlayer(), udg_X_Nandu, true )
 	endfunction
 //---------------------------------------------------------------------------------------------------

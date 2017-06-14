@@ -57,6 +57,8 @@ library_once Mirror requires LHBase
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得破防10万技能。")
         elseif (count == 150) then
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得急速破魔技能。")
+        elseif (count == 160) then
+            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得减少99%魔法伤害技能。")
         endif
 
         if (count >= 20) then
@@ -80,6 +82,9 @@ library_once Mirror requires LHBase
         endif
         if (count >= 150) then
             call UnitAddAbility(mirror,'A0GQ')
+        endif
+        if (count >= 160) then
+            call UnitAddAbility(mirror,'A0DS')
         endif
     endfunction
 

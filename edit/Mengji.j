@@ -53,7 +53,8 @@ library_once Mengji requires SpellBase,Printer,Attr
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'hhm2') then
-			call UnitDamageTarget( mengji, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) * 0.02, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+
+			call UnitDamageTarget( mengji, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) * 0.02 * R3(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO),0.25,1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		if (GetUnitTypeId(u) == 'hhm3') then
@@ -492,14 +493,14 @@ library_once Mengji requires SpellBase,Printer,Attr
 			call Tanyoujian(0.75,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY(),5)
 		elseif (GetSpellAbilityId() == 'AHM2') then
 			call Zhenhunsuo()
-		elseif (GetSpellAbilityId() == 'AHM3') then 
+		elseif (GetSpellAbilityId() == 'A0GW') then 
 			call Sanchuanjian()
 		elseif (GetSpellAbilityId() == 'AHM4') then 
 			call Shunfaxin()
 		elseif (GetSpellAbilityId() == 'AHM5') then 
 			call Linglongwu()
 		//拟态
-		elseif (GetSpellAbilityId() == 'A0GW' and IsCanCopy(GetSpellTargetItem())) then 
+		elseif (GetSpellAbilityId() == 'A0JG' and IsCanCopy(GetSpellTargetItem())) then 
 			if (IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3) and IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3)) then
 				call DisplayTextToPlayer(GetOwningPlayer(mengji), 0., 0., "|cFFFF66CC【消息】|r此处禁止拟态.")
 			else
@@ -520,7 +521,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 			if(whichSpell == 1) then
 			elseif (whichSpell == 2 and IsSecondSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM2') == 1) then
 				//技能2初始化
-			elseif (whichSpell == 3 and IsThirdSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM3') == 1) then
+			elseif (whichSpell == 3 and IsThirdSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'A0GW') == 1) then
 				//技能3初始化
 				call InitShunyi()
 				call AddSpecialEffectTargetUnitBJ("origin",mengji,"war3mapImported\\BlightwalkerAura.mdx")
@@ -539,7 +540,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 				call LearnSkillMengjiI(learner,1)
 			elseif (learnSpellID == 'AHM2') then
 				call LearnSkillMengjiI(learner,2)
-			elseif (learnSpellID == 'AHM3') then
+			elseif (learnSpellID == 'A0GW') then
 				call LearnSkillMengjiI(learner,3)
 			elseif (learnSpellID == 'AHM4') then
 				call LearnSkillMengjiI(learner,4)

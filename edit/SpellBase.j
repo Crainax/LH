@@ -9,6 +9,35 @@ library_once SpellBase requires LHBase
 
 //---------------------------------------------------------------------------------------------------
 
+	/*
+	    使单位免疫某次伤害。
+	*/
+	private function ImmuteDamageTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,kUImmuteDamage)
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		call FlushChildHashtable(spellTable,id)
+		call UnitRemoveAbility(u,'Avul')
+		set u = null
+		set t = null 
+	endfunction
+
+	function ImmuteDamageInterval takes unit u,real time returns nothing
+		local timer t = CreateTimer()
+		call UnitAddAbility(u,'Avul')
+		call SaveUnitHandle(spellTable,GetHandleId(t),kUImmuteDamage,u)
+		call TimerStart(t,time,false,function ImmuteDamageTimer)
+		set t = null
+	endfunction
+
+	function ImmuteDamage takes unit u returns nothing
+		call ImmuteDamageInterval(u,0)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
 	struct Attract 
 		private unit caster
 		private real radius
@@ -120,7 +149,7 @@ library_once SpellBase requires LHBase
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
 			    if(IsEnemy(l_unit,.caster) == true) then
-			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			    endif
 			endloop
 			call DestroyGroup(l_group)
@@ -182,6 +211,72 @@ library_once SpellBase requires LHBase
 	endstruct
 //---------------------------------------------------------------------------------------------------
 	/*
+	    几段无敌
+	*/
+	struct SuperShield 
+		
+		private unit caster
+		private integer times
+		private integer current
+		private timer t
+
+
+		static method flashLife takes nothing returns nothing
+
+			local thistype this = thistype[GetExpiredTimer()]
+			if (IsUnitAliveBJ(.caster)) then
+				if (.current <= .times and GetUnitState(.caster,UNIT_STATE_LIFE) < (GetUnitState(.caster,UNIT_STATE_MAX_LIFE) * (1.0-((I2R(.current))/(I2R(.times + 1)))))) then
+					call ImmuteDamageInterval(.caster,5)
+					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(.caster), GetUnitY(.caster) ))
+		    		call CreateSpellTextTag(I2S(.current)+"/"+I2S(times)+"段无敌",.caster,100,0,0,4)
+		    		call SetUnitLifePercentBJ(.caster,100.0*(1.0-((I2R(.current))/(I2R(.times + 1)))))
+					call UnitRemoveBuffsBJ( bj_REMOVEBUFFS_ALL, .caster )
+					set .current = .current + 1
+				endif
+			else
+				call .destroy()
+			endif
+
+		endmethod
+
+
+        static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+		static method create takes unit caster,integer times returns thistype
+
+		   	local thistype this = thistype.allocate()
+			set .caster = caster
+			set .times = times
+			set .current = 1
+
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call TimerStart(.t,0.5,true,function thistype.flashLife)
+			return this
+		endmethod
+
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			set .caster = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
+	endstruct
+//---------------------------------------------------------------------------------------------------
+	/*
 	    判断是否是一段觉醒,前面是觉醒能力值
 	*/
 	function IJ1 takes unit u,integer i1,integer i2 returns integer
@@ -225,6 +320,7 @@ library_once SpellBase requires LHBase
 			return r2
 		endif
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是否是三段觉醒,前面是觉醒能力值
@@ -246,35 +342,6 @@ library_once SpellBase requires LHBase
 		else
 			return r2
 		endif
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-
-	/*
-	    使单位免疫某次伤害。
-	*/
-	private function ImmuteDamageTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local unit u = LoadUnitHandle(spellTable,id,kUImmuteDamage)
-		call PauseTimer(t)
-		call DestroyTimer(t)
-		call FlushChildHashtable(spellTable,id)
-		call UnitRemoveAbility(u,'Avul')
-		set u = null
-		set t = null 
-	endfunction
-
-	function ImmuteDamageInterval takes unit u,real time returns nothing
-		local timer t = CreateTimer()
-		call UnitAddAbility(u,'Avul')
-		call SaveUnitHandle(spellTable,GetHandleId(t),kUImmuteDamage,u)
-		call TimerStart(t,time,false,function ImmuteDamageTimer)
-		set t = null
-	endfunction
-
-	function ImmuteDamage takes unit u returns nothing
-		call ImmuteDamageInterval(u,0)
 	endfunction
 
 

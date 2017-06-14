@@ -92,14 +92,14 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	*/
 	private function GetMultiSpell takes nothing returns integer
 		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Huanyi))]) then
-			return I3(IsWanjie(),5,6)
+			return 6
 		endif
 
 		if not(IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
 			return 1 + IJ2(Huanyi,1,0)
 		endif
 
-		return IMaxBJ(IMinBJ(IMoneng/2,I3(IsWanjie(),4,5)),1) + IJ2(Huanyi,1,0)
+		return IMaxBJ(IMinBJ(IMoneng/2,5),1) + IJ2(Huanyi,1,0)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -439,7 +439,6 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	*/
 	private function FireWaterLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real range = 900 * times
 		local integer i = 1
 		local unit u
 	    local Attract attract
@@ -448,12 +447,12 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	    	return
 	    endif
 		set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',x,y,0)
-	    set attract = Attract.create(u,range,0.05,range/20)
+	    set attract = Attract.create(u,900,0.05,50)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHJ'),"吸引范围"+I2S(R2I(range)))
-		call UnitApplyTimedLifeBJ( 5, 'BHwe', u)
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHJ'),"持续时间"+I2S(5 * times) +"s.")
+		call UnitApplyTimedLifeBJ( 5 * times, 'BHwe', u)
 		call attract.SetForbitHero()
 	    call attract.start()
 	    set u = null

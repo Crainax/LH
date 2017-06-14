@@ -66,11 +66,9 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 
 		if( IsUnitAliveBJ(challenager) and ( currentLevel < ARENA_MAX_LEVEL)) then
 			call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(challenager), GetUnitY(challenager)) )
-			if ((int + int / currentLevel) > 0) then
-				call SetHeroInt(challenager,IMinBJ(2100000000,int + int / currentLevel) ,true)
-			endif
-			call SetHeroAgi(challenager,IMinBJ(2100000000,agi + agi / currentLevel) , true)
-			call SetHeroStr(challenager,IMinBJ(2100000000,str + str / currentLevel) , true)
+			call SetHeroInt(challenager,GetLimit(int + int / currentLevel) ,true)
+			call SetHeroAgi(challenager,GetLimit(agi + agi / currentLevel) , true)
+			call SetHeroStr(challenager,GetLimit(str + str / currentLevel) , true)
 			set currentLevel  = currentLevel + 1
 			//设置技能等级
 			call IncUnitAbilityLevel(challenager,'ACbh')
@@ -530,6 +528,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	                call UnitAddAbilityBJ( 'A0B9', challenager )
 	                call UnitAddAbilityBJ( 'A09W', challenager )
 	                call UnitAddAbilityBJ( 'A0P1', challenager )
+	                call AddTianyanmokang(challenager)
 	                set textTag_Level = CreateTextTagUnitBJ( I2S(currentLevel) + "级", challenager, 0, 20, 100, 0, 0, 0 )
 	                call PolledWait(3.00)
 	                if ((challenager != null)) then

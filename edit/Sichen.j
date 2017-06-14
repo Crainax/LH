@@ -70,7 +70,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 		if (GetUnitState(u,UNIT_STATE_MANA) > 100 and not(IsWudi(GetTriggerUnit()))) then
 			call ImmuteDamageInterval(GetTriggerUnit(),3)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-			call RecoverUnitMP(u,-100)
+			call RecoverUnitMP(u,-100 )
 		endif
 		set u = null
 	endfunction
@@ -108,11 +108,15 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 			if (GetUnitTypeId(GetDyingUnit()) == 'h0s2') then
 				call DestroyEffect(LoadEffectHandle(spellTable,GetHandleId(GetDyingUnit()),1))
 				call FlushChildHashtable(spellTable,GetHandleId(GetDyingUnit()))
-			elseif (GetUnitTypeId(GetDyingUnit()) == 'h1s3' or GetUnitTypeId(GetDyingUnit()) == 'h1s7') then
+			elseif (GetUnitTypeId(GetDyingUnit()) == 'h1s3') then
     			call AddAllMoney(-0.1)
-			elseif (GetUnitTypeId(GetDyingUnit()) == 'h01F' or GetUnitTypeId(GetDyingUnit()) == 'h1s7') then
+			elseif (GetUnitTypeId(GetDyingUnit()) == 'h01F') then
     			call AddAll3W(-0.02)
-			elseif (GetUnitTypeId(GetDyingUnit()) == 'h1s6' or GetUnitTypeId(GetDyingUnit()) == 'h1s7') then
+			elseif (GetUnitTypeId(GetDyingUnit()) == 'h1s6') then
+				call DestroyWudi(GetDyingUnit())
+			elseif (GetUnitTypeId(GetDyingUnit()) == 'h1s7') then
+    			call AddAllMoney(-0.1)
+    			call AddAll3W(-0.02)
 				call DestroyWudi(GetDyingUnit())
 			endif
 			call GroupRemoveUnit(GTower,u)
@@ -195,13 +199,18 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 			call SetDefense(u,GetSichenDefense())
 			call SetHP(u,GetSichenHP())
 			call SetAttack(u,GetSichenAttack())
-    	elseif (GetUnitTypeId(u) == 'h1s1' or GetUnitTypeId(u) == 'h1s7') then
+    	elseif (GetUnitTypeId(u) == 'h1s1') then
     		call InitHeidong(u)
-    	elseif (GetUnitTypeId(u) == 'h1s3' or GetUnitTypeId(u) == 'h1s7') then
+    	elseif (GetUnitTypeId(u) == 'h1s3') then
     		call AddAllMoney(0.1)
-    	elseif (GetUnitTypeId(u) == 'h01F' or GetUnitTypeId(u) == 'h1s7') then
+    	elseif (GetUnitTypeId(u) == 'h01F') then
     		call AddAll3W(0.02)
-    	elseif (GetUnitTypeId(u) == 'h1s6' or GetUnitTypeId(u) == 'h1s7') then
+    	elseif (GetUnitTypeId(u) == 'h1s6') then
+    		call InitWudi(u)
+    	elseif (GetUnitTypeId(u) == 'h1s7') then
+    		call InitHeidong(u)
+    		call AddAllMoney(0.1)
+    		call AddAll3W(0.02)
     		call InitWudi(u)
     	endif
     	set u = null
@@ -225,17 +234,23 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 	*/
 	private function Yunluoliuyan takes integer abilityID,unit caster,integer zhenshu returns nothing
 		local integer i = 1
+		local unit u = null
 		if (abilityID != 0) then
 	    	call PrintSpell(GetOwningPlayer(sichen),GetAbilityName(abilityID),GetDamageAgi(sichen)*0.33)
 		endif
 		loop
 			exitwhen i > zhenshu
-			call UnitApplyTimedLifeBJ( 3.00, 'BHwe',CreateUnit(GetOwningPlayer(sichen),'h01G',GetUnitX(caster),GetUnitY(caster),0) )
+			set u = CreateUnit(GetOwningPlayer(sichen),'h01G',GetUnitX(caster),GetUnitY(caster),0)
+			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+				call SetUnitAbilityLevel(u,'A0JA',2)
+			endif
+			call UnitApplyTimedLifeBJ( 3.00, 'BHwe', u)
 			if (i < zhenshu) then
 				call PolledWait(0.5)
 			endif
 			set i = i +1
 		endloop
+		set u = null
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -298,12 +313,12 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 				return true 
 			//抓宠物
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h1s7' or GetUnitTypeId(GetEventDamageSource()) == 'h1s4') then
-				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit()))) then
+				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO))) then
 					call CreatePet(GetOwningPlayer(sichen),GetTriggerUnit())
 				endif
 			//硫炎
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01G') then
-				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.15, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.33, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				return true 
 			//火箭
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01H') then
@@ -320,7 +335,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 	    亘月天地
 	*/
 	private function GenyuetiandiA takes nothing returns boolean
-		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] == GetFilterUnit() and not(IsWudi(GetFilterUnit()))
+		return IsUnitType(GetFilterUnit(),UNIT_TYPE_HERO) and not(IsWudi(GetFilterUnit()))
 	endfunction
 
     private function GenyuetiandiB takes nothing returns nothing
@@ -452,6 +467,21 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 	/*
 	    火箭支援
 	*/
+	private function Huojianzhiyuan2 takes nothing returns nothing
+		local group l_group = CreateGroup()
+		local unit l_unit
+		call GroupAddGroup(GTower,l_group)
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+			call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(GetOwningPlayer(sichen),'h01H',GetUnitX(l_unit),GetUnitY(l_unit),GetUnitFacing(l_unit)) )
+		endloop
+		call DestroyGroup(l_group)
+		set l_group = null
+		set l_unit =null
+	endfunction
+
 	private function Huojianzhiyuan takes nothing returns nothing
 		local integer i
 		if not(UnitHasBuffBJ(sichen,'B021')) then
@@ -466,6 +496,11 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
             endif
 			set i = i +1
 		endloop
+
+		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+			call Huojianzhiyuan2()
+		endif
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -502,7 +537,6 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 			elseif (whichSpell == 3 and IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
 				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
-				//todo:光环效果
 				call AddSpecialEffectTargetUnitBJ("origin",sichen,"war3mapImported\\WarAura.mdx")
 				call UnitAddAbility(gg_unit_haro_0030,'A0JE')
 				call AddAll3W(0.2)

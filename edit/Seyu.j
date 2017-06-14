@@ -186,6 +186,8 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    set l_group = null
 	    return result
     endfunction
+
+    
 //---------------------------------------------------------------------------------------------------
 	/*
 	    曼陀罗之刺
@@ -206,6 +208,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 	    //输出伤害
 	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName(abilityID),damage)
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    异界能量
@@ -236,7 +239,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(seyu))
 		local real delta
 		//限制能量在0-105之间
-		set IPower = IMinBJ(IMaxBJ(IPower - 1,0),IJ3(seyu,255,105))
+		set IPower = IMinBJ(IMaxBJ(IPower - IJ3(seyu,2,1),0),IJ3(seyu,255,105))
 		call SetTextTagTextBJ(TTPower,I2S(IPower) + "%能量",20)
 		set delta = I2R((IPower/10)*10)/100
 		if (RAddtion != delta) then

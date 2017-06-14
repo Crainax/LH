@@ -11,12 +11,11 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    主动技能触发
 		*/
-		private trigger TSpellHeiyan1
-		private trigger TSpellHeiyan00
-		private trigger TSpellHeiyan2
-		private trigger TSpellHeiyan40
-		private trigger TSpellHeiyan41
-		private trigger TDamageSacri
+		private trigger TSpellHeiyan1 = null
+		private trigger TSpellHeiyan00 = null
+		private trigger TSpellHeiyan2 = null
+		private trigger TSpellHeiyan40 = null
+		private trigger TSpellHeiyan41 = null
 		/*
 		    控制权是魔界
 		*/
@@ -38,7 +37,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    祭品的数量
 		*/
-		private integer ISacriMaxCount = 3
+		private integer ISacriMaxCount = 6
 		/*
 		    祭品单位组
 		*/
@@ -47,7 +46,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		/*
 		    祭品攻击伤害，每3秒刷新一次数值
 		*/
-		private real DamageSacri
+		private real DamageSacri = 0
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -84,10 +83,8 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				set u =  CreateUnit(GetOwningPlayer(Heiyan),'h012' ,x,y,0)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
-		    call UnitApplyTimedLifeBJ( 12 + IJ1(Heiyan,6,0) + IJ2(Heiyan,6,0), 'BHwe' , u )
+		    call UnitApplyTimedLifeBJ( 6 + IJ1(Heiyan,3,0) + IJ2(Heiyan,3,0), 'BHwe' , u )
 	    	call GroupAddUnit(GSacri,u)
-			//无敌
-		    call SetUnitInvulnerable(u,true)
 
 		    set i = i +1
 		endloop
@@ -107,8 +104,6 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			set u =  CreateUnit(GetOwningPlayer(Heiyan),'h011' ,x,y,0)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", x, y ))
 		    call UnitApplyTimedLifeBJ( 30, 'BHwe' , u )
-			//三秒无敌
-		    call SetUnitInvulnerable(u,true)
 
 			set i = i +1
 		endloop
@@ -132,32 +127,33 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	
 	function SimulateDamageHeiyan takes unit u returns boolean
 		//祭品的伤害
-		if (IsUnitInGroup(u,GSacri) == true) then
-			call DisableTrigger(GetTriggeringTrigger())
-			if (IsEnemy(GetTriggerUnit(),Heiyan)) then
+		if (GetUnitTypeId(u) == 'h012') then
+			if (IsUnitEnemy(GetTriggerUnit(),GetOwningPlayer(Heiyan))) then
+				call DisableTrigger(GetTriggeringTrigger())
 				if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Heiyan))]) then
-					call UnitDamageTarget( u, GetTriggerUnit(), RMaxBJ(DamageSacri * IJ2(Heiyan,40,IJ1(Heiyan,20,10)),GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.01*0.5), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+					call UnitDamageTarget( u, GetTriggerUnit(), RMaxBJ(DamageSacri * IJ2(Heiyan,12,IJ1(Heiyan,6,3)),GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.01*0.5), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				else
-					call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * IJ2(Heiyan,40,IJ1(Heiyan,20,10)), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+					call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * IJ2(Heiyan,12,IJ1(Heiyan,6,3)), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				endif
+				call EnableTrigger(GetTriggeringTrigger())
 			else
-				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*RJ2(Heiyan,0.48,RJ1(Heiyan,0.24,0.12)) )
-				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 12)
+				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*RJ2(Heiyan,0.12,RJ1(Heiyan,0.06,0.03)) )
+				call SetUnitManaBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_MANA) + 3)
 			endif
-			call EnableTrigger(GetTriggeringTrigger())
-			return true
+				return true
 		endif
 
 		//泣罗刹后续与高级祭品
 		if (GetUnitTypeId(u) == 'hh04') then
 			call DisableTrigger(GetTriggeringTrigger())
-			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 60, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 10, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h011') then
 			call DisableTrigger(GetTriggeringTrigger())
-			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 96, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 50, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call SetUnitLifeBJ(Heiyan,GetUnitState(Heiyan,UNIT_STATE_LIFE)+ DamageSacri * 1.5)
 			call EnableTrigger(GetTriggeringTrigger())
 			return true 
 		endif
@@ -206,7 +202,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	*/
 
 	private function TSpellHeiyan00Con takes nothing returns boolean
-		return (GetKillingUnitBJ() == Heiyan and IsUnitIllusion(GetKillingUnitBJ()) == false and GetUnitPointValue(GetDyingUnit()) != 123	and GetUnitPointValue(GetDyingUnit()) != 0 and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) and GetUnitTypeId(GetDyingUnit()) != 'h012' and GetRandomInt(1,6) == 1)
+		return (GetKillingUnitBJ() == Heiyan and IsUnitIllusion(GetKillingUnitBJ()) == false and GetUnitPointValue(GetDyingUnit()) != 123	and GetUnitPointValue(GetDyingUnit()) != 0 and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) and GetUnitTypeId(GetDyingUnit()) != 'h012')
 	endfunction
 
 	private function TSpellHeiyan00Act takes nothing returns nothing
@@ -284,7 +280,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
     	local unit u = CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()),'hh02',GetSpellTargetX(),GetSpellTargetY(),0)
 	    call UnitApplyTimedLifeBJ( 30.00, 'BHwe',u )
     	call SaveUnitHandle(spellTable,GetHandleId(t),kUYanluo,u)
-    	call TimerStart(t,6,true,function YanLuoDianCreate)
+    	call TimerStart(t,1,true,function YanLuoDianCreate)
 		call PrintSpellName(GetOwningPlayer(u),GetAbilityName(GetSpellAbilityId()))
     	set u = null
     	set t = null
@@ -315,7 +311,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		endif
 
 		call GroupRemoveUnit(GSacri,GetDyingUnit())
-		if(IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1 and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 600) then
+		if(IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1 and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 600) then
 			call SimulateDeathHeiyanBoom(u)
 		endif
 	endfunction
@@ -342,14 +338,14 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	endfunction
 	
 	private function TSpellHeiyan41Act takes nothing returns nothing
-		call DisableTrigger(GetTriggeringTrigger())
+		//call DisableTrigger(GetTriggeringTrigger())
 		call KillUnit(FirstOfGroup(GSacri))
-		call SetUnitLifePercentBJ(Heiyan,100)
-		call ImmuteDamageInterval(Heiyan,1)
+    	call RecoverUnitHP(Heiyan,0.1)
+		call ImmuteDamageInterval(Heiyan,0.1)
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
-		call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
-		call PolledWait(4)
-		call EnableTrigger(GetTriggeringTrigger())
+		//call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
+		//call PolledWait(4)
+		//call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -401,7 +397,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			return
 		elseif (GetSpellAbilityId() == 'A0C8') then 
 			call YanLuoDian()
-		elseif (GetSpellAbilityId() == 'A0C9') then 
+		elseif (GetSpellAbilityId() == 'A0JH') then 
 			call SheHunJue()
 		elseif (GetSpellAbilityId() == 'A0D2') then 
 			call QiLuoCha()
@@ -413,10 +409,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			return
 		endif
 
-		//1/3召唤1个祭品
-		if (GetRandomInt(1,3) == 1) then
-			call CreateSacrifice(GetSpellAbilityUnit())
-		endif
+		call CreateSacrifice(GetSpellAbilityUnit())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -428,13 +421,13 @@ library_once Heiyan requires SpellBase,Printer,Attr
 		local integer i
 		if (learner == Heiyan) then
 			if(whichSpell == 1) then
-				set ISacriMaxCount = ISacriMaxCount + 1
+				set ISacriMaxCount = ISacriMaxCount + 3
 			elseif (whichSpell == 2 and IsSecondSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C8') == 1) then
 				//技能2初始化
-				set ISacriMaxCount = ISacriMaxCount + 1
-			elseif (whichSpell == 3 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0C9') == 1) then
+				set ISacriMaxCount = ISacriMaxCount + 3
+			elseif (whichSpell == 3 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0JH') == 1) then
 				//技能3初始化
-				set ISacriMaxCount = ISacriMaxCount + 1
+				set ISacriMaxCount = ISacriMaxCount + 3
 				set i = 1
 				//增加上限
 				loop
@@ -446,10 +439,10 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				call UnitAddAbility(gg_unit_haro_0030,'A0GR')
 			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
 				//技能4初始化
-				set ISacriMaxCount = ISacriMaxCount + 1
+				set ISacriMaxCount = ISacriMaxCount + 3
 			elseif (whichSpell == 5 and IsFifthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0DD') == 1) then
 				//技能5初始化
-				set ISacriMaxCount = ISacriMaxCount + 2
+				set ISacriMaxCount = ISacriMaxCount + 6
 			endif
 		endif
 	endfunction
@@ -460,7 +453,7 @@ library_once Heiyan requires SpellBase,Printer,Attr
 				call LearnSkillHeiyanI(learner,1)
 			elseif (learnSpellID == 'A0C8') then
 				call LearnSkillHeiyanI(learner,2)
-			elseif (learnSpellID == 'A0C9') then
+			elseif (learnSpellID == 'A0JH') then
 				call LearnSkillHeiyanI(learner,3)
 			elseif (learnSpellID == 'A0D2') then
 				call LearnSkillHeiyanI(learner,4)

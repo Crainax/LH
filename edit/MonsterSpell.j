@@ -1,7 +1,9 @@
 
 //! import "LHBase.j"
+//! import "SpellBase.j"
+//! import "Diffculty.j"
 /////! import "Diamond.j"
-library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETimerPattern,Diamond
+library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETimerPattern,Diamond,Diffculty
 	
 	globals
 		trigger TSpellQianfa
@@ -131,8 +133,14 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 	
 	function StartJudgeTransmit takes unit u returns nothing
 		local timer t = CreateTimer()
+		local SuperShield shield
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
 		call TimerStart(t,2,true,function DiamondTransmit)
+		if (GetDiffculty() == 8) then
+			set shield = SuperShield.create(u,1)
+		elseif (GetDiffculty() > 8) then
+			set shield = SuperShield.create(u,5)
+		endif
 		set t = null
 	endfunction
 
@@ -286,7 +294,7 @@ library_once MonsterSpell initializer InitMonsterSpell  requires LHBase,YDWETime
 		//仙炼或生克
 	    		set drat = CreateUnit(GetOwningPlayer(GetAttackedUnitBJ()),'hs00',x1,y1,facing)
 	        	call UnitApplyTimedLifeBJ( 10.00, 'BHwe', drat)
-	        	    call DIYRushSlide( drat, facing  , 20000.00, 10.00, 0.05, DRAT_XIANLIAN, 60., false, true, false, "origin", "", "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+	        	    call DIYRushSlide( drat, facing  , 20000.00, 10.00, 0.05, R3(IsTianyan,1000000000,DRAT_XIANLIAN), 60., false, true, false, "origin", "", "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
 	    endif
 
 	    //文字
