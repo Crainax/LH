@@ -39,6 +39,7 @@ library_once Mirror requires LHBase
     /*
         根据难度给转生加上技能与提示
     */
+    
     function AddMirrorSpell takes nothing returns nothing
         local unit mirror = udg_U_Zhuansheng_Dantiao[2]
         local unit defier = udg_U_Zhuansheng_Dantiao[1]
@@ -58,7 +59,7 @@ library_once Mirror requires LHBase
         elseif (count == 150) then
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得急速破魔技能。")
         elseif (count == 160) then
-            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得减少99%魔法伤害技能。")
+            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得减少50%魔法伤害技能。")
         endif
 
         if (count >= 20) then
@@ -84,7 +85,7 @@ library_once Mirror requires LHBase
             call UnitAddAbility(mirror,'A0GQ')
         endif
         if (count >= 160) then
-            call UnitAddAbility(mirror,'A0DS')
+            call UnitAddAbility(mirror,'A052')
         endif
     endfunction
 

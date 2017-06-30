@@ -76,6 +76,20 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         return u == lingxue or u == xuanxue or u == sheyan or u == Huanyi
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        获取一个字符串的几段循环
+    */
+    function GetCycleHash takes string s,integer times returns integer
+        local string result = s
+        local integer i = 1
+        loop
+            exitwhen i > times
+            set result = I2S(StringHash(result))
+            set i = i +1
+        endloop
+        return S2I(result)
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
     /*
         仙器使用技能进行禁止丢弃判断

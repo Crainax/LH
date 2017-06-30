@@ -1152,6 +1152,10 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     function DiamondPlayerFilter takes nothing returns boolean
         return ((IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) == true) and (GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER) and (IsUnitAliveBJ(GetFilterUnit()) or (GetFilterUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] and not(IsWanjie()) )))
     endfunction
+
+    function DiamondPlayerFilterOther takes nothing returns boolean
+        return ((IsUnitType(GetFilterUnit(), UNIT_TYPE_HERO) == true) and (GetPlayerController(GetOwningPlayer(GetFilterUnit())) == MAP_CONTROL_USER) and (IsUnitAliveBJ(GetFilterUnit()) or (GetFilterUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] )))
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         创建宝石怪并给予其技能
@@ -1430,7 +1434,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     endfunction
 
     function TLeaveDiamondRegion2Act takes nothing returns nothing
-        local group group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilter))
+        local group group1 = GetUnitsInRectMatching(gg_rct_Diamond2, Condition(function DiamondPlayerFilterOther))
         local group group2 = null
         local unit l_unit = null
         if ((CountUnitsInGroup(group1) == 0)) then
@@ -1451,7 +1455,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     endfunction
 
     function TLeaveDiamondRegion3Act takes nothing returns nothing
-        local group group1 = GetUnitsInRectMatching(gg_rct_Diamond3, Condition(function DiamondPlayerFilter))
+        local group group1 = GetUnitsInRectMatching(gg_rct_Diamond3, Condition(function DiamondPlayerFilterOther))
         local group group2 = null
         local unit l_unit = null
         if ((CountUnitsInGroup(group1) == 0)) then

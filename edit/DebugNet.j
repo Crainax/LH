@@ -93,6 +93,25 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,MiJing
 		call SaveDaixin(1)
 
 	endfunction
+
+	function TestQuanchengjiu takes nothing returns nothing
+
+		local string s = GetEventPlayerChatString()
+
+		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
+
+		call GetAchievementAndSave(Player(0),i)
+
+	endfunction
+
+	function TestTaiya takes nothing returns nothing
+		call SetXuanxueSpinOK(Player(0))
+
+	endfunction
+
+	function Baihujishu takes nothing returns nothing
+		call IncreaseTaiyaSpin(Player(0))
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化
@@ -126,8 +145,15 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,MiJing
 		call TriggerAddAction(t,function TestMijing)*/
 
 		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"memeda",false)
-		call TriggerAddAction(t,function TestLeitai)
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
+		call TriggerAddAction(t,function TestQuanchengjiu)
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"c",false)
+		call TriggerAddAction(t,function Baihujishu)
+
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"bb",false)
+		call TriggerAddAction(t,function TestTaiya)
 		set t = null
 
 	endfunction

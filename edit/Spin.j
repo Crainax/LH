@@ -1,5 +1,5 @@
 //! import "LHBase.j"
-//! import "NetVersion.j"
+/////! import "NetVersion.j"
 library_once Spin requires LHBase,Version
 	
 //---------------------------------------------------------------------------------------------------
@@ -25,6 +25,22 @@ library_once Spin requires LHBase,Version
 	*/
 	function IsYanmieSpin1 takes player p returns boolean
 		return GetYanmie1Spin(p)
+		//return true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    玄雪的皮肤条件
+	*/
+	function IsXuanxueSpin1 takes player p returns boolean
+		return GetXuanxue1Spin(p)
+		//return true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    泰雅的皮肤条件
+	*/
+	function IsTaiyaSpin1 takes player p returns boolean
+		return GetTaiya1Spin(p)
 		//return true
 	endfunction
 

@@ -27,5 +27,12 @@ library_once Huodong requires LHBase
 		//return true
 		return false
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天魇
+	*/
+	function IsTianyanOK takes nothing returns boolean
+		return true
+	endfunction
 
 endlibrary

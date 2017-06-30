@@ -71,9 +71,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		integer array Idaixin
 		boolean BJiulun = false
 		boolean BHaojie = false
+
 		//杀擂台十的英雄统计
 		integer array Ileishi
+		//DIY名字
+		string array SDIY
 	endglobals
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    给所有玩家一个成就
@@ -193,60 +197,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    瑟雨皮肤条件
-	*/
-	function GetSeyu1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],2)>0
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    瑟雨皮肤OK了
-	*/
-	function SetSeyuSpinOK takes player p returns nothing
-		if (GetBit(spin[GetConvertedPlayerId(p)],2) < 1) then
-			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    晓月皮肤条件
-	*/
-	function GetXiaoyue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],3) > 0
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    晓月皮肤OK了
-	*/
-	function SetXiaoyueSpinOK takes player p returns nothing
-		if (GetBit(spin[GetConvertedPlayerId(p)],3) < 1) then
-			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取晓月皮肤\"|cff99ccff月轮绯狱|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    湮灭皮肤条件
-	*/
-	function GetYanmie1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],4) > 0
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    湮灭皮肤OK了
-	*/
-	function SetYanmieSpinOK takes player p returns nothing
-		if (GetBit(spin[GetConvertedPlayerId(p)],4) < 1) then
-			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取湮灭皮肤\"|cFFFF0000殛霆无迹|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    输出幻逸的密码
 	*/
 	function PrintHuanyiPassword takes nothing returns nothing
@@ -271,12 +221,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set achieve[i] = S2I(DzAPI_Map_GetStoredString(ConvertedPlayer(i), "achieve"))
     			set achieve2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve2")
     			set achieve3[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve3")
+    			set achieve4[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "achieve4")
     			set vipCode[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "vip")
     			set achiPage[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "page")
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
     			set spin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin")
-    			/*set diyu[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "defense")
-    			set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
+    			set diyu[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "defense")
+    			/*set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
     			set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
     			set petTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pet")
     			set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
@@ -290,6 +241,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set pass9[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass9")*/
     			set Idaixin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "daixin")
     			set Ileishi[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "leishi")
+    			set SDIY[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "diy")
 
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
@@ -365,6 +317,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    统计皮肤次数
+	*/
+	function IncreaseTaiyaSpin takes player p returns nothing
+		local integer i = GetConvertedPlayerId(p)
+		if (diyu[i]/10000 < 5) then
+			set diyu[i] = diyu[i] + 10000
+			call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "defense", diyu[i] )
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r泰雅皮肤|cFFCCFF66三弦星谧|r进度:"+I2S(diyu[i]/10000)+"/5")
+		endif
+		if (diyu[i]/10000 >= 5) then
+			call SetTaiyaSpinOK(p)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    存储到服务器,通关
 	*/
 	function SaveAchievement takes nothing returns nothing
@@ -385,16 +352,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),I3(level < 8,217 - level,29))
 				endif
 
+				//玄雪末日权杖
+				if (renshu == 1 and udg_H[i] == xuanxue and level >= 4) then
+					call SetXuanxueSpinOK(ConvertedPlayer(i))
+				endif
+
 				//基地的血
 				if (udg_I_Er_diansi[1] == 0) then
 					call GetAchievementAndSave(ConvertedPlayer(i),221)
 					if (GetUnitState(gg_unit_haro_0030,UNIT_STATE_LIFE) <= (0.25 * GetUnitState(gg_unit_haro_0030,UNIT_STATE_MAX_LIFE))) then
 						call GetAchievementAndSave(ConvertedPlayer(i),222)
 					endif
-				endif
-
-				if (IsHuodong5() and level == 4) then
-					call SetYanmieSpinOK(ConvertedPlayer(i))
 				endif
 
 				if not(BBaseDamage) then
@@ -412,7 +380,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				endif
 
 				if not(BHaojie) then
-					call GetAchievementAndSave(ConvertedPlayer(i),325)
+					call GetAchievementAndSave(ConvertedPlayer(i),327)
+				endif
+
+				if (IsHuodong6()) then
+					call IncreaseTaiyaSpin(ConvertedPlayer(i))
 				endif
 				//通关次数
 				/*if (level == 1) then
@@ -501,6 +473,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endif
 		if (zhuan >= 100) then
 			call GetAchievementAndSave(p,23)
+		endif
+		if (zhuan == 125 and udg_H[GetConvertedPlayerId(p)] == yanmie) then
+			call SetYanmieSpinOK(p)
 		endif
 		if (zhuan >= 150) then
 			call GetAchievementAndSave(p,24)
@@ -816,17 +791,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		抓宠物的成就
 	*/	
 	function SavePetAchievement takes player p,integer level returns nothing
-		if (level >= 30) then
-			call GetAchievementAndSave(p,326)
-		endif
-		if (level >= 70) then
-			call GetAchievementAndSave(p,327)
-		endif
-		if (level >= 100) then
+		if (level >= 50) then
 			call GetAchievementAndSave(p,328)
 		endif
-		if (level >= 150) then
+		if (level >= 70) then
 			call GetAchievementAndSave(p,329)
+		endif
+		if (level >= 100) then
+			call GetAchievementAndSave(p,330)
+		endif
+		if (level >= 150) then
+			call GetAchievementAndSave(p,331)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -879,18 +854,44 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    自定义成就名的使用
+	*/
+	function SetAndSaveDIYName takes player p returns nothing
+		local integer id = GetConvertedPlayerId(p)
+		set achiPage[id] = -1
+		call SaveAchievePointer(p) 
+		call SetPlayerName(p, GetRandomColor() +"【" + GetRandomColor() + SDIY[id] + GetRandomColor() + "】" + GetRandomColor() + playerName[id] + "|r")
+		call DzAPI_Map_Stat_SetStat( p, "achi", SDIY[id] )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化游戏名
 	*/
 	function InitAchievementName takes unit u returns nothing
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
 		//计时英雄数
 		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
-		if (StringLength(I2S(achiPage[id])) < 2) then
-			set achiPage[id] = 10
-			call InitOldAchievement(id)
-			call SaveAchievePointer(GetOwningPlayer(u))
+		if (achiPage[id] == -1) then
+			call SetAndSaveDIYName(GetOwningPlayer(u))
+		else
+			if (StringLength(I2S(achiPage[id])) < 2) then
+				set achiPage[id] = 10
+				call InitOldAchievement(id)
+				call SaveAchievePointer(GetOwningPlayer(u))
+			endif
+			call SetAchievement(GetOwningPlayer(u),achiPage[id])
 		endif
-		call SetAchievement(GetOwningPlayer(u),achiPage[id])
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    自定义成就名
+	*/
+	function SetDIYName takes player p,string s returns nothing
+		local integer i = GetConvertedPlayerId(p)
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成就将成就自定义成:"+s+".")
+		set SDIY[i] = s
+		call DzAPI_Map_StoreString( p,  "diy", SDIY[i] )
+		call SetAndSaveDIYName(p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -932,6 +933,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer i = 1
 
 		call CreateUnit(Player(6), 'n01E', 6144.0, - 320.0, 270.000)
+    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 10560.0, - 4480.0, 270.000)
+    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01K', 11200.0, - 384.0, 270.000)
+
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then

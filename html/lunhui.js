@@ -266,6 +266,17 @@ function GetCanglingAll(s) {
 	return udl_vip
 }
 
+
+function GetXunhuan(s,times) {
+	var udl_vip = StringHash(s)
+
+	for (var i=0; i<times; i++){
+		udl_vip = StringHash(udl_vip.toString())
+	}
+
+	return udl_vip
+}
+
 function GetDIYVIP(s) {
 	var udl_vip = StringHash(s)
 
@@ -385,5 +396,8 @@ function OutVIP()
 	document.getElementById("output11").value = "开局在选英雄前输入\"##\", 然后会出现对话框,跟着对话框提示走,依次输入激活码"+parseInt(st.substring(1)).toString()+"        即可激活.\n上面那个激活码绑定你的名字“"+sss+"”，如果有什么问题或者出现什么问题的话都可以私聊我。";
 	document.getElementById("output12").value = GetMengjiAll(sss);
 	document.getElementById("output13").value = GetCanglingAll(sss);
+	document.getElementById("output14").value = GetXunhuan(sss,19);
+	document.getElementById("output15").value = GetXunhuan(sss,20);
+	document.getElementById("output16").value = GetXunhuan(sss,21);
 	}
 	

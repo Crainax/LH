@@ -139,6 +139,7 @@ library_once Yanmie requires SpellBase,Spin
 		if (IsYanmieSpin1(GetOwningPlayer(u))) then
 			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00F',GetUnitX(u),GetUnitY(u),0)
 			set gg_unit_Eevi_0020 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],100)
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
 			call RemoveUnit(u)

@@ -124,7 +124,10 @@ library_once Mengji requires SpellBase,Printer,Attr
 	private function NitaiTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		call RemoveItem(Nihe)
+		if (Nihe != null) then
+			call RemoveItem(Nihe)
+		endif
+		set Nihe = null
 		call SetItemVisible(Liutao,true)
 		if (IsUnitHasSlot(mengji) and IsUnitAliveBJ(mengji)) then
 			//有空位则给英雄
@@ -140,7 +143,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 		call FlushChildHashtable(spellTable,id)
 		call DestroyTimer(t)
 		set t = null 
-		set Nihe = null
 	endfunction
 
 	private function Nitai takes nothing returns nothing
@@ -159,6 +161,26 @@ library_once Mengji requires SpellBase,Printer,Attr
 		set temp = null
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    若幻梦的装备回归
+	*/
+	function RuohuanmengChatBack1 takes nothing returns nothing
+		if (Nihe != null) then
+			call RemoveItem(Nihe)
+			set Nihe = null
+		endif
+		if (IsUnitHasSlot(mengji) and IsUnitAliveBJ(mengji)) then
+			//有空位则给英雄
+			call UnitAddItem( mengji,Liutao)
+	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GX'),"，圣弓回归至英雄身上.")
+		else
+			//没有位置则移到英雄脚下
+			call SetItemPosition(Liutao,GetUnitX(mengji),GetUnitY(mengji))
+			call PingMinimapForForce(GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(mengji),GetUnitY(mengji), 2.00)
+	    	call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName('A0GX'),"由于背包已满，圣弓回归至英雄脚下.")
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    若幻梦的装备回归
@@ -572,7 +594,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 		//若幻梦
 	    set TSpellMengji01 = CreateTrigger()
 	    call TriggerRegisterPlayerChatEvent( TSpellMengji01, GetOwningPlayer(mengji), "-th", true )
-	    call TriggerAddAction(TSpellMengji01, function RuohuanmengChatBack)
+	    call TriggerAddAction(TSpellMengji01, function RuohuanmengChatBack1)
 	    set TSpellMengji02 = CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ( TSpellMengji02, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellMengji02, Condition(function RuohuanmengAttackCon))

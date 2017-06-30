@@ -338,14 +338,14 @@ library_once Heiyan requires SpellBase,Printer,Attr
 	endfunction
 	
 	private function TSpellHeiyan41Act takes nothing returns nothing
-		//call DisableTrigger(GetTriggeringTrigger())
+		call DisableTrigger(GetTriggeringTrigger())
 		call KillUnit(FirstOfGroup(GSacri))
-    	call RecoverUnitHP(Heiyan,0.1)
+    	call SetUnitLifePercentBJ(Heiyan,100)
 		call ImmuteDamageInterval(Heiyan,0.1)
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
-		//call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
-		//call PolledWait(4)
-		//call EnableTrigger(GetTriggeringTrigger())
+		call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
+		call PolledWait(2)
+		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
 //---------------------------------------------------------------------------------------------------

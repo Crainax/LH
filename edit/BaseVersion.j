@@ -3,10 +3,21 @@
 library_once BaseVersion initializer InitBaseVersion requires LHBase,Version
 
 	globals
+		boolean array BDIYName
 	endglobals
 
 	private function TSpeakPasswordBase takes nothing returns nothing
 		local string chat = GetEventPlayerChatString()
+		debug if (BDIYName[GetConvertedPlayerId(GetTriggerPlayer())]) then
+			debug call SetDIYName(GetTriggerPlayer(),chat)
+			debug set BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = false
+		debug elseif (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(GetTriggerPlayer())],20))) then
+			debug call GetAchievementAndSave(GetTriggerPlayer(),42)
+		debug elseif (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(GetTriggerPlayer())],21))) then
+			debug call GetAchievementAndSave(GetTriggerPlayer(),318)
+		debug endif
+
+
 		call TSpeakPassword()
 	endfunction
 

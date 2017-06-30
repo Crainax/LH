@@ -174,6 +174,13 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call YincangBroad()
 		elseif (str == "-zz") then
 			call CancelVIP(GetTriggerPlayer())
+		debug elseif (str == "-qm") then
+			debug if (IsQuanchengjiu(GetTriggerPlayer())) then
+				debug set BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = true
+				debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r现在请输入你要自定义的成就名吧!")
+			debug else
+				debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你未解锁所有成就.")
+			debug endif
 		elseif (str == "-qc") then
 			if (TBianse[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
 

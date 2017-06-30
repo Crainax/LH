@@ -9,13 +9,14 @@ library_once Achievement requires LHBase
 		integer array achieve
 		integer array achieve2
 		integer array achieve3
+		integer array achieve4
 		effect array achiEff
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取位数字,1是个位
-	*/
+	*/ 
 	function GetBit takes integer num,integer bit returns integer
 		local string s = I2S(num)
 		local integer length = StringLength(s)
@@ -150,6 +151,97 @@ library_once Achievement requires LHBase
 	private function GetAchieveTarget takes integer i returns integer
 		return S2I(SubStringBJ(I2S(i),2,StringLength(I2S(i))))
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    瑟雨皮肤条件
+	*/
+	function GetSeyu1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],2)>0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    瑟雨皮肤OK了
+	*/
+	function SetSeyuSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],2) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    晓月皮肤条件
+	*/
+	function GetXiaoyue1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],3) > 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    晓月皮肤OK了
+	*/
+	function SetXiaoyueSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],3) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取晓月皮肤\"|cff99ccff月轮绯狱|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    湮灭皮肤条件
+	*/
+	function GetYanmie1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],4) > 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    湮灭皮肤OK了
+	*/
+	function SetYanmieSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],4) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取湮灭皮肤\"|cFFFF0000殛霆无迹|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    巫妖皮肤条件
+	*/
+	function GetXuanxue1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],5) > 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    巫妖皮肤OK了
+	*/
+	function SetXuanxueSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],5) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪皮肤\"|cFF33FF33末日权杖|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    白虎皮肤条件
+	*/
+	function GetTaiya1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],6) > 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    白虎皮肤OK了
+	*/
+	function SetTaiyaSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],6) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取泰雅皮肤\"|cFFCCFF66三弦星谧|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取成就索引条件是否满足了
@@ -164,8 +256,61 @@ library_once Achievement requires LHBase
 			return (GetIntegerBit(achieve2[id],target) >0)
 		elseif (page == 3) then
 			return (GetIntegerBit(achieve3[id],target) >0)
+		elseif (page == 4) then
+			return (GetIntegerBit(achieve4[id],target) >0)
 		endif
 		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    是否全成就
+	*/
+	function IsQuanchengjiu takes player p returns boolean
+		local boolean result = true
+		local integer i = 11
+		loop
+			exitwhen i > 18
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+		set i = 21
+		loop
+			exitwhen i > 29
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
+		set i = 210
+		loop
+			exitwhen i > 231
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
+		set i = 32
+		loop
+			exitwhen i > 39
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
+
+		set i = 310
+		loop
+			exitwhen i > 318
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
+		set i = 320
+		loop
+			exitwhen i > 326
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
+		return result
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -227,6 +372,13 @@ library_once Achievement requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    存储成就数据3
+	*/
+	function SaveAchieveData4 takes player p returns nothing
+		call DzAPI_Map_StoreInteger( p,  "achieve4", achieve4[GetConvertedPlayerId(p)] )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    提示获取数据成功并保存数据
 	*/
 	function GetAchievementAndSave takes player p , integer achieveID returns nothing
@@ -241,12 +393,15 @@ library_once Achievement requires LHBase
 				set achieve2[id] = SetIntegerBit(achieve2[id],GetAchieveTarget(achieveID),true)
 			elseif (GetAchievePage(achieveID) == 3) then
 				set achieve3[id] = SetIntegerBit(achieve3[id],GetAchieveTarget(achieveID),true)
+			elseif (GetAchievePage(achieveID) == 4) then
+				set achieve4[id] = SetIntegerBit(achieve4[id],GetAchieveTarget(achieveID),true)
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\""+GetAchievementName(achieveID)+"|r\",该成就会显示在游戏大厅内及你的名字前面.")
 		    call SetAchievement(p,achieveID)
 			call SaveAchieveData1(p)
 			call SaveAchieveData2(p)
 			call SaveAchieveData3(p)
+			call SaveAchieveData4(p)
 		    call SaveAchievePointer(p)
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想使用其他的成就，请输入\"-cj\"来切换你的现有成就。")
 		endif
@@ -311,11 +466,12 @@ library_once Achievement requires LHBase
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 318) + S3(IsAchieveOK(p,i + 318),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
+    	    	call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetAchievementName(327) + S3(IsAchieveOK(p,327),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		elseif (page == 9) then
 			set i = 1
 		    loop
 		    	exitwhen i > 4
-		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 325) + S3(IsAchieveOK(p,i + 325),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 327) + S3(IsAchieveOK(p,i + 327),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
 		endif
@@ -328,12 +484,21 @@ library_once Achievement requires LHBase
 	    创建英雄挑战对话框
 	*/
 	function CreateHeroDialogContent takes player p, dialog d returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 4
-			call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 10) + S3(IsAchieveOK(p,i + 10),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
-			set i = i +1
-		endloop
+
+		call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1) + S3(GetSeyu1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2) + S3(GetXiaoyue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3) + S3(GetYanmie1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(4) + S3(GetXuanxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    创建超级成就对话框
+	*/
+	function CreateSuperDialogContent takes player p,dialog d returns nothing
+		
+		call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetSuperChallenageName(1) + S3(IsQuanchengjiu(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetSuperChallenageName(2) + S3(IsAchieveOK(p,42),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -406,6 +571,63 @@ library_once Achievement requires LHBase
 	    set p = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    英雄挑战对话框
+	*/
+	function HeroDialogClick takes nothing returns nothing
+		local dialog d = GetClickedDialogBJ()
+	    local player p = LoadPlayerHandle(LHTable,GetHandleId(d),13)
+		local integer i = 1
+	    loop
+	        exitwhen i > 9
+	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
+                call DialogClear(d)
+		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetHeroChallenageName(i) + "|r英雄挑战的条件如下所示:")
+		    	call DisplayTextToPlayer(p, 0., 0., GetHeroChallenageContent(i))
+	            exitwhen true
+	        endif
+	        set i = i +1
+	    endloop
+
+        call DialogClear(d)
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+    	call DialogDisplay( p, d, false )
+        call DialogDestroy(d)
+        set d = null
+        set p = null
+        call DestroyTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    超级成就对话框
+	*/
+	function SuperAchievementClick takes nothing returns nothing
+		local dialog d = GetClickedDialogBJ()
+	    local player p = LoadPlayerHandle(LHTable,GetHandleId(d),13)
+		local integer i = 1
+	    loop
+	        exitwhen i > 9
+	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
+                call DialogClear(d)
+		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetSuperChallenageName(i) + "|r超级成就的完成条件如下所示:")
+		    	call DisplayTextToPlayer(p, 0., 0., GetSuperChallenageContent(i))
+		    	if (i == 2) then
+	    			call SetAchievement(p,42)
+		    	endif
+	            exitwhen true
+	        endif
+	        set i = i +1
+	    endloop
+
+        call DialogClear(d)
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+    	call DialogDisplay( p, d, false )
+        call DialogDestroy(d)
+        set d = null
+        set p = null
+        call DestroyTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    创建一个成就对话框给玩家
@@ -435,10 +657,29 @@ library_once Achievement requires LHBase
 	    local dialog d = DialogCreate()
 	    call DialogSetMessage( d, "英雄挑战" )
 	    call CreateHeroDialogContent(p,d)
+	    call SavePlayerHandle(LHTable,GetHandleId(d),13,p)
 	    call DialogDisplay( p, d, true )
 	    call TriggerRegisterDialogEvent( t, d )
-	    call TriggerAddAction(t, function HeroChallenagerDialogClick)
+	    call TriggerAddAction(t, function HeroDialogClick)
 	    set d = null
 	    set t = null
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    创建一个超级成就对话框给玩家
+	*/
+	function CreateSuperAchievementDialog takes player p returns nothing
+		local trigger t  = CreateTrigger()
+	    local dialog d = DialogCreate()
+	    call DialogSetMessage( d, "超级成就" )
+	    call CreateSuperDialogContent(p,d)
+	    call SavePlayerHandle(LHTable,GetHandleId(d),13,p)
+	    call DialogDisplay( p, d, true )
+	    call TriggerRegisterDialogEvent( t, d )
+	    call TriggerAddAction(t, function SuperAchievementClick)
+	    set d = null
+	    set t = null
+	endfunction
+
+
 endlibrary

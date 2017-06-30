@@ -1,6 +1,6 @@
 
 //! import "LHBase.j"
-//! import "Huodong.j"
+/////! import "Huodong.j"
 library_once Diffculty requires LHBase,Huodong
 	
 	globals
@@ -73,7 +73,7 @@ library_once Diffculty requires LHBase,Huodong
 	*/
 	function AddTianyanmokang takes unit u returns nothing
 		if (IsTianyan) then
-			call UnitAddAbility(u,'A09G')
+			 call UnitAddAbility(u,'A07B')
 		endif
 	endfunction
 

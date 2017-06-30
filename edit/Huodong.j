@@ -1,7 +1,7 @@
 
 //! import "LHBase.j"
-
-library_once Huodong requires LHBase 
+//! import "Achievement.j"
+library_once Huodong requires LHBase,Achievement
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -46,10 +46,18 @@ library_once Huodong requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    限时活动6:17-26
+	*/
+	function IsHuodong6 takes nothing returns boolean
+		//return true
+		return ((DzAPI_Map_GetGameStartTime()/10) > 149762880) and ((DzAPI_Map_GetGameStartTime()/10) < 149840640)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    天魇难度的开启条件
 	*/
 	function IsTianyanOK takes nothing returns boolean
-		return true
+		return IsAchieveOK(Player(0),325)
 	endfunction
 
 endlibrary

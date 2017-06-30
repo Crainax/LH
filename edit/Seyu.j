@@ -6,7 +6,7 @@
 /*
     英雄瑟雨的技能
 */
-library_once Seyu requires SpellBase,Printer,Attr,Spin
+library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
 	
 	globals
 		unit array chongdongs
@@ -33,6 +33,10 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		private trigger TSpellChongdong = null
 		key kAnShaCount
 
+		/*
+		    成就能量记录
+		*/
+		private integer ItempPower = 0
 		private texttag array TTCD
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -121,7 +125,6 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 			if (chongdongs[i] == null) then
 				set chongdongs[i] = CreateUnit(GetOwningPlayer(seyu),'h015',GetSpellTargetX(),GetSpellTargetY(),270)
 				set TTCD[i] = CreateTextTagUnitBJ( "虫洞"+I2S(i)+"号",chongdongs[i] , 0, 20.00, 100, 0, 0, 0 )
-	            call SelectUnitForPlayerSingle( chongdongs[i], GetOwningPlayer(seyu) )
 	            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(seyu)), GetSpellTargetX(),GetSpellTargetY(), 2.00 )
 	            //冰甲技能的设定
 	            call TSpellSeyuUpdateAct()
@@ -239,7 +242,11 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(seyu))
 		local real delta
 		//限制能量在0-105之间
-		set IPower = IMinBJ(IMaxBJ(IPower - IJ3(seyu,2,1),0),IJ3(seyu,255,105))
+		set IPower = IMinBJ(IMaxBJ(IPower - IJ3(seyu,GetRandomInt(1,2),1),0),IJ3(seyu,255,105))
+		debug if (ItempPower == 0 and IPower >= 105) then
+			debug call SetSeyuSpinOK(GetOwningPlayer(seyu))
+		debug endif
+		debug set ItempPower = IPower
 		call SetTextTagTextBJ(TTPower,I2S(IPower) + "%能量",20)
 		set delta = I2R((IPower/10)*10)/100
 		if (RAddtion != delta) then
@@ -256,7 +263,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
     	异界能量的获取
 	*/
 	private function TDeathAddPowerCon takes nothing returns boolean
-		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu)
+		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu) and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(seyu)) and GetUnitPointValue(GetDyingUnit()) != 123 and GetUnitPointValue(GetDyingUnit()) != 0
 	endfunction
 	
 	private function TDeathAddPowerAct takes nothing returns nothing
@@ -498,6 +505,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin
 			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00E',GetUnitX(u),GetUnitY(u),0)
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],100)
 			call RemoveUnit(u)
 			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
 		else

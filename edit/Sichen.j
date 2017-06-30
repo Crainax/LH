@@ -165,42 +165,76 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 
 	function TSichenBuildingUpdate takes nothing returns nothing
     	local unit u = GetTriggerUnit()
+    	call UnitSetUpgradeProgress( GetTriggerUnit(), 100 )
     	if (GetUnitTypeId(u) == 'h0s3') then
 			call SetDefense(u,GetSichenDefense()*4)
 			call SetHP(u,GetSichenHP()*4)
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s6') then
 			call SetDefense(u,GetSichenDefense()*5)
 			call SetHP(u,GetSichenHP()*5)
 			call SetAttack(u,GetSichenAttack()*5)
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h01C') then
 			call SetDefense(u,GetSichenDefense())
 			call SetHP(u,GetSichenHP())
-			call SetAttack(u,GetSichenAttack())
+			call SetAttack(u,GetSichenAttack() * 5)
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s2') then
 			call SetDefense(u,GetSichenDefense())
 			call SetHP(u,GetSichenHP())
 			call SaveEffectHandle(spellTable,GetHandleId(u),1,AddSpecialEffectTargetUnitBJ("chest",u,"war3mapImported\\IceTornado.mdx"))
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s1') then
 			call SetDefense(u,GetSichenDefense())
 			call SetHP(u,GetSichenHP())
 			call SetAttack(u,GetSichenAttack()*5)
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s5') then
 			call SetDefense(u,GetSichenDefense()*2)
 			call SetHP(u,GetSichenHP()*2)
 			call SetAttack(u,GetSichenAttack()*2)
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s8') then
-			call SetDefense(u,GetSichenDefense()*10)
+			call SetDefense(u,GetSichenDefense()*5)
 			call SetHP(u,GetSichenHP()*5)
 			call SetAttack(u,GetSichenAttack()*5)
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s4') then
 			call SetHP(u,GetSichenHP()*2)
-			call SetAttack(u,GetSichenAttack()*2)
+			call SetAttack(u,GetSichenAttack())
+			call SetDefense(u,GetSichenDefense())
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h0s7') then
 			call SetDefense(u,GetSichenDefense())
 			call SetHP(u,GetSichenHP())
 			call SetAttack(u,GetSichenAttack())
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h1s1') then
     		call InitHeidong(u)
+			call SetDefense(u,GetSichenDefense())
+			call SetHP(u,GetSichenHP())
+			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
+				call UnitAddAbility(u,'A0HG')
+			endif
     	elseif (GetUnitTypeId(u) == 'h1s3') then
     		call AddAllMoney(0.1)
     	elseif (GetUnitTypeId(u) == 'h01F') then
@@ -208,7 +242,6 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
     	elseif (GetUnitTypeId(u) == 'h1s6') then
     		call InitWudi(u)
     	elseif (GetUnitTypeId(u) == 'h1s7') then
-    		call InitHeidong(u)
     		call AddAllMoney(0.1)
     		call AddAll3W(0.02)
     		call InitWudi(u)
@@ -263,12 +296,12 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 		if (GetEventDamage() > 0) then
 
 			//塔1
-			if (GetUnitTypeId(GetEventDamageSource()) == 'h01E') then
+			if (GetUnitTypeId(GetEventDamageSource()) == 'h01C') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				return true 		
 			//塔2
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s1') then
-				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
 				return true 
 			//千刃
@@ -313,7 +346,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 				return true 
 			//抓宠物
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h1s7' or GetUnitTypeId(GetEventDamageSource()) == 'h1s4') then
-				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO))) then
+				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) and not(IsUnitIllusion(GetTriggerUnit()))) then
 					call CreatePet(GetOwningPlayer(sichen),GetTriggerUnit())
 				endif
 			//硫炎
@@ -335,7 +368,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 	    亘月天地
 	*/
 	private function GenyuetiandiA takes nothing returns boolean
-		return IsUnitType(GetFilterUnit(),UNIT_TYPE_HERO) and not(IsWudi(GetFilterUnit()))
+		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] == GetFilterUnit() and not(IsWudi(GetFilterUnit())) 
 	endfunction
 
     private function GenyuetiandiB takes nothing returns nothing
@@ -475,7 +508,9 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-			call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(GetOwningPlayer(sichen),'h01H',GetUnitX(l_unit),GetUnitY(l_unit),GetUnitFacing(l_unit)) )
+		    if (not(IsWudi(l_unit))) then
+				call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(GetOwningPlayer(sichen),'h01H',GetUnitX(l_unit),GetUnitY(l_unit),GetUnitFacing(l_unit)) )
+		    endif
 		endloop
 		call DestroyGroup(l_group)
 		set l_group = null
@@ -517,7 +552,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 			call SetUnitLifePercentBJ(GetSpellTargetUnit(),100)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 	    	call PrintSpellName(GetOwningPlayer(sichen),GetAbilityName('A0IS'))
-		elseif (GetSpellAbilityId() == 'A0IT') then 
+		elseif (GetSpellAbilityId() == 'A0IT' and GetSpellTargetUnit() != gg_unit_haro_0030) then 
 			call Shenghuangcili()
 		endif
 
@@ -621,7 +656,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_CONSTRUCT_FINISH )
 	    call TriggerAddCondition(t,Condition(function TSichenBuildingCon))
 	    call TriggerAddAction(t, function TSichenBuilding)
-	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_UPGRADE_FINISH )
+	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_UPGRADE_START )
 	    call TriggerAddCondition(t,Condition(function TSichenBuildingCon))
 	    call TriggerAddAction(t, function TSichenBuildingUpdate)
 
