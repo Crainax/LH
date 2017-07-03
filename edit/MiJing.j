@@ -145,6 +145,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call GroupRemoveUnit(l_group, l_unit)
             if (IsUnitAliveBJ(l_unit) and GetOwningPlayer(l_unit) == Player(11)) then
                 set count = count + 1
+                call UnitRemoveBuffsBJ( bj_REMOVEBUFFS_ALL, l_unit )
             endif
         endloop
         call DestroyGroup(l_group)

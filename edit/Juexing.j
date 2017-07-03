@@ -181,7 +181,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			endif
 			set i = i +1
 		endloop
-		if (dengCount <= 1 and GetDeng(GetTriggerUnit())>= 5) then	
+		if (dengCount <= 1 and GetDeng(GetTriggerUnit())>= 3) then	
 			call CancelJuexing(GetTriggerUnit())
 		endif
 	endfunction

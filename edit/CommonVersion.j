@@ -17,7 +17,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	    黑阎的提示文本
 	*/
 	function GetHeiyanHint takes nothing returns string
-		return "|cff99ccff该英雄是隐藏英雄，获取密码请加群148199145|r"
+		return "|cff99ccff该英雄是隐藏英雄，获取密码请加群413359254|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -90,6 +90,27 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	    晓月皮肤条件
 	*/
 	function GetXiaoyue1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    湮灭皮肤条件
+	*/
+	function GetYanmie1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    白虎皮肤条件
+	*/
+	function GetTaiya1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    玄雪皮肤条件
+	*/
+	function GetXuanxue1Spin takes player p returns boolean
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------

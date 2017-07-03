@@ -4,6 +4,11 @@
 //! import "LHBase.j"
 library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu
 	
+	globals
+		boolean array BTianting1
+		boolean array BTianting2
+	endglobals
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    英雄学习技能
@@ -11,6 +16,8 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 	private function HeroLearnSkillCon takes nothing returns boolean
 	    return ((IsUnitIllusionBJ(GetTriggerUnit()) != true) and (GetUnitTypeId(GetTriggerUnit()) != 'N018') )
 	endfunction
+
+
 
 	//直接学习
 	private function HeroLearnSkillAct takes nothing returns nothing

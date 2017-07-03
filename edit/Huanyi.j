@@ -447,12 +447,12 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 	    	return
 	    endif
 		set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',x,y,0)
-	    set attract = Attract.create(u,900,0.05,50)
+	    set attract = Attract.create(u,900 * times,0.05,50 * times)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
-	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHJ'),"持续时间"+I2S(5 * times) +"s.")
-		call UnitApplyTimedLifeBJ( 5 * times, 'BHwe', u)
+	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHHJ'),"范围"+I2S(900 * times) +"s.")
+		call UnitApplyTimedLifeBJ( 3, 'BHwe', u)
 		call attract.SetForbitHero()
 	    call attract.start()
 	    set u = null

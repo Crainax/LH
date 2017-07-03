@@ -1,6 +1,6 @@
 //! import "LHBase.j"
 /////! import "Beast.j"
-//! import "Netversion.j"
+/////! import "Netversion.j"
 library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	globals
 		boolean array sPIV
