@@ -46,7 +46,7 @@ library_once Xinglong requires SpellBase,Printer,Attr
 	    	else
 	    		call UnitDamageTarget( xinglong, xinglong, GetUnitState(xinglong,UNIT_STATE_MAX_LIFE)*0.5, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 	    	endif	
-    		call DestroyEffect(AddSpecialEffect("Abilities\Spells\Human\MassTeleport\MassTeleportCaster.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
+    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
 	    else
 	    	call PrintSpellContent(GetOwningPlayer(xinglong),GetAbilityName('A0IR'),"，刷新失败。")
 		endif
@@ -138,6 +138,26 @@ library_once Xinglong requires SpellBase,Printer,Attr
 	/*
 	    星胧升级后
 	*/
+	private function CreateEffect1 takes real x,real y returns nothing
+		local integer i = 1
+		call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl", x, y ))
+		loop
+			exitwhen i > 6
+			call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl", YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(x + 900 * SinBJ(i*60)) ))
+			set i = i +1
+		endloop
+	endfunction
+
+	private function CreateEffect2 takes real x,real y returns nothing
+		local integer i = 1
+	    call CreateUnitEffect(GetOwningPlayer(xinglong),'h01M',x,y,0)
+		loop
+			exitwhen i > 6
+	    	call CreateUnitEffect(GetOwningPlayer(xinglong),'h01M',YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(x + 900 * SinBJ(i*60)),0)
+			set i = i +1
+		endloop
+	endfunction
+
 	private function TSpellXinglongUpdateAct takes nothing returns nothing
 		if (BLevel450) then
 			return
@@ -146,20 +166,22 @@ library_once Xinglong requires SpellBase,Printer,Attr
 			//龙皇轮回，伤害并眩晕，还有特效
 			call SetHeroLevel(xinglong,1,false)
 			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 10)
-			//toto:眩晕30秒
- 			call SimulateSpell(xinglong,xinglong,'A0BI',2,2,"stomp",false,true,false)
+ 			call SimulateSpell(xinglong,xinglong,'A0JT',2,2,"stomp",false,true,false)
 	    	call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0IT'),XinglongDamage*10)
-	    	//todo:龙皇轮回的特效
+			call CreateEffect2(GetUnitX(xinglong), GetUnitY(xinglong))
+	    	return
 		endif
 
-	    call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0IA'),XinglongDamage*0.5)
-		call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.5)
-		//todo：1秒眩晕
-		call SimulateSpell(xinglong,xinglong,'A0BI',1,2,"stomp",false,true,false)
+		if (IsSecondSpellOK(xinglong) == true and GetUnitAbilityLevel(xinglong,'A0IR') == 1) then
+		    call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0IR'),XinglongDamage*0.5)
+			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.5)
+			call SimulateSpell(xinglong,xinglong,'A0JT',1,2,"stomp",false,true,false)
+			call CreateEffect1(GetUnitX(xinglong), GetUnitY(xinglong))
+		endif
 
     	call SetUnitLifePercentBJ(xinglong,100)
     	call SetUnitManaPercentBJ(xinglong,100)
-    	//todo:龙皇附体的特效
+    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
