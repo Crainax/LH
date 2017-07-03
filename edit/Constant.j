@@ -11,7 +11,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    英雄数量
 		*/
-		constant integer HERO_COUNT = 17
+		constant integer HERO_COUNT = 18
 		/*
 		    活动开关
 		*/

@@ -43,6 +43,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         unit mengji = null
         unit Huanyi = null
         unit sichen = null
+        unit xinglong = null
         /*
             觉醒
         */ 
@@ -58,7 +59,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         判断是否是力量英雄
     */
     function IsStrHero takes unit u returns boolean
-        return u == kaisa or u == chenji or u ==bajue or u == Heiyan
+        return u == kaisa or u == chenji or u ==bajue or u == Heiyan or u == xinglong
     endfunction
     
 //---------------------------------------------------------------------------------------------------
