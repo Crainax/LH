@@ -16,7 +16,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 		/*
 		    技能触发
 		*/
-		private trigger  TSpellHuanyi = null 
+		private trigger TSpellHuanyi = null 
 
 		/*
 		    元素状态

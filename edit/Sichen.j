@@ -80,7 +80,6 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 	*/
 	private function InitWudi takes unit u returns nothing
 		local trigger t = CreateTrigger()
-		//todo :无敌塔加上魔法回复与魔法
 	    call TriggerRegisterUnitInRangeSimple(t,300,u)
 	    call TriggerAddCondition(t,Condition(function CloserWudiTowerCon))
 	    call TriggerAddAction(t,function CloserWudiTowerAct)

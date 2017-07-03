@@ -46,6 +46,7 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		call SimulateDeathHeiyan(GetDyingUnit())
 		call SimulateDeathHuanyi(GetDyingUnit())
 		call SimulateDeathSichen(GetDyingUnit())
+		call SimulateDeathXinglong(GetDyingUnit())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

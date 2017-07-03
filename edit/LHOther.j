@@ -50,12 +50,14 @@ library_once LHOther initializer InitLHOther requires LHBase,Diffculty
     function TGetExAct takes nothing returns nothing
        local integer i = 1
        local integer basicEx = 0
-        loop
+       loop
             exitwhen i > 6
-            set basicEx = GetWanjieInt(R2I(I2R(GetUnitPointValue(GetDyingUnit())) * udg_I_Jingyan[i]),0.75)
-            call AddHeroXPSwapped( CModeH(basicEx,basicEx*2), udg_H[i], true )
+            if (udg_H[i] != null and (udg_H[i] != xinglong or BJuexing1[i] or GetOwningPlayer(GetKillingUnitBJ()) == GetOwningPlayer(xinglong))) then
+	            set basicEx = GetWanjieInt(R2I(I2R(GetUnitPointValue(GetDyingUnit())) * udg_I_Jingyan[i]),0.75)
+	            call AddHeroXPSwapped( CModeH(basicEx,basicEx*2), udg_H[i], true )
+            endif
             set i = i + 1
-        endloop
+       endloop
     endfunction
 
 //---------------------------------------------------------------------------------------------------
