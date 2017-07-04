@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Aura.j"
 /*
     英雄梦霁的技能
 */
-library_once Mengji requires SpellBase,Printer,Attr
+library_once Mengji requires SpellBase,Printer,Attr,Aura
 
 	globals
 
@@ -21,7 +22,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 		private trigger TSpellMengji02 = null
 		private trigger TSpellMengji03 = null
 		private trigger TSpellMengji2 = null
-		private trigger TSpellMengji3 = null
 		private trigger TSpellMengji41 = null
 		private trigger TSpellMengji42 = null
 
@@ -30,10 +30,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 		*/
 		private item Liutao = null
 		private item Nihe = null
-		/*
-		    瞬移提示
-		*/
-		private boolean array shunHints
 		/*
 		    玲珑舞两个单位及闪电特效
 		*/
@@ -334,67 +330,7 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    call PrintSpell(GetOwningPlayer(mengji),GetAbilityName(GetSpellAbilityId()),damage)
         set u = null
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    共享瞬移的提示与初始化
-	*/
-	private function SanchuanShunTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local integer playerID = LoadInteger(spellTable,GetHandleId(t),1)
-		if not (shunHints[playerID]) then
-			call DisplayTextToPlayer(ConvertedPlayer(playerID), 0., 0., "|cffff66cc【消息】|r你已获得来自|cffffff00阴阳三川箭|r光环的效果,|cffffcc00使用M键可以瞬移至任意地点|r,冷却5s.")
-		else
-			call PauseTimer(t)
-			call FlushChildHashtable(spellTable,id)
-			call DestroyTimer(t)
-		endif
-		set t = null 
-	endfunction
 
-	private function InitShunyi takes nothing returns nothing
-		local timer t = null
-		local integer i = 1
-		loop
-			exitwhen i > 6
-			if (udg_H[i] != null) then
-				set t = CreateTimer()
-				call SaveInteger(spellTable,GetHandleId(t),1,i)
-				call TimerStart(t,4,true,function SanchuanShunTimer)
-				set shunHints[i] = false
-    			call TriggerRegisterUnitEvent( TSpellMengji3, udg_H[i], EVENT_UNIT_ISSUED_POINT_ORDER )
-			endif
-			set i = i +1
-		endloop
-		set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    共享瞬移
-	*/
-	private function TSpellMengji3Con takes nothing returns boolean
-	    return ((GetIssuedOrderIdBJ() == String2OrderIdBJ("move")) and (not (shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])))
-	endfunction
-
-	private function TSpellMengji3Act takes nothing returns nothing
-		if (IsInForbitRegion(GetOrderPointX(),GetOrderPointY(),GetTriggerUnit())) then
-			call IssueImmediateOrder( GetTriggerUnit(), "stop" )
-	        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达." )
-	        return
-		endif
-	    if (IsTerrainPathable(GetOrderPointX(), GetOrderPointY(), PATHING_TYPE_WALKABILITY)) then
-	    	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r目标地点不能通行,瞬移失败！")
-	    	return
-	    endif
-		set shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-		call SetUnitX(GetTriggerUnit(),GetOrderPointX())
-		call SetUnitY(GetTriggerUnit(),GetOrderPointY())
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetOrderPointX(), GetOrderPointY() ))
-		call PolledWait(5)
-		set shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = false
-
-	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -545,9 +481,8 @@ library_once Mengji requires SpellBase,Printer,Attr
 				//技能2初始化
 			elseif (whichSpell == 3 and IsThirdSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'A0GW') == 1) then
 				//技能3初始化
-				call InitShunyi()
 				call AddSpecialEffectTargetUnitBJ("origin",mengji,"war3mapImported\\BlightwalkerAura.mdx")
-				call UnitAddAbility(gg_unit_haro_0030,'A0EL')
+				call InitMengjiAura()
 			elseif (whichSpell == 4 and IsFourthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM4') == 1) then
 				//技能4初始化
 			elseif (whichSpell == 5 and IsFifthSpellOK(mengji) == true and GetUnitAbilityLevel(mengji,'AHM5') == 1) then
@@ -618,10 +553,6 @@ library_once Mengji requires SpellBase,Printer,Attr
 	    call TriggerAddCondition(TSpellMengji2, Condition(function TSpellMengji2Con))
 	    call TriggerAddAction(TSpellMengji2, function TSpellMengji2Act)
 
-	    //英雄第三个技能瞬移事件
-	    set TSpellMengji3 = CreateTrigger()
-	    call TriggerAddCondition(TSpellMengji3, Condition(function TSpellMengji3Con))
-	    call TriggerAddAction(TSpellMengji3, function TSpellMengji3Act)
 
 	    //瞬伐心
 	    set TSpellMengji41 = CreateTrigger()

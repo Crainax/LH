@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Aura.j"
 /*
     英雄梦霁的技能
 */
-library_once Cangling requires SpellBase,Printer,Attr
+library_once Cangling requires SpellBase,Printer,Attr,Aura
 
 	globals
 		/*
@@ -316,7 +317,7 @@ library_once Cangling requires SpellBase,Printer,Attr
     endfunction
 
 	function IsGuangyinRevive takes nothing returns boolean
-		if (cangling != null and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'A0HK') == 1 and not(BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))])) then
+		if (GetUnitAbilityLevel(gg_unit_haro_0030,'A0HR') == 1 and not(BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))])) then
 			set BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))] = true
 			call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(GetDyingUnit()))+"被"+GetUnitName(GetKillingUnitBJ())+"干掉了，被|cff808000光阴无梭|r救起,等待3秒原地复活.")
 		    call PolledWait(3.00)
@@ -520,7 +521,7 @@ library_once Cangling requires SpellBase,Printer,Attr
 			if (whichSpell == 3 and IsThirdSpellOK(cangling) == true and GetUnitAbilityLevel(cangling,'A0HK') == 1) then
 				//技能3初始化
 				call AddSpecialEffectTargetUnitBJ("origin",cangling,"war3mapImported\\yanbao.mdl")
-				call UnitAddAbility(gg_unit_haro_0030,'A0HR')
+				call InitCanglingAura()
 			endif
 		endif
 	endfunction

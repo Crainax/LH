@@ -2,10 +2,11 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Aura.j"
 /*
     英雄黑阎的技能
 */
-library_once Heiyan requires SpellBase,Printer,Attr
+library_once Heiyan requires SpellBase,Printer,Attr,Aura
 	
 	globals
 		/*
@@ -428,15 +429,8 @@ library_once Heiyan requires SpellBase,Printer,Attr
 			elseif (whichSpell == 3 and IsThirdSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0JH') == 1) then
 				//技能3初始化
 				set ISacriMaxCount = ISacriMaxCount + 3
-				set i = 1
-				//增加上限
-				loop
-					exitwhen i > 6
-					call AddHPPercent(i,0.5)
-					set i = i +1
-				endloop
 				call AddSpecialEffectTargetUnitBJ("origin",Heiyan,"war3mapImported\\devilaura.mdl")
-				call UnitAddAbility(gg_unit_haro_0030,'A0GR')
+				call InitHeiyanAura()
 			elseif (whichSpell == 4 and IsFourthSpellOK(Heiyan) == true and GetUnitAbilityLevel(Heiyan,'A0D2') == 1) then
 				//技能4初始化
 				set ISacriMaxCount = ISacriMaxCount + 3

@@ -398,18 +398,26 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     /*
         4个坐标的角度,前面是人的位置，后面是点的位置
     */
-    function GetFacingBetweenXY takes real x1,real y1,real x2,real y2 returns nothing
+    function GetFacingBetweenXY takes real x1,real y1,real x2,real y2 returns real
         return Atan2BJ(y2-y1,x2-x1)
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         4个坐标的距离
     */
-    function GetDistance takes real x1,real y1,real x2,real y2 returns nothing
+    function GetDistance takes real x1,real y1,real x2,real y2 returns real
         local real dx = x2-x1
         local real dy = y2-y1
         return SquareRoot(dx*dx+dy*dy)
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断背刺,u1是判断的单位,u2是背后的单位
+    */
+    function IsUnitInUnitBack takes unit u1,unit u2,real angle returns boolean
+        return CosBJ(GetUnitFacing(u1) - YDWEAngleBetweenUnits(u2, u1)) >= CosBJ(angle)
+    endfunction
+
 //---------------------------------------------------------------------------------------------------
 
     /*

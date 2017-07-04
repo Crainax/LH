@@ -2,11 +2,12 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Aura.j"
 //! import "Diffculty.j"
 /*
     英雄幻逸的技能
 */
-library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
+library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	
 	globals
 		/*
@@ -798,17 +799,9 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty
 				//技能2初始化
 				call InitPower()
 			elseif (whichSpell == 4 and IsFourthSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH3') == 1) then
-				//技能3初始化
-				set i = 1
-				//增加技能伤害
-				loop
-					exitwhen i > 6
-					call AddSpellPercent(i,0.6)
-					set i = i +1
-				endloop
 
+				call InitHuanyiAura()
 				call AddSpecialEffectTargetUnitBJ("origin",Huanyi,"war3mapImported\\sichongjiejie_b.mdx")
-				call UnitAddAbility(gg_unit_haro_0030,'A0GS')
 			endif
 		endif
 	endfunction

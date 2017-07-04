@@ -47,5 +47,16 @@ library_once JBase
             return b2
         endif
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        三目运算符,unit
+    */
+    function U3 takes boolean b,unit u1,unit u2 returns unit
+        if (b) then
+            return u1
+        else
+            return u2
+        endif
+    endfunction
     
 endlibrary

@@ -3,10 +3,11 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Diffculty.j"
+//! import "Aura.j"
 /*
     英雄寒殇的技能
 */
-library_once Hanshang requires SpellBase,Printer,Attr,Diffculty
+library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	
 	globals
 
@@ -428,22 +429,12 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty
 
 	//按照12345来判断
 	function LearnSkillHanshangI takes unit learner,integer whichSpell returns nothing
-		local integer i
 		if (learner == hanshang) then
 			if (whichSpell == 3 and IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang,'A0BN') == 1) then
 				//技能3初始化
 		        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),0.25)
-				set i = 1
-       			loop
-       				exitwhen i > 6
-       				
-		            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-		                call AddMoneyPercent(i,0.5)
-		            endif
 
-       				set i = i +1
-       			endloop
-
+       			call InitHanshangAura()
        			//炼金之术
        			call TimerStart(CreateTimer(),3,true,function LianJinZhiShuTimer)
        		endif

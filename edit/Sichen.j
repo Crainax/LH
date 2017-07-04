@@ -2,11 +2,12 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
+//! import "Aura.j"
 /////! import "Pet.j"
 /*
     英雄司宸的技能
 */
-library_once Sichen requires SpellBase,Printer,Attr,Pet
+library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 
 	globals
 
@@ -572,8 +573,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet
 			elseif (whichSpell == 3 and IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
 				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 				call AddSpecialEffectTargetUnitBJ("origin",sichen,"war3mapImported\\WarAura.mdx")
-				call UnitAddAbility(gg_unit_haro_0030,'A0JE')
-				call AddAll3W(0.2)
+				call InitSichenAura()
 			elseif (whichSpell == 4 and IsFourthSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IT') == 1) then
 				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 			elseif (whichSpell == 5 and IsFifthSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IU') == 1) then

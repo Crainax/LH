@@ -18,6 +18,9 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 	//难度等级，最高7
 	integer udg_Nandu_JJJ
     integer udg_Nandu
+    //技能触发
+    trigger gg_trg_____________71
+    trigger gg_trg_______21
         //基地总区域
         rect gg_rct__________u
         //杀阵
@@ -47,6 +50,10 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         leaderboard array udg_Paihang
         //基地
         unit gg_unit_haro_0030
+        /*
+            选英雄的区域
+        */
+        rect gg_rct_______c1
         /*
             秘境的区域
         */
@@ -182,6 +189,30 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         trigger gg_trg_____________3
 	endglobals
 
+    function OperatorDegreeAdd takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorDegreeSubtract takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorDegreeMultiply takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorDegreeDivide takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorRadianAdd takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorRadianSubtract takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorRadianMultiply takes real r1,real r2 returns real
+         return 0.
+     endfunction 
+    function OperatorRadianDivide takes real r1,real r2 returns real
+         return 0.
+     endfunction 
 
 	private function InitTest takes nothing returns nothing
 		// body...

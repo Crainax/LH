@@ -1,20 +1,19 @@
 
 //! import "SpellBase.j"
 //! import "Spin.j"
+//! import "Aura.j"
 /*
     湮灭
 */
-library_once Yanmie requires SpellBase,Spin
+library_once Yanmie requires SpellBase,Spin,Aura
 
 	globals
 
 		private group GShadow = null
 		constant integer ICountShadowMAX = 3
-		private trigger TSpellYanmie3 = null
 
 		private integer Ilingyu = 0
 		private integer Ishuaxinyifu = 0
-		private integer array YKillCount
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -82,23 +81,6 @@ library_once Yanmie requires SpellBase,Spin
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
-	/*
-	    光环杀怪加属性
-	*/
-	private function TSpellYanmie3Con takes nothing returns boolean
-		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] != null and (IsUnitType(GetDyingUnit(), UNIT_TYPE_STRUCTURE) != true) and (IsUnitIllusionBJ(GetDyingUnit()) != true) and (GetUnitPointValue(GetDyingUnit()) != 0) and (GetUnitTypeId(GetDyingUnit()) != 'h000') and (IsUnitAlly(GetDyingUnit(), GetOwningPlayer(GetKillingUnitBJ())) != true) and (GetPlayerController(GetOwningPlayer(GetKillingUnitBJ())) == MAP_CONTROL_USER)
-	endfunction
-
-	private function TSpellYanmie3Act takes nothing returns nothing
-		local integer i = GetKillCount(GetDyingUnit())
-		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
-		set YKillCount[index] = YKillCount[index] + i
-		if (YKillCount[index] >= 100) then
-			call AddHero3W(udg_H[index],GetHeroLevel(udg_H[index]) + 200)
-			set YKillCount[index] = 0
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
 
 	//按照12345来判断
 	function LearnSkillYanmieI takes unit learner,integer whichSpell returns nothing
@@ -107,19 +89,8 @@ library_once Yanmie requires SpellBase,Spin
 
 			if (whichSpell == 3 and IsThirdSpellOK(yanmie) == true and GetUnitAbilityLevel(yanmie,'AHbh') == 1) then
 				//技能3初始化
-
-				set TSpellYanmie3 = CreateTrigger()
-				call TriggerRegisterAnyUnitEventBJ(TSpellYanmie3,EVENT_PLAYER_UNIT_DEATH)
-				call TriggerAddCondition(TSpellYanmie3, Condition(function TSpellYanmie3Con))
-				call TriggerAddAction(TSpellYanmie3, function TSpellYanmie3Act)
-				//湮灭新光环Todo
 				call AddSpecialEffectTargetUnitBJ("origin",yanmie,"war3mapImported\\etherealaura.mdx")
-				call UnitAddAbility(gg_unit_haro_0030,'A0HF')
-				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
-				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
-				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
-				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
-				call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
+				call InitYanmieAura()
 			endif
 		endif
 	endfunction
