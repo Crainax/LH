@@ -133,6 +133,17 @@ library_once Xinglong requires SpellBase,Printer,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    龙皇凝性的伤害被动
+	*/
+    private function TSpellXinglongDamageCon takes nothing returns boolean
+    	return true
+    endfunction
+    
+    private function TSpellXinglongDamageAct takes nothing returns nothing
+    	// body...
+    endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    龙皇轮回
 	*/
 
@@ -334,6 +345,12 @@ library_once Xinglong requires SpellBase,Printer,Attr
 	    call TriggerRegisterAnyUnitEventBJ( TSpellXinglongAttack, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellXinglongAttack, Condition(function TSpellXinglongAttackCon))
 	    call TriggerAddAction(TSpellXinglongAttack, function TSpellXinglongAttackAct)
+	    
+	    //伤害免疫事件
+	    set TSpellXinglongDamage = CreateTrigger()
+	    call TriggerRegisterUnitEvent( TSpellXinglongDamage, xinglong, EVENT_UNIT_DAMAGED )
+	    call TriggerAddCondition(TSpellXinglongDamage, Condition(function TSpellXinglongDamageCon))
+	    call TriggerAddAction(TSpellXinglongDamage, function TSpellXinglongDamageAct)
 	endfunction
 
 endlibrary
