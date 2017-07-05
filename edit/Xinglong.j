@@ -154,7 +154,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	    龙皇凝性的伤害被动
 	*/
     private function TSpellXinglongDamageCon takes nothing returns boolean
-    	return IsThirdSpellOK(xinglong) and GetEventDamage() < GetUnitState(xinglong,UNIT_STATE_MAX_LIFE) and GetUnitAbilityLevel(xinglong,'A0JP') == 1 and IsUnitInUnitBack(xinglong,GetEventDamageSource(),60)
+    	return IsThirdSpellOK(xinglong) and GetEventDamage() < GetUnitState(xinglong,UNIT_STATE_MAX_LIFE) and GetUnitAbilityLevel(xinglong,'A0JP') == 1 and IsUnitInUnitBack(xinglong,GetEventDamageSource(),60) and GetEventDamage() > 0 and GetEventDamageSource() != xinglong
     endfunction
     
     private function TSpellXinglongDamageAct takes nothing returns nothing
@@ -200,6 +200,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		if (current < 20) then
 			call SetHeroLevel(xinglong,IMaxBJ(450,GetHeroLevel(xinglong)+step),true)
 			call SaveInteger(spellTable,GetHandleId(t),1,current + 1)
+			call BJDebugMsg("升级到了"+I2S(GetHeroLevel(xinglong)))
 		else
 			call SetHeroLevel(xinglong,450,false)
 			call PauseTimer(t)
@@ -210,9 +211,10 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	endfunction
 
 	private function Longhuanglunhui takes nothing returns nothing
-		local integer i = GetUnitLevel(xinglong)
+		local integer i = GetHeroLevel(xinglong)
 		local timer t = CreateTimer()
 		local timer t2 = CreateTimer()
+		//todo:轮回之阵
 		local unit u = CreateUnit(GetOwningPlayer(xinglong),'uyan',GetUnitX(xinglong),GetUnitY(xinglong),0)
 		call UnitApplyTimedLifeBJ( 10, 'BHwe',u )
 		call PrintSpellName(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'))
@@ -360,6 +362,17 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    复活后如果是龙化就取消属性加成
+	*/
+	function AfterReviveXinglong takes unit u returns nothing
+		if (u == xinglong and BBianshen) then
+			set BBianshen = false
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
+			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    英雄学习技能
 	*/
 
@@ -402,6 +415,8 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		set TSpellXinglong = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellXinglong,u,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellXinglong, function TSpellXinglongAct)
+
+	    call udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] + 5.
 
 	    //刷新伤害,还有每秒判断形态是否扣血,还有加属性的判断
 	    call TimerStart(CreateTimer(),1,true,function FlashXinglongDamage)

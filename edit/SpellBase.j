@@ -37,7 +37,7 @@ library_once SpellBase requires LHBase
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
-
+  
 	struct Attract 
 		private unit caster
 		private real radius
@@ -196,6 +196,55 @@ library_once SpellBase requires LHBase
 			set thistype[.t] = integer(this)
 			call UnitApplyTimedLifeBJ( interval1+interval2, 'BHwe',CreateUnit(GetOwningPlayer(.caster),preview,.x,.y,0) )
 			call TimerStart(.t,.interval1,false,function thistype.launch)
+			return this
+		endmethod
+
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			set .caster = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
+	endstruct
+//---------------------------------------------------------------------------------------------------
+	/*
+	    大肉棒
+	*/
+	struct Roubang
+
+		private unit array URou
+		private real ASpeed
+		private real radius
+		private timer t
+		private integer number
+		private unit caster
+
+
+        static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+		static method create takes unit caster,integer times returns thistype
+
+		   	local thistype this = thistype.allocate()
+			set .caster = caster
+			set .times = times
+			set .current = 1
+
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call TimerStart(.t,0.5,true,function thistype.flashLife)
 			return this
 		endmethod
 
