@@ -216,12 +216,27 @@ library_once SpellBase requires LHBase
 	struct Roubang
 
 		private unit array URou
-		private real ASpeed
+		private real aSpeed
+		private real cAngle
 		private real radius
 		private timer t
 		private integer number
 		private unit caster
 
+		static method roubangrotate takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			local integer i = 1
+			set .cAngle = ModuloReal(.cAngle + .aSPeed,360.)
+			loop
+				exitwhen i > .number
+				if (.URou[i] != null) then
+					call SetUnitX(.URou[i],YDWECoordinateX(GetUnitX(caster) + radius * (2 * i - 1 ) * CosBJ(.cAngle)))
+					call SetUnitY(.URou[i],YDWECoordinateY(GetUnitX(caster) + radius * (2 * i - 1 ) * SinBJ(.cAngle)))
+					call SetUnitFacing(.URou[i],.cAngle + 90)
+				endif
+				set i = i +1
+			endloop
+		endmethod
 
         static method operator [] takes handle h returns thistype
             return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
@@ -235,28 +250,61 @@ library_once SpellBase requires LHBase
             call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
         endmethod
 
-		static method create takes unit caster,integer times returns thistype
-
+		static method create takes unit caster,integer number,real radius,real aSpeed,real angle,integer utype returns thistype
+			local integer i = 1
+			local integer randomEmpty = GetRandomInt(1,num)
 		   	local thistype this = thistype.allocate()
 			set .caster = caster
-			set .times = times
-			set .current = 1
-
+			set .number = number
+			set .radius = radius
+			set .aSpeed = aSpeed
+			set .cAngle = angle
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
-			call TimerStart(.t,0.5,true,function thistype.flashLife)
+		   	loop
+		   		exitwhen i > num
+		   		if (i != randomEmpty) then
+		   			set URou[i] = CreateUnit(GetOwningPlayer(caster), utype , YDWECoordinateX(GetUnitX(caster) + radius * (2 * i - 1 ) * CosBJ(angle)) , YDWECoordinateY(GetUnitY(caster) + radius * (2 * i - 1 ) * SinBJ(angle)) , angle + 90)
+		   		else
+		   			set URou[i] = null
+		   		endif
+		   		set i = i +1
+		   	endloop
+			call TimerStart(.t,0.05,true,function thistype.roubangrotate)
 			return this
 		endmethod
 
 
 		method onDestroy takes nothing returns nothing
+			local integer i = 1
 			call thistype.flush(.t)
 			set .caster = null
+			loop
+				exitwhen i > .num
+				if (.URou[i] != null) then
+					call RemoveUnit(.URou[i])
+					set .URou[i] = null
+				endif
+				set i = i +1
+			endloop
 			call PauseTimer(.t)
 			call DestroyTimer(.t)
+			set .aSpeed = 0.
+			set .cAngle = 0.
+			set .radius = 0.
+			set .number = 0
 			set .t = null
 		endmethod
 
+	endstruct
+//---------------------------------------------------------------------------------------------------
+	/*
+	    多条命
+	*/
+	struct MultiLife
+		
+
+		
 	endstruct
 //---------------------------------------------------------------------------------------------------
 	/*
