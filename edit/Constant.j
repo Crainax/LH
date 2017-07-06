@@ -167,7 +167,7 @@ library_once Constant initializer InitConstant requires JBase
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    英雄难度
+	    英雄天赋
 	*/
 	function GetHeroTianFu takes unit u returns integer
 		local integer id = GetHeroIndex(GetUnitTypeId(u))

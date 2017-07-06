@@ -53,6 +53,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
         //是否变色
         timer array TBianse
 
+        //是否正在禁用天赋
+        boolean BTianfu = false
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*

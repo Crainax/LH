@@ -187,6 +187,10 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         unit array udg_Lang
         //湮灭
         trigger gg_trg_____________3
+
+        //经验
+        real array udg_I_Jingyan
+        boolean array udg_T1
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

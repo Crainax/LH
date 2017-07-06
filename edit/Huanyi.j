@@ -26,7 +26,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 		private boolean IsWater = false
 		private boolean IsLumber = false
 		private boolean IsWind = false
-		private integer ICurrentSpell
+		integer ICurrentSpell
 		/*
 		    魔能数
 		*/
@@ -720,7 +720,9 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 		else
 			set ICurrentSpell = 'AHHK'
 		endif
-		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),ICurrentSpell,true)
+		if not(BTianfu) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),ICurrentSpell,true)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

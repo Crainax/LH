@@ -215,7 +215,7 @@ library_once SpellBase requires LHBase
 	*/
 	struct Roubang
 
-		private unit array URou
+		private unit array URou [30]
 		private real aSpeed
 		private real cAngle
 		private real radius
@@ -226,7 +226,7 @@ library_once SpellBase requires LHBase
 		static method roubangrotate takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
 			local integer i = 1
-			set .cAngle = ModuloReal(.cAngle + .aSPeed,360.)
+			set .cAngle = ModuloReal(.cAngle + .aSpeed,360.)
 			loop
 				exitwhen i > .number
 				if (.URou[i] != null) then
@@ -252,17 +252,17 @@ library_once SpellBase requires LHBase
 
 		static method create takes unit caster,integer number,real radius,real aSpeed,real angle,integer utype returns thistype
 			local integer i = 1
-			local integer randomEmpty = GetRandomInt(1,num)
+			local integer randomEmpty = GetRandomInt(1,IMinBJ(29,number))
 		   	local thistype this = thistype.allocate()
 			set .caster = caster
-			set .number = number
+			set .number = IMinBJ(29,number)
 			set .radius = radius
 			set .aSpeed = aSpeed
 			set .cAngle = angle
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
 		   	loop
-		   		exitwhen i > num
+		   		exitwhen i > IMinBJ(29,number)
 		   		if (i != randomEmpty) then
 		   			set URou[i] = CreateUnit(GetOwningPlayer(caster), utype , YDWECoordinateX(GetUnitX(caster) + radius * (2 * i - 1 ) * CosBJ(angle)) , YDWECoordinateY(GetUnitY(caster) + radius * (2 * i - 1 ) * SinBJ(angle)) , angle + 90)
 		   		else
@@ -280,7 +280,7 @@ library_once SpellBase requires LHBase
 			call thistype.flush(.t)
 			set .caster = null
 			loop
-				exitwhen i > .num
+				exitwhen i > .number
 				if (.URou[i] != null) then
 					call RemoveUnit(.URou[i])
 					set .URou[i] = null
@@ -304,7 +304,69 @@ library_once SpellBase requires LHBase
 	struct MultiLife
 		
 
+		private unit caster
+		private integer times
+		private integer current
+		private timer t
+		private texttag ttHint
 		
+		static method flashLoc takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			call SetTextTagPosUnitBJ(.ttHint,.caster,20)
+			if not (IsUnitAliveBJ(.caster)) then
+				set .current = .current + 1
+				call SetUnitLifePercentBJ(.caster,100)
+				if (.current >= times) then
+					call .destroy()
+				else
+					call SetTextTagTextBJ(.ttHint,I2S(.current) + "/" + I2S(.times) +"次生命",20)
+				endif
+			endif
+		endmethod
+
+		static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method create takes unit caster,integer times returns thistype
+
+		   	local thistype this
+		   	if (times < 2) then
+		   		return 0
+		   	endif
+		   	set this = thistype.allocate()
+			set .caster = caster
+			set .times = times
+			set .ttHint = CreateTextTagUnitBJ( "1/" + I2S(times) +"次生命", caster, 0, 20, 0, 100, 100, 0 )
+			set .current = 1
+			//加上复活技能
+			call UnitAddAbility(caster,'aaaa')
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call TimerStart(.t,0.05,true,function thistype.flashLoc)
+			return this
+		endmethod
+
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			call UnitRemoveAbility(.caster,'aaaa')
+			call DestroyTextTag(.ttHint)
+			set .ttHint = null
+			set .caster = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
 	endstruct
 //---------------------------------------------------------------------------------------------------
 	/*

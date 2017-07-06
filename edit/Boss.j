@@ -15,9 +15,33 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 		*/
 		private timer TiMissile
 
-
+		//
+		
 	endglobals
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    生命联结
+	*/
+
+	private function LifeConnectTimer takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+
+			endif
+			set i = i +1
+		endloop
+	endfunction
+
+	function StartLifeConnect takes nothing returns nothing
+		if (udg_RENSHU < 2) then
+			return
+		endif
+		set TLifeConnect = CreateTimer()
+		call TimerStart(t,0.05,true,function LifeConnectTimer)
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	function CycleFangKa takes nothing returns nothing

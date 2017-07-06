@@ -261,11 +261,12 @@ library_once Aura requires LHBase,Attr
 	function InitMengjiAura takes nothing returns nothing
 		
 	    //英雄第三个技能瞬移事件
-		call InitShunyi()
 	    set TSpellMengji3 = CreateTrigger()
 	    call TriggerAddCondition(TSpellMengji3, Condition(function TSpellMengji3Con))
 	    call TriggerAddAction(TSpellMengji3, function TSpellMengji3Act)
 		call UnitAddAbility(gg_unit_haro_0030,'A0EL')
+		call InitShunyi()
+		
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

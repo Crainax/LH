@@ -1,11 +1,121 @@
-//!import "LHBase.j"
-//!import "Moqi.j"
-//!import "Seyu.j"
-//!import "Mengji.j"
+//! import "LHBase.j"
+//! import "Moqi.j"
+//! import "Seyu.j"
+//! import "Mengji.j"
+//! import "Huanyi.j"
+//! import "Xinglong.j"
+//! import "Sheyan.j"
 
-library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
+library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Sheyan
 
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天赋禁用
+	*/
+	function ForbidTianfu takes nothing returns nothing
+		local integer i = 1 
+		set BTianfu = true
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				call UnitAddAbility(udg_H[i],'bbbb')
+				if (udg_H[i] == Huanyi) then
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),ICurrentSpell,false)
+				elseif (udg_H[i] == mengji) then
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GX',false)
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GY',false)
+				else
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),false)
+				endif
+			endif
+			set i = i +1
+		endloop
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天赋允许
+	*/
+	function AllowTianfu takes nothing returns nothing
+		local integer i = 1 
+		set BTianfu = false
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				call UnitRemoveAbility(udg_H[i],'bbbb')
+				if (udg_H[i] == Huanyi) then
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),ICurrentSpell,true)
+				elseif (udg_H[i] == mengji) then
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GX',true)
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GY',true)
+				else
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),true)
+				endif
+			endif
+			set i = i +1
+		endloop
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    循环禁用天赋
+	*/
+	struct TianfuForbidder
+		
+		private integer IForbid
+		private integer IAllow
+		private timer t
+		
+
+		static method allowTimer takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			call AllowTianfu()
+			call PauseTimer(.t)
+			call TimerStart(.t,.IForbid,false,function thistype.forbitTimer)
+		endmethod
+
+		static method forbitTimer takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			call ForbidTianfu()
+			call PauseTimer(.t)
+			call TimerStart(.t,.IAllow,false,function thistype.allowTimer)
+		endmethod
+
+		static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method create takes unit caster,integer forbidTime,integer allowTime returns thistype
+
+		   	local thistype this = thistype.allocate()
+			set .IForbid = forbidTime
+			set .IAllow = allowTime
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call TimerStart(.t,forbidTime,false,function thistype.forbitTimer)
+			return this
+		endmethod
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			call AllowTianfu()
+			set .IForbid = 0
+			set .IAllow = 0
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
+	endstruct
 //---------------------------------------------------------------------------------------------------
 	/*
 	    一段觉醒
@@ -44,6 +154,9 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			call JuexingSheyan2()
 		elseif (u == sichen) then
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
+		elseif (u == xinglong and IsLong()) then
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
+			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -76,6 +189,9 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			call RuohuanmengChatBack()
 		elseif (u == sichen) then
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
+		elseif (u == xinglong and IsLong()) then
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
+			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -96,6 +212,16 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji
 			endif
 			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
 				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
+			endif
+		endif
+		if (u == xinglong and IsLong()) then
+			if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
+				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
+			endif
+			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
+				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
 			endif
 		endif
 		if (u == kaisa and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(kaisa))]) then

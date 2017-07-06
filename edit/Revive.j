@@ -2,7 +2,8 @@
 //! import "LHBase.j"
 /////! import "Beast.j"
 //! import "Lingxue.j"
-library_once Revive initializer InitRevive requires LHBase,Beast,Lingxue
+//! import "Xinglong.j"
+library_once Revive initializer InitRevive requires LHBase,Beast,Lingxue,Xinglong
 	
 
 //---------------------------------------------------------------------------------------------------
