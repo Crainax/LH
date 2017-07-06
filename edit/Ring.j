@@ -137,6 +137,8 @@ library_once Ring initializer InitRing requires LHBase,Version
 		//! endtextmacro
 
 		//! runtextmacro ShuaRingMax("brac","5000")
+		//! runtextmacro ShuaRingMax("I05W","13000")
+		//! runtextmacro ShuaRingMax("I05V","10000")
 		//! runtextmacro ShuaRingMax("lhst","10000")
 
 	    set ring = null

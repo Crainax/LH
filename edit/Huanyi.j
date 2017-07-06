@@ -880,6 +880,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),'AHHK',false)
 		//幻逸回魔
 		call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),'A0HX',false)
+
 	endfunction
 
 endlibrary

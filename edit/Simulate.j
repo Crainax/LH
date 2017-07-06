@@ -5,11 +5,12 @@
 //! import "HeiYan.j"
 //! import "Yanmie.j"
 //! import "Huanyi.j"
+//! import "ItemSpell.j"
 /////! import "CenterCredit.j"
 /*
     马甲模拟
 */
-library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit
+library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell
 	
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -33,6 +34,8 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		elseif (SimulateDamageSheyan(u) == true) then
 			return
 		elseif (SimulateDamageSoldier(u) == true) then
+			return
+		elseif (SimulateDamageHundun(u) == true) then
 			return
 		endif
 

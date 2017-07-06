@@ -70,6 +70,15 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    被攻击反击
+	*/
+	private function SetItemFanji takes integer itemID,integer value returns nothing
+
+		call SaveInteger(YDHT,itemID,0x0F3DF677,value)
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    力量加成
 	*/
 	private function SetItemStrPerc takes integer itemID,real value returns nothing
@@ -174,7 +183,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemStr('tlum',320000)
 		call SetItemAgi('tlum',470000)
 		call SetItemInt('tlum',420000)
-		call SetItemSpellPerc('tlum',1.5)
+		call SetItemSpellPerc('tlum',1.3)
 		call SetItemXixue('tlum',40000)
 		call SetItemZhishang('tlum',8000000)
 		call SetItemAttack('tlum',2000000)
@@ -348,6 +357,9 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemJingyan('IB07', 2.25)
 	    call SetItemJingyan('IB04', 1.50)
 	    call SetItemJingyan('IB02', 1.00)
+	    call SetItemJingyan('I04X', 3.50)
+	    call SetItemJingyan('IB0A', 3.50)
+
 	    call SetItemJingyan('ratc', 5.00)
 	    call SetItemJingyan('I04L', 6.00)
 	    call SetItemJingyan('I04M', 6.00)
@@ -357,6 +369,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemHP('IB00' , 50000)
 		call SetItemHP('IB01' , 200000)
 		call SetItemHP('IB09' , 20000000)
+		call SetItemHP('I04X' , 30000000)
+		call SetItemHP('IB0A' , 30000000)
 		call SetItemHP('IB08' , 14000000)
 		call SetItemHP('IB06' , 5000000)
 		call SetItemHP('IB07' , 7000000)
@@ -366,6 +380,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'IB03' , 15000)
 	    call SetItem3W( 'IB01' , 5000)
 	    call SetItem3W( 'IB09' , 150000)
+	    call SetItem3W( 'I04X' , 220000)
+	    call SetItem3W( 'IB0A' , 220000)
 	    call SetItem3W( 'IB08' , 100000)
 	    call SetItem3W( 'IB06' , 50000)
 	    call SetItem3W( 'IB07' , 70000)
@@ -378,68 +394,165 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    擂台初始化
 	*/
 	private function InitLeitai takes nothing returns nothing
-	//擂台
-	call SetItem3W( 'prvt' , 1500)
-    call SetItem3W( 'cnob' , 5000)
-    call SetItem3W( 'rhth' , 8000)
-    call SetItemStr( 'hval' , 30000)
-    call SetItem3W( 'afac' , 30000)
-    call SetItem3W( 'pmna' , 57000)
-    call SetItem3W( 'evtl' , 100000)
-    call SetItem3W( 'bspd' , 160000)
+		//擂台
+		call SetItem3W( 'prvt' , 1500)
+	    call SetItem3W( 'cnob' , 5000)
+	    call SetItem3W( 'rhth' , 8000)
+	    call SetItemStr( 'hval' , 30000)
+	    call SetItem3W( 'afac' , 30000)
+	    call SetItem3W( 'pmna' , 57000)
+	    call SetItem3W( 'evtl' , 100000)
+	    call SetItem3W( 'bspd' , 160000)
 
-    call SetItem3W( 'mcou' , 250000)
-	call SetItemSpellPerc( 'mcou' , 0.70)
-	call SetItemAttack( 'mcou' , 2300000)
-	call SetItemDefensePer( 'mcou', 0.15)
-	call SetItemDamagePerc( 'mcou' , 0.20)
-	//皎月
-    call SetItem3W( 'I04L' , 250000)
-	call SetItemSpellPerc( 'I04L' , 0.70)
-	call SetItemAttack( 'I04L' , 2300000)
-	call SetItemDefensePer( 'I04L', 0.15)
-	call SetItemDamagePerc( 'I04L' , 0.20)
-	//混沌夜哀
-    call SetItem3W( 'I04M' , 250000)
-	call SetItemSpellPerc( 'I04M' , 0.70)
-	call SetItemAttack( 'I04M' , 2300000)
-	call SetItemDefensePer( 'I04M', 0.15)
-	call SetItemDamagePerc( 'I04M' , 0.20)
+	    call SetItem3W( 'mcou' , 250000)
+		call SetItemSpellPerc( 'mcou' , 0.70)
+		call SetItemAttack( 'mcou' , 2300000)
+		call SetItemDefensePer( 'mcou', 0.15)
+		call SetItemDamagePerc( 'mcou' , 0.20)
+		//皎月
+	    call SetItem3W( 'I04L' , 250000)
+		call SetItemSpellPerc( 'I04L' , 0.70)
+		call SetItemAttack( 'I04L' , 2300000)
+		call SetItemDefensePer( 'I04L', 0.15)
+		call SetItemDamagePerc( 'I04L' , 0.20)
+		//混沌夜哀
+	    call SetItem3W( 'I04M' , 250000)
+		call SetItemSpellPerc( 'I04M' , 0.70)
+		call SetItemAttack( 'I04M' , 2300000)
+		call SetItemDefensePer( 'I04M', 0.15)
+		call SetItemDamagePerc( 'I04M' , 0.20)
 
-    call SetItemSpellPerc( 'cnob' , 0.15)
-	call SetItemSpellPerc( 'hval' , 0.25)
-	call SetItemSpellPerc( 'afac' , 0.40)
-	call SetItemSpellPerc( 'pmna' , 0.50)
-	call SetItemSpellPerc( 'evtl' , 0.55)
-	call SetItemSpellPerc( 'bspd' , 0.65)
-	call SetItemSpellPerc( 'rde3' , 0.30)
-    call SetItemAttack( 'rhth' , 35000)
-	call SetItemAttack( 'afac' , 200000)
-	call SetItemAttack( 'bspd' , 1500000)
-    call SetItemHP( 'rhth' , 100000)
-    call SetItemHP( 'evtl' , 1000000)
-    call SetItemDefense( 'hval' , 1000)
-    call SetItemHPPer( 'pmna' , 0.10)
-	call SetItemHPPer( 'rde3' , 0.20)
-	call SetItemDefensePer( 'evtl', 0.10)
-	call SetItemDefensePer( 'rde3', 0.20)
-	call SetItemDamagePerc( 'evtl' , 0.10)
-	call SetItemDamagePerc( 'bspd' , 0.15)
-	call SetItemDamagePerc( 'rde3' , 0.20)
-	call SetItemStrPerc('rde3', 0.20)
-	call SetItemAgiPerc( 'rde3', 0.20)
-	call SetItemIntPerc( 'rde3', 0.20)
-	call SetItemAttackPerc( 'rde3', 0.50)
+	    call SetItemSpellPerc( 'cnob' , 0.15)
+		call SetItemSpellPerc( 'hval' , 0.25)
+		call SetItemSpellPerc( 'afac' , 0.40)
+		call SetItemSpellPerc( 'pmna' , 0.50)
+		call SetItemSpellPerc( 'evtl' , 0.55)
+		call SetItemSpellPerc( 'bspd' , 0.65)
+		call SetItemSpellPerc( 'rde3' , 0.30)
+	    call SetItemAttack( 'rhth' , 35000)
+		call SetItemAttack( 'afac' , 200000)
+		call SetItemAttack( 'bspd' , 1500000)
+	    call SetItemHP( 'rhth' , 100000)
+	    call SetItemHP( 'evtl' , 1000000)
+	    call SetItemDefense( 'hval' , 1000)
+	    call SetItemHPPer( 'pmna' , 0.10)
+		call SetItemHPPer( 'rde3' , 0.20)
+		call SetItemDefensePer( 'evtl', 0.10)
+		call SetItemDefensePer( 'rde3', 0.20)
+		call SetItemDamagePerc( 'evtl' , 0.10)
+		call SetItemDamagePerc( 'bspd' , 0.15)
+		call SetItemDamagePerc( 'rde3' , 0.20)
+		call SetItemStrPerc('rde3', 0.20)
+		call SetItemAgiPerc( 'rde3', 0.20)
+		call SetItemIntPerc( 'rde3', 0.20)
+		call SetItemAttackPerc( 'rde3', 0.50)
 
-	call SetItemHPPer( 'ssil' , 0.30)
-	call SetItemDefensePer( 'ssil', 0.30)
-	call SetItemDamagePerc( 'ssil' , 0.30)
-	call SetItemStrPerc('ssil', 0.30)
-	call SetItemAgiPerc( 'ssil', 0.30)
-	call SetItemIntPerc( 'ssil', 0.30)
-	call SetItemAttackPerc( 'ssil', 0.75)
-    call SetItemSpellPerc( 'ssil' ,  0.45)
+		call SetItemHPPer( 'ssil' , 0.30)
+		call SetItemDefensePer( 'ssil', 0.30)
+		call SetItemDamagePerc( 'ssil' , 0.30)
+		call SetItemStrPerc('ssil', 0.30)
+		call SetItemAgiPerc( 'ssil', 0.30)
+		call SetItemIntPerc( 'ssil', 0.30)
+		call SetItemAttackPerc( 'ssil', 0.75)
+	    call SetItemSpellPerc( 'ssil' ,  0.45)
 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    超神
+	*/
+	function InitChaoshen takes nothing returns nothing
+	    call SetItemAttack( 'rst1', 1500000)
+	    call SetItemSpellPerc( 'rst1', 1.00)
+	    call SetItem3W('I05F', 370000)
+	    call SetItemHPPer('I05F', 2500000)
+	    call SetItemFanji('I05F' , 5000000)
+	    call SetItemSpellPerc( 'I05F', 1.00)
+	    call SetItem3W('tbsm', 350000)
+	    call SetItemDefense('tbsm', 25000)
+	    call SetItemHPPer('tbsm', 9000000)
+	    call SetItem3W('tfar', 420000)
+	    call SetItemDefense('tfar', 20000)
+	    call SetItemHPPer('tfar', 7500000)
+	    call SetItem3W('tbak', 350000)
+	    call SetItemHPPer('tbak', 7500000)
+	    call SetItemDefense('tbak', 20000)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化混沌装备
+	*/
+	function InitHundun takes nothing returns nothing
+		/*
+		    诛神噬魔
+		*/
+		call SetItemStr('ICS1',360000)
+		call SetItemAgi('ICS1',510000)
+		call SetItemInt('ICS1',460000)
+		call SetItemSpellPerc('ICS1',1.4)
+		call SetItemXixue('ICS1',80000)
+		call SetItemZhishang('ICS1',10000000)
+		call SetItemAttack('ICS1',3000000)
+		call SetItemStr('I04W',360000)
+		call SetItemAgi('I04W',510000)
+		call SetItemInt('I04W',460000)
+		call SetItemSpellPerc('I04W',1.4)
+		call SetItemXixue('I04W',80000)
+		call SetItemZhishang('I04W',10000000)
+		call SetItemAttack('I04W',3000000)
+		/*
+		    幽冥项链
+		*/
+		call SetItemHPPer( 'I05T' , 0.35)
+		call SetItemDefensePer( 'I05T', 0.35)
+		call SetItemDamagePerc( 'I05T' , 0.35)
+		call SetItemStrPerc('I05T', 0.35)
+		call SetItemAgiPerc( 'I05T', 0.35)
+		call SetItemIntPerc( 'I05T', 0.35)
+		call SetItemAttackPerc( 'I05T', 0.75)
+	    call SetItemSpellPerc( 'I05T' ,  0.5)		
+		call SetItemHPPer( 'I04Y' , 0.35)
+		call SetItemDefensePer( 'I04Y', 0.35)
+		call SetItemDamagePerc( 'I04Y' , 0.35)
+		call SetItemStrPerc('I04Y', 0.35)
+		call SetItemAgiPerc( 'I04Y', 0.35)
+		call SetItemIntPerc( 'I04Y', 0.35)
+		call SetItemAttackPerc( 'I04Y', 0.75)
+	    call SetItemSpellPerc( 'I04Y' ,  0.5)		
+
+		/*
+		    衣服
+		*/
+	    call SetItem3W('I05Y', 400000)
+	    call SetItemDefense('I05Y', 30000)
+	    call SetItemHPPer('I05Y', 15000000)
+	    call SetItem3W('I05Z', 470000)
+	    call SetItemDefense('I05Z', 25000)
+	    call SetItemHPPer('I05Z', 10000000)
+	    call SetItem3W('I060', 400000)
+	    call SetItemDefense('I060', 25000)
+	    call SetItemHPPer('I060', 10000000)
+	    /*
+	        双魂
+	    */
+	    call SetItemSpellPerc('ICX1',1.5)
+	    call SetItemAttack('ICX1',2500000)
+	    /*
+	        戒指
+	    */
+	    call SetItem3W('I05W',400000)
+	    call SetItem3W('I05V',300000)
+	    /*
+	        翅膀
+	    */
+	    call SetItem3W('I05X',410000)
+	    call SetItemHP('I05X',5000000)
+	    call SetItemFanji('I05X',80000000)
+	    call SetItemSpellPerc('I05X',1.2)
+	    call SetItem3W('ICY1',470000)
+	    call SetItemHP('ICY1',5000000)
+	    call SetItemFanji('ICY1',80000000)
+	    call SetItemSpellPerc('ICY1',1.3)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -452,6 +565,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call InitDengClothes()
 		call InitBeast()
 		call InitLeitai()
+		call InitChaoshen()
+		call InitHundun()
 	endfunction
 
 endlibrary

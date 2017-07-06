@@ -32,6 +32,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		constant integer DAMAGE_BEAST_07 = 80000000
 		constant integer DAMAGE_BEAST_08 = 120000000
 		constant integer DAMAGE_BEAST_09 = 200000000
+		constant integer DAMAGE_BEAST_10 = 400000000
+		constant integer DAMAGE_BEAST_11 = 200000000
 		/*
 		    充能次数
 		*/
@@ -120,9 +122,10 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer unitID = LoadInteger(itemTable,kBeastItem,itemId)
 		local unit u = CreateUnit(GetOwningPlayer(captain),unitID,GetUnitX(captain),GetUnitY(captain),0)
 		//变色
-		if ((unitID == 'ub08') or (unitID == 'ub09')) then
+		if ((unitID == 'ub08') or (unitID == 'ub09') or (unitID == 'h01N') or (unitID == 'h01O')) then
 			call Discolor(u)
 		endif
+
 		if (Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] != null) then
 			call RemoveUnit(Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))])
 		endif
@@ -146,7 +149,9 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			*/ or GetItemTypeId(i) == 'IB06' /*
 			*/ or GetItemTypeId(i) == 'IB07' /*
 			*/ or GetItemTypeId(i) == 'IB08' /*
-			*/ or GetItemTypeId(i) == 'IB09' 
+			*/ or GetItemTypeId(i) == 'IB09' /*
+			*/ or GetItemTypeId(i) == 'I04X' /*
+			*/ or GetItemTypeId(i) == 'IB0A' 
 	endfunction
 	/*
 	    不能带两个魔兽，先检测魔兽数量，再产生相对应的魔兽
@@ -264,6 +269,11 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			endif
 		endif
 
+		//余数为4则施放
+		if (ModuloInteger(GetItemCharges(beast),4) == 4) then
+			call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(ConvertedPlayer(playerID),'h01P',YDWECoordinateX(GetUnitX(GetEventDamageSource()) + GetRandomReal(-100,100)),YDWECoordinateY(GetUnitY(GetEventDamageSource()) + GetRandomReal(-100,100)),GetRandomReal(0,360)) )
+		endif
+
 		/*
 		    自动
 		*/
@@ -294,6 +304,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		//! runtextmacro DamageBeast1("07")
 		//! runtextmacro DamageBeast1("08")
 		//! runtextmacro DamageBeast1("09")
+		//! runtextmacro DamageBeast1("10")
+		//! runtextmacro DamageBeast1("11")
 
 	endfunction
 
@@ -345,7 +357,10 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		call SaveInteger(itemTable,kBeastItem,'IB07','ub07')
 		call SaveInteger(itemTable,kBeastItem,'IB08','ub08')
 		call SaveInteger(itemTable,kBeastItem,'IB09','ub09')
+		call SaveInteger(itemTable,kBeastItem,'IB0A','ub10')
+		call SaveInteger(itemTable,kBeastItem,'I04X','ub11')
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 
 	private function InitBeast takes nothing returns nothing

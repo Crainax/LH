@@ -365,7 +365,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：能量之光特效索引条件
 	*/
 	function IsAchieveLight takes integer achieveID returns boolean
-		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222 or achieveID == 39
+		return IsAchieveColor(achieveID) or achieveID == 18 or achieveID == 210 or achieveID == 222
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -467,7 +467,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 38) then
 			return "|cffff0000【仙瀑光】"
 		elseif (achieveID == 39) then
-			return "|cffff00ff【烛龙谱】"
+			return "|cffff0000【烛龙谱】"
 		elseif (achieveID == 310) then
 			return GetColorString("【零失误】")
 		elseif (achieveID == 311) then
@@ -869,7 +869,6 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 39) then
 			return "通过秘境挑战20层。
 			
-			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 310) then
 			return "击败冥刹时所有玩家均0死亡。（凯撒触发天赋技能也算死亡）

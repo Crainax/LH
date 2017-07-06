@@ -15,8 +15,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 		*/
 		private timer TiMissile
 
-		//
-		
+		//生命联结
+		timer TLifeConnect = null
+		private lightning array LLifeConnect 
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -24,24 +25,61 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase
 	    生命联结
 	*/
 
-	private function LifeConnectTimer takes nothing returns nothing
+	function InitConnectLine takes nothing returns nothing
 		local integer i = 1
+		local unit temp = null
 		loop
 			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null) then
+				if (temp != null) then
+					set LLifeConnect[i-1] = AddLightning( "HWPB", true , GetUnitX(temp),GetUnitY(temp),GetUnitX(udg_H[i]),GetUnitY(udg_H[i]))
+				endif
+				set temp = udg_H[i]
 			endif
 			set i = i +1
 		endloop
+		set temp = null
 	endfunction
 
+	private function LifeConnectTimer takes nothing returns nothing
+		local integer i = 1
+		local unit temp = null
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null) then
+				if (temp != null) then
+    				call MoveLightning( LLifeConnect[i-1],true, GetUnitX(temp),GetUnitY(temp),GetUnitX(udg_H[i]),GetUnitY(udg_H[i]) )
+				endif
+				set temp = udg_H[i]
+			endif
+			set i = i +1
+		endloop
+		set temp = null
+	endfunction
+
+	//一起死吧~
+	function DieTogether takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null and IsUnitAliveBJ(udg_H[i])) then
+				call UnitDamageTarget( GetKillingUnitBJ(), udg_H[i], GetUnitState(udg_H[i],UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			endif
+			set i = i +1
+		endloop
+		call BJDebugMsg("|cFFFF66CC【消息】|r由于受到生命共享的影响,你们所有英雄受到了致死伤害.")
+	endfunction
+
+	//开始联结之路
 	function StartLifeConnect takes nothing returns nothing
 		if (udg_RENSHU < 2) then
 			return
 		endif
 		set TLifeConnect = CreateTimer()
-		call TimerStart(t,0.05,true,function LifeConnectTimer)
+		call InitConnectLine()
+		call TimerStart(TLifeConnect,0.05,true,function LifeConnectTimer)
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 
 	function CycleFangKa takes nothing returns nothing

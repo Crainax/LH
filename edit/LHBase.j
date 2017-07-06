@@ -1,10 +1,10 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     globals
         unit learnSkillHero = null
@@ -207,6 +207,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
             return GetItemOfTypeFromUnitBJ(u, 'brac')
         elseif (UnitHasItemOfTypeBJ(u,'lhst'))then
             return GetItemOfTypeFromUnitBJ(u, 'lhst')
+        elseif (UnitHasItemOfTypeBJ(u,'I05W'))then
+            return GetItemOfTypeFromUnitBJ(u, 'I05W')
+        elseif (UnitHasItemOfTypeBJ(u,'I05V'))then
+            return GetItemOfTypeFromUnitBJ(u, 'I05V')
         endif
         return null
     endfunction
@@ -215,7 +219,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
         判断是否是鬼戒指Max或者超鬼
     */
     function IsMaxRing takes item i returns boolean
-        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'lhst'
+        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'lhst' or GetItemTypeId(i) == 'I05W' or GetItemTypeId(i) == 'I05V'
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -244,6 +248,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
             return GetItemOfTypeFromUnitBJ(u, 'brac')
         elseif (UnitHasItemOfTypeBJ(u,'lhst')) then
             return GetItemOfTypeFromUnitBJ(u, 'lhst')
+        elseif (UnitHasItemOfTypeBJ(u,'I05W')) then
+            return GetItemOfTypeFromUnitBJ(u, 'I05W')
+        elseif (UnitHasItemOfTypeBJ(u,'I05V')) then
+            return GetItemOfTypeFromUnitBJ(u, 'I05V')
         endif
         return null
     endfunction
@@ -301,7 +309,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
     */
     function IsZhanfahun takes item i returns boolean
         local integer id = GetItemTypeId(i)
-        return id == 'I01U' or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'tsct' or id == 'tcas' or id == 'plcl' or id == 'tgrh' or id == 'rst1' or id == 'rnec' or id == 'shas' or id == 'spro' or id == 'phea' or id == 'rin1' or id == 'ward' or id == 'rde1'
+        return id == 'I01U' or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'tsct' or id == 'tcas' or id == 'plcl' or id == 'tgrh' or id == 'rst1' or id == 'rnec' or id == 'shas' or id == 'spro' or id == 'phea' or id == 'rin1' or id == 'ward' or id == 'rde1' or id == 'ICX1'
     endfunction
 
 //---------------------------------------------------------------------------------------------------

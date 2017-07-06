@@ -1,4 +1,4 @@
 
-//! import "Juexing.j"
+//! import "Boss.j"
 function main takes nothing returns nothing
 endfunction

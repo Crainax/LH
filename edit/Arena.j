@@ -357,6 +357,8 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
  		call SimulateSpell(GetAttacker(),GetAttackedUnitBJ(),'A0AC',1,5,"entanglingroots",false,false,true)
 	    call CreateSpellTextTag("冰封囚笼！",challenager,0,255,0,2)
 	endfunction
+
+	
 //---------------------------------------------------------------------------------------------------
 
 	/*
