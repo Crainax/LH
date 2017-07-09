@@ -68,10 +68,10 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 
 	private function CloserWudiTowerAct takes nothing returns nothing
 		local unit u = LoadUnitHandle(spellTable,GetHandleId(GetTriggeringTrigger()),1)
-		if (GetUnitState(u,UNIT_STATE_MANA) > 100 and not(IsWudi(GetTriggerUnit()))) then
+		if (GetUnitState(u,UNIT_STATE_MANA) > 1333 and not(IsWudi(GetTriggerUnit()))) then
 			call ImmuteDamageInterval(GetTriggerUnit(),3)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-			call RecoverUnitMP(u,-100 )
+			call RecoverUnitMP(u,- 1333 )
 		endif
 		set u = null
 	endfunction
@@ -168,7 +168,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
     	call UnitSetUpgradeProgress( GetTriggerUnit(), 100 )
     	if (GetUnitTypeId(u) == 'h0s3') then
 			call SetDefense(u,GetSichenDefense()*4)
-			call SetHP(u,GetSichenHP()*4)
+			call SetHP(u,GetSichenHP()*3)
 			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
 				call UnitAddAbility(u,'A0HG')
 			endif
@@ -208,8 +208,8 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 				call UnitAddAbility(u,'A0HG')
 			endif
     	elseif (GetUnitTypeId(u) == 'h0s8') then
-			call SetDefense(u,GetSichenDefense()*5)
-			call SetHP(u,GetSichenHP()*5)
+			call SetDefense(u,GetSichenDefense()*4)
+			call SetHP(u,GetSichenHP()*4)
 			call SetAttack(u,GetSichenAttack()*5)
 			if (IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1) then
 				call UnitAddAbility(u,'A0HG')

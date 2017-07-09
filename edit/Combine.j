@@ -22,6 +22,7 @@ library_once Combine initializer InitCombine requires LHBase,Beast,Hundun
 	
 	private function TCombineBuyAllAct takes nothing returns nothing
 		call CombineHundunyeai()
+		call CombineHundunAll()
 	endfunction
 
 //---------------------------------------------------------------------------------------------------

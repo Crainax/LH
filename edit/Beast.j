@@ -122,7 +122,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer unitID = LoadInteger(itemTable,kBeastItem,itemId)
 		local unit u = CreateUnit(GetOwningPlayer(captain),unitID,GetUnitX(captain),GetUnitY(captain),0)
 		//变色
-		if ((unitID == 'ub08') or (unitID == 'ub09') or (unitID == 'h01N') or (unitID == 'h01O')) then
+		if ((unitID == 'ub08') or (unitID == 'ub09') or (unitID == 'ub10') or (unitID == 'ub11')) then
 			call Discolor(u)
 		endif
 
@@ -270,7 +270,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		endif
 
 		//余数为4则施放
-		if (ModuloInteger(GetItemCharges(beast),4) == 4) then
+		if (ModuloInteger(GetItemCharges(beast),4) == 0 and GetUnitTypeId(GetEventDamageSource()) == 'ub11') then
 			call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(ConvertedPlayer(playerID),'h01P',YDWECoordinateX(GetUnitX(GetEventDamageSource()) + GetRandomReal(-100,100)),YDWECoordinateY(GetUnitY(GetEventDamageSource()) + GetRandomReal(-100,100)),GetRandomReal(0,360)) )
 		endif
 

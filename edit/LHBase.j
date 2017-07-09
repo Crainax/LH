@@ -20,9 +20,11 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         /*
             万劫封帝录
         */
-        unit Uwanjie
+        
+        unit Uwanjie = null
         hashtable itemTable = InitHashtable()
         hashtable LHTable = InitHashtable()
+        hashtable spellTable = InitHashtable()
         /*
             全局变量 英雄
         */
@@ -115,6 +117,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function IsYuansu takes unit u returns boolean
         return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy'
     endfunction
+    
 //---------------------------------------------------------------------------------------------------
     /*
         友军过滤器
@@ -127,7 +130,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         禁止复制的装备
     */
     function IsCanCopy takes item i returns boolean
-        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W'))
+        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060'))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -403,6 +406,14 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function HG takes unit u returns nothing
         call SetUnitPositionLoc(u,udg_Point_Fuhuo)
+    endfunction
+    
+//---------------------------------------------------------------------------------------------------
+    /*
+        全部胜利
+    */
+    function ShengliAll takes nothing returns nothing
+        call CustomVictoryBJ( GetEnumPlayer(), true, true )
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

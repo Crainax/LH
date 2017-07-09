@@ -19,7 +19,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				call UnitAddAbility(udg_H[i],'bbbb')
+				call UnitAddAbility(udg_H[i],'A0KK')
 				if (udg_H[i] == Huanyi) then
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),ICurrentSpell,false)
 				elseif (udg_H[i] == mengji) then
@@ -43,7 +43,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				call UnitRemoveAbility(udg_H[i],'bbbb')
+				call UnitRemoveAbility(udg_H[i],'A0KK')
 				if (udg_H[i] == Huanyi) then
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),ICurrentSpell,true)
 				elseif (udg_H[i] == mengji) then
@@ -63,8 +63,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	*/
 	struct TianfuForbidder
 		
-		private integer IForbid
-		private integer IAllow
+		private real IForbid
+		private real IAllow
 		private timer t
 		
 
@@ -72,14 +72,14 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			local thistype this = thistype[GetExpiredTimer()]
 			call AllowTianfu()
 			call PauseTimer(.t)
-			call TimerStart(.t,.IForbid,false,function thistype.forbitTimer)
+			call TimerStart(.t,.IAllow,false,function thistype.forbitTimer)
 		endmethod
 
 		static method forbitTimer takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
 			call ForbidTianfu()
 			call PauseTimer(.t)
-			call TimerStart(.t,.IAllow,false,function thistype.allowTimer)
+			call TimerStart(.t,.IForbid,false,function thistype.allowTimer)
 		endmethod
 
 		static method operator [] takes handle h returns thistype
@@ -94,14 +94,14 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
             call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
         endmethod
 
-        static method create takes unit caster,integer forbidTime,integer allowTime returns thistype
+        static method create takes unit caster,real forbidTime,real allowTime returns thistype
 
 		   	local thistype this = thistype.allocate()
 			set .IForbid = forbidTime
 			set .IAllow = allowTime
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
-			call TimerStart(.t,forbidTime,false,function thistype.forbitTimer)
+			call TimerStart(.t,allowTime,false,function thistype.forbitTimer)
 			return this
 		endmethod
 

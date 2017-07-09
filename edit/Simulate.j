@@ -6,11 +6,12 @@
 //! import "Yanmie.j"
 //! import "Huanyi.j"
 //! import "ItemSpell.j"
+//! import "MiniGame.j"
 /////! import "CenterCredit.j"
 /*
     马甲模拟
 */
-library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell
+library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell,MiniGame
 	
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -21,21 +22,23 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 	endfunction
 
 	function SimulateAllDamage takes unit u returns nothing
-		if (SimulateDamageHeiyan(u) == true) then
+		if (SimulateDamageHeiyan(u)) then
 			return
-		elseif (SimulateDamageYanmie(u) == true) then
+		elseif (SimulateDamageYanmie(u)) then
 			return
-		elseif (SimulateDamageHuanyi(u) == true) then
+		elseif (SimulateDamageHuanyi(u)) then
 			return
-		elseif (SimulateDamageMengji(u) == true) then
+		elseif (SimulateDamageMengji(u)) then
 			return
-		elseif (SimulateDamageCangling(u) == true) then
+		elseif (SimulateDamageCangling(u)) then
 			return
-		elseif (SimulateDamageSheyan(u) == true) then
+		elseif (SimulateDamageSheyan(u)) then
 			return
-		elseif (SimulateDamageSoldier(u) == true) then
+		elseif (SimulateDamageSoldier(u)) then
 			return
-		elseif (SimulateDamageHundun(u) == true) then
+		elseif (SimulateDamageItem(u)) then
+			return
+		elseif (SimulateDamageMiniGame(u)) then
 			return
 		endif
 

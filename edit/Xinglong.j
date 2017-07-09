@@ -191,7 +191,6 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		call SaveUnitHandle(spellTable,GetHandleId(t2),1,u)
 		call TimerStart(t2,0.05,true,function LonghuanglunhuiDamageTimer)
 		//快速升级
-		call BJDebugMsg(I2S(i)+"级")
 		set t2 = null
 		set u = null
 	    set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] + 15.

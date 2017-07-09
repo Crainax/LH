@@ -5,9 +5,10 @@
 //! import "dependency/YDWETimerPattern.j"
 //! import "dependency/YDWEBase_common.j"
 //! import "dependency/YDWEBase_hashtable.j"
+//! import "dependency/YDWEAroundSystem.j"
 
 //! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,DzAPI
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem,DzAPI
 
 	globals
 		
@@ -191,6 +192,21 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         //经验
         real array udg_I_Jingyan
         boolean array udg_T1
+
+        //混沌专区
+        rect gg_rct_Hundun
+
+        //出怪
+        rect gg_rct________6
+        rect gg_rct________3
+
+        //计时器
+        timer udg_Time_BOSS
+        timerdialog udg_Timer_BOSS
+
+        //小游戏场地
+        rect gg_rct_Game1
+        unit gg_unit_n01Q_0273
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

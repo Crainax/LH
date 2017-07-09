@@ -20,13 +20,17 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 		private trigger TSpellHuanyi = null 
 
 		/*
+		    伤害
+		*/
+		private real RDamageHuanyi = 0.
+		/*
 		    元素状态
 		*/
 		private boolean IsFire = false
 		private boolean IsWater = false
 		private boolean IsLumber = false
 		private boolean IsWind = false
-		integer ICurrentSpell
+		integer ICurrentSpell = 0
 		/*
 		    魔能数
 		*/
@@ -66,12 +70,12 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 
 		//风
 		if (GetUnitTypeId(u) == 'hhh3') then
-			call UnitDamageTarget( Huanyi, GetTriggerUnit(), GetDamageInt(Huanyi) * 0.3, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( Huanyi, GetTriggerUnit(), RDamageHuanyi * 0.3, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		//冰火
 		if (GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == Huanyi) then
-			call UnitDamageTarget( Huanyi, GetTriggerUnit(), GetDamageInt(Huanyi) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( Huanyi, GetTriggerUnit(), RDamageHuanyi * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		return false
@@ -83,7 +87,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	function SimulateDeathHuanyi takes unit u returns nothing
 		
 		if (GetUnitTypeId(u) == 'hhh7') then
-			call DamageArea(Huanyi,GetUnitX(u),GetUnitY(u),300,GetDamageInt(Huanyi)*1.5)
+			call DamageArea(Huanyi,GetUnitX(u),GetUnitY(u),300,RDamageHuanyi*1.5)
 	    	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u), GetUnitY(u) ))
 		endif
 	endfunction
@@ -137,7 +141,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	*/	
 	private function Fire takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi)
+		local real damage = RDamageHuanyi
 		local integer i = 1
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
@@ -211,7 +215,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	private function FireWater takes nothing returns nothing
 
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 0.6
+		local real damage = RDamageHuanyi * 0.6
 		local integer i = 6 * times
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
@@ -232,7 +236,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	*/
 	private function FireLumber takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 0.15
+		local real damage = RDamageHuanyi * 0.15
 		local integer i = 1
 		local integer ii = 1
 		local real range = 150 * times
@@ -269,7 +273,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 
 
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi)
+		local real damage = RDamageHuanyi
 		local integer i = 1
 
 	    local real x1 
@@ -371,7 +375,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 				endloop
 				set i = i +1
 			endloop
-			call DamageAreaMirror(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,GetDamageInt(Huanyi)*0.15)
+			call DamageAreaMirror(Huanyi,GetUnitX(UGucan),GetUnitY(UGucan),times * 150,RDamageHuanyi*0.15)
 		else
 			call RemoveUnit(UGucan)
 			set UGucan = null
@@ -418,7 +422,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	*/
 	private function FireWaterWind takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
-		local real damage = GetDamageInt(Huanyi) * 1.5
+		local real damage = RDamageHuanyi * 1.5
 		local unit u
 		local integer i = 1
 		if (times > 1) then
@@ -790,6 +794,13 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    刷新伤害
+	*/
+	private function FlashHuanyiDamage takes nothing returns nothing
+		set RDamageHuanyi = GetDamageInt(Huanyi)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    英雄学习技能
 	*/
 
@@ -842,6 +853,11 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	    call TriggerRegisterUnitEvent(t,Huanyi,EVENT_UNIT_DAMAGED)
 	    call TriggerAddCondition(t,Condition(function TSpellHuanyi3Con))
 	    call TriggerAddAction(t,function TSpellHuanyi3Act)
+
+
+	    //刷新伤害
+	    call TimerStart(CreateTimer(),1,true,function FlashHuanyiDamage)
+
 
 	    //冰甲的等级刷新
 	    set t = CreateTrigger()

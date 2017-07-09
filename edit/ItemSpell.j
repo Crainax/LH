@@ -1,10 +1,17 @@
 //! import "LHBase.j"
 //! import "Attr.j"
+//! import "SpellBase.j"
+//! import "Juexing.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing
 	
+
+	globals
+		boolean array BYaoShuxing 
+	endglobals
+
 	/*
 	    转移物品
 	*/
@@ -61,6 +68,38 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr
     endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    增加20秒的50%属性与100%防御
+	*/
+	private function AddAttr10SecondTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local player p = LoadPlayerHandle(spellTable,id,1)
+		call AddStrPercentImme(GetConvertedPlayerId(p),-0.5)
+		call AddAgiPercentImme(GetConvertedPlayerId(p),-0.5)
+		call AddIntPercentImme(GetConvertedPlayerId(p),-0.5)
+		call AddDefensePercent(GetConvertedPlayerId(p),-1.)
+		set BYaoShuxing[GetConvertedPlayerId(p)] = false
+		call PauseTimer(t)
+		call FlushChildHashtable(spellTable,id)
+		call DestroyTimer(t)
+		set p = null
+		set t = null 
+	endfunction
+
+	private function AddAttr10Second takes unit u returns nothing
+		local timer t = CreateTimer()
+		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+		call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.)
+		set BYaoShuxing[GetConvertedPlayerId(GetOwningPlayer(u))] = true
+		call SavePlayerHandle(spellTable,GetHandleId(t),1,GetOwningPlayer(u))
+		call TimerStart(t,20,false,function AddAttr10SecondTimer)
+		set t = null
+		call PolledWait(20)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    物品技能
 	*/
 	private function ItemSpellJudge takes nothing returns nothing
@@ -70,6 +109,11 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr
 		//点金
 		elseif(GetSpellAbilityId() == 'A073') then
 			call Dianjin()
+		elseif (GetSpellAbilityId() == 'A0KQ') then
+			//【地狱】琅玕绘蝉蜕
+ 			call SimulateSpell(GetSpellAbilityUnit(),GetSpellTargetUnit(),'A0KP',1,5,"faeriefire",false,false,true)
+ 			call SimulateSpell(GetSpellAbilityUnit(),GetSpellTargetUnit(),'A0KP',1,5,"faeriefire",false,false,true)
+ 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -117,14 +161,14 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr
 			//加属性
 			if (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-				call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),0.5)
-				call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),0.5)
-				call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),0.5)
+				call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),0.5)
+				call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),0.5)
+				call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),0.5)
 				call PolledWait(10)
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-				call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
-				call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
-				call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
+				call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
+				call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
+				call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
 				call KillSelf(GetTriggerUnit())
 			else
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
@@ -139,7 +183,31 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif		
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05V' and GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+			//戒指
 			call UnitApplyTimedLifeBJ( 3.00, 'BHwe',CreateUnit(GetOwningPlayer(GetTriggerUnit()),'h01N',GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()),GetRandomReal(0,360)) )
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'sres') then
+			//【地狱】纯粹的天赋
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+			call AllowTianfu()
+			call BJDebugMsg("|cFFFF66CC【消息】|r天赋技能得到了暂时性的解禁.")		
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I06A') then
+			//【地狱】霓裳之乱舞
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+			if not(BYaoShuxing[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+				call AddAttr10Second(GetTriggerUnit())
+			else
+				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你处于属性增加状态,使用失败!")
+			endif		
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I06B') then
+			//【地狱】魄霜与流晶
+			call ImmuteDamageInterval(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))],5)
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]), GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) ))
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I06C') then
+			//【地狱】天地共璎珞
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
+			set udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = ( udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] + (16000-udg_RENSHU*1000) )
+    		call MultiboardSetItemValueBJ( udg_D, 5, ( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) + 1 ), I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) )
+    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你的积分成功增加"+I2S(16000-udg_RENSHU*1000))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -311,13 +379,31 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr
 	/*
 	    部分召唤物的伤害
 	*/
-	function SimulateDamageHundun takes unit u returns boolean
+	function SimulateDamageItem takes unit u returns boolean
 		if (GetUnitTypeId(u) == 'h01P') then
 			call UnitDamageTarget( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))], GetTriggerUnit(), 200000000, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h01N') then
 			call UnitDamageTarget( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))], GetTriggerUnit(), 500000000, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			return true 
+		endif
+		if (GetUnitTypeId(u) == 'h01R') then
+			call DisableTrigger(GetTriggeringTrigger())
+			if (IsUnitType(GetTriggerUnit(), UNIT_TYPE_MAGIC_IMMUNE)) then
+				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			else
+				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*0.1, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			endif
+			call EnableTrigger(GetTriggeringTrigger())
+			return true 
+		endif
+		if (GetUnitTypeId(u) == 'h01S') then
+			call DisableTrigger(GetTriggeringTrigger())
+			if (IsUnitType(GetTriggerUnit(), UNIT_TYPE_MAGIC_IMMUNE)) then
+				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger(GetTriggeringTrigger())
+			endif
 			return true 
 		endif
 		return false

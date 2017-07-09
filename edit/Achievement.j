@@ -11,6 +11,11 @@ library_once Achievement requires LHBase
 		integer array achieve3
 		integer array achieve4
 		effect array achiEff
+		
+		/*
+		    是否有彩色皮肤
+		*/
+		integer array spin
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

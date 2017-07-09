@@ -12,8 +12,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		private integer IBoxSucceed = 0
 		private integer IBoxCount = 0
 		private boolean array BYincang
-	endglobals
 
+		boolean BShengli = false
+	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    合成宝箱
@@ -174,6 +175,8 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call YincangBroad()
 		elseif (str == "-zz") then
 			call CancelVIP(GetTriggerPlayer())
+		elseif (str == "-yxjs" and GetTriggerPlayer() == GetFirstPlayer() and BShengli) then
+		    call ForForce( GetPlayersAll(), function ShengliAll )
 		debug elseif (str == "-qm") then
 			debug if (IsQuanchengjiu(GetTriggerPlayer())) then
 				debug set BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = true

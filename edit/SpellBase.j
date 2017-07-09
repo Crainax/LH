@@ -3,7 +3,6 @@
 library_once SpellBase requires LHBase
 
 	globals
-		hashtable spellTable = InitHashtable()
 		key kUImmuteDamage
 	endglobals
 
@@ -148,7 +147,7 @@ library_once SpellBase requires LHBase
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if(IsEnemy(l_unit,.caster) == true) then
+			    if(IsEnemyM(l_unit,.caster) == true) then
 			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			    endif
 			endloop
@@ -163,7 +162,6 @@ library_once SpellBase requires LHBase
 			call DestroyEffect(AddSpecialEffect(.effx, .x, .y ))
 			call PauseTimer(.t)
 			call TimerStart(.t,.interval2,false,function thistype.explode)
-
 		endmethod
 
 
@@ -226,12 +224,15 @@ library_once SpellBase requires LHBase
 		static method roubangrotate takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
 			local integer i = 1
+			if (not(IsUnitAliveBJ(.caster)) and GetUnitAbilityLevel(.caster,'A0KH') < 1) then
+				call .destroy()
+			endif
 			set .cAngle = ModuloReal(.cAngle + .aSpeed,360.)
 			loop
 				exitwhen i > .number
 				if (.URou[i] != null) then
-					call SetUnitX(.URou[i],YDWECoordinateX(GetUnitX(caster) + radius * (2 * i - 1 ) * CosBJ(.cAngle)))
-					call SetUnitY(.URou[i],YDWECoordinateY(GetUnitX(caster) + radius * (2 * i - 1 ) * SinBJ(.cAngle)))
+					call SetUnitX(.URou[i],YDWECoordinateX(GetUnitX(.caster) + .radius * (2 * i - 1 ) * CosBJ(.cAngle)))
+					call SetUnitY(.URou[i],YDWECoordinateY(GetUnitY(.caster) + .radius * (2 * i - 1 ) * SinBJ(.cAngle)))
 					call SetUnitFacing(.URou[i],.cAngle + 90)
 				endif
 				set i = i +1
@@ -303,7 +304,6 @@ library_once SpellBase requires LHBase
 	*/
 	struct MultiLife
 		
-
 		private unit caster
 		private integer times
 		private integer current
@@ -312,16 +312,22 @@ library_once SpellBase requires LHBase
 		
 		static method flashLoc takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
+			if (.current >= .times) then
+				return
+			endif
 			call SetTextTagPosUnitBJ(.ttHint,.caster,20)
 			if not (IsUnitAliveBJ(.caster)) then
 				set .current = .current + 1
 				call SetUnitLifePercentBJ(.caster,100)
-				if (.current >= times) then
-					call .destroy()
-				else
-					call SetTextTagTextBJ(.ttHint,I2S(.current) + "/" + I2S(.times) +"次生命",20)
+				call SetTextTagTextBJ(.ttHint,I2S(.current) + "/" + I2S(.times) +"次生命",20)
+				if (.current >= .times) then
+					call UnitRemoveAbility(.caster,'A0KH')
 				endif
 			endif
+		endmethod
+
+		method getTimes takes nothing returns integer
+			return .current
 		endmethod
 
 		static method operator [] takes handle h returns thistype
@@ -339,26 +345,22 @@ library_once SpellBase requires LHBase
         static method create takes unit caster,integer times returns thistype
 
 		   	local thistype this
-		   	if (times < 2) then
-		   		return 0
-		   	endif
 		   	set this = thistype.allocate()
 			set .caster = caster
 			set .times = times
 			set .ttHint = CreateTextTagUnitBJ( "1/" + I2S(times) +"次生命", caster, 0, 20, 0, 100, 100, 0 )
 			set .current = 1
 			//加上复活技能
-			call UnitAddAbility(caster,'aaaa')
+			call UnitAddAbility(caster,'A0KH')
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
 			call TimerStart(.t,0.05,true,function thistype.flashLoc)
 			return this
 		endmethod
 
-
 		method onDestroy takes nothing returns nothing
 			call thistype.flush(.t)
-			call UnitRemoveAbility(.caster,'aaaa')
+			call UnitRemoveAbility(.caster,'A0KH')
 			call DestroyTextTag(.ttHint)
 			set .ttHint = null
 			set .caster = null

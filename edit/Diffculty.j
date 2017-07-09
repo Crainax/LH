@@ -1,6 +1,6 @@
 
 //! import "LHBase.j"
-/////! import "Huodong.j"
+//! import "Huodong.j"
 library_once Diffculty requires LHBase,Huodong
 	
 	globals
@@ -125,7 +125,36 @@ library_once Diffculty requires LHBase,Huodong
 			return 'R00R'
 		endif
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取混沌对应等级的科技
+	*/
+	function GetHundunTech takes nothing returns integer
 
+		if (NanDiff == 1) then
+			return 'R01H'
+		elseif (NanDiff == 2) then
+			return 'R01I'
+		elseif (NanDiff == 3) then
+			return 'R01J'
+		else
+			return 'R01G'
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取禁用技能的时间
+	*/
+	function GetForbidTianfuTime takes nothing returns real
+		if (GetDiffculty() >= 9) then
+			return 9.5
+		elseif (GetDiffculty() >= 8) then
+			return 7.5
+		else
+			return 5.
+		endif
+
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取擂台升级的速度

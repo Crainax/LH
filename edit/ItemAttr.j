@@ -465,17 +465,17 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemAttack( 'rst1', 1500000)
 	    call SetItemSpellPerc( 'rst1', 1.00)
 	    call SetItem3W('I05F', 370000)
-	    call SetItemHPPer('I05F', 2500000)
+	    call SetItemHP('I05F', 2500000)
 	    call SetItemFanji('I05F' , 5000000)
 	    call SetItemSpellPerc( 'I05F', 1.00)
 	    call SetItem3W('tbsm', 350000)
 	    call SetItemDefense('tbsm', 25000)
-	    call SetItemHPPer('tbsm', 9000000)
+	    call SetItemHP('tbsm', 9000000)
 	    call SetItem3W('tfar', 420000)
 	    call SetItemDefense('tfar', 20000)
-	    call SetItemHPPer('tfar', 7500000)
+	    call SetItemHP('tfar', 7500000)
 	    call SetItem3W('tbak', 350000)
-	    call SetItemHPPer('tbak', 7500000)
+	    call SetItemHP('tbak', 7500000)
 	    call SetItemDefense('tbak', 20000)
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -525,13 +525,13 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		*/
 	    call SetItem3W('I05Y', 400000)
 	    call SetItemDefense('I05Y', 30000)
-	    call SetItemHPPer('I05Y', 15000000)
+	    call SetItemHP('I05Y', 15000000)
 	    call SetItem3W('I05Z', 470000)
 	    call SetItemDefense('I05Z', 25000)
-	    call SetItemHPPer('I05Z', 10000000)
+	    call SetItemHP('I05Z', 10000000)
 	    call SetItem3W('I060', 400000)
 	    call SetItemDefense('I060', 25000)
-	    call SetItemHPPer('I060', 10000000)
+	    call SetItemHP('I060', 10000000)
 	    /*
 	        双魂
 	    */

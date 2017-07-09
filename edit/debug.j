@@ -24,6 +24,7 @@
 	test darenshu      测试人数6
 	test lianyu1	炼狱14层
 	test lianyu2	炼狱69层
+	test lianyu4	炼狱89层
 	test renkou		100个人口
 	test Scredit    守家积分
 	test zhuanshengxx	 转生测试
@@ -335,6 +336,12 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			return
 		endif
 
+		if (chat == "test lianyu4") then
+			set udg_I_Lianyu[1] = 89
+			call BJDebugMsg("炼狱89层")
+			return
+		endif
+
 		if (chat == "test darenshu") then
 			set udg_RENSHU = 6
 			call BJDebugMsg("人数调成6")
@@ -377,6 +384,22 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			return
 		endif
 
+		//直接后面直接来
+		if (chat == "test renyao") then
+			call PauseTimer(udg_Time_Start[1])
+			call DestroyTimer(udg_Time_Start[1])
+			call KillUnit(gg_unit_Uear_0242)
+			call KillUnit(gg_unit_Nkjx_0241)
+			call KillUnit(gg_unit_Npld_0253)
+			return
+		endif		
+
+		//测试生命共享
+		if (chat == "test gongxiang") then
+			call StartLifeConnect()
+			return
+		endif
+
 		//调整当前波数
 		set bo = S2I(SubStringBJ(chat,StringLength(chat)-1,StringLength(chat)))
 		if (bo < 30) then
@@ -384,6 +407,7 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			call BJDebugMsg("当前波数:"+"="+I2S(udg_Bo))
 			return
 		endif
+
 
 	endfunction
 

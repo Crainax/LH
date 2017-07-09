@@ -13,10 +13,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		integer array vipCode
 		string array heroCountString
 		/*
-		    是否有彩色皮肤
-		*/
-		integer array spin
-		/*
 		    抵御了多少次进攻
 		*/
 		integer array diyu
