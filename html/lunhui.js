@@ -398,6 +398,6 @@ function OutVIP()
 	document.getElementById("output13").value = GetCanglingAll(sss);
 	document.getElementById("output14").value = GetXunhuan(sss,19);
 	document.getElementById("output15").value = GetXunhuan(sss,20);
-	document.getElementById("output16").value = GetXunhuan(sss,21);
+	document.getElementById("output16").value = GetXunhuan(sss,22);
 	}
 	

@@ -72,6 +72,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		integer array Ileishi
 		//DIY名字
 		string array SDIY
+
+		//没被碰到
+		boolean BShengming = false
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -123,31 +126,31 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    黑阎的提示文本
-	*/
-	function GetHeiyanHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到2级才能选取该英雄|r"
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到2级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到8级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到6级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    苍凌的提示文本
 	*/
 	function GetCanglingHint takes nothing returns string
-	return S3(IsHuodong4(),"|cff99ccff5月20日-28日只需要通关过\"炼狱\"或以上难度即可直接选取|r","|cff99ccff需要地图等级达到12级(或者以任一带能量之光成就进入游戏，可以输入-cj切换)才能选取该英雄|r")
+		return "|cff99ccff需要地图等级达到8级才能选取该英雄|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧的提示文本
+	*/
+	function GetXinglongHint takes nothing returns string
+		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -165,31 +168,31 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    黑阎选取条件
-	*/
-	function GetHeiyanSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 2)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 6)
+		return (DzAPI_Map_GetMapLevel(p) >= 2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁选取条件
 	*/
 	function GetMengjiSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 8)
+		return (DzAPI_Map_GetMapLevel(p) >= 6)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    苍凌选取条件
 	*/
 	function GetCanglingSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 12) or IsAchieveLight(achiPage[GetConvertedPlayerId(p)]) or (IsHuodong4() and IsPass(p,5))
+		return (DzAPI_Map_GetMapLevel(p) >= 8)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧选取条件
+	*/
+	function GetXinglongSelectedCon takes player p returns boolean
+		return (DzAPI_Map_GetMapLevel(p) >= 11)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -313,21 +316,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    统计皮肤次数
-	*/
-	function IncreaseTaiyaSpin takes player p returns nothing
-		local integer i = GetConvertedPlayerId(p)
-		if (diyu[i]/10000 < 5) then
-			set diyu[i] = diyu[i] + 10000
-			call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "defense", diyu[i] )
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r泰雅皮肤|cFFCCFF66三弦星谧|r进度:"+I2S(diyu[i]/10000)+"/5")
-		endif
-		if (diyu[i]/10000 >= 5) then
-			call SetTaiyaSpinOK(p)
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    存储到服务器,通关
 	*/
 	function SaveAchievement takes nothing returns nothing
@@ -379,9 +367,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),327)
 				endif
 
-				if (IsHuodong6()) then
-					call IncreaseTaiyaSpin(ConvertedPlayer(i))
-				endif
 				//通关次数
 				/*if (level == 1) then
     				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass1", pass1[i] + 1 )
@@ -422,6 +407,35 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    击败傀儡1
+	*/
+	function SaveAchievementKuilei1 takes nothing returns nothing
+
+		local integer i = 1
+		local integer level = GetDiffculty()
+
+		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+
+				if (IsHuodong7()) then
+					call SetLingxueSpinOK(ConvertedPlayer(i))
+				endif
+
+				if (not(BShengming) and udg_RENSHU >= 4) then
+					call GetAchievementAndSave(ConvertedPlayer(i),45)
+				endif
+
+			endif
+			set i = i +1
+		endloop
+
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	     击败冥刹后的成就
 	*/
 	function SaveAchievement2 takes nothing returns nothing
@@ -444,11 +458,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					if (udg_Second[2] < 60) then
 						call GetAchievementAndSave(ConvertedPlayer(i),226)
 					endif
-				endif
-
-				if (IsHuodong()) then
-					set mingcha[i] = mingcha[i] + 1
-					call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "mingcha", mingcha[i] )
 				endif
 
 			endif
@@ -582,14 +591,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function GetBestHero takes player p returns integer
 		local integer max = 0
 		local integer maxIndex = 0
-		local integer i = 1
+		local integer i = HERO_COUNT
 		loop 
-			exitwhen i > HERO_COUNT
+			exitwhen i < HERO_COUNT
 			if ((GetSpecifyHeroTimes(p,i) > max) or (GetSpecifyHeroTimes(p,i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i)) then
 				set max = GetSpecifyHeroTimes(p,i)
 				set maxIndex = i
 			endif 
-			set i = i +1
+			set i = i - 1
 		endloop
 
 		return maxIndex
@@ -888,36 +897,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		set SDIY[i] = s
 		call DzAPI_Map_StoreString( p,  "diy", SDIY[i] )
 		call SetAndSaveDIYName(p)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    自增波数
-	*/
-	function IncreaseDiyuCount takes nothing returns nothing
-		local integer i = 1
-		if not(IsHuodong()) then
-			return
-		endif
-		loop
-			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-					set diyu[i] = diyu[i] + 1
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "defense", diyu[i] )
-			endif
-			set i = i +1
-		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    自增宠物数量
-	*/
-	function IncreasePetCount takes player p returns nothing
-		local integer i = GetConvertedPlayerId(p)
-		if not(IsHuodong()) then
-			return
-		endif
-		set petTimes[i] = petTimes[i] + 1
-		call DzAPI_Map_StoreInteger( p ,  "pet", petTimes[i] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

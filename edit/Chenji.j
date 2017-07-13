@@ -1,8 +1,10 @@
 
 //! import "Printer.j"
 //! import "SpellBase.j"
+//! import "Spin.j"
+//! import "Attr.j"
 
-library_once Chenji requires SpellBase,Printer
+library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
     
     globals
         /*
@@ -10,7 +12,22 @@ library_once Chenji requires SpellBase,Printer
         */
         private trigger TSpellChenji4 = null
         private real RDamage = 0
+
+        private integer IYinduTimes = 0
     endglobals
+
+//---------------------------------------------------------------------------------------------------
+    /*
+        使用引渡的时间
+    */
+    function CountYindu takes nothing returns nothing
+        if (IYinduTimes >= 7) then
+            debug call SetChenjiSpinOK(GetOwningPlayer(chenji))
+        else
+            set IYinduTimes = IYinduTimes + 1
+        endif  
+    endfunction
+    
 //---------------------------------------------------------------------------------------------------
     /*
         获取英雄身上的夜之哀伤
@@ -128,10 +145,26 @@ library_once Chenji requires SpellBase,Printer
             endif
         endif
     endfunction
+
+//---------------------------------------------------------------------------------------------------
+    /*
+        辰寂特效
+    */
+    private function InitChenjiSpin takes unit u returns unit
+        if (IsChenjiSpin1(GetOwningPlayer(u))) then
+            call UnitAddAbility(u,'A0JS')
+            call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+            return u
+        else
+            return u
+        endif
+    endfunction
+
 //---------------------------------------------------------------------------------------------------
     function InitChenji takes unit u returns nothing
 
-        set chenji = u
+        set chenji = InitChenjiSpin(u)
+
     endfunction
 
 endlibrary

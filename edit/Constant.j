@@ -24,6 +24,7 @@ library_once Constant initializer InitConstant requires JBase
 		    实际人数(从一开始的)
 		*/
 		integer renshu = 0
+		
 		/*
 		    游戏模式
 		*/
@@ -36,7 +37,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.20"
+		return "3.242"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -94,7 +95,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 6
 		elseif (heroType == 'Usyl' or heroType == 'U001') then
 			return 7
-		elseif (heroType == 'Hjai') then
+		elseif (heroType == 'Hjai' or heroType == 'H01V') then
 			return 8
 		elseif (heroType == 'Harf') then
 			return 9
@@ -351,7 +352,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -510,6 +511,14 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【啻主宰】")
 		elseif (achieveID == 42) then
 			return GetColorString("【傲临天魇】")
+		elseif (achieveID == 43) then
+			return "|cffffff00【迷踪步】"
+		elseif (achieveID == 44) then
+			return GetColorString("【影无缈】")
+		elseif (achieveID == 45) then
+			return GetColorString("【破枷皇】")
+		elseif (achieveID == 46) then
+			return GetColorString("【真言殿】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -658,6 +667,14 @@ library_once Constant initializer InitConstant requires JBase
 			return "啻主宰"
 		elseif (achieveID == 42) then
 			return "傲临天魇"
+		elseif (achieveID == 43) then
+			return "迷踪步"
+		elseif (achieveID == 44) then
+			return "影无缈"
+		elseif (achieveID == 45) then
+			return "破枷皇"
+		elseif (achieveID == 46) then
+			return "真言殿"
 		endif
 		return ""
 	endfunction
@@ -961,6 +978,25 @@ library_once Constant initializer InitConstant requires JBase
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 43) then
+			return "在迷你挑战1-骷髅海中里面的时间成功超过35秒.
+			
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 44) then
+			return "在迷你挑战1-骷髅海中里面的时间成功超过80秒.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 45) then
+			return "4人及以上游戏时,在击败人王傀儡与妖王傀儡时从未触发过BOSS生命联结技能.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 46) then
+			return "单次技能伤害达到300亿.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -986,7 +1022,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (page == 8) then
 			return I3(index == 7,327,I3(index == 1,326,index + 318))
 		elseif (page == 9) then
-			return index + 327
+			return I3(index <= 4 ,index + 327,index + 38)
 		endif
 		return 0
 	endfunction
@@ -1003,6 +1039,13 @@ library_once Constant initializer InitConstant requires JBase
 			return "|cFFFF0000殛霆无迹|r"
 		elseif (i == 4) then
 			return "|cFF33FF33末日权杖|r"
+		elseif (i == 5) then
+			return "|cFFFF3333霜夜之哀|r"
+		elseif (i == 6) then
+			return "|cFFCCFF66三弦星谧|r"
+		elseif (i == 7) then
+			return "|cFF3333FF獠牙之匕|r"
+
 		endif
 		return ""
 	endfunction
@@ -1040,6 +1083,21 @@ library_once Constant initializer InitConstant requires JBase
 
 			完成该项挑战后你将获得玄雪的模型法杖\"|cFF33FF33末日权杖|r\"(拥有少量的属性加成)!"
 			return ""
+		elseif (i == 5) then
+			return "使用辰寂在一局游戏中成功使用满7次90剑灵技能-引渡.
+
+			完成该项挑战后你将获得辰寂的模型特效\"|cFFFF3333霜夜之哀|r\"(拥有少量的属性加成)!"
+			return ""
+		elseif (i == 6) then
+			return "使用泰雅在一局游戏中成功使用月神之箭技能触发\"秒\"效果杀死至少2500个单位.
+
+			完成该项挑战后你将获得泰雅的皮肤\"|cFFCCFF66三弦星谧|r\"(拥有少量的属性加成)!"
+			return ""
+		elseif (i == 7) then
+			return "使用寒殇在一局游戏内成功使用无穷吞噬技能获得超过1000万的总和属性.
+
+			完成该项挑战后你将获得寒殇的模型武器\"|cFF3333FF獠牙之匕|r\"(拥有少量的属性加成)!"
+			return ""
 		endif
 		return ""
 	endfunction
@@ -1071,103 +1129,104 @@ library_once Constant initializer InitConstant requires JBase
 		endif
 
 		if (WPointer == 1) then
-			return "小丨情兽"
-		elseif (WPointer == 2) then
-			return "五老星"
-		elseif (WPointer == 3) then
-			return "绝对无双"
-		elseif (WPointer == 4) then
-			return "天纳万海"
-		elseif (WPointer == 5) then
-			return "疯一样的T怪"
-		elseif (WPointer == 6) then
 			return "xue蓝"
-		elseif (WPointer == 7) then
+		elseif (WPointer == 2) then
 			return "我很无聊TT"
-		elseif (WPointer == 8) then
+		elseif (WPointer == 3) then
 			return "大头三"
-		elseif (WPointer == 9) then
+		elseif (WPointer == 4) then
 			return "无上神尊"
-		elseif (WPointer == 10) then
+		elseif (WPointer == 5) then
 			return "无动于衷"
-		elseif (WPointer == 11) then
+		elseif (WPointer == 6) then
 			return "浅入风华"
-		elseif (WPointer == 12) then
+		elseif (WPointer == 7) then
 			return "你把我灌醉。"
-		elseif (WPointer == 13) then
+		elseif (WPointer == 8) then
 			return "心亦"
-		elseif (WPointer == 14) then
+		elseif (WPointer == 9) then
 			return "灵魂的缠绵"
-		elseif (WPointer == 15) then
+		elseif (WPointer == 10) then
 			return "幻、神"
-		elseif (WPointer == 16) then
+		elseif (WPointer == 11) then
 			return "枫落秋扬"
-		elseif (WPointer == 17) then
+		elseif (WPointer == 12) then
 			return "深邃的孤独丶"
-		elseif (WPointer == 18) then
+		elseif (WPointer == 13) then
 			return "雷瑟守备最强王者"
-		elseif (WPointer == 19) then
+		elseif (WPointer == 14) then
 			return "你的牛奶呢丶"
-		elseif (WPointer == 20) then
+		elseif (WPointer == 15) then
 			return "俏公子"
-		elseif (WPointer == 21) then
+		elseif (WPointer == 16) then
 			return "八零大叔"
-		elseif (WPointer == 22) then
+		elseif (WPointer == 17) then
 			return "Wqnmmp丶"
-		elseif (WPointer == 23) then
+		elseif (WPointer == 18) then
 			return "满地打滚的猫猫"
-		elseif (WPointer == 24) then
+		elseif (WPointer == 19) then
 			return "暗夜魔王丶诺爹"
-		elseif (WPointer == 25) then
+		elseif (WPointer == 20) then
 			return "猫儿丶"
-		elseif (WPointer == 26) then
+		elseif (WPointer == 21) then
 			return "与你童在"
-		elseif (WPointer == 27) then
+		elseif (WPointer == 22) then
+			return "话唠。"
+		elseif (WPointer == 23) then
 			return "很烦很皮"
-		elseif (WPointer == 28) then
+		elseif (WPointer == 24) then
 			return "sky"
+		elseif (WPointer == 25) then
+			return "梦露丶baby"
+		elseif (WPointer == 26) then
+			return "丶念少"
+		elseif (WPointer == 27) then
+			return "造世财"
+		elseif (WPointer == 28) then
+			return "0万物皆空0"
 		elseif (WPointer == 29) then
-			return "我真的是你老子"
+			return "辉煌丶神偷"
 		elseif (WPointer == 30) then
-			return "逸灬仙"
+			return "我真的是你老子"
 		elseif (WPointer == 31) then
-			return "沐情"
+			return "逸灬仙"
 		elseif (WPointer == 32) then
-			return "星辰末日"
+			return "沐情"
 		elseif (WPointer == 33) then
-			return "神天羽"
+			return "星辰末日"
 		elseif (WPointer == 34) then
-			return "墙头蹲红杏"
+			return "神天羽"
 		elseif (WPointer == 35) then
-			return "7葡萄"
+			return "墙头蹲红杏"
 		elseif (WPointer == 36) then
-			return "我鸡鸡贼大"
+			return "7葡萄"
 		elseif (WPointer == 37) then
-			return "1 1"
+			return "我鸡鸡贼大"
 		elseif (WPointer == 38) then
-			return "枫烨桦"
+			return "1 1"
 		elseif (WPointer == 39) then
-			return "夕子奈月"
+			return "枫烨桦"
 		elseif (WPointer == 40) then
-			return "司宸"
+			return "夕子奈月"
 		elseif (WPointer == 41) then
-			return "Ma—LePYe"
+			return "司宸"
 		elseif (WPointer == 42) then
-			return "one丶lifeの爱"
+			return "Ma—LePYe"
 		elseif (WPointer == 43) then
-			return "树林里故事"
+			return "one丶lifeの爱"
 		elseif (WPointer == 44) then
-			return "请带着我飞"
+			return "树林里故事"
 		elseif (WPointer == 45) then
-			return "心雪"
+			return "请带着我飞"
 		elseif (WPointer == 46) then
-			return "Rascal丶恋情"
+			return "心雪"
 		elseif (WPointer == 47) then
-			return "阴优"
+			return "Rascal丶恋情"
 		elseif (WPointer == 48) then
+			return "阴优"
+		elseif (WPointer == 49) then
 			return "至简i"
 		endif
-
 		return ""
 	endfunction
 //---------------------------------------------------------------------------------------------------

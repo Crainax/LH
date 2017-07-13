@@ -151,7 +151,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura
 		call UnitAddItemByIdSwapped(GetItemTypeId(temp), mengji)
 		set Nihe = GetLastCreatedItem()
 		call SetItemPawnable(Nihe,false)
-		call TimerStart(t,60,false,function NitaiTimer)
+		call TimerStart(t,30,false,function NitaiTimer)
 	    call PrintSpellContent(GetOwningPlayer(mengji),GetAbilityName(spellID),"拟合出"+GetItemName(temp))
 		set t = null
 		set temp = null

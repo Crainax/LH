@@ -45,8 +45,6 @@ library_once Aura requires LHBase,Attr
 	    湮灭光环
 	*/
 	function InitYanmieAura takes nothing returns nothing
-		call UnitAddAbility(gg_unit_haro_0030,'A0JU')
-
 		set TSpellYanmie3 = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(TSpellYanmie3,EVENT_PLAYER_UNIT_DEATH)
 		call TriggerAddCondition(TSpellYanmie3, Condition(function TSpellYanmie3Con))

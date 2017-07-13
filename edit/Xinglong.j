@@ -21,6 +21,8 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		//伤害值
 		private real XinglongDamage = 0
 
+		//显示特效的flag
+		private boolean BEffUpdate = false
 
 		//伤害的指示器
 		private boolean BDamage = false
@@ -44,10 +46,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	*/	
 	function SimulateDeathXinglong takes unit u returns nothing
 		if (GetUnitTypeId(u) == 'h01L') then
-			call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),600,XinglongDamage)
- 			if (IsLong()) then
- 				call SimulateSpell(u,u,'A0JS',1,2,"stomp",false,true,false)
- 			endif
+			call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),600,XinglongDamage*R3(IsLong(),1.5,1)/10*GetUnitUserData(u))
  			call DestroyEffect(AddSpecialEffect("war3mapImported\\IceStomp.mdx", GetUnitX(u),GetUnitY(u) ))
 		endif
 		if (GetUnitTypeId(u) == 'h01J') then
@@ -62,14 +61,24 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	private function Longhuangfuti takes nothing returns nothing
 		if (GetUnitTypeId(xinglong) == 'Hapm') then
 			if (not(BBianshen)) then
-				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2*(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
-				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1*(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
+				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2*(1+IJ2(xinglong,1,0)+IJ1(xinglong,1,0)))
+				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1*(1+IJ2(xinglong,1,0)+IJ1(xinglong,1,0)))
+
 			endif
 			set BBianshen = true
+			call PolledWait(0.01)
+			call AddAttack(xinglong,0)
+			call AddDefense(xinglong,0)
+			call AddHP(xinglong,0)
 		elseif(GetUnitTypeId(xinglong) == 'H01I') then
 			set BBianshen = false
-			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2 *(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
-			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1*(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2 *(1+IJ2(xinglong,1,0)+IJ1(xinglong,1,0)))
+			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1*(1+IJ2(xinglong,1,0)+IJ1(xinglong,1,0)))
+			call PolledWait(0.01)
+
+			call AddAttack(xinglong,0)
+			call AddDefense(xinglong,0)
+			call AddHP(xinglong,0)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -81,8 +90,9 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		local real distance = R3(diyfacing,GetDistance(GetUnitX(xinglong),GetUnitY(xinglong),x,y),1200)
 		local unit u = CreateUnit(GetOwningPlayer(xinglong),'h01L',GetUnitX(xinglong),GetUnitY(xinglong),facing)
     	call SetUnitScalePercent( u,  100.00 +  times * 10.00  , 100.00 +  times * 10.00, 100.00 +  times * 10.00 )
+    	call SetUnitUserData(u,times)
     	call UnitApplyTimedLifeBJ( distance/900, 'BHwe', u)
-	    call YDWETimerPatternRushSlide( u, facing , distance, distance/900, 0.05, damage, 180+times*20., false, true, true, "origin", "", "Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl" )
+	    call YDWETimerPatternRushSlide( u, facing , distance, distance/900, 0.05, damage / 10 * times, 180+times*20., false, true, true, "origin", "", "Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl" )
 	endfunction
 
 	private function Longhuangtuxi takes real x, real y,integer abilityID,real rate returns nothing
@@ -91,12 +101,12 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		if (abilityID != 0) then
 	    	call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName(abilityID),XinglongDamage)
 		endif
-		call Longhuangtuxi2(true,GetSpellTargetX(),GetSpellTargetY(),XinglongDamage*rate,1)
+		call Longhuangtuxi2(true,GetSpellTargetX(),GetSpellTargetY(),XinglongDamage*rate,10)
 		if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1) then
 			call PolledWait(0.5)
 			loop
 				exitwhen i > 10
-				if (GetRandomInt(1,100) > I3(BJuexing1[GetConvertedPlayerId(GetOwningPlayer(xinglong))] and IsLong(),0,(i*10))) then
+				if (GetRandomInt(1,100) > I3(BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xinglong))] and IsLong(),0,(i*10))) then
 					call Longhuangtuxi2(false,0,0,XinglongDamage*rate*0.1*i,i)
 	    			call CreateSpellTextTag(I2S(i)+"次共鸣！",xinglong,100,0,0,3)
 					call PolledWait(0.5)
@@ -183,7 +193,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		local integer i = GetHeroLevel(xinglong)
 		local timer t2 = CreateTimer()
 		local unit u = CreateUnit(GetOwningPlayer(xinglong),'h01K',GetUnitX(xinglong),GetUnitY(xinglong),0)
-		call UnitApplyTimedLifeBJ( 10, 'BHwe',u )
+		call UnitApplyTimedLifeBJ( 5, 'BHwe',u )
 		call PrintSpellName(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'))
 		call UnitAddAbility(xinglong,'A0K1')
 		call UnitMakeAbilityPermanent(xinglong,true,'A0K1')
@@ -194,7 +204,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		set t2 = null
 		set u = null
 	    set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] + 15.
-		call PolledWait(10)
+		call PolledWait(5)
 	    set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] - 15.
 		call UnitRemoveAbility(xinglong,'A0K1')
 	endfunction
@@ -253,24 +263,23 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		    call UnitAddAbility(xinglong,'A0JQ')
 		    call UnitAddAbility(xinglong,'A0JR')
 			call CreateEffect2(GetUnitX(xinglong), GetUnitY(xinglong))
- 			call SimulateSpell(xinglong,xinglong,'A0JT',2,2,"stomp",false,true,false)
 	    	call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'),XinglongDamage*10)
 	    	call PolledWait(1)
-			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 10)
+			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage *3)
 	    	return
 		endif
 
-		if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1) then
+		if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1 and not(BEffUpdate)) then
 			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.5)
 			call CreateEffect1(GetUnitX(xinglong), GetUnitY(xinglong))
+			set BEffUpdate = true
+			call PolledWait(2)
+			set BEffUpdate = false
 		endif
 
     	call SetUnitLifePercentBJ(xinglong,100)
     	call SetUnitManaPercentBJ(xinglong,100)
     	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
-    	if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))] and not(IsWudi(xinglong))) then
-    		call ImmuteDamageInterval(xinglong,2)
-		endif
     	if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1) then
     		set BAttrTime = BAttrTime + 10
 
@@ -342,8 +351,12 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	function AfterReviveXinglong takes unit u returns nothing
 		if (u == xinglong and BBianshen) then
 			set BBianshen = false
-			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
-			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2*(1+IJ2(xinglong,1,0)+IJ1(xinglong,1,0)))
+			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1*(1+IJ2(xinglong,1,0)+IJ1(xinglong,1,0)))
+			call PolledWait(0.01)
+			call AddAttack(xinglong,0)
+			call AddDefense(xinglong,0)
+			call AddHP(xinglong,0)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

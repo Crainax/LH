@@ -152,7 +152,6 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 				call PolledWait(10)
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
 				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-1.)
-				call KillSelf(GetTriggerUnit())
 			else
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif
@@ -169,7 +168,6 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 				call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
 				call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
 				call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),-0.5)
-				call KillSelf(GetTriggerUnit())
 			else
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif
@@ -244,6 +242,8 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		endif
 		return false
 	endfunction
+
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	   超神器伤害

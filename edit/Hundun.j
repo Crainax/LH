@@ -152,7 +152,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 			set i = i +1
 		endloop
 		set THundunDian1 = CreateTimer()
-		call TimerStart(THundunDian1,(15/(GetDiffculty()/2 + 1)),true,function flashDian)
+		call TimerStart(THundunDian1,(10/(GetDiffculty()/2 + 1)),true,function flashDian)
 		//召唤攻击盟
 		set i = 1
 		loop

@@ -106,6 +106,17 @@ library_once Battle initializer InitBattle requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    傀儡时间
+	*/
+	function GetWangSpeed takes nothing returns real
+		if (IsFastly()) then
+			return 60
+		else
+			return RCModeH(420.,210.)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化
 	*/
 	private function InitBattle takes nothing returns nothing

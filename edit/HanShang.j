@@ -4,10 +4,11 @@
 //! import "Attr.j"
 //! import "Diffculty.j"
 //! import "Aura.j"
+//! import "Spin.j"
 /*
     英雄寒殇的技能
 */
-library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
+library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spin
 	
 	globals
 
@@ -40,6 +41,10 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 		    三阶觉醒计数
 		*/
 		private integer IJuexing = 0
+		/*
+		    吃的总属性之和
+		*/
+		private integer ITotalEat = 0
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -135,12 +140,14 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            call ModifyHeroStat( bj_HEROSTAT_INT, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i * 3
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x8D205575)) then
 
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x8D205575) * 2 / 5
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r力量|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x384C9D86)) then
@@ -148,6 +155,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x384C9D86) * 2 / 5
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r敏捷|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i
+
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x1B5C932E)) then
@@ -156,6 +165,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x1B5C932E) * 2 / 5
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r智力|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_INT, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i
+
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5039AFFB)) then
@@ -218,12 +229,14 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            call ModifyHeroStat( bj_HEROSTAT_INT, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i * 3
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x8D205575)) then
 
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x8D205575) /20
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r力量|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x384C9D86)) then
@@ -231,6 +244,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x384C9D86) /20
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r敏捷|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i
+
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x1B5C932E)) then
@@ -239,6 +254,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x1B5C932E) /20
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r智力|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_INT, hanshang, bj_MODIFYMETHOD_ADD, i )
+	            set ITotalEat = ITotalEat + i
+
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5039AFFB)) then
@@ -256,7 +273,9 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 
 	        endif
 	    endif
-
+	    if (ITotalEat > 10000000) then
+	    	debug call SetHanshangSpinOK(GetOwningPlayer(hanshang))
+	    endif
 	    call RemoveItem( it )
 	    set it = null
     
@@ -458,10 +477,24 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    寒殇匕首
+	*/
+	private function InitHanshangSpin takes unit u returns unit
+		if (IsHanshangSpin1(GetOwningPlayer(u))) then
+			call UnitAddAbility(u,'A0KV')
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
+			return u
+		else
+			return u
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化寒殇的技能
 	*/
 	function InitHanshang takes unit u returns nothing
-		set hanshang = u
+		set hanshang = InitHanshangSpin(u)
 
 		//1
 	    set TSpellHanshang = CreateTrigger()

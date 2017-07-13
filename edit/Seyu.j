@@ -69,7 +69,6 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
 			set i = i +1
 		endloop
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    虫洞过滤器
@@ -263,7 +262,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
     	异界能量的获取
 	*/
 	private function TDeathAddPowerCon takes nothing returns boolean
-		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu) and IsUnitEnemy(GetDyingUnit(), GetOwningPlayer(seyu)) and GetUnitPointValue(GetDyingUnit()) != 123 and GetUnitPointValue(GetDyingUnit()) != 0
+		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu)
 	endfunction
 	
 	private function TDeathAddPowerAct takes nothing returns nothing

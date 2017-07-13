@@ -1,4 +1,4 @@
 
-//! import "MiniGame.j"
+//! import "Constant.j"
 function main takes nothing returns nothing
 endfunction

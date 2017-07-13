@@ -23,9 +23,14 @@ library_once Multiboard initializer InitMultiboard requires LHBase,Version
 
 	private function TAddAllDamageAct takes nothing returns nothing
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
+		local integer divede1e = 0
 		
 		if (GetEventDamage() > 100000000) then
-			set Mdamage2[index] = Mdamage2[index] + R2I(GetEventDamage() / 100000000)
+			set divede1e =R2I(GetEventDamage() / 100000000)
+			set Mdamage2[index] = Mdamage2[index] + divede1e
+			if (divede1e > 300) then
+				debug call GetAchievementAndSave(ConvertedPlayer(index),46)
+			endif
 		endif
 		set Mdamage1[index] = Mdamage1[index] + R2I(ModuloReal(GetEventDamage(),100000000))
 		if (Mdamage1[index] > 100000000) then

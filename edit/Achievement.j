@@ -225,7 +225,7 @@ library_once Achievement requires LHBase
 	function SetXuanxueSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],5) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪皮肤\"|cFF33FF33末日权杖|r\"！")
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪武器模型\"|cFF33FF33末日权杖|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -236,6 +236,7 @@ library_once Achievement requires LHBase
 	function GetTaiya1Spin takes player p returns boolean
 		return GetBit(spin[GetConvertedPlayerId(p)],6) > 0
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    白虎皮肤OK了
@@ -244,6 +245,63 @@ library_once Achievement requires LHBase
 		if (GetBit(spin[GetConvertedPlayerId(p)],6) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取泰雅皮肤\"|cFFCCFF66三弦星谧|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    辰寂皮肤条件
+	*/
+	function GetChenji1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],7) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    辰寂皮肤OK了
+	*/
+	function SetChenjiSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],7) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取辰寂武器模型\"|cFFFF3333霜夜之哀|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    寒殇皮肤条件
+	*/
+	function GetHanshang1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],8) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    寒殇皮肤OK了
+	*/
+	function SetHanshangSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],8) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取寒殇武器模型\"|cFF3333FF獠牙之匕|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凌雪皮肤条件
+	*/
+	function GetLingxue1Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],9) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凌雪皮肤OK了
+	*/
+	function SetLingxueSpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],9) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000000
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取凌雪皮肤\"|cFF339933沐雪无瑕|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -309,7 +367,7 @@ library_once Achievement requires LHBase
 
 		set i = 320
 		loop
-			exitwhen i > 326
+			exitwhen i > 331
 			set result = result and IsAchieveOK(p,i)
 			set i = i +1
 		endloop
@@ -479,6 +537,12 @@ library_once Achievement requires LHBase
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 327) + S3(IsAchieveOK(p,i + 327),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
+			set i = 5
+		    loop
+		    	exitwhen i > 8
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 38) + S3(IsAchieveOK(p,i + 38),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
@@ -494,6 +558,9 @@ library_once Achievement requires LHBase
 		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2) + S3(GetXiaoyue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3) + S3(GetYanmie1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(4) + S3(GetXuanxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(5) + S3(GetChenji1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6) + S3(GetTaiya1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetHeroChallenageName(7) + S3(GetHanshang1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -545,7 +612,8 @@ library_once Achievement requires LHBase
             call DialogClear(d)
 	    	set page = I3(page < PAGE_ACHIEVE,page + 1,1)
     		call SaveInteger(LHTable,GetHandleId(d),12,page)
-	    	call DialogSetMessage( d, "我的成就|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_ACHIEVE)+"页)|r" )
+	    	call DialogSetMessage( d, "我的成就|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_ACHIEVE)+"页)|r
+	    		收集全部成就可以自定义成就名" )
 	    	call NextPageAchievement(p,d,page)
         	call DialogDisplay( p, d, true )
 		    set d = null

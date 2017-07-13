@@ -1,7 +1,22 @@
 //! import "LHBase.j"
 //! import "Spin.j"
 
-library_once Taiya requires LHBase,Spin
+library_once Taiya requires LHBase,Spin,Version
+	
+	globals
+		private integer ITaiyamiao = 0
+	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    泰雅皮肤
+	*/
+	function AddTaiyaSpin takes nothing returns nothing
+		if (ITaiyamiao > 2000) then
+			call SetTaiyaSpinOK(GetOwningPlayer(taiya))
+		else
+			set ITaiyamiao = ITaiyamiao + 1
+		endif
+	endfunction
 	
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -175,6 +175,7 @@ library_once SameItem initializer InitSameItem requires LHBase
 		endif
 
 		call OnlyOneZhuangbei('ratc')
+		call OnlyOneZhuangbei('I04L')
 		//call OnlyOneZhuangbei('rat6')
 
 	endfunction

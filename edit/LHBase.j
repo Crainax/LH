@@ -57,6 +57,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
         //是否正在禁用天赋
         boolean BTianfu = false
+
+        boolean array BYeguaiFirst
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -73,6 +75,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function IsAgiHero takes unit u returns boolean
         return u == taiya or u == xiaoyue or u == mengji or u == moqi or u == hanshang or u == cangling or u == seyu or u == yanmie or u == sichen
     endfunction
+    
 //---------------------------------------------------------------------------------------------------
     /*
         判断是否是智力英雄
@@ -383,7 +386,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         */ and IsUnitEnemy(u, p)                              and GetUnitPointValue(u) != 123                 /*
         */ and GetUnitPointValue(u) != 0
     endfunction
-
+    
 //---------------------------------------------------------------------------------------------------
     /*
         删除单位组里面的所有单位并清空自定义数据

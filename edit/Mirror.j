@@ -8,8 +8,17 @@ library_once Mirror requires LHBase
     globals
         timer TiMirror
         timerdialog TiDiaMirror
-    endglobals
 
+    endglobals
+//---------------------------------------------------------------------------------------------------
+    /*
+        显示进度
+    */
+    function ShowLiuliProcess takes nothing returns nothing
+        if (udg_Z[GetConvertedPlayerId(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]))] < 42) then
+            call DisplayTextToPlayer(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0., 0., "|cffff00ff【虚】琉璃璞玉|r"+I2S(udg_Z[GetConvertedPlayerId(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]))])+"/42.")
+        endif
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         转生限制1分钟

@@ -5,7 +5,8 @@
 //! import "Diffculty.j"
 //! import "Attr.j"
 //! import "Juexing.j"
-library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,Juexing
+//! import "Battle.j"
+library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,Juexing,Battle,Version
 	globals
 		/*
 		    哈希表
@@ -258,6 +259,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 			set i = i +1
 		endloop
 		call BJDebugMsg("|cFFFF66CC【消息】|r由于受到生命共享的影响,你们所有英雄受到了致死伤害.")
+		debug set BShengming = true
 	endfunction
 
 	//开始联结之路
@@ -432,17 +434,29 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	/*
 	    不断攻击基地或者周围
 	*/
+	private function EnemyFilter takes nothing returns boolean
+		return IsEnemyMP(GetFilterUnit(),Player(11))
+	endfunction
+
     private function JudgeBossAttackTimer takes nothing returns nothing
     	local timer t = GetExpiredTimer()
     	local integer id = GetHandleId(t)
     	local unit u = LoadUnitHandle(LHTable,id,1)
+    	local group l_group = CreateGroup()
+    	call GroupEnumUnitsInRange(l_group, GetUnitX(u),GetUnitY(u), 900, Condition(function EnemyFilter))
     	if (IsUnitAliveBJ(u) or GetUnitAbilityLevel(u,'A0KH') > 0) then
-    		call IssuePointOrderLoc(u,"attack",udg_Point_Fuhuo)
+    		if (CountUnitsInGroup(l_group) >= 1) then
+    			call IssueTargetOrder(u,"attack",GroupPickRandomUnit(l_group))
+    		else
+    			call IssuePointOrderLoc(u,"attack",udg_Point_Fuhuo)
+    		endif
     	else
     		call PauseTimer(t)
     		call FlushChildHashtable(LHTable,id)
     		call DestroyTimer(t)
     	endif
+    	call DestroyGroup(l_group)
+    	set l_group = null
     	set u = null
     	set t = null 
     endfunction
@@ -477,6 +491,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    call PolledWait(2.00)
 		    call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "游戏将在60秒后结束...", bj_TIMETYPE_ADD, 2.00, true )
 		    call PolledWait(2.00)
+		    call SaveAchievementKuilei1()
 		    call CinematicModeBJ( false, GetPlayersAll() )
 		    call PolledWait(60.00)
 		    call ForForce( GetPlayersAll(), function ShengliAll )
@@ -500,8 +515,6 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call StartFangKa( UXiaoY )
 		call StartFangKa( UChuanzhang )
 
-
-    	
 	    call PauseTimer( TiRenYao )
 	    call DestroyTimer(TiRenYao)
     	call DestroyTimerDialog( TiDiaRenYao )
@@ -540,7 +553,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    call PauseTimer( udg_Double_M[1] )
 	    call DestroyTimer(udg_Double_M[1])
     	call DestroyTimerDialog( udg_Double_Me )
-        call TimerStart(TiRenYao,420,false,function InitRenYao)
+        call TimerStart(TiRenYao,GetWangSpeed(),false,function InitRenYao)
         call TimerDialogDisplay(TiDiaRenYao,true)
 	endfunction
 	

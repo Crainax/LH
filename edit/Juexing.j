@@ -132,6 +132,9 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call UnitAddAbility(Huanyi,'A0HX')
 		elseif (u == sichen) then
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
+		elseif (u == xinglong and IsLong()) then
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
+			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -189,9 +192,6 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call RuohuanmengChatBack()
 		elseif (u == sichen) then
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
-		elseif (u == xinglong and IsLong()) then
-			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
-			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			endif
 		endif
 		if (u == xinglong and IsLong()) then
-			if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
+			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
 				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
 				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
 			endif

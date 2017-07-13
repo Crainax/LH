@@ -1,7 +1,7 @@
 //! import "LHBase.j"
 //! import "Diffculty.j"
 
-library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty
+library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,Version
 	
 	globals
 		private timer TGame1 = null
@@ -10,7 +10,31 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty
 		private integer TTimeGame1 = 0
 		private group GGame1 = null
 	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    小巨能会不断施放
+	*/
+	private function XiaojunengTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(LHTable,id,1)
+		if (IsUnitAliveBJ(u)) then
+     		call IssuePointOrder( u, "stampede",GetRectCenterX(gg_rct_Game1),GetRectCenterY(gg_rct_Game1)  )
+		else
+			call PauseTimer(t)
+			call FlushChildHashtable(LHTable,id)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+	endfunction
 
+	private function StartTimerXiaojuneng takes unit u returns nothing
+		local timer t = CreateTimer()
+		call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
+		call TimerStart(t,5,true,function XiaojunengTimer)
+		set t = null
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    召唤施放者并不断施放
@@ -23,6 +47,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty
 	    call SetUnitAbilityLevel( u,'A0DY', I3(IsWanjie(),7,3) )
      	call IssuePointOrder( u, "stampede",GetRectCenterX(gg_rct_Game1),GetRectCenterY(gg_rct_Game1)  )
      	call GroupAddUnit(GGame1,u)
+     	call StartTimerXiaojuneng(u)
      	set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -41,7 +66,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty
 		loop
 			exitwhen i > 6
 			if (IGoldGame1[i] != 0) then
-				set IGoldGame1[i] = IGoldGame1[i] + GetSpecifyTimeGold()
+				set IGoldGame1[i] = IGoldGame1[i] + GetSpecifyTimeGold() * CModeH(1,2)
 				set s = s + GetUnitName(udg_H[i]) + ":" + I2S(IGoldGame1[i]) + "
 				"
 			endif
@@ -112,7 +137,10 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty
 	        call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
 	        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
 	        return
-	    elseif ((GetItemTypeId(GetSoldItem()) == 'I06M')) then
+	    elseif ((GetItemTypeId(GetSoldItem()) == 'I06M') and GetBuyingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) then
+	    	if (not(IsWudi(GetBuyingUnit()))) then
+				call ImmuteDamageInterval(GetBuyingUnit(),3)
+	    	endif
 	    	call StartGame1()
 	    	call BJDebugMsg("|cFFFF66CC【消息】|r迷你挑战-骷髅海开始啦!")
             call PingMinimapForForce( GetPlayersAll(), GetRectCenterX(gg_rct_Game1) , GetRectCenterY(gg_rct_Game1), 5.00 )
@@ -141,6 +169,12 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty
 		 	call AddHeroXP( udg_H[id], R2I(IGoldGame1[id] * 0.5 * udg_I_Jingyan[id]), true )
 		    call AdjustPlayerStateBJ( R2I(IGoldGame1[id] * udg_I_Jinqianhuodelv[id]), GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD )
 		    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你通过迷你挑战获得了"+I2S(R2I(IGoldGame1[id] * udg_I_Jinqianhuodelv[id]))+"的金钱奖励和"+I2S(R2I(IGoldGame1[id] * 0.5 * udg_I_Jingyan[id]))+"的经验奖励,成功坚持了"+I2S(TTimeGame1/10)+"秒.")
+		    debug if (TTimeGame1/10 > 35) then
+				debug call GetAchievementAndSave(ConvertedPlayer(id),43)
+			debug endif
+			debug if (TTimeGame1/10 > 80) then
+				debug call GetAchievementAndSave(ConvertedPlayer(id),44)
+		    debug endif
 		endif
 		set IGoldGame1[id] = 0
         if (CountUnitsInGroup(group1) == 0) then

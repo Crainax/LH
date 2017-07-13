@@ -11,10 +11,6 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	
 	globals
 		/*
-		    英雄幻逸
-		*/
-
-		/*
 		    技能触发
 		*/
 		private trigger TSpellHuanyi = null 
