@@ -10,7 +10,7 @@ library_once Continous initializer InitContinous requires  LHBase
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取连续时间
+	    获取从保存的第一天开始的时间
 	*/
 	function GetContinousDay takes player p returns integer
 		if (DzAPI_Map_GetGameStartTime() <= ILastTime[GetConvertedPlayerId(p)]) then
@@ -46,13 +46,31 @@ library_once Continous initializer InitContinous requires  LHBase
 	    设置连续时间
 	*/
 	function SetDenglu takes player p returns nothing
-		//活动还没开始
+		//活动还没开始，或者说是首次
 		if (ILastTime[GetConvertedPlayerId(p)] < TIMESTAMP_START) then
 			set ILastTime[GetConvertedPlayerId(p)] = TIMESTAMP_START
-			set ConDays[GetConvertedPlayerId(p)] = 1
+			set IConDays[GetConvertedPlayerId(p)] = 1
 			call SaveLoginState()
+			return
 		endif
-		if (current < () ) then
+
+		//断签啦重新存储
+		if ( GetContinousDay() > IConDays[GetConvertedPlayerId(p)] ) then
+			set ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime()
+			set IConDays[GetConvertedPlayerId(p)] = 1
+			call SaveLoginState()
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r")
+			return
+
+		elseif (GetContinousDay() == IConDays[GetConvertedPlayerId(p)])
+			//首次连续登录的提示与奖励
+			set IConDays[GetConvertedPlayerId(p)] = IConDays[GetConvertedPlayerId(p)] + 1
+			call SaveLoginState()
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r心态爆炸。")
+		endif
+
+		//连续则计值
+		if () then
 			// body...
 		endif
 	endfunction
