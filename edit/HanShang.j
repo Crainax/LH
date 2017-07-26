@@ -405,6 +405,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 			set TDuwu = CreateTimer()
 			call TimerStart(TDuwu,1,true,function DuwumizhenTimer)
 		endif
+		call PlaySoundBJ(gg_snd_hanshang_5)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -381,6 +381,8 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura
 		set UZangJiuTian = CreateUnit(GetOwningPlayer(GetSpellAbilityUnit()),'hh05',GetUnitX(GetSpellAbilityUnit()),GetUnitY(GetSpellAbilityUnit()),0)
 	    call PrintSpell(GetOwningPlayer(GetSpellAbilityUnit()),GetAbilityName(GetSpellAbilityId()),GetDamageStr(Heiyan))
 		call TimerStart(t,1,true,function ZangJiuTianTimer)
+        call PlaySoundBJ(gg_snd_heiyan_5)
+
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------

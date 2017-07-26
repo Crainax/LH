@@ -36,6 +36,7 @@ library_once Lingxue requires SpellBase ,Spin
 		set lingxue = InitLingxueSpin(u)
 
     	call TriggerRegisterUnitEvent( gg_trg_____________21, lingxue, EVENT_UNIT_DAMAGED )
+    	call SetUnitPathing( lingxue, false )
 	endfunction
 
 endlibrary

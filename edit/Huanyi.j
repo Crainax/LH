@@ -4,10 +4,11 @@
 //! import "Attr.j"
 //! import "Aura.j"
 //! import "Diffculty.j"
+/////! import "Diamond.j"
 /*
     英雄幻逸的技能
 */
-library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
+library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond
 	
 	globals
 		/*
@@ -131,6 +132,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH5'),"成功增加"+I2S(times*20)+"%的智力，持续"+I2S(times * 10)+"秒。")
 	    set t = null
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 		七炎焚狱
@@ -448,7 +450,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	    	return
 	    endif
 		set u = CreateUnit(GetOwningPlayer(Huanyi),'hhh8',x,y,0)
-	    set attract = Attract.create(u,900 * times,0.05,50 * times)
+	    set attract = Attract.create(u,I3(IsInDiamondRegion(x,y),1200,900 * times),0.05,50 * times)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
@@ -498,6 +500,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura
 	private function Fusu takes nothing returns nothing
 		local real x = GetSpellTargetX()
 		local real y = GetSpellTargetY()
+        call PlaySoundBJ(gg_snd_huanyi_5)
 		//幻元伏心
 		call None()
 		call PolledWait(1)

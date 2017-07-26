@@ -12,6 +12,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             仓库
         */
         unit array UDepot
+
+
         string array playerName
         /*
             魔兽显示
@@ -59,6 +61,12 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         boolean BTianfu = false
 
         boolean array BYeguaiFirst
+
+        //是否显示伤害
+        boolean array BHideDamage
+
+        //是否可以跳关
+        boolean BSkipKuilei = false
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -133,7 +141,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         禁止复制的装备
     */
     function IsCanCopy takes item i returns boolean
-        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060'))
+        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060') and (GetItemTypeId(i) != 'I06N'))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -598,7 +606,48 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return i
         endif
     endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        弹对话框
+    */
+    function ShowGameHint takes player p,string content returns nothing
+        local dialog d = DialogCreate()
+        local string s = "
+            " + content
+        call DialogSetMessage( d, s )
+        call DialogAddButton( d, "我知道了|cffff6800(Esc)|r",512)
+        call DialogDisplay( p, d, true )
+        set d = null
+    endfunction
+//---------------------------------------------------------------------------------------------------
     
+    /*
+        输出选英雄皮肤的提示
+    */
+    function ChooseSpinHero takes player p,unit u returns nothing
+        call ShowGameHint(p,"该英雄是"+GetUnitName(u)+"英雄的皮肤"+GetHeroProperName(u)+"。"+"
+        使用英雄"+GetUnitName(u)+"完成对应的英雄挑战即可获取该皮肤。
+        前往基地左边商店处可以查看该挑战的详细内容。")
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        弹对话框(全体玩家)
+    */
+    function ShowGameHintAll takes string content returns nothing
+        local integer i = 1
+        local dialog d = DialogCreate()
+        local string s = "
+            " + content
+        call DialogSetMessage( d, s )
+        call DialogAddButton( d, "我知道了|cffff6800(Esc)|r",512)
+        loop
+            exitwhen i > 6
+            call DialogDisplay( ConvertedPlayer(i), d, true )
+            set i = i +1
+        endloop
+        set d = null
+    endfunction
+
 //---------------------------------------------------------------------------------------------------
 
     /*
@@ -643,7 +692,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         local integer i = 1
         loop
             exitwhen i > 6
-            if (GetItemTypeId(UnitItemInSlotBJ(u,i)) == null) then
+            if ( UnitItemInSlotBJ(u,i) == null) then
                 return true
             endif
             set i = i +1
@@ -725,14 +774,14 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         /*
             仓库初始化
         */
-        set UDepot[1] = CreateUnit(Player(0), 'nmgv', 7424.0, - 1984.0, 270.000)
-        set UDepot[2] = CreateUnit(Player(1), 'nmgv', 6656.0, - 1920.0, 270.000)
-        set UDepot[3] = CreateUnit(Player(2), 'nmgv', 6656.0, 1216.0, 270.000)
-        set UDepot[4] = CreateUnit(Player(3), 'nmgv', 8960.0, - 1984.0, 270.000)
-        set UDepot[5] = CreateUnit(Player(4), 'nmgv', 9728.0, - 1856.0, 270.000)
-        set UDepot[6] = CreateUnit(Player(5), 'nmgv', 9728.0, 1216.0, 270.000)
+        set UDepot[1] = CreateUnit(Player(0), 'nmgv', 10175.0, - 691.0, 270.000)
+        set UDepot[2] = CreateUnit(Player(1), 'nmgv', 10307.0, - 691.0, 270.000)
+        set UDepot[3] = CreateUnit(Player(2), 'nmgv', 10431.0, - 691.0, 270.000)
+        set UDepot[4] = CreateUnit(Player(3), 'nmgv', 10175.0, - 60.6, 270.000)
+        set UDepot[5] = CreateUnit(Player(4), 'nmgv', 10307.0, - 60.6, 270.000)
+        set UDepot[6] = CreateUnit(Player(5), 'nmgv', 10431.0, - 60.6, 270.000)
 
-        set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14464.0, - 15552.0, 270.000)
+        set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14524.0, - 15446.0, 270.000)
 
         call SaveInteger(LHTable,GetHandleId(t),1,0)
         call TimerStart(t,2,true,function StartWanjieTimer)

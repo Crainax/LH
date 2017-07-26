@@ -1,6 +1,7 @@
 
 //! import "LHBase.j"
 //! import "Diffculty.j"
+//! 
 library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
 globals
@@ -11,6 +12,29 @@ globals
 	integer array IZhanhun
 endglobals
 
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取随机一种药水
+	*/
+	function GetRandomPotion takes nothing returns integer
+		local integer i = GetRandomInt(1,6)
+		if (i == 1) then
+			return 'sres'
+		elseif (i == 2) then
+			return 'I06A'
+		elseif (i == 3) then
+			return 'I06B'
+		elseif (i == 4) then
+			return 'I06C'
+		elseif (i == 5) then
+			return 'I06J'
+		elseif (i == 6) then
+			return 'I06O'
+		endif
+
+		return 0
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    英雄或者镜像获得翅膀才有火焰技能
@@ -99,7 +123,7 @@ endglobals
 	private function ReviveRing takes nothing returns nothing
 			local unit u = null
 	        call PingMinimap( -10630.00, -8642.00, 2.00 )
-	        set u = CreateUnit(Player(10),'Naka',-10630.00, -8642.00 , 180)
+	        set u = CreateUnit(Player(10),'Naka',-10425.00, -10429.00 , 180)
 	        call SetHeroLevel( u, ( GetHeroLevel(u) + 1 ), true )
 	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + "|cFFFF6699千年孤魂|r|cffffcc00弑魂|r复活了。" ) )
 	        set u = null

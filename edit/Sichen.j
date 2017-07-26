@@ -493,6 +493,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		call SaveEffectHandle(spellTable,GetHandleId(t),3,AddSpecialEffectTargetUnitBJ("chest",GetSpellTargetUnit(),"war3mapImported\\bullerouge.mdx"))
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\HowlOfTerror\\HowlCaster.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 		call TimerStart(t,60,false,function ShenghuangciliTimer)
+        call PlaySoundBJ(gg_snd_sichen_4)
 	    call PrintSpellName(GetOwningPlayer(sichen),GetAbilityName('A0IT'))
 		set t = null
 	endfunction

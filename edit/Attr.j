@@ -183,7 +183,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    攻击增益
 	*/
 	function AddAttackPercent takes integer playerID , real value returns nothing
-		set udg_I_Jinengjiacheng[playerID + 24] = udg_I_Jinengjiacheng[playerID + 24] + value
+		set udg_I_Xianglian[playerID + 24] = udg_I_Xianglian[playerID + 24] + value
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    防御增益
 	*/
 	function AddDefensePercent takes integer playerID , real value returns nothing
-		set udg_I_Jinengjiacheng[playerID + 30] = udg_I_Jinengjiacheng[playerID + 30] + value
+		set udg_I_Xianglian[playerID + 30] = udg_I_Xianglian[playerID + 30] + value
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 //---------------------------------------------------------------------------------------------------

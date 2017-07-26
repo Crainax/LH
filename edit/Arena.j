@@ -680,6 +680,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	    set currentLevel = 1
 	    set currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] = currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] + 1
 	    call DisplayTextToPlayer( GetOwningPlayer(defier), 0, 0, "|cFFFF66CC【消息】|r挑战成功!" )
+        call PlaySoundBJ(gg_snd_v_leitai)
 	    call RemoveUnit( challenager )
 	    set challenager = null
 

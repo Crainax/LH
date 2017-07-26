@@ -18,6 +18,16 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
 
 //---------------------------------------------------------------------------------------------------
     /*
+        是否在宝石区内
+    */
+    function IsInDiamondRegion takes real x, real y returns boolean
+        local location point = Location(x,y)
+        local boolean b = RectContainsLoc(gg_rct_Diamond2,point) or RectContainsLoc(gg_rct_Diamond3,point) or RectContainsLoc(gg_rct________8,point)
+        call RemoveLocation(point)
+        return b
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         100%几率成功
     */
     private function Diamond100 takes integer itemID,integer newItemID returns boolean
@@ -57,7 +67,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
                         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【小提示】|r|cffff00ff琉璃璞玉|r可以将宝石成功率提升至100%,可以通过42转或者永久赞助(详情按F9)获取.")
                     endif
                 endif
-                call PlaySoundBJ( gg_snd_Shibai )
+                call PlaySoundBJ( gg_snd_f_baoshi )
             endif
             return true
         endif
@@ -90,7 +100,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
                 endif
                 call RemoveItem( GetSpellTargetItem() )
                 call UnitAddItemByIdSwapped( oldItemID, GetTriggerUnit() )
-                call PlaySoundBJ( gg_snd_Shibai )
+                call PlaySoundBJ( gg_snd_f_baoshi )
             endif
             return true
         endif
@@ -123,7 +133,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
                     endif
                 endif
                 call UnitAddItemByIdSwapped( oldItemID, GetTriggerUnit() )
-                call PlaySoundBJ( gg_snd_Shibai )
+                call PlaySoundBJ( gg_snd_f_baoshi )
             endif
             return true
         endif
@@ -1383,7 +1393,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
                     return
                 endif
             endif
-            if ((GetRandomInt(1, 25) == 1) and not(IsTianyan)) then
+            if ((GetRandomInt(1, 25) == 1) and not(IsTianyan) and IsInDiamondRegion(GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))) then
                 if (MonsterDropDiamond()) then
                     if (RectContainsUnit(gg_rct________8,GetDyingUnit())) then
                         set IAtleast1 = 100

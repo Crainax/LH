@@ -30,7 +30,7 @@
 	test zhuanshengxx	 转生测试
 	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
 
-	tes
+	test bo29
 */
 library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,Diamond
 

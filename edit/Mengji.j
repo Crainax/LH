@@ -50,7 +50,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura
 		endif
 		if (GetUnitTypeId(u) == 'hhm2') then
 
-			call UnitDamageTarget( mengji, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) * 0.02 * R3(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO),0.25,1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( mengji, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) * 0.02, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true
 		endif
 		if (GetUnitTypeId(u) == 'hhm3') then
@@ -341,6 +341,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura
 
 	    call EnableTrigger(TSpellMengji41)
 	    call EnableTrigger(TSpellMengji42)
+        call PlaySoundBJ(gg_snd_mengji_4)
 	    call PrintSpell(GetOwningPlayer(mengji),GetAbilityName('AHM4'),damage)
 	    call PolledWait(30)
 	    call DisableTrigger(TSpellMengji41)
@@ -430,6 +431,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura
 			return
 		endif
 		set t = CreateTimer()
+        call PlaySoundBJ(gg_snd_mengji_5)
 		set ULinglong1 = CreateUnit(GetOwningPlayer(mengji),'h00S',GetUnitX(mengji),GetUnitY(mengji),0)
 		set ULinglong2 = CreateUnit(GetOwningPlayer(mengji),'h00T',GetUnitX(mengji),GetUnitY(mengji),0)
 		set LLinglong[1] = AddLightningEx("DRAM",true,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),0,YDWECoordinateX(GetUnitX(ULinglong1)+900),YDWECoordinateY(GetUnitY(ULinglong1)),750)

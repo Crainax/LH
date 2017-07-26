@@ -5,7 +5,6 @@
 //! import "Xinglong.j"
 library_once Revive initializer InitRevive requires LHBase,Beast,Lingxue,Xinglong
 	
-
 //---------------------------------------------------------------------------------------------------
 	
 function TReviveHeroCon takes nothing returns boolean

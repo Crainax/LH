@@ -22,7 +22,7 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
     */
     function CountYindu takes nothing returns nothing
         if (IYinduTimes >= 7) then
-            debug call SetChenjiSpinOK(GetOwningPlayer(chenji))
+            debug call SetChenji1SpinOK(GetOwningPlayer(chenji))
         else
             set IYinduTimes = IYinduTimes + 1
         endif  
@@ -151,19 +151,35 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
         辰寂特效
     */
     private function InitChenjiSpin takes unit u returns unit
+
+        if (IsChenjiSpin2(GetOwningPlayer(u))) then
+            set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'H01W',GetUnitX(u),GetUnitY(u),0)
+            set gg_unit_Harf_0262 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+            call UnitAddItemByIdSwapped('stel', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+            call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+            call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+            call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+            call RemoveUnit(u)
+            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+        endif
+
         if (IsChenjiSpin1(GetOwningPlayer(u))) then
             call UnitAddAbility(u,'A0JS')
             call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
-            return u
-        else
-            return u
         endif
+
+        return u
+
     endfunction
 
 //---------------------------------------------------------------------------------------------------
     function InitChenji takes unit u returns nothing
 
         set chenji = InitChenjiSpin(u)
+
+        call TriggerRegisterUnitEvent( gg_trg_____________132, chenji, EVENT_UNIT_DEATH ) 
+        call TriggerRegisterUnitEvent( gg_trg_____________125, chenji, EVENT_UNIT_DAMAGED )
+        call TriggerRegisterUnitEvent( gg_trg_____________130, chenji, EVENT_UNIT_DAMAGED )
 
     endfunction
 

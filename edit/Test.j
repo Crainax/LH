@@ -207,6 +207,22 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         //小游戏场地
         rect gg_rct_Game1
         unit gg_unit_n01Q_0273
+
+        //声音
+        sound gg_snd_cangling_5
+        sound gg_snd_f_baoshi
+        sound gg_snd_hanshang_5
+        sound gg_snd_hecheng_shenqi
+        sound gg_snd_heiyan_5
+        sound gg_snd_huanyi_5
+        sound gg_snd_mengji_4
+        sound gg_snd_mengji_5
+        sound gg_snd_seyu_5
+        sound gg_snd_seyu_4
+        sound gg_snd_sichen_4
+        sound gg_snd_v_leitai
+        sound gg_snd_v_mijing
+        sound gg_snd_xinglong_4
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

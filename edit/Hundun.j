@@ -87,14 +87,13 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	*/
 	function SpellDian takes unit temp returns nothing
 		local integer i = 1
-		local real speed = IMaxBJ(1,MLHundun1.getTimes()) * 20.
 		local integer end = IMaxBJ(1,MLHundun1.getTimes()) * 18
 		local real random = GetRandomReal(0,360.)
 		local unit u = null
 		loop
 			exitwhen i > (end * 3 / 4)
 			set u = CreateUnit(Player(10),'h01O',GetUnitX(temp) + 10 * CosBJ(ModuloReal( i * (360/end) + random,360)),GetUnitY(temp)+ 10 * SinBJ(ModuloReal( i * (360/end) + random,360)),ModuloReal( i * (360/end) + random,360))
-        	call YDWEAroundSystem( u, temp, 0.00, speed, 0, 5, 0.05 )
+        	call YDWEAroundSystem( u, temp, 0.00, 20., 0, 5, 0.05 )
         	call UnitApplyTimedLife( u, 'BHwe', 5 )
 			set i = i +1
 		endloop
@@ -220,6 +219,11 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
     	call DialogDisplay( GetOwningPlayer(u), d, false )
         call DialogClear(d)
         call DialogDestroy(d)
+        call PlaySoundBJ(gg_snd_hecheng_shenqi)
+        call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
+        call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
+        call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
+        call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
         set d = null
         set u = null
         call DestroyTrigger(GetTriggeringTrigger())
@@ -268,6 +272,11 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	        call RemoveItem( GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2) )
 			call UnitAddItemByIdSwapped( targetItem, GetBuyingUnit())
     		call SetItemCharges(GetLastCreatedItem(),i)
+        	call PlaySoundBJ(gg_snd_hecheng_shenqi)
+        	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
+        	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
+        	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
+        	call BJDebugMsg("|cFFFF66CC【消息】|r"+GetItemName(GetLastCreatedItem())+"降临于世!!!")
 	    else
 	    	if (hints) then
 	        	call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r你的材料不足." )

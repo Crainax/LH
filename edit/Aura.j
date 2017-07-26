@@ -38,7 +38,7 @@ library_once Aura requires LHBase,Attr
 	    凯撒光环
 	*/
 	function InitKaisaAura takes nothing returns nothing
-		call UnitAddAbility(gg_unit_haro_0030,'A0JU')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JU')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -50,7 +50,7 @@ library_once Aura requires LHBase,Attr
 		call TriggerAddCondition(TSpellYanmie3, Condition(function TSpellYanmie3Con))
 		call TriggerAddAction(TSpellYanmie3, function TSpellYanmie3Act)
 		//湮灭新光环Todo
-		call UnitAddAbility(gg_unit_haro_0030,'A0HF')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0HF')
 		call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
 		call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
 		call BJDebugMsg("|cffff66cc【消息】|r你已获得来自|cFF3333FF雷神寂灭|r光环的效果,杀怪可以增加|cffffff00(英雄等级/100 + 2)点全属性|r.")
@@ -124,7 +124,7 @@ library_once Aura requires LHBase,Attr
 	    晓月光环
 	*/
 	function InitXiaoyueAura takes nothing returns nothing
-		call UnitAddAbilityBJ( 'A0AJ', gg_unit_haro_0030 )
+		call UnitAddAbilityBJ( 'A0AJ', gg_unit_n01S_0258 )
 	    call EnableTrigger( gg_trg_____________71 )
 	endfunction
 
@@ -139,7 +139,7 @@ library_once Aura requires LHBase,Attr
 			call AddDamagePercent(i,0.4)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0JV')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JV')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -152,7 +152,7 @@ library_once Aura requires LHBase,Attr
 			call AddStrPercent(i,0.4)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'AOae')
+		call UnitAddAbility(gg_unit_n01S_0258,'AOae')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -165,14 +165,14 @@ library_once Aura requires LHBase,Attr
 			call AddAgiPercent(i,0.4)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0JW')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JW')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    莫琪光环
 	*/
 	function InitMoqiAura takes nothing returns nothing
-		call UnitAddAbility( gg_unit_haro_0030,'A04I'  )
+		call UnitAddAbility( gg_unit_n01S_0258,'A04I'  )
 		call EnableTrigger( gg_trg_______21 )
 	endfunction
 
@@ -181,7 +181,7 @@ library_once Aura requires LHBase,Attr
 	    凌雪光环
 	*/
 	function InitLingxueAura takes nothing returns nothing
-	    call UnitAddAbilityBJ( 'A0FY', gg_unit_haro_0030 )
+	    call UnitAddAbilityBJ( 'A0FY', gg_unit_n01S_0258 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -194,7 +194,7 @@ library_once Aura requires LHBase,Attr
 			call AddDefensePercent(i,0.4)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0JX')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JX')
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -208,14 +208,14 @@ library_once Aura requires LHBase,Attr
             call AddMoneyPercent(i,0.5)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0JY')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JY')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    泰雅光环
 	*/
 	function InitTaiyaAura takes nothing returns nothing
-		call UnitAddAbility(gg_unit_haro_0030,'A0JZ')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JZ')
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -226,10 +226,10 @@ library_once Aura requires LHBase,Attr
 		local integer i = 1
 		loop
 			exitwhen i > 6
-            call AddIntPercent(i,0.5)
+            call AddIntPercent(i,0.4)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0K0')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0K0')
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -243,14 +243,14 @@ library_once Aura requires LHBase,Attr
 			call AddHPPercent(i,0.5)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0GR')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0GR')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    苍凌光环
 	*/
 	function InitCanglingAura takes nothing returns nothing
-		call UnitAddAbility(gg_unit_haro_0030,'A0HR')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0HR')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -262,7 +262,7 @@ library_once Aura requires LHBase,Attr
 	    set TSpellMengji3 = CreateTrigger()
 	    call TriggerAddCondition(TSpellMengji3, Condition(function TSpellMengji3Con))
 	    call TriggerAddAction(TSpellMengji3, function TSpellMengji3Act)
-		call UnitAddAbility(gg_unit_haro_0030,'A0EL')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0EL')
 		call InitShunyi()
 		
 	endfunction
@@ -277,7 +277,7 @@ library_once Aura requires LHBase,Attr
 			call AddSpellPercent(i,0.6)
 			set i = i +1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0GS')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0GS')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -292,7 +292,7 @@ library_once Aura requires LHBase,Attr
 			call AddIntPercent(i,0.2)
 			set i = i + 1
 		endloop
-		call UnitAddAbility(gg_unit_haro_0030,'A0JE')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0JE')
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

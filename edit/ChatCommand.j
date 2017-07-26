@@ -1,11 +1,12 @@
 
 //! import "LHBase.j"
 //! import "PIV.j"
+//! import "Continous.j"
 /*
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Continous
 	
 	globals
 		private item array IBox
@@ -137,6 +138,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 400.00 ), 0 )
 		endif
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    隐藏面板
@@ -173,6 +175,11 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call FixView(false)
 		elseif (str == "-yc") then
 			call YincangBroad()
+		debug elseif (str == "-jn") then
+			debug call ShowQiandao(GetTriggerPlayer())
+		elseif (str == "-sh") then
+			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")
 		elseif (str == "-zz") then
 			call CancelVIP(GetTriggerPlayer())
 		elseif (str == "-yxjs" and GetTriggerPlayer() == GetFirstPlayer() and BShengli) then

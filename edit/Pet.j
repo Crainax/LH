@@ -61,13 +61,11 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
                     return
                 endif
                 if (GetUnitLevel(GetSpellTargetUnit()) > 50 and GetUnitLevel(GetSpellTargetUnit()) > GetHeroLevel(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])) then
-                    call PlaySoundBJ( gg_snd_Jidibeida )
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
                     call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的英雄需要"+I2S(GetUnitLevel(GetSpellTargetUnit()))+"级你才能捕捉该单位." )
                     return
                 endif
                 if ((GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ))) then
-                    call PlaySoundBJ( gg_snd_Jidibeida )
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
                     call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的人口已满,请通过炼狱提升你的人口数." )
                     return
@@ -75,7 +73,6 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
                 if ((GetUnitStateSwap(UNIT_STATE_LIFE, GetSpellTargetUnit()) >= $Limit$)) then
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
                     call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r目标生物HP为"+I2S(R2I(GetUnitState(GetSpellTargetUnit(),UNIT_STATE_LIFE)/10000))+"万血,超过了网的"+I2S($Limit$)+"HP捕捉上限!" )
-                    call PlaySoundBJ( gg_snd_Jidibeida )
                     return
                 endif
                 if (GetSpellAbilityId() == 'A04Q') then
@@ -85,7 +82,7 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
                 return
             endif
         //! endtextmacro
-
+         
         //! runtextmacro CatchPet("A06D","I073","10000")
         //! runtextmacro CatchPet("A04P","I074","100000")
         //! runtextmacro CatchPet("A04Q","I075","500000")

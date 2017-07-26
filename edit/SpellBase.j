@@ -213,7 +213,7 @@ library_once SpellBase requires LHBase
 	*/
 	struct Roubang
 
-		private unit array URou [30]
+		private unit array URou [20]
 		private real aSpeed
 		private real cAngle
 		private real radius
@@ -252,8 +252,7 @@ library_once SpellBase requires LHBase
         endmethod
 
 		static method create takes unit caster,integer number,real radius,real aSpeed,real angle,integer utype returns thistype
-			local integer i = 1
-			local integer randomEmpty = GetRandomInt(1,IMinBJ(29,number))
+			local integer i = 2
 		   	local thistype this = thistype.allocate()
 			set .caster = caster
 			set .number = IMinBJ(29,number)
@@ -262,13 +261,10 @@ library_once SpellBase requires LHBase
 			set .cAngle = angle
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
+			set URou[1] = null
 		   	loop
 		   		exitwhen i > IMinBJ(29,number)
-		   		if (i != randomEmpty) then
-		   			set URou[i] = CreateUnit(GetOwningPlayer(caster), utype , YDWECoordinateX(GetUnitX(caster) + radius * (2 * i - 1 ) * CosBJ(angle)) , YDWECoordinateY(GetUnitY(caster) + radius * (2 * i - 1 ) * SinBJ(angle)) , angle + 90)
-		   		else
-		   			set URou[i] = null
-		   		endif
+	   			set URou[i] = CreateUnit(GetOwningPlayer(caster), utype , YDWECoordinateX(GetUnitX(caster) + radius * (2 * i - 1 ) * CosBJ(angle)) , YDWECoordinateY(GetUnitY(caster) + radius * (2 * i - 1 ) * SinBJ(angle)) , angle + 90)
 		   		set i = i +1
 		   	endloop
 			call TimerStart(.t,0.05,true,function thistype.roubangrotate)
@@ -523,7 +519,7 @@ library_once SpellBase requires LHBase
 	*/
 	function GetDamageChenji takes unit u returns real
 		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-		local real damage =  (GetHeroStr(uH, true) * 2.0) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		local real damage =  (GetHeroStr(uH, true)) * 2 * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
 		set uH = null
 		return damage
 	endfunction
@@ -544,6 +540,16 @@ library_once SpellBase requires LHBase
 	function GetDamageInt takes unit u returns real
 		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
 		local real damage = (( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) ) +  ( GetHeroInt(uH, true) * 2.0 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH = null
+		return damage
+	endfunction	
+
+	/*
+	    获取基础智力英雄技能伤害
+	*/
+	function GetDamageBase takes unit u returns real
+		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		local real damage = (( GetHeroStr(uH, true) *1.30) + ( GetHeroAgi(uH, true) * 1.30) +  ( GetHeroInt(uH, true) * 1.3 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
 		set uH = null
 		return damage
 	endfunction

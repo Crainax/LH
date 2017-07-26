@@ -7,7 +7,8 @@
 //! import "Diffculty.j"
 //! import "Achievement.j"
 //! import "Huodong.j"
-library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement
+//! import "Continous.j"
+library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous	
 	
 	globals
 		integer array vipCode
@@ -75,6 +76,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 		//没被碰到
 		boolean BShengming = false
+
+		//倾雪寒晶
+		integer array Greward
+
+		//签到指数
+		integer array IQiandao2
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -196,16 +203,23 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    输出幻逸的密码
+	    输出梦霁的密码
 	*/
-	function PrintHuanyiPassword takes nothing returns nothing
+	function PrintMengjiPassword takes nothing returns nothing
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    输出梦霁的密码
+	    输出苍凌的密码
 	*/
-	function PrintMengjiPassword takes nothing returns nothing
+	function PrintCanglingPassword takes nothing returns nothing
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    输出星胧的密码
+	*/
+	function PrintXinglongPassword takes nothing returns nothing
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -241,7 +255,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set Idaixin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "daixin")
     			set Ileishi[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "leishi")
     			set SDIY[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "diy")
+    			set Greward[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "Greward")
+    			set IConDays[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IConDays")
+    			set ILastTime[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "ILastTime")
+    			set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
 
+    			
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1
@@ -367,38 +386,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),327)
 				endif
 
-				//通关次数
-				/*if (level == 1) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass1", pass1[i] + 1 )
-    			elseif (level == 2) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass2", pass2[i] + 1 )
-    			elseif (level == 3) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass3", pass3[i] + 1 )
-    			elseif (level == 4) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass4", pass4[i] + 1 )
-    			elseif (level == 5) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass5", pass5[i] + 1 )
-    			elseif (level == 6) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass6", pass6[i] + 1 )
-    			elseif (level == 7) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass7", pass7[i] + 1 )
-    			elseif (level == 8) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass8", pass8[i] + 1 )
-    			elseif (level == 9) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass9", pass9[i] + 1 )
-				endif*/
-
-				//活动皮肤
-				/*
-				if (level >= 4 and IsHuodong()) then
-    				call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "spin", 1 )
-					call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r恭喜你在活动期间获得永久的英雄七彩皮肤特效！")
-				endif
-
-				if (IsHuodong()) then
-					set passTimes[i] = passTimes[i] + 1
-					call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "pass", passTimes[i] )
-				endif*/
 
 			endif
 			set i = i +1
@@ -593,7 +580,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer maxIndex = 0
 		local integer i = HERO_COUNT
 		loop 
-			exitwhen i < HERO_COUNT
+			exitwhen i < 1
 			if ((GetSpecifyHeroTimes(p,i) > max) or (GetSpecifyHeroTimes(p,i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i)) then
 				set max = GetSpecifyHeroTimes(p,i)
 				set maxIndex = i
@@ -610,6 +597,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function PrintAllHeroTimes takes player p returns nothing
 		local string result = ""
 		local integer i = 1
+		local real x = 0
+		local real y = 0
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
 		loop
 			exitwhen i > HERO_COUNT
@@ -625,7 +614,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endif
 		set result = null
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想调节视角高度,请输入-+")
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想取消彩色皮肤,请输入-qc")
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想隐藏技能伤害,请输入-sh(不推荐新手输入)")
+		//call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想取消彩色皮肤,请输入-qc")
+		if (Greward[GetConvertedPlayerId(p)] > 0) then
+			set x = GetUnitX(UDepot[GetConvertedPlayerId(p)])
+			set y = GetUnitY(UDepot[GetConvertedPlayerId(p)])
+			call RemoveUnit(UDepot[GetConvertedPlayerId(p)])
+			set UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, 'n01R', x, y, 270.000)
+			if (GetDiffculty() <= 5) then
+				call UnitAddAbility(UDepot[GetConvertedPlayerId(p)],'A0KW')
+			endif
+		endif
 	endfunction
 	
 //---------------------------------------------------------------------------------------------------
@@ -855,6 +854,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local timer t = CreateTimer()
 		call SaveInteger(LHTable,GetHandleId(t),kSaveHeroTimes,GetConvertedPlayerId(p))
 		call TimerStart(t,10,false,function SaveAllHeroTimes)
+
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -876,6 +876,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
 		//计时英雄数
 		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
+
 		if (achiPage[id] == -1) then
 			call SetAndSaveDIYName(GetOwningPlayer(u))
 		else
@@ -885,6 +886,19 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				call SaveAchievePointer(GetOwningPlayer(u))
 			endif
 			call SetAchievement(GetOwningPlayer(u),achiPage[id])
+
+			if (IsAchieveOK(GetOwningPlayer(u),47)) then
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			endif
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -907,9 +921,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local trigger t = CreateTrigger()
 		local integer i = 1
 
-		call CreateUnit(Player(6), 'n01E', 6144.0, - 320.0, 270.000)
-    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 10560.0, - 4480.0, 270.000)
-    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01K', 11200.0, - 384.0, 270.000)
+		call CreateUnit(Player(6), 'n01E', 6144.0, 75, 270.000)
+    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 9816.0, - 5968.0, 270.000)
+    	call CreateUnit(Player(6), 'n01K', 6144.0, -683, 270.000)
 
 		loop
 			exitwhen i > 6

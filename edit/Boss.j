@@ -6,6 +6,7 @@
 //! import "Attr.j"
 //! import "Juexing.j"
 //! import "Battle.j"
+//! import "NetVersion.j"
 library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,Juexing,Battle,Version
 	globals
 		/*
@@ -42,6 +43,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 
 		//触发器-判断人妖死亡状态
 		private trigger TDeathRenyao = null
+
+		//生命联结解药
+		boolean array BGongxiang
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -124,13 +128,16 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null) then
 	            	if (ILuoshi <= 0) then
 	            		call TimerStoneKaipao(udg_H[i])
-						set ILuoshi = 10 - NanDiff * 2
 	            	else
 	    				call CreateSpellTextTag("落石:"+I2S(ILuoshi)+"s",udg_H[i],100,0,0,2)
+        				call PlaySoundBJ(gg_snd_Clock)
 	            	endif
             	endif
 				set i = i +1
 			endloop
+        	if (ILuoshi <= 0) then
+				set ILuoshi = 10 - NanDiff * 2
+			endif
 		else
 			set ILuoshi = 0
 			call PauseTimer(t)
@@ -165,7 +172,11 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	endfunction
 
 	private function StartFashang takes integer playerID returns nothing
-		local timer t = CreateTimer()
+		local timer t = null
+		if (udg_I_Jinengjiacheng[playerID] <= 0) then
+			return
+		endif
+		set t = CreateTimer()
 		call SaveInteger(LHTable,GetHandleId(t),1,playerID)
 		call SaveReal(LHTable,GetHandleId(t),2,2 * udg_I_Jinengjiacheng[playerID])
 		call AddSpellPercent(playerID,-2 * udg_I_Jinengjiacheng[playerID])
@@ -232,20 +243,40 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		set temp = null
 	endfunction
 
-	private function LifeConnectTimer takes nothing returns nothing
+	//删除生命连结
+	function DestroyConnection takes nothing returns nothing
 		local integer i = 1
-		local unit temp = null
 		loop
 			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null) then
-				if (temp != null) then
-    				call MoveLightning( LLifeConnect[i-1],true, GetUnitX(temp),GetUnitY(temp),GetUnitX(udg_H[i]),GetUnitY(udg_H[i]) )
-				endif
-				set temp = udg_H[i]
+			if (LLifeConnect[i] != null) then
+				call DestroyLightningBJ(LLifeConnect[i])
 			endif
 			set i = i +1
 		endloop
-		set temp = null
+		call PauseTimer(TLifeConnect)
+		call DestroyTimer(TLifeConnect)
+		set TLifeConnect = null
+	endfunction
+
+	private function LifeConnectTimer takes nothing returns nothing
+		local integer i = 1
+		local unit temp = null
+		if (IsUnitAliveBJ(UXiaoY) or GetUnitAbilityLevel(UXiaoY,'A0KH') > 0) then
+			loop
+				exitwhen i > 6
+				if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null) then
+					if (temp != null) then
+	    				call MoveLightning( LLifeConnect[i-1],true, GetUnitX(temp),GetUnitY(temp),GetUnitX(udg_H[i]),GetUnitY(udg_H[i]) )
+					endif
+					set temp = udg_H[i]
+				endif
+				set i = i +1
+			endloop
+			set temp = null
+		else
+			call DestroyConnection()
+		endif
+
 	endfunction
 
 	//一起死吧~
@@ -253,7 +284,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null and IsUnitAliveBJ(udg_H[i])) then
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null and IsUnitAliveBJ(udg_H[i]) and not(BGongxiang[i])) then
 				call UnitDamageTarget( GetKillingUnitBJ(), udg_H[i], GetUnitState(udg_H[i],UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			endif
 			set i = i +1
@@ -261,6 +292,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call BJDebugMsg("|cFFFF66CC【消息】|r由于受到生命共享的影响,你们所有英雄受到了致死伤害.")
 		debug set BShengming = true
 	endfunction
+
+
 
 	//开始联结之路
 	function StartLifeConnect takes nothing returns nothing
@@ -467,7 +500,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	private function DaroubangJudge takes nothing returns nothing
 		if (MLChuanzhang.getTimes()>IRoubang) then
 			set IRoubang = MLChuanzhang.getTimes()
-	    	call Roubang.create(UChuanzhang,18,100,1.66*IRoubang,GetRandomReal(0,360),'h01T')
+	    	call Roubang.create(UChuanzhang,10,100,1.66*IRoubang,GetRandomReal(0,360),'h01T')
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -483,15 +516,27 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    	call DestroyTimerDialog( udg_Timer_BOSS )
 		    call PauseTimer(TRBChuan)
 		    call DestroyTimer(TRBChuan)
-			call PauseTimer(TLifeConnect)
-			call DestroyTimer(TLifeConnect)
-			set TLifeConnect = null
+			call DestroyConnection()
 			call CinematicModeBJ( true, GetPlayersAll() )
 		    call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "看似这场战争暂时性的结束了...不过看似这背后并不简单?", bj_TIMETYPE_ADD, 2.00, true )
 		    call PolledWait(2.00)
 		    call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "游戏将在60秒后结束...", bj_TIMETYPE_ADD, 2.00, true )
+		    debug call SaveAchievement()
+		    debug call SaveAchievement2()
 		    call PolledWait(2.00)
-		    call SaveAchievementKuilei1()
+		    call PrintMengjiPassword()
+		    call PrintMengjiPassword()
+		    call PrintMengjiPassword()
+		    call PrintMengjiPassword()
+		    call PrintCanglingPassword()
+		    call PrintCanglingPassword()
+		    call PrintCanglingPassword()
+		    call PrintCanglingPassword()
+		    call PrintXinglongPassword()
+		    call PrintXinglongPassword()
+		    call PrintXinglongPassword()
+		    call PrintXinglongPassword()
+		    debug call SaveAchievementKuilei1()
 		    call CinematicModeBJ( false, GetPlayersAll() )
 		    call PolledWait(60.00)
 		    call ForForce( GetPlayersAll(), function ShengliAll )
@@ -505,6 +550,21 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	*/
 	private function InitRenYao takes nothing returns nothing
 		local timer t = CreateTimer()
+		call ShowGameHintAll("
+		    	|cffffff00上路BOSS(人王傀儡) 技能:|r
+	        3次生命
+	        火焰之棒(每死一次多一条棒,速度更快,注意躲开)
+	        航海领域(眩晕攻击)
+	        天赋禁用(周期性技能)
+
+	        |cff00ccff下路BOSS(妖王傀儡) 技能:|r
+	        3次生命
+	        生命共享(任一队友死亡则全队死亡)
+	        法伤变负(周期性技能,范围有效)
+	        陨石坠落(注意倒计时!)
+
+	        |cffff0000BOSS正式进攻!|r")
+		//call PolledWait(10)
 		set UXiaoY = CreateUnit(Player(11),'N01O',GetRectCenterX(gg_rct________6),GetRectCenterY(gg_rct________6),90)
 		set UChuanzhang = CreateUnit(Player(11),'N01P',GetRectCenterX(gg_rct________3),GetRectCenterY(gg_rct________3),270)
 		//多条命
@@ -556,7 +616,25 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
         call TimerStart(TiRenYao,GetWangSpeed(),false,function InitRenYao)
         call TimerDialogDisplay(TiDiaRenYao,true)
 	endfunction
-	
+//---------------------------------------------------------------------------------------------------
+	/*
+	    伤害判定
+	*/
+	function SimulateDamageBoss takes unit u returns boolean
+		if (GetUnitTypeId(u) == 'h01S') then
+			call DisableTrigger(GetTriggeringTrigger())
+			if (IsUnitType(GetTriggerUnit(), UNIT_TYPE_MAGIC_IMMUNE)) then
+				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			call EnableTrigger(GetTriggeringTrigger())
+			endif
+			return true 
+		endif
+		if (GetUnitTypeId(u) == 'h01T' and IsUnitAliveBJ(UChuanzhang) and IsUnitDeadBJ(GetTriggerUnit())) then
+			call RecoverUnitHP(UChuanzhang,0.005)
+			return true 
+		endif
+		return false
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	private function InitBoss takes nothing returns nothing

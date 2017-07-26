@@ -12,7 +12,7 @@ library_once Taiya requires LHBase,Spin,Version
 	*/
 	function AddTaiyaSpin takes nothing returns nothing
 		if (ITaiyamiao > 2000) then
-			call SetTaiyaSpinOK(GetOwningPlayer(taiya))
+			debug call SetTaiyaSpinOK(GetOwningPlayer(taiya))
 		else
 			set ITaiyamiao = ITaiyamiao + 1
 		endif

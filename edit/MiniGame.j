@@ -137,10 +137,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,Version
 	        call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
 	        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
 	        return
-	    elseif ((GetItemTypeId(GetSoldItem()) == 'I06M') and GetBuyingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) then
-	    	if (not(IsWudi(GetBuyingUnit()))) then
-				call ImmuteDamageInterval(GetBuyingUnit(),3)
-	    	endif
+	    elseif ((GetItemTypeId(GetSoldItem()) == 'I06M') and GetBuyingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] and RectContainsUnit(gg_rct_Game1,GetBuyingUnit())) then
 	    	call StartGame1()
 	    	call BJDebugMsg("|cFFFF66CC【消息】|r迷你挑战-骷髅海开始啦!")
             call PingMinimapForForce( GetPlayersAll(), GetRectCenterX(gg_rct_Game1) , GetRectCenterY(gg_rct_Game1), 5.00 )
@@ -166,9 +163,9 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,Version
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))
         local group group1 = GetUnitsInRectMatching(gg_rct_Game1, Condition(function MiniGamePlayerFilter))
 		if (IGoldGame1[id] != 1) then
-		 	call AddHeroXP( udg_H[id], R2I(IGoldGame1[id] * 0.5 * udg_I_Jingyan[id]), true )
+		 	call AddHeroXP( udg_H[id], R2I(IGoldGame1[id] * 0.4 * udg_I_Jingyan[id]), true )
 		    call AdjustPlayerStateBJ( R2I(IGoldGame1[id] * udg_I_Jinqianhuodelv[id]), GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD )
-		    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你通过迷你挑战获得了"+I2S(R2I(IGoldGame1[id] * udg_I_Jinqianhuodelv[id]))+"的金钱奖励和"+I2S(R2I(IGoldGame1[id] * 0.5 * udg_I_Jingyan[id]))+"的经验奖励,成功坚持了"+I2S(TTimeGame1/10)+"秒.")
+		    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你通过迷你挑战获得了"+I2S(R2I(IGoldGame1[id] * udg_I_Jinqianhuodelv[id]))+"的金钱奖励和"+I2S(R2I(IGoldGame1[id] * 0.4 * udg_I_Jingyan[id]))+"的经验奖励,成功坚持了"+I2S(TTimeGame1/10)+"秒.")
 		    debug if (TTimeGame1/10 > 35) then
 				debug call GetAchievementAndSave(ConvertedPlayer(id),43)
 			debug endif

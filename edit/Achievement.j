@@ -171,7 +171,7 @@ library_once Achievement requires LHBase
 	function SetSeyuSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],2) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -189,7 +189,7 @@ library_once Achievement requires LHBase
 	function SetXiaoyueSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],3) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取晓月皮肤\"|cff99ccff月轮绯狱|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取晓月皮肤\"|cff99ccff月轮绯狱|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -207,7 +207,7 @@ library_once Achievement requires LHBase
 	function SetYanmieSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],4) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取湮灭皮肤\"|cFFFF0000殛霆无迹|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取湮灭皮肤\"|cFFFF0000殛霆无迹|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -225,7 +225,7 @@ library_once Achievement requires LHBase
 	function SetXuanxueSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],5) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪武器模型\"|cFF33FF33末日权杖|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪武器模型\"|cFF33FF33末日权杖|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -244,7 +244,7 @@ library_once Achievement requires LHBase
 	function SetTaiyaSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],6) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取泰雅皮肤\"|cFFCCFF66三弦星谧|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取泰雅皮肤\"|cFFCCFF66三弦星谧|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -260,10 +260,10 @@ library_once Achievement requires LHBase
 	/*
 	    辰寂皮肤OK了
 	*/
-	function SetChenjiSpinOK takes player p returns nothing
+	function SetChenji1SpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],7) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取辰寂武器模型\"|cFFFF3333霜夜之哀|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取辰寂武器模型\"|cFFFF3333霜夜之哀|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -282,7 +282,7 @@ library_once Achievement requires LHBase
 	function SetHanshangSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],8) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取寒殇武器模型\"|cFF3333FF獠牙之匕|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取寒殇武器模型\"|cFF3333FF獠牙之匕|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -301,7 +301,26 @@ library_once Achievement requires LHBase
 	function SetLingxueSpinOK takes player p returns nothing
 		if (GetBit(spin[GetConvertedPlayerId(p)],9) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000000
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取凌雪皮肤\"|cFF339933沐雪无瑕|r\"！")
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取凌雪皮肤\"|cFF339933沐雪无瑕|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    辰寂皮肤条件
+	*/
+	function GetChenji2Spin takes player p returns boolean
+		return GetBit(spin[GetConvertedPlayerId(p)],10) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    辰寂皮肤OK了
+	*/
+	function SetChenji2SpinOK takes player p returns nothing
+		if (GetBit(spin[GetConvertedPlayerId(p)],10) < 1) then
+			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000000000
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取辰寂皮肤\"|cFFFF3333双流贯恒|r\"！")
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 		endif
 	endfunction
@@ -571,6 +590,7 @@ library_once Achievement requires LHBase
 		
 		call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetSuperChallenageName(1) + S3(IsQuanchengjiu(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetSuperChallenageName(2) + S3(IsAchieveOK(p,42),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetSuperChallenageName(3) + S3(IsAchieveOK(p,47),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -686,6 +706,8 @@ library_once Achievement requires LHBase
 		    	call DisplayTextToPlayer(p, 0., 0., GetSuperChallenageContent(i))
 		    	if (i == 2) then
 	    			call SetAchievement(p,42)
+		    	elseif (i == 3) then
+	    			call SetAchievement(p,47)
 		    	endif
 	            exitwhen true
 	        endif

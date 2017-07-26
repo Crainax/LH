@@ -29,7 +29,7 @@ library_once Constant initializer InitConstant requires JBase
 		    游戏模式
 		*/
 		integer mode = 0
-		constant integer COUNT_WANJIE = 48
+		constant integer COUNT_WANJIE = 49
 		private integer WPointer = 1
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.242"
+		return "3.306"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -75,7 +75,13 @@ library_once Constant initializer InitConstant requires JBase
 			return r2
 		endif
 	endfunction
-	
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是皮肤
+	*/
+	function IsUnitIsSpin takes unit u  returns boolean
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' 
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取英雄索引号
@@ -97,7 +103,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 7
 		elseif (heroType == 'Hjai' or heroType == 'H01V') then
 			return 8
-		elseif (heroType == 'Harf') then
+		elseif (heroType == 'Harf' or heroType == 'H01W') then
 			return 9
 		elseif (heroType == 'E00C') then
 			return 10
@@ -249,7 +255,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (id == 14) then
 			return "|cffffff00操作难度：★☆☆☆☆|r"
 		elseif (id == 15) then
-			return "|cffff0000操作难度：★★★★★|r"
+			return "|cffff0000操作难度：★★★★★(极度不推荐新手使用)|r"
 		elseif (id == 16) then
 			return "|cffffc000操作难度：★★☆☆☆|r"
 		elseif (id == 17) then
@@ -352,7 +358,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -519,6 +525,8 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【破枷皇】")
 		elseif (achieveID == 46) then
 			return GetColorString("【真言殿】")
+		elseif (achieveID == 47) then
+			return GetColorString("【不败神话】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -675,6 +683,8 @@ library_once Constant initializer InitConstant requires JBase
 			return "破枷皇"
 		elseif (achieveID == 46) then
 			return "真言殿"
+		elseif (achieveID == 47) then
+			return "不败神话"
 		endif
 		return ""
 	endfunction
@@ -1058,6 +1068,8 @@ library_once Constant initializer InitConstant requires JBase
 			return "全成就达成"
 		elseif (i == 2) then
 			return "通关|cff993366天魇|r"
+		elseif (i == 3) then
+			return "连续登录20天"
 		endif
 		return ""
 	endfunction
@@ -1114,7 +1126,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "通关隐藏难度|cff993366天魇|r(通关|cff008000万劫|r难度解锁)
 
 			完成该项挑战后你的名字将在以后始终置顶于|cff008000\"封帝万劫录\"|r中!
-			并获得四字成就名"+GetAchievementName(42)+"。"
+			并获得四字成就名"+GetAchievementName(42)+"。"		
+		elseif (i == 3) then
+			return "在嘉年华活动版本中连续签到达20天.
+
+			完成该项挑战后可以在每次开局选英雄后接受来自六界的欢迎。
+			并获得四字成就名"+GetAchievementName(47)+"。"
 		endif
 		return ""
 	endfunction
@@ -1179,7 +1196,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (WPointer == 25) then
 			return "梦露丶baby"
 		elseif (WPointer == 26) then
-			return "丶念少"
+			return "丶念少。"
 		elseif (WPointer == 27) then
 			return "造世财"
 		elseif (WPointer == 28) then

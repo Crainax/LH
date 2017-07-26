@@ -3,10 +3,11 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Spin.j"
+//! import "Aura.j"
 /*
     英雄瑟雨的技能
 */
-library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
+library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	
 	globals
 		unit array chongdongs
@@ -335,7 +336,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
 		local integer ii = 1
 		local integer attack = R2I(I2R(GetHeroAgi(seyu,true))*SquareRoot(GetHeroLevel(seyu)))
 		call PrintSpellContent(GetOwningPlayer(seyu),GetAbilityName(GetSpellAbilityId()),"攻击力"+I2S(attack)+".")
-
+        call PlaySoundBJ(gg_snd_seyu_4)
 		loop
 			exitwhen i > IMinBJ(8,chongCount)
 			if (shashous[i] != null) then
@@ -415,6 +416,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
 		local timer t = CreateTimer()
 	    call PrintSpell(GetOwningPlayer(seyu),GetAbilityName(GetSpellAbilityId()),GetDamageAgi(seyu))
 		call SaveInteger(spellTable,GetHandleId(t),kAnShaCount,0)
+        call PlaySoundBJ(gg_snd_seyu_5)
 		call TimerStart(t,0.5,true,function AnShaZhiWuTimer)
 		set t = null
 	endfunction
@@ -460,16 +462,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version
 				//技能3初始化
 				call SetPlayerTechResearchedSwap( 'R00D', 1, GetOwningPlayer(seyu) )
 				set chongCount = chongCount + 1
-				set i = 1
-       			loop
-       				exitwhen i > 6
-       				
-		            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-		                call AddAgiPercent(i,0.4)
-		            endif
-
-       				set i = i +1
-       			endloop
+				call InitSeyuAura()
 			elseif (whichSpell == 4 and IsFourthSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEsv') == 1) then
 				//技能4初始化
 				set chongCount = chongCount + 1

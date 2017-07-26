@@ -325,6 +325,46 @@ library_once Diffculty requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    显示对话框提示选更高难度
+	*/
+	function Show245Dialog takes nothing returns nothing
+		call ShowGameHintAll("
+		感谢对本地图的支持！
+    	你选择的难度在这波就结束了.
+    	后续的关卡请选择\"和谐\"难度(难度3)或以上进行体验
+    	(前5个难度其实提升不大)")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    显示对话框提示选更高难度
+	*/
+	function Show2451Dialog takes nothing returns nothing
+		call ShowGameHintAll("
+			感谢对本地图的支持！
+	    	你选择的难度在这波就结束了.
+	    	后续的关卡请选择\"炼狱\"难度(难度35)或以上进行体验
+	    	(前5个难度其实提升不大)")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    显示对话框提示冥界进攻
+	*/
+	function ShowMingjieDialog takes nothing returns nothing
+		call ShowGameHintAll("
+			|cffff6800新任务:|r
+			击败来自冥界的5波攻击并击败|cffff0000冥刹|r.")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    显示对话框提示选更高难度
+	*/
+	function ShowKuileiDialog takes nothing returns nothing
+		call ShowGameHintAll("
+			|cffff6800新任务:|r
+			击败六界傀儡|cffffff00穆晴|r与白浅.")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    游戏难度的选取
 	*/
 	function ChooseDifficulty takes nothing returns nothing

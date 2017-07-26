@@ -110,9 +110,9 @@ library_once Battle initializer InitBattle requires LHBase
 	*/
 	function GetWangSpeed takes nothing returns real
 		if (IsFastly()) then
-			return 60
+			return 60.
 		else
-			return RCModeH(420.,210.)
+			return 420.
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

@@ -474,6 +474,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 		call SaveInteger(spellTable,GetHandleId(t),1,15)
 		call TimerStart(t,1,true,function TanLangMangYaoTimer)
 		call TimerStart(CreateTimer(),0.05,true,function TanLangMangYaoRotateTimer)
+    	call PlaySoundBJ( gg_snd_cangling_5 )
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 library_once Version initializer InitVersion requires LHBase,Huodong
 	
 	globals
-		private boolean Bheiyan = false 
+		private boolean Bxinglong = false 
 		private boolean Bhuanyi = false 
 		private boolean Bmengji = false 
 		private boolean Bcangling = false 
@@ -14,25 +14,17 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    黑阎的提示文本
-	*/
-	function GetHeiyanHint takes nothing returns string
-		return "|cff99ccff该英雄是隐藏英雄，获取密码请加群413359254|r"
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string
-		return "|cff99ccff该英雄是隐藏英雄，多人通关地狱及以上的难度后在结尾获取密码,
-				或者成为永久赞助直接选取该英雄|r"
+		return "|cff99ccff该英雄是隐藏英雄，获取密码请加群413359254|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    梦霁的提示文本
 	*/
 	function GetMengjiHint takes nothing returns string
-		return "|cff99ccff该英雄是隐藏英雄，多人通关|cFFFF0000末日|r|cff99ccff及以上的难度后在结尾获取密码,
+		return "|cff99ccff该英雄是隐藏英雄，多人通关地狱难度后在结尾获取密码,
 				或者成为永久赞助直接选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -40,15 +32,16 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	    苍凌的提示文本
 	*/
 	function GetCanglingHint takes nothing returns string
-	return "|cff99ccff该英雄是隐藏英雄，多人通关|cffff00ff轮回|r|cff99ccff及以上的难度后在结尾获取密码,
+	return "|cff99ccff该英雄是隐藏英雄，多人通关|cFFFF0000末日|r难度后在结尾获取密码,
 				或者成为永久赞助直接选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    黑阎选取条件
+	    星胧的提示文本
 	*/
-	function GetHeiyanSelectedCon takes player p returns boolean
-		return Bheiyan
+	function GetXinglongHint takes nothing returns string
+	return "|cff99ccff该英雄是隐藏英雄，多人通关|cffff00ff轮回|r难度后在结尾获取密码,
+				或者成为永久赞助直接选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -70,6 +63,14 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	*/
 	function GetCanglingSelectedCon takes player p returns boolean
 		return Bcangling
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧选取条件
+	*/
+	function GetXinglongSelectedCon takes player p returns boolean
+		return Bxinglong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -117,11 +118,11 @@ library_once Version initializer InitVersion requires LHBase,Huodong
     /*
         获取激活码
     */
-    private function GetHuanyiCode takes string s returns integer
+    private function GetXinglongCode takes string s returns integer
         local string result = s
         local integer i = 1
         loop
-            exitwhen i > 3
+            exitwhen i > 8
             set result = I2S(StringHash(result))
             set i = i +1
         endloop
@@ -162,26 +163,27 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	*/
 	function TSpeakPassword takes nothing returns nothing
 		local string chat = GetEventPlayerChatString()
-		if (chat == "hydtzyqysqz") then
-			set Bheiyan = true
-		elseif (chat == "hy"+I2S(GetHuanyiCode(GetPlayerName(GetTriggerPlayer())))) then
+		if (chat == "hyfxhygyhsmff") then
 			set Bhuanyi = true
 		elseif (chat == "mj"+I2S(GetMengjiCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bmengji = true
 		elseif (chat == "cl"+I2S(GetCanglingCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bcangling = true
+		elseif (chat == "xl"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
+			set Bxinglong = true
 		endif
+		set chat = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    输出幻逸的密码
+	    输出星胧的密码
 	*/
-	function PrintHuanyiPassword takes nothing returns nothing
+	function PrintXinglongPassword takes nothing returns nothing
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if (udg_RENSHU > 1 and udg_Nandu_JJJ > 5) then
-				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的幻逸英雄选取密码:hy"+ I2S(GetHuanyiCode(playerName[i])))
+			if (udg_RENSHU > 1 and udg_Nandu_JJJ = 7) then
+				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的星胧英雄选取密码:xl"+ I2S(GetXinglongCode(playerName[i])))
 			endif
 			set i = i +1
 		endloop
@@ -194,7 +196,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if (udg_RENSHU > 1 and udg_Nandu_JJJ > 6) then
+			if (udg_RENSHU > 1 and udg_Nandu_JJJ == 5) then
 				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的梦霁英雄选取密码:mj"+ I2S(GetMengjiCode(playerName[i])))
 			endif
 			set i = i +1
@@ -208,7 +210,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if (udg_RENSHU > 1 and udg_Nandu_JJJ > 7) then
+			if (udg_RENSHU > 1 and udg_Nandu_JJJ == 6) then
 				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的苍凌英雄选取密码:cl"+ I2S(GetCanglingCode(playerName[i])))
 			endif
 			set i = i +1

@@ -7,11 +7,12 @@
 //! import "Huanyi.j"
 //! import "ItemSpell.j"
 //! import "MiniGame.j"
+//! import "Boss.j"
 /////! import "CenterCredit.j"
 /*
     马甲模拟
 */
-library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell,MiniGame
+library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell,MiniGame,Boss
 	
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -39,6 +40,8 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		elseif (SimulateDamageItem(u)) then
 			return
 		elseif (SimulateDamageMiniGame(u)) then
+			return
+		elseif (SimulateDamageBoss(u)) then
 			return
 		endif
 
