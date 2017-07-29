@@ -35,6 +35,58 @@ library_once SpellBase requires LHBase
 		call ImmuteDamageInterval(u,0)
 	endfunction
 
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    然后这是连结2个人
+	*/
+	struct Connect 
+		
+		private unit unit1
+		private unit unit2
+		private lightning l
+		private timer t
+
+		static method connect takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
+		endmethod
+
+        static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SpellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SpellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SpellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+		static method create takes unit unit1,unit unit2,string lightningType returns thistype
+		   	local thistype this = thistype.allocate()
+		   	set .unit1 = unit1
+		   	set .unit2 = unit2
+			set .l = AddLightning( lightningType, true , GetUnitX(unit1),GetUnitY(unit1),GetUnitX(unit2),GetUnitY(unit2))
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call TimerStart(.t,0.05,true,function thistype.connect)
+			return this
+		endmethod
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			set .unit1 = null
+			set .unit2 = null
+			call DestroyLightningBJ(.l)
+			set .l = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
+	endstruct
 //---------------------------------------------------------------------------------------------------
   
 	struct Attract 

@@ -60,7 +60,7 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
                     call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能抓忠诚单位。" )
                     return
                 endif
-                if (GetUnitLevel(GetSpellTargetUnit()) > 50 and GetUnitLevel(GetSpellTargetUnit()) > GetHeroLevel(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])) then
+                if (GetUnitLevel(GetSpellTargetUnit()) > 19 and GetUnitLevel(GetSpellTargetUnit()) > GetHeroLevel(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])) then
                     call UnitAddItemByIdSwapped( '$Net$', GetTriggerUnit() )
                     call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r你的英雄需要"+I2S(GetUnitLevel(GetSpellTargetUnit()))+"级你才能捕捉该单位." )
                     return
