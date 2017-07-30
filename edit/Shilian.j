@@ -35,6 +35,13 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 
 		boolean array BEscOnce
 		boolean array BEscTwice
+
+		//单位组，传承试练
+		private group GShilian = null
+		//试练玩家 
+		private player PShilian = null
+		//正在挑战的试练
+		private integer IContinousShilian = 0
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -270,20 +277,130 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    给怪物加上随机的技能
+	*/
+	private function AddMonsterRandomAbility takes u returns nothing
+		local integer i = GetRandomInt(1,24)
+		if (i == 1) then
+			
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    创建怪物
+	*/
+	private function CreateShilianMonster takes nothing returns nothing
+		local integer i = 1
+		local unit u = null
+		loop
+			exitwhen i > 20
+            set u = CreateUnit(Player(11),'aaaa',GetRandomReal(GetRectMinX(gg_rct_Chuangcheng),GetRectMaxX(gg_rct_Chuangcheng)),GetRandomReal(GetRectMinY(gg_rct_Chuangcheng),GetRectMaxY(gg_rct_Chuangcheng)),GetRandomReal(0,360))
+        	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(u),GetUnitY(u) ))
+        	call AddMonsterRandomAbility(u)
+			call GroupAddUnit(GShilian,u)
+			set i = i +1
+		endloop
+		set u = null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断怪物的数量
+    */
+    private function GetShilianMonsterCount takes nothing returns integer
+        local group l_group = CreateGroup()
+        local unit l_unit
+        local integer count = 0
+        call GroupAddGroup(GShilian,l_group)
+        loop
+            set l_unit = FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if (IsUnitAliveBJ(l_unit) and GetOwningPlayer(l_unit) == Player(11)) then
+                set count = count + 1
+                call UnitRemoveBuffsBJ( bj_REMOVEBUFFS_ALL, l_unit )
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group = null
+        set l_unit =null
+        return count 
+    endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    清除试练时的所有东西
+	*/
+	private function RemoveChuanchengUnit takes nothing returns nothing
+        if (IsUnitAliveBJ(GetEnumUnit()) and GetOwningPlayer(GetEnumUnit()) == Player(11)) then
+            call FlushChildHashtable(YDHT,GetHandleId(GetEnumUnit()))
+            call RemoveUnit(GetEnumUnit())
+        endif
+	endfunction
+
+	private function ClearChuancheng takes nothing returns nothing
+		call ForGroup(GShilian,function RemoveChuanchengUnit)
+		call DestroyGroup(GShilian)
+		set GShilian = null
+		set IContinousShilian = 0
+		set PShilian = null
+		call PauseTimer(TChuanchengRest)
+		call DestroyTimer(TChuanchengRest)
+		call DestroyTimerDialog(TDChuanchengRest)
+		set TChuanchengRest = null
+		set TDChuanchengRest = null
+		call PauseTimer(TChuanchengJudge)
+		call DestroyTimer(TChuanchengJudge)
+		set TChuanchengJudge = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    每秒都判断一次是否胜利
+	*/
+	private function ChuanchengJudge takes nothing returns nothing
+
+        if (GetShilianMonsterCount() == 0) then
+        	if (IShilianType[GetOwningPlayer(PShilian)] == 0) then
+        		call ChooseShilian(PShilian,IContinousShilian)
+        	endif
+			call ClearChuancheng()
+        endif
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    时间到了，失败哦
+	*/
+	private function ChuanchengTimeOut takes nothing returns nothing
+		//清除传承有关的东西
+		call DisplayTextToPlayer(PShilian, 0., 0., "|cFFFF66CC【消息】|r你的传承试练失败了！")
+		call ClearChuancheng()
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    开始试练
 	*/
 	function StartShilian takes player p,integer i returns nothing
 
 		local integer id = GetConvertedPlayerId(p)
+
+		if not(udg_H[id] == GetBuyingUnit() and RectContainsUnit(gg_rct_Chuangcheng,GetBuyingUnit())) then
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r请用英雄来试练。" )
+		endif
+
 		if (i == 1 or i == 5 or i == 7 or i == 8) then
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r该挑战尚未开放,敬请期待." )
             return
 		endif
 
+		if (IShilianTime > 0) then
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的时间未用完，请把所有时间用完再来试练！")
+		endif
+
         if (GetPlayerState(GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER) < (R2I(Pow(2,IShilianTimes)) * 10)) then
-            call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r从11层秘境开始,需要消耗1000木头.")
+            call DisplayTextToPlayer(p , 0., 0., "|cFFFF66CC【消息】|r你的木头不足" + I2S((R2I(Pow(2,IShilianTimes)) * 10)) + ".")
             return
         endif
+        call AdjustPlayerStateBJ( -1*(R2I(Pow(2,IShilianTimes)) * 10), p , PLAYER_STATE_RESOURCE_LUMBER )
 
 		if not(BFirstShilian1[id]) then
 			set BFirstShilian1[id] = true
@@ -294,7 +411,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 				便可以获得对应主动技能与被动技能!|r
 
 				|cffffff00主动技能在挑战结束后会充能一定的时间,
-				使用主劫技能会消耗该充能时间,
+				使用主动技能会消耗该充能时间,
 				在把时间用光后请继续来挑战获取时间.|r
 
 				|cffff6800注意:每次挑战都要花费一定的木头,
@@ -307,7 +424,20 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			call PolledWait(5)
 		endif
 
+		set IContinousShilian = i
 
+		set GShilian = CreateGroup()
+		call CreateShilianMonster()
+
+		set PShilian = GetBuyingUnit()
+
+        set TChuanchengRest = CreateTimer()
+        set TDChuanchengRest = CreateTimerDialogBJ(TChuanchengRest,"传承试练")
+        call TimerStart(TChuanchengRest,60,false,function ChuanchengTimeOut)
+        call TimerDialogDisplay(TDChuanchengRest,true)
+
+        set TChuanchengJudge = CreateTimer()
+        call TimerStart(TChuanchengJudge,1,true,function ChuanchengJudge)
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
