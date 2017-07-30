@@ -455,7 +455,6 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call PingMinimap(GetUnitX(UDeng[i]),GetUnitY(UDeng[i]),5)
             set i = i +1
         endloop
-        //todo 音效的添加
         set IProcess = 0
         set BMijingStart = true
         call BJDebugMsg("|cFFFF66CC【消息】|r第"+ I2S(IDeng) + "层秘境挑战将在5秒后开始！请尽量保持全员参战！")

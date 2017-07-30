@@ -24,43 +24,43 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern__Bexpr= null
-rect YDWETimerPattern__Area= null
-integer YDWETimerPattern__tmp_data
-location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern___Bexpr= null
+rect YDWETimerPattern___Area= null
+integer YDWETimerPattern___tmp_data
+location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem__CurrentTime
-integer YDWETimerSystem__CurrentIndex
-integer YDWETimerSystem__TaskListHead
-integer YDWETimerSystem__TaskListIdleHead
-integer YDWETimerSystem__TaskListIdleMax
-integer array YDWETimerSystem__TaskListIdle
-integer array YDWETimerSystem__TaskListNext
-integer array YDWETimerSystem__TaskListTime
-trigger array YDWETimerSystem__TaskListProc
-trigger YDWETimerSystem__fnRemoveUnit
-trigger YDWETimerSystem__fnDestroyTimer
-trigger YDWETimerSystem__fnRemoveItem
-trigger YDWETimerSystem__fnDestroyEffect
-trigger YDWETimerSystem__fnDestroyLightning
-trigger YDWETimerSystem__fnRunTrigger
-timer YDWETimerSystem__Timer
-integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem___CurrentTime
+integer YDWETimerSystem___CurrentIndex
+integer YDWETimerSystem___TaskListHead
+integer YDWETimerSystem___TaskListIdleHead
+integer YDWETimerSystem___TaskListIdleMax
+integer array YDWETimerSystem___TaskListIdle
+integer array YDWETimerSystem___TaskListNext
+integer array YDWETimerSystem___TaskListTime
+trigger array YDWETimerSystem___TaskListProc
+trigger YDWETimerSystem___fnRemoveUnit
+trigger YDWETimerSystem___fnDestroyTimer
+trigger YDWETimerSystem___fnRemoveItem
+trigger YDWETimerSystem___fnDestroyEffect
+trigger YDWETimerSystem___fnDestroyLightning
+trigger YDWETimerSystem___fnRunTrigger
+timer YDWETimerSystem___Timer
+integer YDWETimerSystem___TimerHandle
 
-integer YDWETimerSystem__TimerSystem_RunIndex= 0
+integer YDWETimerSystem___TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
-trigger array YDWETriggerEvent__DamageEventQueue
-integer YDWETriggerEvent__DamageEventNumber= 0
+trigger array YDWETriggerEvent___DamageEventQueue
+integer YDWETriggerEvent___DamageEventNumber= 0
 	
 item bj_lastMovedItemInItemSlot= null
 	
-trigger YDWETriggerEvent__MoveItemEventTrigger= null
-trigger array YDWETriggerEvent__MoveItemEventQueue
-integer YDWETriggerEvent__MoveItemEventNumber= 0
+trigger YDWETriggerEvent___MoveItemEventTrigger= null
+trigger array YDWETriggerEvent___MoveItemEventQueue
+integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from Constant:
 constant boolean LIBRARY_Constant=true
@@ -78,7 +78,7 @@ integer renshu= 0
 		
 integer mode= 0
 constant integer COUNT_WANJIE= 49
-integer Constant__WPointer= 1
+integer Constant___WPointer= 1
 //endglobals from Constant
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -306,9 +306,15 @@ boolean array BHideDamage
         //是否可以跳关
 boolean BSkipKuilei= false
 //endglobals from LHBase
+//globals from Attr:
+constant boolean LIBRARY_Attr=true
+integer array IStr
+integer array IAgi
+integer array IInt
+//endglobals from Attr
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
-constant integer kUImmuteDamage=8
+constant integer kUImmuteDamage=3
 //endglobals from SpellBase
 //globals from Structs:
 constant boolean LIBRARY_Structs=true
@@ -441,9 +447,7 @@ trigger st__SuperShield_onDestroy
 trigger st__SuperShield_destroy
 trigger st__TextTagBind__staticgetindex
 trigger st__TextTagBind_onDestroy
-trigger array st___prototype27
 handle f__arg_handle1
-unit f__arg_unit1
 integer f__arg_this
 integer f__result_integer
 
@@ -749,17 +753,6 @@ function sc__Attract_deallocate takes integer this returns nothing
     call TriggerEvaluate(st__Attract_onDestroy)
     set si__Attract_V[this]=si__Attract_F
     set si__Attract_F=this
-endfunction
-function sc___prototype27_execute takes integer i,unit a1 returns nothing
-    set f__arg_unit1=a1
-
-    call TriggerExecute(st___prototype27[i])
-endfunction
-function sc___prototype27_evaluate takes integer i,unit a1 returns nothing
-    set f__arg_unit1=a1
-
-    call TriggerEvaluate(st___prototype27[i])
-
 endfunction
 
 //library DzAPI:
@@ -1890,7 +1883,7 @@ endfunction
 
 //library YDWEBaseHashtable ends
 //library YDWESetGuard:
-function YDWESetGuard__IsUnitIdle takes unit u returns boolean
+function YDWESetGuard___IsUnitIdle takes unit u returns boolean
     return true
 endfunction
 
@@ -1943,7 +1936,7 @@ function YDWETimerSystemNewTask takes real time,trigger proc returns integer
     return 1
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-    return YDWETimerSystem__CurrentIndex
+    return YDWETimerSystem___CurrentIndex
 endfunction
 
 
@@ -1973,7 +1966,7 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
 endfunction
 
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem__TimerSystem_RunIndex
+    return YDWETimerSystem___TimerSystem_RunIndex
 endfunction
 
 function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,integer times,integer data returns nothing
@@ -2878,115 +2871,115 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetWanjieluName takes nothing returns string
-		set Constant__WPointer=Constant__WPointer - 1
-		if ( Constant__WPointer <= 0 ) then
-			set Constant__WPointer=COUNT_WANJIE
+		set Constant___WPointer=Constant___WPointer - 1
+		if ( Constant___WPointer <= 0 ) then
+			set Constant___WPointer=COUNT_WANJIE
 		endif
 
-		if ( Constant__WPointer == 1 ) then
+		if ( Constant___WPointer == 1 ) then
 			return "xue蓝"
-		elseif ( Constant__WPointer == 2 ) then
+		elseif ( Constant___WPointer == 2 ) then
 			return "我很无聊TT"
-		elseif ( Constant__WPointer == 3 ) then
+		elseif ( Constant___WPointer == 3 ) then
 			return "大头三"
-		elseif ( Constant__WPointer == 4 ) then
+		elseif ( Constant___WPointer == 4 ) then
 			return "无上神尊"
-		elseif ( Constant__WPointer == 5 ) then
+		elseif ( Constant___WPointer == 5 ) then
 			return "无动于衷"
-		elseif ( Constant__WPointer == 6 ) then
+		elseif ( Constant___WPointer == 6 ) then
 			return "浅入风华"
-		elseif ( Constant__WPointer == 7 ) then
+		elseif ( Constant___WPointer == 7 ) then
 			return "你把我灌醉。"
-		elseif ( Constant__WPointer == 8 ) then
+		elseif ( Constant___WPointer == 8 ) then
 			return "心亦"
-		elseif ( Constant__WPointer == 9 ) then
+		elseif ( Constant___WPointer == 9 ) then
 			return "灵魂的缠绵"
-		elseif ( Constant__WPointer == 10 ) then
+		elseif ( Constant___WPointer == 10 ) then
 			return "幻、神"
-		elseif ( Constant__WPointer == 11 ) then
+		elseif ( Constant___WPointer == 11 ) then
 			return "枫落秋扬"
-		elseif ( Constant__WPointer == 12 ) then
+		elseif ( Constant___WPointer == 12 ) then
 			return "深邃的孤独丶"
-		elseif ( Constant__WPointer == 13 ) then
+		elseif ( Constant___WPointer == 13 ) then
 			return "雷瑟守备最强王者"
-		elseif ( Constant__WPointer == 14 ) then
+		elseif ( Constant___WPointer == 14 ) then
 			return "你的牛奶呢丶"
-		elseif ( Constant__WPointer == 15 ) then
+		elseif ( Constant___WPointer == 15 ) then
 			return "俏公子"
-		elseif ( Constant__WPointer == 16 ) then
+		elseif ( Constant___WPointer == 16 ) then
 			return "八零大叔"
-		elseif ( Constant__WPointer == 17 ) then
+		elseif ( Constant___WPointer == 17 ) then
 			return "Wqnmmp丶"
-		elseif ( Constant__WPointer == 18 ) then
+		elseif ( Constant___WPointer == 18 ) then
 			return "满地打滚的猫猫"
-		elseif ( Constant__WPointer == 19 ) then
+		elseif ( Constant___WPointer == 19 ) then
 			return "暗夜魔王丶诺爹"
-		elseif ( Constant__WPointer == 20 ) then
+		elseif ( Constant___WPointer == 20 ) then
 			return "猫儿丶"
-		elseif ( Constant__WPointer == 21 ) then
+		elseif ( Constant___WPointer == 21 ) then
 			return "与你童在"
-		elseif ( Constant__WPointer == 22 ) then
+		elseif ( Constant___WPointer == 22 ) then
 			return "话唠。"
-		elseif ( Constant__WPointer == 23 ) then
+		elseif ( Constant___WPointer == 23 ) then
 			return "很烦很皮"
-		elseif ( Constant__WPointer == 24 ) then
+		elseif ( Constant___WPointer == 24 ) then
 			return "sky"
-		elseif ( Constant__WPointer == 25 ) then
+		elseif ( Constant___WPointer == 25 ) then
 			return "梦露丶baby"
-		elseif ( Constant__WPointer == 26 ) then
+		elseif ( Constant___WPointer == 26 ) then
 			return "丶念少。"
-		elseif ( Constant__WPointer == 27 ) then
+		elseif ( Constant___WPointer == 27 ) then
 			return "造世财"
-		elseif ( Constant__WPointer == 28 ) then
+		elseif ( Constant___WPointer == 28 ) then
 			return "0万物皆空0"
-		elseif ( Constant__WPointer == 29 ) then
+		elseif ( Constant___WPointer == 29 ) then
 			return "辉煌丶神偷"
-		elseif ( Constant__WPointer == 30 ) then
+		elseif ( Constant___WPointer == 30 ) then
 			return "我真的是你老子"
-		elseif ( Constant__WPointer == 31 ) then
+		elseif ( Constant___WPointer == 31 ) then
 			return "逸灬仙"
-		elseif ( Constant__WPointer == 32 ) then
+		elseif ( Constant___WPointer == 32 ) then
 			return "沐情"
-		elseif ( Constant__WPointer == 33 ) then
+		elseif ( Constant___WPointer == 33 ) then
 			return "星辰末日"
-		elseif ( Constant__WPointer == 34 ) then
+		elseif ( Constant___WPointer == 34 ) then
 			return "神天羽"
-		elseif ( Constant__WPointer == 35 ) then
+		elseif ( Constant___WPointer == 35 ) then
 			return "墙头蹲红杏"
-		elseif ( Constant__WPointer == 36 ) then
+		elseif ( Constant___WPointer == 36 ) then
 			return "7葡萄"
-		elseif ( Constant__WPointer == 37 ) then
+		elseif ( Constant___WPointer == 37 ) then
 			return "我鸡鸡贼大"
-		elseif ( Constant__WPointer == 38 ) then
+		elseif ( Constant___WPointer == 38 ) then
 			return "1 1"
-		elseif ( Constant__WPointer == 39 ) then
+		elseif ( Constant___WPointer == 39 ) then
 			return "枫烨桦"
-		elseif ( Constant__WPointer == 40 ) then
+		elseif ( Constant___WPointer == 40 ) then
 			return "夕子奈月"
-		elseif ( Constant__WPointer == 41 ) then
+		elseif ( Constant___WPointer == 41 ) then
 			return "司宸"
-		elseif ( Constant__WPointer == 42 ) then
+		elseif ( Constant___WPointer == 42 ) then
 			return "Ma—LePYe"
-		elseif ( Constant__WPointer == 43 ) then
+		elseif ( Constant___WPointer == 43 ) then
 			return "one丶lifeの爱"
-		elseif ( Constant__WPointer == 44 ) then
+		elseif ( Constant___WPointer == 44 ) then
 			return "树林里故事"
-		elseif ( Constant__WPointer == 45 ) then
+		elseif ( Constant___WPointer == 45 ) then
 			return "请带着我飞"
-		elseif ( Constant__WPointer == 46 ) then
+		elseif ( Constant___WPointer == 46 ) then
 			return "心雪"
-		elseif ( Constant__WPointer == 47 ) then
+		elseif ( Constant___WPointer == 47 ) then
 			return "Rascal丶恋情"
-		elseif ( Constant__WPointer == 48 ) then
+		elseif ( Constant___WPointer == 48 ) then
 			return "阴优"
-		elseif ( Constant__WPointer == 49 ) then
+		elseif ( Constant___WPointer == 49 ) then
 			return "至简i"
 		endif
 		return ""
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Constant__InitConstant takes nothing returns nothing
+ function Constant___InitConstant takes nothing returns nothing
   local integer i= 1
 		loop
 			exitwhen i > 6
@@ -3026,7 +3019,7 @@ endfunction
          return 0.
      endfunction 
 
- function Test__InitTest takes nothing returns nothing
+ function Test___InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -3531,6 +3524,14 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
+    function UnitAddAbilityP takes unit u,integer i returns nothing
+            call UnitAddAbility(u, i)
+            if ( u == xinglong ) then
+                call UnitMakeAbilityPermanent(u, true, i)
+            endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    
     function IsUnitHasSlot takes unit u returns boolean
         local integer i= 1
         loop
@@ -3569,7 +3570,7 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function LHBase__StartWanjieTimer takes nothing returns nothing
+    function LHBase___StartWanjieTimer takes nothing returns nothing
         local timer t= GetExpiredTimer()
         local integer id= GetHandleId(t)
         local integer value= LoadInteger(LHTable, id, 1)
@@ -3594,7 +3595,7 @@ endfunction
         set t=null
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase__InitLHBase takes nothing returns nothing
+    function LHBase___InitLHBase takes nothing returns nothing
 
         local timer t= CreateTimer()
         local integer i= 1
@@ -3617,13 +3618,232 @@ endfunction
         set Uwanjie=CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14524.0, - 15446.0, 270.000)
 
         call SaveInteger(LHTable, GetHandleId(t), 1, 0)
-        call TimerStart(t, 2, true, function LHBase__StartWanjieTimer)
+        call TimerStart(t, 2, true, function LHBase___StartWanjieTimer)
 
 
         set t=null
     endfunction
 
 //library LHBase ends
+//library Attr:
+	
+//---------------------------------------------------------------------------------------------------
+
+	
+ function GetAgiPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 6 )]
+	endfunction
+
+	
+ function GetStrPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID )]
+	endfunction
+
+	
+ function GetIntPercent takes integer playerID returns real
+		return udg_I_Xianglian[( playerID + 12 )]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function FlashHeroStr takes player p returns nothing
+  local integer index= GetConvertedPlayerId(p)
+  local integer temp= 0
+		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( (udg_I_Xianglian[( (index) )]) != 0 or IStr[index] != 0 ) ) then // INLINED!!
+			set temp=R2I(I2R(GetHeroStr(udg_H[index], true) - IStr[index]) * (udg_I_Xianglian[( (index) )])) // INLINED!!
+			if ( temp != IStr[index] ) then
+				call SetHeroStr(udg_H[index], GetHeroStr(udg_H[index], true) - IStr[index] + temp, true)
+				set IStr[index]=temp
+			endif
+		endif
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function FlashAllHeroStr takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			call FlashHeroStr(ConvertedPlayer(i))
+			set i=i + 1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function FlashHeroAgi takes player p returns nothing
+  local integer index= GetConvertedPlayerId(p)
+  local integer temp= 0
+		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( (udg_I_Xianglian[( (index) + 6 )]) != 0 or IAgi[index] != 0 ) ) then // INLINED!!
+			set temp=R2I(I2R(GetHeroAgi(udg_H[index], true) - IAgi[index]) * (udg_I_Xianglian[( (index) + 6 )])) // INLINED!!
+			if ( temp != IAgi[index] ) then
+				call SetHeroAgi(udg_H[index], GetHeroAgi(udg_H[index], true) - IAgi[index] + temp, true)
+				set IAgi[index]=temp
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function FlashAllHeroAgi takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			call FlashHeroAgi(ConvertedPlayer(i))
+			set i=i + 1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function FlashHeroInt takes player p returns nothing
+  local integer index= GetConvertedPlayerId(p)
+  local integer temp= 0
+		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( (udg_I_Xianglian[( (index) + 12 )]) != 0 or IInt[index] != 0 ) ) then // INLINED!!
+			set temp=R2I(I2R(GetHeroInt(udg_H[index], true) - IInt[index]) * (udg_I_Xianglian[( (index) + 12 )])) // INLINED!!
+			if ( temp != IInt[index] ) then
+				call SetHeroInt(udg_H[index], GetHeroInt(udg_H[index], true) - IInt[index] + temp, true)
+				set IInt[index]=temp
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function FlashAllHeroInt takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 6
+			call FlashHeroInt(ConvertedPlayer(i))
+			set i=i + 1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddHPPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 18 )]=udg_I_Xianglian[( playerID + 18 )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddAgiPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 6 )]=udg_I_Xianglian[( playerID + 6 )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+
+	
+ function AddAgiPercentImme takes integer playerID,real value returns nothing
+		call AddAgiPercent(playerID , value)
+    	call FlashHeroAgi(ConvertedPlayer(playerID))
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function AddStrPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID )]=udg_I_Xianglian[( playerID )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+
+	
+ function AddStrPercentImme takes integer playerID,real value returns nothing
+		call AddStrPercent(playerID , value)
+    	call FlashHeroStr(ConvertedPlayer(playerID))
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function AddIntPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[( playerID + 12 )]=udg_I_Xianglian[( playerID + 12 )] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+
+	
+ function AddIntPercentImme takes integer playerID,real value returns nothing
+		call AddIntPercent(playerID , value)
+    	call FlashHeroInt(ConvertedPlayer(playerID))
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function AddMoneyPercent takes integer playerID,real value returns nothing
+		set udg_I_Jinqianhuodelv[playerID]=udg_I_Jinqianhuodelv[playerID] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddAttackPercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[playerID + 24]=udg_I_Xianglian[playerID + 24] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddDefensePercent takes integer playerID,real value returns nothing
+		set udg_I_Xianglian[playerID + 30]=udg_I_Xianglian[playerID + 30] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddSpellPercent takes integer playerID,real value returns nothing
+		set udg_I_Jinengjiacheng[playerID]=udg_I_Jinengjiacheng[playerID] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function AddDamagePercent takes integer playerID,real value returns nothing
+		set udg_I_Shanghai[playerID]=udg_I_Shanghai[playerID] + value
+		call TriggerExecute(gg_trg_D7)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SetAttack takes unit u,integer attack returns nothing
+	    set udg_Unit=u
+	    call SaveInteger(YDHT, GetHandleId(u), 0x5039AFFB, attack)
+	    call TriggerExecute(gg_trg_____________800W)
+	endfunction	
+
+ function GetAttack takes unit u returns integer
+		return LoadInteger(YDHT, GetHandleId(u), 0x5039AFFB)
+	endfunction	
+
+ function AddAttack takes unit u,integer attack returns nothing
+		call SetAttack(u , (LoadInteger(YDHT, GetHandleId((u)), 0x5039AFFB)) + attack) // INLINED!!
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SetDefense takes unit u,integer defense returns nothing
+	    set udg_Unit=u
+	    call SaveInteger(YDHT, GetHandleId(u), 0x81FD3994, defense)
+	    call TriggerExecute(gg_trg___________________4000______u)
+	endfunction
+
+ function GetDefense takes unit u returns integer
+		return LoadInteger(YDHT, GetHandleId(u), 0x81FD3994)
+	endfunction	
+
+ function AddDefense takes unit u,integer defense returns nothing
+		call SetDefense(u , (LoadInteger(YDHT, GetHandleId((u)), 0x81FD3994)) + defense) // INLINED!!
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function SetHP takes unit u,integer hp returns nothing
+	    set udg_Unit=u
+	    call SaveInteger(YDHT, GetHandleId(u), 0xFCD961C9, hp)
+    	call TriggerExecute(gg_trg_HP_____________________u)
+	endfunction
+	
+ function GetHP takes unit u returns integer
+		return LoadInteger(YDHT, GetHandleId(u), 0xFCD961C9)
+	endfunction	
+
+ function AddHP takes unit u,integer hp returns nothing
+		call SetHP(u , (LoadInteger(YDHT, GetHandleId((u)), 0xFCD961C9)) + hp) // INLINED!!
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+ function Attr___InitAttr takes nothing returns nothing
+		
+
+
+	endfunction
+
+
+//library Attr ends
 //library SpellBase:
 
 
@@ -4317,40 +4537,85 @@ endfunction
 
 	
 
-
-//processed:     function interface SLSpell takes unit u returns nothing
-
 //---------------------------------------------------------------------------------------------------
 	
 	//临
  function SLSpellLin takes unit u returns nothing
 	endfunction
+
+
 	//兵
  function SLSpellBing takes unit u returns nothing
+
 	endfunction
-	//斗
- function SLSpellDou takes unit u returns nothing
-	endfunction
-	//者
- function SLSpellZhe takes unit u returns nothing
-	endfunction
-	//皆
- function SLSpellJie takes unit u returns nothing
-	endfunction
+
 	//阵
  function SLSpellZhen takes unit u returns nothing
+
 	endfunction
-	//列
- function SLSpellLie takes unit u returns nothing
-	endfunction
-	//前
- function SLSpellQian takes unit u returns nothing
-	endfunction
-	//行
- function SLSpellXing takes unit u returns nothing
+
+
+	//总索引
+ function ShilianTimerContent takes player p returns nothing
+  local integer id= GetConvertedPlayerId(p)
+		if ( Shilian___IShilianType[id] == 2 ) then
+			call SLSpellBing(udg_H[id])
+		elseif ( Shilian___IShilianType[id] == 6 ) then
+			call SLSpellZhen(udg_H[id])
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+ function InitShilianSpell takes player p returns nothing
+  local integer id= GetConvertedPlayerId(p)
+
+		if ( Shilian___IShilianType[id] == 1 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 2 ) then
+			//兵
+
+		elseif ( Shilian___IShilianType[id] == 3 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 4 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 5 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 6 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 7 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 8 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 9 ) then
+			
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function CloseShilianSpell takes player p returns nothing
+  local integer id= GetConvertedPlayerId(p)
+
+		if ( Shilian___IShilianType[id] == 1 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 2 ) then
+			//兵
+
+		elseif ( Shilian___IShilianType[id] == 3 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 4 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 5 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 6 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 7 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 8 ) then
+			
+		elseif ( Shilian___IShilianType[id] == 9 ) then
+			
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function DestroyShilianSpell takes player p returns nothing
@@ -4363,6 +4628,7 @@ endfunction
 		call DestroyTimer(Shilian___TShilian[id])
 		set Shilian___TShilian[id]=null
 		call s__TextTagBind_deallocate(Shilian___TTBShilian[id])
+		call CloseShilianSpell(p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -4378,7 +4644,7 @@ endfunction
         if ( ModuloInteger(Shilian___IShilianTime[id], 10) == 0 ) then
 			call SetTextTagTextBJ(s__TextTagBind_tt[(Shilian___TTBShilian[id])], ("剩余时间:" + I2S(Shilian___IShilianTime[id] / 10) + "s"), 20) // INLINED!!
         endif
-        call sc___prototype27_execute(Shilian___IShilianType[id],udg_H[id])
+    	call ShilianTimerContent(p)
         set p=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -4391,6 +4657,7 @@ endfunction
 		call SavePlayerHandle(LHTable, GetHandleId(Shilian___TShilian[id]), 1, p)
 		call TimerStart(Shilian___TShilian[id], 0.1, true, function FlashShilianTimer)
 		set Shilian___TTBShilian[id]=s__TextTagBind_create(udg_H[id] , 100 , 100)
+		call InitShilianSpell(p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -4431,7 +4698,58 @@ endfunction
 
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	
+ function ChooseShilian takes player p,integer index returns nothing
+  local integer id= GetConvertedPlayerId(p)
+		set Shilian___IShilianType[id]=index
 
+		if ( index == 1 ) then
+			//临
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 临|r定为你的试练内容.")
+			call UnitAddAbilityP(udg_H[id] , 'A0L7')
+		elseif ( index == 2 ) then
+			//兵
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 兵|r定为你的试练内容.")
+			call UnitAddAbilityP(udg_H[id] , 'A0KX')
+		elseif ( index == 3 ) then
+			//斗
+			call UnitAddAbilityP(udg_H[id] , 'A0KX')
+			call UnitAddAbilityP(udg_H[id] , 'A0LE')
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 斗|r定为你的试练内容.")
+			call SetPlayerAbilityAvailable(p, 'A0LE', false)
+		elseif ( index == 4 ) then
+			//者
+			call UnitAddAbilityP(udg_H[id] , 'A0LF')
+			call SetPlayerAbilityAvailable(p, 'A0LF', false)
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 者|r定为你的试练内容.")
+			call UnitAddAbilityP(udg_H[id] , 'A0LA')
+		elseif ( index == 5 ) then
+			//皆
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 皆|r定为你的试练内容.")
+			call UnitAddAbilityP(udg_H[id] , 'A0L6')
+		elseif ( index == 6 ) then
+			//阵
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 阵|r定为你的试练内容.")
+			call AddSpellPercent(GetConvertedPlayerId(p) , 0.1)
+			call UnitAddAbilityP(udg_H[id] , 'A0LB')
+		elseif ( index == 7 ) then
+			//列
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 列|r定为你的试练内容.")
+			call UnitAddAbilityP(udg_H[id] , 'A0L5')
+		elseif ( index == 8 ) then
+			//前
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 前|r定为你的试练内容.")
+			call UnitAddAbilityP(udg_H[id] , 'A0L8')
+		elseif ( index == 9 ) then
+			//行
+			call UnitAddAbilityP(udg_H[id] , 'A0L9')
+			call UnitAddAbilityP(udg_H[id] , 'A0LG')
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 行|r定为你的试练内容.")
+			call SetPlayerAbilityAvailable(p, 'A0LG', false)
+		endif
+
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Shilian___InitShilian takes nothing returns nothing
@@ -4448,6 +4766,9 @@ endfunction
     	call TriggerRegisterPlayerEventEndCinematic(t, Player(5))
 		call TriggerAddAction(t, function Shilian___TDoubleEscAct)
 		set t=null
+
+		//技能的隐藏
+
 
 	endfunction
 
@@ -4534,15 +4855,20 @@ endfunction
 
 
 // END IMPORT OF Structs.j
+// BEGIN IMPORT OF Attr.j
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
+// END IMPORT OF Attr.j
 
 
 // END IMPORT OF Shilian.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs477329812")
-call ExecuteFunc("Constant__InitConstant")
-call ExecuteFunc("Test__InitTest")
-call ExecuteFunc("LHBase__InitLHBase")
+call ExecuteFunc("jasshelper__initstructs519818984")
+call ExecuteFunc("Constant___InitConstant")
+call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("Attr___InitAttr")
 call ExecuteFunc("Shilian___InitShilian")
 
 endfunction
@@ -4672,7 +4998,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs477329812 takes nothing returns nothing
+function jasshelper__initstructs519818984 takes nothing returns nothing
     set st__Connect__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Connect__staticgetindex,Condition( function sa__Connect__staticgetindex))
     set st__Connect_onDestroy=CreateTrigger()
@@ -4701,7 +5027,6 @@ function jasshelper__initstructs477329812 takes nothing returns nothing
     call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
     set st__Attract_onDestroy=CreateTrigger()
     call TriggerAddCondition(st__Attract_onDestroy,Condition( function sa__Attract_onDestroy))
-
 
 
 

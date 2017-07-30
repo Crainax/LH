@@ -686,6 +686,16 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        给英雄加技能,如果是星胧则加永久性
+    */
+    function UnitAddAbilityP takes unit u,integer i returns nothing
+            call UnitAddAbility(u,i)
+            if (u == xinglong) then
+                call UnitMakeAbilityPermanent(u,true,i)
+            endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         单位是否有空物品栏
     */
     function IsUnitHasSlot takes unit u returns boolean
