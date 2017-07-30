@@ -1,2 +1,0 @@
-[CustomSkin]
-LoadingMeleeBackground=war3mapImported\LoadingScreen.mdx

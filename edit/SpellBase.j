@@ -597,7 +597,7 @@ library_once SpellBase requires LHBase
 	endfunction	
 
 	/*
-	    获取基础智力英雄技能伤害
+	    获取基础英雄技能伤害
 	*/
 	function GetDamageBase takes unit u returns real
 		local unit uH = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
