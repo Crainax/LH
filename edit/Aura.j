@@ -66,7 +66,7 @@ library_once Aura requires LHBase,Attr
 		local integer id = GetHandleId(t)
 		local integer playerID = LoadInteger(spellTable,GetHandleId(t),1)
 		if not (shunHints[playerID]) then
-			call DisplayTextToPlayer(ConvertedPlayer(playerID), 0., 0., "|cffff66cc【消息】|r你已获得来自|cffffff00阴阳三川箭|r光环的效果,|cffffcc00使用M键可以瞬移至任意地点|r,冷却5s.")
+			call DisplayTextToPlayer(ConvertedPlayer(playerID), 0., 0., "|cffff66cc【消息】|r你已获得来自|cffffff00阴阳三川箭|r光环的效果,|cffffcc00使用M键可以瞬移至任意地点|r,冷却2.5s.")
 		else
 			call PauseTimer(t)
 			call FlushChildHashtable(spellTable,id)
@@ -115,7 +115,7 @@ library_once Aura requires LHBase,Attr
 		call SetUnitX(GetTriggerUnit(),GetOrderPointX())
 		call SetUnitY(GetTriggerUnit(),GetOrderPointY())
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetOrderPointX(), GetOrderPointY() ))
-		call PolledWait(5)
+		call PolledWait(2.5)
 		set shunHints[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = false
 
 	endfunction

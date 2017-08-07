@@ -63,6 +63,14 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	    初始化英雄
 	*/
 	function InitPIVHero takes unit u returns nothing
+		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "一级小怪") then
+			call AdjustPlayerStateBJ( 30000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
+			call UnitAddItemByIdSwapped('IXU1', u)
+	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
+			call UnitAddItemByIdSwapped('IXU1', u)
+	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
+		endif
+
 		if (IsPIV(GetOwningPlayer(u))) then
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
@@ -247,6 +255,70 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    新密钥验证
+	*/
+	function Fgetc_GetL takes player l1000,string l1OOO,integer l10OO,integer l1O00 returns boolean
+		local integer OO111=0
+		local integer lI0OO=0
+		local integer l0O11=0
+		local integer O0111=0
+		local integer llO00=0
+		local integer ll0OO=0
+		local integer O01ll=0
+		local integer O10ll=0
+		local integer O1l0l=0
+		local integer llOOO=0
+		local string lllOO= ""
+		local string ll1OO= ""
+		local string array l1lOO 
+		local integer O0l11=IAbsBJ(StringHash(GetPlayerName(l1000)))
+		local integer l11O0=IAbsBJ(StringHash(GetPlayerName(l1000)))
+		local string OOl11=SubStringBJ(l1OOO, 1, 10)
+		local string OOlll=SubStringBJ(l1OOO, 11, 9999)
+		set l1lOO[0] = SubStringBJ(OOlll,1,3)
+		set l1lOO[1] = SubStringBJ(OOlll,9,11)
+		set l1lOO[2] = SubStringBJ(OOlll,16,19)
+		set l1lOO[3] = SubStringBJ(OOlll,4,8)
+		set l1lOO[4] = SubStringBJ(OOlll,12,15)
+		set l1lOO[5] = SubStringBJ(OOlll,20,999)
+		set lllOO=l1lOO[0]+l1lOO[1]+l1lOO[2]
+		set ll1OO=l1lOO[3]+l1lOO[4]+l1lOO[5]
+		set llOOO=StringLength(ll1OO)-2
+		set ll0OO=StringHash(ll1OO)
+		set ll0OO=ll0OO+StringHash(I2S(StringLength(ll1OO)))
+		loop
+		exitwhen llO00>=StringLength(ll1OO)
+		set ll0OO=ll0OO+StringHash(SubString(ll1OO,llO00,llO00+1))
+		set O01ll=S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),1,2))+S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),3,4))
+		set O10ll=S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),4,5))+S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),6,7))
+		set llO00=llO00+1
+		endloop
+		loop
+		exitwhen O0111>=O01ll
+		set O0l11 =IAbsBJ(StringHash(I2S(O0l11))+$77359400)
+		set O0111 = O0111 + 1
+		endloop
+		loop
+		exitwhen O1l0l>=O10ll
+		set l11O0 =IAbsBJ(StringHash(I2S(l11O0))+$77359400)
+		set O1l0l = O1l0l + 1
+		endloop
+		if O0l11<$3B9ACA00 then
+		set O0l11=O0l11+$3B9ACA00
+		endif
+		if l11O0<$3B9ACA00 then
+		set l11O0=l11O0+$3B9ACA00
+		endif
+		loop
+		exitwhen OO111>llOOO
+		set lI0OO=lI0OO+StringHash(SubString(ll1OO,OO111,OO111+2))+StringHash(I2S(l0O11))
+		set l0O11=l0O11+StringHash(I2S(lI0OO))-StringHash(SubString(ll1OO,OO111,OO111+2))
+		set OO111=OO111+1
+		endloop
+		return lI0OO==l10OO and l0O11==l1O00 and I2S(O0l11)==OOl11 and I2S(l11O0)==lllOO
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    17玩吧验证
 	*/
 	private function Verify17Wanba takes nothing returns nothing
@@ -264,19 +336,18 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 			endif
 
 			call InitPlayerPIV(GetTriggerPlayer())
-		elseif ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),756731533,1299228219))) then
-			debug if (GetSeyu1Spin(GetTriggerPlayer())) then
-			debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已获取了瑟雨皮肤,无须重复激活！")
-			debug return
-			debug endif
-
+		elseif ((Fgetc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-767946655,-1650132445))) then
 			debug call SetSeyuSpinOK(GetTriggerPlayer())
-
-		elseif ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),34568491,245622564))) then
-
-			debug call SetXiaoyueSpinOK(GetTriggerPlayer())			
+			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
 			debug call SetYanmieSpinOK(GetTriggerPlayer())
-
+			debug call SetXuanxueSpinOK(GetTriggerPlayer())
+			debug call SetTaiyaSpinOK(GetTriggerPlayer())
+			debug call SetChenji1SpinOK(GetTriggerPlayer())
+			debug call SetHanshangSpinOK(GetTriggerPlayer())
+			debug call SetLingxueSpinOK(GetTriggerPlayer())
+			debug call SetChenji2SpinOK(GetTriggerPlayer())
+			debug call SetMoqiSpinOK(GetTriggerPlayer())
+			debug call SetKaisaSpinOK(GetTriggerPlayer())
 		endif
 
 	endfunction

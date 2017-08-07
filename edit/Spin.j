@@ -78,4 +78,21 @@ library_once Spin requires LHBase,Version
 		//return true
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    莫琪的皮肤条件
+	*/
+	function IsMoqiSpin1 takes player p returns boolean
+		return GetMoqiSpin(p)
+		//return true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凯撒的皮肤条件
+	*/
+	function IsKaisaSpin1 takes player p returns boolean
+		return GetKaisaSpin(p)
+		//return true
+	endfunction
+
 endlibrary

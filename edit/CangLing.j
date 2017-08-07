@@ -317,7 +317,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
     endfunction
 
 	function IsGuangyinRevive takes nothing returns boolean
-		if (GetUnitAbilityLevel(gg_unit_haro_0030,'A0HR') == 1 and not(BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))])) then
+		if (GetUnitAbilityLevel(gg_unit_n01S_0258,'A0HR') == 1 and not(BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))])) then
 			set BWusuo[GetConvertedPlayerId(GetOwningPlayer(GetDyingUnit()))] = true
 			call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(GetDyingUnit()))+"被"+GetUnitName(GetKillingUnitBJ())+"干掉了，被|cff808000光阴无梭|r救起,等待3秒原地复活.")
 		    call PolledWait(3.00)

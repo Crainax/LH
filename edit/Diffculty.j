@@ -73,7 +73,7 @@ library_once Diffculty requires LHBase,Huodong
 	*/
 	function AddTianyanmokang takes unit u returns nothing
 		if (IsTianyan) then
-			 call UnitAddAbility(u,'A07B')
+			 call UnitAddAbility(u,'A09G')
 		endif
 	endfunction
 
@@ -369,13 +369,13 @@ library_once Diffculty requires LHBase,Huodong
 	*/
 	function ChooseDifficulty takes nothing returns nothing
 		call DialogSetMessage( udg_X_Nandu, "选择难度" )
-	    call DialogAddButtonBJ( udg_X_Nandu, "天国（24波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "天国（24+5+1波）[活动期间]") 
 	    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "太平（24波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "太平（24+5+1波）[活动期间]") 
 	    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24+5波）") 
+	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24+5+1波）[活动期间]") 
 	    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5波）" )
+	    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5+1波）[活动期间]" )
 	    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
 	    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+1波）" )
 	    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()

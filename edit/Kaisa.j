@@ -2,11 +2,34 @@
 
 //! import "SpellBase.j"
 //! import "Printer.j"
-library_once Kaisa requires SpellBase,Printer
+//! import "Spin.j"
+
+library_once Kaisa requires SpellBase,Printer,Spin
 	
 	globals
 		private trigger TSpellKaisa = null
+		private integer INiuSpinCount = 0
 	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    皮肤条件
+	*/
+	function CountKaisa takes unit u returns nothing
+		if not (GetKaisaSpin(GetOwningPlayer(kaisa))) then
+			if not(IsUnitAliveBJ(u)) then
+				set INiuSpinCount = INiuSpinCount + 1
+				if (ModuloInteger(INiuSpinCount,100) == 0) then
+					call DisplayTextToPlayer(GetOwningPlayer(kaisa), 0., 0., "【|cFF6699FF熔日煌世|r】完成进度"+I2S(INiuSpinCount)+"/2500.")
+				endif
+				debug if (INiuSpinCount >= 2500) then
+					debug call SetKaisaSpinOK(GetOwningPlayer(kaisa))
+				debug endif
+			endif
+		endif
+	endfunction
+
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    三阶觉醒
@@ -48,19 +71,36 @@ library_once Kaisa requires SpellBase,Printer
 		if (GetSpellAbilityId() == 'AOhx') then
 			call Lianxueyiji()
 		endif
-
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凯撒皮肤
+	*/
+	private function InitKaisaSpin takes unit u returns unit
+		if (IsKaisaSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'O002',GetUnitX(u),GetUnitY(u),0)
+			set gg_unit_Ocbh_0251 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+			call RemoveUnit(u)
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化牛头
 	*/
 	function InitKaisa takes unit u returns nothing
-		set kaisa = u
+		set kaisa = InitKaisaSpin(u)
 
 		//主英雄技能
 		set TSpellKaisa = CreateTrigger()
-	    call TriggerRegisterUnitEvent(TSpellKaisa,u,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerRegisterUnitEvent(TSpellKaisa,kaisa,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellKaisa, function TSpellKaisaAct)
+
+		call TriggerRegisterUnitEvent( gg_trg_____________7, kaisa, EVENT_UNIT_DAMAGED )
 
 	endfunction
 

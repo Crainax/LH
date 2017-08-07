@@ -335,18 +335,15 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura
 	    黑阎技能4：致死伤害无效化
 	*/
 	private function TSpellHeiyan41Con takes nothing returns boolean
-		return (GetEventDamage() > GetUnitState(Heiyan,UNIT_STATE_LIFE) and (CountUnitsInGroup(GSacri) >= 1) and (IsFourthSpellOK(Heiyan) == true) and (GetUnitAbilityLevel(Heiyan,'A0D2') == 1))
+		return (GetEventDamage() > GetUnitState(Heiyan,UNIT_STATE_LIFE) and (CountUnitsInGroup(GSacri) >= 1) and (IsFourthSpellOK(Heiyan) == true) and (GetUnitAbilityLevel(Heiyan,'A0D2') == 1)) and (GetEventDamage() < GetUnitState(Heiyan,UNIT_STATE_MAX_LIFE) or GetRandomInt(1,2) == 1)
 	endfunction
 	
 	private function TSpellHeiyan41Act takes nothing returns nothing
-		call DisableTrigger(GetTriggeringTrigger())
 		call KillUnit(FirstOfGroup(GSacri))
-    	call SetUnitLifePercentBJ(Heiyan,100)
+    	call RecoverUnitHP(Heiyan,0.1)
 		call ImmuteDamageInterval(Heiyan,0.1)
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
 		call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
-		call PolledWait(2)
-		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
 
 //---------------------------------------------------------------------------------------------------

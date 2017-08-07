@@ -114,7 +114,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 			call PolledWait(0.5)
 			loop
 				exitwhen i > 10
-				if (GetRandomInt(1,100) > I3(BJuexing1[GetConvertedPlayerId(GetOwningPlayer(xinglong))] and IsLong(),0,(i*10))) then
+				if (GetRandomInt(1,100) > I3(BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xinglong))] and IsLong(),0,(i*10))) then
 					call Longhuangtuxi2(false,0,0,XinglongDamage*rate*0.1*i,i)
 	    			call CreateSpellTextTag(I2S(i)+"次共鸣！",xinglong,100,0,0,3)
 					call PolledWait(0.5)

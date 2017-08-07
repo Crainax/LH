@@ -16,6 +16,54 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    混沌的对话框
+	*/
+
+	private function KuileiConfirmDialogClick takes nothing returns nothing
+        local dialog d = GetClickedDialogBJ()
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
+        	set BSkipKuilei = true
+        	call BJDebugMsg("|cFFFF66CC【消息】|r已经开启不可跳过六界傀儡!")
+        endif
+
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d = null
+        call DestroyTrigger(GetTriggeringTrigger())
+
+	endfunction
+
+	function ChooseKuileiDialog takes player p returns nothing
+        local trigger t  = null
+        local dialog  d = null
+
+        if (BSkipKuilei) then
+        	return
+        endif
+
+ 		set t  = CreateTrigger()
+ 		set d = DialogCreate()
+
+        call DialogSetMessage( d, "
+
+        		六界傀儡确认
+
+        	如果你挑战了混沌世界的怪物,
+        	或者进入了炼狱92层,
+        	则无法跳过六界傀儡!
+        	" )
+        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "来吧!"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "我打不过."))
+        call DialogDisplay( p, d, true )
+        call TriggerRegisterDialogEvent( t, d )
+        call TriggerAddAction(t, function KuileiConfirmDialogClick)
+        set d = null
+        set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    排泄混沌石技能
 	*/
 	private function ClearGroup takes nothing returns nothing

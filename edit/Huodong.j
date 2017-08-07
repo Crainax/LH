@@ -9,7 +9,7 @@ library_once Huodong requires LHBase,Achievement
 	*/
 	function IsHuodong7 takes nothing returns boolean
 		//return true
-		return ((DzAPI_Map_GetGameStartTime()/10) > 149978880) and ((DzAPI_Map_GetGameStartTime()/10) < 150073920)
+		return ((DzAPI_Map_GetGameStartTime()/10) > 149978880) and ((DzAPI_Map_GetGameStartTime()/10) < 150315840)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

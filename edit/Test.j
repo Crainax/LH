@@ -11,7 +11,9 @@
 library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem,DzAPI
 
 	globals
-		
+	
+    //刷新战斗力
+    trigger gg_trg_zhandouli2
     //复活
     location udg_Point_Fuhuo
 	//主基地的区域
@@ -226,6 +228,9 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
         //传承区域
         rect gg_rct_Chuangcheng
+
+        //战斗力
+        integer array udg_Zhandouli
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

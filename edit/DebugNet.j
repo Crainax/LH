@@ -10,8 +10,11 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 		
 		local string s = GetEventPlayerChatString()
 
-		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
+		local string name = SubStringBJ(s,2,StringLength(s))
 
+		call SetPlayerName(Player(0),"一级小怪")
+		set playerName[1] = "一级小怪"
+		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r一级小怪")
 		//set time_simulate = i
 		//call BJDebugMsg("当前时间为:"+I2S(time_simulate))
 

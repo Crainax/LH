@@ -259,7 +259,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set IConDays[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IConDays")
     			set ILastTime[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "ILastTime")
     			set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
-
+    			set spin2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin2")
     			
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif

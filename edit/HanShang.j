@@ -45,6 +45,11 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		    吃的总属性之和
 		*/
 		private integer ITotalEat = 0
+
+		/*
+		    吃的数量
+		*/
+		private integer ILianjinChi = 1
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -99,7 +104,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	/*
 	    死神炸弹
 	*/
-	function SiShenZhaDan takes real x,real y,real damageRate,integer abilityID returns nothing
+/*	function SiShenZhaDan takes real x,real y,real damageRate,integer abilityID returns nothing
 		local real n
 		local real damage = GetDamageAgi(hanshang) * damageRate * 1.66
 		local real x1 = GetUnitX(hanshang)
@@ -114,6 +119,31 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	    endif
 	    call DamageAreaMirror(hanshang,x,y,450,damage)
 	    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
+	endfunction*/
+
+	function SiShenZhaDan takes real x,real y,real damageRate,integer abilityID returns nothing
+		local real n
+		local real damage = GetDamageAgi(hanshang) * damageRate
+		local real x1 = GetUnitX(hanshang)
+	    local real y1 = GetUnitY(hanshang)
+	    local real facing = Atan2(y-y1,x-x1)
+	    local real distance = SquareRoot((y-y1)*(y-y1)+(x-x1)*(x-x1))
+	    if (distance < 1000) then
+	    	set n = 1
+	    elseif (distance < 4000) then
+	    	set n =1.5
+	    else 
+	    	set n = (1.5 + (distance - 4000) / 5000)
+	    endif
+	    set damage = damage * n
+	    call CreateBoom(CreateUnit(GetOwningPlayer(hanshang),'h007',x1,y1,facing),facing,distance,1200*IJ2(hanshang,2,1),0.05,damage,450,"Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl")
+	    if(BJuexing2[GetConvertedPlayerId(GetOwningPlayer(hanshang))]) then
+	    	call SetUnitLifePercentBJ(hanshang,100)
+	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(hanshang),GetUnitY(hanshang) ))
+	    endif
+	    if (abilityID != 0) then
+	    	call PrintSpellAdd(GetOwningPlayer(hanshang),GetAbilityName(abilityID),damage,",距离伤害加成n为"+I2S(R2I(n*100) - 100)+"%.")
+	    endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -124,6 +154,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
         local item it = GetSpellTargetItem()
         local integer i = 0
         local real r = 0
+        local integer loopI = 0
         if (HaveSavedInteger(YDHT,GetHandleId(it),0xA75AD423) and GetConvertedPlayerId(GetOwningPlayer(hanshang)) != LoadInteger(YDHT,GetHandleId(it),0xA75AD423)) then
             call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【消息】|r这件东西属于" + ( GetUnitName(udg_H[LoadInteger(YDHT,GetHandleId(it),0xA75AD423)]) + ",不可吞噬。" ) ) )
             set it = null
@@ -131,9 +162,22 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
         endif
 
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(hanshang), GetUnitY(hanshang) ))
-	    call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + "|cFFFF66CC】|r吞噬成功，增加的属性值如以下所示：" ) ) )
 
 	    if (IsItemPawnable(it)) then
+	    	set loopI = 1
+	    	loop
+	    		exitwhen i > (ILianjinChi - 1)
+	    		if (LoadInteger(spellTable,GetHandleId(hanshang),i) == GetItemTypeId(it)) then
+	    			call DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFFFF66CC【消息】|r吞噬失败,对同一种真品只能吞噬一次.(复制出来的没这个限制)")
+	    			return
+	    		endif
+	    		set i = i +1
+	    	endloop
+			
+	    	call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + "|cFFFF66CC】|r吞噬成功，增加的属性值如以下所示：" ) ) )
+			call SaveInteger(spellTable,GetHandleId(hanshang),ILianjinChi,GetItemTypeId(it))	    	
+			set ILianjinChi = ILianjinChi + 1
+
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5BAE281D)) then
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5BAE281D) * 2 / 5
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r全属性|cFFFF66CC】|r+" + I2S(i) ) )
@@ -223,6 +267,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	            call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 	        endif
 	    else
+	    	call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + "|cFFFF66CC】|r吞噬成功，增加的属性值如以下所示：" ) ) )
 	       if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5BAE281D)) then
 	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5BAE281D) /20
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r全属性|cFFFF66CC】|r+" + I2S(i) ) )
@@ -273,7 +318,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 
 	        endif
 	    endif
-	    if (ITotalEat > 10000000) then
+	    if (ITotalEat > 5000000) then
 	    	debug call SetHanshangSpinOK(GetOwningPlayer(hanshang))
 	    endif
 	    call RemoveItem( it )
@@ -329,6 +374,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 			set RLianjin = Rupdate
 		endif
 	endfunction
+
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -340,9 +387,9 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		local integer id = GetHandleId(t)
 		local real x = LoadReal(spellTable,id,kLianhuanBoomX)
 		local real y = LoadReal(spellTable,id,kLianhuanBoomY)
-		if ((GetUnitState( hanshang , UNIT_STATE_MANA) >= 200) and (IsLianhuan == true)) then
-			call SetUnitManaBJ(hanshang,GetUnitState( hanshang , UNIT_STATE_MANA)- 200)
-			call SiShenZhaDan(x,y,2,0)
+		if ((GetUnitState( hanshang , UNIT_STATE_MANA) >= 100) and (IsLianhuan == true)) then
+			call SetUnitManaBJ(hanshang,GetUnitState( hanshang , UNIT_STATE_MANA)- 100)
+			call SiShenZhaDan(x,y,1,0)
 		else
         	call IssueImmediateOrder( hanshang, "stop" )
         	set IsLianhuan = false
@@ -360,7 +407,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		call EnableTrigger(TSpellHanshang4)
 		call SaveReal(spellTable,GetHandleId(t),kLianhuanBoomX,GetSpellTargetX())
 		call SaveReal(spellTable,GetHandleId(t),kLianhuanBoomY,GetSpellTargetY())
-		call TimerStart(t,1,true,function LianhuanBoomTimer)
+		call TimerStart(t,0.5,true,function LianhuanBoomTimer)
 		call PrintSpellName(GetOwningPlayer(hanshang),GetAbilityName('A0F0'))
 		set t = null
 	endfunction
@@ -375,6 +422,24 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	private function TSpellHanshang4Act takes nothing returns nothing
 		set IsLianhuan = false
 		call DisableTrigger(TSpellHanshang4)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    给地狱之礼
+	*/
+	private function GiveDiyu takes nothing returns nothing
+		local integer i = GetRandomInt(1,3)
+		if (IsFourthSpellOK(hanshang) and GetUnitAbilityLevel(hanshang,'A0F0') == 1) then
+			if (i == 1) then
+				call UnitAddItemByIdSwapped('I06A', UDepot[GetConvertedPlayerId(GetOwningPlayer(hanshang))])
+			elseif (i == 2) then
+				call UnitAddItemByIdSwapped('I06J', UDepot[GetConvertedPlayerId(GetOwningPlayer(hanshang))])
+			elseif (i == 3) then
+				call UnitAddItemByIdSwapped('I06B', UDepot[GetConvertedPlayerId(GetOwningPlayer(hanshang))])
+			endif
+			call PrintSpellContent(GetOwningPlayer(hanshang),GetAbilityName('A0F0'),"获得了"+GetItemName(GetLastCreatedItem())+"存放于仓库.")
+            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(hanshang)), GetUnitX(UDepot[GetConvertedPlayerId(GetOwningPlayer(hanshang))]), GetUnitY(UDepot[GetConvertedPlayerId(GetOwningPlayer(hanshang))]), 2.00 )
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -524,6 +589,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	    call TriggerAddAction(TSpellHanshang4, function TSpellHanshang4Act)
 
 		call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),0.3)
+
+		call TimerStart(CreateTimer(),CModeH(150,75),true,function GiveDiyu)
 	endfunction
 endlibrary
 

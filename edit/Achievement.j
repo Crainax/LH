@@ -16,6 +16,7 @@ library_once Achievement requires LHBase
 		    是否有彩色皮肤
 		*/
 		integer array spin
+		integer array spin2
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -326,6 +327,44 @@ library_once Achievement requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    莫琪皮肤条件
+	*/
+	function GetMoqiSpin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],1) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    莫琪皮肤OK了
+	*/
+	function SetMoqiSpinOK takes player p returns nothing
+		if (GetBit(spin2[GetConvertedPlayerId(p)],10) < 1) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 1
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取莫琪皮肤\"|cFFFF00CC星界麒麟|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凯撒皮肤条件
+	*/
+	function GetKaisaSpin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],2) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凯撒皮肤OK了
+	*/
+	function SetKaisaSpinOK takes player p returns nothing
+		if (GetBit(spin2[GetConvertedPlayerId(p)],10) < 2) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 10
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取凯撒皮肤\"|cFF6699FF熔日煌世|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取成就索引条件是否满足了
 	*/
 	function IsAchieveOK takes player p,integer achieveID returns boolean
@@ -571,15 +610,25 @@ library_once Achievement requires LHBase
 	/*
 	    创建英雄挑战对话框
 	*/
-	function CreateHeroDialogContent takes player p, dialog d returns nothing
+	function CreateHeroDialogContent takes player p, dialog d,integer page returns nothing
+		if (page == 1) then
+			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1,1) + S3(GetSeyu1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2,1) + S3(GetXiaoyue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3,1) + S3(GetYanmie1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(4,1) + S3(GetXuanxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(5,1) + S3(GetChenji1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6,1) + S3(GetTaiya1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetHeroChallenageName(7,1) + S3(GetHanshang1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetHeroChallenageName(8,1) + S3(GetChenji2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,1) + S3(GetLingxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		elseif (page == 2) then
+			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1,2) + S3(GetKaisaSpin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2,2) + S3(GetMoqiSpin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		endif
 
-		call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1) + S3(GetSeyu1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2) + S3(GetXiaoyue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3) + S3(GetYanmie1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(4) + S3(GetXuanxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(5) + S3(GetChenji1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6) + S3(GetTaiya1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetHeroChallenageName(7) + S3(GetHanshang1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+
+    	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
+    	call SaveButtonHandle(LHTable,GetHandleId(d),11,DialogAddButton( d, "关闭|cffff6800(Esc)|r",512))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -670,13 +719,41 @@ library_once Achievement requires LHBase
 	function HeroDialogClick takes nothing returns nothing
 		local dialog d = GetClickedDialogBJ()
 	    local player p = LoadPlayerHandle(LHTable,GetHandleId(d),13)
+	    local integer page = LoadInteger(LHTable,GetHandleId(d),12)
 		local integer i = 1
+
+	    //退出
+	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),11)) then
+            call DialogClear(d)
+	        call FlushChildHashtable(LHTable,GetHandleId(d))
+        	call DialogDisplay( p, d, false )
+	        call DialogDestroy(d)
+	        set d = null
+	        set p = null
+	        call DestroyTrigger(GetTriggeringTrigger())
+	        return
+	    endif
+
+	    //下一页
+	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
+            call DialogClear(d)
+	    	set page = I3(page < PAGE_HERO_CHALLANGER,page + 1,1)
+	    	call DialogSetMessage( d, "英雄挑战" )
+    		call SaveInteger(LHTable,GetHandleId(d),12,page)
+	    	call CreateHeroDialogContent(p,d,page)
+        	call DialogDisplay( p, d, true )
+		    set d = null
+		    set p = null
+	    	return
+	    endif
+
+	    //点击
 	    loop
 	        exitwhen i > 9
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
                 call DialogClear(d)
-		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetHeroChallenageName(i) + "|r英雄挑战的条件如下所示:")
-		    	call DisplayTextToPlayer(p, 0., 0., GetHeroChallenageContent(i))
+		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetHeroChallenageName(i,page) + "|r英雄挑战的条件如下所示:")
+		    	call DisplayTextToPlayer(p, 0., 0., GetHeroChallenageContent(i,page))
 	            exitwhen true
 	        endif
 	        set i = i +1
@@ -730,7 +807,8 @@ library_once Achievement requires LHBase
 	function CreateAchievementDialog takes player p returns nothing
 	    local trigger t  = CreateTrigger()
 	    local dialog d = DialogCreate()
-	    call DialogSetMessage( d, "我的成就|cffff6800(第1/"+I2S(PAGE_ACHIEVE)+"页)|r" )
+	    call DialogSetMessage( d, "我的成就|cffff6800(第1/"+I2S(PAGE_ACHIEVE)+"页)|r
+	    	收集全部成就可以自定义成就名" )
 	    call NextPageAchievement(p,d,1)
     	call SaveButtonHandle(LHTable,GetHandleId(d),15,null)
     	call SaveButtonHandle(LHTable,GetHandleId(d),16,null)
@@ -751,8 +829,9 @@ library_once Achievement requires LHBase
 		local trigger t  = CreateTrigger()
 	    local dialog d = DialogCreate()
 	    call DialogSetMessage( d, "英雄挑战" )
-	    call CreateHeroDialogContent(p,d)
+	    call CreateHeroDialogContent(p,d,1)
 	    call SavePlayerHandle(LHTable,GetHandleId(d),13,p)
+	    call SaveInteger(LHTable,GetHandleId(d),12,1)
 	    call DialogDisplay( p, d, true )
 	    call TriggerRegisterDialogEvent( t, d )
 	    call TriggerAddAction(t, function HeroDialogClick)

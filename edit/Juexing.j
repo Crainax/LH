@@ -132,6 +132,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call UnitAddAbility(Huanyi,'A0HX')
 		elseif (u == sichen) then
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
+		elseif (u == hanshang) then
+			call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),0.25)
 		elseif (u == xinglong and IsLong()) then
 			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
 			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
@@ -240,6 +242,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)),-1)
 		elseif (u == cangling and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(cangling))]) then
 			call AddHP(cangling,-40000000)
+		elseif (u == hanshang) then
+			call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),-0.25)
 		endif
 		set BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] = false
 		set BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] = false

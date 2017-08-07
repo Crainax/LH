@@ -14,6 +14,12 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         integer IAtleast1 = 0
         integer IAtleast2 = 0
         integer IAtleast3 = 0
+
+        /*
+            裸上提示
+        */
+        private boolean array BLuoshang1
+        private boolean array BLuoshang2
     endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -278,7 +284,26 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                    小提示
+
+                    3级以上的装备不建议使用未经强化的宝石祼升.
+                    因为未经强化的宝石失败率较高,且失败会降级.
+
+                    |cff6699ff祝福石能令装备失败不会降级.
+                    强化石能有效提高升级成功率.
+                    诅咒石更能提高成功率.|r
+
+                    以上3种宝石能与普通的宝石融合在一起.
+                    以上3种宝石均在宝石专区刷怪获取.
+    ")
+            endif
+        endif
+
         if (DiamondB('sksh','oslo','esaz',70) == true) then
             return
         endif
@@ -306,6 +331,9 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('gldo','gsou','gvsm',70) == true) then
             return
         endif
+
+
+
 
         call UnitAddItemByIdSwapped( 'gmfr', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -408,6 +436,25 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             return
         endif
         
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                    小提示
+
+                    3级以上的装备不建议使用未经强化的宝石祼升.
+                    因为未经强化的宝石失败率较高,且失败会降级.
+
+                    |cff6699ff祝福石能令装备失败不会降级.
+                    强化石能有效提高升级成功率.
+                    诅咒石更能提高成功率.|r
+
+                    以上3种宝石能与普通的宝石融合在一起.
+                    以上3种宝石均在宝石专区刷怪获取.
+    ")
+            endif
+        endif
+
         if (DiamondB('oslo','grsl','sksh',60) == true) then
             return
         endif
@@ -435,6 +482,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('gsou','envl','gldo',60) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'jpnt', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -580,6 +629,25 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             return
         endif
         
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                    小提示
+
+                    3级以上的装备不建议使用未经强化的宝石祼升.
+                    因为未经强化的宝石失败率较高,且失败会降级.
+
+                    |cff6699ff祝福石能令装备失败不会降级.
+                    强化石能有效提高升级成功率.
+                    诅咒石更能提高成功率.|r
+
+                    以上3种宝石能与普通的宝石融合在一起.
+                    以上3种宝石均在宝石专区刷怪获取.
+    ")
+            endif
+        endif
+
         if (DiamondB('grsl','flag','oslo',50) == true) then
             return
         endif
@@ -607,6 +675,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('envl','rugt','gsou',50) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'glsk', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -752,6 +822,25 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             return
         endif
         
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                    小提示
+
+                    3级以上的装备不建议使用未经强化的宝石祼升.
+                    因为未经强化的宝石失败率较高,且失败会降级.
+
+                    |cff6699ff祝福石能令装备失败不会降级.
+                    强化石能有效提高升级成功率.
+                    诅咒石更能提高成功率.|r
+
+                    以上3种宝石能与普通的宝石融合在一起.
+                    以上3种宝石均在宝石专区刷怪获取.
+    ")
+            endif
+        endif
+
         if (DiamondB('oli2','rump','nspi',40) == true) then
             return
         endif
@@ -761,6 +850,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('rugt','shdt','envl',40) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'kygh', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -777,6 +868,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             return
         endif
         
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
+
         if (DiamondB('oli2','rump','nspi',60) == true) then
             return
         endif
@@ -786,6 +894,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('rugt','shdt','envl',60) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'mort', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -802,6 +912,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             return
         endif
         
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
+
         if (DiamondA('oli2','rump',30) == true) then
             return
         endif
@@ -811,6 +938,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondA('rugt','shdt',30) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'ches', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -826,7 +955,24 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
+
         if (DiamondC('oli2','rump','mlst',70) == true) then
             return
         endif
@@ -836,6 +982,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondC('rugt','shdt','gsou',70) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped('cnhn', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -851,7 +999,27 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+ 
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                    小提示
+
+                    3级以上的装备不建议使用未经强化的宝石祼升.
+                    因为未经强化的宝石失败率较高,且失败会降级.
+
+                    |cff6699ff祝福石能令装备失败不会降级.
+                    强化石能有效提高升级成功率.
+                    诅咒石更能提高成功率.|r
+
+                    以上3种宝石能与普通的宝石融合在一起.
+                    以上3种宝石均在宝石专区刷怪获取.
+    ")
+            endif
+        endif
+
+
         if (DiamondB('rump','shen','oli2',40) == true) then
             return
         endif
@@ -861,6 +1029,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('shdt','crdt','rugt',40) == true) then
             return
         endif
+
 
         call UnitAddItemByIdSwapped( 'sehr', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -876,7 +1045,24 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+ 
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
+
         if (DiamondB('rump','shen','oli2',60) == true) then
             return
         endif
@@ -886,6 +1072,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB('shdt','crdt','rugt',60) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'k3m3', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -901,6 +1089,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
         
         if (DiamondA('rump','shen',30) == true) then
             return
@@ -911,6 +1116,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondA('shdt','crdt',30) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'k3m2', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -926,6 +1133,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
         
         if (DiamondC('rump','shen','nspi',70) == true) then
             return
@@ -936,6 +1160,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondC('shdt','crdt','envl',70) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'kybl', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -951,6 +1177,25 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                    小提示
+
+                    3级以上的装备不建议使用未经强化的宝石祼升.
+                    因为未经强化的宝石失败率较高,且失败会降级.
+
+                    |cff6699ff祝福石能令装备失败不会降级.
+                    强化石能有效提高升级成功率.
+                    诅咒石更能提高成功率.|r
+
+                    以上3种宝石能与普通的宝石融合在一起.
+                    以上3种宝石均在宝石专区刷怪获取.
+    ")
+            endif
+        endif
         
         if (DiamondB ('shen','stpg','rump',40) == true) then
             return
@@ -961,6 +1206,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondB ('crdt','pspd','shdt',40) == true) then
             return
         endif
+
+
 
         call UnitAddItemByIdSwapped( 'bzbf', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
@@ -975,6 +1222,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call UnitAddItemByIdSwapped( 'kysn', GetTriggerUnit() )
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
+        endif
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
         endif
         
         if (DiamondB ('shen','stpg','rump',60) == true) then
@@ -1001,6 +1265,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
         
         if (DiamondA('shen','stpg',30) == true) then
             return
@@ -1026,6 +1307,23 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
+
+        if not(HasLiuli(GetTriggerUnit())) then
+            if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+                set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
+                call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),"
+                小提示
+
+                7级以上的装备几率可能会较低.
+
+                你还可以通过下面2种方式提高成功率:
+                1.通过42次转生获取|cffff00ff【虚】琉璃璞玉|r
+                (100%的升级成功率,当局无限次使用)
+                2.使用杀敌数在基地左边购买|cffff0000血精石|r.
+                (100%的升级成功率,消耗品)
+    ")
+            endif
+        endif
         
         if (DiamondC ('shen','stpg','oli2',70) == true) then
             return
@@ -1036,6 +1334,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         if (DiamondC ('crdt','pspd','rugt',70) == true) then
             return
         endif
+
 
         call UnitAddItemByIdSwapped( 'shwd', GetTriggerUnit() )
         call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
