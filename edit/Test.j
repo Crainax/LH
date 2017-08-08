@@ -231,6 +231,9 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
         //战斗力
         integer array udg_Zhandouli
+
+        //光环
+        unit gg_unit_n01S_0258
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

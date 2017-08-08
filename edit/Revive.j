@@ -16,6 +16,7 @@ function TReviveHeroAct takes nothing returns nothing
 	call AfterReviveLingxue(GetRevivingUnit())
 	call AfterReviveXinglong(GetRevivingUnit())
 	call AfterReviveHeiyan(GetRevivingUnit())
+	set BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(GetRevivingUnit()))] = false
 	if (GetPlayerSlotState(GetOwningPlayer(GetRevivingUnit())) == PLAYER_SLOT_STATE_LEFT) then
 		call SetUnitPosition( GetRevivingUnit(), GetRectCenterX(gg_rct_QuitRegion), GetRectCenterY(gg_rct_QuitRegion) )
 	    call SetUnitInvulnerable( GetRevivingUnit(), true )
