@@ -48,6 +48,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         unit Huanyi = null
         unit sichen = null
         unit xinglong = null
+        unit xiaoting = null
         /*
             觉醒
         */ 
@@ -81,7 +82,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         判断是否是敏捷英雄
     */
     function IsAgiHero takes unit u returns boolean
-        return u == taiya or u == xiaoyue or u == mengji or u == moqi or u == hanshang or u == cangling or u == seyu or u == yanmie or u == sichen
+        return u == taiya or u == xiaoyue or u == mengji or u == moqi or u == hanshang or u == cangling or u == seyu or u == yanmie or u == sichen or u == xiaoting
     endfunction
     
 //---------------------------------------------------------------------------------------------------
