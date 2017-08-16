@@ -1,6 +1,6 @@
 
 //! import "LHBase.j"
-//! import "Huodong.j"
+/////! import "Huodong.j"
 library_once Diffculty requires LHBase,Huodong
 	
 	globals
@@ -363,6 +363,55 @@ library_once Diffculty requires LHBase,Huodong
 			|cffff6800新任务:|r
 			击败六界傀儡|cffffff00穆晴|r与白浅.")
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    开始挑战
+	*/
+	function StartTiaozhan1 takes nothing returns nothing
+		local integer i  = 1
+    	local unit u = CreateUnit(Player(10),'h025',0,0,0)
+		loop
+			exitwhen i > 6
+			if (udg_H[i] != null) then
+				call UnitRemoveAbility(udg_H[i],'A0B9')
+			endif
+			set i = i +1
+		endloop
+    	call ShowUnitHide(u)
+		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战1,所有英雄失去攻击速度与100000%的移动速度.")
+		set u = null
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    开始挑战2
+	*/
+	private function Tiaozhan2Timer takes nothing returns nothing
+		local integer i = 1
+		if (udg_Bo >= 13) then
+			loop
+				exitwhen i > 6
+				if (udg_H[i] != null) then
+    				call RecoverUnitHP(udg_H[i],-0.3)
+				endif
+				set i = i +1
+			endloop
+		else
+			loop
+				exitwhen i > 6
+				if (udg_H[i] != null) then
+    				call RecoverUnitHP(udg_H[i],-0.1)
+				endif
+				set i = i +1
+			endloop
+		endif
+	endfunction
+
+	function StartTiaozhan2 takes nothing returns nothing
+		call TimerStart(CreateTimer(),1,true,function Tiaozhan2Timer)
+		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战2,所有英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)")
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    游戏难度的选取

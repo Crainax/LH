@@ -1,10 +1,10 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     globals
         unit learnSkillHero = null
@@ -628,10 +628,12 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
     /*
         输出选英雄皮肤的提示
     */
-    function ChooseSpinHero takes player p,unit u returns nothing
-        call ShowGameHint(p,"该英雄是"+GetUnitName(u)+"英雄的皮肤"+GetHeroProperName(u)+"。"+"
+    function ChooseSpinHero takes player p,unit u returns  nothing
+        call ShowGameHint(p,"该英雄是"+GetUnitName(u)+"英雄的皮肤"+GetHeroProperName(u)+"。"+S3(DEBUG_MODE,"
         使用英雄"+GetUnitName(u)+"完成对应的英雄挑战即可获取该皮肤。
-        前往基地左边商店处可以查看该挑战的详细内容。")
+        前往基地左边商店处可以查看该挑战的详细内容。","
+        使用魔兽争霸官方对战平台(dz.163.com)进行游戏
+        完成挑战即可获取该皮肤。"))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -743,6 +745,18 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
             set i = i +1
         endloop
         return ConvertedPlayer(1)
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        基地爆炸
+    */
+    function Jidibaozha takes string s returns nothing
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            call CustomDefeatBJ( ConvertedPlayer(i), s )
+            set i = i +1
+        endloop
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

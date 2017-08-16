@@ -1,4 +1,4 @@
-//! import "LHBase.j"
+ //! import "LHBase.j"
 //! import "Moqi.j"
 //! import "Seyu.j"
 //! import "Mengji.j"
@@ -25,13 +25,17 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 				elseif (udg_H[i] == mengji) then
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GX',false)
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GY',false)
+				elseif (udg_H[i] == xiaoting) then
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
 				else
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),false)
 				endif
 			endif
 			set i = i +1
 		endloop
-
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -49,6 +53,16 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 				elseif (udg_H[i] == mengji) then
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GX',true)
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GY',true)
+				elseif (udg_H[i] == xiaoting) then
+					if (ISpellState == 0) then
+						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',true)
+					elseif (ISpellState == 1) then
+						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',true)
+					elseif (ISpellState == 2) then
+						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',true)
+					elseif (ISpellState == 3) then
+						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',true)
+					endif
 				else
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),true)
 				endif

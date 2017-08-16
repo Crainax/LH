@@ -1,7 +1,6 @@
 
 //! import "LHBase.j"
 //! import "Diffculty.j"
-//! 
 library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
 globals

@@ -2,7 +2,7 @@
 /*
     基地有关,不能A队友
 */
-library_once CenterBase initializer InitCenterBase requires LHBase 
+library_once CenterBase initializer InitCenterBase requires LHBase,Version
 
 	globals
 		trigger TCenterBaseDeath = null
@@ -29,12 +29,21 @@ library_once CenterBase initializer InitCenterBase requires LHBase
 	private function Kaiqifanghuzhao takes nothing returns nothing
 		local real x = GetUnitX(gg_unit_haro_0030)
 		local real y = GetUnitY(gg_unit_haro_0030)
+		debug local player p = GetSuperLiujiewang()
 	    set udg_I_Er_diansi[1] = ( udg_I_Er_diansi[1] - 1 )
-	    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
-	    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
-	    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
-	    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
-	    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
+	    debug if (p == null) then
+		    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
+		    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
+		    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
+		    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
+		    call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r防护罩开启，还剩下" + ( I2S(udg_I_Er_diansi[1]) + "次的防护罩。" ) ) )
+		debug else
+		debug     call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r" + GetPlayerName(p) + "你作为一个超级六界王竟然让防护罩开启了!仅剩" + ( I2S(debug udg_I_Er_diansi[1]) + "次防护罩!!!" ) ) )
+		debug     call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r" + GetPlayerName(p) + "你作为一个超级六界王竟然让防护罩开启了!仅剩" + ( I2S(debug udg_I_Er_diansi[1]) + "次防护罩!!!" ) ) )
+		debug     call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r" + GetPlayerName(p) + "你作为一个超级六界王竟然让防护罩开启了!仅剩" + ( I2S(debug udg_I_Er_diansi[1]) + "次防护罩!!!" ) ) )
+		debug     call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r" + GetPlayerName(p) + "你作为一个超级六界王竟然让防护罩开启了!仅剩" + ( I2S(debug udg_I_Er_diansi[1]) + "次防护罩!!!" ) ) )
+		debug     call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【提示】|r" + GetPlayerName(p) + "你作为一个超级六界王竟然让防护罩开启了!仅剩" + ( I2S(debug udg_I_Er_diansi[1]) + "次防护罩!!!" ) ) )
+	    debug endif
 	    call PlaySoundBJ( gg_snd_kill_boss )
 	    call RemoveUnit(gg_unit_haro_0030)
 	    set gg_unit_haro_0030 = CreateUnit(Player(6),'haro',x,y,270)
@@ -50,18 +59,7 @@ library_once CenterBase initializer InitCenterBase requires LHBase
 	    call DisplayTextToForce( GetPlayersAll(), "|cFFFF66CC【提示】|r防护罩消失。" )
 	endfunction
 
-	private function Jidibaozha takes nothing returns nothing
-	    local integer i = 1
-	    loop
-	    	exitwhen i > 6
-	    	call CustomDefeatBJ( ConvertedPlayer(i), "
-	    		圣光宝石破碎，五界坠入了深渊……
-				轮回之狱玩家交流群:413359254
-				(开黑、攻略，一应俱全)
-" )
-	    	set i = i +1
-	    endloop
-	endfunction
+
 
 	function TCenterBaseDeathAct takes nothing returns nothing
 
@@ -70,7 +68,11 @@ library_once CenterBase initializer InitCenterBase requires LHBase
 	    	call Kaiqifanghuzhao()
 	    else
 	    	//游戏失败
-			call Jidibaozha()
+			call Jidibaozha("
+	    		圣光宝石破碎，五界坠入了深渊……
+				轮回之狱玩家交流群:413359254
+				(开黑、攻略，一应俱全)
+")
 	    endif
 
 	endfunction

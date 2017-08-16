@@ -11,7 +11,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    英雄数量
 		*/
-		constant integer HERO_COUNT = 18
+		constant integer HERO_COUNT = 19
 		/*
 		    活动开关
 		*/
@@ -19,7 +19,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    成就页数
 		*/
-		constant integer PAGE_ACHIEVE = 9
+		constant integer PAGE_ACHIEVE = 10
 		constant integer PAGE_HERO_CHALLANGER = 2
 		/*
 		    实际人数(从一开始的)
@@ -38,7 +38,14 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.316"
+		return "3.323C"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取是否是11
+	*/
+	function Get11 takes nothing returns boolean
+		return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -125,6 +132,8 @@ library_once Constant initializer InitConstant requires JBase
 			return 17
 		elseif (heroType == 'Hapm' or heroType == 'H01I') then
 			return 18
+		elseif (heroType == 'H01Y') then
+			return 19
 		endif
 		return 0
 	endfunction	
@@ -170,6 +179,8 @@ library_once Constant initializer InitConstant requires JBase
 				set result = "司宸"
 			elseif (i == 18) then
 				set result = "星胧"
+			elseif (i == 19) then
+				set result = "霄霆"
 			endif
 			return result
 	endfunction
@@ -216,6 +227,8 @@ library_once Constant initializer InitConstant requires JBase
 			return 'A0IP'
 		elseif (id == 18) then
 			return 'AEme'
+		elseif (id == 19) then
+			return 'A0LJ'
 		endif
 		return 0
 	endfunction
@@ -264,6 +277,8 @@ library_once Constant initializer InitConstant requires JBase
 			return "|cffffc000操作难度：★★☆☆☆|r"
 		elseif (id == 18) then
 			return "|cffff4000操作难度：★★★★☆|r"
+		elseif (id == 19) then
+			return "|cffff0000操作难度：★★★★★(极度不推荐新手使用)|r"
 		endif
 		return ""
 	endfunction
@@ -309,6 +324,8 @@ library_once Constant initializer InitConstant requires JBase
 			set result = "|cff993366司宸|r"
 		elseif (i == 18) then
 			set result = "|cff99cc00星胧|r"
+		elseif (i == 19) then
+			set result = "|cff00ff00霄霆|r"
 		endif
 		return result
 	endfunction
@@ -360,7 +377,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -529,6 +546,14 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【真言殿】")
 		elseif (achieveID == 47) then
 			return GetColorString("【不败神话】")
+		elseif (achieveID == 48) then
+			return GetColorString("【无上六界王】")
+		elseif (achieveID == 49) then
+			return GetColorString("【荒神炼】")
+		elseif (achieveID == 410) then
+			return GetColorString("【驻永恒】")
+		elseif (achieveID == 411) then
+			return GetColorString("【创世篇】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -687,6 +712,14 @@ library_once Constant initializer InitConstant requires JBase
 			return "真言殿"
 		elseif (achieveID == 47) then
 			return "不败神话"
+		elseif (achieveID == 48) then
+			return "无上六界王"
+		elseif (achieveID == 49) then
+			return "荒神炼"
+		elseif (achieveID == 410) then
+			return "驻永恒"
+		elseif (achieveID == 411) then
+			return "创世篇"
 		endif
 		return ""
 	endfunction
@@ -1009,6 +1042,23 @@ library_once Constant initializer InitConstant requires JBase
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 49) then
+			return "从头到尾全地图同时存在的进攻怪从未超过20个.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 410) then
+			return "开局在第一波前输入-tz1进入挑战1,完成并通关.
+			该挑战下英雄攻击速度极慢,移动速度-10000000%.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 411) then
+			return "开局在第一波前输入-tz2进入挑战2,完成并通关.
+			该挑战下英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -1035,6 +1085,8 @@ library_once Constant initializer InitConstant requires JBase
 			return I3(index == 7,327,I3(index == 1,326,index + 318))
 		elseif (page == 9) then
 			return I3(index <= 4 ,index + 327,index + 38)
+		elseif (page == 10) then
+			return I3(index == 1 ,49,index + 408)
 		endif
 		return 0
 	endfunction
@@ -1085,6 +1137,8 @@ library_once Constant initializer InitConstant requires JBase
 			return "通关|cff993366天魇|r"
 		elseif (i == 3) then
 			return "连续登录20天"
+		elseif (i == 4) then
+			return "所有英雄99次使用"
 		endif
 		return ""
 	endfunction
@@ -1163,6 +1217,11 @@ library_once Constant initializer InitConstant requires JBase
 
 			完成该项挑战后可以在每次开局选英雄后接受来自六界的欢迎。
 			并获得四字成就名"+GetAchievementName(47)+"。"
+		elseif (i == 4) then
+			return "全英雄99次达成!
+
+			完成该项挑战后每局游戏中在基地出现罩子时有着不一样的文字提醒哦!
+			并获得五字成就名"+GetAchievementName(48)+"。"
 		endif
 		return ""
 	endfunction

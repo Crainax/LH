@@ -3,7 +3,7 @@
 //! import "Huodong.j"
 //! import "Achievement.j"
 
-library_once Continous initializer InitContinous requires  LHBase,ItemBase,Huodong,Achievement
+library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong
 
 
 	globals

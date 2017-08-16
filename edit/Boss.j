@@ -6,7 +6,7 @@
 //! import "Attr.j"
 //! import "Juexing.j"
 //! import "Battle.j"
-//! import "NetVersion.j"
+/////! import "NetVersion.j"
 library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,Juexing,Battle,Version
 	globals
 		/*
@@ -536,6 +536,10 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    call PrintXinglongPassword()
 		    call PrintXinglongPassword()
 		    call PrintXinglongPassword()
+		    call PrintXiaotingPassword()
+		    call PrintXiaotingPassword()
+		    call PrintXiaotingPassword()
+		    call PrintXiaotingPassword()
 		    debug call SaveAchievementKuilei1()
 		    call CinematicModeBJ( false, GetPlayersAll() )
 		    call PolledWait(60.00)

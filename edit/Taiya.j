@@ -15,6 +15,9 @@ library_once Taiya requires LHBase,Spin,Version
 			debug call SetTaiyaSpinOK(GetOwningPlayer(taiya))
 		else
 			set ITaiyamiao = ITaiyamiao + 1
+			if (ModuloInteger(ITaiyamiao,100) == 0) then
+				call DisplayTextToPlayer(GetOwningPlayer(taiya), 0., 0., "【|cFFCCFF66三弦星谧|r】完成进度"+I2S(ITaiyamiao)+"/2000.")
+			endif
 		endif
 	endfunction
 	

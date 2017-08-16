@@ -1,5 +1,6 @@
 //! import "LHBase.j"
 //! import "CommonHuodong.j"
+
 /*
     其他平台的提示文本
 */
@@ -10,6 +11,12 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		private boolean Bhuanyi = false 
 		private boolean Bmengji = false 
 		private boolean Bcangling = false 
+		private boolean Bxiaoting = false 
+
+		boolean BZongshu = true
+
+		boolean BTiaozhan1 = false
+		boolean BTiaozhan2 = false
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -45,6 +52,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    宵霆的提示文本
+	*/
+	function GetXiaotingHint takes nothing returns string
+	return "|cff99ccff考虑到操作对新手可能不友好,通关炼狱难度后证明自己的实力获取密码|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    幻逸选取条件
 	*/
 	function GetHuanyiSelectedCon takes player p returns boolean
@@ -71,6 +85,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	*/
 	function GetXinglongSelectedCon takes player p returns boolean
 		return Bxinglong
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    宵霆选取条件
+	*/
+	function GetXiaotingSelectedCon takes player p returns boolean
+		return Bxiaoting
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -115,6 +136,48 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    赛殇皮肤条件
+	*/
+	function GetHanshang1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    辰寂皮肤条件
+	*/
+	function GetChenji2Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    辰寂皮肤条件
+	*/
+	function GetChenji1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凌雪皮肤条件
+	*/
+	function GetLingxue1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凌雪皮肤条件
+	*/
+	function GetMoqiSpin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    凌雪皮肤条件
+	*/
+	function GetKaisaSpin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
     /*
         获取激活码
     */
@@ -123,6 +186,20 @@ library_once Version initializer InitVersion requires LHBase,Huodong
         local integer i = 1
         loop
             exitwhen i > 8
+            set result = I2S(StringHash(result))
+            set i = i +1
+        endloop
+        return S2I(SubStringBJ(result,IMaxBJ(StringLength(result)-5,1),StringLength(result)))
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        获取激活码
+    */
+    private function GetXiaotingCode takes string s returns integer
+        local string result = s
+        local integer i = 1
+        loop
+            exitwhen i > 9
             set result = I2S(StringHash(result))
             set i = i +1
         endloop
@@ -171,6 +248,8 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			set Bcangling = true
 		elseif (chat == "xl"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bxinglong = true
+		elseif (chat == "xt"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
+			set Bxiaoting = true
 		endif
 		set chat = null
 	endfunction
@@ -182,7 +261,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if (udg_RENSHU > 1 and udg_Nandu_JJJ = 7) then
+			if (udg_RENSHU > 1 and udg_Nandu_JJJ == 7) then
 				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的星胧英雄选取密码:xl"+ I2S(GetXinglongCode(playerName[i])))
 			endif
 			set i = i +1
@@ -217,9 +296,67 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    输出宵霆的密码
+	*/
+	function PrintXiaotingPassword takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if (udg_RENSHU > 1 and udg_Nandu_JJJ == 5) then
+				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r请妥善保管好你的名字"+playerName[i]+"对应的宵霆英雄选取密码:xt"+ I2S(GetXiaotingCode(playerName[i])))
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    禁止秘藉
+	*/
+	/*private function ForbidMiji takes nothing returns nothing
+		if (renshu == 1) then
+			call Jidibaozha("
+	    		使用秘藉会失去游戏体验哦!
+")
+		endif
+	endfunction*/
+//---------------------------------------------------------------------------------------------------
 
 
 	private function InitVersion takes nothing returns nothing
+	    /*local trigger t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent( t, Player(0), "whosyourdaddy", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "whosyourdaddy", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "whosyourdaddy", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "whosyourdaddy", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "whosyourdaddy", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "whosyourdaddy", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(0), "thereisnospoon", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "thereisnospoon", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "thereisnospoon", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "thereisnospoon", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "thereisnospoon", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "thereisnospoon", true )
+		call TriggerRegisterPlayerChatEvent( t, Player(0), "keysersoze", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "keysersoze", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "keysersoze", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "keysersoze", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "keysersoze", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "keysersoze", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(0), "leafittome", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "leafittome", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "leafittome", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "leafittome", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "leafittome", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "leafittome", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(0), "greedisgood", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(1), "greedisgood", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(2), "greedisgood", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(3), "greedisgood", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(4), "greedisgood", false )
+		call TriggerRegisterPlayerChatEvent( t, Player(5), "greedisgood", false )
+	    call TriggerAddAction(t, function ForbidMiji)*/
+
 	endfunction
 
 endlibrary

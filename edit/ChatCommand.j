@@ -1,12 +1,13 @@
 
 //! import "LHBase.j"
 //! import "PIV.j"
-//! import "Continous.j"
+/////! import "Continous.j"
+//! import "Diffculty.j"
 /*
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Continous
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty//,Continous
 	
 	globals
 		private item array IBox
@@ -175,6 +176,16 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call CameraSetSmoothingFactor( 0. )
 		elseif (str == "--") then
 			call FixView(false)
+		elseif (str == "-tz1" and udg_Bo < 1) then
+			if (not(BTiaozhan1)) then
+				call StartTiaozhan1()
+				set BTiaozhan1 = true
+			endif
+		elseif (str == "-tz2" and udg_Bo < 1) then
+			if (not(BTiaozhan2)) then
+				call StartTiaozhan2()
+				set BTiaozhan2 = true
+			endif
 		elseif (str == "-yc") then
 			call YincangBroad()
 		debug elseif (str == "-jn") then
@@ -351,7 +362,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	function ShowZanzhuHint takes nothing returns nothing
 	    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "永久赞助", "做图不易,你的如果你喜欢本图,也愿意赞助本图,那么你将获得以下功能:
 
-	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"星胧\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r、|cff00ccff\"苍凌\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前4个)均能体验24+5+1波进攻，并解锁混沌区域.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.
+	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"星胧\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r、|cff00ccff\"苍凌\"|r、|cff00ccff\"宵霆\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前4个)均能体验24+5+1波进攻，并解锁混沌区域.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.
 
 	    	|r|cffffff00赞助后续版本永久有效,永久赞助请加QQ群413359254获取,还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
 

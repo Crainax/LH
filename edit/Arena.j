@@ -21,6 +21,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 		private trigger TSpellZhousi = null
 		private trigger TSpellXuemo1 = null
 		private trigger TSpellXuemo2 = null
+		private trigger TSpellWuxin = null
 		private trigger TSpellFuwang = null
 		private trigger TSpellMeidusha1 = null
 		private trigger TSpellMeidusha2 = null
@@ -215,6 +216,40 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	    set point = null
 	    call CreateSpellTextTag("天玄星陨！",challenager,0,100,100,2)
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    无心技能:攻击掉1%血
+	*/
+
+	private function TSpellWuxinCon takes nothing returns boolean
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true))
+	endfunction
+
+	private function TSpellWuxinAct takes nothing returns nothing
+		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()))) 
+		call UnitDamageTarget( challenager, GetAttackedUnitBJ(), ( 0.01 * GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+	endfunction
+
+	private function WuxinFlash takes nothing returns nothing
+		//5秒沉默切换
+		if(IsUnitAliveBJ(challenager) and GetUnitTypeId(challenager) == 'O003') then
+			if (GetUnitUserData(challenager) == 0) then
+ 				call SimulateSpell(challenager,challenager,'A0M8',1,5,"silence",true,false,false)
+ 				call SetUnitUserData(challenager,1)
+			else
+ 				call SimulateSpell(challenager,challenager,'A0M9',1,5,"silence",true,false,false)
+ 				call SetUnitUserData(challenager,0)
+			endif
+		else
+			call PauseTimer(GetExpiredTimer())
+			call DestroyTimer(GetExpiredTimer())
+			return
+		endif
+
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -452,7 +487,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 		//符合条件再开始
 	    if ((IsUnitType(GetBuyingUnit(), UNIT_TYPE_HERO) == true)) then
 	        if ((challenager == null)) then
-	            if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] != 10)) then
+	            if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] != 11)) then
 	            	//开始啦
 	                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战将在3秒后开始。" )
 	                
@@ -479,6 +514,14 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 						call EnableTrigger( TSpellXuemo1 )
 						call EnableTrigger( TSpellXuemo2 )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 5)) then
+	                    set challenager = CreateUnit(Player(10), 'O003', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )	
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )    
+
+						call EnableTrigger( TSpellWuxin )
+	                    call TimerStart(CreateTimer(),5,TRUE,function WuxinFlash)
+
+	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 6)) then
 	                    set challenager = CreateUnit(Player(10), 'Ogrh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    set attract = Attract.create(challenager,600,0.05,20)
 	                    call attract.start()
@@ -486,20 +529,20 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	                	call UnitAddAbilityBJ( 'Adtg', challenager )    
 
 						call EnableTrigger( TSpellFuwang )
-	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 6)) then
+	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 7)) then
 	                    set challenager = CreateUnit(Player(10), 'Hvsh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 
 						call EnableTrigger( TSpellMeidusha1 )
 						call EnableTrigger( TSpellMeidusha2 )
-	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 7)) then
+	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 8)) then
 	                    set challenager = CreateUnit(Player(10), 'Hpb2', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
 	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 
 						call EnableTrigger( TSpellKiller1 )
 						call EnableTrigger( TSpellKiller2 )
-	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 8)) then
+	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 9)) then
 	                    set challenager = CreateUnit(Player(10), 'Hlgr', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
@@ -509,7 +552,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 						call EnableTrigger( TSpellJinxuan2 )
 						call EnableTrigger( TSpellJinxuan3 )
 						call EnableTrigger( TSpellJinxuan4 )
-	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 9)) then
+	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 10)) then
 	                    set challenager = CreateUnit(Player(10), 'Hdgo', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 
 	                	call UnitAddAbilityBJ( 'A0F1', challenager )
@@ -653,6 +696,9 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	        call CreateItem( 'afac', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellXuemo1 )
 			call DisableTrigger( TSpellXuemo2 )
+	    elseif (ty == 'O003') then
+	        call CreateItem( 'I078', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
+			call DisableTrigger( TSpellWuxin )
 	    elseif (ty == 'Ogrh') then
 	        call CreateItem( 'pmna', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )
 			call DisableTrigger( TSpellFuwang )
@@ -736,6 +782,13 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	    call TriggerAddCondition(TSpellXuemo2, Condition(function TSpellXuemo2Con))
 	    call TriggerAddAction(TSpellXuemo2, function TSpellXuemo2Act)
 	    call DisableTrigger(TSpellXuemo2)
+
+    	//无心技能
+	    set TSpellWuxin = CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ( TSpellWuxin, EVENT_PLAYER_UNIT_ATTACKED )
+	    call TriggerAddCondition(TSpellWuxin, Condition(function TSpellWuxinCon))
+	    call TriggerAddAction(TSpellWuxin, function TSpellWuxinAct)
+	    call DisableTrigger(TSpellWuxin)
 
     	//斧王技能
 	    set TSpellFuwang = CreateTrigger()

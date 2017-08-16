@@ -96,6 +96,7 @@ library_once SpellBase requires LHBase
 		private real speed
 		private timer t
 		private boolean forbitHero
+		private boolean deathContinue
 
 		static method attract takes nothing returns nothing
 			local real x1
@@ -128,7 +129,9 @@ library_once SpellBase requires LHBase
 				endloop
 				call DestroyGroup(l_group)
 			else
-				call .destroy()
+				if not(.deathContinue) then
+					call .destroy()
+				endif
 			endif
 			set l_group = null
 			set l_unit =null
@@ -154,11 +157,16 @@ library_once SpellBase requires LHBase
 			set .interval = interval
 			set .speed = speed
 			set .forbitHero = false
+			set .deathContinue = false
 			return this
 		endmethod
 
 		method SetForbitHero takes nothing returns nothing
 			set .forbitHero = true
+		endmethod
+
+		method SetDeathContinue takes nothing returns nothing
+			set .deathContinue = true
 		endmethod
 
 		method start takes nothing returns nothing

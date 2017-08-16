@@ -3,12 +3,12 @@
 //! import "SpellBase.j"
 //! import "Juexing.j"
 //! import "Boss.j"
-//! import "Continous.j"
+/////! import "Continous.j"
 //! import "Chenji.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Continous,Chenji
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Chenji//,Continous
 	
 
 	globals
@@ -34,10 +34,10 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
         	exitwhen i > 6
         	if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
         		if (UnitItemInSlotBJ(u,i)!= null) then
-        			if (UnitItemInSlotBJ(u,i) != GetYeai()) then
+        			if (UnitItemInSlotBJ(u,i) != GetYeai() and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
 						call UnitAddItem( UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],UnitItemInSlotBJ(u,i))
         			else
-        				call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动")
+        				call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.")
         			endif
         		endif
         	endif

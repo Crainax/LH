@@ -225,6 +225,8 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         sound gg_snd_v_leitai
         sound gg_snd_v_mijing
         sound gg_snd_xinglong_4
+        sound gg_snd_xiaoting2
+        sound gg_snd_xiaoting1
 
         //传承区域
         rect gg_rct_Chuangcheng

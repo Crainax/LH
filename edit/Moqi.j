@@ -19,7 +19,7 @@ library_once Moqi  requires LHBase,Spin
 		set angle = AngleBetweenPoints(point1, point2)
 		call DisplayTextToPlayer(GetOwningPlayer(moqi), 0., 0., "|cFFFF66CC【消息】|r技能施放角度为"+R2S(angle)+"度.")
 		if (angle < 90.1 and angle > 89.9) then
-			call SetMoqiSpinOK(GetOwningPlayer(moqi))
+			debug call SetMoqiSpinOK(GetOwningPlayer(moqi))
 		endif
 
 		call RemoveLocation(point1)

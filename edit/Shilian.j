@@ -49,6 +49,9 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		//字的触发
 		private trigger TZhe = null
 		private trigger TXing = null
+
+		//吸怪的临
+		private Attract array ALin
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -157,7 +160,10 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		local integer id = GetConvertedPlayerId(p)
 
 		if (IShilianType[id] == 1) then
-			
+			set ALin[id] = Attract.create(udg_H[id],900,0.05,50)
+			call ALin[id].SetForbitHero()
+			call ALin[id].SetDeathContinue()
+		    call ALin[id].start()
 		elseif (IShilianType[id] == 2) then
 
 		elseif (IShilianType[id] == 3) then
@@ -184,7 +190,8 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		local integer id = GetConvertedPlayerId(p)
 
 		if (IShilianType[id] == 1) then
-
+		    call ALin[id].destroy()
+			set ALin[id] = 0
 		elseif (IShilianType[id] == 3) then
 			call UnitRemoveAbility(udg_H[id],'A0LC')
 		elseif (IShilianType[id] == 4) then
@@ -316,6 +323,9 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			//临
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 临|r定为你的试练内容.")
 			call UnitAddAbilityP(udg_H[id],'A0L7')
+			call AddAgiPercentImme(id,0.05)
+			call AddStrPercentImme(id,0.05)
+			call AddIntPercentImme(id,0.05)
 		elseif (index == 2) then
 			//兵
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 兵|r定为你的试练内容.")
@@ -380,6 +390,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			|cffff6800你可以通过双击(点击2次)Esc键
 			来开启主动技能.|r
 ")
+    	call SetPlayerTechResearchedSwap(  'R01K', 1 , p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -626,20 +637,20 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
         	endif
 			set IShilianTimes[GetConvertedPlayerId(PShilian)] = IShilianTimes[GetConvertedPlayerId(PShilian)] + 1
         	if (IShilianType[GetConvertedPlayerId(PShilian)] == 1) then
-        		        	
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 500 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 2) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 3) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 900
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 900 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 4) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 70
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 70 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 5) then
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 6) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 7) then
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 8) then
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 9) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 450
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 450 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	endif
         	call DisplayTextToPlayer(PShilian, 0., 0., "|cFFFF66CC【消息】|r你的主动技能时间充能至"+I2S(IShilianTime[GetConvertedPlayerId(PShilian)]/10)+"s.")
 			call ClearChuancheng()
@@ -678,7 +689,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
             return
 		endif
 
-		if (i == 1 or i == 5 or i == 7 or i == 8) then
+		if (i == 5 or i == 7 or i == 8) then
             call DisplayTextToPlayer( p, 0, 0, "|cFFFF66CC【消息】|r该挑战尚未开放,敬请期待." )
             return
 		endif

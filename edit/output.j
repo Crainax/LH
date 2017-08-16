@@ -67,11 +67,11 @@ constant boolean LIBRARY_Constant=true
 string diffculty= ""
 string SgameMode= ""
 		
-constant integer HERO_COUNT= 18
+constant integer HERO_COUNT= 19
 		
 constant boolean Huodong= false
 		
-constant integer PAGE_ACHIEVE= 9
+constant integer PAGE_ACHIEVE= 10
 constant integer PAGE_HERO_CHALLANGER= 2
 		
 integer renshu= 0
@@ -79,7 +79,7 @@ integer renshu= 0
 		
 integer mode= 0
 constant integer COUNT_WANJIE= 49
-integer Constant___WPointer= 1
+integer Constant__WPointer= 1
 //endglobals from Constant
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -255,6 +255,8 @@ sound gg_snd_sichen_4
 sound gg_snd_v_leitai
 sound gg_snd_v_mijing
 sound gg_snd_xinglong_4
+sound gg_snd_xiaoting2
+sound gg_snd_xiaoting1
 
         //传承区域
 rect gg_rct_Chuangcheng
@@ -318,6 +320,9 @@ boolean array BHideDamage
 
         //是否可以跳关
 boolean BSkipKuilei= false
+
+        //英雄死了
+boolean array BHeroDeath
 //endglobals from LHBase
 //globals from Attr:
 constant boolean LIBRARY_Attr=true
@@ -330,7 +335,7 @@ constant boolean LIBRARY_Printer=true
 //endglobals from Printer
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
-constant integer kUImmuteDamage=11
+constant integer kUImmuteDamage=8
 //endglobals from SpellBase
 //globals from Aura:
 constant boolean LIBRARY_Aura=true
@@ -346,17 +351,54 @@ boolean array Aura__shunHints
 constant boolean LIBRARY_Xiaoting=true
 		
 trigger Xiaoting__TSpellXiaoting= null
+trigger Xiaoting__TAttackXT= null
 		
 real Xiaoting__RDamageXiaoting= 0.
 
 		
-		//private integer ISpellState = 0
+integer Xiaoting__ISpellState= 0
 		
-integer Xiaoting__ICombo= 0
+real ICombo= 0
 
 		
 texttag Xiaoting__TTCombo= null
 
+		
+integer Xiaoting__IMaxCombo= 0
+timer Xiaoting__TArrow= null
+unit array Xiaoting__UArrow
+group array Xiaoting__GArrow
+		//整秒读数
+integer Xiaoting__IZhengmiao= 0
+		//反弹读秒
+integer Xiaoting__IFantan= 0
+		//绝焱读秒
+integer Xiaoting__IJueyan= 0
+		//静止布尔
+boolean Xiaoting__BJingzhi= false
+		//御箭
+boolean Xiaoting__BYujian= false
+		//穿刺
+boolean Xiaoting__BChuanci= false
+		//Combo判断
+		
+timer Xiaoting__TComboAdd= null
+integer Xiaoting__IAdd= 0
+
+		//两个科技(前者射出,后者未射出)
+unit Xiaoting__UJianKeji1= null
+unit Xiaoting__UJianKeji2= null
+
+			
+real Xiaoting__RAddtion= 0.
+
+
+		//攻击保留特效
+effect Xiaoting__EAttackXT= null
+integer Xiaoting__IAttackAdd= 0
+integer Xiaoting__ITimeAttackadd= 0
+
+		//
 //endglobals from Xiaoting
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -396,6 +438,7 @@ real array s__Attract_interval
 real array s__Attract_speed
 timer array s__Attract_t
 boolean array s__Attract_forbitHero
+boolean array s__Attract_deathContinue
 constant integer si__Missile=3
 integer si__Missile_F=0
 integer si__Missile_I=0
@@ -1973,7 +2016,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetVersion takes nothing returns string
-		return "3.316"
+		return "3.322"
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -2048,6 +2091,8 @@ endfunction
 			return 17
 		elseif ( heroType == 'Hapm' or heroType == 'H01I' ) then
 			return 18
+		elseif ( heroType == 'H01Y' ) then
+			return 19
 		endif
 		return 0
 	endfunction	
@@ -2091,6 +2136,8 @@ endfunction
 				set result="司宸"
 			elseif ( i == 18 ) then
 				set result="星胧"
+			elseif ( i == 19 ) then
+				set result="霄霆"
 			endif
 			return result
 	endfunction
@@ -2135,6 +2182,8 @@ endfunction
 			return 'A0IP'
 		elseif ( id == 18 ) then
 			return 'AEme'
+		elseif ( id == 19 ) then
+			return 'A0LJ'
 		endif
 		return 0
 	endfunction
@@ -2181,6 +2230,8 @@ endfunction
 			return "|cffffc000操作难度：★★☆☆☆|r"
 		elseif ( id == 18 ) then
 			return "|cffff4000操作难度：★★★★☆|r"
+		elseif ( id == 19 ) then
+			return "|cffff0000操作难度：★★★★★(极度不推荐新手使用)|r"
 		endif
 		return ""
 	endfunction
@@ -2224,6 +2275,8 @@ endfunction
 			set result="|cff993366司宸|r"
 		elseif ( i == 18 ) then
 			set result="|cff99cc00星胧|r"
+		elseif ( i == 19 ) then
+			set result="|cff00ff00霄霆|r"
 		endif
 		return result
 	endfunction
@@ -2269,7 +2322,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -2432,6 +2485,14 @@ endfunction
 			return GetColorString("【真言殿】")
 		elseif ( achieveID == 47 ) then
 			return GetColorString("【不败神话】")
+		elseif ( achieveID == 48 ) then
+			return GetColorString("【无上六界王】")
+		elseif ( achieveID == 49 ) then
+			return GetColorString("【荒神炼】")
+		elseif ( achieveID == 410 ) then
+			return GetColorString("【驻永恒】")
+		elseif ( achieveID == 411 ) then
+			return GetColorString("【创世篇】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -2588,6 +2649,14 @@ endfunction
 			return "真言殿"
 		elseif ( achieveID == 47 ) then
 			return "不败神话"
+		elseif ( achieveID == 48 ) then
+			return "无上六界王"
+		elseif ( achieveID == 49 ) then
+			return "荒神炼"
+		elseif ( achieveID == 410 ) then
+			return "驻永恒"
+		elseif ( achieveID == 411 ) then
+			return "创世篇"
 		endif
 		return ""
 	endfunction
@@ -2738,6 +2807,12 @@ endfunction
 			return "4人及以上游戏时,在击败人王傀儡与妖王傀儡时从未触发过BOSS生命联结技能.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif ( achieveID == 46 ) then
 			return "单次技能伤害达到300亿.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 49 ) then
+			return "从头到尾全地图同时存在的进攻怪从未超过20个.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 410 ) then
+			return "开局在第一波前输入-tz1进入挑战1,完成并通关.\n			该挑战下英雄攻击速度极慢,移动速度-10000000%.\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif ( achieveID == 411 ) then
+			return "开局在第一波前输入-tz2进入挑战2,完成并通关.\n			该挑战下英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)\n			\n			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!\n			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -2762,6 +2837,8 @@ endfunction
 			return I3(index == 7 , 327 , I3(index == 1 , 326 , index + 318))
 		elseif ( page == 9 ) then
 			return I3(index <= 4 , index + 327 , index + 38)
+		elseif ( page == 10 ) then
+			return I3(index == 1 , 49 , index + 408)
 		endif
 		return 0
 	endfunction
@@ -2808,6 +2885,8 @@ endfunction
 			return "通关|cff993366天魇|r"
 		elseif ( i == 3 ) then
 			return "连续登录20天"
+		elseif ( i == 4 ) then
+			return "所有英雄99次使用"
 		endif
 		return ""
 	endfunction
@@ -2852,121 +2931,123 @@ endfunction
 			return "通关隐藏难度|cff993366天魇|r(通关|cff008000万劫|r难度解锁)\n\n			完成该项挑战后你的名字将在以后始终置顶于|cff008000\"封帝万劫录\"|r中!\n			并获得四字成就名" + GetAchievementName(42) + "。"
 		elseif ( i == 3 ) then
 			return "在嘉年华活动版本中连续签到达20天.\n\n			完成该项挑战后可以在每次开局选英雄后接受来自六界的欢迎。\n			并获得四字成就名" + GetAchievementName(47) + "。"
+		elseif ( i == 4 ) then
+			return "全英雄99次达成!\n\n			完成该项挑战后每局游戏中在基地出现罩子时有着不一样的文字提醒哦!\n			并获得五字成就名" + GetAchievementName(48) + "。"
 		endif
 		return ""
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetWanjieluName takes nothing returns string
-		set Constant___WPointer=Constant___WPointer - 1
-		if ( Constant___WPointer <= 0 ) then
-			set Constant___WPointer=COUNT_WANJIE
+		set Constant__WPointer=Constant__WPointer - 1
+		if ( Constant__WPointer <= 0 ) then
+			set Constant__WPointer=COUNT_WANJIE
 		endif
 
-		if ( Constant___WPointer == 1 ) then
+		if ( Constant__WPointer == 1 ) then
 			return "八零大叔"
-		elseif ( Constant___WPointer == 2 ) then
+		elseif ( Constant__WPointer == 2 ) then
 			return "Wqnmmp丶"
-		elseif ( Constant___WPointer == 3 ) then
+		elseif ( Constant__WPointer == 3 ) then
 			return "满地打滚的猫猫"
-		elseif ( Constant___WPointer == 4 ) then
+		elseif ( Constant__WPointer == 4 ) then
 			return "暗夜魔王丶诺爹"
-		elseif ( Constant___WPointer == 5 ) then
+		elseif ( Constant__WPointer == 5 ) then
 			return "俏公子"
-		elseif ( Constant___WPointer == 6 ) then
+		elseif ( Constant__WPointer == 6 ) then
 			return "猫儿丶"
-		elseif ( Constant___WPointer == 7 ) then
+		elseif ( Constant__WPointer == 7 ) then
 			return "你把我灌醉。"
-		elseif ( Constant___WPointer == 8 ) then
+		elseif ( Constant__WPointer == 8 ) then
 			return "心亦"
-		elseif ( Constant___WPointer == 9 ) then
+		elseif ( Constant__WPointer == 9 ) then
 			return "灵魂的缠绵"
-		elseif ( Constant___WPointer == 10 ) then
+		elseif ( Constant__WPointer == 10 ) then
 			return "幻、神"
-		elseif ( Constant___WPointer == 11 ) then
+		elseif ( Constant__WPointer == 11 ) then
 			return "枫落秋扬"
-		elseif ( Constant___WPointer == 12 ) then
+		elseif ( Constant__WPointer == 12 ) then
 			return "深邃的孤独丶"
-		elseif ( Constant___WPointer == 13 ) then
+		elseif ( Constant__WPointer == 13 ) then
 			return "雷瑟守备最强王者"
-		elseif ( Constant___WPointer == 14 ) then
+		elseif ( Constant__WPointer == 14 ) then
 			return "你的牛奶呢丶"
-		elseif ( Constant___WPointer == 15 ) then
+		elseif ( Constant__WPointer == 15 ) then
 			return "浪逼康小帅"
-		elseif ( Constant___WPointer == 16 ) then
+		elseif ( Constant__WPointer == 16 ) then
 			return "浪逼郭小癞"
-		elseif ( Constant___WPointer == 17 ) then
+		elseif ( Constant__WPointer == 17 ) then
 			return "糖糖不在甜"
-		elseif ( Constant___WPointer == 18 ) then
+		elseif ( Constant__WPointer == 18 ) then
 			return "那天1234"
-		elseif ( Constant___WPointer == 19 ) then
+		elseif ( Constant__WPointer == 19 ) then
 			return "无缘之邪"
-		elseif ( Constant___WPointer == 20 ) then
+		elseif ( Constant__WPointer == 20 ) then
 			return "Flower丶God"
-		elseif ( Constant___WPointer == 21 ) then
+		elseif ( Constant__WPointer == 21 ) then
 			return "与你童在"
-		elseif ( Constant___WPointer == 22 ) then
+		elseif ( Constant__WPointer == 22 ) then
 			return "话唠。"
-		elseif ( Constant___WPointer == 23 ) then
+		elseif ( Constant__WPointer == 23 ) then
 			return "很烦很皮"
-		elseif ( Constant___WPointer == 24 ) then
+		elseif ( Constant__WPointer == 24 ) then
 			return "sky"
-		elseif ( Constant___WPointer == 25 ) then
+		elseif ( Constant__WPointer == 25 ) then
 			return "梦露丶baby"
-		elseif ( Constant___WPointer == 26 ) then
+		elseif ( Constant__WPointer == 26 ) then
 			return "丶念少。"
-		elseif ( Constant___WPointer == 27 ) then
+		elseif ( Constant__WPointer == 27 ) then
 			return "造世财"
-		elseif ( Constant___WPointer == 28 ) then
+		elseif ( Constant__WPointer == 28 ) then
 			return "0万物皆空0"
-		elseif ( Constant___WPointer == 29 ) then
+		elseif ( Constant__WPointer == 29 ) then
 			return "辉煌丶神偷"
-		elseif ( Constant___WPointer == 30 ) then
+		elseif ( Constant__WPointer == 30 ) then
 			return "我真的是你老子"
-		elseif ( Constant___WPointer == 31 ) then
+		elseif ( Constant__WPointer == 31 ) then
 			return "逸灬仙"
-		elseif ( Constant___WPointer == 32 ) then
+		elseif ( Constant__WPointer == 32 ) then
 			return "沐情"
-		elseif ( Constant___WPointer == 33 ) then
+		elseif ( Constant__WPointer == 33 ) then
 			return "星辰末日"
-		elseif ( Constant___WPointer == 34 ) then
+		elseif ( Constant__WPointer == 34 ) then
 			return "神天羽"
-		elseif ( Constant___WPointer == 35 ) then
+		elseif ( Constant__WPointer == 35 ) then
 			return "墙头蹲红杏"
-		elseif ( Constant___WPointer == 36 ) then
+		elseif ( Constant__WPointer == 36 ) then
 			return "7葡萄"
-		elseif ( Constant___WPointer == 37 ) then
+		elseif ( Constant__WPointer == 37 ) then
 			return "我鸡鸡贼大"
-		elseif ( Constant___WPointer == 38 ) then
+		elseif ( Constant__WPointer == 38 ) then
 			return "1 1"
-		elseif ( Constant___WPointer == 39 ) then
+		elseif ( Constant__WPointer == 39 ) then
 			return "枫烨桦"
-		elseif ( Constant___WPointer == 40 ) then
+		elseif ( Constant__WPointer == 40 ) then
 			return "夕子奈月"
-		elseif ( Constant___WPointer == 41 ) then
+		elseif ( Constant__WPointer == 41 ) then
 			return "司宸"
-		elseif ( Constant___WPointer == 42 ) then
+		elseif ( Constant__WPointer == 42 ) then
 			return "Ma—LePYe"
-		elseif ( Constant___WPointer == 43 ) then
+		elseif ( Constant__WPointer == 43 ) then
 			return "one丶lifeの爱"
-		elseif ( Constant___WPointer == 44 ) then
+		elseif ( Constant__WPointer == 44 ) then
 			return "树林里故事"
-		elseif ( Constant___WPointer == 45 ) then
+		elseif ( Constant__WPointer == 45 ) then
 			return "请带着我飞"
-		elseif ( Constant___WPointer == 46 ) then
+		elseif ( Constant__WPointer == 46 ) then
 			return "心雪"
-		elseif ( Constant___WPointer == 47 ) then
+		elseif ( Constant__WPointer == 47 ) then
 			return "Rascal丶恋情"
-		elseif ( Constant___WPointer == 48 ) then
+		elseif ( Constant__WPointer == 48 ) then
 			return "阴优"
-		elseif ( Constant___WPointer == 49 ) then
+		elseif ( Constant__WPointer == 49 ) then
 			return "至简i"
 		endif
 		return ""
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Constant___InitConstant takes nothing returns nothing
+ function Constant__InitConstant takes nothing returns nothing
   local integer i= 1
 		loop
 			exitwhen i > 6
@@ -3006,7 +3087,7 @@ endfunction
          return 0.
      endfunction 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -3557,7 +3638,7 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function LHBase___StartWanjieTimer takes nothing returns nothing
+    function LHBase__StartWanjieTimer takes nothing returns nothing
         local timer t= GetExpiredTimer()
         local integer id= GetHandleId(t)
         local integer value= LoadInteger(LHTable, id, 1)
@@ -3582,7 +3663,7 @@ endfunction
         set t=null
     endfunction
 //---------------------------------------------------------------------------------------------------
-    function LHBase___InitLHBase takes nothing returns nothing
+    function LHBase__InitLHBase takes nothing returns nothing
 
         local timer t= CreateTimer()
         local integer i= 1
@@ -3605,7 +3686,7 @@ endfunction
         set Uwanjie=CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14524.0, - 15446.0, 270.000)
 
         call SaveInteger(LHTable, GetHandleId(t), 1, 0)
-        call TimerStart(t, 2, true, function LHBase___StartWanjieTimer)
+        call TimerStart(t, 2, true, function LHBase__StartWanjieTimer)
 
 
         set t=null
@@ -3878,7 +3959,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 	
- function SpellBase___ImmuteDamageTimer takes nothing returns nothing
+ function SpellBase__ImmuteDamageTimer takes nothing returns nothing
   local timer t= GetExpiredTimer()
   local integer id= GetHandleId(t)
   local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
@@ -3894,7 +3975,7 @@ endfunction
   local timer t= CreateTimer()
 		call UnitAddAbility(u, 'Avul')
 		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
-		call TimerStart(t, time, false, function SpellBase___ImmuteDamageTimer)
+		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
 		set t=null
 	endfunction
 
@@ -3992,7 +4073,9 @@ endfunction
 				endloop
 				call DestroyGroup(l_group)
 			else
-				call sc__Attract_deallocate(this)
+				if not ( s__Attract_deathContinue[this] ) then
+					call sc__Attract_deallocate(this)
+				endif
 			endif
 			set l_group=null
 			set l_unit=null
@@ -4018,11 +4101,16 @@ endfunction
 			set s__Attract_interval[this]=interval
 			set s__Attract_speed[this]=speed
 			set s__Attract_forbitHero[this]=false
+			set s__Attract_deathContinue[this]=false
 			return this
   endfunction
 
   function s__Attract_SetForbitHero takes integer this returns nothing
 			set s__Attract_forbitHero[this]=true
+  endfunction
+
+  function s__Attract_SetDeathContinue takes integer this returns nothing
+			set s__Attract_deathContinue[this]=true
   endfunction
 
   function s__Attract_start takes integer this returns nothing
@@ -4785,26 +4873,47 @@ endfunction
 //library Aura ends
 //library Xiaoting:
 	
+
+
 //---------------------------------------------------------------------------------------------------
 	
-	
- function SimulateDamageXiaoting takes unit u returns boolean
+    function Xiaoting__TAttackXTCon takes nothing returns boolean
+    	return GetAttacker() == xiaoting
+    endfunction
+    
+    function Xiaoting__TAttackXTAct takes nothing returns nothing
+     local integer attack= IMinBJ(500000000, Xiaoting__IAttackAdd + GetHeroAgi(xiaoting, true) / 4)
+    	if ( Xiaoting__EAttackXT == null ) then
+			set Xiaoting__EAttackXT=AddSpecialEffectTargetUnitBJ("overhead", xiaoting, "Abilities\\Spells\\Human\\InnerFire\\InnerFireTarget.mdl")
+    	endif
+    	call AddAttack(xiaoting , attack - Xiaoting__IAttackAdd)
+    	set Xiaoting__IAttackAdd=attack
+    	set Xiaoting__ITimeAttackadd=5
+    endfunction
 
-		return false
-	endfunction
+    //时间减少
+    function Xiaoting__AttackTimeReduce takes nothing returns nothing
+    	set Xiaoting__ITimeAttackadd=IMaxBJ(0, Xiaoting__ITimeAttackadd - 1)
+    	if ( Xiaoting__ITimeAttackadd == 0 and Xiaoting__EAttackXT != null ) then
+    		call DestroyEffect(Xiaoting__EAttackXT)
+    		set Xiaoting__EAttackXT=null
+	    	call AddAttack(xiaoting , 0 - Xiaoting__IAttackAdd)
+	    	set Xiaoting__IAttackAdd=0
+    	endif
+    endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__GetComboMulti takes nothing returns integer
 
-		if not ( (GetPlayerTechCountSimple('R007', GetOwningPlayer((xiaoting))) == 1) and GetUnitAbilityLevel(xiaoting, 'AX30') == 1 ) then // INLINED!!
+		if not ( (GetPlayerTechCountSimple('R008', GetOwningPlayer((xiaoting))) == 1) and GetUnitAbilityLevel(xiaoting, 'A0LZ') == 1 ) then // INLINED!!
 			return 1
 		endif
 
-		if ( Xiaoting__ICombo > 1000 ) then
+		if ( ICombo > 1000 ) then
 			return 4
-		elseif ( Xiaoting__ICombo > 100 ) then
+		elseif ( ICombo > 100 ) then
 			return 3
-		elseif ( Xiaoting__ICombo > 10 ) then
+		elseif ( ICombo > 10 ) then
 			return 2
 		else
 			return 1
@@ -4812,91 +4921,550 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Xiaoting__Guanhongjian takes nothing returns nothing
-		
-			
+	
+ function SimulateDamageXiaoting takes unit u returns boolean
+		//绝焱
+		if ( GetUnitTypeId(u) == 'h022' ) then
+			call UnitDamageTarget(xiaoting, GetTriggerUnit(), Xiaoting__RDamageXiaoting * 0.3 * Xiaoting__GetComboMulti(), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			return true
+		endif
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__SetShe1Tech takes nothing returns nothing
+		if ( Xiaoting__UJianKeji2 != null ) then
+			call RemoveUnit(Xiaoting__UJianKeji2)
+			set Xiaoting__UJianKeji2=null
+		endif
+		if ( Xiaoting__UJianKeji1 == null ) then
+			set Xiaoting__UJianKeji1=CreateUnit(GetOwningPlayer(xiaoting), 'h01Z', 0, 0, 0)
+			call ShowUnitHide(Xiaoting__UJianKeji1)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__SetShe2Tech takes nothing returns nothing
+		if ( Xiaoting__UJianKeji1 != null ) then
+			call RemoveUnit(Xiaoting__UJianKeji1)
+			set Xiaoting__UJianKeji1=null
+		endif
+		if ( Xiaoting__UJianKeji2 == null ) then
+			set Xiaoting__UJianKeji2=CreateUnit(GetOwningPlayer(xiaoting), 'h020', 0, 0, 0)
+			call ShowUnitHide(Xiaoting__UJianKeji2)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__ClearRestArrow takes integer start returns nothing
+  local integer i= start
+		loop
+			exitwhen i > 16
+			if ( Xiaoting__UArrow[i] != null ) then
+				call RemoveUnit(Xiaoting__UArrow[i])
+				set Xiaoting__UArrow[i]=null
+				call DestroyGroup(Xiaoting__GArrow[i])
+				set Xiaoting__GArrow[i]=null
+			endif
+			set i=i + 1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__ClearAllArrow takes nothing returns nothing
+		call PauseTimer(Xiaoting__TArrow)
+		call DestroyTimer(Xiaoting__TArrow)
+		set Xiaoting__IZhengmiao=0
+		set Xiaoting__TArrow=null
+		call Xiaoting__ClearRestArrow(1)
+		set Xiaoting__IFantan=0
+		set Xiaoting__IJueyan=0
+		set Xiaoting__BJingzhi=false
+		set Xiaoting__BYujian=false
+		call Xiaoting__SetShe1Tech()
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__CreateJueyan takes unit u returns nothing
+  local unit temp= CreateUnit(GetOwningPlayer(xiaoting), 'h022', GetUnitX(u), GetUnitY(u), 0)
+		call UnitApplyTimedLifeBJ(3.00, 'BHwe', temp)
+		set temp=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__FantanFilter takes nothing returns boolean
+		return GetUnitTypeId(GetFilterUnit()) == 'hwtw' or GetUnitTypeId(GetFilterUnit()) == 'h021'
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__ChangeFacing takes integer i,real facing returns nothing
+  local unit temp= CreateUnit(GetOwningPlayer(xiaoting), 'h024', GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i]), facing)
+		call RemoveUnit(Xiaoting__UArrow[i])
+		set Xiaoting__UArrow[i]=temp
+		set temp=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__FlashArrowMove takes integer index returns nothing
+  local real x= GetUnitX(Xiaoting__UArrow[index])
+  local real y= GetUnitY(Xiaoting__UArrow[index])
+        local real xp= x + 100. * CosBJ(GetUnitFacing(Xiaoting__UArrow[index]))
+        local real yp= y + 100. * SinBJ(GetUnitFacing(Xiaoting__UArrow[index]))
+        local group l_group= null
+        local unit l_unit
+        local integer times= Xiaoting__GetComboMulti()
+        local real radius= 300
+        local integer IBing= 0
+
+        //如果英雄死亡则清除
+        if ( BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(xiaoting))] ) then
+        	call Xiaoting__ClearAllArrow()
+        	return
+        endif
+        //御箭
+        if ( Xiaoting__BYujian and index == 1 ) then
+    		call RecoverUnitHP(xiaoting , 0.1)
+        	call SetUnitManaPercentBJ(xiaoting, 100)
+        	call SetUnitX(xiaoting, GetUnitX(Xiaoting__UArrow[1]))
+        	call SetUnitY(xiaoting, GetUnitY(Xiaoting__UArrow[1]))
+        endif
+
+        //绝焱
+        if ( Xiaoting__IJueyan > 0 ) then
+        	if ( ModuloInteger(Xiaoting__IZhengmiao, 3) == 0 ) then
+        		call Xiaoting__CreateJueyan(Xiaoting__UArrow[index])
+        	endif
+        endif
+
+        if ( Xiaoting__BJingzhi ) then
+        	if ( Xiaoting__IZhengmiao == 1 ) then
+        		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Charm\\CharmTarget.mdl", GetUnitX(Xiaoting__UArrow[index]), GetUnitY(Xiaoting__UArrow[index])))
+        	endif
+        	return
+        endif
+
+        set l_group=CreateGroup()
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        loop
+            set l_unit=FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if ( IsEnemy(l_unit , xiaoting) and not ( IsUnitInGroup(l_unit, Xiaoting__GArrow[index]) ) ) then
+            	call UnitDamageTarget(xiaoting, l_unit, Xiaoting__RDamageXiaoting, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+            	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
+            	call GroupAddUnit(Xiaoting__GArrow[index], l_unit)
+            	if ( Xiaoting__BChuanci ) then
+	            	call UnitDamageTarget(xiaoting, l_unit, Xiaoting__RDamageXiaoting * 2.5 * ( 0.5 * ( times + 1 ) ), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+	            	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))
+	            	set Xiaoting__BChuanci=false
+            	endif
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group=null
+        set l_unit=null
+
+        set l_group=CreateGroup()
+        call GroupEnumUnitsInRange(l_group, xp, yp, 100, Condition(function Xiaoting__FantanFilter))
+        set IBing=I3(CountUnitsInGroup(l_group) > 0 , GetUnitUserData(FirstOfGroup(l_group)) , 0)
+        call DestroyGroup(l_group)
+        set l_group=null
+
+        //反弹与静滞
+    	if ( IsTerrainPathable(xp, yp, PATHING_TYPE_WALKABILITY) or IBing != 0 ) then
+    		if ( xp > yd_MapMaxX or xp < yd_MapMinX ) then
+					call Xiaoting__ChangeFacing(index , 180 - GetUnitFacing(Xiaoting__UArrow[index]))
+        			return
+        	elseif ( yp > yd_MapMaxY or yp < yd_MapMinY ) then
+					call Xiaoting__ChangeFacing(index , - GetUnitFacing(Xiaoting__UArrow[index]))
+        			return
+    		endif
+
+	        if ( Xiaoting__IFantan > 0 ) then
+        		if ( IBing != 0 ) then
+        			call GroupClear(Xiaoting__GArrow[index])
+					call Xiaoting__ChangeFacing(index , R3(IBing >= 1000 , 180 + GetUnitFacing(Xiaoting__UArrow[index]) , 2 * IBing - GetUnitFacing(Xiaoting__UArrow[index])))
+					return
+        		endif
+        		if not ( IsTerrainPathable(xp, y, PATHING_TYPE_WALKABILITY) ) then
+        			call GroupClear(Xiaoting__GArrow[index])
+					call Xiaoting__ChangeFacing(index , - GetUnitFacing(Xiaoting__UArrow[index]))
+        		elseif not ( IsTerrainPathable(x, yp, PATHING_TYPE_WALKABILITY) ) then
+        			call GroupClear(Xiaoting__GArrow[index])
+					call Xiaoting__ChangeFacing(index , 180 - GetUnitFacing(Xiaoting__UArrow[index]))
+        		elseif not ( IsTerrainPathable(x, y, PATHING_TYPE_WALKABILITY) ) then
+					call Xiaoting__ChangeFacing(index , 180 + GetUnitFacing(Xiaoting__UArrow[index]))
+        			call GroupClear(Xiaoting__GArrow[index])
+        		else
+		        	call SetUnitX(Xiaoting__UArrow[index], (RMinBJ(RMaxBJ(((xp)*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+		        	call SetUnitY(Xiaoting__UArrow[index], (RMinBJ(RMaxBJ(((yp)*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+        		endif
+        	else
+	        	call SetUnitX(Xiaoting__UArrow[index], (RMinBJ(RMaxBJ(((xp)*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+	        	call SetUnitY(Xiaoting__UArrow[index], (RMinBJ(RMaxBJ(((yp)*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+			endif
+    	else
+        	call SetUnitX(Xiaoting__UArrow[index], (RMinBJ(RMaxBJ(((xp)*1.0), yd_MapMinX), yd_MapMaxX))) // INLINED!!
+        	call SetUnitY(Xiaoting__UArrow[index], (RMinBJ(RMaxBJ(((yp)*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+    	endif
+
+	endfunction
+
+ function Xiaoting__FlashArrowMoveTimer takes nothing returns nothing
+  local integer i= 1
+
+		set Xiaoting__IZhengmiao=I3(Xiaoting__IZhengmiao >= 20 , 1 , Xiaoting__IZhengmiao + 1)
+		if ( Xiaoting__IZhengmiao == 1 ) then
+			set Xiaoting__IFantan=I3(Xiaoting__IFantan > 0 , Xiaoting__IFantan - 1 , 0)
+			set Xiaoting__IJueyan=I3(Xiaoting__IJueyan > 0 , Xiaoting__IJueyan - 1 , 0)
+		endif
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] != null ) then
+				call Xiaoting__FlashArrowMove(i)
+			endif
+			set i=i + 1
+		endloop
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function Xiaoting__Guanhongjian takes real x,real y,real facing,boolean spellID returns nothing
+  local integer i= 1
+		call Xiaoting__SetShe2Tech()
+		if ( spellID ) then
+	    	call PrintSpellAdd((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( Xiaoting__RDamageXiaoting * Xiaoting__GetComboMulti())*1.0) , "") // INLINED!!
+		endif
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] == null ) then
+				set Xiaoting__UArrow[i]=CreateUnit(GetOwningPlayer(xiaoting), 'h024', x, y, facing)
+				if ( Xiaoting__TArrow == null ) then
+					set Xiaoting__TArrow=CreateTimer()
+					set Xiaoting__IZhengmiao=1
+					call TimerStart(Xiaoting__TArrow, 0.05, true, function Xiaoting__FlashArrowMoveTimer)
+				endif
+				set Xiaoting__GArrow[i]=CreateGroup()
+				return
+			endif
+			set i=i + 1
+		endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Zhefan takes nothing returns nothing
-		
-			
+		set Xiaoting__IFantan=Xiaoting__IFantan + 10
+	    call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "折返剩余时间" + I2S(Xiaoting__IFantan) + "s.")
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Yanzhi takes nothing returns nothing
-			
+  local integer i= 1
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] != null ) then
+				call DamageArea(xiaoting , GetUnitX(Xiaoting__UArrow[i]) , GetUnitY(Xiaoting__UArrow[i]) , 600 * ( 0.5 * ( Xiaoting__GetComboMulti() + 1 ) ) , Xiaoting__RDamageXiaoting)
+				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i])))
+			endif
+			set i=i + 1
+		endloop
+		call Xiaoting__ClearAllArrow()
+	    call PrintSpellAdd((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId()) ) , (( Xiaoting__RDamageXiaoting)*1.0) , "") // INLINED!!
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Chenmo takes nothing returns nothing
-			
+  local integer i= 1
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] != null ) then
+				call Xiaoting__ChangeFacing(i , GetFacingBetweenXY(GetUnitX(Xiaoting__UArrow[i]) , GetUnitY(Xiaoting__UArrow[i]) , GetSpellTargetX() , GetSpellTargetY()))
+			    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i])))
+			endif
+			set i=i + 1
+		endloop
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Zhuixin takes nothing returns nothing
-			
+  local integer i= 1
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] != null ) then
+				call Xiaoting__ChangeFacing(i , GetFacingBetweenXY(GetUnitX(Xiaoting__UArrow[i]) , GetUnitY(Xiaoting__UArrow[i]) , GetUnitX(xiaoting) , GetUnitY(xiaoting)))
+			    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i])))
+			endif
+			set i=i + 1
+		endloop
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Bingqiang takes nothing returns nothing
-			
+     local integer i= 1
+     local real facing= Atan2BJ(GetSpellTargetY() - GetUnitY(xiaoting), GetSpellTargetX() - GetUnitX(xiaoting))
+     local unit u= null
+	    loop
+	    	exitwhen i > ( 6 + 4 * Xiaoting__GetComboMulti() )
+	    	set u=CreateUnit(GetOwningPlayer(xiaoting), 'hwtw', (RMinBJ(RMaxBJ(((GetUnitX(xiaoting) + 200.00 * I2R(i) * CosBJ(facing))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(xiaoting) + 200.00 * I2R(i) * SinBJ(facing))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
+	    	if ( i == 1 or i == ( 6 + 4 * Xiaoting__GetComboMulti() ) ) then
+
+	    	endif
+	    	call SetUnitUserData(u, R2I(facing) + I3(( i == 1 or i == ( 6 + 4 * Xiaoting__GetComboMulti() ) ) , 2000 , 0))
+	    	call UnitApplyTimedLifeBJ(60.00, 'BHwe', u)
+	    	set i=i + 1
+	    endloop
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
+	    set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+ function Xiaoting__JingtiTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local real intTimes= LoadReal(spellTable, GetHandleId(t), 1)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xiaoting)) , - 1 * intTimes)
+		call FlushChildHashtable(spellTable, GetHandleId(t))
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		set t=null
+	endfunction
+
  function Xiaoting__Jingti takes nothing returns nothing
-			
+  local real intTimes= Xiaoting__GetComboMulti() * 0.25
+  local timer t= CreateTimer()
+		call SaveReal(spellTable, GetHandleId(t), 1, intTimes)
+		call TimerStart(t, 30, false, function Xiaoting__JingtiTimer)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xiaoting)) , intTimes)
+		call YDWETimerDestroyEffect(30 , AddSpecialEffectTargetUnitBJ("overhead", xiaoting, "war3mapImported\\state_xiaoting.mdx"))
+	    call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "成功增加" + I2S(Xiaoting__GetComboMulti() * 25) + "%的敏捷，持续30秒。")
+	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Fenlie takes nothing returns nothing
-			
+  local integer i= 1
+  local integer max= 0
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] == null ) then
+				set max=i - 1
+				exitwhen true
+			endif
+			set i=i + 1
+		endloop
+		set i=1
+		loop
+			exitwhen i > max
+			if ( Xiaoting__UArrow[i] != null ) then
+				call Xiaoting__Guanhongjian(GetUnitX(Xiaoting__UArrow[i]) , GetUnitY(Xiaoting__UArrow[i]) , GetUnitFacing(Xiaoting__UArrow[i]) + GetRandomReal(- 15, 15) , false)
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\MirrorImage\\MirrorImageCaster.mdl", GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i])))
+			endif
+			set i=i + 1
+		endloop
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Shunti takes nothing returns nothing
-			
+  local integer i= 1
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] != null ) then
+			    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkCaster.mdl", GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i])))
+			    call SetUnitX(Xiaoting__UArrow[i], GetUnitX(xiaoting))
+				call SetUnitY(Xiaoting__UArrow[i], GetUnitY(xiaoting))
+			endif
+			set i=i + 1
+		endloop
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+    function Xiaoting__DuyueTimer takes nothing returns nothing
+     local timer t= GetExpiredTimer()
+     local integer id= GetHandleId(t)
+     local integer attract= LoadInteger(spellTable, id, 1)
+    	call s__Attract_deallocate(attract)
+		call PauseTimer(t)
+		call FlushChildHashtable(spellTable, id)
+		call DestroyTimer(t)
+    	set t=null
+    endfunction
+
  function Xiaoting__Duyue takes nothing returns nothing
-			
+  local integer i= 1
+     local timer t= CreateTimer()
+     local integer attract= s__Attract_create(xiaoting , 900 * Xiaoting__GetComboMulti() , 0.05 , 50 * Xiaoting__GetComboMulti())
+	    call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "范围" + I2S(900 * Xiaoting__GetComboMulti()) + ".")
+		call YDWETimerDestroyEffect(5 , AddSpecialEffectTargetUnitBJ("overhead", xiaoting, "war3mapImported\\hole.mdl"))
+		set s__Attract_forbitHero[(attract)]=true // INLINED!!
+		set s__Attract_deathContinue[(attract)]=true // INLINED!!
+	    call s__Attract_start(attract)
+	    call SaveInteger(spellTable, GetHandleId(t), 1, attract)
+	    call TimerStart(t, 5, false, function Xiaoting__DuyueTimer)
+	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Yujian takes nothing returns nothing
-			
+		set Xiaoting__BYujian=not ( Xiaoting__BYujian )
+		if ( Xiaoting__BYujian ) then
+			call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "开启御箭形态.")
+		else
+			call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "关闭御箭形态.")
+		endif
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Jueyan takes nothing returns nothing
-			
+		set Xiaoting__IJueyan=Xiaoting__IJueyan + 10
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Jingzhi takes nothing returns nothing
-			
+		set Xiaoting__BJingzhi=not ( Xiaoting__BJingzhi )
+		if ( Xiaoting__BJingzhi ) then
+			call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "开启静滞形态.")
+		else
+			call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "关闭静滞形态.")
+		endif
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Jianling takes nothing returns nothing
-			
+  local integer times= Xiaoting__GetComboMulti()
+  local integer attack= IMinBJ(1000000000, ( GetHeroInt(xiaoting, true) + (LoadInteger(YDHT, GetHandleId((xiaoting)), 0x5039AFFB)) ) * 4) // INLINED!!
+  local integer defense=( GetHeroAgi(xiaoting, true) / 100 + (LoadInteger(YDHT, GetHandleId((xiaoting)), 0x81FD3994)) ) // INLINED!!
+  local integer hp=( GetHeroStr(xiaoting, true) * 10 + (LoadInteger(YDHT, GetHandleId((xiaoting)), 0xFCD961C9)) ) // INLINED!!
+  local unit u
+  local integer i= 1
+		loop
+			exitwhen i > Xiaoting__IMaxCombo
+			if ( Xiaoting__UArrow[i] != null ) then
+				set u=CreateUnit(GetOwningPlayer(xiaoting), 'n01V', GetUnitX(Xiaoting__UArrow[i]), GetUnitY(Xiaoting__UArrow[i]), 0)
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\AnimateDead\\AnimateDeadTarget.mdl", GetUnitX(u), GetUnitY(u)))
+				call UnitApplyTimedLifeBJ(180.00, 'BHwe', u)
+				call SetAttack(u , attack)
+				call SetDefense(u , defense)
+				call SetHP(u , hp)
+			endif
+			set i=i + 1
+		endloop
+	    call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
+	    set u=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Chuanci takes nothing returns nothing
-			
+		set Xiaoting__BChuanci=true
+		call PrintSpellContent(GetOwningPlayer(xiaoting) , GetAbilityName(GetSpellAbilityId()) , "穿透就绪.")
+	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting)))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+ function Xiaoting__PingzhangTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit u= LoadUnitHandle(spellTable, id, 1)
+  local group l_group= CreateGroup()
+  local unit l_unit
+		if ( IsUnitAliveBJ(u) ) then
+			call GroupEnumUnitsInRange(l_group, GetUnitX(u), GetUnitY(u), 600, null)
+			loop
+			    set l_unit=FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+			    if ( IsAlly(l_unit , xiaoting) ) then
+			    	call RecoverUnitHP(l_unit , 0.3)
+			    	call RecoverUnitMP(l_unit , 20)
+			    endif
+			endloop
+			call DestroyGroup(l_group)
+			set l_group=null
+			set l_unit=null
+		else
+			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)) , - 0.3)
+			call RemoveUnit(u)
+			call FlushChildHashtable(spellTable, id)
+			call PauseTimer(t)
+			call DestroyTimer(t)
+		endif
+		set u=null
+		set t=null
+		call DestroyGroup(l_group)
+		set l_unit=null
+		set l_group=null
+	endfunction
+
  function Xiaoting__Pingzhang takes nothing returns nothing
-			
+  local integer i= 1
+  local unit u= null
+  local timer t= CreateTimer()
+  local unit temp= CreateUnit(GetOwningPlayer(xiaoting), 'h023', GetUnitX(xiaoting), GetUnitY(xiaoting), 0)
+		call UnitApplyTimedLifeBJ(20 + 10 * Xiaoting__GetComboMulti(), 'BHwe', temp)
+		call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)) , 0.3)
+		call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
+		loop
+			exitwhen i > 24
+			set u=CreateUnit(GetOwningPlayer(xiaoting), 'h021', (RMinBJ(RMaxBJ(((GetUnitX(xiaoting) + 600 * CosBJ(i * 15))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(xiaoting) + 600 * SinBJ(i * 15))*1.0), yd_MapMinY), yd_MapMaxY)), 0) // INLINED!!
+	    	call SetUnitUserData(u, i * 15 + 90)
+ 			call UnitApplyTimedLifeBJ(20 + 10 * Xiaoting__GetComboMulti(), 'BHwe', u)
+			set i=i + 1
+		endloop
+		//不断伤害
+		call SaveUnitHandle(spellTable, GetHandleId(t), 1, temp)
+		call TimerStart(t, 1, true, function Xiaoting__PingzhangTimer)
+        call PlaySoundBJ(gg_snd_xiaoting1)
+		//快速升级
+		set t=null
+		set u=null
+		set temp=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__Jianjuetianji takes nothing returns nothing
-
-			
+		call DestroyEffect(AddSpecialEffect("war3mapImported\\xiaoting_pingzhang.mdx", GetUnitX(xiaoting), GetUnitY(xiaoting)))
+		call UnitRemoveAbility(xiaoting, 'A0LN')
+		call UnitRemoveAbility(xiaoting, 'A0LT')
+		call UnitRemoveAbility(xiaoting, 'A0LY')
+		call UnitRemoveAbility(xiaoting, 'A0LZ')
+		call UnitRemoveAbility(xiaoting, 'A0LO')
+		call UnitRemoveAbility(xiaoting, 'A0LR')
+		call UnitRemoveAbility(xiaoting, 'A0LV')
+		call UnitRemoveAbility(xiaoting, 'A0M0')
+		call UnitRemoveAbility(xiaoting, 'A0LP')
+		call UnitRemoveAbility(xiaoting, 'A0LU')
+		call UnitRemoveAbility(xiaoting, 'A0LW')
+		call UnitRemoveAbility(xiaoting, 'A0M1')
+		call UnitRemoveAbility(xiaoting, 'A0LQ')
+		call UnitRemoveAbility(xiaoting, 'A0LS')
+		call UnitRemoveAbility(xiaoting, 'A0LX')
+		call UnitRemoveAbility(xiaoting, 'A0M2')
+		call UnitAddAbility(xiaoting, 'A0LN')
+		call UnitAddAbility(xiaoting, 'A0LT')
+		call UnitAddAbility(xiaoting, 'A0LY')
+		call UnitAddAbility(xiaoting, 'A0LZ')
+		call UnitAddAbility(xiaoting, 'A0LO')
+		call UnitAddAbility(xiaoting, 'A0LR')
+		call UnitAddAbility(xiaoting, 'A0LV')
+		call UnitAddAbility(xiaoting, 'A0M0')
+		call UnitAddAbility(xiaoting, 'A0LP')
+		call UnitAddAbility(xiaoting, 'A0LU')
+		call UnitAddAbility(xiaoting, 'A0LW')
+		call UnitAddAbility(xiaoting, 'A0M1')
+		call UnitAddAbility(xiaoting, 'A0LQ')
+		call UnitAddAbility(xiaoting, 'A0LS')
+		call UnitAddAbility(xiaoting, 'A0LX')
+		call UnitAddAbility(xiaoting, 'A0M2')
+		set ICombo=ICombo * 2
+		call PrintSpellContent((GetOwningPlayer(xiaoting) ) , ( GetAbilityName(GetSpellAbilityId())) , "") // INLINED!!
+        call PlaySoundBJ(gg_snd_xiaoting2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -4905,16 +5473,44 @@ endfunction
 	endfunction
 
  function Xiaoting__FlashComboData takes nothing returns nothing
-		set Xiaoting__ICombo=IMaxBJ(R2I(0.98 * ( Xiaoting__ICombo - 1 )), 0)
-		call SetTextTagTextBJ(Xiaoting__TTCombo, I2S(Xiaoting__ICombo) + "Combo:" + I2S(Xiaoting__ICombo), 20)
+  local integer index= GetConvertedPlayerId(GetOwningPlayer(xiaoting))
+  local integer ILimit= 0
+  local real delta= 0.
+		set ICombo=RMaxBJ(0.99 * ICombo, 0.)
+		set ILimit=R2I(ICombo)
+		call SetTextTagTextBJ(Xiaoting__TTCombo, "Combo:" + R2S(ICombo), 20)
+
+		if ( Xiaoting__GetComboMulti() == 4 and Xiaoting__IMaxCombo != 16 ) then
+			set Xiaoting__IMaxCombo=16
+		elseif ( Xiaoting__GetComboMulti() == 3 and Xiaoting__IMaxCombo != 12 ) then
+			set Xiaoting__IMaxCombo=12
+			call Xiaoting__ClearRestArrow(13)
+		elseif ( Xiaoting__GetComboMulti() == 2 and Xiaoting__IMaxCombo != 8 ) then
+			set Xiaoting__IMaxCombo=8
+			call Xiaoting__ClearRestArrow(9)
+		elseif ( Xiaoting__GetComboMulti() == 1 and Xiaoting__IMaxCombo != 4 ) then
+			set Xiaoting__IMaxCombo=4
+			call Xiaoting__ClearRestArrow(5)
+		endif
+		set ILimit=IMinBJ(ILimit, 2000)
+		set delta=I2R(( ( ILimit / 10 ) * 10 )) / 1000.
+		if ( Xiaoting__RAddtion != delta ) then
+
+			call AddStrPercent(index , delta - Xiaoting__RAddtion)
+			call AddIntPercent(index , delta - Xiaoting__RAddtion)
+			call AddAgiPercent(index , delta - Xiaoting__RAddtion)
+			set Xiaoting__RAddtion=delta
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting)))
+    		call CreateTextTagA((I2S(R2I(delta * 100)) + "%全属性提高" ) , ( xiaoting ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 3)*1.0) , 16) // INLINED!!
+		endif
 	endfunction
+
 
 //---------------------------------------------------------------------------------------------------
 
 	
  function Xiaoting__InitCombo takes nothing returns nothing
-
-		set Xiaoting__ICombo=0
+		set ICombo=0
 		set Xiaoting__TTCombo=CreateTextTagUnitBJ("Combo:0", xiaoting, 0, 20, 100, 0, 50, 0)
 		call TimerStart(CreateTimer(), 0.05, true, function Xiaoting__FlashComboPos)
 		call TimerStart(CreateTimer(), 1, true, function Xiaoting__FlashComboData)
@@ -4924,44 +5520,83 @@ endfunction
 	
  function Xiaoting__SetSpellSet takes integer i returns nothing
 
-		//set ISpellState = i
+		set Xiaoting__ISpellState=i
 		if ( i == 0 ) then
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX13', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX23', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX33', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX43', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX10', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX20', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX30', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX40', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LO', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LR', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LV', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M0', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LN', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LT', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LY', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LZ', true)
 		elseif ( i == 1 ) then
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX10', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX20', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX30', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX40', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX11', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX21', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX31', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX41', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LN', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LT', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LY', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LZ', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LQ', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LS', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LX', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M2', true)
 		elseif ( i == 2 ) then
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX11', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX21', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX31', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX41', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX12', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX22', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX32', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX42', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LQ', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LS', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LX', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M2', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LP', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LU', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LW', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M1', true)
 		elseif ( i == 3 ) then
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX12', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX22', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX32', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX42', false)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX13', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX23', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX33', true)
-			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AX43', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LP', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LU', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LW', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M1', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LO', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LR', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LV', true)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M0', true)
 		endif
+	endfunction
+
+
+//---------------------------------------------------------------------------------------------------
+	
+	//判断16个都是否一致
+
+	//判断4个都是否不在同一套中
+
+	
+ function Xiaoting__ComboDuan takes nothing returns nothing
+		set Xiaoting__IAdd=0
+    	call CreateTextTagA(("Combo连加断了" ) , ( xiaoting ) , (( 0 )*1.0) , (( 100 )*1.0) , (( 0 )*1.0) , (( 3)*1.0) , 16) // INLINED!!
+	endfunction
+
+ function Xiaoting__AddCombo takes nothing returns nothing
+		if not ( (GetPlayerTechCountSimple('R006', GetOwningPlayer((xiaoting))) == 1) == true and GetUnitAbilityLevel(xiaoting, 'A0LT') == 1 ) then // INLINED!!
+			return
+		endif
+		set Xiaoting__IAdd=Xiaoting__IAdd + 1
+		//set IComboPointer = I3(IComboPointer>=16,1,IComboPointer+1)
+		//set IComboHistory[IComboPointer] = GetSpellAbilityId()
+		//set ITypePointer = I3(ITypePointer>=4,1,ITypePointer + 1)
+		//set ITypeHistory[ITypePointer] = ISpellState
+
+		//if (Judge16Same()) then
+		//	call SetUnitLifePercentBJ(xiaoting,100)
+		//	call SetUnitManaPercentBJ(xiaoting,100)
+		//	set add = 25 * IJ3(xiaoting,2,1)
+		//elseif (Judge4Same()) then
+	    //	call RecoverUnitHP(xiaoting,0.2)
+	    //	call RecoverUnitMP(xiaoting,50)
+		//	set add = 5 * IJ3(xiaoting,2,1)
+	    //else
+		//	set add = 1 * IJ3(xiaoting,2,1)
+		//endif
+		set ICombo=ICombo + Xiaoting__IAdd
+		call TimerStart(Xiaoting__TComboAdd, 2, false, function Xiaoting__ComboDuan)
+    	call CreateTextTagA(("Combo+" + I2S(Xiaoting__IAdd) ) , ( xiaoting ) , (( 100 )*1.0) , (( 0 )*1.0) , (( 0 )*1.0) , (( 3)*1.0) , 16) // INLINED!!
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -4969,79 +5604,108 @@ endfunction
 
  function Xiaoting__TSpellXiaotingAct takes nothing returns nothing
 		//切换技能套
-		if ( GetSpellAbilityId() == 'AHH0' ) then
-			call UnitRemoveAbility(xiaoting, 'AHH0')
-			call UnitAddAbility(xiaoting, 'AHH1')
+		if ( GetSpellAbilityId() == 'A0LJ' ) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LJ', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LK', true)
+			call SetUnitAbilityLevel(xiaoting, 'A0LK', 1 + IJ1(xiaoting , 1 , 0) + IJ2(xiaoting , 1 , 0) + IJ3(xiaoting , 1 , 0))
 			call Xiaoting__SetSpellSet(1)
-		elseif ( GetSpellAbilityId() == 'AHH1' ) then
-			call UnitRemoveAbility(xiaoting, 'AHH1')
-			call UnitAddAbility(xiaoting, 'AHH2')
+			set ICombo=ICombo + IJ1(xiaoting , 1 , 0) * IJ3(xiaoting , 2 , 1)
+		elseif ( GetSpellAbilityId() == 'A0LK' ) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LK', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LL', true)
+			call SetUnitAbilityLevel(xiaoting, 'A0LL', 1 + IJ1(xiaoting , 1 , 0) + IJ2(xiaoting , 1 , 0) + IJ3(xiaoting , 1 , 0))
 			call Xiaoting__SetSpellSet(2)
-		elseif ( GetSpellAbilityId() == 'AHH2' ) then
-			call UnitRemoveAbility(xiaoting, 'AHH2')
-			call UnitAddAbility(xiaoting, 'AHH3')
+			set ICombo=ICombo + IJ1(xiaoting , 1 , 0) * IJ3(xiaoting , 2 , 1)
+		elseif ( GetSpellAbilityId() == 'A0LL' ) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LL', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LM', true)
+			call SetUnitAbilityLevel(xiaoting, 'A0LM', 1 + IJ1(xiaoting , 1 , 0) + IJ2(xiaoting , 1 , 0) + IJ3(xiaoting , 1 , 0))
 			call Xiaoting__SetSpellSet(3)
-		elseif ( GetSpellAbilityId() == 'AHH3' ) then
-			call UnitRemoveAbility(xiaoting, 'AHH3')
-			call UnitAddAbility(xiaoting, 'AHH0')
+			set ICombo=ICombo + IJ1(xiaoting , 1 , 0) * IJ3(xiaoting , 2 , 1)
+		elseif ( GetSpellAbilityId() == 'A0LM' ) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LM', false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LJ', true)
+			call SetUnitAbilityLevel(xiaoting, 'A0LJ', 1 + IJ1(xiaoting , 1 , 0) + IJ2(xiaoting , 1 , 0) + IJ3(xiaoting , 1 , 0))
 			call Xiaoting__SetSpellSet(0)
+			set ICombo=ICombo + IJ1(xiaoting , 1 , 0) * IJ3(xiaoting , 2 , 1)
 		//大招-箭绝天技
-		elseif ( GetSpellAbilityId() == 'AHH4' ) then
+		elseif ( GetSpellAbilityId() == 'A0M3' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Jianjuetianji()
 		//贯虹箭
-		elseif ( GetSpellAbilityId() == 'AX10' ) then
-			call Xiaoting__Guanhongjian()
+		elseif ( GetSpellAbilityId() == 'A0LN' ) then
+			call Xiaoting__AddCombo()
+			call Xiaoting__Guanhongjian(GetSpellTargetX() , GetSpellTargetY() , GetFacingBetweenXY(GetUnitX(xiaoting) , GetUnitY(xiaoting) , GetSpellTargetX() , GetSpellTargetY()) , true)
 		//箭技-折返
-		elseif ( GetSpellAbilityId() == 'AX11' ) then
+		elseif ( GetSpellAbilityId() == 'A0LO' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Zhefan()
 		//箭技-炎止
-		elseif ( GetSpellAbilityId() == 'AX12' ) then
+		elseif ( GetSpellAbilityId() == 'A0LP' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Yanzhi()
 		//箭技-沉默
-		elseif ( GetSpellAbilityId() == 'AX13' ) then
+		elseif ( GetSpellAbilityId() == 'A0LQ' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Chenmo()
-		//箭技-追心
-		elseif ( GetSpellAbilityId() == 'AX20' ) then
-			call Xiaoting__Zhuixin()
+		//箭技-瞬体
+		elseif ( GetSpellAbilityId() == 'A0LT' ) then
+			call Xiaoting__AddCombo()
+			call Xiaoting__Shunti()
 		//绝技-冰墙
-		elseif ( GetSpellAbilityId() == 'AX21' ) then
+		elseif ( GetSpellAbilityId() == 'A0LR' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Bingqiang()
 		//绝技-静体
-		elseif ( GetSpellAbilityId() == 'AX22' ) then
+		elseif ( GetSpellAbilityId() == 'A0LU' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Jingti()
 		//箭技-分裂
-		elseif ( GetSpellAbilityId() == 'AX23' ) then
+		elseif ( GetSpellAbilityId() == 'A0LS' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Fenlie()
-		//箭技-瞬体
-		elseif ( GetSpellAbilityId() == 'AX30' ) then
-			call Xiaoting__Shunti()
 		//箭技-渡越
-		elseif ( GetSpellAbilityId() == 'AX31' ) then
+		elseif ( GetSpellAbilityId() == 'A0LV' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Duyue()
+		//箭技-追心
+		elseif ( GetSpellAbilityId() == 'A0LY' ) then
+			call Xiaoting__AddCombo()
+			call Xiaoting__Zhuixin()
 		//箭技-御箭
-		elseif ( GetSpellAbilityId() == 'AX32' ) then
+		elseif ( GetSpellAbilityId() == 'A0LW' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Yujian()
 		//箭技-绝焱
-		elseif ( GetSpellAbilityId() == 'AX33' ) then
+		elseif ( GetSpellAbilityId() == 'A0LX' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Jueyan()
 		//箭技-静滞
-		elseif ( GetSpellAbilityId() == 'AX40' ) then
+		elseif ( GetSpellAbilityId() == 'A0LZ' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Jingzhi()
 		//箭技-箭灵
-		elseif ( GetSpellAbilityId() == 'AX41' ) then
+		elseif ( GetSpellAbilityId() == 'A0M0' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Jianling()
 		//箭技-穿刺
-		elseif ( GetSpellAbilityId() == 'AX42' ) then
+		elseif ( GetSpellAbilityId() == 'A0M1' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Chuanci()
 		//绝技-屏障
-		elseif ( GetSpellAbilityId() == 'AX43' ) then
+		elseif ( GetSpellAbilityId() == 'A0M2' ) then
+			call Xiaoting__AddCombo()
 			call Xiaoting__Pingzhang()
 		endif
 	endfunction
+
+
 //---------------------------------------------------------------------------------------------------
 	
  function Xiaoting__FlashXiaotingDamage takes nothing returns nothing
 		set Xiaoting__RDamageXiaoting=GetDamageAgi(xiaoting)
+
+		call Xiaoting__AttackTimeReduce()
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -5050,50 +5714,32 @@ endfunction
  function LearnSkillXiaotingI takes unit learner,integer whichSpell returns nothing
   local integer i
 		if ( learner == xiaoting ) then
-			if ( whichSpell == 1 ) then
-		    	call UnitAddAbility(xiaoting, 'AX11')
-		    	call UnitAddAbility(xiaoting, 'AX12')
-		    	call UnitAddAbility(xiaoting, 'AX13')
-			elseif ( whichSpell == 2 ) then
-		    	call UnitAddAbility(xiaoting, 'AX21')
-		    	call UnitAddAbility(xiaoting, 'AX22')
-		    	call UnitAddAbility(xiaoting, 'AX23')
-			elseif ( whichSpell == 3 ) then
-		    	call UnitAddAbility(xiaoting, 'AX31')
-		    	call UnitAddAbility(xiaoting, 'AX32')
-		    	call UnitAddAbility(xiaoting, 'AX33')
-			elseif ( whichSpell == 4 ) then
-		    	call UnitAddAbility(xiaoting, 'AX41')
-		    	call UnitAddAbility(xiaoting, 'AX42')
-		    	call UnitAddAbility(xiaoting, 'AX43')
-		    endif
-
-			if ( whichSpell == 2 and (GetPlayerTechCountSimple('R006', GetOwningPlayer((xiaoting))) == 1) == true and GetUnitAbilityLevel(xiaoting, 'AX20') == 1 ) then // INLINED!!
+			if ( whichSpell == 2 and (GetPlayerTechCountSimple('R006', GetOwningPlayer((xiaoting))) == 1) == true and GetUnitAbilityLevel(xiaoting, 'A0LT') == 1 ) then // INLINED!!
 				//技能2初始化
 				call Xiaoting__InitCombo()
-			elseif ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((xiaoting))) == 1) == true and GetUnitAbilityLevel(xiaoting, 'AX30') == 1 ) then // INLINED!!
+			elseif ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((xiaoting))) == 1) == true and GetUnitAbilityLevel(xiaoting, 'A0LY') == 1 ) then // INLINED!!
 				call UnitAddAbility(gg_unit_n01S_0258, 'A0M5') // INLINED!!
-				//todo：加上光环
-				call AddSpecialEffectTargetUnitBJ("origin", xiaoting, "war3mapImported\\sichongjiejie_b.mdx")
+				call AddSpecialEffectTargetUnitBJ("origin", xiaoting, "war3mapImported\\oakaura.mdx")
 			endif
 		endif
 	endfunction
 
  function LearnSkillXiaoting takes unit learner,integer learnSpellID returns nothing
 		if ( learner == xiaoting ) then
-			if ( learnSpellID == 'AX10' ) then
+			if ( learnSpellID == 'A0LN' ) then
 				call LearnSkillXiaotingI(learner , 1)
-			elseif ( learnSpellID == 'AX20' ) then
+			elseif ( learnSpellID == 'A0LT' ) then
 				call LearnSkillXiaotingI(learner , 2)
-			elseif ( learnSpellID == 'AX30' ) then
+			elseif ( learnSpellID == 'A0LY' ) then
 				call LearnSkillXiaotingI(learner , 3)
-			elseif ( learnSpellID == 'AX40' ) then
+			elseif ( learnSpellID == 'A0LZ' ) then
 				call LearnSkillXiaotingI(learner , 4)
-			elseif ( learnSpellID == 'AHH4' ) then
+			elseif ( learnSpellID == 'A0M3' ) then
 				call LearnSkillXiaotingI(learner , 5)
 			endif
 		endif
 	endfunction
+
 
 //---------------------------------------------------------------------------------------------------
 
@@ -5108,25 +5754,48 @@ endfunction
 	    //刷新伤害
 	    call TimerStart(CreateTimer(), 1, true, function Xiaoting__FlashXiaotingDamage)
 
+	    set Xiaoting__TAttackXT=CreateTrigger()
+	    call TriggerRegisterAnyUnitEventBJ(Xiaoting__TAttackXT, EVENT_PLAYER_UNIT_ATTACKED)
+	    call TriggerAddCondition(Xiaoting__TAttackXT, Condition(function Xiaoting__TAttackXTCon))
+	    call TriggerAddAction(Xiaoting__TAttackXT, function Xiaoting__TAttackXTAct)
+
+	    set Xiaoting__TComboAdd=CreateTimer()
+
 	    //初始化技能状态
-	    call UnitAddAbility(xiaoting, 'AHH6')
-	    call UnitAddAbility(xiaoting, 'AHH7')
-	    call UnitAddAbility(xiaoting, 'AHH8')
-	    call UnitAddAbility(xiaoting, 'AHH9')
-	    call UnitAddAbility(xiaoting, 'AHHA')
-	    call UnitAddAbility(xiaoting, 'AHHB')
-	    call UnitAddAbility(xiaoting, 'AHHC')
-	    call UnitAddAbility(xiaoting, 'AHHD')
-	    call UnitAddAbility(xiaoting, 'AHHE')
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHH6', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHH7', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHH8', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHH9', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHHA', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHHB', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHHC', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHHD', false)
-		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'AHHE', false)
+	    call UnitAddAbility(xiaoting, 'A0LO')
+	    call UnitAddAbility(xiaoting, 'A0LP')
+	    call UnitAddAbility(xiaoting, 'A0LQ')
+	    call UnitAddAbility(xiaoting, 'A0LR')
+	    call UnitAddAbility(xiaoting, 'A0LU')
+	    call UnitAddAbility(xiaoting, 'A0LS')
+	    call UnitAddAbility(xiaoting, 'A0LV')
+	    call UnitAddAbility(xiaoting, 'A0LW')
+	    call UnitAddAbility(xiaoting, 'A0LX')
+	    call UnitAddAbility(xiaoting, 'A0M0')
+	    call UnitAddAbility(xiaoting, 'A0M1')
+	    call UnitAddAbility(xiaoting, 'A0M2')
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LO', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LP', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LQ', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LR', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LU', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LS', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LV', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LW', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LX', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M0', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M1', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0M2', false)
+
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LK', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LL', false)
+		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting), 'A0LM', false)
+
+		//箭分裂的上限
+		set Xiaoting__IMaxCombo=4
+
+		//科技
+		call Xiaoting__SetShe1Tech()
 
 	endfunction
 
@@ -5226,10 +5895,10 @@ endfunction
 // END IMPORT OF Xiaoting.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs205188421")
-call ExecuteFunc("Constant___InitConstant")
-call ExecuteFunc("Test___InitTest")
-call ExecuteFunc("LHBase___InitLHBase")
+call ExecuteFunc("jasshelper__initstructs621151093")
+call ExecuteFunc("Constant__InitConstant")
+call ExecuteFunc("Test__InitTest")
+call ExecuteFunc("LHBase__InitLHBase")
 call ExecuteFunc("Attr__InitAttr")
 call ExecuteFunc("Printer__InitPrinter")
 
@@ -5342,7 +6011,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs205188421 takes nothing returns nothing
+function jasshelper__initstructs621151093 takes nothing returns nothing
     set st__Connect__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Connect__staticgetindex,Condition( function sa__Connect__staticgetindex))
     set st__Connect_onDestroy=CreateTrigger()

@@ -400,8 +400,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'rhth' , 8000)
 	    call SetItemStr( 'hval' , 30000)
 	    call SetItem3W( 'afac' , 30000)
-	    call SetItem3W( 'pmna' , 57000)
-	    call SetItem3W( 'evtl' , 100000)
+	    call SetItem3W( 'pmna' , 80000)
+	    call SetItem3W( 'evtl' , 120000)
 	    call SetItem3W( 'bspd' , 160000)
 
 	    call SetItem3W( 'mcou' , 250000)
@@ -455,6 +455,10 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemIntPerc( 'ssil', 0.30)
 		call SetItemAttackPerc( 'ssil', 0.75)
 	    call SetItemSpellPerc( 'ssil' ,  0.45)
+
+	    //极恶之镜
+	    call SetItem3W( 'I078' , 80000)
+	    call SetItemSpellPerc( 'I078' , 0.5)
 
 	endfunction
 //---------------------------------------------------------------------------------------------------

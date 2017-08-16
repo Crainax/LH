@@ -17,6 +17,8 @@ library_once Achievement requires LHBase
 		*/
 		integer array spin
 		integer array spin2
+		string array heroCountString
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -142,6 +144,35 @@ library_once Achievement requires LHBase
 			set result = 1 + result
 		endif
 		return result
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取某个英雄使用次数
+	*/
+	function GetSpecifyHeroTimes takes player p,integer heroIndex returns integer
+		if (heroIndex>0) then
+			return S2I(SubStringBJ(heroCountString[GetConvertedPlayerId(p)],2*heroIndex -1,2*heroIndex))
+		else
+			return 0
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取最低使用次数英雄的次数的英雄（能使用的所有英雄）
+	*/
+	function GetLowerHeroCount takes player p,integer limit,integer number returns boolean
+		local integer count = 0
+		local integer i = 1
+		loop 
+			exitwhen i > HERO_COUNT
+			if (GetSpecifyHeroTimes(p,i) >= limit) then
+				set count = count + 1
+			endif
+			set i = i +1
+		endloop
+
+		return count >= number
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -371,6 +402,9 @@ library_once Achievement requires LHBase
 		local integer id = GetConvertedPlayerId(p)
 		local integer page = GetAchievePage(achieveID)
 		local integer target = GetAchieveTarget(achieveID)
+		if (achieveID == 48) then
+			return GetLowerHeroCount(p,99,HERO_COUNT)
+		endif
 		if (page == 1) then
 			return (GetBit(achieve[id],target) > 0)
 		elseif (page == 2) then
@@ -498,6 +532,7 @@ library_once Achievement requires LHBase
 	function SaveAchieveData4 takes player p returns nothing
 		call DzAPI_Map_StoreInteger( p,  "achieve4", achieve4[GetConvertedPlayerId(p)] )
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    提示获取数据成功并保存数据
@@ -600,6 +635,14 @@ library_once Achievement requires LHBase
 		    	exitwhen i > 8
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 38) + S3(IsAchieveOK(p,i + 38),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
+		    endloop		
+		elseif (page == 10) then
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(49) + S3(IsAchieveOK(p,49),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+			set i = 2
+		    loop
+		    	exitwhen i > 3
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 408) + S3(IsAchieveOK(p,i + 408),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
 		    endloop
 		endif
 
@@ -640,6 +683,7 @@ library_once Achievement requires LHBase
 		call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetSuperChallenageName(1) + S3(IsQuanchengjiu(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetSuperChallenageName(2) + S3(IsAchieveOK(p,42),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetSuperChallenageName(3) + S3(IsAchieveOK(p,47),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetSuperChallenageName(4) + S3(GetLowerHeroCount(p,99,HERO_COUNT),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -785,6 +829,8 @@ library_once Achievement requires LHBase
 	    			call SetAchievement(p,42)
 		    	elseif (i == 3) then
 	    			call SetAchievement(p,47)
+		    	elseif (i == 4) then
+	    			call SetAchievement(p,48)
 		    	endif
 	            exitwhen true
 	        endif

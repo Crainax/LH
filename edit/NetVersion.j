@@ -12,7 +12,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	
 	globals
 		integer array vipCode
-		string array heroCountString
 		/*
 		    抵御了多少次进攻
 		*/
@@ -82,8 +81,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 		//签到指数
 		integer array IQiandao2
-	endglobals
 
+		//总数不存在20个
+		boolean BZongshu = false
+		//挑战12
+		boolean BTiaozhan1 = false
+		boolean BTiaozhan2 = false
+	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    给所有玩家一个成就
@@ -161,6 +165,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    霄霆的提示文本
+	*/
+	function GetXiaotingHint takes nothing returns string
+		return "|cff99ccff考虑到操作对新手可能不友好,通关炼狱难度后证明自己的实力即可选取|r"
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    提示当前平台等级
 	*/
 	function PrintCurrentPlatformLevel takes player p returns nothing
@@ -200,6 +211,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function GetXinglongSelectedCon takes player p returns boolean
 		return (DzAPI_Map_GetMapLevel(p) >= 11)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    霄霆选取条件
+	*/
+	function GetXiaotingSelectedCon takes player p returns boolean
+		return IsPass(p,5)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -386,6 +404,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),327)
 				endif
 
+				if not(BZongshu)then
+					call GetAchievementAndSave(ConvertedPlayer(i),49)
+				endif
+
+				if (BTiaozhan1)then
+					call GetAchievementAndSave(ConvertedPlayer(i),410)
+				endif
+				
+				if (BTiaozhan2)then
+					call GetAchievementAndSave(ConvertedPlayer(i),411)
+				endif
 
 			endif
 			set i = i +1
@@ -532,17 +561,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
-	/*
-	    获取某个英雄使用次数
-	*/
-	function GetSpecifyHeroTimes takes player p,integer heroIndex returns integer
-		if (heroIndex>0) then
-			return S2I(SubStringBJ(heroCountString[GetConvertedPlayerId(p)],2*heroIndex -1,2*heroIndex))
-		else
-			return 0
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
 
 	/*
 	    获取当前英雄使用次数
@@ -554,23 +572,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		return GetSpecifyHeroTimes(p,i)
 	endfunction
 
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取最低使用次数英雄的次数的英雄（能使用的所有英雄）
-	*/
-	function GetLowerHeroCount takes player p,integer limit returns boolean
-		local integer count = 0
-		local integer i = 1
-		loop 
-			exitwhen i > HERO_COUNT
-			if (GetSpecifyHeroTimes(p,i) >= limit) then
-				set count = count + 1
-			endif
-			set i = i +1
-		endloop
-
-		return count >= 12
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取最高使用的英雄
@@ -813,16 +814,16 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    英雄次数的成就
 	*/
 	function SaveAchievement4 takes player p returns nothing
-		if (GetLowerHeroCount(p,1)) then
+		if (GetLowerHeroCount(p,1,12)) then
 			call GetAchievementAndSave(p,217)
 		endif
-		if (GetLowerHeroCount(p,5)) then
+		if (GetLowerHeroCount(p,5,12)) then
 			call GetAchievementAndSave(p,218)
 		endif
-		if (GetLowerHeroCount(p,10)) then
+		if (GetLowerHeroCount(p,10,12)) then
 			call GetAchievementAndSave(p,219)
 		endif
-		if (GetLowerHeroCount(p,30)) then
+		if (GetLowerHeroCount(p,30,12)) then
 			call GetAchievementAndSave(p,220)
 		endif
 	endfunction
@@ -856,6 +857,22 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call TimerStart(t,10,false,function SaveAllHeroTimes)
 
 		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否有人超级六界王
+	*/
+	function GetSuperLiujiewang takes nothing returns player
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if (IsAchieveOK(ConvertedPlayer(i),48)) then
+				return ConvertedPlayer(i)
+			endif
+			set i = i +1
+		endloop
+
+		return null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

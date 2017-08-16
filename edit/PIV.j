@@ -1,7 +1,8 @@
 //! import "LHBase.j"
+//! import "Attr.j"
 /////! import "Beast.j"
 /////! import "Netversion.j"
-library_once PIV initializer InitPIV requires LHBase,Beast,Version
+library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	globals
 		boolean array sPIV
 		private boolean isFirst = true
@@ -10,9 +11,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	    key kPIVStr
 	    key kPIVPlayer
 	    key kPIVPointer
-
+	    trigger T17Wan = null
 	endglobals
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    列表是否含有名单
@@ -69,6 +69,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1)
+	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
 		endif
 
 		if (IsPIV(GetOwningPlayer(u))) then
@@ -323,7 +325,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 	*/
 	private function Verify17Wanba takes nothing returns nothing
 
-	    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-117135511,628755061))) then
+	    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-117135511,628755061)) or Fgetc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-1139053518,43777771)) then
 
 		    if (IsPIV(GetTriggerPlayer())) then
 				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！")
@@ -577,14 +579,14 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version
 		call TriggerRegisterPlayerChatEvent( t, Player(5), "##", true )
 	    call TriggerAddAction(t, function CreatePIVDialog)
 
-	    set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent( t, Player(0), "", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(1), "", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(2), "", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(3), "", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(4), "", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(5), "", false )
-	    call TriggerAddAction(t, function Verify17Wanba)
+	    set T17Wan = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent( T17Wan, Player(0), "", false )
+		call TriggerRegisterPlayerChatEvent( T17Wan, Player(1), "", false )
+		call TriggerRegisterPlayerChatEvent( T17Wan, Player(2), "", false )
+		call TriggerRegisterPlayerChatEvent( T17Wan, Player(3), "", false )
+		call TriggerRegisterPlayerChatEvent( T17Wan, Player(4), "", false )
+		call TriggerRegisterPlayerChatEvent( T17Wan, Player(5), "", false )
+	    call TriggerAddAction(T17Wan, function Verify17Wanba)
 
 	    set t = null
 	endfunction

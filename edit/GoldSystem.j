@@ -1,6 +1,6 @@
 //! import "LHBase.j"
 
-library_once GoldSystem initializer InitGoldSystem requires LHBase 
+library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
 	
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -30,8 +30,13 @@ library_once GoldSystem initializer InitGoldSystem requires LHBase
 			exitwhen i > 6
 
 			if ((udg_gold[i] != 0)) then
-		        call AdjustPlayerStateBJ( udg_gold[i], ConvertedPlayer(i), PLAYER_STATE_RESOURCE_GOLD )
-	    		call CreateSpellTextTag("黄金+"+ I2S(udg_gold[i]),udg_H[i],255,255,0,2)
+				if (BTiaozhan2) then
+		        	call AdjustPlayerStateBJ( R2I(I2R(udg_gold[i])*0.01), ConvertedPlayer(i), PLAYER_STATE_RESOURCE_GOLD )
+	    			call CreateSpellTextTag("黄金+"+ I2S(R2I(I2R(udg_gold[i])*0.01)),udg_H[i],255,255,0,2)
+				else
+		        	call AdjustPlayerStateBJ( udg_gold[i], ConvertedPlayer(i), PLAYER_STATE_RESOURCE_GOLD )
+	    			call CreateSpellTextTag("黄金+"+ I2S(udg_gold[i]),udg_H[i],255,255,0,2)
+				endif
 		        set udg_gold[i] = 0
 		    endif
 
