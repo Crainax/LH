@@ -827,10 +827,13 @@ library_once Achievement requires LHBase
 		    	call DisplayTextToPlayer(p, 0., 0., GetSuperChallenageContent(i))
 		    	if (i == 2) then
 	    			call SetAchievement(p,42)
+	    			call SaveAchievePointer(p)
 		    	elseif (i == 3) then
 	    			call SetAchievement(p,47)
+	    			call SaveAchievePointer(p)
 		    	elseif (i == 4) then
 	    			call SetAchievement(p,48)
+	    			call SaveAchievePointer(p)
 		    	endif
 	            exitwhen true
 	        endif

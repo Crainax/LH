@@ -64,12 +64,11 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	*/
 	function InitPIVHero takes unit u returns nothing
 		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "一级小怪") then
-			call AdjustPlayerStateBJ( 30000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1)
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2)
 	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
 		endif
 

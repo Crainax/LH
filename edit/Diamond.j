@@ -1,5 +1,6 @@
 //! import "LHBase.j"
 //! import "Diffculty.j"
+/////! import "NetVersion.j"
 /*
     宝石升级装备
 */

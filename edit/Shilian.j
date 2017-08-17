@@ -637,13 +637,13 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
         	endif
 			set IShilianTimes[GetConvertedPlayerId(PShilian)] = IShilianTimes[GetConvertedPlayerId(PShilian)] + 1
         	if (IShilianType[GetConvertedPlayerId(PShilian)] == 1) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 500 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 250 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 2) then
         		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 3) then
         		set IShilianTime[GetConvertedPlayerId(PShilian)] = 900 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 4) then
-        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 70 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 50 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 5) then
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 6) then
         		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)

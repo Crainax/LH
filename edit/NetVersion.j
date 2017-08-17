@@ -242,6 +242,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    输出宵霆的密码
+	*/
+	function PrintXiaotingPassword takes nothing returns nothing
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化每位玩家的成就
 	*/
 	function InitAllAchievement takes nothing returns nothing
@@ -903,19 +910,19 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				call SaveAchievePointer(GetOwningPlayer(u))
 			endif
 			call SetAchievement(GetOwningPlayer(u),achiPage[id])
+		endif
 
-			if (IsAchieveOK(GetOwningPlayer(u),47)) then
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-				call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
-			endif
+		if (IsAchieveOK(GetOwningPlayer(u),47)) then
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
+			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

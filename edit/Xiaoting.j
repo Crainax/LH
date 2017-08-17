@@ -3,10 +3,11 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Aura.j"
+/////! import "Diamond.j"
 /*
     英雄霄霆的技能
 */
-library_once Xiaoting requires SpellBase,Printer,Attr,Aura
+library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	
 	globals
 		/*
@@ -26,12 +27,8 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		/*
 		    Combo数
 		*/
-		real ICombo = 0
+		integer ICombo = 0
 
-		/*
-		    魔能
-		*/
-		private texttag TTCombo = null
 
 		/*
 		    箭的单位
@@ -50,15 +47,8 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		private boolean BJingzhi = false
 		//御箭
 		private boolean BYujian = false
-		//穿刺
-		private boolean BChuanci = false
 		//Combo判断
-		/*integer array IComboHistory
-		private integer IComboPointer = 0
-		integer array ITypeHistory
-		private integer ITypePointer = 0*/
 		private timer TComboAdd = null
-		private integer IAdd = 0
 
 		//两个科技(前者射出,后者未射出)
 		private unit UJianKeji1 = null
@@ -75,7 +65,11 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		private integer IAttackAdd = 0
 		private integer ITimeAttackadd = 0
 
-		//
+		//分裂时间
+		private timer TFenlie = null
+
+		//大招持续
+		private timer TDazhao = null
 	endglobals
 
 
@@ -117,9 +111,9 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 			return 1
 		endif
 
-		if (ICombo > 1000) then
+		if (ICombo > 40) then
 			return 4
-		elseif (ICombo > 100) then
+		elseif (ICombo > 20) then
 			return 3
 		elseif (ICombo > 10) then
 			return 2
@@ -239,7 +233,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
         local group l_group = null
         local unit l_unit
         local integer times = GetComboMulti()
-        local real radius = 300
+        local real radius = 200
         local integer IBing = 0
 
         //如果英雄死亡则清除
@@ -255,12 +249,6 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
         	call SetUnitY(xiaoting,GetUnitY(UArrow[1]))
         endif
 
-        //绝焱
-        if (IJueyan > 0) then
-        	if (ModuloInteger(IZhengmiao,3) == 0) then
-        		call CreateJueyan(UArrow[index])
-        	endif
-        endif
 
         if (BJingzhi) then
         	if (IZhengmiao == 1) then
@@ -279,11 +267,6 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
             	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
             	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(l_unit),GetUnitY(l_unit) ))
             	call GroupAddUnit(GArrow[index],l_unit)
-            	if (BChuanci) then
-	            	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting * 2.5 * (0.5 * (times + 1)), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-	            	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(l_unit),GetUnitY(l_unit) ))
-	            	set BChuanci = false
-            	endif
             endif
         endloop
         call DestroyGroup(l_group)
@@ -324,14 +307,32 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
         		else
 		        	call SetUnitX(UArrow[index],YDWECoordinateX(xp))
 		        	call SetUnitY(UArrow[index],YDWECoordinateY(yp))
+				    //绝焱
+			        if (IJueyan > 0) then
+			        	if (ModuloInteger(IZhengmiao,3) == 0) then
+			        		call CreateJueyan(UArrow[index])
+			        	endif
+			        endif
         		endif
         	else
 	        	call SetUnitX(UArrow[index],YDWECoordinateX(xp))
 	        	call SetUnitY(UArrow[index],YDWECoordinateY(yp))
+	        	//绝焱
+		        if (IJueyan > 0) then
+		        	if (ModuloInteger(IZhengmiao,3) == 0) then
+		        		call CreateJueyan(UArrow[index])
+		        	endif
+		        endif
 			endif
     	else
         	call SetUnitX(UArrow[index],YDWECoordinateX(xp))
         	call SetUnitY(UArrow[index],YDWECoordinateY(yp))
+	        //绝焱
+	        if (IJueyan > 0) then
+	        	if (ModuloInteger(IZhengmiao,3) == 0) then
+	        		call CreateJueyan(UArrow[index])
+	        	endif
+	        endif
     	endif
 
 	endfunction
@@ -383,7 +384,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	    折返
 	*/
 	private function Zhefan takes nothing returns nothing
-		set IFantan = IFantan + 10
+		set IFantan = 5
 	    call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"折返剩余时间" + I2S(IFantan)+"s.")
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting) ))
 	endfunction
@@ -396,13 +397,13 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
-				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),600* (0.5 * (GetComboMulti() + 1)),RDamageXiaoting)
+				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting*2*GetComboMulti())
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(UArrow[i]),GetUnitY(UArrow[i]) ))
 			endif
 			set i = i +1
 		endloop
 		call ClearAllArrow()
-	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting)
+	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting*2*GetComboMulti())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -451,7 +452,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 
 	    	endif
 	    	call SetUnitUserData(u,R2I(facing)+I3((i == 1 or i == (6 + 4 * GetComboMulti())),2000,0))
-	    	call UnitApplyTimedLifeBJ( 60.00, 'BHwe',u )
+	    	call UnitApplyTimedLifeBJ( 12.00, 'BHwe',u )
 	    	set i = i +1
 	    endloop
 	    call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
@@ -472,19 +473,24 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	endfunction
 
 	private function Jingti takes nothing returns nothing
-		local real intTimes = GetComboMulti() * 0.25
+		local real intTimes = 0.25 + GetComboMulti() * 0.25
 		local timer t = CreateTimer()
 		call SaveReal(spellTable,GetHandleId(t),1,intTimes)
 		call TimerStart(t,30,false,function JingtiTimer)
 		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xiaoting)),intTimes)
 		call YDWETimerDestroyEffect(30,AddSpecialEffectTargetUnitBJ("overhead",xiaoting,"war3mapImported\\state_xiaoting.mdx"))
-	    call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"成功增加"+I2S(GetComboMulti()*25)+"%的敏捷，持续30秒。")
+	    call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"成功增加"+I2S(25 +GetComboMulti()*25)+"%的敏捷，持续30秒。")
 	    set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    分裂
 	*/
+	private function FenlieTimeout takes nothing returns nothing
+		call ClearRestArrow(2)
+    	call CreateSpellTextTag("分裂箭时间到",xiaoting,0,100,0,3)
+	endfunction
+
 	private function Fenlie takes nothing returns nothing
 		local integer i = 1 
 		local integer max = 0
@@ -506,6 +512,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 			set i = i +1
 		endloop
 	    call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
+	    call TimerStart(TFenlie,7,true,function FenlieTimeout)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -542,14 +549,14 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	private function Duyue takes nothing returns nothing
 		local integer i = 1
 	    local timer t = CreateTimer()
-	    local Attract attract = Attract.create(xiaoting,900*GetComboMulti(),0.05,50 * GetComboMulti())
+	    local Attract attract = Attract.create(xiaoting,I3(IsInDiamondRegion(GetUnitX(xiaoting),GetUnitY(xiaoting)),900,900*GetComboMulti()),0.05,50 * GetComboMulti())
 	    call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"范围"+I2S(900*GetComboMulti()) +".")
-		call YDWETimerDestroyEffect(5,AddSpecialEffectTargetUnitBJ("overhead",xiaoting,"war3mapImported\\hole.mdl"))
+		call YDWETimerDestroyEffect(3,AddSpecialEffectTargetUnitBJ("chest",xiaoting,"war3mapImported\\hole.mdl"))
 		call attract.SetForbitHero()
 		call attract.SetDeathContinue()
 	    call attract.start()
 	    call SaveInteger(spellTable,GetHandleId(t),1,attract)
-	    call TimerStart(t,5,false,function DuyueTimer)
+	    call TimerStart(t,3,false,function DuyueTimer)
 	    set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -617,10 +624,16 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	/*
 	    穿刺
 	*/
-	private function Chuanci takes nothing returns nothing
-		set BChuanci = true
-		call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"穿透就绪.")
+	private function Gangti takes nothing returns nothing
+		local real defenseAdd = 2. + 1. *GetComboMulti()
+		call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)),defenseAdd)
+		call AddDefense(xiaoting,0)
+		call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"防御成功增加" + I2S(200 + 100 * GetComboMulti())+"%.")
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting) ))
+	    call PolledWait(10)
+		call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)),-1 * defenseAdd)
+		call AddDefense(xiaoting,0)
+		call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),"防御增益效果结束.")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -665,14 +678,14 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		local unit u = null
 		local timer t = CreateTimer()
 		local unit temp = CreateUnit(GetOwningPlayer(xiaoting),'h023',GetUnitX(xiaoting),GetUnitY(xiaoting),0)
-		call UnitApplyTimedLifeBJ( 20 + 10 * GetComboMulti(), 'BHwe',temp )
+		call UnitApplyTimedLifeBJ( 10, 'BHwe',temp )
 		call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)),0.3)
 		call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
 		loop
 			exitwhen i > 24
 			set u = CreateUnit(GetOwningPlayer(xiaoting),'h021',YDWECoordinateX(GetUnitX(xiaoting) + 600 * CosBJ(i*15)), YDWECoordinateY(GetUnitY(xiaoting) + 600 * SinBJ(i*15)),0)
 	    	call SetUnitUserData(u,i*15+90)
- 			call UnitApplyTimedLifeBJ( 20 + 10 * GetComboMulti(), 'BHwe',u )
+ 			call UnitApplyTimedLifeBJ( 10, 'BHwe',u )
 			set i = i +1
 		endloop
 		//不断伤害
@@ -688,96 +701,23 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	/*
 	    箭绝天技
 	*/
+	private function JianjuetianjiTimeout takes nothing returns nothing
+        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)),-0.6)
+		call PrintSpellContent(GetOwningPlayer(xiaoting),GetAbilityName('A0M3'),"断了.")
+		call PauseTimer(TDazhao)
+		call DestroyTimer(TDazhao)
+		set TDazhao = null
+	endfunction
+
 	private function Jianjuetianji takes nothing returns nothing
 		call DestroyEffect(AddSpecialEffect("war3mapImported\\xiaoting_pingzhang.mdx", GetUnitX(xiaoting),GetUnitY(xiaoting) ))
-		call UnitRemoveAbility(xiaoting,'A0LN')
-		call UnitRemoveAbility(xiaoting,'A0LT')
-		call UnitRemoveAbility(xiaoting,'A0LY')
-		call UnitRemoveAbility(xiaoting,'A0LZ')
-		call UnitRemoveAbility(xiaoting,'A0LO')
-		call UnitRemoveAbility(xiaoting,'A0LR')
-		call UnitRemoveAbility(xiaoting,'A0LV')
-		call UnitRemoveAbility(xiaoting,'A0M0')
-		call UnitRemoveAbility(xiaoting,'A0LP')
-		call UnitRemoveAbility(xiaoting,'A0LU')
-		call UnitRemoveAbility(xiaoting,'A0LW')
-		call UnitRemoveAbility(xiaoting,'A0M1')
-		call UnitRemoveAbility(xiaoting,'A0LQ')
-		call UnitRemoveAbility(xiaoting,'A0LS')
-		call UnitRemoveAbility(xiaoting,'A0LX')
-		call UnitRemoveAbility(xiaoting,'A0M2')
-		call UnitAddAbility(xiaoting,'A0LN')
-		call UnitAddAbility(xiaoting,'A0LT')
-		call UnitAddAbility(xiaoting,'A0LY')
-		call UnitAddAbility(xiaoting,'A0LZ')
-		call UnitAddAbility(xiaoting,'A0LO')
-		call UnitAddAbility(xiaoting,'A0LR')
-		call UnitAddAbility(xiaoting,'A0LV')
-		call UnitAddAbility(xiaoting,'A0M0')
-		call UnitAddAbility(xiaoting,'A0LP')
-		call UnitAddAbility(xiaoting,'A0LU')
-		call UnitAddAbility(xiaoting,'A0LW')
-		call UnitAddAbility(xiaoting,'A0M1')
-		call UnitAddAbility(xiaoting,'A0LQ')
-		call UnitAddAbility(xiaoting,'A0LS')
-		call UnitAddAbility(xiaoting,'A0LX')
-		call UnitAddAbility(xiaoting,'A0M2')
-		set ICombo = ICombo * 2
-		call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
-        call PlaySoundBJ(gg_snd_xiaoting2)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    刷新Combo
-	*/
-	private function FlashComboPos takes nothing returns nothing
-		call SetTextTagPosUnitBJ(TTCombo,xiaoting,20)
-	endfunction
-
-	private function FlashComboData takes nothing returns nothing
-		local integer index = GetConvertedPlayerId(GetOwningPlayer(xiaoting))
-		local integer ILimit = 0
-		local real delta = 0.
-		set ICombo = RMaxBJ(0.99*ICombo,0.)
-		set ILimit = R2I(ICombo)
-		call SetTextTagTextBJ(TTCombo,"Combo:"+R2S(ICombo),20)
-
-		if (GetComboMulti() == 4 and IMaxCombo != 16) then
-			set IMaxCombo = 16
-		elseif (GetComboMulti() == 3 and IMaxCombo != 12) then
-			set IMaxCombo = 12
-			call ClearRestArrow(13)
-		elseif (GetComboMulti() == 2 and IMaxCombo != 8) then
-			set IMaxCombo = 8
-			call ClearRestArrow(9)
-		elseif (GetComboMulti() == 1 and IMaxCombo != 4) then
-			set IMaxCombo = 4
-			call ClearRestArrow(5)
+		if (TDazhao == null) then
+			call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
+	        //call PlaySoundBJ(gg_snd_xiaoting2)
+	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xiaoting)),0.6)
+	        set TDazhao = CreateTimer()
 		endif
-		set ILimit = IMinBJ(ILimit,2000)
-		set delta = I2R(((ILimit/10)*10))/500.
-		if (RAddtion != delta) then
-
-			call AddStrPercent(index, delta - RAddtion  )
-			call AddIntPercent(index, delta - RAddtion  )
-			call AddAgiPercent(index, delta - RAddtion  )
-			set RAddtion = delta
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting) ))
-    		call CreateSpellTextTag(I2S(R2I(delta*100))+"%全属性提高",xiaoting,0,100,0,3)
-		endif 
-	endfunction
-
-
-//---------------------------------------------------------------------------------------------------
-
-	/*
-	    初始化Combo
-	*/
-	private function InitCombo takes nothing returns nothing
-		set ICombo = 0
-		set TTCombo = CreateTextTagUnitBJ( "Combo:0", xiaoting, 0, 20, 100, 0, 50, 0 )
-		call TimerStart(CreateTimer(),0.05,true,function FlashComboPos)
-		call TimerStart(CreateTimer(),1,true,function FlashComboData)
+		call TimerStart(TDazhao,5,false,function JianjuetianjiTimeout)
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -831,78 +771,50 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	/*
 	    COMBO相关
 	*/
+	//加属性
+	private function FlashComboShuxing takes nothing returns nothing
+		local real delta = R3(GetComboMulti()== 1,0.,0.25 + 0.25 * GetComboMulti())
+		if (RAddtion != delta) then
+			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(xiaoting)), delta - RAddtion  )
+			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(xiaoting)), delta - RAddtion  )
+			call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xiaoting)), delta - RAddtion  )
+			set RAddtion = delta
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting) ))
+    		call CreateSpellTextTag(I2S(R2I(delta*100))+"%全属性提高",xiaoting,0,100,0,3)
+		endif 
+
+	endfunction
+
 	//判断16个都是否一致
-/*	private function Judge16Same takes nothing returns boolean
-		local integer i = 1 
-		local integer j = 1
-		loop
-			exitwhen i > 16
-			set j = 1
-			loop
-				exitwhen j > 16
-				if (i != j) then
-					if (IComboHistory[i] == IComboHistory[j]) then
-						return false
-					endif
-				endif
-				set j = j +1
-			endloop
-			set i = i +1
-		endloop
-		return true
-	endfunction		
-*/
-	//判断4个都是否不在同一套中
-/*	private function Judge4Same takes nothing returns boolean
-		local integer i = 1 
-		local integer j = 1
-		loop
-			exitwhen i > 4
-			set j = 1
-			loop
-				exitwhen j > 4
-				if (i != j) then
-					if (ITypeHistory[i] == ITypeHistory[j]) then
-						return false
-					endif
-				endif
-				set j = j +1
-			endloop
-			set i = i +1
-		endloop
-		return true
-	endfunction	
-*/
-	
 	private function ComboDuan takes nothing returns nothing
-		set IAdd = 0
+		set ICombo = 0
     	call CreateSpellTextTag("Combo连加断了",xiaoting,0,100,0,3)
+    	call FlashComboShuxing()
 	endfunction
 
 	private function AddCombo takes nothing returns nothing
 		if not(IsSecondSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0LT') == 1) then
 			return
 		endif
-		set IAdd = IAdd + 1
-		//set IComboPointer = I3(IComboPointer>=16,1,IComboPointer+1)
-		//set IComboHistory[IComboPointer] = GetSpellAbilityId()
-		//set ITypePointer = I3(ITypePointer>=4,1,ITypePointer + 1)
-		//set ITypeHistory[ITypePointer] = ISpellState
 
-		//if (Judge16Same()) then
-		//	call SetUnitLifePercentBJ(xiaoting,100)
-		//	call SetUnitManaPercentBJ(xiaoting,100)
-		//	set add = 25 * IJ3(xiaoting,2,1)
-		//elseif (Judge4Same()) then
-	    //	call RecoverUnitHP(xiaoting,0.2)
-	    //	call RecoverUnitMP(xiaoting,50)
-		//	set add = 5 * IJ3(xiaoting,2,1)
-	    //else
-		//	set add = 1 * IJ3(xiaoting,2,1)
-		//endif
-		set ICombo = ICombo + IAdd * IJ3(xiaoting,2,1)
-		call TimerStart(TComboAdd,3,false,function ComboDuan)
-    	call CreateSpellTextTag("Combo+"+I2S(IAdd),xiaoting,100,0,0,3)
+		set ICombo = ICombo + 1
+		call TimerStart(TComboAdd,5+IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0),false,function ComboDuan)
+    	call CreateSpellTextTag("Combo:"+I2S(ICombo),xiaoting,100,0,0,3)
+
+		if (GetComboMulti() == 4 and IMaxCombo != 16) then
+			set IMaxCombo = 16
+		elseif (GetComboMulti() == 3 and IMaxCombo != 12) then
+			set IMaxCombo = 12
+			call ClearRestArrow(13)
+		elseif (GetComboMulti() == 2 and IMaxCombo != 8) then
+			set IMaxCombo = 8
+			call ClearRestArrow(9)
+		elseif (GetComboMulti() == 1 and IMaxCombo != 4) then
+			set IMaxCombo = 4
+			call ClearRestArrow(5)
+		endif
+    	call FlashComboShuxing()
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -944,66 +856,156 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		elseif (GetSpellAbilityId() == 'A0LN') then 
 			call AddCombo()
 			call Guanhongjian(GetSpellTargetX(),GetSpellTargetY(),GetFacingBetweenXY(GetUnitX(xiaoting),GetUnitY(xiaoting),GetSpellTargetX(),GetSpellTargetY()),true)
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-折返
 		elseif (GetSpellAbilityId() == 'A0LO') then 
 			call AddCombo()
 			call Zhefan()
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-炎止
 		elseif (GetSpellAbilityId() == 'A0LP') then 
 			call AddCombo()
 			call Yanzhi()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-沉默
 		elseif (GetSpellAbilityId() == 'A0LQ') then 
 			call AddCombo()
 			call Chenmo()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-瞬体
 		elseif (GetSpellAbilityId() == 'A0LT') then 
 			call AddCombo()
 			call Shunti()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//绝技-冰墙
 		elseif (GetSpellAbilityId() == 'A0LR') then 
 			call AddCombo()
 			call Bingqiang()
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//绝技-静体
 		elseif (GetSpellAbilityId() == 'A0LU') then 
 			call AddCombo()
 			call Jingti()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-分裂
 		elseif (GetSpellAbilityId() == 'A0LS') then 
 			call AddCombo()
 			call Fenlie()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-渡越
 		elseif (GetSpellAbilityId() == 'A0LV') then 
 			call AddCombo()
 			call Duyue()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-追心
 		elseif (GetSpellAbilityId() == 'A0LY') then 
 			call AddCombo()
 			call Zhuixin()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-御箭
 		elseif (GetSpellAbilityId() == 'A0LW') then 
 			call AddCombo()
 			call Yujian()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-绝焱
 		elseif (GetSpellAbilityId() == 'A0LX') then 
 			call AddCombo()
 			call Jueyan()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-静滞
 		elseif (GetSpellAbilityId() == 'A0LZ') then 
 			call AddCombo()
 			call Jingzhi()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-箭灵
 		elseif (GetSpellAbilityId() == 'A0M0') then 
 			call AddCombo()
 			call Jianling()
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//箭技-穿刺
 		elseif (GetSpellAbilityId() == 'A0M1') then 
 			call AddCombo()
-			call Chuanci()
+			call Gangti()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		//绝技-屏障
 		elseif (GetSpellAbilityId() == 'A0M2') then 
 			call AddCombo()
 			call Pingzhang()
+			call UnitRemoveAbility(xiaoting,'A0LO')
+			call UnitAddAbility(xiaoting,'A0LO')
+			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
+				call UnitRemoveAbility(xiaoting,'A0M3')
+				call UnitAddAbility(xiaoting,'A0M3')
+			endif
 		endif
 	endfunction
 
@@ -1026,12 +1028,26 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	function LearnSkillXiaotingI takes unit learner,integer whichSpell returns nothing
 		local integer i
 		if (learner == xiaoting) then
-			if (whichSpell == 2 and IsSecondSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0LT') == 1) then
+			if (whichSpell == 1) then
+			    call UnitAddAbility(xiaoting,'A0LO')
+			    call UnitAddAbility(xiaoting,'A0LP')
+			    call UnitAddAbility(xiaoting,'A0LQ')
+			elseif (whichSpell == 2 and IsSecondSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0LT') == 1) then
 				//技能2初始化
-				call InitCombo()
+			    call UnitAddAbility(xiaoting,'A0LR')
+			    call UnitAddAbility(xiaoting,'A0LU')
+			    call UnitAddAbility(xiaoting,'A0LS')	
 			elseif (whichSpell == 3 and IsThirdSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0LY') == 1) then
 				call InitXiaotingAura()
 				call AddSpecialEffectTargetUnitBJ("origin",xiaoting,"war3mapImported\\oakaura.mdx")
+			    call UnitAddAbility(xiaoting,'A0LV')
+			    call UnitAddAbility(xiaoting,'A0LW')
+			    call UnitAddAbility(xiaoting,'A0LX')
+			elseif (whichSpell == 4 and IsFourthSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0LZ') == 1) then
+			    call UnitAddAbility(xiaoting,'A0M0')
+			    call UnitAddAbility(xiaoting,'A0M1')
+			    call UnitAddAbility(xiaoting,'A0M2')
+			elseif (whichSpell == 5 and IsFifthSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
 			endif
 		endif
 	endfunction
@@ -1074,20 +1090,9 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 	    call TriggerAddAction(TAttackXT, function TAttackXTAct)
 
 	    set TComboAdd = CreateTimer()
+	    set TFenlie = CreateTimer()
 
 	    //初始化技能状态
-	    call UnitAddAbility(xiaoting,'A0LO')
-	    call UnitAddAbility(xiaoting,'A0LP')
-	    call UnitAddAbility(xiaoting,'A0LQ')
-	    call UnitAddAbility(xiaoting,'A0LR')
-	    call UnitAddAbility(xiaoting,'A0LU')
-	    call UnitAddAbility(xiaoting,'A0LS')	
-	    call UnitAddAbility(xiaoting,'A0LV')
-	    call UnitAddAbility(xiaoting,'A0LW')
-	    call UnitAddAbility(xiaoting,'A0LX')
-	    call UnitAddAbility(xiaoting,'A0M0')
-	    call UnitAddAbility(xiaoting,'A0M1')
-	    call UnitAddAbility(xiaoting,'A0M2')
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LO',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LP',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LQ',false)
@@ -1100,7 +1105,6 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M0',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M1',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M2',false)
-
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LK',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LL',false)
 		call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LM',false)
