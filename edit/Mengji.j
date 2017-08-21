@@ -3,10 +3,11 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Aura.j"
+//! import "ChallangerDZ.j"
 /*
     英雄梦霁的技能
 */
-library_once Mengji requires SpellBase,Printer,Attr,Aura
+library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 
 	globals
 
@@ -521,12 +522,12 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura
 	    /*
 	        六涛的属性值
 	    */
-	    call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
-	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
-	    call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
-	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.5)
-	    call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.4)
-	    call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2)
+	    call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2 * I3(CT2(),6,1))
+	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2 * I3(CT2(),6,1))
+	    call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2 * I3(CT2(),6,1))
+	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.5 * I3(CT2(),6,1))
+	    call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.4 * I3(CT2(),6,1))
+	    call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(mengji)),0.2 * I3(CT2(),6,1))
 		call SetPlayerAbilityAvailable(GetOwningPlayer(mengji),'A0GV',false)
 		//若幻梦
 	    set TSpellMengji01 = CreateTrigger()

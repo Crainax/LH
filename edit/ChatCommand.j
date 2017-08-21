@@ -3,11 +3,13 @@
 //! import "PIV.j"
 /////! import "Continous.j"
 //! import "Diffculty.j"
+//! import "Xuanxue.j"
+//! import "Bajue.j"
 /*
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty//,Continous
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Bajue//,Continous
 	
 	globals
 		private item array IBox
@@ -176,16 +178,24 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call CameraSetSmoothingFactor( 0. )
 		elseif (str == "--") then
 			call FixView(false)
-		elseif (str == "-tz1" and udg_Bo < 1) then
-			if (not(BTiaozhan1)) then
-				call StartTiaozhan1()
-				set BTiaozhan1 = true
-			endif
-		elseif (str == "-tz2" and udg_Bo < 1) then
-			if (not(BTiaozhan2)) then
-				call StartTiaozhan2()
-				set BTiaozhan2 = true
-			endif
+		//玄雪皮肤
+		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
+			call InitHongdeng()
+			call DisplayTextToPlayer(GetOwningPlayer(xuanxue), 0., 0., "|cFFFF66CC【消息】|r开启玄雪英雄挑战.")
+		//玄雪皮肤
+		elseif (str == "-bj" and GetOwningPlayer(bajue) == GetTriggerPlayer()) then
+			call InitFengshuang()
+			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启霸绝英雄挑战.")
+		//elseif (str == "-tz1" and udg_Bo < 1) then
+		//	if (not(BTiaozhan1)) then
+		//		call StartTiaozhan1()
+		//		set BTiaozhan1 = true
+		//	endif
+		//elseif (str == "-tz2" and udg_Bo < 1) then
+		//	if (not(BTiaozhan2)) then
+		//		call StartTiaozhan2()
+		//		set BTiaozhan2 = true
+		//	endif
 		elseif (str == "-yc") then
 			call YincangBroad()
 		debug elseif (str == "-jn") then

@@ -63,13 +63,16 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	    初始化英雄
 	*/
 	function InitPIVHero takes unit u returns nothing
-		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "一级小怪") then
+		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2)
 	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
+	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
+	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
 		endif
 
 		if (IsPIV(GetOwningPlayer(u))) then
@@ -341,7 +344,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 			debug call SetSeyuSpinOK(GetTriggerPlayer())
 			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
 			debug call SetYanmieSpinOK(GetTriggerPlayer())
-			debug call SetXuanxueSpinOK(GetTriggerPlayer())
+			debug call SetXuanxue1SpinOK(GetTriggerPlayer())
 			debug call SetTaiyaSpinOK(GetTriggerPlayer())
 			debug call SetChenji1SpinOK(GetTriggerPlayer())
 			debug call SetHanshangSpinOK(GetTriggerPlayer())
@@ -349,6 +352,9 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 			debug call SetChenji2SpinOK(GetTriggerPlayer())
 			debug call SetMoqiSpinOK(GetTriggerPlayer())
 			debug call SetKaisaSpinOK(GetTriggerPlayer())
+			debug call SetXuanxue2SpinOK(GetTriggerPlayer())
+			debug call SetBajueSpinOK(GetTriggerPlayer())
+			debug call SetSheyanSpinOK(GetTriggerPlayer())
 		endif
 
 	endfunction

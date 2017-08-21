@@ -10,9 +10,16 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		integer array IConDays
 		integer array ILastTime
 		constant integer TIMESTAMP_START = 1500998400
-
+		boolean array BWuxing
 		//integer DzAPI_Map_GetGameStartTime() = 0
 	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取签到的金币奖励
+	*/
+	private function GetGoldReward takes integer day returns integer
+		return I3(day == 1, 500 ,R2I((SquareRoot(day) + 2.) * 300.))
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    给奖励
@@ -21,44 +28,24 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		local integer i = IConDays[GetConvertedPlayerId(p)]
 		local unit u = udg_H[GetConvertedPlayerId(p)]
 
+		call AdjustPlayerStateBJ( GetGoldReward(i), GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
 
-
-		if (i >= 7) then
-			call AdjustPlayerStateBJ( 2000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
-		elseif (i >= 6) then
-			call AdjustPlayerStateBJ( 1500, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
-		elseif (i >= 3) then
-			call AdjustPlayerStateBJ( 1000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
-		elseif (i >= 2) then
-			call AdjustPlayerStateBJ( 500, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
+		if (i >= 2) then
+			call UnitAddItemByIdSwapped('ankh', u)
 		endif
 
+		if (i >= 4) then
+			call UnitAddItemByIdSwapped('k3m1', u)
+		endif
 		
+		if (i >= 7) then
+			call UnitAddItemByIdSwapped('I07A', u)
+			set BWuxing[GetConvertedPlayerId(p)] = true
+		endif
 
 		if (i >= 12) then
-			call UnitAddItemByIdSwapped(GetRandomPotion(), u)
-			call UnitAddItemByIdSwapped(GetRandomPotion(), u)
-		elseif (i >= 4) then
-			call UnitAddItemByIdSwapped(GetRandomPotion(), u)
-		endif
-
-		if (i >= 5) then
-			call UnitAddItemByIdSwapped('I075', u)
-		else
-			call UnitAddItemByIdSwapped('I074', u)
-		endif
-
-		if (i >= 9) then
-			call UnitAddItemByIdSwapped('IXU1', u)
-	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-		endif
-		
-		if (i >= 10) then
-			call SetChenji2SpinOK(GetOwningPlayer(u))
-		endif
-
-		if (i >= 20) then
-			call GetAchievementAndSave(GetOwningPlayer(u),47)
+			call UnitAddItemByIdSwapped('I05O', u)
+			call SetItemPawnable(GetLastCreatedItem(),false)
 		endif
 
 		set u = null
@@ -68,30 +55,14 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	    奖励物品
 	*/
 	function GetDailyReward takes integer days returns string
-		if (days == 1) then
-			return "小型网"		
-		elseif (days == 2) then
-			return "小型网+500金币"
-		elseif (days == 3) then
-			return "小型网+1000金币"
+		if (days == 2) then
+			return "天地庇佑 * 2"
 		elseif (days == 4) then
-			return "小型网+1000金币+1个地狱之礼"
-		elseif (days == 5) then
-			return "中型网+1000金币+1个地狱之礼"
-		elseif (days == 6) then
-			return "中型网+1500金币+1个地狱之礼"
+			return "血精石 * 1"
 		elseif (days == 7) then
-			return "中型网+2000金币+1个地狱之礼"
-		elseif (days == 9) then
-			return "|cffff00ff【虚】琉璃璞玉|r(仅限8月20日前)"
-		elseif (days == 10) then
-			return "永久解锁|cFFCCFF00辰寂|r的皮肤|cFFFF3333双流贯恒|r"
+			return "|cffffff00【妖】五行之杖|r * 1"
 		elseif (days == 12) then
-			return "中型网+2000金币+2个地狱之礼"
-		elseif (days == 20) then
-			return "永久解锁超级成就"+GetAchievementName(47)
-		elseif (days == 26) then
-			return "首2位达成的玩家可获得单位冠名权"
+			return "聚宝·Lv0 * 1"
 		endif
 
 		return null
@@ -113,7 +84,12 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	function CreateLoginDialog takes player p returns nothing
         local dialog d = DialogCreate()
         local string s = "
-        	嘉年华活动连续登录奖励(7月26日-8月20日)
+        	连续登录奖励
+
+        	你获得了第"+I2S(IConDays[GetConvertedPlayerId(p)])+"天对应的"+I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)]))+"金币!
+        	明天继续签到可以获得"+I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1))+"的金币!
+
+        	
         	"
         local integer i = 1
         loop

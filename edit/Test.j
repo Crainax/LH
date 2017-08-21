@@ -7,8 +7,8 @@
 //! import "dependency/YDWEBase_hashtable.j"
 //! import "dependency/YDWEAroundSystem.j"
 
-//! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem,DzAPI
+/////! import "DzAPI.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem//,DzAPI
 
 	globals
 	
@@ -114,7 +114,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
             选择难度对话框
         */
         button array udg_X_Nandu_Chuangkou
-        dialog udg_X_Nandu
+        dialog udg_X_Nandu = DialogCreate()
         /*
             人数
         */

@@ -17,7 +17,7 @@ library_once Combine initializer InitCombine requires LHBase,Beast,Hundun
 	endfunction
 
 	private function TCombineBuyAllCon takes nothing returns boolean
-		return GetUnitTypeId(GetBuyingUnit()) != 'N018'
+		return BuyerFilter(GetBuyingUnit())
 	endfunction
 	
 	private function TCombineBuyAllAct takes nothing returns nothing

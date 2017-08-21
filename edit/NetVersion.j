@@ -84,9 +84,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 		//总数不存在20个
 		boolean BZongshu = false
-		//挑战12
-		boolean BTiaozhan1 = false
-		boolean BTiaozhan2 = false
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -285,6 +282,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set ILastTime[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "ILastTime")
     			set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
     			set spin2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin2")
+    			set easyCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "easyCString")
+    			set middleCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "middleCString")
+    			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")
     			
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
@@ -382,7 +382,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 				//玄雪末日权杖
 				if (renshu == 1 and udg_H[i] == xuanxue and level >= 4) then
-					call SetXuanxueSpinOK(ConvertedPlayer(i))
+					call SetXuanxue1SpinOK(ConvertedPlayer(i))
 				endif
 
 				//基地的血
@@ -415,12 +415,16 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),49)
 				endif
 
-				if (BTiaozhan1)then
+				if (CT3())then
 					call GetAchievementAndSave(ConvertedPlayer(i),410)
 				endif
 				
-				if (BTiaozhan2)then
+				if (CT4())then
 					call GetAchievementAndSave(ConvertedPlayer(i),411)
+				endif
+
+				if (CType != 0) then
+					call ChallangerSuccess(ConvertedPlayer(i))
 				endif
 
 			endif
@@ -779,6 +783,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		if (killCount[GetConvertedPlayerId(p)] >= 150000) then
 			call GetAchievementAndSave(p,230)
 		endif
+		if (killCount[GetConvertedPlayerId(p)] >= 125000 and udg_H[GetConvertedPlayerId(p)] == sheyan ) then
+			call SetSheyanSpinOK(p)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -924,6 +931,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
 			call BJDebugMsg(GetPlayerName(GetOwningPlayer(u))+"|cff00ff00受到了来自圣界的欢迎!!!|r")
 		endif
+
+		call InitChallangerData(GetOwningPlayer(u))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

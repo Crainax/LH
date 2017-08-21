@@ -95,4 +95,28 @@ library_once Spin requires LHBase,Version
 		//return true
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    玄雪的皮肤条件
+	*/
+	function IsXuanxueSpin2 takes player p returns boolean
+		return GetXuanxue2Spin(p)
+		//return true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    霸绝的皮肤条件
+	*/
+	function IsBajueSpin1 takes player p returns boolean
+		return GetBajue1Spin(p)
+		//return true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    摄焱的皮肤条件
+	*/
+	function IsSheyanSpin1 takes player p returns boolean
+		return GetSheyan1Spin(p)
+		//return true
+	endfunction
 endlibrary

@@ -123,6 +123,23 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    获取Combo消逝时间
+	*/
+	private function GetComboTime takes nothing returns real
+		if (ICombo > 80) then
+			return 1.
+		elseif (ICombo > 60) then
+			return 2.
+		elseif (ICombo > 40) then
+			return 3.
+		elseif (ICombo > 20) then
+			return 4.
+		else
+			return 5.
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    马甲的攻击伤害
 	*/
 	
@@ -397,7 +414,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
-				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting*2*GetComboMulti())
+				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.5 * (GetComboMulti() + 1))
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(UArrow[i]),GetUnitY(UArrow[i]) ))
 			endif
 			set i = i +1
@@ -512,7 +529,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 			set i = i +1
 		endloop
 	    call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
-	    call TimerStart(TFenlie,7,true,function FenlieTimeout)
+	    call TimerStart(TFenlie,7,false,function FenlieTimeout)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -732,11 +749,27 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LR',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LV',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M0',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LQ',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LS',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LX',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M2',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LP',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LU',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LW',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M1',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LN',true)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LT',true)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LY',true)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LZ',true)
 		elseif (i == 1) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LO',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LR',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LV',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M0',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LP',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LU',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LW',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M1',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LN',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LT',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LY',false)
@@ -746,6 +779,14 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LX',true)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M2',true)
 		elseif (i == 2) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LO',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LR',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LV',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M0',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LN',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LT',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LY',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LZ',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LQ',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LS',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LX',false)
@@ -755,6 +796,14 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LW',true)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M1',true)
 		elseif (i == 3) then
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LN',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LT',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LY',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LZ',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LQ',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LS',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LX',false)
+			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0M2',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LP',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LU',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LW',false)
@@ -798,7 +847,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 		endif
 
 		set ICombo = ICombo + 1
-		call TimerStart(TComboAdd,5+IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0),false,function ComboDuan)
+		call TimerStart(TComboAdd,GetComboTime()+IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0),false,function ComboDuan)
     	call CreateSpellTextTag("Combo:"+I2S(ICombo),xiaoting,100,0,0,3)
 
 		if (GetComboMulti() == 4 and IMaxCombo != 16) then
@@ -1067,8 +1116,6 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 			endif
 		endif
 	endfunction
-
-
 //---------------------------------------------------------------------------------------------------
 
 	/*

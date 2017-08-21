@@ -38,7 +38,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.324"
+		return "3.330"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -89,7 +89,7 @@ library_once Constant initializer InitConstant requires JBase
 	    判断是否是皮肤
 	*/
 	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' 
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -102,9 +102,9 @@ library_once Constant initializer InitConstant requires JBase
 			return 2
 		elseif (heroType == 'Hvwd' or heroType == 'H01X') then
 			return 3
-		elseif (heroType == 'Uktl') then
+		elseif (heroType == 'Uktl' or heroType == 'U002') then
 			return 4
-		elseif (heroType == 'Nbbc') then
+		elseif (heroType == 'Nbbc' or heroType == 'N01W') then
 			return 5
 		elseif (heroType == 'E00D' or heroType == 'E00E') then
 			return 6
@@ -118,7 +118,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 10
 		elseif (heroType == 'Etyr' or heroType == 'E00G') then
 			return 11
-		elseif (heroType == 'Othr') then
+		elseif (heroType == 'Othr' or heroType == 'O004') then
 			return 12
 		elseif (heroType == 'Udea') then
 			return 13
@@ -1048,14 +1048,12 @@ library_once Constant initializer InitConstant requires JBase
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 410) then
-			return "开局在第一波前输入-tz1进入挑战1,完成并通关.
-			该挑战下英雄攻击速度极慢,移动速度-10000000%.
+			return "完成任意难度的挑战模式中的\"驻永恒挑战\"
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 411) then
-			return "开局在第一波前输入-tz2进入挑战2,完成并通关.
-			该挑战下英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)
+			return "完成任意难度的挑战模式中的\"创世篇挑战\"
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
@@ -1121,6 +1119,12 @@ library_once Constant initializer InitConstant requires JBase
 				return "|cFF6699FF熔日煌世|r"
 			elseif (i == 2) then
 				return "|cFFFF00CC星界麒麟|r"
+			elseif (i == 3) then
+				return "|cFFFF0000凝冰红灯|r"
+			elseif (i == 4) then
+				return "|cFF6699FF封霜玄锋|r"
+			elseif (i == 5) then
+				return "|cffff0000凰迹天知|r"
 			endif
 		endif
 
@@ -1194,6 +1198,18 @@ library_once Constant initializer InitConstant requires JBase
 				return "使用莫琪在使用|cffffcc00裁决|r技能时的施法角度在89.9-90.1度之内.
 						(换句话说即为完全垂直向上射)
 				完成该项挑战后你将获得莫琪的皮肤\"|cFFFF00CC星界麒麟|r\"(拥有少量的属性加成)!"
+			elseif (i == 3) then
+				return "使用玄雪在一局游戏内成功侵入134种不同的生物.(注意,如果你需要进行该挑战,请在第一波前输入-xx以开启该英雄挑战)
+
+				完成该项挑战后你将获得玄雪的皮肤\"|cFFFF0000凝冰红灯|r\"(拥有少量的属性加成)!"
+			elseif (i == 4) then
+				return "使用霸绝在使用|cFFFF0099剑法IV式 - 永恒|r技能结束后的落点距离英雄在施放该技能的位置有10000码远.(注意,如果你需要进行该挑战,请在第一波前输入-bj以开启该英雄挑战,注意要使用主英雄施放,其他分身施放无效)
+
+				完成该项挑战后你将获得霸绝的皮肤\"|cFF6699FF封霜玄锋|r\"(拥有少量的属性加成)!"
+			elseif (i == 5) then
+				return "使用摄焱在一局游戏中杀敌数满125000.
+
+				完成该项挑战后你将获得摄焱的皮肤\"|cffff0000凰迹天知|r\"(拥有少量的属性加成)!"
 			endif		
 		endif
 		return ""
@@ -1297,7 +1313,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (WPointer == 31) then
 			return "czy888"
 		elseif (WPointer == 32) then
-			return "1 1"
+			return "Flower丶God"
 		elseif (WPointer == 33) then
 			return "月丶暗影"
 		elseif (WPointer == 34) then
@@ -1313,7 +1329,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (WPointer == 39) then
 			return "糖糖不在甜"
 		elseif (WPointer == 40) then
-			return "Flower丶God"
+			return "1 1"
 		elseif (WPointer == 41) then
 			return "浪逼康小帅"
 		elseif (WPointer == 42) then

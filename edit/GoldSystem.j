@@ -30,7 +30,7 @@ library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
 			exitwhen i > 6
 
 			if ((udg_gold[i] != 0)) then
-				if (BTiaozhan2) then
+				if (CT4()) then
 		        	call AdjustPlayerStateBJ( R2I(I2R(udg_gold[i])*0.01), ConvertedPlayer(i), PLAYER_STATE_RESOURCE_GOLD )
 	    			call CreateSpellTextTag("黄金+"+ I2S(R2I(I2R(udg_gold[i])*0.01)),udg_H[i],255,255,0,2)
 				else

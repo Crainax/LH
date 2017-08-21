@@ -34,7 +34,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
         	exitwhen i > 6
         	if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
         		if (UnitItemInSlotBJ(u,i)!= null) then
-        			if (UnitItemInSlotBJ(u,i) != GetYeai() and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
+        			if (UnitItemInSlotBJ(u,i) != GetYeai() and GetItemTypeId(UnitItemInSlotBJ(u,i)) != 'I079' and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
 						call UnitAddItem( UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],UnitItemInSlotBJ(u,i))
         			else
         				call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.")

@@ -31,7 +31,7 @@ library_once Taiya requires LHBase,Spin,Version
 			set gg_unit_Etyr_0017 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
-			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],100)
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
 			
 			call RemoveUnit(u)
 			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]

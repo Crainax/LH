@@ -653,14 +653,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         endloop
         set d = null
     endfunction
-
 //---------------------------------------------------------------------------------------------------
 
     /*
         购买者的判断，防止是假分身
     */
     function BuyerFilter takes unit buyer returns boolean
-        return (GetUnitTypeId(buyer) != 'N018')
+        return (GetUnitTypeId(buyer) != 'N018') and (GetUnitTypeId(buyer) != 'N01X')
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

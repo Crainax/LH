@@ -13,10 +13,6 @@ library_once BaseVersion initializer InitBaseVersion requires LHBase,Version
 			debug set BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = false
 		debug elseif (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(GetTriggerPlayer())],20))) then
 			debug call GetAchievementAndSave(GetTriggerPlayer(),42)
-		debug elseif (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(GetTriggerPlayer())],21))) then
-			debug call GetAchievementAndSave(GetTriggerPlayer(),47)
-		debug elseif (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(GetTriggerPlayer())],22))) then
-			debug call GetAchievementAndSave(GetTriggerPlayer(),322)
 		debug endif
 
 

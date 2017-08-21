@@ -1496,7 +1496,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         购买开始刷宝石怪
     */
     function TBuyDiamondStartCon takes nothing returns boolean
-        return ((GetUnitTypeId(GetBuyingUnit()) != 'N018') and (GetUnitTypeId(GetSellingUnit()) == 'nmr5' or GetUnitTypeId(GetSellingUnit()) == 'nmre' or GetUnitTypeId(GetSellingUnit()) == 'n01D' or GetUnitTypeId(GetSellingUnit()) == 'n01C'))
+        return (BuyerFilter(GetBuyingUnit()) and (GetUnitTypeId(GetSellingUnit()) == 'nmr5' or GetUnitTypeId(GetSellingUnit()) == 'nmre' or GetUnitTypeId(GetSellingUnit()) == 'n01D' or GetUnitTypeId(GetSellingUnit()) == 'n01C'))
     endfunction
 
     function TBuyDiamondStartAct takes nothing returns nothing

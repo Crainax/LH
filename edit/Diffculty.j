@@ -1,7 +1,7 @@
 
 //! import "LHBase.j"
-/////! import "Huodong.j"
-library_once Diffculty requires LHBase,Huodong
+//! import "ChallangerMode.j"
+library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	
 	globals
 		/*
@@ -365,85 +365,6 @@ library_once Diffculty requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    开始挑战
-	*/
-	function StartTiaozhan1 takes nothing returns nothing
-		local integer i  = 1
-    	local unit u = CreateUnit(Player(10),'h025',0,0,0)
-		loop
-			exitwhen i > 6
-			if (udg_H[i] != null) then
-				call UnitRemoveAbility(udg_H[i],'A0B9')
-			endif
-			set i = i +1
-		endloop
-    	call ShowUnitHide(u)
-		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战1,所有英雄失去攻击速度与100000%的移动速度.")
-		set u = null
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-	/*
-	    开始挑战2
-	*/
-	private function Tiaozhan2Timer takes nothing returns nothing
-		local integer i = 1
-		if (udg_Bo >= 13) then
-			loop
-				exitwhen i > 6
-				if (udg_H[i] != null) then
-    				call RecoverUnitHP(udg_H[i],-0.3)
-				endif
-				set i = i +1
-			endloop
-		else
-			loop
-				exitwhen i > 6
-				if (udg_H[i] != null) then
-    				call RecoverUnitHP(udg_H[i],-0.1)
-				endif
-				set i = i +1
-			endloop
-		endif
-	endfunction
-
-	function StartTiaozhan2 takes nothing returns nothing
-		call TimerStart(CreateTimer(),1,true,function Tiaozhan2Timer)
-		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战2,所有英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)")
-	endfunction
-
-//---------------------------------------------------------------------------------------------------
-	/*
-	    游戏难度的选取
-	*/
-	function ChooseDifficulty takes nothing returns nothing
-		call DialogSetMessage( udg_X_Nandu, "选择难度" )
-	    call DialogAddButtonBJ( udg_X_Nandu, "天国（24+5+1波）[活动期间]") 
-	    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "太平（24+5+1波）[活动期间]") 
-	    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24+5+1波）[活动期间]") 
-	    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5+1波）[活动期间]" )
-	    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+1波）" )
-	    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+1波）" )
-	    set udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+1波）" )
-	    set udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+1波）" )
-	    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
-	    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+1波）" )
-	    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
-	    if (IsTianyanOK()) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5+1波）" )
-		    set udg_X_Nandu_Chuangkou[10] = GetLastCreatedButtonBJ()
-	    endif
-	    call DialogDisplay( GetFirstPlayer(), udg_X_Nandu, true )
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    游戏模式选中
 	*/
 	private function GameModeClick takes nothing returns nothing
@@ -454,14 +375,21 @@ library_once Diffculty requires LHBase,Huodong
 			set mode = 1
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".")
 			set SgameMode = "经典"
-		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+			call ChooseDifficulty(1)
+		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),3)) then
 			//加速模式
+			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".")
+			set SgameMode = "挑战"
+			set mode = 1
+			call ShowTiaozhanDialog()
+		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+			//挑战模式
 			set mode = 2
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
 			set SgameMode = "加速"
+			call ChooseDifficulty(1)
 		endif	       
 
-		call ChooseDifficulty()
         call FlushChildHashtable(LHTable,GetHandleId(d))
     	call DialogDisplay( Player(0), d, false )
         call DialogClear(d)
@@ -479,6 +407,7 @@ library_once Diffculty requires LHBase,Huodong
 
 	    call DialogSetMessage( d, "请选择游戏模式" )
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式(New)"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(进阶)"))
 	    call DialogDisplay( GetFirstPlayer(), d, true )
 	    call TriggerRegisterDialogEvent( t, d )

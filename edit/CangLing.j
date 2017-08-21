@@ -15,7 +15,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 		/*
 		    物品
 		*/
-		private item array IBibo
+		item array IBibo
 		private boolean BiBo = false
 
 		private trigger TSpellCangling = null

@@ -113,6 +113,54 @@ library_once Attr initializer InitAttr requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    对于扣除3W的话,如果负数容易出现问题,则用这种方法
+	*/
+	function ReduceHeroStrF takes unit hero,integer i returns nothing
+		local integer delta
+		local integer index
+		if (GetHeroStr(hero,true) - i >= 0) then
+			call SetHeroStr(hero,GetHeroStr(hero,true)-i,true)
+			call FlashHeroStr(GetOwningPlayer(hero))
+		else
+			set index = GetConvertedPlayerId(GetOwningPlayer(hero))
+			set delta = R2I(I2R(i) * GetStrPercent(index))
+			set IStr[index] = IStr[index] - delta
+			call SetHeroStr(hero,GetHeroStr(hero,true)-i-delta,true)
+			call FlashHeroStr(GetOwningPlayer(hero))
+		endif
+	endfunction
+
+	function ReduceHeroAgiF takes unit hero,integer i returns nothing
+		local integer delta
+		local integer index
+		if (GetHeroAgi(hero,true) - i >= 0) then
+			call SetHeroAgi(hero,GetHeroAgi(hero,true)-i,true)
+			call FlashHeroAgi(GetOwningPlayer(hero))
+		else
+			set index = GetConvertedPlayerId(GetOwningPlayer(hero))
+			set delta = R2I(I2R(i) * GetAgiPercent(index))
+			set IAgi[index] = IAgi[index] - delta
+			call SetHeroAgi(hero,GetHeroAgi(hero,true)-i-delta,true)
+			call FlashHeroAgi(GetOwningPlayer(hero))
+		endif
+	endfunction
+
+	function ReduceHeroIntF takes unit hero,integer i returns nothing
+		local integer delta
+		local integer index
+		if (GetHeroInt(hero,true) - i >= 0) then
+			call SetHeroInt(hero,GetHeroInt(hero,true)-i,true)
+			call FlashHeroInt(GetOwningPlayer(hero))
+		else
+			set index = GetConvertedPlayerId(GetOwningPlayer(hero))
+			set delta = R2I(I2R(i) * GetIntPercent(index))
+			set IInt[index] = IInt[index] - delta
+			call SetHeroInt(hero,GetHeroInt(hero,true)-i-delta,true)
+			call FlashHeroInt(GetOwningPlayer(hero))
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    增加生命上限增益
 	*/
 	function AddHPPercent takes integer playerID , real value returns nothing

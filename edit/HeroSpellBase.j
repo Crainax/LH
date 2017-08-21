@@ -14,7 +14,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 	    英雄学习技能
 	*/
 	private function HeroLearnSkillCon takes nothing returns boolean
-	    return ((IsUnitIllusionBJ(GetTriggerUnit()) != true) and (GetUnitTypeId(GetTriggerUnit()) != 'N018') )
+	    return ((IsUnitIllusionBJ(GetTriggerUnit()) != true) and BuyerFilter(GetTriggerUnit()) )
 	endfunction
 
 

@@ -1,10 +1,11 @@
 //! import "LHBase.j"
 //! import "Diffculty.j"
+//! import "ChallangerDZ.j"
 /////! import "NetVersion.j"
 /*
     宠物系统
 */
-library_once Pet initializer InitPet requires LHBase,Version,Diffculty
+library_once Pet initializer InitPet requires LHBase,Version,Diffculty,ChallangerDZ
 
     globals
         group array GPet
@@ -15,7 +16,12 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
         创建宠物
     */
     function CreatePet takes player owner,unit pet returns nothing
-        local unit u = pet
+        local unit u =null
+        if (CT1() and GetUnitLevel(pet) > 20) then
+            call DisplayTextToPlayer(owner, 0., 0., "|cFFFF66CC【消息】|r目前挑战是力量透支挑战,该挑战下不能捕捉超过20级的怪物.")
+            return
+        endif
+        set u = pet
 
         call PlaySoundBJ( gg_snd_GoodJob )
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(pet), GetUnitY(pet)) )
@@ -26,7 +32,6 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty
         call FlushChildHashtable(YDHT,GetHandleId(pet))
         call YDWEFlushMissionByInteger( YDWEH2I(pet) )
         call RemoveUnit( pet )*/
-
         //添加技能
         if (IsTianyan) then
             call RemoveDiffAttack(u)
