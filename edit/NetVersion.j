@@ -609,8 +609,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function PrintAllHeroTimes takes player p returns nothing
 		local string result = ""
 		local integer i = 1
-		local real x = 0
-		local real y = 0
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
 		loop
 			exitwhen i > HERO_COUNT
@@ -628,15 +626,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想调节视角高度,请输入-+")
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想隐藏技能伤害,请输入-sh(不推荐新手输入)")
 		//call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想取消彩色皮肤,请输入-qc")
-		if (Greward[GetConvertedPlayerId(p)] > 0) then
-			set x = GetUnitX(UDepot[GetConvertedPlayerId(p)])
-			set y = GetUnitY(UDepot[GetConvertedPlayerId(p)])
-			call RemoveUnit(UDepot[GetConvertedPlayerId(p)])
-			set UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, 'n01R', x, y, 270.000)
-			if (GetDiffculty() <= 5) then
-				call UnitAddAbility(UDepot[GetConvertedPlayerId(p)],'A0KW')
-			endif
-		endif
+
 	endfunction
 	
 //---------------------------------------------------------------------------------------------------
@@ -905,6 +895,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function InitAchievementName takes unit u returns nothing
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
+		local real x = 0
+		local real y = 0
 		//计时英雄数
 		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
 
@@ -933,6 +925,16 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endif
 
 		call InitChallangerData(GetOwningPlayer(u))
+
+		if (Greward[GetConvertedPlayerId(GetOwningPlayer(u))] > 0) then
+			set x = GetUnitX(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))])
+			set y = GetUnitY(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call RemoveUnit(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))])
+			set UDepot[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u), 'n01R', x, y, 270.000)
+			if (GetDiffculty() <= 5) then
+				call UnitAddAbility(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],'A0KW')
+			endif
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

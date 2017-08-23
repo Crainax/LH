@@ -28,6 +28,11 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
 	endfunction	
 
+	private function TestCangku takes nothing returns nothing
+		set Greward[1] = 1
+		set killCount[1] = 124999
+	endfunction
+
 	/*private function Showxiao2 takes nothing returns nothing
 		local integer i = 1
 		loop
@@ -71,6 +76,10 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 		set t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"b",true)
 		call TriggerAddAction(t,function Showxiao1)
+
+		set t = CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t,Player(0),"c",true)
+		call TriggerAddAction(t,function TestCangku)
 
 		set t = null
 

@@ -56,7 +56,7 @@ library_once Bajue  requires LHBase,Spin
 
 		set distance = GetDistance(baseX,baseY,tempX,tempY)
 		call BJDebugMsg("|cFFFF66CC【消息】|r本次技能跳跃距离为"+R2S(distance)+".")
-		if (distance > 10000.) then
+		if (distance > 8000.) then
 			debug call SetBajueSpinOK(GetOwningPlayer(bajue))
 		endif
 
