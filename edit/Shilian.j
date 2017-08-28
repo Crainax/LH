@@ -3,11 +3,13 @@
 //! import "Structs.j"
 //! import "Attr.j"
 //! import "Diffculty.j"
+//! import "Multiboard.j"
+//! import "GoldSystem.j"
 
 /*
     传承试练
 */
-library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,Attr,Diffculty
+library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,Attr,Diffculty,Multiboard,GoldSystem
 
 	
 	globals
@@ -52,6 +54,14 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 
 		//吸怪的临
 		private Attract array ALin
+
+		//皆的数值中途值
+		private integer array IJie1
+		private integer array IJie2
+
+		//前的分身
+		private unit array UQian
+		private boolean array BQian
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -154,6 +164,117 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    皆
+	*/
+	private function InitJieDamage takes player p returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		set IJie1[index] = Mdamage1[index]
+		set IJie2[index] = Mdamage2[index]
+	endfunction
+
+	private function JieDamageExpose takes player p returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		local real damage1 = I2R(Mdamage1[index] - IJie1[index])*0.3
+		local real damage2 = I2R(Mdamage2[index] - IJie2[index])*0.3
+		local real damage = 0.
+		local group l_group = CreateGroup()
+		local unit l_unit = null
+		local integer count = 0
+		call GroupEnumUnitsInRange(l_group, GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]), 900, null)
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if (IsEnemy(l_unit,udg_H[GetConvertedPlayerId(p)])) then
+		    	set count = count + 1
+		    endif
+		endloop
+		call DestroyGroup(l_group)
+		set damage = RMinBJ(300000000.*100,damage2 * 100000000 + damage1)/IMaxBJ(1,count)
+		call CreateTextTagA( I2S(R2I(damage/10000)) + "万伤害!",udg_H[GetConvertedPlayerId(p)],100,0,0,3,30)
+		set l_group = CreateGroup()
+		call GroupEnumUnitsInRange(l_group, GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]), 900, null)
+		loop
+		    set l_unit = FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if (IsEnemy(l_unit,udg_H[GetConvertedPlayerId(p)])) then
+		    	if (IsUnitType(l_unit,UNIT_TYPE_HERO)) then
+		    		call UnitDamageTarget( udg_H[GetConvertedPlayerId(p)], l_unit, RMinBJ(damage,GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*0.2), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+		    	else
+		    		call UnitDamageTarget( udg_H[GetConvertedPlayerId(p)], l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+		    	endif
+				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Orc\\Orcblood\\BattrollBlood.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+		    endif
+		endloop
+		call DestroyGroup(l_group)
+		set l_group = null
+		set l_unit =null
+		set IJie1[index] = 0
+		set IJie2[index] = 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    设置对应的属性
+	*/
+	private function SyncQian takes player p returns nothing
+		local integer id = GetConvertedPlayerId(p)
+		local unit u = udg_H[GetConvertedPlayerId(p)]
+		local integer i = 1
+		if (IsUnitAliveBJ(UQian[id])) then
+			call SetUnitUserData(UQian[id],0)
+			loop
+				exitwhen i > 6
+				if (GetItemTypeId(UnitItemInSlotBJ(u,i)) != GetItemTypeId(UnitItemInSlotBJ(UQian[id],i))) then
+					call RemoveItem(UnitItemInSlotBJ(UQian[id],i))
+					call UnitAddItemToSlotById(UQian[id],GetItemTypeId(UnitItemInSlotBJ(u,i)),i-1)
+				    call SetItemDroppable( UnitItemInSlotBJ(UQian[id],i), false )
+				    call SetItemPawnable( UnitItemInSlotBJ(UQian[id],i), false )
+				endif
+				set i = i +1
+			endloop
+			call SetUnitUserData(UQian[id],1)
+			if not(BQian[id]) then
+				call SetAttack(UQian[id],R2I(GetAttack(u)*0.1))
+				call SetDefense(UQian[id],R2I(GetDefense(u)*0.1))
+				call SetHP(UQian[id],R2I(GetHP(u)*0.1))
+				call SetHeroInt(UQian[id],R2I(GetHeroInt(u,false)*0.1),false)
+				call SetHeroStr(UQian[id],R2I(GetHeroStr(u,false)*0.1),false)
+				call SetHeroAgi(UQian[id],R2I(GetHeroAgi(u,false)*0.1),false)
+			else
+				call SetAttack(UQian[id],GetAttack(u))
+				call SetDefense(UQian[id],GetDefense(u))
+				call SetHP(UQian[id],GetHP(u))
+				call SetHeroStr(UQian[id],GetHeroStr(u,false),false)
+				call SetHeroAgi(UQian[id],GetHeroAgi(u,false),false)
+				call SetHeroInt(UQian[id],GetHeroInt(u,false),false)
+			endif
+		endif
+		set u = null
+	endfunction
+
+	private function QianTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local player p = LoadPlayerHandle(LHTable,id,1)
+		call SyncQian(p)
+		set p = null
+		set t = null 
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    同步前幻象
+	*/
+	function InitSyncQianAttr takes player p returns nothing
+		local timer t = CreateTimer()
+		call SyncQian(p)
+		call SavePlayerHandle(LHTable,GetHandleId(t),1,p)
+		call TimerStart(t,10,true,function QianTimer)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    对每个字的主动进行初始化
 	*/
 	function InitShilianSpell takes player p returns nothing
@@ -171,15 +292,16 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 4) then
 			
 		elseif (IShilianType[id] == 5) then
-			
+			call InitJieDamage(p)
 		elseif (IShilianType[id] == 6) then
 			
 		elseif (IShilianType[id] == 7) then
-			
+			call UnitAddAbilityP(udg_H[id],'A0MA')
+			set BGoldGongxiang[id] = true
 		elseif (IShilianType[id] == 8) then
-			
+			set BQian[id] =  true
+			call SyncQian(p)
 		elseif (IShilianType[id] == 9) then
-			
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -197,15 +319,16 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 4) then
 			
 		elseif (IShilianType[id] == 5) then
-			
+			call JieDamageExpose(p)
 		elseif (IShilianType[id] == 6) then
 			
 		elseif (IShilianType[id] == 7) then
-			
+			call UnitRemoveAbility(udg_H[id],'A0MA')
+			set BGoldGongxiang[id] = false
 		elseif (IShilianType[id] == 8) then
-			
+			set BQian[id] =  false
+			call SyncQian(p)
 		elseif (IShilianType[id] == 9) then
-			
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -353,6 +476,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			//皆
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 皆|r定为你的试练内容.")
 			call UnitAddAbilityP(udg_H[id],'A0L6')
+			call AddHPPercent(id,0.1)
 		elseif (index == 6) then
 			//阵
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 阵|r定为你的试练内容.")
@@ -362,10 +486,14 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			//列
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 列|r定为你的试练内容.")
 			call UnitAddAbilityP(udg_H[id],'A0L5')
+			call AddDefensePercent(id,0.1)
+			call SetPlayerAbilityAvailable(p,'A0MA',false)
 		elseif (index == 8) then
 			//前
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 前|r定为你的试练内容.")
 			call UnitAddAbilityP(udg_H[id],'A0L8')
+			set UQian[id] = CreateUnit(p,'N01Y',GetUnitX(udg_H[id]),GetUnitY(udg_H[id]),0)
+			call InitSyncQianAttr(p)
 		elseif (index == 9) then
 			//行
 			call UnitAddAbilityP(udg_H[id],'A0L9')
@@ -645,10 +773,13 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 4) then
         		set IShilianTime[GetConvertedPlayerId(PShilian)] = 50 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 5) then
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 250 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 6) then
         		set IShilianTime[GetConvertedPlayerId(PShilian)] = 600 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 7) then
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 900 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 8) then
+        		set IShilianTime[GetConvertedPlayerId(PShilian)] = 900 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	elseif (IShilianType[GetConvertedPlayerId(PShilian)] == 9) then
         		set IShilianTime[GetConvertedPlayerId(PShilian)] = 450 * I3(GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 1,2,1)
         	endif
@@ -686,11 +817,6 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 
 		if (PShilian != null) then
             call DisplayTextToPlayer( p, 0, 0, "|cFFFF66CC【消息】|r有人正在试练!" )
-            return
-		endif
-
-		if (i == 5 or i == 7 or i == 8) then
-            call DisplayTextToPlayer( p, 0, 0, "|cFFFF66CC【消息】|r该挑战尚未开放,敬请期待." )
             return
 		endif
 

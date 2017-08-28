@@ -7,11 +7,11 @@
 //! import "dependency/YDWEBase_hashtable.j"
 //! import "dependency/YDWEAroundSystem.j"
 
-/////! import "DzAPI.j"
-library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem//,DzAPI
+//! import "DzAPI.j"
+library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem,DzAPI
 
 	globals
-	
+	location udg_Point
     //刷新战斗力
     trigger gg_trg_zhandouli2
     //复活

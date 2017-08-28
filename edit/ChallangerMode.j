@@ -1,12 +1,14 @@
 //! import "LHBase.j"
-//! import "Huodong.j"
+/////! import "Huodong.j"
 //! import "ChallangerDZ.j"
 //! import "CangLing.j"
+//! import "Mirror.j"
 
-library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling
+library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 
 	globals
 		integer EquipLoopingTime = 1
+		group GJingxiang = null
 	endglobals
 
 
@@ -79,6 +81,8 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling
 			call StartTiaozhan1()
 		elseif (CT4()) then
 			call StartTiaozhan2()
+		elseif (CT5()) then
+			set GJingxiang = CreateGroup()
 		endif
 
 		if (CType != 0) then
@@ -286,6 +290,8 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling
 	    	call DialogSetMessage( d, "选择挑战类别(困难)" )
 	    endif
 
+	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetChallangerTitle(5) + S3(IsChallangerComplete(GetFirstPlayer(),5),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+
 	    loop
 	    	exitwhen i > 4
 		    call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetChallangerTitle(i) + S3(IsChallangerComplete(GetFirstPlayer(),i),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
@@ -336,9 +342,15 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling
 	    local dialog d = DialogCreate()
 
 	    call DialogSetMessage( d, "选择挑战难度" )
-	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")")) 
-	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
+	    if (DEBUG_MODE) then
+		    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
+		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")")) 
+		    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
+		else
+			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单"))
+		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等")) 
+		    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难"))
+	    endif
 	    call DialogDisplay( GetFirstPlayer(), d, true )
 	    call TriggerRegisterDialogEvent( t, d )
 	    call TriggerAddAction(t, function ChooseDifficultyClick)

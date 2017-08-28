@@ -2,23 +2,34 @@
 
 library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
 	
+	globals
+		boolean array BGoldGongxiang
+	endglobals
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    怪物死亡事件
 	*/
 	function TGoldDeathCon takes nothing returns boolean
-	    return ((HaveSavedInteger(YDHT, GetUnitTypeId(GetDyingUnit()), 0x9DA51395) == true) and (IsUnitIllusionBJ(GetDyingUnit()) != true) and (GetPlayerController(GetOwningPlayer(GetKillingUnitBJ())) == MAP_CONTROL_USER) and (GetPlayerSlotState(GetOwningPlayer(GetKillingUnitBJ())) == PLAYER_SLOT_STATE_PLAYING))
+	    return (((HaveSavedInteger(YDHT, GetUnitTypeId(GetDyingUnit()), 0x9DA51395) == true) or IsUnitInGroup(GetDyingUnit(),GJingxiang)) and (IsUnitIllusionBJ(GetDyingUnit()) != true) and (GetPlayerController(GetOwningPlayer(GetKillingUnitBJ())) == MAP_CONTROL_USER) and (GetPlayerSlotState(GetOwningPlayer(GetKillingUnitBJ())) == PLAYER_SLOT_STATE_PLAYING))
 	endfunction
 
 	function TGoldDeathAct takes nothing returns nothing
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))
 		local integer rate = 1
+		local integer i = 1
 		if (IsHighSpeed()) then
 			if not (IsUnitType(GetDyingUnit(),UNIT_TYPE_HERO)) then
 				set rate = 2
 			endif
 		endif
-	    set udg_gold[index] = (R2I(I2R(LoadInteger(YDHT, GetUnitTypeId(GetDyingUnit()), 0x9DA51395)) * udg_I_Jinqianhuodelv[index])) * rate + udg_gold[index] + udg_gold[index + 6] 
+		loop
+			exitwhen i > 6
+			if (i == index or BGoldGongxiang[i]) then
+	    		set udg_gold[i] = (R2I(I2R(I3(IsUnitInGroup(GetDyingUnit(),GJingxiang),udg_Bo * 75 + 225,LoadInteger(YDHT, GetUnitTypeId(GetDyingUnit()), 0x9DA51395))) * udg_I_Jinqianhuodelv[i])) * rate + udg_gold[i] + udg_gold[i + 6] 
+			endif
+			set i = i +1
+		endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

@@ -71,6 +71,9 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
         //英雄死了
         boolean array BHeroDeath
+
+        //轮流玩家指针
+        integer INextPlayerID = 0
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -654,12 +657,28 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set d = null
     endfunction
 //---------------------------------------------------------------------------------------------------
+    /*
+        玩家轮流转
+    */
+    function GetNextPlayerID takes nothing returns integer
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            set INextPlayerID = I3(INextPlayerID >= 6, 1, INextPlayerID + 1)
+            if ((GetPlayerSlotState(ConvertedPlayer(INextPlayerID)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(INextPlayerID)) == MAP_CONTROL_USER) and udg_H[INextPlayerID] != null) then
+                exitwhen true
+            endif
+            set i = i +1
+        endloop
+        return INextPlayerID
+    endfunction
+//---------------------------------------------------------------------------------------------------
 
     /*
         购买者的判断，防止是假分身
     */
     function BuyerFilter takes unit buyer returns boolean
-        return (GetUnitTypeId(buyer) != 'N018') and (GetUnitTypeId(buyer) != 'N01X')
+        return (GetUnitTypeId(buyer) != 'N018') and (GetUnitTypeId(buyer) != 'N01X') and (GetUnitTypeId(buyer) != 'N01Y')
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

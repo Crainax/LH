@@ -40,7 +40,7 @@ library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
 		if (IQinru < 134) then
 			call BJDebugMsg("|cFFFF0000【凝冰红灯】|r进度:"+I2S(IQinru) + "/134.")
 		else
-			call SetXuanxue2SpinOK(GetOwningPlayer(xuanxue))
+			debug call SetXuanxue2SpinOK(GetOwningPlayer(xuanxue))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

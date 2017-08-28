@@ -1,6 +1,7 @@
 //! import "LHBase.j"
+//! import "ChallangerDZ.j"
 
-library_once Battle initializer InitBattle requires LHBase 
+library_once Battle initializer InitBattle requires LHBase,ChallangerDZ
 	
 	globals
 		boolean array BSkip
@@ -87,7 +88,7 @@ library_once Battle initializer InitBattle requires LHBase
 	    刷怪数量
 	*/
 	function GetFastMonsterCount takes integer i returns integer
-		if (IsFastly()) then
+		if (IsFastly() or CT5()) then
 			return i/3
 		endif
 

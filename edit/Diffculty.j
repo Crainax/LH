@@ -43,6 +43,20 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    创建镜像单位
+	*/
+	function CreateJingongguai takes integer unitType,real facing returns nothing
+		local integer id
+		if (CT5()) then
+			set id = GetNextPlayerID()
+	    	call CreateNUnitsAtLoc( 1, GetUnitTypeId(udg_H[id]), Player(11), udg_Point, facing )
+	    	call SetUnitMirror(GetLastCreatedUnit(),udg_H[id],I3(udg_Bo == 1 ,1,udg_Bo*GetDiffculty()))
+	    	call GroupAddUnit(GJingxiang,GetLastCreatedUnit())
+		else
+	    	call CreateNUnitsAtLoc( 1, unitType, Player(11), udg_Point, facing )
+		endif
+	endfunction
+	/*
 	    判断当前难度是否是万劫
 	*/
 	function IsWanjie takes nothing returns boolean

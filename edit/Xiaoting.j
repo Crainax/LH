@@ -420,7 +420,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 			set i = i +1
 		endloop
 		call ClearAllArrow()
-	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting*2*GetComboMulti())
+	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting* 0.5 * (GetComboMulti() + 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

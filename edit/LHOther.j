@@ -4,7 +4,6 @@
 library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 	
 	globals
-		
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

@@ -2,12 +2,14 @@
 //! import "Heiyan.j"
 //! import "Seyu.j"
 //! import "LHBase.j"
-library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu
+
+library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu,Hanshang,Huanyi,Chenji,Mengji,Yanmie,Cangling,Sichen,Xinglong,Xiaoting
 	
 	globals
 		boolean array BTianting1
 		boolean array BTianting2
 	endglobals
+
 
 //---------------------------------------------------------------------------------------------------
 	/*

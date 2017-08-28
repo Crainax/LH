@@ -69,7 +69,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2)
-	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
 	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
 	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
 	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
@@ -341,6 +341,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 
 			call InitPlayerPIV(GetTriggerPlayer())
 		elseif ((Fgetc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-767946655,-1650132445))) then
+			call BJDebugMsg("|cFFFF66CC【消息】|rspin.")
 			debug call SetSeyuSpinOK(GetTriggerPlayer())
 			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
 			debug call SetYanmieSpinOK(GetTriggerPlayer())

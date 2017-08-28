@@ -5,10 +5,11 @@
 //! import "Boss.j"
 /////! import "Continous.j"
 //! import "Chenji.j"
+/////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Chenji//,Continous
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Chenji,Box//,Continous
 	
 
 	globals
@@ -198,6 +199,10 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
  			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 		elseif (GetSpellAbilityId() == 'A0KW') then
 			call Qinghanqianli()
+		elseif (GetSpellAbilityId() == 'A0MC') then
+			call ChangeSpinDialog(GetOwningPlayer(GetTriggerUnit()))
+		elseif (GetSpellAbilityId() == 'A0ME') then
+			call CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit()))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

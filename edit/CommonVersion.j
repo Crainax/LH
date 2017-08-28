@@ -17,6 +17,8 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 
 		boolean BTiaozhan1 = false
 		boolean BTiaozhan2 = false
+
+		boolean array BWuxing
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -137,6 +139,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    玄雪皮肤条件
+	*/
+	function GetXuanxue2Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    赛殇皮肤条件
 	*/
 	function GetHanshang1Spin takes player p returns boolean
@@ -165,16 +174,30 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    凌雪皮肤条件
+	    莫琪皮肤条件
 	*/
 	function GetMoqiSpin takes player p returns boolean
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    凌雪皮肤条件
+	    牛头皮肤条件
 	*/
 	function GetKaisaSpin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    剑圣皮肤条件
+	*/
+	function GetBajue1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    摄焱皮肤条件
+	*/
+	function GetSheyan1Spin takes player p returns boolean
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -308,6 +331,18 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			endif
 			set i = i +1
 		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    成就对话框
+	*/
+	function CreateAchievementDialog takes player p returns nothing
+		if (Get11()) then
+			return
+		endif
+		call ShowGameHint(p,"
+			使用魔兽争霸官方对战平台
+			进行游戏才能使用该功能.")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

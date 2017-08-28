@@ -3,7 +3,7 @@
 library_once ChallangerDZ requires LHBase
 	
 	globals
-		constant integer COUNT_CHALLANGER = 4
+		constant integer COUNT_CHALLANGER = 5
 
 		string array easyCString
 		string array middleCString
@@ -56,6 +56,13 @@ library_once ChallangerDZ requires LHBase
 	*/
 	function CT4 takes nothing returns boolean
 		return CType == 4
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是镜像挑战
+	*/
+	function CT5 takes nothing returns boolean
+		return CType == 5
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -118,16 +125,22 @@ library_once ChallangerDZ requires LHBase
 	function GetAllComplete takes player p returns integer
 		return GetHardComplete(p) + GetEasyComplete(p) + GetMiddleComplete(p)
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+		获取一个玩家的完成率 
+	*/	
+	function GetCompleteRate takes player p returns real
+		return I2R(GetAllComplete(p)) / (3.0*I2R(COUNT_CHALLANGER))
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化数据与存档
 	*/
 	function InitChallangerData takes player p returns nothing
-    	call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
-		call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
-		call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
-		call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
+    	debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
+		debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -185,6 +198,8 @@ library_once ChallangerDZ requires LHBase
 			return "驻永恒挑战"
 		elseif (i == 4) then
 			return "创世篇挑战"
+		elseif (i == 5) then
+			return "镜像挑战"
 		endif
 		return ""
 	endfunction
@@ -247,6 +262,23 @@ library_once ChallangerDZ requires LHBase
 			困难最低通关要求:(轮回)
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
+			"		
+		elseif (i == 5) then
+			return "
+			镜像挑战如下:
+
+			该挑战下进攻怪为英雄的转生镜像,
+			与转生类似的属性,不拥有转生技能,
+			拥有与英雄一样的物品,
+			波数对应为转数,怪物数量会少3倍.
+			(进攻怪的经验固定在100/个)
+
+			简单最低通关要求:(天国)
+			中等最低通关要求:(炼狱)
+			困难最低通关要求:(万劫)
+			难度越大每波怪对应的转数越大。
+
+			|cff00ccff在该模式下不能获得成就及皮肤.|r
 			"
 		endif
 		return ""
@@ -264,6 +296,8 @@ library_once ChallangerDZ requires LHBase
 			return C3(1,5,8)
 		elseif (CType == 4) then
 			return C3(1,5,8)
+		elseif (CType == 5) then
+			return C3(1,5,9)
 		endif
 		return 0
 	endfunction

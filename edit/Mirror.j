@@ -12,6 +12,29 @@ library_once Mirror requires LHBase
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
+        设置某个单位和另一个单位一样,镜像
+    */
+    function SetUnitMirror takes unit mirror,unit u1,integer times returns nothing
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            call UnitAddItemByIdSwapped(GetItemTypeId(UnitItemInSlotBJ(u1,i)), mirror)
+            set i = i +1
+        endloop
+        call SetHeroInt(mirror,GetLimit( GetHeroInt( u1, true) *  times ),true)
+        call SetHeroAgi(mirror,GetLimit( GetHeroAgi( u1, true) *  times ),true)
+        call SetHeroStr(mirror,GetLimit( GetHeroStr( u1, true) *  times ),true)
+        call SetAttack(mirror,GetAttack(u1)*times)
+        call SetDefense(mirror,GetDefense(u1)*times)
+        call SetHP(mirror,GetHP(u1)*times)
+        if (u1 == kaisa) then
+            call UnitRemoveAbility(mirror,'AOre')
+        elseif (u1 == taiya) then
+            call SetUnitAcquireRange( mirror, 600.00 )
+        endif
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         显示进度
     */
     function ShowLiuliProcess takes nothing returns nothing

@@ -78,7 +78,7 @@ library_once Bajue  requires LHBase,Spin
 			return
 		endif
 
-		if (GetDistance(GetUnitX(bajue),GetUnitY(bajue),tempX,tempY) < 900) then
+		if (GetDistance(GetUnitX(bajue),GetUnitY(bajue),tempX,tempY) < 1100) then
 			set tempX = GetUnitX(bajue)
 			set tempY = GetUnitY(bajue)
 		else

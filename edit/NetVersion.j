@@ -895,8 +895,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function InitAchievementName takes unit u returns nothing
 		local integer id = GetConvertedPlayerId(GetOwningPlayer(u))
-		local real x = 0
-		local real y = 0
 		//计时英雄数
 		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
 
@@ -926,15 +924,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 		call InitChallangerData(GetOwningPlayer(u))
 
-		if (Greward[GetConvertedPlayerId(GetOwningPlayer(u))] > 0) then
-			set x = GetUnitX(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))])
-			set y = GetUnitY(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))])
-			call RemoveUnit(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))])
-			set UDepot[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u), 'n01R', x, y, 270.000)
-			if (GetDiffculty() <= 5) then
-				call UnitAddAbility(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],'A0KW')
-			endif
-		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
