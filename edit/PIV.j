@@ -74,6 +74,16 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
 	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
 	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.3)
+		elseif (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") then
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
+	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
+	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
+	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
+	        call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.2)
+	        call UnitAddAbility(u,'A0MF')
+            call UnitMakeAbilityPermanent(u,true,'A0MF')
+            call UnitMakeAbilityPermanent(u,true,'A0MG')
+			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MF',false)
 		endif
 
 		if (IsPIV(GetOwningPlayer(u))) then
