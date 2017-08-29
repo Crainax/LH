@@ -20,9 +20,9 @@ library_once Box requires LHBase,Version,ChallangerDZ
 
 	private function GetBoxCondition takes integer i returns string
 		if (i == 1) then
-			return "|cff33cccc(完成挑战>20%解锁,或参加七夕抽奖活动)|r"
+			return "|cff33cccc(完成挑战>20%解锁)|r"
 		elseif (i == 2) then
-			return "|cff33cccc(完成挑战>99%解锁,或参加七夕抽奖活动)|r"
+			return "|cff33cccc(完成挑战>99%解锁)|r"
 		endif
 		return ""
 	endfunction
@@ -88,9 +88,6 @@ library_once Box requires LHBase,Version,ChallangerDZ
 			endif	       
 	    	set i = i +1
 	    endloop
-
-	    call BJDebugMsg("|cFFFF66CC【活动】|r
-	    	8月27日晚8点锁定YY90163轮回之狱专区参与抽奖活动,赞助、自选多种英雄皮肤、多种仓库模型大放送!")
 
         call FlushChildHashtable(LHTable,GetHandleId(d))
     	call DialogDisplay( Player(0), d, false )

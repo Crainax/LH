@@ -38,14 +38,14 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.343C"
+		return "3.347"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11
 	*/
 	function Get11 takes nothing returns boolean
-		return true
+		return false
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ library_once Constant initializer InitConstant requires JBase
 	    判断是否是皮肤
 	*/
 	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W'
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -124,7 +124,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 13
 		elseif (heroType == 'Hkal') then
 			return 14
-		elseif (heroType == 'Hant') then
+		elseif (heroType == 'Hant' or heroType == 'H026') then
 			return 15
 		elseif (heroType == 'Nsjs') then
 			return 16
@@ -1125,6 +1125,8 @@ library_once Constant initializer InitConstant requires JBase
 				return "|cFF6699FF封霜玄锋|r"
 			elseif (i == 5) then
 				return "|cffff0000凰迹天知|r"
+			elseif (i == 6) then
+				return "|cffff6800天罚四界|r"
 			endif
 		endif
 
@@ -1182,10 +1184,12 @@ library_once Constant initializer InitConstant requires JBase
 				完成该项挑战后你将获得寒殇的模型武器\"|cFF3333FF獠牙之匕|r\"(拥有少量的属性加成)!"
 			elseif (i == 8) then
 				return "嘉年华活动中连续签到满10天.
+				目前嘉年华活动结束,下个版本将上线英雄挑战.
 
 				完成该项挑战后你将获得辰寂的皮肤\"|cFFFF3333双流贯恒|r\"(拥有少量的属性加成)!"
 			elseif (i == 9) then
 				return "在8月20号前成功击败六界傀儡.
+				目前嘉年华活动结束,下个版本将上线英雄挑战.
 
 				完成该项挑战后你将获得凌雪的皮肤\"|cFF339933沐雪无瑕|r\"(拥有少量的属性加成)!"
 			endif
@@ -1210,6 +1214,10 @@ library_once Constant initializer InitConstant requires JBase
 				return "使用摄焱在一局游戏中杀敌数满125000.
 
 				完成该项挑战后你将获得摄焱的皮肤\"|cffff0000凰迹天知|r\"(拥有少量的属性加成)!"
+			elseif (i == 6) then
+				return "目前该皮肤是七夕活动提前放出,英雄挑战需要在9月中旬才会上线.
+
+				完成该项挑战后你将获得幻逸的皮肤\"|cffff6800天罚四界|r\"(拥有少量的属性加成)!"
 			endif		
 		endif
 		return ""

@@ -8,7 +8,8 @@
 //! import "Achievement.j"
 //! import "Huodong.j"
 //! import "Continous.j"
-library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous	
+//! import "Qixi.j"
+library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi
 	
 	globals
 		integer array vipCode
@@ -76,8 +77,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		//没被碰到
 		boolean BShengming = false
 
-		//倾雪寒晶
-		integer array Greward
 
 		//签到指数
 		integer array IQiandao2
@@ -173,6 +172,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function PrintCurrentPlatformLevel takes player p returns nothing
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + I2S(DzAPI_Map_GetMapLevel(p)) + "！")
+		call QixiHuodong(p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

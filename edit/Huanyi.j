@@ -4,11 +4,12 @@
 //! import "Attr.j"
 //! import "Aura.j"
 //! import "Diffculty.j"
+//! import "Spin.j"
 /////! import "Diamond.j"
 /*
     英雄幻逸的技能
 */
-library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond
+library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	
 	globals
 		/*
@@ -833,7 +834,23 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond
 			endif
 		endif
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    幻逸皮肤
+	*/
+	private function InitHuanyiSpin takes unit u returns unit
+		if (IsHuanyiSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'H026',GetUnitX(u),GetUnitY(u),0)
+			set gg_unit_Hant_0205 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+			call RemoveUnit(u)
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -841,11 +858,11 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond
 	*/
 	function InitHuanyi takes unit u returns nothing
 		local trigger t = CreateTrigger()
-		set Huanyi = u
+		set Huanyi = InitHuanyiSpin(u)
 		set ICurrentSpell = 'AHH5'
 		//主英雄技能
 		set TSpellHuanyi = CreateTrigger()
-	    call TriggerRegisterUnitEvent(TSpellHuanyi,u,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerRegisterUnitEvent(TSpellHuanyi,Huanyi,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellHuanyi, function TSpellHuanyiAct)
 
 	    //魔能等级低于5则减少受到的50%伤害
@@ -853,10 +870,8 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond
 	    call TriggerAddCondition(t,Condition(function TSpellHuanyi3Con))
 	    call TriggerAddAction(t,function TSpellHuanyi3Act)
 
-
 	    //刷新伤害
 	    call TimerStart(CreateTimer(),1,true,function FlashHuanyiDamage)
-
 
 	    //冰甲的等级刷新
 	    set t = CreateTrigger()

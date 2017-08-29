@@ -119,4 +119,12 @@ library_once Spin requires LHBase,Version
 		return GetSheyan1Spin(p)
 		//return true
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    幻逸的皮肤条件
+	*/
+	function IsHuanyiSpin1 takes player p returns boolean
+		return GetHuanyi1Spin(p)
+		//return true
+	endfunction
 endlibrary

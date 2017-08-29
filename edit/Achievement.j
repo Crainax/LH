@@ -20,6 +20,8 @@ library_once Achievement requires LHBase,ChallangerDZ
 		integer array spin2
 		string array heroCountString
 
+		//倾雪寒晶
+		integer array Greward
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -496,6 +498,28 @@ library_once Achievement requires LHBase,ChallangerDZ
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    幻逸皮肤条件
+	*/
+	function GetHuanyi1Spin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],6) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    幻逸皮肤OK了
+	*/
+	function SetHuanyiSpinOK takes player p returns nothing
+		if (CType != 0) then
+			return
+		endif
+		if (GetBit(spin2[GetConvertedPlayerId(p)],6) < 1) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 100000
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取幻逸皮肤\"|cffff6800天罚四界|r\"！")
+			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取成就索引条件是否满足了
 	*/
 	function IsAchieveOK takes player p,integer achieveID returns boolean
@@ -773,6 +797,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3,2) + S3(GetXuanxue2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 			call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(4,2) + S3(GetBajue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 			call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(5,2) + S3(GetSheyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6,2) + S3(GetHuanyi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
