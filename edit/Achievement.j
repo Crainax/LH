@@ -22,6 +22,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 		//倾雪寒晶
 		integer array Greward
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -191,7 +192,18 @@ library_once Achievement requires LHBase,ChallangerDZ
 	private function GetAchieveTarget takes integer i returns integer
 		return S2I(SubStringBJ(I2S(i),2,StringLength(I2S(i))))
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    存档皮肤数据
+	*/
+	private function SaveSpinData takes player p returns nothing
+		if (Bdudang[GetConvertedPlayerId(p)]) then
+			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+		else
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏皮肤数据读取失败,请重新开始游戏.")
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    瑟雨皮肤条件
@@ -210,7 +222,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],2) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取瑟雨皮肤\"|cffff66cc赤血白燕|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -231,7 +243,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],3) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取晓月皮肤\"|cff99ccff月轮绯狱|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -252,7 +264,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],4) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取湮灭皮肤\"|cFFFF0000殛霆无迹|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -273,7 +285,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],5) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪武器模型\"|cFF33FF33末日权杖|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -295,7 +307,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],6) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取泰雅皮肤\"|cFFCCFF66三弦星谧|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -317,7 +329,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],7) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取辰寂武器模型\"|cFFFF3333霜夜之哀|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -339,7 +351,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],8) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 10000000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取寒殇武器模型\"|cFF3333FF獠牙之匕|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -361,7 +373,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],9) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 100000000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取凌雪皮肤\"|cFF339933沐雪无瑕|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -383,7 +395,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin[GetConvertedPlayerId(p)],10) < 1) then
 			set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + 1000000000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取辰寂皮肤\"|cFFFF3333双流贯恒|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -405,7 +417,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],1) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 1
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取莫琪皮肤\"|cFFFF00CC星界麒麟|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -427,7 +439,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],2) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 10
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取凯撒皮肤\"|cFF6699FF熔日煌世|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -449,7 +461,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],3) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 100
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取玄雪皮肤\"|cFFFF0000凝冰红灯|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -471,7 +483,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],4) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 1000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取摄焱皮肤\"|cffff0000凰迹天知|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -493,7 +505,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],5) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 10000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取霸绝皮肤\"|cFF6699FF封霜玄锋|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -515,7 +527,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],6) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 100000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取幻逸皮肤\"|cffff6800天罚四界|r\"！")
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

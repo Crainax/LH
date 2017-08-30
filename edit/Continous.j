@@ -137,14 +137,22 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	    保存登录状态
 	*/
 	function SaveLoginState takes player p returns nothing
-		call DzAPI_Map_StoreInteger( p,  "IConDays", IConDays[GetConvertedPlayerId(p)] )
-		call DzAPI_Map_StoreInteger( p,  "ILastTime", ILastTime[GetConvertedPlayerId(p)] )
-		call DzAPI_Map_StoreInteger( p,  "IQiandao2", IQiandao2[GetConvertedPlayerId(p)] )
-		call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-		call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-		call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-		call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-		call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+		if (Bdudang[GetConvertedPlayerId(p)]) then
+			call DzAPI_Map_StoreInteger( p,  "IConDays", IConDays[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreInteger( p,  "ILastTime", ILastTime[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreInteger( p,  "IQiandao2", IQiandao2[GetConvertedPlayerId(p)] )
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+		else
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

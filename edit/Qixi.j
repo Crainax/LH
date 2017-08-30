@@ -8,6 +8,81 @@ library_once Qixi requires LHBase,Achievement
 	
 //---------------------------------------------------------------------------------------------------
 	/*
+	    补偿
+	*/
+	function Buchang takes player p returns nothing
+		local integer i = GetConvertedPlayerId(p)
+		if (playerName[i] == "℡悠悠★over") then
+			call SetSeyuSpinOK(GetTriggerPlayer())
+			call SetXiaoyueSpinOK(GetTriggerPlayer())
+			call SetXuanxue1SpinOK(GetTriggerPlayer())
+			call SetTaiyaSpinOK(GetTriggerPlayer())
+			call SetHanshangSpinOK(GetTriggerPlayer())
+			call SetLingxueSpinOK(GetTriggerPlayer())
+			call SetChenji2SpinOK(GetTriggerPlayer())
+			call SetMoqiSpinOK(GetTriggerPlayer())
+			call SetKaisaSpinOK(GetTriggerPlayer())
+			call SetXuanxue2SpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+			call SetHuanyiSpinOK(GetTriggerPlayer())		
+		elseif (playerName[i] == "绝对无双") then
+			set heroCountString[i] = "18181818181818181818181818181818181818000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		elseif (playerName[i] == "英子丶丿") then
+			set heroCountString[i] = "99999999000000000000000000000000000000000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+			call SetMoqiSpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+			call SetXuanxue2SpinOK(GetTriggerPlayer())
+			call SetBajueSpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+		elseif (playerName[i] == "小米酥丶") then
+			set heroCountString[i] = "99999999999999180000000000000000000000000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		elseif (playerName[i] == "泛舟") then
+			set heroCountString[i] = "33333333333333333333333333333333333333000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		elseif (playerName[i] == "司宸") then
+			set heroCountString[i] = "99999999999999999999999999999999999999000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+			set easyCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			set middleCString[i] = "11010000000000000000000000000000000000000000000000000000000000"
+			set hardCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
+			call SetMoqiSpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+			call SetXuanxue2SpinOK(GetTriggerPlayer())
+			call SetBajueSpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+		elseif (playerName[i] == "＿雅姬ベ") then
+			set heroCountString[i] = "99999999999999999999999999999999999999000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+			set easyCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			set middleCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			set hardCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
+			call SetMoqiSpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+			call SetXuanxue2SpinOK(GetTriggerPlayer())
+			call SetBajueSpinOK(GetTriggerPlayer())
+			call SetSheyanSpinOK(GetTriggerPlayer())
+		elseif (playerName[i] == "月丶暗影") then
+			set heroCountString[i] = "13131313131313131313131313131313131313000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+			set easyCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			set middleCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			set hardCString[i] = "11111000000000000000000000000000000000000000000000000000000000"
+			call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    倾雪发放
 	*/
 	private function Fafang1 takes player p returns nothing
@@ -50,17 +125,13 @@ library_once Qixi requires LHBase,Achievement
 			call SetTaiyaSpinOK(p)
 			call SetBajueSpinOK(p)
 			call SetKaisaSpinOK(p)
-		elseif (GetPlayerName(p) == "李阿龙酷丶") then
-			call SetSeyuSpinOK(p)
-			call SetBajueSpinOK(p)
-			call SetChenji2SpinOK(p)
 		elseif (GetPlayerName(p) == "我是你的小阿飞、") then
 			call SetMoqiSpinOK(p)
 		elseif (GetPlayerName(p) == "℡悠悠★over") then
 			call SetXuanxue2SpinOK(p)
 			call SetSheyanSpinOK(p)
 			call SetTaiyaSpinOK(p)
-		elseif (GetPlayerName(p) == "伊人泪") then
+		elseif (GetPlayerName(p) == "伊人泪。") then
 			call SetChenji2SpinOK(p)
 		elseif (GetPlayerName(p) == "敖利给") then
 			call SetXuanxue2SpinOK(p)
@@ -75,6 +146,8 @@ library_once Qixi requires LHBase,Achievement
 			call SetMoqiSpinOK(p)
 			call SetXiaoyueSpinOK(p)
 			call SetSeyuSpinOK(p)
+		elseif (GetPlayerName(p) == "咸菜拉条子") then
+			call SetChenji2SpinOK(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

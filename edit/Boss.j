@@ -627,7 +627,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	function SimulateDamageBoss takes unit u returns boolean
 		if (GetUnitTypeId(u) == 'h01S') then
 			call DisableTrigger(GetTriggeringTrigger())
-			if (IsUnitType(GetTriggerUnit(), UNIT_TYPE_MAGIC_IMMUNE)) then
+			if (IsUnitType(GetTriggerUnit(), UNIT_TYPE_MAGIC_IMMUNE) and playerName[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] != "信哲大人") then
 				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
 			endif
