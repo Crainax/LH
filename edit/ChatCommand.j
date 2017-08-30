@@ -178,6 +178,8 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call CameraSetSmoothingFactor( 0. )
 		elseif (str == "--") then
 			call FixView(false)
+		elseif (str == "-我爱轮回之狱作者") then
+			call Buchang(GetTriggerPlayer())
 		//玄雪皮肤
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()
