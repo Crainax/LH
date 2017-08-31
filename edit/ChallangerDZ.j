@@ -17,6 +17,20 @@ library_once ChallangerDZ requires LHBase
 		//判断是否读取成功
 		boolean array Bdudang
 	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取仓库
+	*/
+	function GetAndSaveCangku takes player p,integer i returns nothing
+		if (GetBit(Greward[GetConvertedPlayerId(p)],i) < 1) then
+			set Greward[GetConvertedPlayerId(p)] = Greward[GetConvertedPlayerId(p)] + R2I(Pow(10,i-1))
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DzAPI_Map_StoreInteger( p,  "Greward", Greward[GetConvertedPlayerId(p)] )
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    对应难度的对应数字
