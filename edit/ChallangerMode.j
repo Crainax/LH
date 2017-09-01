@@ -11,7 +11,6 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 		group GJingxiang = null
 	endglobals
 
-
 //---------------------------------------------------------------------------------------------------
     /*
         输出选英雄皮肤的提示
