@@ -49,6 +49,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         unit sichen = null
         unit xinglong = null
         unit xiaoting = null
+        unit lichi = null
         /*
             觉醒
         */ 
@@ -96,7 +97,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         判断是否是智力英雄
     */
     function IsIntHero takes unit u returns boolean
-        return u == lingxue or u == xuanxue or u == sheyan or u == Huanyi
+        return u == lingxue or u == xuanxue or u == sheyan or u == Huanyi or u == lichi
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

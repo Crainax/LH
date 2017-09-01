@@ -75,7 +75,7 @@ library_once Qixi requires LHBase,Achievement
 			call GetAchievementAndSave(p, 329)
 			call GetAchievementAndSave(p, 330)
 			call GetAchievementAndSave(p, 331)
-			call GetAchievementAndSave\(p, 43)
+			call GetAchievementAndSave(p, 43)
 			call GetAchievementAndSave(p, 45)
 			call GetAchievementAndSave(p, 46)
 			debug call SetSeyuSpinOK(p)
