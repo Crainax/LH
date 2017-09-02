@@ -303,6 +303,14 @@ library_once Aura requires LHBase,Attr
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    离魑光环
+	*/
+	function InitLichiAura takes nothing returns nothing
+		call UnitAddAbility(gg_unit_n01S_0258,'A0MR')
+		call UnitAddAbility(gg_unit_n01S_0258,'A0MS')
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    根据单位来初始化光环
 	*/
 	function InitSpecifyAura takes unit u returns nothing
@@ -343,6 +351,8 @@ library_once Aura requires LHBase,Attr
 			call InitSichenAura()
 		elseif (index == 19) then
 			call InitXiaotingAura()
+		elseif (index == 20) then
+			call InitLichiAura()
 		endif
 	endfunction
 

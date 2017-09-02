@@ -88,6 +88,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 		set IHuanyingCount = IHuanyingCount + 1
 		if (IHuanyingCount >= 200) then
 			call CreateHuanying()
+			set IHuanyingCount = 0
 		elseif (ModuloInteger(IHuanyingCount,50) == 0) then
     		call CreateTextTagA("影:"+I2S(IHuanyingCount),lichi,0,100,100,3,12)
 		endif
@@ -138,7 +139,31 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
     		endif
     	endif
 	endfunction	
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    殉-影炎绝
+	*/
+	private function Yingyanjue takes integer abilityID,real x,real y returns nothing
+		local real damage = LichiDamage
+		local integer i = 1
+		local integer index = 0
+		local real nx = 0.
+		local real ny = 0.
+	    call PrintSpell(GetOwningPlayer(lichi),GetAbilityName(abilityID),damage)
+	    call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", x, y ))
+		call DamageArea(lichi,x,y,350,damage)
+		loop
+			exitwhen i > IMaxHuanying
+			if (UHuan[i] != null) then
+				set index = GetHuanyingIndex(i)
+				set nx = x + IAbsBJ(index) * 150 * CosBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
+				set ny = y + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
+				call DamageArea(lichi,nx,ny,350,damage)
+	    		call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", nx,ny ))
+			endif
+			set i = i +1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    攻击与被攻击事件
@@ -154,7 +179,6 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
     		if not(BHuanAttack) then
     			set BHuanAttack = true
     			set i = 1
-    			call BJDebugMsg("|cFFFF66CC【消息】|rattack")
     			loop
     				exitwhen i > IMaxHuanying
 					if (UHuan[i] != null) then
@@ -167,7 +191,11 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
     		endif
     	else
     		//英雄被攻击，放第二个技能
-    		if (not(BTongyun) and IsSecondSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0JO') == 1) then
+    		if (not(BTongyun) and IsSecondSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0MN') == 1 and GetUnitState(lichi,UNIT_STATE_MANA) > 200) then
+    			set BTongyun = true
+    			call Yingyanjue('A0MN',GetUnitX(GetAttacker()),GetUnitY(GetAttacker()))
+    			call PolledWait(5)
+    			set BTongyun = false
     		endif
     	endif
     endfunction
@@ -202,10 +230,17 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	    主英雄使用技能
 	*/
 	private function TSpellLichiAct takes nothing returns nothing
-		if (GetSpellAbilityId() == 'A0JN') then
-		elseif (GetSpellAbilityId() == 'A0JO') then
-		elseif (GetSpellAbilityId() == 'A0JQ') then
-		elseif (GetSpellAbilityId() == 'AEme') then 
+		if (GetSpellAbilityId() == 'A0MJ') then
+			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 250 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 250 * SinBJ(GetUnitFacing(lichi)))
+		elseif (GetSpellAbilityId() == 'A0MK') then
+			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 500 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 500 * SinBJ(GetUnitFacing(lichi)))
+		elseif (GetSpellAbilityId() == 'A0ML') then
+			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 750 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 750 * SinBJ(GetUnitFacing(lichi)))
+		elseif (GetSpellAbilityId() == 'A0MM') then 
+			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 1000 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 1000 * SinBJ(GetUnitFacing(lichi)))
+		elseif (GetSpellAbilityId() == 'A0MO') then 
+			//湮魂印
+			call Yanhunyin(GetSpellTargetUnit())
 		endif
 
 	endfunction
@@ -215,8 +250,13 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	*/
 	private function FlashLichiDamage takes nothing returns nothing
 		set LichiDamage = GetDamageInt(lichi)
+		if (IsSecondSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0MN') == 1) then
+			if (GetUnitLifePercent(lichi) < 98) then
+				call SetUnitLifeBJ((GetUnitState(lichi,UNIT_STATE_LIFE)/6) * 5 + GetUnitState(lichi,UNIT_STATE_MAX_LIFE)  / 6)
+		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
+			endif	
+		endif
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    英雄学习技能
@@ -226,7 +266,9 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	function LearnSkillLichiI takes unit learner,integer whichSpell returns nothing
 		local integer i
 		if (learner == lichi) then
-			if (whichSpell == 3 and IsThirdSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0JP') == 1) then
+			if (whichSpell == 3 and IsThirdSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0MO') == 1) then
+				call InitLichiAura()
+				call AddSpecialEffectTargetUnitBJ("origin",Lichi,"war3mapImported\\yanbao.mdx")
 			elseif (whichSpell == 5 and IsFifthSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0JR') == 1) then
 			endif
 		endif
@@ -255,7 +297,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 		set lichi = u
 
 		//上限是4
-		set IMaxHuanying = 4
+		set IMaYHuanying = 4
 
 		//施法总事件
 		set TSpellLichi = CreateTrigger()

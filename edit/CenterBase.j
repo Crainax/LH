@@ -60,8 +60,6 @@ library_once CenterBase initializer InitCenterBase requires LHBase,Version
 	    call DisplayTextToForce( GetPlayersAll(), "|cFFFF66CC【提示】|r防护罩消失。" )
 	endfunction
 
-
-
 	function TCenterBaseDeathAct takes nothing returns nothing
 
 	    if (udg_I_Er_diansi[1] > 0) then
