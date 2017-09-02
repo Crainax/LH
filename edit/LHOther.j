@@ -36,7 +36,9 @@ library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 	
 	private function TAttackAllyAct takes nothing returns nothing
 			call IssueImmediateOrder(GetAttacker(),"stop")
-			call DisplayTimedTextToForce( GetPlayersAll(), 20, "|cFFFF66CC【提示】|r有人企图攻击自己的英雄队友，被伟大的Crainax制止了。" )
+			if (GetUnitTypeId(GetAttacker()) != 'h028') then
+				call DisplayTimedTextToForce( GetPlayersAll(), 20, "|cFFFF66CC【提示】|r有人企图攻击自己的英雄队友，被伟大的Crainax制止了。" )
+			endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
     /*

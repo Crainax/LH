@@ -1,6 +1,7 @@
 
 //! import "LHBase.j"
 //! import "ChallangerMode.j"
+//! import "Huodong.j"
 library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	
 	globals
