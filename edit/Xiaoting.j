@@ -837,7 +837,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	//判断16个都是否一致
 	private function ComboDuan takes nothing returns nothing
 		set ICombo = 0
-    	call CreateSpellTextTag("Combo连加断了",xiaoting,0,100,0,3)
+    	call CreateSpellTextTag("Combo断了",xiaoting,0,100,0,3)
     	call FlashComboShuxing()
 	endfunction
 

@@ -27,6 +27,8 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 		private boolean BHuanAttack = false
 		//0是静止,1是移动,2是攻击
 		private integer ILichiDoing = 0
+		//统计值
+		private integer IHuanyingCount = 0
 	endglobals
 
 
@@ -42,6 +44,49 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 		if (GetUnitTypeId(u) == 'h01J') then
 			call DamageArea(lichi,GetUnitX(u),GetUnitY(u),300,LichiDamage*0.4)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(u),GetUnitY(u) ))
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取某个幻影对应的位置，下面的话是负数形式
+	*/
+	private function GetHuanyingIndex takes integer id returns integer
+		if (ModuloInteger(id,2) == 1) then
+			// 奇数
+			return (id/2)+1
+		else
+			return -1 * (id/2)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    创建一个分身
+	*/
+	private function CreateHuanying takes nothing returns nothing
+		local integer i = 1
+		local integer index = 0
+		loop
+			exitwhen i > IMaxHuanying
+			if (UHuan[i] == null) then
+				set index = GetHuanyingIndex(i)
+				set UHuan[i] = CreateUnit(GetOwningPlayer(lichi),'yinm',index * 150 * CosBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.)),index * 150 * SinBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.)),GetUnitFacing(lichi))
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(UHuan[i]),GetUnitY(UHuan[i]) ))
+				return
+			endif
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    杀怪统计创造分身
+	*/
+	private function KillCountHuanying takes nothing returns nothing
+		set IHuanyingCount = IHuanyingCount + 1
+		if (IHuanyingCount >= 200) then
+			call CreateHuanying()
+		elseif (ModuloInteger(IHuanyingCount,50) == 0) then
+    		call CreateSpellTextTagA("影:"+I2S(IHuanyingCount),lichi,0,100,100,3,12)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -108,6 +153,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
     		endif
     	endif
     endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    龙皇吐息
@@ -180,20 +226,27 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    龙皇凝性的伤害被动
+	    替死
 	*/
-    private function TSpellXinglongDamageCon takes nothing returns boolean
-    	return IsThirdSpellOK(xinglong) and GetEventDamage() < GetUnitState(xinglong,UNIT_STATE_MAX_LIFE) and GetUnitAbilityLevel(xinglong,'A0JP') == 1 and IsUnitInUnitBack(xinglong,GetEventDamageSource(),60) and GetEventDamage() > 0 and GetEventDamageSource() != xinglong
+    private function TSpellLichiDamageCon takes nothing returns boolean
+    	return GetEventDamage() > GetUnitState(lichi,UNIT_STATE_LIFE)
     endfunction
     
-    private function TSpellXinglongDamageAct takes nothing returns nothing
-		call SetUnitLifeBJ(xinglong,GetUnitState(xinglong,UNIT_STATE_LIFE)+GetEventDamage()*2)
-    	if not(BDamage) then
-    		set BDamage = true
-    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\ReplenishHealth\\ReplenishHealthCasterOverhead.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
-    		call PolledWait(1)
-    		set BDamage = false
-    	endif
+    private function TSpellLichiDamageAct takes nothing returns nothing
+    	local integer i = 1
+    	loop
+    		exitwhen i > IMaxHuanying
+    		if (UHuan[i] != null) then
+    			call KillUnit(UHuan[i])
+    			set UHuan[i] == 1
+				call ImmuteDamageInterval(lichi,1)
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(lichi), GetUnitY(lichi) ))
+				call SetUnitLifePercentBJ(lichi,100)
+				call PrintSpellContent(GetOwningPlayer(lichi),GetAbilityName('A0MH'),"续命.")
+    			return
+    		endif
+    		set i = i +1
+    	endloop
     endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -419,14 +472,21 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	function InitLichi takes unit u returns nothing
 		set lichi = u
 
+		//上限是4
 		set IMaxHuanying = 4
 
+		//施法总事件
 		set TSpellLichi = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellLichi,u,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellLichi, function TSpellLichiAct)
 
+	    //初始加成
+	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5.)
+	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+
 	    //刷新伤害,还有每秒判断形态是否扣血,还有加属性的判断
 	    call TimerStart(CreateTimer(),1,true,function FlashLichiDamage)
+	    call UnitRemoveAbility(lichi,'sssssss')
 
 	    //一致的步调
 	    call TimerStart(CreateTimer(),0.1,true,function JudgeLichiMove)
