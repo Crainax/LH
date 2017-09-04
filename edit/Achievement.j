@@ -587,6 +587,22 @@ library_once Achievement requires LHBase,ChallangerDZ
 			set i = i +1
 		endloop
 
+		set i = 43
+		loop
+			exitwhen i > 46
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
+		set result = result and IsAchieveOK(p,49)
+
+		set i = 410
+		loop
+			exitwhen i > 414
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
 		return result
 
 	endfunction
@@ -766,7 +782,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(49) + S3(IsAchieveOK(p,49),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 			set i = 2
 		    loop
-		    	exitwhen i > 3
+		    	exitwhen i > 6
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 408) + S3(IsAchieveOK(p,i + 408),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop

@@ -429,7 +429,11 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	    囚天地
 	*/
 	private function QiutiandiSmart takes real x,real y returns nothing
-		local unit u = CreateUnit(GetOwningPlayer(lichi),'h02A',x,y,0)
+		local unit u = null
+		if (GetDistance(GetUnitX(lichi),GetUnitY(lichi),x,y) < 1200) then
+			return 
+		endif
+		set u = CreateUnit(GetOwningPlayer(lichi),'h02A',x,y,0)
 		set IQiutian = IQiutian + 1
 		if (IQiutian >= 20) then
 			set IQiutian = 0
@@ -553,19 +557,19 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 			set i = i +1
 		endloop
 
-		set lichi = u
-		set UHuan[0] = u
+		set lichi = lichi
+		set UHuan[0] = lichi
 		//上限是4
 		set IMaxHuanying = 4
 
 		//施法总事件
 		set TSpellLichi = CreateTrigger()
-	    call TriggerRegisterUnitEvent(TSpellLichi,u,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerRegisterUnitEvent(TSpellLichi,lichi,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellLichi, function TSpellLichiAct)
 
 	    //初始加成
-	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5.)
-	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.5)
+	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(lichi)),5.)
+	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(lichi)),0.5)
 
 	    //刷新伤害,还有每秒判断形态是否扣血,还有加属性的判断
 	    call TimerStart(CreateTimer(),1,true,function FlashLichiDamage)

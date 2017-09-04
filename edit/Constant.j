@@ -387,7 +387,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -564,6 +564,12 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【驻永恒】")
 		elseif (achieveID == 411) then
 			return GetColorString("【创世篇】")
+		elseif (achieveID == 412) then
+			return GetColorString("【若凰生】")
+		elseif (achieveID == 413) then
+			return GetColorString("【淼无极】")
+		elseif (achieveID == 414) then
+			return GetColorString("【金瓯体】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -730,6 +736,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "驻永恒"
 		elseif (achieveID == 411) then
 			return "创世篇"
+		elseif (achieveID == 412) then
+			return "若凰生"
+		elseif (achieveID == 413) then
+			return "淼无极"
+		elseif (achieveID == 414) then
+			return "金瓯体"
 		endif
 		return ""
 	endfunction
@@ -1067,6 +1079,22 @@ library_once Constant initializer InitConstant requires JBase
 			
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 412) then
+			return "输入-hs1进行生命检测，此时你的英雄生命达到1%以下却未死。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 413) then
+			return "输入-hs2进行生命检测，使用非霸绝英雄进行游戏，生命值达到5亿或以上。
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 414) then
+			return "输入-hs3进行防御检测，防御达到100W或以上。
+			（注意检测结果将不包含于装备中的防御定值光环与装备中的短暂BUFF效果）
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -1193,13 +1221,11 @@ library_once Constant initializer InitConstant requires JBase
 
 				完成该项挑战后你将获得寒殇的模型武器\"|cFF3333FF獠牙之匕|r\"(拥有少量的属性加成)!"
 			elseif (i == 8) then
-				return "嘉年华活动中连续签到满10天.
-				目前嘉年华活动结束,下个版本将上线英雄挑战.
+				return "输入-chenji可以进行检测，若此时英雄的生命低于2%，则完成该挑战。
 
 				完成该项挑战后你将获得辰寂的皮肤\"|cFFFF3333双流贯恒|r\"(拥有少量的属性加成)!"
 			elseif (i == 9) then
-				return "在8月20号前成功击败六界傀儡.
-				目前嘉年华活动结束,下个版本将上线英雄挑战.
+				return "在每天的连续签到中达到13天。
 
 				完成该项挑战后你将获得凌雪的皮肤\"|cFF339933沐雪无瑕|r\"(拥有少量的属性加成)!"
 			endif

@@ -803,6 +803,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+		检测1
+	*/
+	function Jiance1 takes unit u returns nothing
+		// body...
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    总伤害成就
 	*/
 	function SaveAchievement6 takes player p, integer damage2 returns nothing

@@ -18,6 +18,17 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
 
 //---------------------------------------------------------------------------------------------------
     /*
+        检测此时辰寂的生命
+    */
+    function ChenjiJiance takes nothing returns nothing
+        local real percentThousand = (GetUnitState(chenji,UNIT_STATE_LIFE) * 1000.)/GetUnitState(chenji,UNIT_STATE_MAX_LIFE)
+        if (percentThousand < 20 and IsUnitAliveBJ(chenji)) then
+            call SetChenji2SpinOK(GetOwningPlayer(chenji))
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(chenji), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为千分之"+R2S(percentThousand)+".")
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         使用引渡的时间
     */
     function CountYindu takes nothing returns nothing

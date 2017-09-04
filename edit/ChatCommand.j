@@ -172,8 +172,16 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call CombineBox()
 		elseif (str == "-bs") then
 			call ClearDiamond()
+		debug elseif (str == "-hs1") then
+		debug 	call Jiance1(u)
+		debug elseif (str == "-hs2") then
+		debug 	call Jiance2(u)
+		debug elseif (str == "-hs3") then
+		debug 	call Jiance3(u)
 		elseif (str == "-+") then
 			call FixView(true)
+		elseif (str == "-chenji" and u == chenji) then
+			call ChenjiJiance()
 		elseif (str == "-ph") then
 			call CameraSetSmoothingFactor( 0. )
 		elseif (str == "--") then
@@ -188,16 +196,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-bj" and GetOwningPlayer(bajue) == GetTriggerPlayer()) then
 			call InitFengshuang()
 			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启霸绝英雄挑战.")
-		//elseif (str == "-tz1" and udg_Bo < 1) then
-		//	if (not(BTiaozhan1)) then
-		//		call StartTiaozhan1()
-		//		set BTiaozhan1 = true
-		//	endif
-		//elseif (str == "-tz2" and udg_Bo < 1) then
-		//	if (not(BTiaozhan2)) then
-		//		call StartTiaozhan2()
-		//		set BTiaozhan2 = true
-		//	endif
 		elseif (str == "-yc") then
 			call YincangBroad()
 		debug elseif (str == "-jn") then
@@ -343,19 +341,19 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 49) then
 			set s = "每个英雄都拥有对全地图队友增益的光环效果,人多力量更大!"
 		elseif(i == 50) then
-			set s = "轮回之狱主群欢迎你的加入:1群:148199145(满).....2群:413359254....."
+			set s = "轮回之狱主群欢迎你的加入:1群:148199145(满)/2群:413359254。"
 		elseif(i == 51) then
 			set s = "输入-cj可以更换你的成就哦,还可以查询你拥有的所有成就,也可以查询所有成就的获取条件."
 		elseif(i == 52) then
-			set s = "秘境中成功通过某一层有2种方法，一种是将所有灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。"
+			set s = "秘境中成功通过某一层有2种方法，一种是将灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。"
 		elseif(i == 53) then
-			set s = "英雄可以通过明灯对天赋技能进行一阶或者二阶觉醒，明灯可从秘境中获取，总共有20层挑战～"
+			set s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有20层挑战～"
 		elseif(i == 54) then
-			set s = "某些英雄有特定的皮肤，这些皮肤可以通过解锁特定的成就来永久获取。（输入-cj查询）"
+			set s = "某些英雄有特定的皮肤，这些皮肤可以通过英雄挑战来永久获取。（在基地左侧查看条件）"
 		elseif(i == 55) then
-			set s = "当前在线的玩家越多，秘境中同时出现的怪物越多，范围越大，灯的位置也越分散。"
+			set s = "当前在线的玩家越多，秘境中怪物伤害越高也越强。"
 		elseif(i == 56) then
-			set s = "秘境中的每个明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要任一灯被摧毁，则挑战失败。"
+			set s = "秘境中的明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要灯被摧毁，则挑战失败。"
 		elseif(i == 57) then
 			set s = "你可以输入-+来提高视角。"
 		elseif(i == 58) then

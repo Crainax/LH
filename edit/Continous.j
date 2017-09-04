@@ -48,6 +48,10 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			call SetItemPawnable(GetLastCreatedItem(),false)
 		endif
 
+		if (i >= 14) then
+			call SetLingxueSpinOK(p)
+		endif
+
 		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -63,6 +67,8 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			return "|cffffff00【妖】五行之杖|r * 1"
 		elseif (days == 12) then
 			return "聚宝·Lv0 * 1"
+		elseif (days == 14) then
+			return "|cFF339933沐雪无瑕|r皮肤"
 		endif
 
 		return null
