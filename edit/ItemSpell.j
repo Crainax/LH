@@ -315,6 +315,15 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    魔颤寰宇
+	*/
+	function Mochanhuanyu takes unit u returns nothing
+		local string effs = S3(GetUnitAbilityLevel(u,'A0MT')==1,"Objects\\Spawnmodels\\Undead\\UDeathSmall\\UDeathSmall.mdl","war3mapImported\\DarkNova.mdx")
+		call DamageArea(u,GetUnitX(u),GetUnitY(u),400,GetDamageBase(u) * 0.3 * GetUnitAbilityLevel(u,'A0MT'))
+		call DestroyEffect(AddSpecialEffect(effs, GetUnitX(u),GetUnitY(u) ))
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    武器伤害引导
 	*/
 	//单体

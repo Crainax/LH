@@ -354,7 +354,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 	    射箭
 	*/
 	private function ShunfaxinArrow takes real x2,real y2 returns nothing
-	    local real x1 = GetUnitX(mengji)
+		local real x1 = GetUnitX(mengji)
 	    local real y1 = GetUnitY(mengji)
 	    local real facing = Atan2BJ(y2-y1,x2-x1)
 	    local real x = x2 - CosBJ(facing) * 100
@@ -364,12 +364,13 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
         call UnitAddAbility(u,'A0H4')
         call IssuePointOrder(u,"carrionswarm",x2,y2)
         set u = null
-        call PolledWait(0.01)
-        if (RAbsBJ(GetUnitX(mengji)-x1) < 600) then
-	        call SetUnitX(mengji,x1)
-	        call SetUnitY(mengji,y1)
-        	endif	
-        call IssueImmediateOrder(mengji,"stop")
+        //call PolledWait(0.01)
+        call IssuePointOrder(mengji,"move",GetUnitX(mengji),GetUnitY(mengji))
+        // if (RAbsBJ(GetUnitX(mengji)-x1) < 600) then
+	    //     call SetUnitX(mengji,x1)
+	    //     call SetUnitY(mengji,y1)
+        // 	endif	
+        // call IssueImmediateOrder(mengji,"stop")
 	endfunction
 
 	private function TSpellMengji4Con takes nothing returns boolean

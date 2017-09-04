@@ -1,10 +1,10 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     globals
         unit learnSkillHero = null
@@ -98,6 +98,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
     */
     function IsIntHero takes unit u returns boolean
         return u == lingxue or u == xuanxue or u == sheyan or u == Huanyi or u == lichi
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        判断是否是魔界英雄
+    */
+    function IsMo takes unit u returns boolean
+        return u == lichi
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -449,6 +456,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
         local real dx = x2-x1
         local real dy = y2-y1
         return SquareRoot(dx*dx+dy*dy)
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        4个坐标的距离
+    */
+    function GetUnitDistance takes unit u1,unit u2 returns real
+        return GetDistance(GetUnitX(u1),GetUnitY(u1),GetUnitX(u2),GetUnitY(u2))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

@@ -192,12 +192,23 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 
 		//如果计数君大于1则丢掉
 		if (beastCount > 1) then
+			call PolledWait(0.1)
 			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备上一个魔兽！")
 			return
 		elseif (beastCount == 1) then
 		//产生相对应的魔兽操作
 			call CreateBeast(GetTriggerUnit(),GetItemTypeId(GetManipulatedItem()))
+
+			if (IsMo(GetTriggerUnit())) then
+				if(GetItemTypeId(GetManipulatedItem()) == 'IB09' or GetItemTypeId(GetManipulatedItem()) == 'IB0A' or GetItemTypeId(GetManipulatedItem()) == 'I04X') then
+					call UnitAddAbility(GetTriggerUnit(),'A0MT')
+					call SetUnitAbilityLevel(GetTriggerUnit(),'A0MT',2)
+				elseif (GetItemTypeId(GetManipulatedItem()) == 'IB04' or GetItemTypeId(GetManipulatedItem()) == 'IB05' or GetItemTypeId(GetManipulatedItem()) == 'IB06' or GetItemTypeId(GetManipulatedItem()) == 'IB07' or GetItemTypeId(GetManipulatedItem()) == 'IB08') then
+					call UnitAddAbility(GetTriggerUnit(),'A0MT')
+				endif
+			endif
+
 		endif
 
 	endfunction
@@ -241,6 +252,12 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		endloop
 		if (beastCount != 2) then	
 			call RemoveBeast(GetManipulatingUnit())
+
+			if (IsMo(GetTriggerUnit())) then
+				if (GetItemTypeId(GetManipulatedItem()) == 'IB09' or GetItemTypeId(GetManipulatedItem()) == 'IB0A' or GetItemTypeId(GetManipulatedItem()) == 'I04X' or GetItemTypeId(GetManipulatedItem()) == 'IB04' or GetItemTypeId(GetManipulatedItem()) == 'IB05' or GetItemTypeId(GetManipulatedItem()) == 'IB06' or GetItemTypeId(GetManipulatedItem()) == 'IB07' or GetItemTypeId(GetManipulatedItem()) == 'IB08') then
+					call UnitRemoveAbility(GetTriggerUnit(),'A0MT')
+				endif
+			endif
 		endif
 	endfunction
 

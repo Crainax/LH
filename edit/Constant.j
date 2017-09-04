@@ -11,7 +11,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    英雄数量
 		*/
-		constant integer HERO_COUNT = 19
+		constant integer HERO_COUNT = 20
 		/*
 		    活动开关
 		*/
@@ -38,7 +38,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.350"
+		return "3.360"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -134,6 +134,8 @@ library_once Constant initializer InitConstant requires JBase
 			return 18
 		elseif (heroType == 'H01Y') then
 			return 19
+		elseif (heroType == 'H027') then
+			return 20
 		endif
 		return 0
 	endfunction	
@@ -181,6 +183,8 @@ library_once Constant initializer InitConstant requires JBase
 				set result = "星胧"
 			elseif (i == 19) then
 				set result = "霄霆"
+			elseif (i == 20) then
+				set result = "离魑"
 			endif
 			return result
 	endfunction
@@ -229,6 +233,8 @@ library_once Constant initializer InitConstant requires JBase
 			return 'AEme'
 		elseif (id == 19) then
 			return 'A0LJ'
+		elseif (id == 20) then
+			return 'A0MH'
 		endif
 		return 0
 	endfunction
@@ -279,6 +285,8 @@ library_once Constant initializer InitConstant requires JBase
 			return "|cffff4000操作难度：★★★★☆|r"
 		elseif (id == 19) then
 			return "|cffff0000操作难度：★★★★★(极度不推荐新手使用)|r"
+		elseif (id == 20) then
+			return "|cffffff00操作难度：★☆☆☆☆|r"
 		endif
 		return ""
 	endfunction
@@ -326,6 +334,8 @@ library_once Constant initializer InitConstant requires JBase
 			set result = "|cff99cc00星胧|r"
 		elseif (i == 19) then
 			set result = "|cff00ff00霄霆|r"
+		elseif (i == 20) then
+			set result = "|cff3366ff离魑|r"
 		endif
 		return result
 	endfunction

@@ -5,8 +5,9 @@
 //! import "Huanyi.j"
 //! import "Xinglong.j"
 //! import "Sheyan.j"
+//! import "Lichi.j"
 
-library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Sheyan
+library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Sheyan,Lichi
 
 
 //---------------------------------------------------------------------------------------------------
@@ -29,7 +30,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)			
 				else
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),false)
 				endif
@@ -160,6 +161,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 		elseif (u == hanshang) then
 			call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),0.25)
+		elseif (u == lichi) then
+	    	call UnitAddAbility(lichi,'A0B9')
 		elseif (u == xinglong and IsLong()) then
 			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
 			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
@@ -179,6 +182,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call JuexingMoqi2()
 		elseif (u == seyu) then
 			call JuexingSeyu2()
+		elseif (u == lichi) then
+			set IMaxHuanying = 5
 		elseif (u == chenji) then
 			call TriggerExecute( gg_trg_____________127 )
 		elseif (u == sheyan) then
@@ -286,6 +291,8 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call UnitRemoveAbility(Huanyi,'A0HX')
 		elseif (u == mengji) then
 			call RuohuanmengChatBack()
+		elseif (u == lichi) then
+	    	call UnitRemoveAbility(lichi,'A0B9')
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

@@ -42,6 +42,7 @@ library_once SpellBase requires LHBase
 	*/
 	struct Connect 
 		
+		private boolean BDie
 		private unit unit1
 		private unit unit2
 		private lightning l
@@ -49,7 +50,15 @@ library_once SpellBase requires LHBase
 
 		static method connect takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
-			call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
+			if (.BDie) then
+				if (not(IsUnitAliveBJ(unit1)) or not(IsUnitAliveBJ(unit2)) ) then
+					call .destroy()
+				else
+					call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
+				endif
+			else
+				call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
+			endif
 		endmethod
 
         static method operator [] takes handle h returns thistype
@@ -68,11 +77,16 @@ library_once SpellBase requires LHBase
 		   	local thistype this = thistype.allocate()
 		   	set .unit1 = unit1
 		   	set .unit2 = unit2
+		   	set .BDie = false
 			set .l = AddLightning( lightningType, true , GetUnitX(unit1),GetUnitY(unit1),GetUnitX(unit2),GetUnitY(unit2))
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
 			call TimerStart(.t,0.05,true,function thistype.connect)
 			return this
+		endmethod
+
+		method setDieVanish takes nothing returns nothing
+			set .BDie = true
 		endmethod
 
 		method onDestroy takes nothing returns nothing

@@ -79,7 +79,7 @@ integer renshu= 0
 		
 integer mode= 0
 constant integer COUNT_WANJIE= 47
-integer Constant___WPointer= 1
+integer Constant__WPointer= 1
 //endglobals from Constant
 //globals from Test:
 constant boolean LIBRARY_Test=true
@@ -148,6 +148,7 @@ sound gg_snd_Jidibeida
 sound gg_snd_Chenggong
 sound gg_snd_Shibai
 sound gg_snd_Renwu
+sound gg_snd_lichidazhao
 
         
 rect gg_rct____1
@@ -340,7 +341,7 @@ constant boolean LIBRARY_Printer=true
 //endglobals from Printer
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
-constant integer kUImmuteDamage=11
+constant integer kUImmuteDamage=10
 //endglobals from SpellBase
 //globals from Aura:
 constant boolean LIBRARY_Aura=true
@@ -377,6 +378,21 @@ integer Lichi___IHuanyingCount= 0
 
 		//第二个技能的冷却期
 boolean Lichi___BTongyun= false
+
+		//湮魂印连结效果
+integer array Lichi___CYanhun
+integer Iyanhun= 0
+unit Uyanhun= null
+
+		//神月缺的单位组
+integer Lichi___IShenyue= 0
+group array Lichi___GShenyue
+boolean Lichi___BShenyue= false
+
+		//囚天地
+trigger Lichi___TSpellLichi51= null
+trigger Lichi___TSpellLichi52= null
+integer Lichi___IQiutian= 0
 //endglobals from Lichi
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -402,6 +418,7 @@ constant integer si__Connect=1
 integer si__Connect_F=0
 integer si__Connect_I=0
 integer array si__Connect_V
+boolean array s__Connect_BDie
 unit array s__Connect_unit1
 unit array s__Connect_unit2
 lightning array s__Connect_l
@@ -462,6 +479,7 @@ integer array s__SuperShield_current
 timer array s__SuperShield_t
 trigger st__Connect__staticgetindex
 trigger st__Connect_onDestroy
+trigger st__Connect_destroy
 trigger st__Attract__staticgetindex
 trigger st__Attract_onDestroy
 trigger st__Attract_destroy
@@ -2897,103 +2915,103 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetWanjieluName takes nothing returns string
-		set Constant___WPointer=Constant___WPointer - 1
-		if ( Constant___WPointer <= 0 ) then
-			set Constant___WPointer=COUNT_WANJIE
+		set Constant__WPointer=Constant__WPointer - 1
+		if ( Constant__WPointer <= 0 ) then
+			set Constant__WPointer=COUNT_WANJIE
 		endif
-		if ( Constant___WPointer == 1 ) then
+		if ( Constant__WPointer == 1 ) then
 			return "你把我灌醉。"
-		elseif ( Constant___WPointer == 2 ) then
+		elseif ( Constant__WPointer == 2 ) then
 			return "心亦"
-		elseif ( Constant___WPointer == 3 ) then
+		elseif ( Constant__WPointer == 3 ) then
 			return "幻、神"
-		elseif ( Constant___WPointer == 4 ) then
+		elseif ( Constant__WPointer == 4 ) then
 			return "深邃的孤独丶"
-		elseif ( Constant___WPointer == 5 ) then
+		elseif ( Constant__WPointer == 5 ) then
 			return "雷瑟守备最强王者"
-		elseif ( Constant___WPointer == 6 ) then
+		elseif ( Constant__WPointer == 6 ) then
 			return "你的牛奶呢丶"
-		elseif ( Constant___WPointer == 7 ) then
+		elseif ( Constant__WPointer == 7 ) then
 			return "浪逼郭小癞"
-		elseif ( Constant___WPointer == 8 ) then
+		elseif ( Constant__WPointer == 8 ) then
 			return "很烦很皮"
-		elseif ( Constant___WPointer == 9 ) then
+		elseif ( Constant__WPointer == 9 ) then
 			return "sky"
-		elseif ( Constant___WPointer == 10 ) then
+		elseif ( Constant__WPointer == 10 ) then
 			return "梦露丶baby"
-		elseif ( Constant___WPointer == 11 ) then
+		elseif ( Constant__WPointer == 11 ) then
 			return "丶念少。"
-		elseif ( Constant___WPointer == 12 ) then
+		elseif ( Constant__WPointer == 12 ) then
 			return "0万物皆空0"
-		elseif ( Constant___WPointer == 13 ) then
+		elseif ( Constant__WPointer == 13 ) then
 			return "辉煌丶神偷"
-		elseif ( Constant___WPointer == 14 ) then
+		elseif ( Constant__WPointer == 14 ) then
 			return "丶7℃ャ跃娃"
-		elseif ( Constant___WPointer == 15 ) then
+		elseif ( Constant__WPointer == 15 ) then
 			return "星辰末日"
-		elseif ( Constant___WPointer == 16 ) then
+		elseif ( Constant__WPointer == 16 ) then
 			return "夕子奈月"
-		elseif ( Constant___WPointer == 17 ) then
+		elseif ( Constant__WPointer == 17 ) then
 			return "枫烨桦"
-		elseif ( Constant___WPointer == 18 ) then
+		elseif ( Constant__WPointer == 18 ) then
 			return "请带着我飞"
-		elseif ( Constant___WPointer == 19 ) then
+		elseif ( Constant__WPointer == 19 ) then
 			return "树林里故事"
-		elseif ( Constant___WPointer == 20 ) then
+		elseif ( Constant__WPointer == 20 ) then
 			return "我鸡鸡贼大"
-		elseif ( Constant___WPointer == 21 ) then
+		elseif ( Constant__WPointer == 21 ) then
 			return "至简i"
-		elseif ( Constant___WPointer == 22 ) then
+		elseif ( Constant__WPointer == 22 ) then
 			return "阴优"
-		elseif ( Constant___WPointer == 23 ) then
+		elseif ( Constant__WPointer == 23 ) then
 			return "逸灬仙"
-		elseif ( Constant___WPointer == 24 ) then
+		elseif ( Constant__WPointer == 24 ) then
 			return "躺车门始祖"
-		elseif ( Constant___WPointer == 25 ) then
+		elseif ( Constant__WPointer == 25 ) then
 			return "Rascal丶恋情"
-		elseif ( Constant___WPointer == 26 ) then
+		elseif ( Constant__WPointer == 26 ) then
 			return "7葡萄"
-		elseif ( Constant___WPointer == 27 ) then
+		elseif ( Constant__WPointer == 27 ) then
 			return "心雪"
-		elseif ( Constant___WPointer == 28 ) then
+		elseif ( Constant__WPointer == 28 ) then
 			return "Ma—LePYe"
-		elseif ( Constant___WPointer == 29 ) then
+		elseif ( Constant__WPointer == 29 ) then
 			return "墙头蹲红杏"
-		elseif ( Constant___WPointer == 30 ) then
+		elseif ( Constant__WPointer == 30 ) then
 			return "one丶lelseifeの爱"
-		elseif ( Constant___WPointer == 31 ) then
+		elseif ( Constant__WPointer == 31 ) then
 			return "czy888"
-		elseif ( Constant___WPointer == 32 ) then
+		elseif ( Constant__WPointer == 32 ) then
 			return "Flower丶God"
-		elseif ( Constant___WPointer == 33 ) then
+		elseif ( Constant__WPointer == 33 ) then
 			return "月丶暗影"
-		elseif ( Constant___WPointer == 34 ) then
+		elseif ( Constant__WPointer == 34 ) then
 			return "牛头居然能打巨能"
-		elseif ( Constant___WPointer == 35 ) then
+		elseif ( Constant__WPointer == 35 ) then
 			return "Dear冷月"
-		elseif ( Constant___WPointer == 36 ) then
+		elseif ( Constant__WPointer == 36 ) then
 			return "无缘之邪"
-		elseif ( Constant___WPointer == 37 ) then
+		elseif ( Constant__WPointer == 37 ) then
 			return "话唠。"
-		elseif ( Constant___WPointer == 38 ) then
+		elseif ( Constant__WPointer == 38 ) then
 			return "那天1234"
-		elseif ( Constant___WPointer == 39 ) then
+		elseif ( Constant__WPointer == 39 ) then
 			return "糖糖不在甜"
-		elseif ( Constant___WPointer == 40 ) then
+		elseif ( Constant__WPointer == 40 ) then
 			return "1 1"
-		elseif ( Constant___WPointer == 41 ) then
+		elseif ( Constant__WPointer == 41 ) then
 			return "浪逼康小帅"
-		elseif ( Constant___WPointer == 42 ) then
+		elseif ( Constant__WPointer == 42 ) then
 			return "与你童在"
-		elseif ( Constant___WPointer == 43 ) then
+		elseif ( Constant__WPointer == 43 ) then
 			return "神天羽"
-		elseif ( Constant___WPointer == 44 ) then
+		elseif ( Constant__WPointer == 44 ) then
 			return "你挺得劲"
-		elseif ( Constant___WPointer == 45 ) then
+		elseif ( Constant__WPointer == 45 ) then
 			return "＿雅姬ベ"
-		elseif ( Constant___WPointer == 46 ) then
+		elseif ( Constant__WPointer == 46 ) then
 			return "灵魂的缠绵"
-		elseif ( Constant___WPointer == 47 ) then
+		elseif ( Constant__WPointer == 47 ) then
 			return "司宸"
 		endif
 		return ""
@@ -3002,7 +3020,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Constant___InitConstant takes nothing returns nothing
+ function Constant__InitConstant takes nothing returns nothing
   local integer i= 1
 		loop
 			exitwhen i > 6
@@ -3042,7 +3060,7 @@ endfunction
          return 0.
      endfunction 
 
- function Test___InitTest takes nothing returns nothing
+ function Test__InitTest takes nothing returns nothing
 		// body...
 	endfunction
 
@@ -3344,6 +3362,11 @@ endfunction
         local real dx= x2 - x1
         local real dy= y2 - y1
         return SquareRoot(dx * dx + dy * dy)
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    
+    function GetUnitDistance takes unit u1,unit u2 returns real
+        return GetDistance(GetUnitX(u1) , GetUnitY(u1) , GetUnitX(u2) , GetUnitY(u2))
     endfunction
 //---------------------------------------------------------------------------------------------------
     
@@ -4014,7 +4037,15 @@ endfunction
 
   function s__Connect_connect takes nothing returns nothing
    local integer this= sc__Connect__staticgetindex(GetExpiredTimer())
-			call MoveLightning(s__Connect_l[this], true, GetUnitX(s__Connect_unit1[this]), GetUnitY(s__Connect_unit1[this]), GetUnitX(s__Connect_unit2[this]), GetUnitY(s__Connect_unit2[this]))
+			if ( s__Connect_BDie[this] ) then
+				if ( not ( IsUnitAliveBJ(s__Connect_unit1[this]) ) or not ( IsUnitAliveBJ(s__Connect_unit2[this]) ) ) then
+					call sc__Connect_deallocate(this)
+				else
+					call MoveLightning(s__Connect_l[this], true, GetUnitX(s__Connect_unit1[this]), GetUnitY(s__Connect_unit1[this]), GetUnitX(s__Connect_unit2[this]), GetUnitY(s__Connect_unit2[this]))
+				endif
+			else
+				call MoveLightning(s__Connect_l[this], true, GetUnitX(s__Connect_unit1[this]), GetUnitY(s__Connect_unit1[this]), GetUnitX(s__Connect_unit2[this]), GetUnitY(s__Connect_unit2[this]))
+			endif
   endfunction
 
         function s__Connect__staticgetindex takes handle h returns integer
@@ -4033,11 +4064,16 @@ endfunction
       local integer this= s__Connect__allocate()
 		   	set s__Connect_unit1[this]=unit1
 		   	set s__Connect_unit2[this]=unit2
+		   	set s__Connect_BDie[this]=false
 			set s__Connect_l[this]=AddLightning(lightningType, true, GetUnitX(unit1), GetUnitY(unit1), GetUnitX(unit2), GetUnitY(unit2))
 			set s__Connect_t[this]=CreateTimer()
 			call SaveInteger(YDHT, StringHash(("SpellBase" )), StringHash(( I2S((GetHandleId(((s__Connect_t[this]))))) )), ( ( (this)))) // INLINED!!
 			call TimerStart(s__Connect_t[this], 0.05, true, function s__Connect_connect)
 			return this
+  endfunction
+
+  function s__Connect_setDieVanish takes integer this returns nothing
+			set s__Connect_BDie[this]=true
   endfunction
 
   function s__Connect_onDestroy takes integer this returns nothing
@@ -4852,6 +4888,12 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
+ function InitLichiAura takes nothing returns nothing
+		call UnitAddAbility(gg_unit_n01S_0258, 'A0MR')
+		call UnitAddAbility(gg_unit_n01S_0258, 'A0MS')
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
  function InitSpecifyAura takes unit u returns nothing
   local integer index= GetHeroIndex(GetUnitTypeId(u))
 		if ( index == 1 ) then
@@ -4890,6 +4932,8 @@ endfunction
 			call InitSichenAura()
 		elseif ( index == 19 ) then
 			call UnitAddAbility(gg_unit_n01S_0258, 'A0M5') // INLINED!!
+		elseif ( index == 20 ) then
+			call InitLichiAura()
 		endif
 	endfunction
 
@@ -4903,10 +4947,24 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 		
  function SimulateDeathLichi takes unit u returns nothing
-		if ( GetUnitTypeId(u) == 'h01L' ) then
-			call DamageArea(lichi , GetUnitX(u) , GetUnitY(u) , 600 , 1)
- 			call DestroyEffect(AddSpecialEffect("war3mapImported\\IceStomp.mdx", GetUnitX(u), GetUnitY(u)))
+		if ( GetUnitTypeId(u) == 'h02A' ) then
+			call DamageArea(lichi , GetUnitX(u) , GetUnitY(u) , 350 , Lichi___LichiDamage * 0.25)
+ 			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", GetUnitX(u), GetUnitY(u)))
 		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SimulateDamageLichi takes unit u returns boolean
+		//幻影
+		if ( GetUnitTypeId(u) == 'h028' ) then
+			call UnitDamageTarget(lichi, GetTriggerUnit(), Lichi___LichiDamage * 0.05 * IJ3(lichi , 2 , 1), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			return true
+		endif
+		if ( GetUnitTypeId(u) == 'h02A' ) then
+			call UnitDamageTarget(lichi, GetTriggerUnit(), Lichi___LichiDamage * 0.01, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			return true
+		endif
+		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -4919,17 +4977,34 @@ endfunction
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	
+ function Lichi___GetHuanyingCount takes nothing returns integer
+  local integer i= 1
+  local integer result= 0
+		loop
+			exitwhen i > Lichi___IMaxHuanying
+			if ( Lichi___UHuan[i] != null ) then
+				set result=result + 1
+			endif
+			set i=i + 1
+		endloop
+		return result
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	
- function Lichi___CreateHuanying takes nothing returns nothing
+ function CreateHuanying takes nothing returns nothing
   local integer i= 1
   local integer index= 0
 		loop
 			exitwhen i > Lichi___IMaxHuanying
 			if ( Lichi___UHuan[i] == null ) then
 				set index=Lichi___GetHuanyingIndex(i)
-				set Lichi___UHuan[i]=CreateUnit(GetOwningPlayer(lichi), 'yinm', index * 150 * CosBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.)), index * 150 * SinBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.)), GetUnitFacing(lichi))
+				set Lichi___UHuan[i]=CreateUnit(GetOwningPlayer(lichi), 'h028', GetUnitX(lichi) + IAbsBJ(index) * 150 * CosBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.)), GetUnitY(lichi) + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.)), GetUnitFacing(lichi))
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(Lichi___UHuan[i]), GetUnitY(Lichi___UHuan[i])))
+        		call UnitAddType(Lichi___UHuan[i], UNIT_TYPE_PEON)
+    			call SetUnitAcquireRange(Lichi___UHuan[i], 1.00)
+        		call IssueTargetOrder(Lichi___UHuan[i], "attack", lichi)
 				return
 			endif
 			set i=i + 1
@@ -4940,7 +5015,8 @@ endfunction
  function Lichi___KillCountHuanying takes nothing returns nothing
 		set Lichi___IHuanyingCount=Lichi___IHuanyingCount + 1
 		if ( Lichi___IHuanyingCount >= 200 ) then
-			call Lichi___CreateHuanying()
+			call CreateHuanying()
+			set Lichi___IHuanyingCount=0
 		elseif ( ModuloInteger(Lichi___IHuanyingCount, 50) == 0 ) then
     		call CreateTextTagA("影:" + I2S(Lichi___IHuanyingCount) , lichi , 0 , 100 , 100 , 3 , 12)
 		endif
@@ -4949,14 +5025,16 @@ endfunction
 	
  function Lichi___JudgeLichiMove takes nothing returns nothing
   local integer i
+  local integer index
     	if ( Lichi___NiLiX != GetUnitX(lichi) or Lichi___NiLiY != GetUnitY(lichi) ) then
     		set Lichi___NiLiX=GetUnitX(lichi)
     		set Lichi___NiLiY=GetUnitY(lichi)
     		set i=1
     		loop
     			exitwhen i > Lichi___IMaxHuanying
-    			call SetUnitX(Lichi___UHuan[i], GetUnitX(lichi))
-    			call SetUnitY(Lichi___UHuan[i], GetUnitY(lichi))
+				set index=Lichi___GetHuanyingIndex(i)
+    			call SetUnitX(Lichi___UHuan[i], GetUnitX(lichi) + IAbsBJ(index) * 150 * CosBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.)))
+    			call SetUnitY(Lichi___UHuan[i], GetUnitY(lichi) + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.)))
     			call SetUnitFacing(Lichi___UHuan[i], GetUnitFacing(lichi))
     			set i=i + 1
     		endloop
@@ -4966,6 +5044,7 @@ endfunction
     			set i=1
     			loop
     				exitwhen i > Lichi___IMaxHuanying
+        			call IssueImmediateOrder(Lichi___UHuan[i], "stop")
 	    			call SetUnitAnimationByIndex(Lichi___UHuan[i], 2)
     				set i=i + 1
     			endloop
@@ -4975,16 +5054,97 @@ endfunction
     		if ( Lichi___ILichiDoing == 1 ) then
     			set Lichi___ILichiDoing=0
     			call SetUnitAnimationByIndex(lichi, 1)
+
     			set i=1
     			loop
     				exitwhen i > Lichi___IMaxHuanying
 	    			call SetUnitAnimationByIndex(Lichi___UHuan[i], 1)
+        			call IssueImmediateOrder(Lichi___UHuan[i], "stop")
     				set i=i + 1
     			endloop
     		endif
     	endif
 	endfunction	
+//---------------------------------------------------------------------------------------------------
+	
+	//神月盈爆炸
+ function Lichi___ShenyueyingBoom takes nothing returns nothing
+  local integer i= 1
+  local real x= GetUnitX(lichi)
+  local real y= GetUnitY(lichi)
+  local real damage= Lichi___LichiDamage * 5
+		call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", x, y))
+		loop
+			exitwhen i > 6
+			call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", (RMinBJ(RMaxBJ(((x + 900 * CosBJ(i * 60))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((y + 900 * SinBJ(i * 60))*1.0), yd_MapMinY), yd_MapMaxY)))) // INLINED!!
+			set i=i + 1
+		endloop
+	    call PrintSpellAdd((GetOwningPlayer(lichi) ) , ( GetAbilityName('A0MP') ) , (( damage)*1.0) , "") // INLINED!!
+		call DamageArea(lichi , x , y , 1800 , damage)
+	endfunction
 
+	//神月盈判断
+ function Lichi___ShenyueyingJudge takes nothing returns nothing
+		if not ( Lichi___BShenyue ) then
+			if ( IsUnitInGroup(GetEnumUnit(), Lichi___GShenyue[1]) and IsUnitInGroup(GetEnumUnit(), Lichi___GShenyue[2]) and IsUnitInGroup(GetEnumUnit(), Lichi___GShenyue[3]) and IsUnitInGroup(GetEnumUnit(), Lichi___GShenyue[4]) ) then
+				set Lichi___BShenyue=true
+			endif
+		endif
+	endfunction
+
+	//伤害并进行统计
+ function Lichi___ShenyueyingCount takes real x,real y,real damage returns nothing
+        local group l_group= CreateGroup()
+        local unit l_unit
+        set Lichi___IShenyue=I3(Lichi___IShenyue >= 4 , 1 , Lichi___IShenyue + 1)
+        call GroupClear(Lichi___GShenyue[Lichi___IShenyue])
+        call GroupEnumUnitsInRange(l_group, x, y, 350, null)
+        loop
+            set l_unit=FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if ( IsEnemy(l_unit , lichi) ) then
+                call UnitDamageTarget(lichi, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+                call GroupAddUnit(Lichi___GShenyue[Lichi___IShenyue], l_unit)
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group=null
+        set l_unit=null
+        call ForGroup(Lichi___GShenyue[Lichi___IShenyue], function Lichi___ShenyueyingJudge)
+        //如果有就爆炸
+        if ( Lichi___BShenyue ) then
+        	call Lichi___ShenyueyingBoom()
+        endif
+        set Lichi___BShenyue=false
+	endfunction
+
+ function Lichi___Yingyanjue takes integer abilityID,real x,real y returns nothing
+  local real damage= Lichi___LichiDamage
+  local integer i= 1
+  local integer index= 0
+  local real nx= 0.
+  local real ny= 0.
+	    call PrintSpellAdd((GetOwningPlayer(lichi) ) , ( GetAbilityName(abilityID) ) , (( damage)*1.0) , "") // INLINED!!
+	    call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", x, y))
+	    if ( (GetPlayerTechCountSimple('R008', GetOwningPlayer((lichi))) == 1) and GetUnitAbilityLevel(lichi, 'A0MP') == 1 and abilityID != 'A0MN' ) then // INLINED!!
+	    	call Lichi___ShenyueyingCount(x , y , damage)
+	    else
+			call DamageArea(lichi , x , y , 350 , damage)
+	    endif
+		loop
+			exitwhen i > Lichi___IMaxHuanying
+			if ( Lichi___UHuan[i] != null ) then
+				set index=Lichi___GetHuanyingIndex(i)
+				set nx=x + IAbsBJ(index) * 150 * CosBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.))
+				set ny=y + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi) + R3(index > 0 , 90. , - 90.))
+				call DamageArea(lichi , nx , ny , 350 , damage)
+	    		call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", nx, ny))
+    		    call SetUnitAnimation(Lichi___UHuan[i], "Spell Throw")
+			endif
+			set i=i + 1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	
     function Lichi___TAttackLichiCon takes nothing returns boolean
@@ -5010,7 +5170,11 @@ endfunction
     		endif
     	else
     		//英雄被攻击，放第二个技能
-    		if ( not ( Lichi___BTongyun ) and (GetPlayerTechCountSimple('R006', GetOwningPlayer((lichi))) == 1) and GetUnitAbilityLevel(lichi, 'A0JO') == 1 ) then // INLINED!!
+    		if ( not ( Lichi___BTongyun ) and (GetPlayerTechCountSimple('R006', GetOwningPlayer((lichi))) == 1) and GetUnitAbilityLevel(lichi, 'A0MN') == 1 and GetUnitState(lichi, UNIT_STATE_MANA) > 200 and GetRandomInt(1, 20) == 1 ) then // INLINED!!
+    			set Lichi___BTongyun=true
+    			call Lichi___Yingyanjue('A0MN' , GetUnitX(GetAttacker()) , GetUnitY(GetAttacker()))
+    			call PolledWait(5)
+    			set Lichi___BTongyun=false
     		endif
     	endif
     endfunction
@@ -5037,14 +5201,159 @@ endfunction
     		set i=i + 1
     	endloop
     endfunction
+//---------------------------------------------------------------------------------------------------
+	
+	//清除湮魂印的遗留物
+ function Lichi___ClearYanhun takes nothing returns nothing
+  local integer i= 0
+		set Iyanhun=0
+		set Uyanhun=null
+		loop
+			exitwhen i > Lichi___IMaxHuanying
+			if ( Lichi___CYanhun[i] != 0 ) then
+				call s__Connect_deallocate(Lichi___CYanhun[i])
+			endif
+			set i=i + 1
+		endloop
+	endfunction
 
+ function Lichi___YanhunyinTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer count= Lichi___GetHuanyingCount()
+		if ( IsUnitAliveBJ(Uyanhun) and IsUnitAliveBJ(lichi) and GetUnitDistance(Uyanhun , lichi) < 2000 ) then
+			call UnitDamageTarget(lichi, Uyanhun, GetUnitState(lichi, UNIT_STATE_MAX_LIFE) * 0.1 * count, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
+			call SetUnitLifeBJ(lichi, GetUnitState(lichi, UNIT_STATE_LIFE) + GetUnitState(lichi, UNIT_STATE_MAX_LIFE) * 0.1 * count)
+			call SetUnitManaBJ(Uyanhun, GetUnitState(Uyanhun, UNIT_STATE_MANA) - 5 * count)
+			call SetUnitManaBJ(lichi, GetUnitState(lichi, UNIT_STATE_MANA) + 5 * count)
+		else
+			call PauseTimer(t)
+			call DestroyTimer(t)
+			call Lichi___ClearYanhun()
+		endif
+		set t=null
+	endfunction
+
+ function Lichi___Yanhunyin takes unit u returns nothing
+  local integer i= 1
+  local timer t= CreateTimer()
+		call Lichi___ClearYanhun()
+		set Iyanhun=1
+		loop
+			exitwhen i > Lichi___IMaxHuanying
+     		if ( Lichi___UHuan[i] != null ) then
+				set Lichi___CYanhun[i]=s__Connect_create(Lichi___UHuan[i] , u , "LEAS")
+				set s__Connect_BDie[(Lichi___CYanhun[i])]=true // INLINED!!
+				set Iyanhun=Iyanhun + 1
+    		endif
+			set i=i + 1
+		endloop
+		set Lichi___CYanhun[0]=s__Connect_create(lichi , u , "LEAS")
+		set s__Connect_BDie[(Lichi___CYanhun[0])]=true // INLINED!!
+		set Uyanhun=u
+		call TimerStart(t, 1, true, function Lichi___YanhunyinTimer)
+		set t=null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Lichi___ShenyueyingTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer i= 1
+		if not ( BJuexing1[GetConvertedPlayerId(GetOwningPlayer(lichi))] ) then
+	    	call UnitRemoveAbility(lichi, 'A0B9')
+	    	loop
+	    		exitwhen i > Lichi___IMaxHuanying
+	    		if ( Lichi___UHuan[i] != null ) then
+	    			call UnitRemoveAbility(Lichi___UHuan[i], 'A0B9')
+	    		endif
+	    		set i=i + 1
+	    	endloop
+		endif
+		call CreateTextTagA(("神月盈时间到！" ) , ( lichi ) , (( 0 )*1.0) , (( 50 )*1.0) , (( 100 )*1.0) , (( 3)*1.0) , 16) // INLINED!!
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		set t=null
+	endfunction
+
+ function Lichi___Shenyueying takes nothing returns nothing
+  local integer i= 1
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(lichi), GetUnitY(lichi)))
+	    call UnitAddAbility(lichi, 'A0B9')
+		loop
+			exitwhen i > Lichi___IMaxHuanying
+     		if ( Lichi___UHuan[i] != null ) then
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(Lichi___UHuan[i]), GetUnitY(Lichi___UHuan[i])))
+	    		call UnitAddAbility(Lichi___UHuan[i], 'A0B9')
+    		    call SetUnitAnimation(Lichi___UHuan[i], "Spell Throw")
+    		endif
+			set i=i + 1
+		endloop
+		call TimerStart(CreateTimer(), 30, false, function Lichi___ShenyueyingTimer)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Lichi___QiutiandiSmart takes real x,real y returns nothing
+  local unit u= CreateUnit(GetOwningPlayer(lichi), 'h02A', GetUnitX(lichi), GetUnitY(lichi), 0)
+		set Lichi___IQiutian=Lichi___IQiutian + 1
+		if ( Lichi___IQiutian >= 20 ) then
+			set Lichi___IQiutian=0
+			call SetUnitLifePercentBJ(lichi, 100)
+			call ImmuteDamageInterval(lichi , 2)
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(lichi), GetUnitY(lichi)))
+		endif
+		call UnitApplyTimedLifeBJ(3, 'BHwe', u)
+        call IssuePointOrder(lichi, "move", GetUnitX(lichi), GetUnitY(lichi))
+		set u=null
+	endfunction
+
+ function Lichi___Qiutiandi takes nothing returns nothing
+  local real time= GetUnitState(lichi, UNIT_STATE_MANA) * 0.01 * 0.5
+  local unit u= CreateUnit(GetOwningPlayer(lichi), 'h029', GetUnitX(lichi), GetUnitY(lichi), 0)
+     local integer attract= s__Attract_create(u , 1200 , 0.05 , 20)
+	    call s__Attract_start(attract)
+		call UnitApplyTimedLifeBJ(time, 'BHwe', u)
+		call PlaySoundBJ(gg_snd_lichidazhao)
+	    call EnableTrigger(Lichi___TSpellLichi51)
+	    call EnableTrigger(Lichi___TSpellLichi52)
+	    call PrintSpellContent(GetOwningPlayer(lichi) , GetAbilityName(GetSpellAbilityId()) , "持续" + I2S(R2I(time)) + "s.")
+	    call SetUnitManaPercentBJ(lichi, 0)
+	    call PolledWait(time)
+	    call DisableTrigger(Lichi___TSpellLichi51)
+	    call DisableTrigger(Lichi___TSpellLichi52)
+	    call PrintSpellContent(GetOwningPlayer(lichi) , GetAbilityName('A0MQ') , ",施法结束.")
+	    set u=null
+	endfunction
+
+ function Lichi___TSpellLichi5Con takes nothing returns boolean
+	    return ( ( GetIssuedOrderIdBJ() == String2OrderIdBJ("smart") ) )
+	endfunction
+
+ function Lichi___TSpellLichi51Act takes nothing returns nothing
+	    call Lichi___QiutiandiSmart(GetUnitX(GetOrderTargetUnit()) , GetUnitY(GetOrderTargetUnit()))
+	endfunction
+
+ function Lichi___TSpellLichi52Act takes nothing returns nothing
+	    call Lichi___QiutiandiSmart(GetOrderPointX() , GetOrderPointY())
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Lichi___TSpellLichiAct takes nothing returns nothing
-		if ( GetSpellAbilityId() == 'A0JN' ) then
-		elseif ( GetSpellAbilityId() == 'A0JO' ) then
-		elseif ( GetSpellAbilityId() == 'A0JQ' ) then
-		elseif ( GetSpellAbilityId() == 'AEme' ) then
+		if ( GetSpellAbilityId() == 'A0MJ' ) then
+			call Lichi___Yingyanjue(GetSpellAbilityId() , GetUnitX(lichi) + 250 * CosBJ(GetUnitFacing(lichi)) , GetUnitY(lichi) + 250 * SinBJ(GetUnitFacing(lichi)))
+		elseif ( GetSpellAbilityId() == 'A0MK' ) then
+			call Lichi___Yingyanjue(GetSpellAbilityId() , GetUnitX(lichi) + 500 * CosBJ(GetUnitFacing(lichi)) , GetUnitY(lichi) + 500 * SinBJ(GetUnitFacing(lichi)))
+		elseif ( GetSpellAbilityId() == 'A0ML' ) then
+			call Lichi___Yingyanjue(GetSpellAbilityId() , GetUnitX(lichi) + 750 * CosBJ(GetUnitFacing(lichi)) , GetUnitY(lichi) + 750 * SinBJ(GetUnitFacing(lichi)))
+		elseif ( GetSpellAbilityId() == 'A0MM' ) then
+			call Lichi___Yingyanjue(GetSpellAbilityId() , GetUnitX(lichi) + 1000 * CosBJ(GetUnitFacing(lichi)) , GetUnitY(lichi) + 1000 * SinBJ(GetUnitFacing(lichi)))
+		elseif ( GetSpellAbilityId() == 'A0MO' ) then
+			//湮魂印
+			call Lichi___Yanhunyin(GetSpellTargetUnit())
+		elseif ( GetSpellAbilityId() == 'A0MP' ) then
+			//神月盈
+			call Lichi___Shenyueying()
+		elseif ( GetSpellAbilityId() == 'A0MQ' ) then
+			//囚天地
+			call Lichi___Qiutiandi()
 		endif
 
 	endfunction
@@ -5052,8 +5361,13 @@ endfunction
 	
  function Lichi___FlashLichiDamage takes nothing returns nothing
 		set Lichi___LichiDamage=GetDamageInt(lichi)
+		if ( (GetPlayerTechCountSimple('R006', GetOwningPlayer((lichi))) == 1) and GetUnitAbilityLevel(lichi, 'A0MN') == 1 ) then // INLINED!!
+			if ( GetUnitLifePercent(lichi) < 98 ) then
+				call SetUnitLifeBJ(lichi, ( GetUnitState(lichi, UNIT_STATE_LIFE) / 6 ) * 5 + GetUnitState(lichi, UNIT_STATE_MAX_LIFE) / 6)
+		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(lichi), GetUnitY(lichi)))
+			endif
+		endif
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	
 
@@ -5061,8 +5375,9 @@ endfunction
  function LearnSkillLichiI takes unit learner,integer whichSpell returns nothing
   local integer i
 		if ( learner == lichi ) then
-			if ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((lichi))) == 1) and GetUnitAbilityLevel(lichi, 'A0JP') == 1 ) then // INLINED!!
-			elseif ( whichSpell == 5 and IsFifthSpellOK(lichi) and GetUnitAbilityLevel(lichi, 'A0JR') == 1 ) then
+			if ( whichSpell == 3 and (GetPlayerTechCountSimple('R007', GetOwningPlayer((lichi))) == 1) and GetUnitAbilityLevel(lichi, 'A0MO') == 1 ) then // INLINED!!
+				call InitLichiAura()
+				call AddSpecialEffectTargetUnitBJ("origin", lichi, "war3mapImported\\yanbao.mdx")
 			endif
 		endif
 	endfunction
@@ -5085,6 +5400,14 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function InitLichi takes unit u returns nothing
+  local integer i= 1
+
+		loop
+			exitwhen i > 4
+			set Lichi___GShenyue[i]=CreateGroup()
+			set i=i + 1
+		endloop
+
 		set lichi=u
 
 		//上限是4
@@ -5104,7 +5427,7 @@ endfunction
 	    call UnitRemoveAbility(lichi, 'A0B9')
 
 	    //一致的步调动作与位置
-	    call TimerStart(CreateTimer(), 0.1, true, function Lichi___JudgeLichiMove)
+	    call TimerStart(CreateTimer(), 0.05, true, function Lichi___JudgeLichiMove)
 	    //call TimerStart(CreateTimer(),0.055,true,function JudgeLichiPos)
 
 	    //攻击与被攻击事件
@@ -5118,6 +5441,18 @@ endfunction
 	    call TriggerRegisterUnitEvent(Lichi___TSpellLichiDamage, lichi, EVENT_UNIT_DAMAGED)
 	    call TriggerAddCondition(Lichi___TSpellLichiDamage, Condition(function Lichi___TSpellLichiDamageCon))
 	    call TriggerAddAction(Lichi___TSpellLichiDamage, function Lichi___TSpellLichiDamageAct)
+
+	    //囚天地
+	    set Lichi___TSpellLichi51=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Lichi___TSpellLichi51, lichi, EVENT_UNIT_ISSUED_TARGET_ORDER)
+	    call TriggerAddCondition(Lichi___TSpellLichi51, Condition(function Lichi___TSpellLichi5Con))
+	    call TriggerAddAction(Lichi___TSpellLichi51, function Lichi___TSpellLichi51Act)
+	    call DisableTrigger(Lichi___TSpellLichi51)
+	    set Lichi___TSpellLichi52=CreateTrigger()
+	    call TriggerRegisterUnitEvent(Lichi___TSpellLichi52, lichi, EVENT_UNIT_ISSUED_POINT_ORDER)
+	    call TriggerAddCondition(Lichi___TSpellLichi52, Condition(function Lichi___TSpellLichi5Con))
+	    call TriggerAddAction(Lichi___TSpellLichi52, function Lichi___TSpellLichi52Act)
+	    call DisableTrigger(Lichi___TSpellLichi52)
 	endfunction
 
 //library Lichi ends
@@ -5216,9 +5551,9 @@ endfunction
 // END IMPORT OF Lichi.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs320423546")
-call ExecuteFunc("Constant___InitConstant")
-call ExecuteFunc("Test___InitTest")
+call ExecuteFunc("jasshelper__initstructs427349156")
+call ExecuteFunc("Constant__InitConstant")
+call ExecuteFunc("Test__InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
 call ExecuteFunc("Attr___InitAttr")
 call ExecuteFunc("Printer___InitPrinter")
@@ -5332,7 +5667,7 @@ local integer this=f__arg_this
    return true
 endfunction
 
-function jasshelper__initstructs320423546 takes nothing returns nothing
+function jasshelper__initstructs427349156 takes nothing returns nothing
     set st__Connect__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Connect__staticgetindex,Condition( function sa__Connect__staticgetindex))
     set st__Connect_onDestroy=CreateTrigger()
