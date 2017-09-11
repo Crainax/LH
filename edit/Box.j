@@ -13,6 +13,10 @@ library_once Box requires LHBase,Version,ChallangerDZ
 			return "倾雪寒晶"
 		elseif (i == 2) then
 			return "救死扶伤"
+		elseif (i == 3) then
+			return "瞬息万年"
+		elseif (i == 4) then
+			return "紫雷之极"
 		endif
 
 		return ""
@@ -20,9 +24,13 @@ library_once Box requires LHBase,Version,ChallangerDZ
 
 	private function GetBoxCondition takes integer i returns string
 		if (i == 1) then
-			return "|cff33cccc(完成挑战>20%解锁)|r"
+			return "|cff33cccc(完成挑战>10%解锁)|r"
 		elseif (i == 2) then
+			return "|cff33cccc(完成挑战>50%解锁)|r"
+		elseif (i == 3) then
 			return "|cff33cccc(完成挑战>99%解锁)|r"
+		elseif (i == 4) then
+			return "|cff33cccc(地图等级大于18级解锁)|r"
 		endif
 		return ""
 	endfunction
@@ -32,6 +40,10 @@ library_once Box requires LHBase,Version,ChallangerDZ
 			return 'n01R'
 		elseif (i == 2) then
 			return 'n01Z'
+		elseif (i == 3) then
+			return 'n020'
+		elseif (i == 4) then
+			return 'n021'
 		endif
 		return 0
 	endfunction
@@ -41,15 +53,23 @@ library_once Box requires LHBase,Version,ChallangerDZ
 			return 'A0KW'
 		elseif (i == 2) then
 			return 'A0MD'
+		elseif (i == 3) then
+			return 'A0MX'
+		elseif (i == 4) then
+			return 'Aprg'
 		endif
 		return 0
 	endfunction
 
 	private function IsBoxAccess takes player p,integer i returns boolean
 		if (i == 1) then
-			return GetCompleteRate(p) >= 0.2 or GetBit(Greward[GetConvertedPlayerId(p)],1) > 0
+			return GetCompleteRate(p) >= 0.1 or GetBit(Greward[GetConvertedPlayerId(p)],1) > 0
 		elseif (i == 2) then
-			return GetCompleteRate(p) >= 0.99 or GetBit(Greward[GetConvertedPlayerId(p)],2) > 0
+			return GetCompleteRate(p) >= 0.5 or GetBit(Greward[GetConvertedPlayerId(p)],2) > 0
+		elseif (i == 3) then
+			return GetCompleteRate(p) >= 0.99 or GetBit(Greward[GetConvertedPlayerId(p)],3) > 0
+		elseif (i == 4) then
+			return DzAPI_Map_GetMapLevel(p) >= 18 or GetBit(Greward[GetConvertedPlayerId(p)],4) > 0
 		endif
 
 		return false
@@ -69,7 +89,7 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		endloop
 		call RemoveUnit(UDepot[GetConvertedPlayerId(p)])
 		set UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, GetBoxType(i), x, y, 270.000)
-		if (GetDiffculty() <= 5) then
+		if (GetDiffculty() <= 8) then
 			call UnitAddAbility(UDepot[GetConvertedPlayerId(p)],GetBoxAbility(i))
 		endif
 	endfunction
@@ -105,7 +125,7 @@ library_once Box requires LHBase,Version,ChallangerDZ
 	    完成挑战:("+I2S(GetAllComplete(p)) +"/"+I2S(COUNT_CHALLANGER * 3)+"="+I2S(R2I( GetCompleteRate(p)*100))+"%)"+"
 	    箱子变形:" )
 	    loop
-	    	exitwhen i > 2
+	    	exitwhen i > 4
 	    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetBoxName(i) + S3(IsBoxAccess(p,i),"|cffff9900(已解锁)|r",GetBoxCondition(i))))
 	    	set i = i +1
 	    endloop

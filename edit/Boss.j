@@ -45,8 +45,92 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		private trigger TDeathRenyao = null
 
 		//生命联结解药
-		boolean array BGongxiang
+		boolean BGongxiang = false
+
+		//BOSS伤害统计
+		DamageTJ DTJ1 = 0
+		DamageTJ DTJ2 = 0
+		DamageTJ DTJ3 = 0
 	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    伤害统计系统
+	*/
+	struct DamageTJ
+		
+		private real array RTongji [7]
+		private trigger t
+		private unit monitor
+
+		private static method DamageCon takes nothing returns boolean
+			return GetEventDamage() > 10000000
+		endmethod		
+
+		private static method DamageAct takes nothing returns nothing
+			local thistype this = thistype[GetTriggeringTrigger()]
+			local integer index = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
+			set .RTongji[index] = .RTongji[index] + (GetEventDamage()/10000000.)
+		endmethod
+
+		//输出伤害显示
+		method show takes nothing returns nothing
+			local integer i = 1
+			call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
+			call BJDebugMsg("|cffff6800【总伤害统计】|r"+GetUnitName(.monitor))
+			loop
+				exitwhen i > 6
+				if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+					call BJDebugMsg(GetPlayerName(ConvertedPlayer(i)) +":" + R2S(.RTongji[i] / 10) +"亿伤害。")
+				endif
+				set i = i +1
+			endloop
+			call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
+			call .destroy()
+		endmethod
+
+        static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("damageTJ", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("damageTJ", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("damageTJ", I2S(YDWEH2I(h)))
+        endmethod
+
+		static method create takes unit monitor returns thistype
+		   	local thistype this = thistype.allocate()
+			local integer i = 1
+			set .t = CreateTrigger()
+			set .monitor = monitor
+			loop
+				exitwhen i > 6
+				set .RTongji[i] = 0.
+				set i = i +1
+			endloop
+			call TriggerRegisterUnitEvent(.t,monitor,EVENT_UNIT_DAMAGED)
+		    call TriggerAddCondition(.t,Condition(function thistype.DamageCon))
+		    call TriggerAddAction(.t,function thistype.DamageAct)
+			set thistype[.t] = integer(this)
+			return this
+		endmethod
+
+		method onDestroy takes nothing returns nothing
+			local integer i = 1
+			call thistype.flush(.t)
+			set .monitor = null
+			loop
+				exitwhen i > 6
+				set .RTongji[i] = 0
+				set i = i +1
+			endloop
+			call DestroyTrigger(.t)
+			set .t = null
+		endmethod
+	endstruct
 //---------------------------------------------------------------------------------------------------
 	/*
 	    航海领域
@@ -136,7 +220,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 				set i = i +1
 			endloop
         	if (ILuoshi <= 0) then
-				set ILuoshi = 10 - NanDiff * 2
+				set ILuoshi = 15 - NanDiff * 2
 			endif
 		else
 			set ILuoshi = 0
@@ -148,7 +232,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 
 	function InitTimerStoneKill takes nothing returns nothing
 		local timer t = CreateTimer()
-		set ILuoshi = 12 - NanDiff * 2
+		set ILuoshi = 15 - NanDiff * 2
 		call TimerStart(t,1,true,function TimerStoneKill)
 		set t = null
 	endfunction
@@ -284,7 +368,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null and IsUnitAliveBJ(udg_H[i]) and not(BGongxiang[i])) then
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null and IsUnitAliveBJ(udg_H[i])) then
 				call UnitDamageTarget( GetKillingUnitBJ(), udg_H[i], GetUnitState(udg_H[i],UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			endif
 			set i = i +1
@@ -292,8 +376,6 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call BJDebugMsg("|cFFFF66CC【消息】|r由于受到生命共享的影响,你们所有英雄受到了致死伤害.")
 		debug set BShengming = true
 	endfunction
-
-
 
 	//开始联结之路
 	function StartLifeConnect takes nothing returns nothing
@@ -431,6 +513,10 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
         local Attract attract = Attract.create(gg_unit_Nkjx_0241,1800,0.05,10)
         call attract.start()
 
+        set DTJ1 = DamageTJ.create(gg_unit_Nkjx_0241)
+        set DTJ2 = DamageTJ.create(gg_unit_Uear_0242)
+        set DTJ3 = DamageTJ.create(gg_unit_Npld_0253)
+
         //左右护法的技能
 	    set TSpellZuo = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellZuo, gg_unit_Uear_0242, EVENT_UNIT_ATTACKED)
@@ -500,7 +586,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	private function DaroubangJudge takes nothing returns nothing
 		if (MLChuanzhang.getTimes()>IRoubang) then
 			set IRoubang = MLChuanzhang.getTimes()
-	    	call Roubang.create(UChuanzhang,10,100,1.66*IRoubang,GetRandomReal(0,360),'h01T')
+	    	call Roubang.create(UChuanzhang,10,100,1.33*IRoubang,GetRandomReal(0,360),'h01T')
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -522,8 +608,11 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    call PolledWait(2.00)
 		    call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "游戏将在60秒后结束...", bj_TIMETYPE_ADD, 2.00, true )
 		    debug call SaveAchievement()
-		    debug call SaveAchievement2()
 		    call PolledWait(2.00)
+	        call DTJ1.show()
+	        call DTJ2.show()
+	        set DTJ1 = 0
+	        set DTJ2 = 0
 		    call PrintMengjiPassword()
 		    call PrintMengjiPassword()
 		    call PrintMengjiPassword()
@@ -572,8 +661,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		set UXiaoY = CreateUnit(Player(11),'N01O',GetRectCenterX(gg_rct________6),GetRectCenterY(gg_rct________6),90)
 		set UChuanzhang = CreateUnit(Player(11),'N01P',GetRectCenterX(gg_rct________3),GetRectCenterY(gg_rct________3),270)
 		//多条命
-		set MLChuanzhang = MultiLife.create(UChuanzhang,3)
-		set MLXiaoY = MultiLife.create(UXiaoY,3)
+		set MLChuanzhang = MultiLife.create(UChuanzhang,I3(IsWanjie(),3,I3(renshu == 1 or GetDiffculty() < 5,1,2)))
+		set MLXiaoY = MultiLife.create(UXiaoY,I3(IsWanjie(),3,I3(renshu == 1 or GetDiffculty() < 5,1,2)))
 		call SetUnitAbilityLevel(UXiaoY,'A0AG',udg_Nandu_JJJ)
 		call SetUnitAbilityLevel(UChuanzhang,'A0AG',udg_Nandu_JJJ)
 		call StartFangKa( UXiaoY )
@@ -582,6 +671,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    call PauseTimer( TiRenYao )
 	    call DestroyTimer(TiRenYao)
     	call DestroyTimerDialog( TiDiaRenYao )
+
+        set DTJ1 = DamageTJ.create(UXiaoY)
+        set DTJ2 = DamageTJ.create(UChuanzhang)
 
 	    call StartTimerBJ( udg_Time_BOSS, false, 1200.00 )
 	    call CreateTimerDialogBJ( udg_Time_BOSS, "限时击杀时间" )
@@ -595,7 +687,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    set t = null
 	    //小Y技能
 	    call InitFashangfuTimer()
-	    call InitTimerStoneKill()
+	    if (GetDiffculty() >= 6) then
+	   		call InitTimerStoneKill()
+	    endif
 	    call StartLifeConnect()
 	    //船长技能
 	    call InitHanghai()

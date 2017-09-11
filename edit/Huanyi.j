@@ -46,6 +46,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		    古参
 		*/
 		key kIGuCan
+		timer TGuCan = null
 		/*
 		    寰宇
 		*/
@@ -357,8 +358,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	*/
 
 	private function WaterLumberWindTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
+		local integer id = GetHandleId(TGuCan)
 		local integer times = LoadInteger(spellTable,id,kIGuCan)
 		local integer i = 1
 		local integer ii = 1
@@ -379,29 +379,32 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			call RemoveUnit(UGucan)
 			set UGucan = null
 			call FlushChildHashtable(spellTable,id)
-			call PauseTimer(t)
-			call DestroyTimer(t)
+			call PauseTimer(TGuCan)
+			call DestroyTimer(TGuCan)
+			set TGuCan = null 
 		endif
-		set t = null 
 	endfunction
 
 	private function WaterLumberWind takes real x,real y returns nothing
 		
 		local integer times = GetMultiSpell()
-		local timer t = CreateTimer()
 		if (UGucan != null) then
 			call RemoveUnit(UGucan)
 		endif
+		if (TGuCan != null) then
+			call PauseTimer(TGuCan)
+			call DestroyTimer(TGuCan)
+		endif
+		set TGuCan = CreateTimer()
 		set UGucan = CreateUnit(GetOwningPlayer(Huanyi),'hhh6',x,y,270)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
     	call SetUnitScalePercent( UGucan,  100.00 +  times * 20.00  , 100.00 +  times * 20.00, 100.00 +  times * 20.00 )
     	call SetUnitAnimation( UGucan, "stand birth alternate work upgrade" )
-		call SaveInteger(spellTable,GetHandleId(t),kIGuCan,times)
-		call TimerStart(t,1,true,function WaterLumberWindTimer)
+		call SaveInteger(spellTable,GetHandleId(TGuCan),kIGuCan,times)
+		call TimerStart(TGuCan,1,true,function WaterLumberWindTimer)
 	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHHG'))
-		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

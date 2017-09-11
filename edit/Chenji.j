@@ -22,8 +22,12 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
     */
     function ChenjiJiance takes nothing returns nothing
         local real percentThousand = (GetUnitState(chenji,UNIT_STATE_LIFE) * 1000.)/GetUnitState(chenji,UNIT_STATE_MAX_LIFE)
-        if (percentThousand < 20 and IsUnitAliveBJ(chenji)) then
-            call SetChenji2SpinOK(GetOwningPlayer(chenji))
+        if (UnitHasBuffBJ(chenji,'Bapl') or UnitHasBuffBJ(chenji,'Bpoi') or UnitHasBuffBJ(chenji,'Bpsd')) then
+            call DisplayTextToPlayer(GetOwningPlayer(chenji), 0., 0., "|cFFFF66CC【消息】|r你拥有中毒BUFF.")
+            return
+        endif
+        if (percentThousand < 10 and IsUnitAliveBJ(chenji) and not(BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(chenji))])) then
+            debug call SetChenji2SpinOK(GetOwningPlayer(chenji))
         endif
         call DisplayTextToPlayer(GetOwningPlayer(chenji), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为千分之"+R2S(percentThousand)+".")
     endfunction

@@ -298,13 +298,20 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
     	elseif (GetItemTypeId(GetManipulatedItem()) == 'I06O') then
 			//【地狱】命运无枷锁
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-			set BGongxiang[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
-    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】解锁对外生命连结!|r")
-    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】解锁对外生命连结!|r")
-    		call PolledWait(30)
-			set BGongxiang[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = false
-    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
-    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
+			if (TLifeConnect != null) then
+				set BGongxiang = false
+	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】解锁生命连结!|r")
+	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】解锁生命连结!|r")
+	    		call PolledWait(30)
+	    		if (TLifeConnect != null) then
+					set BGongxiang = true
+	    		endif
+	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
+	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
+	    	else
+	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r现在是非生命连结状态.")
+			endif
+
     	//开箱子
 		debug elseif(GetItemTypeId(GetManipulatedItem()) == 'I06N') then
 			debug call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl",GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) ))

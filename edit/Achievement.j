@@ -81,6 +81,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 		return result
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    给二进制的某位设置为1
@@ -514,6 +515,28 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (GetBit(spin2[GetConvertedPlayerId(p)],6) < 1) then
 			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 100000
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取幻逸皮肤\"|cffff6800天罚四界|r\"！")
+			call SaveSpinData(p)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    司宸皮肤条件
+	*/
+	function GetSichen1Spin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],7) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    司宸皮肤OK了
+	*/
+	function SetSichenSpinOK takes player p returns nothing
+		if (CType != 0) then
+			return
+		endif
+		if (GetBit(spin2[GetConvertedPlayerId(p)],7) < 1) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 1000000
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取司宸皮肤\"|cff33cccc白莲圣日·黑羽魔月|r\"！")
 			call SaveSpinData(p)
 		endif
 	endfunction

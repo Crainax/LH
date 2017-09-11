@@ -38,7 +38,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.360"
+		return "3.370"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -89,7 +89,7 @@ library_once Constant initializer InitConstant requires JBase
 	    判断是否是皮肤
 	*/
 	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026'
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -128,7 +128,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 15
 		elseif (heroType == 'Nsjs') then
 			return 16
-		elseif (heroType == 'Hhkl') then
+		elseif (heroType == 'Hhkl' or heroType == 'H02C') then
 			return 17
 		elseif (heroType == 'Hapm' or heroType == 'H01I') then
 			return 18
@@ -1081,7 +1081,7 @@ library_once Constant initializer InitConstant requires JBase
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 412) then
 			return "输入-hs1进行生命检测，此时你的英雄生命达到1%以下却未死。
-			
+			(检测时英雄不能带有瘟疫或者中毒的BUFF)
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 413) then
@@ -1221,11 +1221,11 @@ library_once Constant initializer InitConstant requires JBase
 
 				完成该项挑战后你将获得寒殇的模型武器\"|cFF3333FF獠牙之匕|r\"(拥有少量的属性加成)!"
 			elseif (i == 8) then
-				return "输入-chenji可以进行检测，若此时英雄的生命低于2%，则完成该挑战。
+				return "输入-chenji可以进行检测，若此时英雄的生命低于1%，则完成该挑战。
 
 				完成该项挑战后你将获得辰寂的皮肤\"|cFFFF3333双流贯恒|r\"(拥有少量的属性加成)!"
 			elseif (i == 9) then
-				return "在每天的连续签到中达到13天。
+				return "在每天的连续签到中达到14天。
 
 				完成该项挑战后你将获得凌雪的皮肤\"|cFF339933沐雪无瑕|r\"(拥有少量的属性加成)!"
 			endif
@@ -1254,6 +1254,11 @@ library_once Constant initializer InitConstant requires JBase
 				return "目前该皮肤是七夕活动提前放出,英雄挑战需要在9月中旬才会上线.
 
 				完成该项挑战后你将获得幻逸的皮肤\"|cffff6800天罚四界|r\"(拥有少量的属性加成)!"
+			elseif (i == 7) then
+				return "
+				目前该皮肤可以通过每周六YY90163抽奖活动抽取,英雄挑战需要在9月下旬才会上线.
+
+				完成该项挑战后你将获得司宸的皮肤\"|cff33cccc白莲圣日·黑羽魔月|r\"(拥有少量的属性加成)!"
 			endif		
 		endif
 		return ""

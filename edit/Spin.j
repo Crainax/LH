@@ -127,4 +127,14 @@ library_once Spin requires LHBase,Version
 		return GetHuanyi1Spin(p)
 		//return true
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    司宸的皮肤条件
+	*/
+	function IsSichenSpin1 takes player p returns boolean
+		return GetSichen1Spin(p)
+		//return true
+	endfunction
+
+	
 endlibrary

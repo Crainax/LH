@@ -6,6 +6,9 @@ library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 	globals
 	endglobals
 
+
+
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    物品叠加

@@ -169,7 +169,6 @@ library_once SameItem initializer InitSameItem requires LHBase
 		//如果计数君大于1则丢掉
 		if (count > 1) then
 			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
-			call BJDebugMsg("测试项链")
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个项链！")
 			return
 

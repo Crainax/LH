@@ -174,7 +174,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call ClearDiamond()
 		debug elseif (str == "-hs1") then
 		debug 	call Jiance1(u)
-		debug elseif (str == "-hs2") then
+		debug elseif (str == "-hs2" and u != bajue) then
 		debug 	call Jiance2(u)
 		debug elseif (str == "-hs3") then
 		debug 	call Jiance3(u)
@@ -186,8 +186,18 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call CameraSetSmoothingFactor( 0. )
 		elseif (str == "--") then
 			call FixView(false)
-		elseif (str == "-我爱轮回之狱作者") then
-			call Buchang(GetTriggerPlayer())
+		elseif (str == "-mm1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
+			set BX1 = not(BX1)
+		elseif (str == "-mm2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
+			set BX2 = not(BX2)
+		elseif (str == "-wx1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
+			set JJ1 = not(JJ1)
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r1")
+		elseif (str == "-wx2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
+			set JJ2 = not(JJ2)
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r2")
+		debug elseif (str == "-我爱轮回之狱作者") then
+		debug 	call Buchang(GetTriggerPlayer())
 		//玄雪皮肤
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()

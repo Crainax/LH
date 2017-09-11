@@ -803,10 +803,40 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		检测1
+		检测1:到达1%以下
 	*/
 	function Jiance1 takes unit u returns nothing
-		// body...
+        local real percentThousand = (GetUnitState(u,UNIT_STATE_LIFE) * 1000.)/GetUnitState(u,UNIT_STATE_MAX_LIFE)
+        if (UnitHasBuffBJ(u,'Bapl') or UnitHasBuffBJ(u,'Bpoi') or UnitHasBuffBJ(u,'Bpsd')) then
+        	call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你拥有中毒BUFF.")
+        	return
+        endif
+        if (percentThousand < 10 and IsUnitAliveBJ(u) and not(BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(u))])) then
+			call GetAchievementAndSave(GetOwningPlayer(u),412)
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为千分之"+R2S(percentThousand)+".")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+		检测2:到达5E
+	*/
+	function Jiance2 takes unit u returns nothing
+        local real life = GetUnitState(u,UNIT_STATE_MAX_LIFE)
+        if (life > 500000000) then
+			call GetAchievementAndSave(GetOwningPlayer(u),413)
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为"+R2S(life)+".")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+		检测3:防御检测
+	*/
+	function Jiance3 takes unit u returns nothing
+        local integer defense = GetHeroAgi(u,true)/100 + GetDefense(u)
+        if (defense > 1000000) then
+			call GetAchievementAndSave(GetOwningPlayer(u),414)
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你判定的防御为"+R2S(defense)+".")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

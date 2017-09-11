@@ -68,13 +68,17 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         boolean array BHideDamage
 
         //是否可以跳关
-        boolean BSkipKuilei = false
+        //boolean BSkipKuilei = false
 
         //英雄死了
         boolean array BHeroDeath
 
         //轮流玩家指针
         integer INextPlayerID = 0
+        
+        //京剧
+        boolean JJ1 = false
+        boolean JJ2 = false
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -383,6 +387,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
    function IsEnemy takes unit u, unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
+
 //---------------------------------------------------------------------------------------------------
 
     /*
@@ -842,7 +847,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set UDepot[5] = CreateUnit(Player(4), 'nmgv', 10307.0, - 60.6, 270.000)
         set UDepot[6] = CreateUnit(Player(5), 'nmgv', 10431.0, - 60.6, 270.000)
 
-        set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14524.0, - 15446.0, 270.000)
+        set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14394.0, - 15446.0, 270.000)
 
         call SaveInteger(LHTable,GetHandleId(t),1,0)
         call TimerStart(t,2,true,function StartWanjieTimer)

@@ -1573,35 +1573,35 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
        
             if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                         call CreateItem( 'I02N', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                         set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmyr')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'I04S', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnsw')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'azhr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nsnp')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'gmfr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nhyc')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'jpnt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop

@@ -70,6 +70,9 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 
 		//大招持续
 		private timer TDazhao = null
+
+		//衰减
+		private boolean array BShuaijian
 	endglobals
 
 
@@ -125,19 +128,19 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	/*
 	    获取Combo消逝时间
 	*/
-	private function GetComboTime takes nothing returns real
-		if (ICombo > 80) then
-			return 1.
-		elseif (ICombo > 60) then
-			return 2.
-		elseif (ICombo > 40) then
-			return 3.
-		elseif (ICombo > 20) then
-			return 4.
-		else
-			return 5.
-		endif
-	endfunction
+	//private function GetComboTime takes nothing returns real
+	//	if (ICombo > 80) then
+	//		return 1.
+	//	elseif (ICombo > 60) then
+	//		return 2.
+	//	elseif (ICombo > 40) then
+	//		return 3.
+	//	elseif (ICombo > 20) then
+	//		return 4.
+	//	else
+	//		return 5.
+	//	endif
+	//endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    马甲的攻击伤害
@@ -192,6 +195,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 				set UArrow[i] = null
 				call DestroyGroup(GArrow[i])
 				set GArrow[i] = null
+				set BShuaijian[i] = false
 			endif
 			set i = i +1
 		endloop
@@ -225,8 +229,12 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	/*
 	    判断冰墙
 	*/
-	private function FantanFilter takes nothing returns boolean
-		return GetUnitTypeId(GetFilterUnit()) == 'hwtw' or GetUnitTypeId(GetFilterUnit()) == 'h021'
+	private function BingqiangFilter takes nothing returns boolean
+		return GetUnitTypeId(GetFilterUnit()) == 'hwtw'
+	endfunction
+
+	private function PingzhangFilter takes nothing returns boolean
+		return GetUnitTypeId(GetFilterUnit()) == 'h021'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -252,6 +260,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
         local integer times = GetComboMulti()
         local real radius = 200
         local integer IBing = 0
+        local boolean isBingqiang = false
 
         //如果英雄死亡则清除
         if (BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(xiaoting))] and not(BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xiaoting))])) then
@@ -281,7 +290,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
             if (IsEnemy(l_unit,xiaoting) and not(IsUnitInGroup(l_unit,GArrow[index]))) then
-            	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+            	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting * R3(BShuaijian[index],0.1,1), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
             	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(l_unit),GetUnitY(l_unit) ))
             	call GroupAddUnit(GArrow[index],l_unit)
             endif
@@ -291,8 +300,14 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
         set l_unit =null
 
         set l_group = CreateGroup()
-        call GroupEnumUnitsInRange(l_group, xp, yp, 100, Condition(function FantanFilter))
-        set IBing = I3(CountUnitsInGroup(l_group) > 0,GetUnitUserData(FirstOfGroup(l_group)),0)
+        call GroupEnumUnitsInRange(l_group, xp, yp, 100, Condition(function BingqiangFilter))
+        if (CountUnitsInGroup(l_group) > 0) then
+        	set IBing = I3(CountUnitsInGroup(l_group) > 0,GetUnitUserData( FirstOfGroup(l_group)),0)
+        	set isBingqiang = true
+        else
+	        call GroupEnumUnitsInRange(l_group, xp, yp, 100, Condition(function PingzhangFilter))
+        	set IBing = I3(CountUnitsInGroup(l_group) > 0,GetUnitUserData( FirstOfGroup(l_group)),0)
+        endif
         call DestroyGroup(l_group)
         set l_group = null
 
@@ -310,17 +325,27 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
         		if (IBing != 0) then
         			call GroupClear(GArrow[index])
 					call ChangeFacing(index,R3(IBing >= 1000,180+GetUnitFacing(UArrow[index]),2*IBing-GetUnitFacing(UArrow[index])))
+					if not (isBingqiang) then
+						set BShuaijian[index] = true
+					else
+						set BShuaijian[index] = false
+					endif
 					return
         		endif
         		if not(IsTerrainPathable(xp, y, PATHING_TYPE_WALKABILITY)) then
         			call GroupClear(GArrow[index])
 					call ChangeFacing(index,-GetUnitFacing(UArrow[index]))
+					set BShuaijian[index] = true
+
         		elseif not(IsTerrainPathable(x, yp, PATHING_TYPE_WALKABILITY)) then
         			call GroupClear(GArrow[index])
 					call ChangeFacing(index,180-GetUnitFacing(UArrow[index]))
+					set BShuaijian[index] = true
+
         		elseif not(IsTerrainPathable(x, y, PATHING_TYPE_WALKABILITY)) then
 					call ChangeFacing(index,180+GetUnitFacing(UArrow[index]))
         			call GroupClear(GArrow[index])
+					set BShuaijian[index] = true
         		else
 		        	call SetUnitX(UArrow[index],YDWECoordinateX(xp))
 		        	call SetUnitY(UArrow[index],YDWECoordinateY(yp))
@@ -411,6 +436,10 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	*/
 	private function Yanzhi takes nothing returns nothing
 		local integer i = 1 
+		if (BJingzhi) then
+			call ClearAllArrow()
+			return
+		endif
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
@@ -469,7 +498,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 
 	    	endif
 	    	call SetUnitUserData(u,R2I(facing)+I3((i == 1 or i == (6 + 4 * GetComboMulti())),2000,0))
-	    	call UnitApplyTimedLifeBJ( 12.00, 'BHwe',u )
+	    	call UnitApplyTimedLifeBJ( 12.00 + RJ2(xiaoting,5,0), 'BHwe',u )
 	    	set i = i +1
 	    endloop
 	    call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
@@ -847,7 +876,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 		endif
 
 		set ICombo = ICombo + 1
-		call TimerStart(TComboAdd,GetComboTime()+IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0),false,function ComboDuan)
+		call TimerStart(TComboAdd,RMaxBJ(0.1,I2R(5 + IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0) - (ICombo / 20))),false,function ComboDuan)
     	call CreateSpellTextTag("Combo:"+I2S(ICombo),xiaoting,100,0,0,3)
 
 		if (GetComboMulti() == 4 and IMaxCombo != 16) then

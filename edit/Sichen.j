@@ -624,14 +624,31 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		set SichenDamage = GetDamageAgi(sichen)
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    初始化皮肤
+	*/
+	private function InitSichenSpin takes unit u returns unit
+		if (IsSichenSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'H02C',GetUnitX(u),GetUnitY(u),0)
+			set gg_unit_Hhkl_0218 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+			call RemoveUnit(u)
+			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ) )
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
 	function InitSichen takes unit u returns nothing
 		local trigger t = CreateTrigger()
 		local integer i = 1
-		set sichen = u
+		set sichen = InitSichenSpin(u)
 
 		//主英雄技能
 		set TSpellSichen = CreateTrigger()
-	    call TriggerRegisterUnitEvent(TSpellSichen,u,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerRegisterUnitEvent(TSpellSichen,sichen,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellSichen, function TSpellSichenAct)
 	    //被动被攻击效果
 	    set TSpellSichen2 = CreateTrigger()

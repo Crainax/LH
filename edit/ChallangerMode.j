@@ -197,6 +197,51 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 	    	call InitChallanger()
 	    endif
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    选择速度后
+	*/
+	private function ChooseSpeedClick takes nothing returns nothing
+	    local dialog d = GetClickedDialogBJ()
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
+        	call BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为经典(常速).")
+			set mode = 1
+			set SgameMode = SgameMode + "C"
+    	endif
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+        	call BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为加速(进阶).")
+			set mode = 2
+			set SgameMode = SgameMode + "S"
+    	endif
+
+    	call ChooseDifficulty(GetChallangerDifficulty())
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+    	call DialogDisplay( Player(0), d, false )
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d = null
+        call DestroyTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    选择加速与否
+	*/
+	private function CreateCDialog4 takes nothing returns nothing
+	    local trigger t  = CreateTrigger()
+	    local dialog d = DialogCreate()
+
+    	call DialogSetMessage( d, "经典(常速)还是加速?" )
+	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典(推荐)"))
+    	call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, "加速(进阶)",512))
+
+	    call DialogDisplay( GetFirstPlayer(), d, true )
+	    call TriggerRegisterDialogEvent( t, d )
+	    call TriggerAddAction(t, function ChooseSpeedClick)
+	    set d = null
+	    set t = null
+	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -206,8 +251,8 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 	    local dialog d = GetClickedDialogBJ()
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	call ChooseDifficulty(GetChallangerDifficulty())
-        	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择难度.")
+        	call CreateCDialog4()
+        	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.")
     	endif
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
@@ -289,10 +334,10 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 	    	call DialogSetMessage( d, "选择挑战类别(困难)" )
 	    endif
 
-	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetChallangerTitle(5) + S3(IsChallangerComplete(GetFirstPlayer(),5),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetChallangerTitle(6) + S3(IsChallangerComplete(GetFirstPlayer(),6),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	    loop
-	    	exitwhen i > 4
+	    	exitwhen i > 5
 		    call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetChallangerTitle(i) + S3(IsChallangerComplete(GetFirstPlayer(),i),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 	    	set i = i +1
 	    endloop

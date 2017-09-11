@@ -52,9 +52,12 @@ library_once SpellBase requires LHBase
 			local thistype this = thistype[GetExpiredTimer()]
 			if (.BDie) then
 				if (not(IsUnitAliveBJ(unit1)) or not(IsUnitAliveBJ(unit2)) ) then
-					call .destroy()
+					call DestroyLightningBJ(.l)
+					set .l = null
 				else
-					call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
+					if (l != null) then
+						call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
+					endif
 				endif
 			else
 				call MoveLightning( .l ,true, GetUnitX(.unit1),GetUnitY(.unit1),GetUnitX(.unit2),GetUnitY(.unit2) )
@@ -345,7 +348,6 @@ library_once SpellBase requires LHBase
 			return this
 		endmethod
 
-
 		method onDestroy takes nothing returns nothing
 			local integer i = 1
 			call thistype.flush(.t)
@@ -382,6 +384,9 @@ library_once SpellBase requires LHBase
 		
 		static method flashLoc takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
+			if (times < 2) then
+				call UnitRemoveAbility(.caster,'A0KH')
+			endif
 			if (.current >= .times) then
 				return
 			endif

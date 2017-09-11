@@ -23,7 +23,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
         local dialog d = GetClickedDialogBJ()
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	set BSkipKuilei = true
+        	//set BSkipKuilei = true
         	call BJDebugMsg("|cFFFF66CC【消息】|r已经开启不可跳过六界傀儡!")
         endif
 
@@ -39,9 +39,9 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
         local trigger t  = null
         local dialog  d = null
 
-        if (BSkipKuilei) then
-        	return
-        endif
+        //if (BSkipKuilei) then
+        //	return
+        //endif
 
  		set t  = CreateTrigger()
  		set d = DialogCreate()

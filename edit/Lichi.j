@@ -224,7 +224,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
         local unit l_unit
         set IShenyue = I3(IShenyue >= 4,1,IShenyue + 1)
         call GroupClear(GShenyue[IShenyue])
-        call GroupEnumUnitsInRange(l_group, x, y, 350 + RJ3(lichi,100,0), null)
+        call GroupEnumUnitsInRange(l_group, x, y, 350 + RJ3(lichi,50,0), null)
         loop
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
@@ -256,7 +256,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	    if (IsFourthSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0MP') == 1 and abilityID != 'A0MN') then
 	    	call ShenyueyingCount(x,y,damage)
 	    else
-			call DamageArea(lichi,x,y,350 + RJ3(lichi,100,0),damage)
+			call DamageArea(lichi,x,y,350 + RJ3(lichi,50,0),damage)
 	    endif
 		loop
 			exitwhen i > IMaxHuanying
@@ -264,7 +264,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 				set index = GetHuanyingIndex(i)
 				set nx = x + IAbsBJ(index) * 150 * CosBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
 				set ny = y + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
-				call DamageArea(lichi,nx,ny,350 + RJ3(lichi,100,0),damage)
+				call DamageArea(lichi,nx,ny,350 + RJ3(lichi,50,0),damage)
 	    		call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", nx,ny ))
     		    call SetUnitAnimation( UHuan[i], "Spell Throw" ) 
 			endif
@@ -301,7 +301,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
     		if (not(BTongyun) and IsSecondSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0MN') == 1 and GetUnitState(lichi,UNIT_STATE_MANA) > 200 and GetRandomInt(1,20) == 1) then
     			set BTongyun = true
     			call Yingyanjue('A0MN',GetUnitX(GetAttacker()),GetUnitY(GetAttacker()))
-    			call PolledWait(5)
+    			call PolledWait(10)
     			set BTongyun = false
     		endif
     	endif
@@ -327,6 +327,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(lichi), GetUnitY(lichi) ))
 				call SetUnitLifePercentBJ(lichi,100)
 				call PrintSpellContent(GetOwningPlayer(lichi),GetAbilityName('A0MH'),"续命.")
+			    call PlaySoundBJ( gg_snd_Baodiao )
     			return
     		endif
     		set i = i +1
@@ -382,6 +383,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 			set i = i + 1
 		endloop
 		set CYanhun[0] = Connect.create(lichi,u,"LEAS")
+		call CYanhun[0].setDieVanish()
 		set Uyanhun = u
 		call TimerStart(t,1,true,function YanhunyinTimer)
 		set t = null
@@ -430,12 +432,12 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 	*/
 	private function QiutiandiSmart takes real x,real y returns nothing
 		local unit u = null
-		if (GetDistance(GetUnitX(lichi),GetUnitY(lichi),x,y) < 1200) then
+		if (GetDistance(GetUnitX(lichi),GetUnitY(lichi),x,y) > 1200) then
 			return 
 		endif
 		set u = CreateUnit(GetOwningPlayer(lichi),'h02A',x,y,0)
 		set IQiutian = IQiutian + 1
-		if (IQiutian >= 20) then
+		if (IQiutian >= 30) then
 			set IQiutian = 0
 			call SetUnitLifePercentBJ(lichi,100)
 			call ImmuteDamageInterval(lichi,2)
@@ -557,7 +559,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 			set i = i +1
 		endloop
 
-		set lichi = lichi
+		set lichi = u
 		set UHuan[0] = lichi
 		//上限是4
 		set IMaxHuanying = 4
@@ -569,7 +571,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura
 
 	    //初始加成
 	    call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(lichi)),5.)
-	    call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(lichi)),0.5)
+	    call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(lichi)),0.5)
 
 	    //刷新伤害,还有每秒判断形态是否扣血,还有加属性的判断
 	    call TimerStart(CreateTimer(),1,true,function FlashLichiDamage)
