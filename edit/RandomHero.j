@@ -7,7 +7,32 @@ library_once RandomHero  requires LHBase,Version,PIV
 	globals
 		boolean array BSuiji
 	endglobals
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    选取一个单位组的随机人物
+	*/
+	private function GetRandomUnitInGroup takes group g returns unit
+		local integer length = CountUnitsInGroup(g)
+		local integer pos = 0
+		local group temp = CreateGroup()
+		local unit u = null
+		local integer i = 1
+		loop
+			exitwhen i > ModuloInteger(DzAPI_Map_GetGameStartTime(),19) + length +udg_Second[1] + udg_Nandu_JJJ
+			set pos = GetRandomInt(1,length)
+			set i = i + 1
+		endloop
+		call GroupAddGroup(g,temp)
+		loop
+			exitwhen pos == 0
+			set u = FirstOfGroup(temp)
+		    call GroupRemoveUnit(temp, u)
+			set pos = pos - 1
+		endloop
+		call DestroyGroup(temp)
+		set temp = null
+		return u
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    选取随机英雄成功与否
@@ -20,7 +45,6 @@ library_once RandomHero  requires LHBase,Version,PIV
 		local integer i = 1
 		local group g = GetUnitsOfPlayerMatching(Player(PLAYER_NEUTRAL_PASSIVE), Condition(function RandomPickCondition))
 		local unit u = null
-		local group g2 = null
 		if not(IsPIV(p)) then
 			loop
 				exitwhen i > HERO_COUNT
@@ -39,12 +63,9 @@ library_once RandomHero  requires LHBase,Version,PIV
 
 		call GroupRemoveUnit(g,gg_unit_H02B_0293)
 		set BSuiji[GetConvertedPlayerId(p)] = true
-		set g2 = GetRandomSubGroup(1,g)
-		set u = FirstOfGroup(g2)
+		set u = GetRandomUnitInGroup(g)
 		call DestroyGroup(g)
-		call DestroyGroup(g2)
 		set g = null
-		set g2 = null
 
 	    call SelectUnitForPlayerSingle( u, p )
 	    call SelectUnitForPlayerSingle( u, p )

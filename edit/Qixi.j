@@ -62,6 +62,13 @@ library_once Qixi requires LHBase,Achievement
 			call SetKaisaSpinOK(p)
 			call SetMoqiSpinOK(p)
 			call SetLingxueSpinOK(p)
+		elseif (GetPlayerName(p) == "天狱灬孤狼") then
+			call SetXuanxue1SpinOK(p)
+		elseif (GetPlayerName(p) == "傻傻的芒果") then
+			call SetXuanxue1SpinOK(p)
+			call SetXuanxue2SpinOK(p)
+		elseif (GetPlayerName(p) == "神天羽") then
+			call SetHuanyiSpinOK(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -69,7 +76,7 @@ library_once Qixi requires LHBase,Achievement
 	   司宸
 	*/
 	private function Fafang4 takes player p returns nothing
-		if (GetPlayerName(p) == "因我而空虚" or GetPlayerName(p) == "青山绿水丶" or GetPlayerName(p) == "Bucketehad" or GetPlayerName(p) == "天子脚下一堆坑" or GetPlayerName(p) == "英子丶丿") then
+		if (GetPlayerName(p) == "因我而空虚" or GetPlayerName(p) == "青山绿水丶" or GetPlayerName(p) == "Bucketehead" or GetPlayerName(p) == "天子脚下一堆坑" or GetPlayerName(p) == "丶念少。") then
 			call SetSichenSpinOK(p)
 		endif
 	endfunction

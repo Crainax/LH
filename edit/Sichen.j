@@ -634,7 +634,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
 			call RemoveUnit(u)
-			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ) )
+			call SetPlayerStateBJ( GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ) )
 			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
 		else
 			return u

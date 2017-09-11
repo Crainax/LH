@@ -54,6 +54,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
  			call DestroyEffect(AddSpecialEffect("war3mapImported\\IceStomp.mdx", GetUnitX(u),GetUnitY(u) ))
 		endif
 		if (GetUnitTypeId(u) == 'h01J') then
+			call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),300,XinglongDamage*0.4)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(u),GetUnitY(u) ))
 		endif
 	endfunction
@@ -181,16 +182,10 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	private function LonghuanglunhuiDamageTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		local integer times = LoadInteger(spellTable,id,2)
 		local unit u = LoadUnitHandle(spellTable,id,1)
 		local unit temp = null
 		if (IsUnitAliveBJ(u)) then
     		call SetUnitFlyHeight(CreateUnit(GetOwningPlayer(xinglong),'h01J',YDWECoordinateX(GetUnitX(u)+GetRandomReal(-900,900)), YDWECoordinateY(GetUnitY(u)+GetRandomReal(-900,900)),0), 0.00, 500.00 )
-    		set times = times + 1
-			call SaveInteger(spellTable,id,2,times)
-			if (ModuloInteger(times,20) == 0) then
-				call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),1200,XinglongDamage*0.9)
-			endif
 		else
 			set BLunhuing = false
 			call UnitRemoveAbility(xinglong,'A0K1')
@@ -205,22 +200,19 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 
 	private function Longhuanglunhui takes nothing returns nothing
 		local integer i = GetHeroLevel(xinglong)
-		local timer t2 = null
-		local unit u = null
+		local timer t2 = CreateTimer()
+		local unit u = CreateUnit(GetOwningPlayer(xinglong),'h01K',GetUnitX(xinglong),GetUnitY(xinglong),0)
 		if (BLunhuing) then
 			return
 		endif
-		set t2 = CreateTimer()
-		set u = CreateUnit(GetOwningPlayer(xinglong),'h01K',GetUnitX(xinglong),GetUnitY(xinglong),0)
 		set BLunhuing = true
 		call UnitApplyTimedLifeBJ( 5, 'BHwe',u )
         call PlaySoundBJ(gg_snd_xinglong_4)
-		call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'),XinglongDamage*0.9)
+		call PrintSpellName(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'))
 		call UnitAddAbility(xinglong,'A0K1')
 		call UnitMakeAbilityPermanent(xinglong,true,'A0K1')
 		//不断伤害
 		call SaveUnitHandle(spellTable,GetHandleId(t2),1,u)
-		call SaveInteger(spellTable,GetHandleId(t2),2,1)
 		call TimerStart(t2,0.05,true,function LonghuanglunhuiDamageTimer)
 		//快速升级
 		set t2 = null
@@ -288,7 +280,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		endif
 
 		if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1 and not(BEffUpdate)) then
-			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.75)
+			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.5)
 			call CreateEffect1(GetUnitX(xinglong), GetUnitY(xinglong))
 			set BEffUpdate = true
 			call PolledWait(2)
@@ -301,7 +293,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
     	if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1) then
     		set BAttrTime = BAttrTime + 2
 
-    		if (GetUnitAbilityLevel(xinglong,'A0K2') < 1) then
+    		if (GetUnitAbilityLevel(xinglong,'A0K2') != 1) then
     			call UnitAddAbility(xinglong,'A0K2')
     			call UnitMakeAbilityPermanent(xinglong,true,'A0K2')
 				call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)

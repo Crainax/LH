@@ -79,6 +79,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         //京剧
         boolean JJ1 = false
         boolean JJ2 = false
+        boolean JJ3 = false
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*

@@ -190,12 +190,21 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			set BX1 = not(BX1)
 		elseif (str == "-mm2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
 			set BX2 = not(BX2)
+			debug call SetDIYName(GetTriggerPlayer(),"信手哲天富可敌国")
 		elseif (str == "-wx1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
 			set JJ1 = not(JJ1)
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r1")
 		elseif (str == "-wx2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
 			set JJ2 = not(JJ2)
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r2")
+		elseif (str == "-wx3" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" and not(JJ3)) then
+			set JJ3 = true
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r3")
+	        call AddDamagePercent(GetConvertedPlayerId(GetTriggerPlayer()),1.5)
+	        call UnitAddAbility(u,'A0MU')
+			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MU',false)
+            call UnitMakeAbilityPermanent(u,true,'A0MU')
+            call UnitMakeAbilityPermanent(u,true,'A0MG')
 		debug elseif (str == "-我爱轮回之狱作者") then
 		debug 	call Buchang(GetTriggerPlayer())
 		//玄雪皮肤

@@ -52,7 +52,6 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		DamageTJ DTJ2 = 0
 		DamageTJ DTJ3 = 0
 	endglobals
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    伤害统计系统
@@ -85,7 +84,6 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 				endif
 				set i = i +1
 			endloop
-			call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
 			call .destroy()
 		endmethod
 
