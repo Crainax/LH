@@ -542,6 +542,72 @@ library_once Achievement requires LHBase,ChallangerDZ
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    苍凌皮肤条件
+	*/
+	function GetCangling1Spin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],8) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    苍凌皮肤OK了
+	*/
+	function SetCanglingSpinOK takes player p returns nothing
+		if (CType != 0) then
+			return
+		endif
+		if (GetBit(spin2[GetConvertedPlayerId(p)],8) < 1) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 10000000
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取苍凌皮肤\"|cff993366翎翼浮灵|r\"！")
+			call SaveSpinData(p)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    黑阎皮肤条件
+	*/
+	function GetHeiyan1Spin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],9) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    黑阎皮肤OK了
+	*/
+	function SetHeiyanSpinOK takes player p returns nothing
+		if (CType != 0) then
+			return
+		endif
+		if (GetBit(spin2[GetConvertedPlayerId(p)],9) < 1) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 100000000
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取黑阎皮肤\"|cff0000ff七阴之恸|r\"！")
+			call SaveSpinData(p)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    离魑皮肤条件
+	*/
+	function GetLichi1Spin takes player p returns boolean
+		return GetBit(spin2[GetConvertedPlayerId(p)],10) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    离魑皮肤OK了
+	*/
+	function SetLichiSpinOK takes player p returns nothing
+		if (CType != 0) then
+			return
+		endif
+		if (GetBit(spin2[GetConvertedPlayerId(p)],10) < 1) then
+			set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + 1000000000
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取离魑皮肤\"|cffff6800谜幻逸空|r\"！")
+			call SaveSpinData(p)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取成就索引条件是否满足了
 	*/
 	function IsAchieveOK takes player p,integer achieveID returns boolean
@@ -836,6 +902,11 @@ library_once Achievement requires LHBase,ChallangerDZ
 			call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(4,2) + S3(GetBajue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 			call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(5,2) + S3(GetSheyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 			call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6,2) + S3(GetHuanyi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetHeroChallenageName(7,2) + S3(GetSichen1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetHeroChallenageName(8,2) + S3(GetCangling1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,2) + S3(GetHeiyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		elseif (page == 3) then
+			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1,3) + S3(GetLichi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
@@ -950,7 +1021,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
             call DialogClear(d)
 	    	set page = I3(page < PAGE_HERO_CHALLANGER,page + 1,1)
-	    	call DialogSetMessage( d, "英雄挑战" )
+	    	call DialogSetMessage( d, "英雄挑战|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_HERO_CHALLANGER)+"页)|r" )
     		call SaveInteger(LHTable,GetHandleId(d),12,page)
 	    	call CreateHeroDialogContent(p,d,page)
         	call DialogDisplay( p, d, true )
@@ -1045,7 +1116,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	function CreateHeroChallenagerDialog takes player p returns nothing
 		local trigger t  = CreateTrigger()
 	    local dialog d = DialogCreate()
-	    call DialogSetMessage( d, "英雄挑战" )
+	    call DialogSetMessage( d, "英雄挑战|cffff6800(第1/"+I2S(PAGE_HERO_CHALLANGER)+"页)|r" )
 	    call CreateHeroDialogContent(p,d,1)
 	    call SavePlayerHandle(LHTable,GetHandleId(d),13,p)
 	    call SaveInteger(LHTable,GetHandleId(d),12,1)

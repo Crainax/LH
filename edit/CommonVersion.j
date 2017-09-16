@@ -208,6 +208,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    司宸皮肤条件
+	*/
+	function GetSichen1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
     /*
         获取激活码
     */
@@ -350,6 +357,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		call ShowGameHint(p,"
 			使用魔兽争霸官方对战平台
 			进行游戏才能使用该功能.")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取时间
+	*/
+	function DzAPI_Map_GetGameStartTime takes nothing returns integer
+		return GetRandomInt(0,1000000000)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

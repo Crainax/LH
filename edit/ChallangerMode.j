@@ -1,10 +1,9 @@
 //! import "LHBase.j"
-/////! import "Huodong.j"
+//! import "Huodong.j"
 //! import "ChallangerDZ.j"
-//! import "CangLing.j"
 //! import "Mirror.j"
 
-library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
+library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 
 	globals
 		integer EquipLoopingTime = 1

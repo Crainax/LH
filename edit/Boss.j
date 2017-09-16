@@ -496,8 +496,6 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		set t = null
 	endfunction
 
-	function starthaha takes nothing returns nothing
-	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	/*

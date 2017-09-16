@@ -254,12 +254,11 @@ library_once SpellBase requires LHBase
             call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
         endmethod
 
-		static method create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns thistype
+
+		static method createXY takes unit caster,integer preview,string effx,real radius,real x,real y,real interval1,real interval2,real damage returns thistype
 		   	local thistype this = thistype.allocate()
-		   	local real Rangel = GetRandomReal(-180,180)
-		   	local real Rradius= GetRandomReal(0,range)
-		   	set .x = GetUnitX(caster) + Rradius * CosBJ(Rangel)
-		   	set .y = GetUnitY(caster) + Rradius * SinBJ(Rangel)
+		   	set .x = x
+		   	set .y = y
 			set .caster = caster
 			set .effx = effx
 			set .radius = radius
@@ -274,6 +273,11 @@ library_once SpellBase requires LHBase
 			return this
 		endmethod
 
+		static method create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns thistype
+		   	local real Rangel = GetRandomReal(-180,180)
+		   	local real Rradius= GetRandomReal(0,range)
+			return createXY(caster,preview,effx,radius,GetUnitX(caster) + Rradius * CosBJ(Rangel),GetUnitY(caster) + Rradius * SinBJ(Rangel),interval1,interval2,damage)
+		endmethod		
 
 		method onDestroy takes nothing returns nothing
 			call thistype.flush(.t)

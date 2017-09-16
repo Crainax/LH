@@ -20,7 +20,7 @@ library_once Constant initializer InitConstant requires JBase
 		    成就页数
 		*/
 		constant integer PAGE_ACHIEVE = 10
-		constant integer PAGE_HERO_CHALLANGER = 2
+		constant integer PAGE_HERO_CHALLANGER = 3
 		/*
 		    实际人数(从一开始的)
 		*/
@@ -38,7 +38,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.371"
+		return "3.379"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -47,7 +47,6 @@ library_once Constant initializer InitConstant requires JBase
 	function Get11 takes nothing returns boolean
 		return false
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断游戏模式是否为经典
@@ -89,7 +88,7 @@ library_once Constant initializer InitConstant requires JBase
 	    判断是否是皮肤
 	*/
 	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' 
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E' 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -120,13 +119,13 @@ library_once Constant initializer InitConstant requires JBase
 			return 11
 		elseif (heroType == 'Othr' or heroType == 'O004') then
 			return 12
-		elseif (heroType == 'Udea') then
+		elseif (heroType == 'Udea' or heroType == 'U003') then
 			return 13
 		elseif (heroType == 'Hkal') then
 			return 14
 		elseif (heroType == 'Hant' or heroType == 'H026') then
 			return 15
-		elseif (heroType == 'Nsjs') then
+		elseif (heroType == 'Nsjs' or heroType == 'N023') then
 			return 16
 		elseif (heroType == 'Hhkl' or heroType == 'H02C') then
 			return 17
@@ -134,7 +133,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 18
 		elseif (heroType == 'H01Y') then
 			return 19
-		elseif (heroType == 'H027') then
+		elseif (heroType == 'H027' or heroType == 'H02E') then
 			return 20
 		endif
 		return 0
@@ -1165,6 +1164,16 @@ library_once Constant initializer InitConstant requires JBase
 				return "|cffff0000凰迹天知|r"
 			elseif (i == 6) then
 				return "|cffff6800天罚四界|r"
+			elseif (i == 7) then
+				return "|cff33cccc白莲圣日·黑羽魔月|r"
+			elseif (i == 8) then
+				return "|cff993366翎翼浮灵|r"
+			elseif (i == 9) then
+				return "|cff0000ff七阴之恸|r"
+			endif
+		elseif (page == 3) then
+			if (i == 1) then
+				return "|cffff6800谜幻逸空|r"
 			endif
 		endif
 
@@ -1251,14 +1260,32 @@ library_once Constant initializer InitConstant requires JBase
 
 				完成该项挑战后你将获得摄焱的皮肤\"|cffff0000凰迹天知|r\"(拥有少量的属性加成)!"
 			elseif (i == 6) then
-				return "目前该皮肤是七夕活动提前放出,英雄挑战需要在9月中旬才会上线.
+				return "
+				使用幻逸输入-hy后进入挑战:将会随机出现一个技能名字,切换到对应名字的技能即可,然后继续随机出现下一个技能名字,30秒内成功切换25次即为挑战成功.
 
 				完成该项挑战后你将获得幻逸的皮肤\"|cffff6800天罚四界|r\"(拥有少量的属性加成)!"
 			elseif (i == 7) then
 				return "
-				目前该皮肤可以通过每周六YY90163抽奖活动抽取,英雄挑战需要在9月下旬才会上线.
+				目前该皮肤可以通过每周六YY90163抽奖活动抽取.
 
 				完成该项挑战后你将获得司宸的皮肤\"|cff33cccc白莲圣日·黑羽魔月|r\"(拥有少量的属性加成)!"
+			elseif (i == 8) then
+				return "
+				使用苍凌在一局游戏中不灭真炎时间叠加到750秒.
+
+				完成该项挑战后你将获得苍凌的皮肤\"|cff993366翎翼浮灵|r\"(拥有少量的属性加成)!"
+			elseif (i == 9) then
+				return "
+				使用黑阎在一局使用泣罗刹祭品替死达到300次,且自身不能死亡一次.
+
+				完成该项挑战后你将获得黑阎的皮肤\"|cff0000ff七阴之恸|r\"(拥有少量的属性加成)!"
+			endif		
+		elseif (page == 3) then
+			if (i == 1) then
+				return "
+				使用离魑在一局触发影爆次数达到100次.
+
+				完成该项挑战后你将获得离魑的皮肤\"|cffff6800谜幻逸空|r\"(拥有少量的属性加成)!"
 			endif		
 		endif
 		return ""

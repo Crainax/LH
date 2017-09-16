@@ -1,5 +1,5 @@
 //! import "LHBase.j"
-//! import "NetVersion.j"
+/////! import "NetVersion.j"
 //! import "PIV.j"
 
 library_once RandomHero  requires LHBase,Version,PIV

@@ -210,6 +210,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
         //小游戏场地
         rect gg_rct_Game1
+        rect gg_rct_Game2
         unit gg_unit_n01Q_0273
 
         //声音

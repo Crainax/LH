@@ -14,9 +14,17 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		elseif (i == 2) then
 			return "救死扶伤"
 		elseif (i == 3) then
-			return "瞬息万年"
+			return "货币达人"
 		elseif (i == 4) then
+			return "心寞孤客"
+		elseif (i == 5) then
+			return "瞬息万年"
+		elseif (i == 6) then
 			return "紫雷之极"
+		elseif (i == 7) then
+			return "万物之源"
+		elseif (i == 8) then
+			return "熔炎火炮"
 		endif
 
 		return ""
@@ -26,11 +34,19 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		if (i == 1) then
 			return "|cff33cccc(完成挑战>10%解锁)|r"
 		elseif (i == 2) then
-			return "|cff33cccc(完成挑战>50%解锁)|r"
+			return "|cff33cccc(完成挑战>25%解锁)|r"
 		elseif (i == 3) then
-			return "|cff33cccc(完成挑战>99%解锁)|r"
+			return "|cff33cccc(完成挑战>50%解锁)|r"
 		elseif (i == 4) then
+			return "|cff33cccc(完成挑战>75%解锁)|r"
+		elseif (i == 5) then
+			return "|cff33cccc(完成挑战>99%解锁)|r"
+		elseif (i == 6) then
 			return "|cff33cccc(地图等级大于18级解锁)|r"
+		elseif (i == 7) then
+			return "|cff33cccc(加入任意认证轮回公会解锁)|r"
+		elseif (i == 8) then
+			return "|cff33cccc(获取赞助权限解锁)|r"
 		endif
 		return ""
 	endfunction
@@ -125,7 +141,7 @@ library_once Box requires LHBase,Version,ChallangerDZ
 	    完成挑战:("+I2S(GetAllComplete(p)) +"/"+I2S(COUNT_CHALLANGER * 3)+"="+I2S(R2I( GetCompleteRate(p)*100))+"%)"+"
 	    箱子变形:" )
 	    loop
-	    	exitwhen i > 4
+	    	exitwhen i > 8
 	    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetBoxName(i) + S3(IsBoxAccess(p,i),"|cffff9900(已解锁)|r",GetBoxCondition(i))))
 	    	set i = i +1
 	    endloop

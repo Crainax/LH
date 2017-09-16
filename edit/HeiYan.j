@@ -3,10 +3,11 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Aura.j"
+//! import "Spin.j"
 /*
     英雄黑阎的技能
 */
-library_once Heiyan requires SpellBase,Printer,Attr,Aura
+library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	
 	globals
 		/*
@@ -48,7 +49,26 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura
 		    祭品攻击伤害，每3秒刷新一次数值
 		*/
 		private real DamageSacri = 0
+
+		//成就死亡值
+		private integer ISpinHeiyan = 0
 	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	  	次数统计  
+	*/
+	private function SpinTongji takes nothing returns nothing
+		if not (GetHeiyan1Spin(GetOwningPlayer(Heiyan))) then
+			set ISpinHeiyan = ISpinHeiyan + 1
+			if (ModuloInteger(ISpinHeiyan,25) == 0 and ISpinHeiyan > 0) then
+				call DisplayTextToPlayer(GetOwningPlayer(Heiyan), 0., 0., "【|cff0000ff七阴之恸|r】完成进度"+I2S(ISpinHeiyan)+"/300.")
+			endif
+			debug if (ISpinHeiyan >= 300) then
+				debug call SetHeiyanSpinOK(GetOwningPlayer(Heiyan))
+			debug endif
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断祭品是不是满了
@@ -344,6 +364,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura
 		call ImmuteDamageInterval(Heiyan,0.1)
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(Heiyan), GetUnitY(Heiyan) ))
 		call PrintSpellContent(GetOwningPlayer(Heiyan),GetAbilityName('A0D2'),"抵消致死伤害.")
+		call SpinTongji()
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -463,6 +484,24 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura
 	function AfterReviveHeiyan takes unit u returns nothing
 		if (u == Heiyan) then
     		call SetUnitPathing( Heiyan, false )
+    		set ISpinHeiyan = -1000
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    黑阎皮肤
+	*/
+	private function InitHeiyanSpin takes unit u returns unit
+		if (IsHeiyanSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'U003',GetUnitX(u),GetUnitY(u),0)
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],100)
+			call RemoveUnit(u)
+			set ISacriMaxCount = ISacriMaxCount + 2
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -473,11 +512,11 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura
 	function InitHeiyan takes unit u returns nothing
 		local timer t = CreateTimer()		
 		set GSacri = CreateGroup()
-		set Heiyan = u
+		set Heiyan = InitHeiyanSpin(u)
 		call SetUnitPathing( Heiyan, false )
 		//主英雄技能
 		set TSpellHeiyan1 = CreateTrigger()
-	    call TriggerRegisterUnitEvent(TSpellHeiyan1,u,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerRegisterUnitEvent(TSpellHeiyan1,Heiyan,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellHeiyan1, function TSpellHeiyanAct)
 
 	    //主英雄杀敌事件

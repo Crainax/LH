@@ -4,12 +4,13 @@
 /////! import "Continous.j"
 //! import "Diffculty.j"
 //! import "Xuanxue.j"
+//! import "Huanyi.j"
 //! import "Bajue.j"
 /*
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Bajue//,Continous
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Huanyi,Bajue//,Continous
 	
 	globals
 		private item array IBox
@@ -215,6 +216,10 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-bj" and GetOwningPlayer(bajue) == GetTriggerPlayer()) then
 			call InitFengshuang()
 			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启霸绝英雄挑战.")
+		//幻逸皮肤
+		elseif (str == "-hy" and GetOwningPlayer(Huanyi) == GetTriggerPlayer()) then
+			call InitHuanyiTiaozhan()
+			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启幻逸英雄挑战.")
 		elseif (str == "-yc") then
 			call YincangBroad()
 		debug elseif (str == "-jn") then

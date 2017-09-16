@@ -76,7 +76,7 @@ library_once Qixi requires LHBase,Achievement
 	   司宸
 	*/
 	private function Fafang4 takes player p returns nothing
-		if (GetPlayerName(p) == "因我而空虚" or GetPlayerName(p) == "青山绿水丶" or GetPlayerName(p) == "Bucketehead" or GetPlayerName(p) == "天子脚下一堆坑" or GetPlayerName(p) == "丶念少。") then
+		if (GetPlayerName(p) == "因我而空虚" or GetPlayerName(p) == "青山绿水丶" or GetPlayerName(p) == "Buckethead" or GetPlayerName(p) == "天子脚下一堆坑" or GetPlayerName(p) == "丶念少。") then
 			call SetSichenSpinOK(p)
 		endif
 	endfunction

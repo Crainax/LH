@@ -80,6 +80,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         boolean JJ1 = false
         boolean JJ2 = false
         boolean JJ3 = false
+
+        item array IBibo
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
