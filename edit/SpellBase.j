@@ -35,6 +35,54 @@ library_once SpellBase requires LHBase
 		call ImmuteDamageInterval(u,0)
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    只打基地
+	*/
+	struct OnlyAttackBase 
+		
+		private unit u
+		private timer t
+
+		static method flashAttack takes nothing returns nothing
+			local thistype this = thistype[GetExpiredTimer()]
+			if (IsUnitAliveBJ(.u) or GetUnitAbilityLevel(.u,'A0KH') > 0) then
+				call IssueTargetOrder(.u,"attack",gg_unit_haro_0030)
+			else
+				call .destroy()
+			endif
+		endmethod
+
+        static method operator [] takes handle h returns thistype
+            return YDWEGetIntegerByString("SpellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+        static method operator []= takes handle h, thistype value returns nothing
+            call YDWESaveIntegerByString("SpellBase", I2S(YDWEH2I(h)), value)
+        endmethod
+
+        static method flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SpellBase", I2S(YDWEH2I(h)))
+        endmethod
+
+		static method create takes unit u returns thistype
+		   	local thistype this = thistype.allocate()
+		   	set .u = u
+			set .t = CreateTimer()
+			set thistype[.t] = integer(this)
+			call TimerStart(.t,3,true,function thistype.flashAttack)
+			call IssueTargetOrder(u,"attack",gg_unit_haro_0030)
+			return this
+		endmethod
+
+		method onDestroy takes nothing returns nothing
+			call thistype.flush(.t)
+			set .u = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+	endstruct
 
 //---------------------------------------------------------------------------------------------------
 	/*

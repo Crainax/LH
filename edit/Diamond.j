@@ -1608,7 +1608,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnrg')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'glsk', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop

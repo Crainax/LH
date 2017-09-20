@@ -15,7 +15,29 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
 
         private integer IYinduTimes = 0
     endglobals
+//---------------------------------------------------------------------------------------------------
+    /*
+        吞天妖刺
+    */
+    private function TuntianyaociEffect takes real radius,integer count returns nothing
+        local integer i = 1
+        loop
+            exitwhen i > count
+            call CreateUnitEffect(GetOwningPlayer(chenji),'hh00',YDWECoordinateX(GetUnitX(chenji) + radius * CosBJ(i*(360/count))), YDWECoordinateY(GetUnitY(chenji) + radius * SinBJ(i*(360/count))),0)
+            set i = i +1
+        endloop
+    endfunction
 
+    function Tuntianyaoci takes nothing returns nothing
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            call TuntianyaociEffect(300 * i, i * 2 + 2)
+            set i = i +1
+        endloop
+        call PrintSpell(GetOwningPlayer(GetTriggerUnit()),"|cFFCCFF66吞天妖刺|r",GetDamageChenji(GetTriggerUnit())*3)
+        call DamageArea(chenji,GetUnitX(chenji), GetUnitY(chenji),1800,GetDamageChenji(GetTriggerUnit())*3)
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         检测此时辰寂的生命

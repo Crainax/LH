@@ -229,6 +229,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'ILII', 420000 )
 	    call SetItem3W( 'ILIJ', 450000 )
 	    call SetItem3W( 'ILIK', 490000 )
+	    call SetItem3W( 'I07D', 530000 )
 		call SetItemXixue( 'ILI3', 8000 )
 		call SetItemXixue( 'ILI4', 16000 )
 		call SetItemXixue( 'ILI5', 25000 )
@@ -247,6 +248,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemXixue( 'ILII', 2200000)
 		call SetItemXixue( 'ILIJ', 2800000)
 		call SetItemXixue( 'ILIK', 3300000)
+		call SetItemXixue( 'I07D', 4000000)
 
 		//衣服
 	    call SetItemDefense( 'rej6' , 1500)

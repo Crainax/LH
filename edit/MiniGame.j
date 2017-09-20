@@ -1,6 +1,6 @@
 //! import "LHBase.j"
 //! import "Diffculty.j"
-//! import "NetVersion.j"
+/////! import "NetVersion.j"
 //! import "SpellBase.j"
 
 library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBase,Version

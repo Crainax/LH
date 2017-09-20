@@ -12,6 +12,9 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		constant integer TIMESTAMP_START = 1500998400
 		boolean array BWuxing
 		//integer DzAPI_Map_GetGameStartTime() = 0
+		boolean BBuqian1 = false
+		boolean BBuqian2 = false
+		boolean BBuqian3 = false
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -52,6 +55,10 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			call SetLingxueSpinOK(p)
 		endif
 
+		if (i >= 20) then
+			call UnitAddItemByIdSwapped('hlst', u)
+		endif
+
 		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -69,6 +76,8 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			return "聚宝·Lv0 * 1"
 		elseif (days == 14) then
 			return "|cFF339933沐雪无瑕|r皮肤"
+		elseif (days == 20) then
+			return "|cff808080【E】幸运宝箱|r"
 		endif
 
 		return null
@@ -120,8 +129,15 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	/*
 	    获取当前时间的0点
 	*/
-	private function GetCurrentStartTime takes player p returns integer
+	private function GetCurrentStartTime takes nothing returns integer
 		return TIMESTAMP_START + ((DzAPI_Map_GetGameStartTime() - TIMESTAMP_START)/86400)*86400
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取前n天的0点
+	*/
+	private function GetOldStartTime takes integer day returns integer
+		return GetCurrentStartTime() - ((day - 1) * 86400)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -135,9 +151,9 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	/*
 	    显示签到指数
 	*/
-	function ShowQiandao takes player p returns nothing
+	/*function ShowQiandao takes player p returns nothing
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的签到指数为"+I2S(IQiandao2[GetConvertedPlayerId(p)])+".")
-	endfunction
+	endfunction*/
 //---------------------------------------------------------------------------------------------------
 	/*
 	    保存登录状态
@@ -146,7 +162,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		if (Bdudang[GetConvertedPlayerId(p)]) then
 			call DzAPI_Map_StoreInteger( p,  "IConDays", IConDays[GetConvertedPlayerId(p)] )
 			call DzAPI_Map_StoreInteger( p,  "ILastTime", ILastTime[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p,  "IQiandao2", IQiandao2[GetConvertedPlayerId(p)] )
+			//call DzAPI_Map_StoreInteger( p,  "IQiandao2", IQiandao2[GetConvertedPlayerId(p)] )
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
@@ -205,17 +221,17 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			//首次连续登录的提示与奖励
 			set IConDays[GetConvertedPlayerId(p)] = GetContinousDay(p) + 1
 
-			set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
+			//set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录"+I2S(IConDays[GetConvertedPlayerId(p)])+"天(注意今天的签到需要等10分钟才能保存).")
 		elseif (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)] - 1)then
 			//保持当天的奖励
 
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录"+I2S(IConDays[GetConvertedPlayerId(p)])+"天(今天的签到数据已经在前面游戏中保存了哦).")
 		else
-			set ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime(p)
+			set ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime()
 			set IConDays[GetConvertedPlayerId(p)] = 1
 
-			set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
+			//set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录"+I2S(IConDays[GetConvertedPlayerId(p)])+"天(注意今天的签到需要等10分钟才能保存).")
 		endif
 
@@ -223,6 +239,43 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    补签
+	*/
+	function Buqian1 takes player p returns nothing
+		if not(BBuqian1) then
+			set BBuqian1 = true
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签1阶段.")
+		endif
+	endfunction
+
+	function Buqian2 takes player p,string s returns nothing
+		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],21))) then
+			set BBuqian2 = true
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签2阶段.")
+		endif
+		set BBuqian1 = false
+	endfunction
+
+	function Buqian3 takes player p,string s returns nothing
+		local integer i = 30
+		local integer result = 0
+		loop
+			exitwhen i > 100
+
+			if (s == I2S(GetCycleHash(I2S(i),1))) then
+				set IConDays[GetConvertedPlayerId(p)] = i
+				set ILastTime[GetConvertedPlayerId(p)] = GetOldStartTime(i)
+				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签为"+I2S(i)+"天.")
+				call SaveLoginState(p)
+				exitwhen true
+			endif
+
+			set i = i +1
+		endloop
+		set BBuqian2 = false
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	

@@ -2,6 +2,7 @@
 //! import "LHBase.j"
 //! import "Boss.j"
 //! import "PIV.j"
+//! import "Attr.j"
 /////! import "Diamond.j"
 /////! import "CenterCredit.j"
 /*
@@ -29,10 +30,10 @@
 	test Scredit    守家积分
 	test zhuanshengxx	 转生测试
 	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
-
+	test mijing 	秘境19
 	test bo29
 */
-library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,Diamond
+library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCredit,Diamond
 
 	globals
 		boolean debug_show_damage = false
@@ -214,6 +215,23 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			return
 		endif
 
+		if (chat == "test daddy") then
+
+
+			call AddDamagePercent(1,100.)
+			call BJDebugMsg("测试爆炸伤害")
+
+			return
+		endif
+
+
+		if (chat == "test daddy2") then
+			call AddDamagePercent(1,-100.)
+			call BJDebugMsg("测试爆炸伤害取消")
+
+			return
+		endif
+
 		if(chat == "test fangka") then
 			set u = CreateUnit(Player(0),'hpea',5790.6,4445.8,0)
 			call StartFangKa(u)
@@ -391,6 +409,13 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			call KillUnit(gg_unit_Uear_0242)
 			call KillUnit(gg_unit_Nkjx_0241)
 			call KillUnit(gg_unit_Npld_0253)
+			return
+		endif		
+
+		//直接后面直接来
+		if (chat == "test mijing") then
+			set IDeng = 19
+			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
 			return
 		endif		
 

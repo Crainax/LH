@@ -4,10 +4,9 @@
 //! import "Mengji.j"
 //! import "Huanyi.j"
 //! import "Xinglong.j"
-//! import "Sheyan.j"
 //! import "Lichi.j"
 
-library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Sheyan,Lichi
+library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Lichi
 
 
 //---------------------------------------------------------------------------------------------------
@@ -147,8 +146,11 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	/*
 	    一段觉醒
 	*/
-	private function InitHeroJuexing1 takes unit u returns nothing
+	function InitHeroJuexing1 takes unit u returns nothing
 		local integer i = GetHeroTianFu(u)
+		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
+			return
+		endif
 		call SetUnitAbilityLevel(u,i,2)
 		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能一阶觉醒了!")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
@@ -172,8 +174,11 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	/*
 	    二段觉醒
 	*/
-	private function InitHeroJuexing2 takes unit u returns nothing
+	function InitHeroJuexing2 takes unit u returns nothing
 		local integer i = GetHeroTianFu(u)
+		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
+			return
+		endif
 		call SetUnitAbilityLevel(u,i,3)
 		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能二阶觉醒了!")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
@@ -186,8 +191,6 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			set IMaxHuanying = 5
 		elseif (u == chenji) then
 			call TriggerExecute( gg_trg_____________127 )
-		elseif (u == sheyan) then
-			call JuexingSheyan2()
 		elseif (u == sichen) then
 			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
 		elseif (u == xinglong and IsLong()) then
@@ -199,8 +202,11 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	/*
 	    三段觉醒
 	*/
-	private function InitHeroJuexing3 takes unit u returns nothing
+	function InitHeroJuexing3 takes unit u returns nothing
 		local integer i = GetHeroTianFu(u)
+		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
+			return
+		endif
 		call SetUnitAbilityLevel(u,i,4)
 		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能三阶觉醒了!")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
@@ -233,6 +239,9 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	*/
 	private function CancelJuexing takes unit u returns nothing
 		local integer i = GetHeroTianFu(u)
+		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
+			return
+		endif
 		call SetUnitAbilityLevel(u,i,1)
 		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能觉醒失效了!")
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
@@ -285,8 +294,6 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call QJuexingSeyu()
 		elseif (u == chenji) then
 			call TriggerExecute( gg_trg_____________129 )
-		elseif (u == sheyan) then
-			call QJuexingSheyan()
 		elseif (u == Huanyi) then
 			call UnitRemoveAbility(Huanyi,'A0HX')
 		elseif (u == mengji) then
@@ -294,6 +301,62 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 		elseif (u == lichi) then
 	    	call UnitRemoveAbility(lichi,'A0B9')
 		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    大招
+	*/
+
+	private function CreateEffect12Yanyanhuo takes real x,real y returns nothing
+		local integer i = 1
+		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
+		loop
+			exitwhen i > 6
+			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(y + 900 * SinBJ(i*60)) ))
+			set i = i +1
+		endloop
+	endfunction
+
+	private function YanyanhuoTimer12 takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,1)
+		local unit caster = LoadUnitHandle(spellTable,id,2)
+		local integer index = LoadInteger(spellTable,id,3)
+		if (IsUnitAliveBJ(u) or index <= 80) then
+			call SaveInteger(spellTable,GetHandleId(t),3,index + 1)
+			if (ModuloInteger(index,10) == 0) then
+				call DamageArea(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 2)
+			endif
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81- index) * 25 * CosBJ(index * 45)),YDWECoordinateY(GetUnitY(u) + (81- index) * 25 * SinBJ(index * 45)) ))
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81- index) * 25 * CosBJ(index * (-45) + 180)),YDWECoordinateY(GetUnitY(u) * 25 + (81- index) * SinBJ(index * (-45) + 180)) ))
+		else
+			call CreateEffect12Yanyanhuo(GetUnitX(u), GetUnitY(u))
+			call DamageArea(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 5)
+			call RemoveUnit(u)
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable,id)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+	endfunction
+
+	function Yanyanhuo12 takes unit caster returns nothing
+		local timer t = CreateTimer()
+		local unit u = CreateUnit(GetOwningPlayer(caster),'h02I',GetUnitX(caster),GetUnitY(caster),0)
+		call UnitApplyTimedLifeBJ( 8, 'BHwe',u )
+		call UnitMakeAbilityPermanent(xinglong,true,'A0K1')
+		//不断伤害
+		call ImmuteDamageInterval(caster,8)
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(caster), GetUnitY(caster) ))
+		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
+		call SaveUnitHandle(spellTable,GetHandleId(t),2,caster)
+		call SaveInteger(spellTable,GetHandleId(t),3,1)
+		call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(caster)),0.6)
+		call TimerStart(t,0.1,true,function YanyanhuoTimer12)
+		set t = null
+		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

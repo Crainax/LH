@@ -1,9 +1,10 @@
 
 //! import "LHBase.j"
+//! import "Attr.j"
 /*
     转生
 */
-library_once Mirror requires LHBase 
+library_once Mirror requires LHBase ,Attr
 
     globals
         timer TiMirror

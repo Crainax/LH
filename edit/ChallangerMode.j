@@ -1,5 +1,5 @@
 //! import "LHBase.j"
-//! import "Huodong.j"
+/////! import "Huodong.j"
 //! import "ChallangerDZ.j"
 //! import "Mirror.j"
 
@@ -9,7 +9,6 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 		integer EquipLoopingTime = 1
 		group GJingxiang = null
 	endglobals
-
 //---------------------------------------------------------------------------------------------------
     /*
         输出选英雄皮肤的提示
@@ -81,6 +80,10 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 			call StartTiaozhan2()
 		elseif (CT5()) then
 			set GJingxiang = CreateGroup()
+		elseif (CT7()) then
+	    	call SetPlayerTechResearchedSwap(  'R01L', 1 , Player(10))
+	    	call SetPlayerTechResearchedSwap(  'R01L', 1 , Player(11))
+			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 5
 		endif
 
 		if (CType != 0) then
@@ -333,10 +336,10 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	    	call DialogSetMessage( d, "选择挑战类别(困难)" )
 	    endif
 
-	    call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetChallangerTitle(6) + S3(IsChallangerComplete(GetFirstPlayer(),6),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetChallangerTitle(7) + S3(IsChallangerComplete(GetFirstPlayer(),7),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	    loop
-	    	exitwhen i > 5
+	    	exitwhen i > 6
 		    call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetChallangerTitle(i) + S3(IsChallangerComplete(GetFirstPlayer(),i),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 	    	set i = i +1
 	    endloop

@@ -14,7 +14,6 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	endglobals
 
 
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前难度序号
@@ -41,7 +40,6 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 			return 1
 		endif
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    创建镜像单位
@@ -70,6 +68,10 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	function EnhanceDiffAttack takes unit u returns nothing
 		if (NanDiff <= 0) then
 			return
+		endif
+
+		if (IsTianyan) then
+			call UnitAddAbility(u,'A0G5')
 		endif
 
 		//100倍攻击加强
@@ -104,6 +106,8 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 
 		call UnitRemoveAbility(u,'A0EY')
 		call UnitRemoveAbility(u,'A05O')
+		call UnitRemoveAbility(u,'A0G5')
+		
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

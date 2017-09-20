@@ -95,13 +95,12 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 	*/
 	private function ExchangeChao takes boolean higher returns nothing
 		local integer charges = GetItemCharges(Liutao)
+		if (GetItemTypeId(Liutao) == I3(higher or BJuexing3[GetConvertedPlayerId(GetOwningPlayer(mengji))],'I04A','I049')) then
+			return
+		endif
 		call FlushChildHashtable(YDHT,GetHandleId(Liutao))
 		call RemoveItem(Liutao)
-		if (higher or BJuexing3[GetConvertedPlayerId(GetOwningPlayer(mengji))]) then
-			set Liutao = CreateItem('I04A',GetUnitX(mengji),GetUnitY(mengji))
-		else
-			set Liutao = CreateItem('I049',GetUnitX(mengji),GetUnitY(mengji))
-		endif
+		set Liutao = CreateItem(I3(higher or BJuexing3[GetConvertedPlayerId(GetOwningPlayer(mengji))],'I04A','I049'),GetUnitX(mengji),GetUnitY(mengji))
 	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
 		call SetItemCharges(Liutao,charges)
 		if (Nihe != null) then
@@ -183,10 +182,10 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 	    若幻梦的装备回归
 	*/
 	function RuohuanmengChatBack takes nothing returns nothing
-		if (Nihe != null) then
-			call RemoveItem(Nihe)
-			set Nihe = null
+		if (ULinglong1 == null) then
+			call ExchangeChao(false)
 		endif
+
 		if (IsUnitInRange(mengji,ULinglong1,900)) then
 			call ExchangeChao(true)
 		else

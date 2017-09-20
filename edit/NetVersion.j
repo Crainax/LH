@@ -79,10 +79,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 
 		//签到指数
-		integer array IQiandao2
+		//integer array IQiandao2
 
 		//总数不存在20个
 		boolean BZongshu = false
+
+		//箱子
+		string array SBoxWord
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -280,11 +283,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set Greward[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "Greward")
     			set IConDays[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IConDays")
     			set ILastTime[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "ILastTime")
-    			set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
+    			//签到指数
+    			//set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
     			set spin2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin2")
     			set easyCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "easyCString")
     			set middleCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "middleCString")
     			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")
+    			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")
+    			set SBoxWord[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SBoxWord")
     			
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif

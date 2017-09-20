@@ -3,7 +3,7 @@
 library_once ChallangerDZ requires LHBase
 	
 	globals
-		constant integer COUNT_CHALLANGER = 6
+		constant integer COUNT_CHALLANGER = 7
 
 		string array easyCString
 		string array middleCString
@@ -100,6 +100,13 @@ library_once ChallangerDZ requires LHBase
 	*/
 	function CT6 takes nothing returns boolean
 		return CType == 6
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是随机英雄挑战
+	*/
+	function CT7 takes nothing returns boolean
+		return CType == 7
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -241,6 +248,8 @@ library_once ChallangerDZ requires LHBase
 			return "镜像挑战"
 		elseif (i == 6) then
 			return "随机英雄挑战"
+		elseif (i == 7) then
+			return "金钟罩挑战"
 		endif
 		return ""
 	endfunction
@@ -334,6 +343,20 @@ library_once ChallangerDZ requires LHBase
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
 			"
+		elseif (i == 7) then
+			return "
+			金钟罩挑战如下:
+
+			所有进攻怪与BOSS只会攻击基地,
+			包括部分副本BOSS.
+			但是你兑换防护罩时额外获得2个.
+
+			简单最低通关要求:(天国)
+			中等最低通关要求:(炼狱)
+			困难最低通关要求:(万劫)
+
+			|cff00ccff在该模式下不能获得成就及皮肤.|r
+			"
 		endif
 		return ""
 	endfunction
@@ -354,6 +377,8 @@ library_once ChallangerDZ requires LHBase
 			return C3(1,5,8)
 		elseif (CType == 6) then
 			return C3(1,5,8)
+		elseif (CType == 7) then
+			return C3(1,5,9)
 		endif
 		return 0
 	endfunction

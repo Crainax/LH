@@ -199,6 +199,12 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
  			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 		elseif (GetSpellAbilityId() == 'A0KW') then
 			call Qinghanqianli()
+		debug elseif (GetSpellAbilityId() == 'A0MY') then
+		debug 	call Duihuanjinbi()
+		debug elseif (GetSpellAbilityId() == 'A0MZ') then
+		debug 	call DuihuanMucai()
+		debug elseif (GetSpellAbilityId() == 'A0N0') then
+		debug 	call Wanwuqiyuan()
 		elseif (GetSpellAbilityId() == 'A0MC') then
 			call ChangeSpinDialog(GetOwningPlayer(GetTriggerUnit()))
 		elseif (GetSpellAbilityId() == 'A0ME') then
@@ -310,8 +316,15 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
 	    	else
 	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r现在是非生命连结状态.")
+			endif    	
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07D') then
+			//十二焱炎火
+			if (GetItemCharges(GetManipulatedItem()) >= 1) then
+				call Yanyanhuo12(GetTriggerUnit())
+			else
+				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该物品没有能量,请充能.")
+				call SetItemCharges(GetManipulatedItem(),1)
 			endif
-
     	//开箱子
 		debug elseif(GetItemTypeId(GetManipulatedItem()) == 'I06N') then
 			debug call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl",GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) ))

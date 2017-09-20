@@ -1,7 +1,8 @@
 //! import "LHBase.j"
 //! import "SpellBase.j"
 //! import "Diffculty.j"
-library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffculty
+//! import "Boss.j"
+library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffculty,Boss
 
 	globals
 		unit UHundun1 = null
@@ -185,6 +186,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		local integer i = 1
 		local unit temp = null
 		set UHundun1 = u
+		call BossAddOnlyAttack(UHundun1)
 		set MLHundun1 = MultiLife.create(u,2)
 		//召唤电子盟
 		set GHundunDian1 = CreateGroup()
@@ -344,16 +346,17 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and udg_H[i] != null) then
 				if (UnitHasItemOfTypeBJ(udg_H[i],'I04L') or UnitHasItemOfTypeBJ(udg_H[i],'I04M')) then
-				    call AdjustPlayerStateBJ( 600*CModeH(1,2), ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )
+				    call AdjustPlayerStateBJ( I3(IsWanjie(),600/udg_RENSHU,600)*CModeH(1,2), ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )
 				    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl", GetUnitX(udg_H[i]), GetUnitY(udg_H[i]) ))
 				elseif (UnitHasItemOfTypeBJ(udg_H[i],'rat6')) then
-				    call AdjustPlayerStateBJ( 500*CModeH(1,2), ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )
+				    call AdjustPlayerStateBJ( I3(IsWanjie(),500/udg_RENSHU,500)*CModeH(1,2), ConvertedPlayer(i), PLAYER_STATE_RESOURCE_LUMBER )
 				    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl", GetUnitX(udg_H[i]), GetUnitY(udg_H[i]) ))
 				endif
 			endif
 			set i = i +1
 		endloop
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    合成皎月

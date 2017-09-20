@@ -65,6 +65,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
         timerdialog TiDiaHuanyiTiaozhan = null
         integer HuanyiTiaozhanCount = 0
         integer HuanyiTiaozhanCurrent = 0
+        integer HuanyiWrongTimes = 0
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -119,6 +120,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
         call DestroyTimer(TiHuanyiTiaozhan)
         set TiHuanyiTiaozhan = null
         set TiDiaHuanyiTiaozhan = null
+		set HuanyiWrongTimes = 0
         set HuanyiTiaozhanCount = 0
     endfunction
 
@@ -126,6 +128,14 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		if (ICurrentSpell == HuanyiTiaozhanCurrent) then
 			set HuanyiTiaozhanCount = HuanyiTiaozhanCount +1
 			call RandomSetHuanyiTiaozhan()
+			set HuanyiWrongTimes = 0
+		else
+			set HuanyiWrongTimes = HuanyiWrongTimes + 1
+			if (HuanyiWrongTimes >= 7) then
+				set HuanyiTiaozhanCount = 0
+				set HuanyiWrongTimes = 0
+				call DisplayTextToPlayer(GetOwningPlayer(Huanyi), 0., 0., "|cFFFF66CC【消息】|r7次按键不能正确切换,清空挑战值.")
+			endif
 		endif
 	endfunction
 
@@ -398,7 +408,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if (IsAlly(l_unit,Huanyi)) then
+			    if (IsAlly(l_unit,Huanyi) and IsUnitAliveBJ(l_unit)) then
 			    	call RecoverUnitHP(l_unit,0.3)
 			    	call RecoverUnitMP(l_unit,20)
 			    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))

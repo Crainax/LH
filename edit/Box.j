@@ -1,9 +1,81 @@
 //! import "LHBase.j"
 //! import "NetVersion.j"
 //! import "ChallangerDZ.j"
+//! import "PIV.j"
 
-library_once Box requires LHBase,Version,ChallangerDZ
-	
+library_once Box requires LHBase,Version,ChallangerDZ,PIV
+
+	globals
+		TextTagBind array TTBBox
+	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    目前可以加3字的人
+	*/
+	private function Is3Size takes player p returns boolean
+		if (playerName[GetConvertedPlayerId(p)] == "samwinn" or playerName[GetConvertedPlayerId(p)] == "司宸" or playerName[GetConvertedPlayerId(p)] == "雪落无痕Diana" or playerName[GetConvertedPlayerId(p)] == "天子脚下一堆坑") then
+			return true
+		endif
+
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    创建并绑定文字
+	*/
+	private function InitBoxWord takes player p returns nothing
+		local integer index = GetConvertedPlayerId(p)
+		set TTBBox[index] = TextTagBind.create(UDepot[index],50,50)
+		call TTBBox[index].setContent(S3(StringLength(SBoxWord[index]) < 1,"输入-ck改头衔",SBoxWord[index]))		
+		call TTBBox[index].setSize(12.)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    使用自定义指令后
+	*/
+	function SetDIYBoxName takes player p,string s returns nothing
+		if (ModuloInteger(StringLength(s),3) == 0) then
+			if ((StringLength(s) > (((DzAPI_Map_GetMapLevel(p)/10) + 2 + I3(Is3Size(p),3,0))*3))) then
+				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你地图等级当前为"+I2S(DzAPI_Map_GetMapLevel(p))+"级,最多可自定义"+I2S(((DzAPI_Map_GetMapLevel(p)/10) + 2 + I3(Is3Size(p),3,0)))+"个字.")
+				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r每10级可以额外获得1个字.")
+				return
+			endif
+			set SBoxWord[GetConvertedPlayerId(p)] = s
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r成功修改头衔!")
+			call DzAPI_Map_StoreString( p,  "SBoxWord", SBoxWord[GetConvertedPlayerId(p)] )
+			if (TTBBox[GetConvertedPlayerId(p)] != 0) then
+				call TTBBox[GetConvertedPlayerId(p)].setContent(SBoxWord[GetConvertedPlayerId(p)])
+			endif	
+		else
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r头衔格式不对！不允许中英(或数字)混杂输入。")
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    技能
+	*/
+	function Duihuanjinbi takes nothing returns nothing
+		if (GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_LUMBER) >= 10) then
+        	call AdjustPlayerStateBJ( -10 , GetOwningPlayer(GetTriggerUnit()) , PLAYER_STATE_RESOURCE_LUMBER )
+        	call AdjustPlayerStateBJ( 10000 , GetOwningPlayer(GetTriggerUnit()) , PLAYER_STATE_RESOURCE_GOLD )
+        else
+        	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你的木材不足.")
+		endif
+	endfunction
+
+	function DuihuanMucai takes nothing returns nothing
+		if (GetPlayerState(GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD) >= 10000) then
+        	call AdjustPlayerStateBJ( 10 , GetOwningPlayer(GetTriggerUnit()) , PLAYER_STATE_RESOURCE_LUMBER )
+        	call AdjustPlayerStateBJ( -10000 , GetOwningPlayer(GetTriggerUnit()) , PLAYER_STATE_RESOURCE_GOLD )
+        else
+        	call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你的金币不足.")
+		endif
+	endfunction
+
+	function Wanwuqiyuan takes nothing returns nothing
+		call UnitAddItemByIdSwapped('I006', GetTriggerUnit())
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取对应的仓库
@@ -44,7 +116,7 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		elseif (i == 6) then
 			return "|cff33cccc(地图等级大于18级解锁)|r"
 		elseif (i == 7) then
-			return "|cff33cccc(加入任意认证轮回公会解锁)|r"
+			return "|cff33cccc(加入指定公会[点击查看]解锁)|r"
 		elseif (i == 8) then
 			return "|cff33cccc(获取赞助权限解锁)|r"
 		endif
@@ -57,9 +129,17 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		elseif (i == 2) then
 			return 'n01Z'
 		elseif (i == 3) then
-			return 'n020'
+			return 'n026'
 		elseif (i == 4) then
+			return 'n027'
+		elseif (i == 5) then
+			return 'n020'
+		elseif (i == 6) then
 			return 'n021'
+		elseif (i == 7) then
+			return 'n024'
+		elseif (i == 8) then
+			return 'n025'
 		endif
 		return 0
 	endfunction
@@ -70,9 +150,17 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		elseif (i == 2) then
 			return 'A0MD'
 		elseif (i == 3) then
-			return 'A0MX'
+			return 'A0MY'
 		elseif (i == 4) then
+			return 'A0MZ'
+		elseif (i == 5) then
+			return 'A0MX'
+		elseif (i == 6) then
 			return 'Aprg'
+		elseif (i == 7) then
+			return 'A0N0'
+		elseif (i == 8) then
+			return 'A0N1'
 		endif
 		return 0
 	endfunction
@@ -81,11 +169,19 @@ library_once Box requires LHBase,Version,ChallangerDZ
 		if (i == 1) then
 			return GetCompleteRate(p) >= 0.1 or GetBit(Greward[GetConvertedPlayerId(p)],1) > 0
 		elseif (i == 2) then
-			return GetCompleteRate(p) >= 0.5 or GetBit(Greward[GetConvertedPlayerId(p)],2) > 0
+			return GetCompleteRate(p) >= 0.25 or GetBit(Greward[GetConvertedPlayerId(p)],2) > 0
 		elseif (i == 3) then
-			return GetCompleteRate(p) >= 0.99 or GetBit(Greward[GetConvertedPlayerId(p)],3) > 0
+			return GetCompleteRate(p) >= 0.5 or GetBit(Greward[GetConvertedPlayerId(p)],5) > 0
 		elseif (i == 4) then
+			return GetCompleteRate(p) >= 0.75 or GetBit(Greward[GetConvertedPlayerId(p)],6) > 0
+		elseif (i == 5) then
+			return GetCompleteRate(p) >= 0.99 or GetBit(Greward[GetConvertedPlayerId(p)],3) > 0
+		elseif (i == 6) then
 			return DzAPI_Map_GetMapLevel(p) >= 18 or GetBit(Greward[GetConvertedPlayerId(p)],4) > 0
+		elseif (i == 7) then
+			return (DzAPI_Map_GetGuildName(p) == "Crainax" or DzAPI_Map_GetGuildName(p) == "大佬娱乐会所" or DzAPI_Map_GetGuildName(p) == "万劫封帝" or DzAPI_Map_GetGuildName(p) == "万劫录") or GetBit(Greward[GetConvertedPlayerId(p)],7) > 0
+		elseif (i == 8) then
+			return IsPIV(p) or GetBit(Greward[GetConvertedPlayerId(p)],8) > 0
 		endif
 
 		return false
@@ -118,10 +214,15 @@ library_once Box requires LHBase,Version,ChallangerDZ
 	    loop
 	    	exitwhen i > 9
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
+				if (i == 7) then
+					call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r加入以下这4个公会之一即可:<小可爱>Crainax/<逆苍天>大佬娱乐会所/<万劫>万劫封帝/<六界王＞万劫录。")
+					call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【备注】|r<轮回>六界联盟公会会长已经被不法手段窃取,故该公会已不属于认证轮回公会!")
+				endif
 	        	if (IsBoxAccess(p,i)) then
 	    			call CreateNewBox(p,i)
+	    			call InitBoxWord(p)
 	        	endif
-			endif	       
+			endif	 
 	    	set i = i +1
 	    endloop
 
@@ -154,5 +255,5 @@ library_once Box requires LHBase,Version,ChallangerDZ
 	    set d = null
 	    set t = null
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
 endlibrary

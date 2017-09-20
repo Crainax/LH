@@ -1,9 +1,10 @@
 //! import "LHBase.j"
 //! import "Attr.j"
 //! import "SpellBase.j"
+//! import "Juexing.j"
 /////! import "Beast.j"
 /////! import "Netversion.j"
-library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase
+library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
 	globals
 		boolean array sPIV
 		private boolean isFirst = true
@@ -118,7 +119,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 	private function InitPlayerPIV takes player p returns nothing
 		if (isFirst) then
 			set isFirst = false
-			set udg_I_Er_diansi[1] = 3
+			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2
 			call BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+1波的特权.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.")
 		endif
@@ -645,8 +646,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		call SaveBoolean(PIVTable,kPIV,61444830,true)
 		call SaveBoolean(PIVTable,kPIV,89183810,true)
 		call SaveBoolean(PIVTable,kPIV,255054188,true)
-		call SaveBoolean(PIVTable,kPIV,384268954,true)
-		call SaveBoolean(PIVTable,kPIV,8326255,true)
+		call SaveBoolean(PIVTable,kPIV,589040132,true)
+		call SaveBoolean(PIVTable,kPIV,386048783,true)
 
 
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )

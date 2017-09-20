@@ -52,6 +52,18 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		DamageTJ DTJ2 = 0
 		DamageTJ DTJ3 = 0
 	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    给BOSS加上只打基地的指令:挑战
+	*/
+	function BossAddOnlyAttack takes unit u returns boolean
+		if (CT7()) then
+			call OnlyAttackBase.create(u)
+			return true
+		endif
+		return false
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    伤害统计系统
@@ -638,7 +650,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    初始化人与妖
 	*/
 	private function InitRenYao takes nothing returns nothing
-		local timer t = CreateTimer()
+		local timer t = null
 		call ShowGameHintAll("
 		    	|cffffff00上路BOSS(人王傀儡) 技能:|r
 	        3次生命
@@ -675,12 +687,18 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    call CreateTimerDialogBJ( udg_Time_BOSS, "限时击杀时间" )
 	    set udg_Timer_BOSS = GetLastCreatedTimerDialogBJ()
 	    call TimerDialogDisplayBJ( true, udg_Timer_BOSS )
-	    call SaveUnitHandle(LHTable,GetHandleId(t),1,UXiaoY)
-	    call TimerStart(t,1,true,function JudgeBossAttackTimer)
-	    set t = CreateTimer()
-	    call SaveUnitHandle(LHTable,GetHandleId(t),1,UChuanzhang)
-	    call TimerStart(t,1,true,function JudgeBossAttackTimer)
-	    set t = null
+	    if (not(CT7())) then
+		    set t = CreateTimer()
+		    call SaveUnitHandle(LHTable,GetHandleId(t),1,UXiaoY)
+		    call TimerStart(t,1,true,function JudgeBossAttackTimer)
+		    set t = CreateTimer()
+		    call SaveUnitHandle(LHTable,GetHandleId(t),1,UChuanzhang)
+		    call TimerStart(t,1,true,function JudgeBossAttackTimer)
+		    set t = null
+		else
+			call BossAddOnlyAttack(UXiaoY)
+			call BossAddOnlyAttack(UChuanzhang)
+	    endif
 	    //小Y技能
 	    call InitFashangfuTimer()
 	    if (GetDiffculty() >= 6) then

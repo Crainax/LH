@@ -38,14 +38,14 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.379"
+		return "3.382C"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11
 	*/
 	function Get11 takes nothing returns boolean
-		return false
+		return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -1329,9 +1329,9 @@ library_once Constant initializer InitConstant requires JBase
 		if (WPointer == 1) then
 			return "你把我灌醉。"
 		elseif (WPointer == 2) then
-			return "心亦"
+			return "辉煌丶神偷"
 		elseif (WPointer == 3) then
-			return "幻、神"
+			return "丶7℃ャ跃娃"
 		elseif (WPointer == 4) then
 			return "深邃的孤独丶"
 		elseif (WPointer == 5) then
@@ -1347,79 +1347,79 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (WPointer == 10) then
 			return "梦露丶baby"
 		elseif (WPointer == 11) then
-			return "丶念少。"
-		elseif (WPointer == 12) then
 			return "0万物皆空0"
+		elseif (WPointer == 12) then
+			return "回忆专用小马甲"
 		elseif (WPointer == 13) then
-			return "辉煌丶神偷"
+			return "我鸡鸡贼大"
 		elseif (WPointer == 14) then
-			return "丶7℃ャ跃娃"
+			return "树林里故事"
 		elseif (WPointer == 15) then
 			return "星辰末日"
 		elseif (WPointer == 16) then
 			return "夕子奈月"
 		elseif (WPointer == 17) then
-			return "枫烨桦"
+			return "Rascal丶恋情"
 		elseif (WPointer == 18) then
 			return "请带着我飞"
 		elseif (WPointer == 19) then
-			return "树林里故事"
-		elseif (WPointer == 20) then
-			return "我鸡鸡贼大"
-		elseif (WPointer == 21) then
-			return "至简i"
-		elseif (WPointer == 22) then
 			return "阴优"
-		elseif (WPointer == 23) then
+		elseif (WPointer == 20) then
+			return "czy888"
+		elseif (WPointer == 21) then
+			return "Flower丶God"
+		elseif (WPointer == 22) then
 			return "逸灬仙"
+		elseif (WPointer == 23) then
+			return "至简i"
 		elseif (WPointer == 24) then
 			return "躺车门始祖"
 		elseif (WPointer == 25) then
-			return "Rascal丶恋情"
+			return "浪逼康小帅"
 		elseif (WPointer == 26) then
 			return "7葡萄"
 		elseif (WPointer == 27) then
 			return "心雪"
 		elseif (WPointer == 28) then
-			return "Ma—LePYe"
+			return "Dear冷月"
 		elseif (WPointer == 29) then
 			return "墙头蹲红杏"
 		elseif (WPointer == 30) then
-			return "one丶lelseifeの爱"
+			return "one丶lifeの爱"
 		elseif (WPointer == 31) then
-			return "czy888"
-		elseif (WPointer == 32) then
-			return "Flower丶God"
-		elseif (WPointer == 33) then
-			return "月丶暗影"
-		elseif (WPointer == 34) then
 			return "牛头居然能打巨能"
-		elseif (WPointer == 35) then
-			return "Dear冷月"
-		elseif (WPointer == 36) then
+		elseif (WPointer == 32) then
 			return "无缘之邪"
-		elseif (WPointer == 37) then
-			return "话唠。"
-		elseif (WPointer == 38) then
+		elseif (WPointer == 33) then
 			return "那天1234"
-		elseif (WPointer == 39) then
+		elseif (WPointer == 34) then
 			return "糖糖不在甜"
+		elseif (WPointer == 35) then
+			return "稞宿"
+		elseif (WPointer == 36) then
+			return "小米酥丶"
+		elseif (WPointer == 37) then
+			return "月丶暗影"
+		elseif (WPointer == 38) then
+			return "嚣张城"
+		elseif (WPointer == 39) then
+			return "灵魂的缠绵"
 		elseif (WPointer == 40) then
 			return "1 1"
 		elseif (WPointer == 41) then
-			return "浪逼康小帅"
+			return "丶念少。"
 		elseif (WPointer == 42) then
-			return "与你童在"
+			return "话唠。"
 		elseif (WPointer == 43) then
 			return "神天羽"
 		elseif (WPointer == 44) then
 			return "你挺得劲"
 		elseif (WPointer == 45) then
-			return "＿雅姬ベ"
-		elseif (WPointer == 46) then
-			return "灵魂的缠绵"
-		elseif (WPointer == 47) then
 			return "司宸"
+		elseif (WPointer == 46) then
+			return "与你童在"
+		elseif (WPointer == 47) then
+			return "＿雅姬ベ"
 		endif
 		return ""
 	endfunction

@@ -215,6 +215,27 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    苍凌皮肤条件
+	*/
+	function GetCangling1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    离魉皮肤条件
+	*/
+	function GetLichi1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    黑阎皮肤条件
+	*/
+	function GetHeiyan1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
     /*
         获取激活码
     */

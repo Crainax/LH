@@ -80,8 +80,12 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         boolean JJ1 = false
         boolean JJ2 = false
         boolean JJ3 = false
+        boolean JJ4 = false
 
         item array IBibo
+
+        //仓库改称号
+        boolean array BBoxName
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -336,6 +340,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return 19
         elseif (UnitHasItemOfTypeBJ(u,'ILIK')) then
             return 20
+        elseif (UnitHasItemOfTypeBJ(u,'I07D')) then
+            return 21
         endif
         return 0
     endfunction
@@ -354,7 +360,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function IsDeng takes item i returns boolean
         local integer t = GetItemTypeId(i)
-        return ( t == 'ILI1') or ( t == 'ILI2') or ( t == 'ILI3') or ( t == 'ILI4') or ( t == 'ILI5') or ( t == 'ILI6') or ( t == 'ILI7') or ( t == 'ILI8') or ( t == 'ILI9') or ( t == 'ILIA') or ( t == 'ILIB') or ( t == 'ILIC') or ( t == 'ILID') or ( t == 'ILIE') or ( t == 'ILIF') or ( t == 'ILIG') or ( t == 'ILIH') or ( t == 'ILII') or ( t == 'ILIJ') or ( t == 'ILIK')
+        return ( t == 'ILI1') or ( t == 'ILI2') or ( t == 'ILI3') or ( t == 'ILI4') or ( t == 'ILI5') or ( t == 'ILI6') or ( t == 'ILI7') or ( t == 'ILI8') or ( t == 'ILI9') or ( t == 'ILIA') or ( t == 'ILIB') or ( t == 'ILIC') or ( t == 'ILID') or ( t == 'ILIE') or ( t == 'ILIF') or ( t == 'ILIG') or ( t == 'ILIH') or ( t == 'ILII') or ( t == 'ILIJ') or ( t == 'ILIK') or ( t == 'I07D')
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -387,6 +393,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     /*
         敌人过滤器1,只能造成伤害的
     */
+   function IsEnemyP takes unit u, player p returns boolean
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyMP(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
+    endfunction
+
    function IsEnemy takes unit u, unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
@@ -400,6 +410,26 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)  == true                   /*
         */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123                 /*
         */ and GetUnitPointValue(u) != 0
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        干掉一个区域的所有单位
+    */
+    function KillAreaPlayerEnemy takes unit attacker,real x,real y,real radius,player p returns nothing
+        local group l_group = CreateGroup()
+        local unit l_unit
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        loop
+            set l_unit = FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if (IsEnemyMP(l_unit,p)) then
+                call UnitDamageTarget( attacker, l_unit, GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group = null
+        set l_unit =null
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

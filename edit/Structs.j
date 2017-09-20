@@ -12,6 +12,8 @@ library_once Structs requires LHBase
 		private texttag tt
 		private real xOff
 		private real yOff
+		private real size
+		private string content
 		private timer t
 
 		static method flash takes nothing returns nothing
@@ -37,6 +39,7 @@ library_once Structs requires LHBase
 			set .xOff = xOff
 			set .yOff = yOff
 			set .caster = caster
+			set .size = 20.
 			set .tt = CreateTextTagLocBJ( "", point , 0, 20.00, 0, 100, 100, 0 )
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
@@ -46,8 +49,14 @@ library_once Structs requires LHBase
 			return this
 		endmethod
 
+		method setSize takes real size returns nothing
+			set .size = size
+			call SetTextTagTextBJ(.tt,.content,size)
+		endmethod
+
 		method setContent takes string s returns nothing
-			call SetTextTagTextBJ(.tt,s,20)
+			set .content = s
+			call SetTextTagTextBJ(.tt,s,.size)
 		endmethod
 
 		method onDestroy takes nothing returns nothing

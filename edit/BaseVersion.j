@@ -1,6 +1,7 @@
 //! import "LHBase.j"
+/////! import "Box.j"
 
-library_once BaseVersion initializer InitBaseVersion requires LHBase,Version
+library_once BaseVersion initializer InitBaseVersion requires LHBase,Box,Version
 
 	globals
 		boolean array BDIYName
@@ -13,10 +14,16 @@ library_once BaseVersion initializer InitBaseVersion requires LHBase,Version
 			debug set BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = false
 		debug elseif (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(GetTriggerPlayer())],20))) then
 			debug call GetAchievementAndSave(GetTriggerPlayer(),42)
+		debug elseif (BBuqian1) then
+		debug 	call Buqian2(GetTriggerPlayer(),GetEventPlayerChatString())
+		debug elseif (BBuqian2) then
+		debug 	call Buqian3(GetTriggerPlayer(),GetEventPlayerChatString())
+		debug elseif (BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] and chat != "-ck") then
+			debug call SetDIYBoxName(GetTriggerPlayer(),chat)
+			debug set BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] = false
 		debug endif
-
-
 		call TSpeakPassword()
+		set chat = null
 	endfunction
 
 //---------------------------------------------------------------------------------------------------

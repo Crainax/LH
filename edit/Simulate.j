@@ -8,11 +8,12 @@
 //! import "ItemSpell.j"
 //! import "MiniGame.j"
 //! import "Boss.j"
+//! import "MiJing.j"
 /////! import "CenterCredit.j"
 /*
     马甲模拟
 */
-library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell,MiniGame,Boss
+library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell,MiniGame,Boss,MiJing
 	
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -32,8 +33,6 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		elseif (SimulateDamageMengji(u)) then
 			return
 		elseif (SimulateDamageCangling(u)) then
-			return
-		elseif (SimulateDamageSheyan(u)) then
 			return
 		elseif (SimulateDamageXiaoting(u)) then
 			return
@@ -61,6 +60,7 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		call SimulateDeathSichen(GetDyingUnit())
 		call SimulateDeathXinglong(GetDyingUnit())
 		call SimulateDeathLichi(GetDyingUnit())
+		call SimulateDeathMijing(GetDyingUnit())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
