@@ -23,9 +23,9 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 	endfunction
 
 	private function Showxiao1 takes nothing returns nothing
-		call SetPlayerName(Player(0),"无心使者")
-		set playerName[1] = "无心使者"
-		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
+		call SetPlayerName(Player(0),"羁绊丶大黄蜂h")
+		set playerName[1] = "羁绊丶大黄蜂h"
+		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r羁绊丶大黄蜂h")
 	endfunction	
 
 	private function TestCangku takes nothing returns nothing

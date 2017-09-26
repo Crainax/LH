@@ -138,7 +138,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2)
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
 	        call AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2.0)
 	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
 	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)

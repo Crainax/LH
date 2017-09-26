@@ -361,6 +361,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemJingyan('IB02', 1.00)
 	    call SetItemJingyan('I04X', 3.50)
 	    call SetItemJingyan('IB0A', 3.50)
+	    call SetItemJingyan('I070', 4.00)
+	    call SetItemJingyan('I07N', 4.00)
 
 	    call SetItemJingyan('ratc', 5.00)
 	    call SetItemJingyan('I04L', 6.00)
@@ -373,6 +375,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemHP('IB09' , 20000000)
 		call SetItemHP('I04X' , 30000000)
 		call SetItemHP('IB0A' , 30000000)
+		call SetItemHP('I070' , 40000000)
+		call SetItemHP('I07N' , 40000000)
 		call SetItemHP('IB08' , 14000000)
 		call SetItemHP('IB06' , 5000000)
 		call SetItemHP('IB07' , 7000000)
@@ -384,6 +388,8 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'IB09' , 150000)
 	    call SetItem3W( 'I04X' , 220000)
 	    call SetItem3W( 'IB0A' , 220000)
+	    call SetItem3W( 'I070' , 270000)
+	    call SetItem3W( 'I07N' , 270000)
 	    call SetItem3W( 'IB08' , 100000)
 	    call SetItem3W( 'IB06' , 50000)
 	    call SetItem3W( 'IB07' , 70000)
@@ -506,6 +512,21 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemXixue('I04W',80000)
 		call SetItemZhishang('I04W',10000000)
 		call SetItemAttack('I04W',3000000)
+
+		call SetItemStr('I07E',420000)
+		call SetItemAgi('I07E',570000)
+		call SetItemInt('I07E',520000)
+		call SetItemSpellPerc('I07E',1.7)
+		call SetItemXixue('I07E',150000)
+		call SetItemZhishang('I07E',20000000)
+		call SetItemAttack('I07E',4000000)
+		call SetItemStr('I07F',420000)
+		call SetItemAgi('I07F',570000)
+		call SetItemInt('I07F',520000)
+		call SetItemSpellPerc('I07F',1.7)
+		call SetItemXixue('I07F',150000)
+		call SetItemZhishang('I07F',20000000)
+		call SetItemAttack('I07F',4000000)
 		/*
 		    幽冥项链
 		*/
@@ -526,6 +547,22 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemAttackPerc( 'I04Y', 0.75)
 	    call SetItemSpellPerc( 'I04Y' ,  0.5)		
 
+		call SetItemHPPer( 'I07G' , 0.4)
+		call SetItemDefensePer( 'I07G', 0.4)
+		call SetItemDamagePerc( 'I07G' , 0.4)
+		call SetItemStrPerc('I07G', 0.4)
+		call SetItemAgiPerc( 'I07G', 0.4)
+		call SetItemIntPerc( 'I07G', 0.4)
+		call SetItemAttackPerc( 'I07G', 0.8)
+	    call SetItemSpellPerc( 'I07G' ,  0.6)		
+		call SetItemHPPer( 'I07H' , 0.4)
+		call SetItemDefensePer( 'I07H', 0.4)
+		call SetItemDamagePerc( 'I07H' , 0.4)
+		call SetItemStrPerc('I07H', 0.4)
+		call SetItemAgiPerc( 'I07H', 0.4)
+		call SetItemIntPerc( 'I07H', 0.4)
+		call SetItemAttackPerc( 'I07H', 0.8)
+	    call SetItemSpellPerc( 'I07H' ,  0.6)		
 		/*
 		    衣服
 		*/
@@ -538,16 +575,32 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W('I060', 400000)
 	    call SetItemDefense('I060', 25000)
 	    call SetItemHP('I060', 10000000)
+
+	    call SetItem3W('I07K', 470000)
+	    call SetItemDefense('I07K', 37000)
+	    call SetItemHP('I07K', 20000000)
+	    call SetItem3W('I07J', 540000)
+	    call SetItemDefense('I07J', 30000)
+	    call SetItemHP('I07J', 15000000)
+	    call SetItem3W('I07I', 470000)
+	    call SetItemDefense('I07I', 30000)
+	    call SetItemHP('I07I', 15000000)
 	    /*
 	        双魂
 	    */
 	    call SetItemSpellPerc('ICX1',1.5)
 	    call SetItemAttack('ICX1',2500000)
+
+	    call SetItemSpellPerc('I05U',1.7)
+	    call SetItemAttack('I05U',4000000)
 	    /*
 	        戒指
 	    */
 	    call SetItem3W('I05W',400000)
 	    call SetItem3W('I05V',300000)
+
+	    call SetItem3W('I07M',470000)
+	    call SetItem3W('I07L',370000)
 	    /*
 	        翅膀
 	    */
@@ -559,6 +612,15 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemHP('ICY1',5000000)
 	    call SetItemFanji('ICY1',80000000)
 	    call SetItemSpellPerc('ICY1',1.3)
+
+	    call SetItem3W('I07P',480000)
+	    call SetItemHP('I07P',8000000)
+	    call SetItemFanji('I07P',120000000)
+	    call SetItemSpellPerc('I07P',1.4)
+	    call SetItem3W('ICY1',550000)
+	    call SetItemHP('ICY1',8000000)
+	    call SetItemFanji('ICY1',120000000)
+	    call SetItemSpellPerc('ICY1',1.5)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

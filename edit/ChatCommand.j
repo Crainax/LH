@@ -21,6 +21,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		private boolean array BYincang
 
 		boolean BShengli = false
+
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -200,7 +201,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		debug 	set BX1 = not(BX1)
 		debug elseif (str == "-mm2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
 			set BX2 = not(BX2)
-		debug 	debug call SetDIYName(GetTriggerPlayer(),"信手哲天富可敌国")
+		debug call SetDIYName(GetTriggerPlayer(),"信手哲天富可敌国")
 		elseif (str == "-wx1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
 			set JJ1 = not(JJ1)
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r1")
@@ -239,6 +240,24 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call YincangBroad()
 		debug elseif (str == "-bq" and renshu == 1) then
 		debug 	call Buqian1(GetTriggerPlayer())
+		debug elseif (str == "-ckhq" and renshu == 1 and not(BCangkuhuoqu)) then
+		debug 	set BCangkuhuoqu = true
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的仓库指令码")
+		debug elseif (str == "-sphq" and renshu == 1 and not(BSpinhuoqu)) then
+		debug 	set BSpinhuoqu = true
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的皮肤指令码")
+		debug elseif (str == "-ac1" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 1
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
+		debug elseif (str == "-ac2" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 2
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
+		debug elseif (str == "-ac3" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 3
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
+		debug elseif (str == "-ac4" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 4
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
 		elseif (str == "-sh") then
 			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")

@@ -306,7 +306,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			set Bcangling = true
 		elseif (chat == "xl"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bxinglong = true
-		elseif (chat == "xt"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
+		elseif (chat == "xt"+I2S(GetXiaotingCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bxiaoting = true
 		endif
 		set chat = null

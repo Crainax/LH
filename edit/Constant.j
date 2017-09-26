@@ -38,14 +38,14 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.382C"
+		return "3.383"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11
 	*/
 	function Get11 takes nothing returns boolean
-		return true
+		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -90,6 +90,7 @@ library_once Constant initializer InitConstant requires JBase
 	function IsUnitIsSpin takes unit u  returns boolean
 		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E' 
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取英雄索引号
@@ -1132,36 +1133,36 @@ library_once Constant initializer InitConstant requires JBase
 	function GetHeroChallenageName takes integer i,integer page returns string
 
 		if (page == 1) then
-			if (i == 1) then
+			if (i == 2) then
 				return "|cffff66cc赤血白燕|r"
-			elseif (i == 2) then
-				return "|cff99ccff月轮绯狱|r"
 			elseif (i == 3) then
-				return "|cFFFF0000殛霆无迹|r"
+				return "|cff99ccff月轮绯狱|r"
 			elseif (i == 4) then
-				return "|cFF33FF33末日权杖|r"
+				return "|cFFFF0000殛霆无迹|r"
 			elseif (i == 5) then
+				return "|cFF33FF33末日权杖|r"
+			elseif (i == 7) then
 				return "|cFFFF3333霜夜之哀|r"
 			elseif (i == 6) then
 				return "|cFFCCFF66三弦星谧|r"
-			elseif (i == 7) then
-				return "|cFF3333FF獠牙之匕|r"
 			elseif (i == 8) then
+				return "|cFF3333FF獠牙之匕|r"
+			elseif (i == 10) then
 				return "|cFFFF3333双流贯恒|r"
 			elseif (i == 9) then
 				return "|cFF339933沐雪无瑕|r"
 			endif
 		elseif (page == 2) then
-			if (i == 1) then
+			if (i == 2) then
 				return "|cFF6699FF熔日煌世|r"
-			elseif (i == 2) then
+			elseif (i == 1) then
 				return "|cFFFF00CC星界麒麟|r"
 			elseif (i == 3) then
 				return "|cFFFF0000凝冰红灯|r"
 			elseif (i == 4) then
-				return "|cFF6699FF封霜玄锋|r"
-			elseif (i == 5) then
 				return "|cffff0000凰迹天知|r"
+			elseif (i == 5) then
+				return "|cFF6699FF封霜玄锋|r"
 			elseif (i == 6) then
 				return "|cffff6800天罚四界|r"
 			elseif (i == 7) then

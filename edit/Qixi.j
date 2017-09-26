@@ -12,7 +12,7 @@ library_once Qixi requires LHBase,Achievement
 	*/
 	function Buchang takes player p returns nothing
 		local integer i = GetConvertedPlayerId(p)
-		if (GetPlayerName(p) == "Cyandrizzle") then
+		if (playerName[i] == "Cyandrizzle") then
 			call GetAchievementAndSave(p,325)
 			call GetAchievementAndSave(p,35)
 			call GetAchievementAndSave(p,321)
@@ -25,25 +25,25 @@ library_once Qixi requires LHBase,Achievement
 	/*
 	    瞬息万年
 	*/
-	private function Fafang1 takes player p returns nothing
+	/*private function Fafang1 takes player p returns nothing
 		if (GetPlayerName(p) == "你挺得劲" or GetPlayerName(p) == "ㅈ轩轩" or GetPlayerName(p) == "利绝天" or GetPlayerName(p) == "米老鼠的米") then
 			call GetAndSaveCangku(p,3)
 		endif
-		endfunction
+		endfunction*/
 //---------------------------------------------------------------------------------------------------
 	/*
 	    紫雷之极
 	*/
-	private function Fafang2 takes player p returns nothing
+	/*private function Fafang2 takes player p returns nothing
 		if (GetPlayerName(p) == "天子脚下一堆坑" or GetPlayerName(p) == "肆虐De疼痛" or GetPlayerName(p) == "叹之奈何也" or GetPlayerName(p) == "文能题笔安天下" ) then
 			call GetAndSaveCangku(p,4)
 		endif
-	endfunction
+	endfunction*/
 //---------------------------------------------------------------------------------------------------
 	/*
 	   皮肤
 	*/
-	private function Fafang3 takes player p returns nothing
+	/*private function Fafang3 takes player p returns nothing
 		if (GetPlayerName(p) == "玉之魂") then
 			call SetHuanyiSpinOK(p)
 		elseif (GetPlayerName(p) == "泛舟") then
@@ -74,7 +74,7 @@ library_once Qixi requires LHBase,Achievement
 			call SetHeiyanSpinOK(p)
 		elseif (GetPlayerName(p) == "嚣张城") then
 			call SetSichenSpinOK(p)
-		elseif (GetPlayerName(p) == "WC不在线") then
+		elseif (GetPlayerName(p) == "wc不在线") then
 			call GetAndSaveCangku(p,3)
 		elseif (GetPlayerName(p) == "星际诺娃") then
 			call GetAndSaveCangku(p,3)
@@ -84,17 +84,17 @@ library_once Qixi requires LHBase,Achievement
 			call SetXuanxue2SpinOK(p)
 			call SetKaisaSpinOK(p)
 		endif
-	endfunction
+	endfunction*/
 
 //---------------------------------------------------------------------------------------------------
 	/*
 	   司宸
 	*/
-	private function Fafang4 takes player p returns nothing
+	/*private function Fafang4 takes player p returns nothing
 		if (GetPlayerName(p) ==  "FuYou丶" or GetPlayerName(p) ==  "因我而空虚" or GetPlayerName(p) ==  "Buckethead" or GetPlayerName(p) ==  "英子丶丿" or GetPlayerName(p) ==  "小米酥丶" or GetPlayerName(p) ==  "嚣张城" or GetPlayerName(p) ==  "利绝天" or GetPlayerName(p) ==  "１１" or GetPlayerName(p) ==  "与你童在") then
 			call SetSichenSpinOK(p)
 		endif
-	endfunction
+	endfunction*/
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -102,16 +102,16 @@ library_once Qixi requires LHBase,Achievement
 	*/
 	private function QixiHuodongFafang takes player p returns nothing
 		//倾雪
-		call Fafang1(p)
+		//call Fafang1(p)
 
 		//救死
-		call Fafang2(p)
+		//call Fafang2(p)
 
 		//皮肤
-		call Fafang3(p)
+		//call Fafang3(p)
 
 		//幻逸
-		call Fafang4(p)
+		//call Fafang4(p)
 
 	endfunction
 //---------------------------------------------------------------------------------------------------

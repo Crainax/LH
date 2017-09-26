@@ -3,13 +3,16 @@
 //! import "SpellBase.j"
 //! import "Juexing.j"
 //! import "Boss.j"
+//! import "Boss.j"
 /////! import "Continous.j"
 //! import "Chenji.j"
+//! import "Shen.j"
+//! import "item.j"
 /////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Chenji,Box//,Continous
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Chenji,Box,Shen,ItemBase//,Continous
 	
 
 	globals
@@ -215,6 +218,10 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	/*
 	    使用物品
 	*/
+	private function ItemSpellUseJudgeCon takes nothing returns boolean
+		return (GetPlayerController(GetOwningPlayer(GetManipulatingUnit())) == MAP_CONTROL_USER)
+	endfunction
+
 	private function ItemSpellUseJudge takes nothing returns nothing
 		if (GetItemTypeId(GetManipulatedItem()) == 'I05T') then
 			//幽冥项链-凌
@@ -275,7 +282,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			else
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif		
-		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05V' and GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
+		elseif ((GetItemTypeId(GetManipulatedItem()) == 'I05V' or GetItemTypeId(GetManipulatedItem()) == 'I07L') and GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 			//戒指
 			call UnitApplyTimedLifeBJ( 3.00, 'BHwe',CreateUnit(GetOwningPlayer(GetTriggerUnit()),'h01N',GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()),GetRandomReal(0,360)) )
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'sres') then
@@ -325,6 +332,9 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该物品没有能量,请充能.")
 				call SetItemCharges(GetManipulatedItem(),1)
 			endif
+		elseif (IsShenAll(GetManipulatedItem())) then
+			//神器召唤
+			call SummonJingling(GetManipulatedItem(),GetTriggerUnit())
     	//开箱子
 		debug elseif(GetItemTypeId(GetManipulatedItem()) == 'I06N') then
 			debug call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl",GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) ))
@@ -363,20 +373,15 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			if (dan) then
 				call ShenAttackEffectDan(u1,u2,damage,eff,name,red,yellow,blue)
 			else
-				if (itemID =='ICS1') then
+				if (itemID =='ICS1' or itemID =='I07F') then
 					call DamageAreaPercent(u1,GetUnitX(u2),GetUnitY(u2),400,0.01)
 				endif
-				if (itemID == 'I04W') then
-					call ShenAttackEffectDuo(u1,u2,damage*udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(u1))],eff,name,red,yellow,blue)
-				else
-					call ShenAttackEffectDuo(u1,u2,damage,eff,name,red,yellow,blue)
-				endif
+				call ShenAttackEffectDuo(u1,u2,damage*R3(itemID == 'I04W' or itemID == 'I07E',udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(u1))],1),eff,name,red,yellow,blue)
 			endif
 			return true
 		endif
 		return false
 	endfunction
-
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -388,7 +393,11 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	
 	private function TShenAttackAct takes nothing returns nothing
 
-		 if (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'ICS1',false,500000000,"Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl","六元幽冥-贯",100,0,0)) then
+		 if (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I07F',false,700000000,"Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl","八荒刑罚-贯",100,0,0)) then
+		 	return
+		 elseif (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I07E',false,600000000,"Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl","八荒刑罚-袭",100,0,0)) then
+		 	return
+		 elseif (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'ICS1',false,500000000,"Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl","六元幽冥-贯",100,0,0)) then
 		 	return
 		 elseif (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I04W',false,400000000,"Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl","六元幽冥-袭",100,0,0)) then
 		 	return
@@ -545,7 +554,8 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		//使用物品
 		set t = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_USE_ITEM)
-		call TriggerAddAction(t, function ItemSpellUseJudge)
+		call TriggerAddCondition(t,Condition(function ItemSpellUseJudgeCon))
+		call TriggerAddAction(t, function ItemSpellUseJudgeCon)
 
 		//超神器的
 	    set t = CreateTrigger()

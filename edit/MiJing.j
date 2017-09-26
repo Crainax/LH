@@ -13,8 +13,8 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         //显示当前层数的漂浮文字
         private texttag TDeng = null
         //灯与进度显示器
-        private unit array UDeng
-        private texttag array TDengProcess
+        private unit UDeng
+        private texttag TDengProcess
         //当前进度
         private integer IProcess = 0
         //计时器
@@ -34,6 +34,8 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
 
         //夜袭使者的技能
         private trigger TDeathKou = null
+
+        private unit yexi = null
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -204,90 +206,75 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     //创建假灯
     private function CreateJiadeng takes nothing returns nothing
         local timer t = GetExpiredTimer()
-        local integer id = GetHandleId(t)
-        local unit u = LoadUnitHandle(LHTable,id,1)
         local integer i = 1
-        if (IsUnitAliveBJ(u)) then
+        if (yexi != null) then
             loop
                 exitwhen i > 7
                 call UnitApplyTimedLifeBJ( 3.00, 'BHwe',CreateUnit(Player(6),'n029',GetRandomReal(GetRectMinX(gg_rct_M6),GetRectMaxX(gg_rct_M6)),GetRandomReal(GetRectMinY(gg_rct_M6),GetRectMaxY(gg_rct_M6)),GetRandomReal(0,360)) )
                 set i = i +1
             endloop
-            call CreateSpellTextTag("制造假灯",u,0,100,0,2)
+            call CreateSpellTextTag("制造假灯",yexi,0,100,0,2)
         else
             call PauseTimer(t)
-            call FlushChildHashtable(LHTable,id)
             call DestroyTimer(t)
         endif
-        set u = null
         set t = null 
     endfunction
 
     //创建大爆炸
     private function CreateBigBoom takes nothing returns nothing
         local timer t = GetExpiredTimer()
-        local integer id = GetHandleId(t)
-        local unit u = LoadUnitHandle(LHTable,id,1)
-        if (IsUnitAliveBJ(u)) then
-            call Missile.createXY(u,'h02H',"Units\\Demon\\Infernal\\InfernalBirth.mdl",1800,GetUnitX(u),GetUnitY(u),2,1,1000000000)
+        if (yexi != null) then
+            call Missile.createXY(yexi,'h02H',"Units\\Demon\\Infernal\\InfernalBirth.mdl",1800,GetUnitX(yexi),GetUnitY(yexi),2,1,1000000000)
         else
             call PauseTimer(t)
-            call FlushChildHashtable(LHTable,id)
             call DestroyTimer(t)
         endif
-        set u = null
         set t = null 
     endfunction
 
     //位移打人
     private function FlashLocation takes nothing returns nothing
         local timer t = GetExpiredTimer()
-        local integer id = GetHandleId(t)
-        local unit u = LoadUnitHandle(LHTable,id,1)
         local unit target = null
         local group g = null
-        if (IsUnitAliveBJ(u)) then
+        if (yexi != null) then
             set g = GetUnitsInRectMatching( gg_rct_M6, Condition(function YexiAttackTarget))
-            set target = U3(GetFocusTarget(g) != null,GetFocusTarget(g),UDeng[1])
-            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(u),GetUnitY(u) ))
-            call SetUnitX(u,GetUnitX(target))
-            call SetUnitY(u,GetUnitY(target))
-            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(u),GetUnitY(u) ))
-            call IssueTargetOrder(u,"attack",target)
+            set target = U3(GetFocusTarget(g) != null,GetFocusTarget(g),UDeng)
+            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(yexi),GetUnitY(yexi) ))
+            call SetUnitX(yexi,GetUnitX(target))
+            call SetUnitY(yexi,GetUnitY(target))
+            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(yexi),GetUnitY(yexi) ))
+            call IssueTargetOrder(yexi,"attack",target)
         else
             call PauseTimer(t)
-            call FlushChildHashtable(LHTable,id)
             call DestroyTimer(t)
         endif
-        set u = null
         set t = null 
     endfunction    
 
     //创建假灯
     private function SummonBingfeng takes nothing returns nothing
         local timer t = GetExpiredTimer()
-        local integer id = GetHandleId(t)
-        local unit u = LoadUnitHandle(LHTable,id,1)
         local integer i = 1
-        if (IsUnitAliveBJ(u)) then
+        if (yexi != null) then
             loop
                 exitwhen i > 7
                 call UnitApplyTimedLifeBJ( 5.00, 'BHwe',CreateUnit(Player(10),'h02G',GetRandomReal(GetRectMinX(gg_rct_M6),GetRectMaxX(gg_rct_M6)),GetRandomReal(GetRectMinY(gg_rct_M6),GetRectMaxY(gg_rct_M6)),GetRandomReal(0,360)) )
                 set i = i +1
             endloop
-            call CreateSpellTextTag("冰川夜幕",u,0,100,0,2)
+            call CreateSpellTextTag("冰川夜幕",yexi,0,100,0,2)
         else
             call PauseTimer(t)
-            call FlushChildHashtable(LHTable,id)
             call DestroyTimer(t)
         endif
-        set u = null
         set t = null 
     endfunction
 
     private function CreateYexi takes nothing returns nothing
         local unit u = CreateUnit(Player(11),GetMijingMonster(),GetRandomReal(GetRectMinX(gg_rct_M6),GetRectMaxX(gg_rct_M6)),GetRandomReal(GetRectMinY(gg_rct_M6),GetRectMaxY(gg_rct_M6)),GetRandomReal(0,360))
         local timer t = CreateTimer()
+        set yexi = u
         call SuperShield.create(u,20)
         call GroupAddUnit(GMijing,u)
         call EnhanceDiffAttack(u)
@@ -296,22 +283,18 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         call TriggerAddCondition(TDeathKou, Condition(function TDeathYexiCon))
         call TriggerAddAction(TDeathKou, function TDeathYexiAct)
         //制造假灯
-        call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
         call TimerStart(t, (27 - IDeng)*0.5 + 2 ,true,function CreateJiadeng)
         //大爆炸
         if (IDeng >= 22) then
             set t = CreateTimer()
-            call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
             call TimerStart(t,33 - IDeng,true,function CreateBigBoom)
         endif
         //瞬移打人
         set t = CreateTimer()
-        call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
         call TimerStart(t,1,true,function FlashLocation)
         //召唤眩晕
         if (IDeng >= 23) then
             set t = CreateTimer()
-            call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
             call TimerStart(t,5,true,function SummonBingfeng)
         endif
 
@@ -326,7 +309,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         local integer i = 1
         local unit u = null
         local rect r = gg_rct_M6
-        local unit temp = UDeng[GetRandomInt(1,1)]
+        local unit temp = UDeng
         loop
             exitwhen i > udg_RENSHU
             set u = CreateUnit(Player(11),GetMijingMonster(),GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)),GetRandomReal(0,360))
@@ -473,15 +456,18 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     endfunction
 
     private function DestroyAllMijing takes nothing returns nothing
-        local integer i = 1
-        loop
-            exitwhen i > 1
-            call RemoveUnit(UDeng[i])
-            call DestroyTextTag(TDengProcess[i])
-            set UDeng[i] = null
-            set TDengProcess[i] = null
-            set i = i +1
-        endloop
+        if (TDeathKou != null) then
+            call DestroyTrigger(TDeathKou)
+            set TDeathKou = null
+        endif
+        set yexi = null
+        if (UDeng != null) then
+            call RemoveUnit(UDeng)
+
+        endif
+        call DestroyTextTag(TDengProcess)
+        set UDeng = null
+        set TDengProcess = null
         call ForGroupBJ( GMijing, function RemoveAllMijingUnit )
         call DisableTrigger(TDengUnderAttacked)
         set BMijingStart = false
@@ -500,29 +486,20 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         endif
         call DestroyGroup(GMijing)
         set GMijing = null
-        if (TDeathKou != null) then
-            call DestroyTrigger(TDeathKou)
-            set TDeathKou = null
-        endif
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         秘境挑战的成功与失败判断
     */
     private function JudgeDengTimer takes nothing returns nothing
-        local integer i = 1
         set IProcess = IProcess + 1
 
         //失败条件:任一灯爆了
-        loop
-            exitwhen i > 1
-            if not(IsUnitAliveBJ(UDeng[i])) then 
-                call DestroyAllMijing()
-                call MijingFail()
-                return
-            endif
-            set i = i +1
-        endloop        
+        if not(IsUnitAliveBJ(UDeng)) then 
+            call DestroyAllMijing()
+            call MijingFail()
+            return
+        endif
 
         //胜利条件:100%或者没有怪了
         if (IProcess >= 100 or (GetMijingMonsterCount() == 0) and ITotalMonster >= I3(IDeng>=21,0,15) ) then
@@ -531,12 +508,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             return
         endif
 
-        set i = 1
-        loop
-            exitwhen i > IDeng
-            call SetTextTagTextBJ(TDengProcess[i],I2S(IProcess) + "%",20)
-            set i = i +1
-        endloop
+        call SetTextTagTextBJ(TDengProcess,I2S(IProcess) + "%",20)
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -569,7 +541,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
             if (IsUnitAliveBJ(l_unit) and GetOwningPlayer(l_unit) == Player(11)) then
-                set temp = UDeng[GetRandomInt(1,1)]
+                set temp = UDeng
                 if not(RectContainsUnit(r, l_unit)) then
                     call SetUnitPosition(l_unit,GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)))
                 endif
@@ -588,7 +560,6 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         开始秘境挑战
     */
     private function StartMijing takes nothing returns nothing
-        local integer i = 1
         local rect r = null
         debug set BJiulun = true
         if (IDeng >= 25) then
@@ -635,14 +606,10 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         endif
         //获取对应的区域
         set r = gg_rct_M6
-        loop
-            exitwhen i > 1
-            //创建对应的灯与对应的文字
-            set UDeng[i] = CreateUnit(Player(6),'n01H',GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)),0)
-            set TDengProcess[i] = CreateTextTagUnitBJ( "0%", UDeng[i], 0, 20, 100, 100, 0, 0 )
-            call PingMinimap(GetUnitX(UDeng[i]),GetUnitY(UDeng[i]),5)
-            set i = i +1
-        endloop
+        //创建对应的灯与对应的文字
+        set UDeng = CreateUnit(Player(6),'n01H',GetRandomReal(GetRectMinX(r),GetRectMaxX(r)),GetRandomReal(GetRectMinY(r),GetRectMaxY(r)),0)
+        set TDengProcess = CreateTextTagUnitBJ( "0%", UDeng, 0, 20, 100, 100, 0, 0 )
+        call PingMinimap(GetUnitX(UDeng),GetUnitY(UDeng),5)
         set IProcess = 0
         set BMijingStart = true
         call BJDebugMsg("|cFFFF66CC【消息】|r第"+ I2S(IDeng) + "层秘境挑战将在5秒后开始！请尽量保持全员参战！")
@@ -700,7 +667,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         elseif (IsUnitInGroup(GetEventDamageSource(),GMijing)) then
             //增伤
             call DisableTrigger(GetTriggeringTrigger())
-            if (GetUnitTypeId(GetEventDamageSource()) == 'N028') then
+            if (GetEventDamageSource() == yexi) then
                 call UnitDamageTarget( GetEventDamageSource() , GetTriggerUnit(), 0.01 * udg_Nandu_JJJ * GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
             else
                 if (udg_RENSHU > 1) then

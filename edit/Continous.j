@@ -251,7 +251,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 
 	function Buqian2 takes player p,string s returns nothing
-		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],21))) then
+		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],22))) then
 			set BBuqian2 = true
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签2阶段.")
 		endif
@@ -259,7 +259,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 
 	function Buqian3 takes player p,string s returns nothing
-		local integer i = 30
+		local integer i = 1
 		local integer result = 0
 		loop
 			exitwhen i > 100

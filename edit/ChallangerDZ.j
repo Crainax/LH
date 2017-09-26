@@ -46,6 +46,25 @@ library_once ChallangerDZ requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    获取仓库
+	*/
+	function Huoqucangku takes player p,string chat returns nothing
+		local integer i = 1
+		local integer result = 0
+		loop
+			exitwhen i > 10
+
+			if (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)]+"ck"+I2S(i),1))) then
+				call GetAndSaveCangku(p,i)
+				exitwhen true
+			endif
+
+			set i = i +1
+		endloop
+		set BBuqian2 = false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    对应难度的对应数字
 	*/
 	private function C3 takes integer i1,integer i2,integer i3 returns integer

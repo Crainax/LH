@@ -1010,6 +1010,28 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call SetAndSaveDIYName(p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    指令获取成就
+	*/
+	function Huoquachi takes player p ,string chat,integer page returns nothing
+		local integer i = 1
+		local integer result = 0
+
+		loop
+			exitwhen i > 40
+
+			if (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)]+"ac"+I2S(page)+I2S(i),1))) then
+				call GetAchievementAndSave(p,S2I(I2S(page)+I2S(i)))
+				exitwhen true
+
+			endif
+
+			set i = i +1
+		endloop
+
+		set BBuqian2 = false
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    初始化

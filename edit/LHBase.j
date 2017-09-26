@@ -167,7 +167,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         禁止复制的装备
     */
     function IsCanCopy takes item i returns boolean
-        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060') and (GetItemTypeId(i) != 'I06N'))
+        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060') and (GetItemTypeId(i) != 'I06N') and (GetItemTypeId(i) != 'I07D'))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -251,6 +251,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return GetItemOfTypeFromUnitBJ(u, 'I05W')
         elseif (UnitHasItemOfTypeBJ(u,'I05V'))then
             return GetItemOfTypeFromUnitBJ(u, 'I05V')
+        elseif (UnitHasItemOfTypeBJ(u,'I07M'))then
+            return GetItemOfTypeFromUnitBJ(u, 'I07M')
+        elseif (UnitHasItemOfTypeBJ(u,'I07L'))then
+            return GetItemOfTypeFromUnitBJ(u, 'I07L')
         endif
         return null
     endfunction
@@ -259,7 +263,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         判断是否是鬼戒指Max或者超鬼
     */
     function IsMaxRing takes item i returns boolean
-        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'lhst' or GetItemTypeId(i) == 'I05W' or GetItemTypeId(i) == 'I05V'
+        return GetItemTypeId(i) == 'brac' or GetItemTypeId(i) == 'lhst' or GetItemTypeId(i) == 'I05W' or GetItemTypeId(i) == 'I05V' or GetItemTypeId(i) == 'I07M' or GetItemTypeId(i) == 'I07L'
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -292,6 +296,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             return GetItemOfTypeFromUnitBJ(u, 'I05W')
         elseif (UnitHasItemOfTypeBJ(u,'I05V')) then
             return GetItemOfTypeFromUnitBJ(u, 'I05V')
+        elseif (UnitHasItemOfTypeBJ(u,'I07M')) then
+            return GetItemOfTypeFromUnitBJ(u, 'I07M')
+        elseif (UnitHasItemOfTypeBJ(u,'I07L')) then
+            return GetItemOfTypeFromUnitBJ(u, 'I07L')
         endif
         return null
     endfunction
@@ -349,9 +357,23 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     /*
         判断是否是战魂与死亡勋章
     */
+
+    //判断超
+    function IsZhanfaChao takes item i returns boolean
+        local integer id = GetItemTypeId(i) 
+        return id == 'rst1' or id == 'I05U' or id == 'ICX1'
+    endfunction
+
+
+    function IsZhanfa3 takes item i returns boolean
+        local integer id = GetItemTypeId(i)
+
+        return IsZhanfaChao(i) or id == 'spro' or id == 'tcas' or id == 'shas' or id == 'plcl' or id == 'rnec' or id == 'tgrh' or id == 'phea' or id == 'tsct'
+    endfunction
+
     function IsZhanfahun takes item i returns boolean
         local integer id = GetItemTypeId(i)
-        return id == 'I01U' or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'tsct' or id == 'tcas' or id == 'plcl' or id == 'tgrh' or id == 'rst1' or id == 'rnec' or id == 'shas' or id == 'spro' or id == 'phea' or id == 'rin1' or id == 'ward' or id == 'rde1' or id == 'ICX1'
+        return IsZhanfa3(i) or id == 'I01U' or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'rin1' or id == 'ward' or id == 'rde1'
     endfunction
 
 //---------------------------------------------------------------------------------------------------

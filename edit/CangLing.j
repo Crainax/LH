@@ -564,7 +564,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 	private function InitCanglingSpin takes unit u returns unit
 		if (IsCanglingSpin1(GetOwningPlayer(u))) then
 			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'N023',GetUnitX(u),GetUnitY(u),0)
-			set gg_unit_Hhkl_0218 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			set gg_unit_Nsjs_0209 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
 			call RemoveUnit(u)
