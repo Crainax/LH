@@ -152,7 +152,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         元素之灵过滤器
     */
     function IsYuansu takes unit u returns boolean
-        return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy'
+        return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy' or GetUnitTypeId(u) == 'nbzd'
     endfunction
     
 //---------------------------------------------------------------------------------------------------
@@ -364,6 +364,17 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         return id == 'rst1' or id == 'I05U' or id == 'ICX1'
     endfunction
 
+    function IsZhan0 takes item i returns boolean
+        local integer id = GetItemTypeId(i)
+
+        return IsZhanfaChao(i) or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'tsct' or id == 'tcas' or id == 'plcl' or id == 'tgrh' or id == 'I01E'
+    endfunction
+    
+    function IsFa0 takes item i returns boolean
+        local integer id = GetItemTypeId(i)
+
+        return IsZhanfaChao(i) or id == 'rnec' or id == 'shas' or id == 'spro' or id == 'phea' or id == 'rin1' or id == 'ward' or id == 'rde1'
+    endfunction
 
     function IsZhanfa3 takes item i returns boolean
         local integer id = GetItemTypeId(i)
@@ -373,7 +384,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     function IsZhanfahun takes item i returns boolean
         local integer id = GetItemTypeId(i)
-        return IsZhanfa3(i) or id == 'I01U' or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'rin1' or id == 'ward' or id == 'rde1'
+        return IsFa0(i) or IsZhan0(i)
     endfunction
 
 //---------------------------------------------------------------------------------------------------

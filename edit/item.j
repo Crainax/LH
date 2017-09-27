@@ -8,7 +8,6 @@ globals
 	unit UCrainax
 
 	boolean array BRing
-	integer array IZhanhun
 endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -86,6 +85,19 @@ endglobals
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    魔
+	*/
+	function IsChaomo takes item i returns boolean
+		local integer id = GetItemTypeId(i) 
+		return id == 'IB09' or id == 'IB0A' or id == 'I04X'
+	endfunction
+
+	function IsMo3 takes item i returns boolean
+		local integer id = GetItemTypeId(i) 
+		return IsChaomo(i) or id == 'IB04' or id == 'IB05' or id == 'IB06' or id == 'IB07' or id == 'IB08'		
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    戒指
 	*/
 	function IsGui3 takes item i returns boolean
@@ -100,7 +112,7 @@ endglobals
 	function IsChaoyao takes item i returns boolean
 		local integer id = GetItemTypeId(i) 
 		
-		return id == 'ICY1' or id == 'I05X' or id == 'I05F' or id == 'I07P' or id == 'ICY1'
+		return id == 'ICY1' or id == 'I05X' or id == 'I05F' or id == 'I07P' or id == 'I07Q'
 	endfunction
 
 	function IsYao3 takes item i returns boolean
@@ -171,20 +183,31 @@ endglobals
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    
-	*/
-//---------------------------------------------------------------------------------------------------
-	/*
 	    双魂
 	*/
 
 	//判断身上双魂的数量
+
 	function Xian3Count takes unit u returns integer
 		local integer i = 1
 		local integer count = 0 
 		loop
 			exitwhen i > 6
 			if (IsZhanfa3(UnitItemInSlotBJ(u,i))) then
+				set count = count + 1
+			endif
+			set i = i +1
+		endloop
+
+		return count 
+	endfunction
+
+	function Zhan0Count takes unit u returns integer
+		local integer i = 1
+		local integer count = 0 
+		loop
+			exitwhen i > 6
+			if (IsZhan0(UnitItemInSlotBJ(u,i))) then
 				set count = count + 1
 			endif
 			set i = i +1
@@ -207,6 +230,122 @@ endglobals
 		return count 
 	endfunction
 
+	//复活时长
+	function GetZhanfaReviveTime takes unit u returns real
+		if (ChaoxianCount(u) >= 1 or playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") then
+			return 3.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'tgrh')) then
+			return 4.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'I078') or UnitHasItemOfTypeBJ(u,'plcl')) then
+			return 8.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'tcas')) then
+			return 10.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'tsct')) then
+			return 12.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'skul')) then
+			return 14.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'vamp')) then
+			return 16.0 / CModeH(1,2)
+		elseif (UnitHasItemOfTypeBJ(u,'I01U') or UnitHasItemOfTypeBJ(u,'rde2')) then
+			return 18.0 / CModeH(1,2)
+		else
+			return 20.0 / CModeH(1,2)
+		endif
+	endfunction
+
+	//复活回复魔法
+	function GetZhanfaReviveMana takes unit u returns real
+		if (ChaoxianCount(u) >= 1) then
+			return 1000.
+		elseif (UnitHasItemOfTypeBJ(u,'shas')) then
+			return 600.
+		elseif (UnitHasItemOfTypeBJ(u,'spro')) then
+			return 500.
+		elseif (UnitHasItemOfTypeBJ(u,'phea')) then
+			return 400.
+		elseif (UnitHasItemOfTypeBJ(u,'rin1')) then
+			return 300.
+		elseif (UnitHasItemOfTypeBJ(u,'ward')) then
+			return 200.
+		elseif (UnitHasItemOfTypeBJ(u,'rde1') or UnitHasItemOfTypeBJ(u,'I027')) then
+			return 100.
+		else
+			return 0.
+		endif
+	endfunction
+
+	//战魂加的属性
+	function GetZhanhunShuxing takes unit u returns integer
+		if (UnitHasItemOfTypeBJ(u,'I05U')) then
+			return 10
+		elseif (UnitHasItemOfTypeBJ(u,'ICX1')) then
+			return 9
+		elseif (UnitHasItemOfTypeBJ(u,'rst1')) then
+			return 8
+		elseif (UnitHasItemOfTypeBJ(u,'tgrh')) then
+			return 7
+		elseif (UnitHasItemOfTypeBJ(u,'plcl')) then
+			return 6
+		elseif (UnitHasItemOfTypeBJ(u,'tcas')) then
+			return 5
+		elseif (UnitHasItemOfTypeBJ(u,'tsct')) then
+			return 4
+		elseif (UnitHasItemOfTypeBJ(u,'skul')) then
+			return 3
+		elseif (UnitHasItemOfTypeBJ(u,'vamp')) then
+			return 2
+		elseif (UnitHasItemOfTypeBJ(u,'I01E') or UnitHasItemOfTypeBJ(u,'rde2')) then
+			return 1
+		else
+			return 0
+		endif
+	endfunction	
+
+	//减少的伤害
+	function GetZhanhunJianshang takes item i returns integer
+		local integer id = GetItemTypeId(i)
+		if (IsZhanfaChao(i)) then
+			return 50000
+		elseif (id == 'tgrh') then
+			return 25000
+		elseif (id == 'plcl') then
+			return 10000
+		elseif (id == 'tcas') then
+			return 6000
+		elseif (id == 'tsct') then
+			return 3000
+		elseif (id == 'skul') then
+			return 1000
+		elseif (id == 'I02A' or id == 'rde2') then
+			return 75
+		else
+			return 0
+		endif
+	endfunction
+
+	
+	//复活时长
+	function GetZhanfaReviveCool takes unit u returns real
+		if (ChaoxianCount(u) >= 1) then
+			return 29.
+		elseif (UnitHasItemOfTypeBJ(u,'tgrh')) then
+			return 59.
+		elseif (UnitHasItemOfTypeBJ(u,'I078') or UnitHasItemOfTypeBJ(u,'plcl')) then
+			return 99.
+		elseif (UnitHasItemOfTypeBJ(u,'tcas')) then
+			return 149.
+		elseif (UnitHasItemOfTypeBJ(u,'tsct')) then
+			return 174.
+		elseif (UnitHasItemOfTypeBJ(u,'skul')) then
+			return 199.
+		elseif (UnitHasItemOfTypeBJ(u,'vamp')) then
+			return 219.
+		elseif (UnitHasItemOfTypeBJ(u,'I01U') or UnitHasItemOfTypeBJ(u,'rde2')) then
+			return 249.
+		else
+			return -1.
+		endif
+	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -253,9 +392,19 @@ endglobals
 			call UnitAddAbility(GetManipulatingUnit(),'A0CU')
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05F') then
 			call UnitAddAbility(GetManipulatingUnit(),'A0D0')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05X') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0KE')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'ICY1') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0KF')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07P') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0KE')
+			call SetUnitAbilityLevel(GetManipulatingUnit(),'A0KE',2)
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07Q') then
+			call UnitAddAbility(GetManipulatingUnit(),'A0KF')
+			call SetUnitAbilityLevel(GetManipulatingUnit(),'A0KF',2)
 		endif
 	endfunction
-	todo
+	
 	private function TGetWingSpellDropAct takes nothing returns nothing
 		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
 			call UnitRemoveAbility(GetManipulatingUnit(),'Apxf')
@@ -271,6 +420,14 @@ endglobals
 			call UnitRemoveAbility(GetManipulatingUnit(),'A0CU')
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05F') then
 			call UnitRemoveAbility(GetManipulatingUnit(),'A0D0')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05X') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0KE')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'ICY1') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0KF')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07P') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0KE')
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07Q') then
+			call UnitRemoveAbility(GetManipulatingUnit(),'A0KF')
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

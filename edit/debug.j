@@ -215,6 +215,33 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 			return
 		endif
 
+
+		if (chat == "test part5") then
+			
+			call addHeroAttr(1300000,280)
+
+			//超鬼
+			call UnitAddItemByIdSwapped('ICS1',udg_H[1])
+			//超神
+			call UnitAddItemByIdSwapped('I05Y',udg_H[1])
+			//超妖
+			call UnitAddItemByIdSwapped('I04Y',udg_H[1])
+			//超仙
+			call UnitAddItemByIdSwapped('ICX1',udg_H[1])
+			//超圣
+			call UnitAddItemByIdSwapped('I05V',udg_H[1])
+			//超人
+			call UnitAddItemByIdSwapped('IB0A',udg_H[1])
+
+			call UnitAddItemByIdSwapped('ILIK',udg_H[1])
+
+			call UnitAddItemByIdSwapped('ICY1',udg_H[1])
+
+			call BJDebugMsg("测试阶段5,混沌")
+
+			return
+		endif
+
 		if (chat == "test daddy") then
 
 

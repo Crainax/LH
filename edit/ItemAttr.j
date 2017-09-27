@@ -361,7 +361,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemJingyan('IB02', 1.00)
 	    call SetItemJingyan('I04X', 3.50)
 	    call SetItemJingyan('IB0A', 3.50)
-	    call SetItemJingyan('I070', 4.00)
+	    call SetItemJingyan('I07O', 4.00)
 	    call SetItemJingyan('I07N', 4.00)
 
 	    call SetItemJingyan('ratc', 5.00)
@@ -375,7 +375,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemHP('IB09' , 20000000)
 		call SetItemHP('I04X' , 30000000)
 		call SetItemHP('IB0A' , 30000000)
-		call SetItemHP('I070' , 40000000)
+		call SetItemHP('I07O' , 40000000)
 		call SetItemHP('I07N' , 40000000)
 		call SetItemHP('IB08' , 14000000)
 		call SetItemHP('IB06' , 5000000)
@@ -388,7 +388,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'IB09' , 150000)
 	    call SetItem3W( 'I04X' , 220000)
 	    call SetItem3W( 'IB0A' , 220000)
-	    call SetItem3W( 'I070' , 270000)
+	    call SetItem3W( 'I07O' , 270000)
 	    call SetItem3W( 'I07N' , 270000)
 	    call SetItem3W( 'IB08' , 100000)
 	    call SetItem3W( 'IB06' , 50000)
@@ -617,10 +617,10 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItemHP('I07P',8000000)
 	    call SetItemFanji('I07P',120000000)
 	    call SetItemSpellPerc('I07P',1.4)
-	    call SetItem3W('ICY1',550000)
-	    call SetItemHP('ICY1',8000000)
-	    call SetItemFanji('ICY1',120000000)
-	    call SetItemSpellPerc('ICY1',1.5)
+	    call SetItem3W('I07Q',550000)
+	    call SetItemHP('I07Q',8000000)
+	    call SetItemFanji('I07Q',120000000)
+	    call SetItemSpellPerc('I07Q',1.5)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

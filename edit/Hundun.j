@@ -5,64 +5,17 @@
 library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffculty,Boss
 
 	globals
-		unit UHundun1 = null
-		MultiLife MLHundun1 = 0
-		group GHundunDian1 = null
-		group GHundunAttack1 = null
-		timer THundunDian1 = null
+		unit UHundun = null
+		MultiLife MLHundun = 0
+		group GHundunDian = null
+		group GHundunAttack = null
+		timer THundunDian = null
 		trigger THundunSpellDamage = null
 		integer hundun1_level = 1
-		integer hundun1_playerID = 0
+		integer hundun2_level = 1
+		integer hundun_playerID = 0
 	endglobals
 
-//---------------------------------------------------------------------------------------------------
-	/*
-	    混沌的对话框
-	*/
-
-	private function KuileiConfirmDialogClick takes nothing returns nothing
-        local dialog d = GetClickedDialogBJ()
-
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	//set BSkipKuilei = true
-        	call BJDebugMsg("|cFFFF66CC【消息】|r已经开启不可跳过六界傀儡!")
-        endif
-
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        call DestroyTrigger(GetTriggeringTrigger())
-
-	endfunction
-
-	function ChooseKuileiDialog takes player p returns nothing
-        local trigger t  = null
-        local dialog  d = null
-
-        //if (BSkipKuilei) then
-        //	return
-        //endif
-
- 		set t  = CreateTrigger()
- 		set d = DialogCreate()
-
-        call DialogSetMessage( d, "
-
-        		六界傀儡确认
-
-        	如果你挑战了混沌世界的怪物,
-        	或者进入了炼狱92层,
-        	则无法跳过六界傀儡!
-        	" )
-        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "来吧!"))
-        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "我打不过."))
-        call DialogDisplay( p, d, true )
-        call TriggerRegisterDialogEvent( t, d )
-        call TriggerAddAction(t, function KuileiConfirmDialogClick)
-        set d = null
-        set t = null
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    排泄混沌石技能
@@ -73,19 +26,19 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 
 
 	function DestroyHundun1 takes nothing returns nothing
-		if (MLHundun1 != 0) then
-			call MLHundun1.destroy()
+		if (MLHundun != 0) then
+			call MLHundun.destroy()
 		endif
-		call PauseTimer(THundunDian1)
-		call DestroyTimer(THundunDian1)
-		call ForGroup(GHundunDian1,function ClearGroup)
-		call ForGroup(GHundunAttack1,function ClearGroup)
-		call DestroyGroup(GHundunDian1)
-		set MLHundun1 = 0
-		set GHundunDian1 = null
-		set THundunDian1 = null
-		call DestroyGroup(GHundunAttack1)
-		set GHundunAttack1 = null
+		call PauseTimer(THundunDian)
+		call DestroyTimer(THundunDian)
+		call ForGroup(GHundunDian,function ClearGroup)
+		call ForGroup(GHundunAttack,function ClearGroup)
+		call DestroyGroup(GHundunDian)
+		set MLHundun = 0
+		set GHundunDian = null
+		set THundunDian = null
+		call DestroyGroup(GHundunAttack)
+		set GHundunAttack = null
 		call DisableTrigger(THundunSpellDamage)
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -136,7 +89,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	*/
 	function SpellDian takes unit temp returns nothing
 		local integer i = 1
-		local integer end = IMaxBJ(1,MLHundun1.getTimes()) * 18
+		local integer end = IMaxBJ(1,MLHundun.getTimes()) * 18
 		local real random = GetRandomReal(0,360.)
 		local unit u = null
 		loop
@@ -150,7 +103,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	endfunction
 
 	private function flashDian takes nothing returns nothing
-		call SpellDian(GroupPickRandomUnit(GHundunDian1))
+		call SpellDian(GroupPickRandomUnit(GHundunDian))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -180,41 +133,50 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 //---------------------------------------------------------------------------------------------------
 
 	/*
-	    初始化混沌石技能
+	    初始化混沌石1技能
 	*/
 	function InitHundun1 takes unit u returns nothing
 		local integer i = 1
 		local unit temp = null
-		set UHundun1 = u
-		call BossAddOnlyAttack(UHundun1)
-		set MLHundun1 = MultiLife.create(u,2)
+		set UHundun = u
+		call BossAddOnlyAttack(UHundun)
+		set MLHundun = MultiLife.create(u,2)
 		//召唤电子盟
-		set GHundunDian1 = CreateGroup()
-		set GHundunAttack1 = CreateGroup()
+		set GHundunDian = CreateGroup()
+		set GHundunAttack = CreateGroup()
     	call SetPlayerTechResearchedSwap(  GetHundunTech(), hundun1_level , Player(10))
 
 		loop
 			exitwhen i > (GetDiffculty()/2 + 1)
 			set temp = CreateUnit(Player(10),'h01Q',GetRandomReal(GetRectMinX(gg_rct_Hundun),GetRectMaxX(gg_rct_Hundun)),GetRandomReal(GetRectMinY(gg_rct_Hundun),GetRectMaxY(gg_rct_Hundun)),GetRandomReal(0,360))
-			call GroupAddUnit(GHundunDian1,temp)
+			call GroupAddUnit(GHundunDian,temp)
 			call IssuePointOrder(temp,"patrol",GetRandomReal(GetRectMinX(gg_rct_Hundun),GetRectMaxX(gg_rct_Hundun)),GetRandomReal(GetRectMinY(gg_rct_Hundun),GetRectMaxY(gg_rct_Hundun)))
 			set i = i +1
 		endloop
-		set THundunDian1 = CreateTimer()
-		call TimerStart(THundunDian1,(10/(GetDiffculty()/2 + 1)),true,function flashDian)
+		set THundunDian = CreateTimer()
+		call TimerStart(THundunDian,(10/(GetDiffculty()/2 + 1)),true,function flashDian)
 		//召唤攻击盟
 		set i = 1
 		loop
 			exitwhen i > (GetDiffculty()/2 + 1)
-			call GroupAddUnit(GHundunAttack1,CreateUnit(Player(10),'h01R',GetRandomReal(GetRectMinX(gg_rct_Hundun),GetRectMaxX(gg_rct_Hundun)),GetRandomReal(GetRectMinY(gg_rct_Hundun),GetRectMaxY(gg_rct_Hundun)),GetRandomReal(0,360)))
+			call GroupAddUnit(GHundunAttack,CreateUnit(Player(10),'h01R',GetRandomReal(GetRectMinX(gg_rct_Hundun),GetRectMaxX(gg_rct_Hundun)),GetRandomReal(GetRectMinY(gg_rct_Hundun),GetRectMaxY(gg_rct_Hundun)),GetRandomReal(0,360)))
 			set i = i + 1
 		endloop
 		call EnableTrigger(THundunSpellDamage)
-		set hundun1_playerID = GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
+		set hundun_playerID = GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
 		if (IsWanjie()) then
 			call StartJudgeTransmitHundun(u)
 		endif
 		set temp = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    初始化混沌石2技能
+	*/
+	function InitHundun2 takes unit u returns nothing
+		call InitHundun1(u)
+    	call SetPlayerTechResearchedSwap(  GetHundun2Tech(), hundun2_level , Player(10))
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -224,13 +186,28 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	function HundunDeath takes nothing returns nothing
 		set hundun1_level = hundun1_level + I3(IsTianyan,3,1)
 		call DestroyHundun1()
-		 if ((hundun1_playerID != 0)) then
-            call UnitAddItemByIdSwapped('I062', UDepot[hundun1_playerID])
-            call SetUnitPosition(UDepot[hundun1_playerID],GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))
+		 if ((hundun_playerID != 0)) then
+            call UnitAddItemByIdSwapped('I062', UDepot[hundun_playerID])
+            call SetUnitPosition(UDepot[hundun_playerID],GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))
         else
             call CreateItem('I062',GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))
         endif
-        set hundun1_playerID = 0
+        set hundun_playerID = 0
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    混沌2死亡
+	*/
+	function Hundun2Death takes nothing returns nothing
+		set hundun2_level = hundun2_level + I3(IsTianyan,3,1)
+		call DestroyHundun2()
+		 if ((hundun_playerID != 0)) then
+            call UnitAddItemByIdSwapped('I07R', UDepot[hundun_playerID])
+            call SetUnitPosition(UDepot[hundun_playerID],GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))
+        else
+            call CreateItem('I07R',GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))
+        endif
+        set hundun_playerID = 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -239,11 +216,11 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	private function THundunSpellDamageCon takes nothing returns boolean
 		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] == GetTriggerUnit()
 	endfunction
-	
+
 	function THundunSpellDamageAct takes nothing returns nothing
-		if (YDWEDistanceBetweenUnits(UHundun1, GetTriggerUnit()) < 1800) then
+		if (YDWEDistanceBetweenUnits(UHundun, GetTriggerUnit()) < 1800) then
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) ))
-			call UnitDamageTarget( UHundun1, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) * 0.1, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( UHundun, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE) * 0.1, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 		endif
 
 	endfunction
@@ -399,6 +376,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		    endif
 		endif
 	endfunction
+	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    合成装备

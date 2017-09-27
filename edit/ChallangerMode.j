@@ -164,32 +164,32 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 		    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
 		endif
 	    if (i < 6) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 7) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 8) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 9) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 10) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
 		endif
 
 	    if (IsTianyanOK()) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[10] = GetLastCreatedButtonBJ()
 	    endif
 

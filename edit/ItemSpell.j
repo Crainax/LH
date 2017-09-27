@@ -223,7 +223,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	endfunction
 
 	private function ItemSpellUseJudge takes nothing returns nothing
-		if (GetItemTypeId(GetManipulatedItem()) == 'I05T') then
+		if (GetItemTypeId(GetManipulatedItem()) == 'I05T' or GetItemTypeId(GetManipulatedItem()) == 'I07H') then
 			//幽冥项链-凌
 			if (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
@@ -234,7 +234,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			else
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif		
-		elseif (GetItemTypeId(GetManipulatedItem()) == 'I04Y') then
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I04Y' or GetItemTypeId(GetManipulatedItem()) == 'I07G') then
 			//幽冥项链-亡
 			if (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
@@ -246,7 +246,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			else
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif
-		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05Y') then
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05Y' or GetItemTypeId(GetManipulatedItem()) == 'I07K') then
 			//加防御
 			if (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
@@ -258,7 +258,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif
 
-		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05Z') then
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I05Z' or GetItemTypeId(GetManipulatedItem()) == 'I07J') then
 			//加属性
 			if (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathPact\\DeathPactTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
@@ -274,8 +274,8 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 				call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r该技能需要主英雄施放.")
 			endif
 
-		elseif (GetItemTypeId(GetManipulatedItem()) == 'I060') then
-			//加属性
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I060' or GetItemTypeId(GetManipulatedItem()) == 'I07I') then
+			//无敌
 			if (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call ImmuteDamageInterval(GetTriggerUnit(),5)
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
@@ -393,9 +393,9 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	
 	private function TShenAttackAct takes nothing returns nothing
 
-		 if (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I07F',false,700000000,"Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl","八荒刑罚-贯",100,0,0)) then
+		 if (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I07F',false,700000000,"Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl","八荒刑罚-贯",100,0,0)) then
 		 	return
-		 elseif (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I07E',false,600000000,"Objects\\Spawnmodels\\Human\\HumanBlood\\BloodElfSpellThiefBlood.mdl","八荒刑罚-袭",100,0,0)) then
+		 elseif (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'I07E',false,600000000,"Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl","八荒刑罚-袭",100,0,0)) then
 		 	return
 		 elseif (ShenAttackEffect( GetAttacker(),GetAttackedUnitBJ(),'ICS1',false,500000000,"Abilities\\Spells\\Orc\\FeralSpirit\\feralspiritdone.mdl","六元幽冥-贯",100,0,0)) then
 		 	return
@@ -527,6 +527,10 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			call UnitDamageTarget( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))], GetTriggerUnit(), 200000000, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
+		if (GetUnitTypeId(u) == 'h02J') then
+			call UnitDamageTarget( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))], GetTriggerUnit(), 400000000, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
+			return true 
+		endif
 		if (GetUnitTypeId(u) == 'h01N') then
 			call UnitDamageTarget( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))], GetTriggerUnit(), 500000000, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
@@ -555,7 +559,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		set t = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_USE_ITEM)
 		call TriggerAddCondition(t,Condition(function ItemSpellUseJudgeCon))
-		call TriggerAddAction(t, function ItemSpellUseJudgeCon)
+		call TriggerAddAction(t, function ItemSpellUseJudge)
 
 		//超神器的
 	    set t = CreateTrigger()

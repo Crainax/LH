@@ -162,6 +162,22 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    获取混沌2对应等级的科技
+	*/
+	function GetHundun2Tech takes nothing returns integer
+
+		if (NanDiff == 1) then
+			return 'R01M'
+		elseif (NanDiff == 2) then
+			return 'R01N'
+		elseif (NanDiff == 3) then
+			return 'R01O'
+		else
+			return 'R01P'
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取禁用技能的时间
 	*/
 	function GetForbidTianfuTime takes nothing returns real
