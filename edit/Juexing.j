@@ -5,8 +5,9 @@
 //! import "Huanyi.j"
 //! import "Xinglong.j"
 //! import "Lichi.j"
+//! import "Xiaoting.j"
 
-library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Lichi
+library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Lichi,Xiaoting
 
 
 //---------------------------------------------------------------------------------------------------

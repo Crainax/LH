@@ -67,18 +67,6 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
     
 //---------------------------------------------------------------------------------------------------
     /*
-        获取英雄身上的夜之哀伤
-    */
-    function GetYeai takes nothing returns item
-        if (UnitHasItemOfTypeBJ(chenji,'stel')) then
-            return GetItemOfTypeFromUnitBJ(chenji, 'stel')
-        elseif (UnitHasItemOfTypeBJ(chenji,'I04M')) then
-            return GetItemOfTypeFromUnitBJ(chenji, 'I04M')
-        endif
-        return null
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
         给英雄小无敌
     */
     /*function Yeaiwudi takes nothing returns nothing

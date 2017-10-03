@@ -2,8 +2,9 @@
 //! import "NetVersion.j"
 //! import "ChallangerDZ.j"
 //! import "PIV.j"
+//! import "Structs.j"
 
-library_once Box requires LHBase,Version,ChallangerDZ,PIV
+library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 
 	globals
 		TextTagBind array TTBBox
@@ -97,6 +98,8 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV
 			return "万物之源"
 		elseif (i == 8) then
 			return "熔炎火炮"
+		elseif (i == 9) then
+			return "|cffff609f紫|r|cffff40bf薇|r|cffff20df上|r|cffff00ff神|r"
 		endif
 
 		return ""
@@ -119,6 +122,8 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV
 			return "|cff33cccc(加入指定公会[点击查看]解锁)|r"
 		elseif (i == 8) then
 			return "|cff33cccc(获取赞助权限解锁)|r"
+		elseif (i == 9) then
+			return "|cff33cccc(击败傀儡樱乐与梵胤解锁)|r"
 		endif
 		return ""
 	endfunction
@@ -140,6 +145,8 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV
 			return 'n024'
 		elseif (i == 8) then
 			return 'n025'
+		elseif (i == 9) then
+			return 'n02D'
 		endif
 		return 0
 	endfunction
@@ -161,27 +168,31 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV
 			return 'A0N0'
 		elseif (i == 8) then
 			return 'A0N1'
+		elseif (i == 9) then
+			return 'A0N7'
 		endif
 		return 0
 	endfunction
 
 	private function IsBoxAccess takes player p,integer i returns boolean
 		if (i == 1) then
-			return GetCompleteRate(p) >= 0.1 or GetBit(Greward[GetConvertedPlayerId(p)],1) > 0
+			return IsHasCangku(p,i) or GetCompleteRate(p) >= 0.1 or GetBit(Greward[GetConvertedPlayerId(p)],1) > 0
 		elseif (i == 2) then
-			return GetCompleteRate(p) >= 0.25 or GetBit(Greward[GetConvertedPlayerId(p)],2) > 0
+			return IsHasCangku(p,i) or GetCompleteRate(p) >= 0.25 or GetBit(Greward[GetConvertedPlayerId(p)],2) > 0
 		elseif (i == 3) then
-			return GetCompleteRate(p) >= 0.5 or GetBit(Greward[GetConvertedPlayerId(p)],5) > 0
+			return IsHasCangku(p,i) or GetCompleteRate(p) >= 0.5 or GetBit(Greward[GetConvertedPlayerId(p)],5) > 0
 		elseif (i == 4) then
-			return GetCompleteRate(p) >= 0.75 or GetBit(Greward[GetConvertedPlayerId(p)],6) > 0
+			return IsHasCangku(p,i) or GetCompleteRate(p) >= 0.75 or GetBit(Greward[GetConvertedPlayerId(p)],6) > 0
 		elseif (i == 5) then
-			return GetCompleteRate(p) >= 0.99 or GetBit(Greward[GetConvertedPlayerId(p)],3) > 0
+			return IsHasCangku(p,i) or GetCompleteRate(p) >= 0.99 or GetBit(Greward[GetConvertedPlayerId(p)],3) > 0
 		elseif (i == 6) then
-			return DzAPI_Map_GetMapLevel(p) >= 18 or GetBit(Greward[GetConvertedPlayerId(p)],4) > 0
+			return IsHasCangku(p,i) or DzAPI_Map_GetMapLevel(p) >= 18 or GetBit(Greward[GetConvertedPlayerId(p)],4) > 0
 		elseif (i == 7) then
-			return (DzAPI_Map_GetGuildName(p) == "Crainax" or DzAPI_Map_GetGuildName(p) == "大佬娱乐会所" or DzAPI_Map_GetGuildName(p) == "万劫封帝" or DzAPI_Map_GetGuildName(p) == "万劫录") or GetBit(Greward[GetConvertedPlayerId(p)],7) > 0
+			return IsHasCangku(p,i) or (DzAPI_Map_GetGuildName(p) == "Crainax" or DzAPI_Map_GetGuildName(p) == "大佬娱乐会所" or DzAPI_Map_GetGuildName(p) == "万劫封帝" or DzAPI_Map_GetGuildName(p) == "万劫录") or GetBit(Greward[GetConvertedPlayerId(p)],7) > 0
 		elseif (i == 8) then
-			return IsPIV(p) or GetBit(Greward[GetConvertedPlayerId(p)],8) > 0
+			return IsHasCangku(p,i) or IsPIV(p) or GetBit(Greward[GetConvertedPlayerId(p)],8) > 0
+		elseif (i >= 9) then
+			return IsHasCangku(p,i)
 		endif
 
 		return false
@@ -201,7 +212,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV
 		endloop
 		call RemoveUnit(UDepot[GetConvertedPlayerId(p)])
 		set UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, GetBoxType(i), x, y, 270.000)
-		if (GetDiffculty() <= 8) then
+		if (GetDiffculty() <= 8 or i >= 9) then
 			call UnitAddAbility(UDepot[GetConvertedPlayerId(p)],GetBoxAbility(i))
 		endif
 	endfunction
@@ -241,6 +252,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV
 	    call DialogSetMessage( d, "
 	    完成挑战:("+I2S(GetAllComplete(p)) +"/"+I2S(COUNT_CHALLANGER * 3)+"="+I2S(R2I( GetCompleteRate(p)*100))+"%)"+"
 	    箱子变形:" )
+    	call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetBoxName(9) + S3(IsBoxAccess(p,9),"|cffff9900(已解锁)|r",GetBoxCondition(9))))
 	    loop
 	    	exitwhen i > 8
 	    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetBoxName(i) + S3(IsBoxAccess(p,i),"|cffff9900(已解锁)|r",GetBoxCondition(i))))

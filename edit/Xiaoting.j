@@ -290,7 +290,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
             if (IsEnemy(l_unit,xiaoting) and not(IsUnitInGroup(l_unit,GArrow[index]))) then
-            	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting * R3(BShuaijian[index],0.1,1), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+            	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting * R3(BShuaijian[index],0.2,1), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
             	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(l_unit),GetUnitY(l_unit) ))
             	call GroupAddUnit(GArrow[index],l_unit)
             endif
@@ -443,13 +443,13 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
-				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.5 * (GetComboMulti() + 1))
+				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.25 * (GetComboMulti() + 1))
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(UArrow[i]),GetUnitY(UArrow[i]) ))
 			endif
 			set i = i +1
 		endloop
 		call ClearAllArrow()
-	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting* 0.5 * (GetComboMulti() + 1))
+	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting* 0.25 * (GetComboMulti() + 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

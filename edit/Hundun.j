@@ -14,6 +14,10 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		integer hundun1_level = 1
 		integer hundun2_level = 1
 		integer hundun_playerID = 0
+
+		//混沌2
+		Attract AHundun2 = 0
+		SuperShield TShieldHundun = 0
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -40,6 +44,14 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		call DestroyGroup(GHundunAttack)
 		set GHundunAttack = null
 		call DisableTrigger(THundunSpellDamage)
+	endfunction
+
+	function DestroyHundun2 takes nothing returns nothing
+		call DestroyHundun1()
+		call AHundun2.destroy()
+		call TShieldHundun.destroy()
+		set AHundun2 = 0
+		set TShieldHundun = 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -131,6 +143,16 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    检测生命设置混沌2的斥力速度与无敌
+	*/
+	private function Hundun2SetLifeLess takes unit u returns nothing
+		call AHundun2.setSpeed(-16)
+		call TShieldHundun.destroy()
+        set TShieldHundun = SuperShield.create(UHundun,I3(IsWanjie(),3,1))
+        call TShieldHundun.SetDeathContinue()
+	endfunction
+//---------------------------------------------------------------------------------------------------
 
 	/*
 	    初始化混沌石1技能
@@ -177,6 +199,12 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	function InitHundun2 takes unit u returns nothing
 		call InitHundun1(u)
     	call SetPlayerTechResearchedSwap(  GetHundun2Tech(), hundun2_level , Player(10))
+        set AHundun2 = Attract.create(u,3000,0.05,-8)
+        call AHundun2.SetDeathContinue()
+        call AHundun2.start()
+        call MLHundun.setAL(AfterLessLife.Hundun2SetLifeLess)
+        set TShieldHundun = SuperShield.create(u,I3(IsWanjie(),3,1))
+        call TShieldHundun.SetDeathContinue()
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -231,6 +259,8 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	function DialogCombineClick takes nothing returns nothing
 	    local dialog d = GetClickedDialogBJ()
 	    local unit u = LoadUnitHandle(itemTable,GetHandleId(d),3)
+        call RemoveItem( LoadItemHandle(itemTable,GetHandleId(d),7) )
+        call RemoveItem( LoadItemHandle(itemTable,GetHandleId(d),8) )
 
         if (GetClickedButtonBJ() == LoadButtonHandle(itemTable,GetHandleId(d),1)) then
 			call UnitAddItemByIdSwapped( LoadInteger(itemTable,GetHandleId(d),4), u)
@@ -263,8 +293,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 
 		if ((GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1)) == materials1) and (GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2)) == materials2) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2)))) then
 	    	set i = GetItemCharges(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))
-	        call RemoveItem( GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1) )
-	        call RemoveItem( GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2) )
+
 			set t = CreateTrigger()
 			set d = DialogCreate()
 			call DialogSetMessage( d, "你想合成为:" )
@@ -274,6 +303,8 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 			call SaveInteger(itemTable,GetHandleId(d),4,targetItem1)
 			call SaveInteger(itemTable,GetHandleId(d),5,targetItem2)
 			call SaveInteger(itemTable,GetHandleId(d),6,i)
+			call SaveItemHandle(itemTable,GetHandleId(d),7,GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))
+			call SaveItemHandle(itemTable,GetHandleId(d),8,GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2))
 			call DialogDisplay( GetOwningPlayer(buyer), d, true )
 			call TriggerRegisterDialogEvent( t, d )
 			call TriggerAddAction(t, function DialogCombineClick)

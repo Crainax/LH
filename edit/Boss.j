@@ -51,6 +51,24 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		DamageTJ DTJ1 = 0
 		DamageTJ DTJ2 = 0
 		DamageTJ DTJ3 = 0
+
+		//鬼与仙
+		SuperShield TShieldGhost = 0
+		SuperShield TShieldAngle = 0
+		unit UGhost = null
+		unit UAngle = null
+		MultiLife MLGhost = 0
+		MultiLife MLAngle = 0
+		timer TiGhostAngle = null
+		timerdialog TiDiaGhostAngle = null
+		trigger TSpellGhost = null
+		timer TGhostShiye = null
+		timer TAngleQuestion = null
+		private integer IGuangmang = 0
+		trigger TDeathGhostAngle = null
+		timer TGhostShiye2 = null
+
+		integer IKongshen = 0
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -397,7 +415,233 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call TimerStart(TLifeConnect,0.05,true,function LifeConnectTimer)
 
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    瞬闪攻击
+	*/
+	private function GetFocusTarget takes nothing returns unit
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if (udg_H[i] != null and IsEnemyMP(udg_H[i],Player(10))) then
+				return udg_H[i]
+			endif
+			set i = i +1
+		endloop
 
+		return null
+	endfunction
+
+    private function FlashHeroLocation takes nothing returns nothing
+        local timer t = GetExpiredTimer()
+        local unit target = null
+        if (UGhost != null) then
+            set target = U3(GetFocusTarget() != null,GetFocusTarget(),gg_unit_haro_0030)
+            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(UGhost),GetUnitY(UGhost) ))
+            call SetUnitX(UGhost,GetUnitX(target))
+            call SetUnitY(UGhost,GetUnitY(target))
+            call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", GetUnitX(UGhost),GetUnitY(UGhost) ))
+            if (target != gg_unit_haro_0030) then
+            	call IssueTargetOrder(UGhost,"attack",target)
+            else
+            	call IssuePointOrderLocBJ(UGhost,"attack",udg_Point_Fuhuo)
+            endif
+        else
+            call PauseTimer(t)
+            call DestroyTimer(t)
+        endif
+        set t = null 
+    endfunction    
+
+	function InitShunshan takes nothing returns nothing
+		local timer t = CreateTimer()
+		call TimerStart(t,5,true,function FlashHeroLocation)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    视野无效化
+	*/
+	private function GetShiyanCon takes nothing returns boolean
+		local integer i = 1
+		local integer count = 0
+		loop
+			exitwhen i > 6
+			if (UnitHasItemOfTypeBJ(udg_H[i],'I05U')) then
+				set count = count + 1
+			endif
+			set i = i +1
+		endloop
+		set count = count - I3(IsTianyan,3,0)
+		return GetRandomInt(1,udg_RENSHU) <= count
+	endfunction
+
+	private function ShiyeLiangTimer takes nothing returns nothing
+		call CinematicFadeBJ( bj_CINEFADETYPE_FADEIN, 2, "ReplaceableTextures\\CameraMasks\\Black_mask.blp", 0, 0, 0, 0 )
+		call PauseTimer(TGhostShiye2)
+		call DestroyTimer(TGhostShiye2)
+		set TGhostShiye2 = null
+	endfunction
+
+	private function ShiyeAnTimer takes nothing returns nothing
+		if not(GetShiyanCon()) then
+			call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUT, 2, "ReplaceableTextures\\CameraMasks\\Black_mask.blp", 0, 0, 0, 0 )
+			set TGhostShiye2 = CreateTimer()
+			call TimerStart(TGhostShiye2,7,false,function ShiyeLiangTimer)
+			call BJDebugMsg("|cFFFF66CC【消息】|r天渐渐的暗了下来...")
+		else
+			call BJDebugMsg("|cFFFF66CC【消息】|r受到战法双魂-夕的照耀,天空保持着常亮.")
+		endif
+	endfunction
+
+	function InitShiyeTimer takes nothing returns nothing
+		set TGhostShiye = CreateTimer()
+		call TimerStart(TGhostShiye,27-2*udg_Nandu_JJJ,true,function ShiyeAnTimer)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    免疫外圈伤害
+	*/
+	function TSpellGhostCon takes nothing returns boolean
+	    return (GetUnitDistance(GetEventDamageSource(),UGhost) > 1800. and (GetEventDamage() > 100))
+	endfunction
+
+	function TSpellGhostAct takes nothing returns nothing
+		call SetUnitLifeBJ(UGhost,GetUnitState(UGhost,UNIT_STATE_LIFE)+GetEventDamage())
+		if (GetRandomInt(1,5) == 1) then
+    		call CreateSpellTextTag("1800范围外免疫！",UGhost,0,0,100,2)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    提问间隔
+	*/
+	private function AfterQuestionSucceed takes nothing returns nothing
+		if (IsUnitAliveBJ(UGhost)) then
+	    	call RecoverUnitHP(UGhost,-0.1)
+		endif		
+		if (IsUnitAliveBJ(UAngle)) then
+	    	call RecoverUnitHP(UAngle,-0.1)
+		endif
+		debug set IKongshen = IKongshen + 1
+		if (IKongshen >= 30) then
+			debug call SaveAllPlayerAchievement(415)
+		elseif (ModuloInteger(IKongshen,5) == 0) then
+			call BJDebugMsg("|cFFFF66CC【消息】|r你们总共答对了"+I2S(IKongshen)+"道题.")
+		endif
+	endfunction
+
+	private function QuestionTimer takes nothing returns nothing
+		call Questions.create(ConvertedPlayer(GetNextPlayerID()),udg_Nandu_JJJ+4,5,AfterSucceed.AfterQuestionSucceed)
+	endfunction
+
+	function InitQuestionTimer takes nothing returns nothing
+		set TAngleQuestion = CreateTimer()
+		call TimerStart(TAngleQuestion,23-2*udg_Nandu_JJJ,true,function QuestionTimer)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    光芒万丈
+	*/
+	private function GuangmangBoom2 takes nothing returns nothing
+		local integer i = 1
+        call KillAreaPlayerEnemy(UAngle,GetUnitX(UAngle),GetUnitY(UAngle),1000,Player(10))
+        loop
+        	exitwhen i > 12
+                call UnitApplyTimedLifeBJ( 5, 'BHwe', CreateUnit(GetOwningPlayer(UAngle),'h00J',GetUnitX(UAngle),GetUnitY(UAngle),i* (360 / 12) ))
+        	set i = i +1
+        endloop
+	endfunction
+
+	private function GuangmangBoom takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer i = 1
+		if (IsUnitAliveBJ(UAngle) or GetUnitAbilityLevel(UAngle,'A0KH') > 0) then
+			set IGuangmang = IGuangmang - 1
+			if (IGuangmang > 3) then
+				set t = null
+				return
+			elseif (IGuangmang == 3) then
+				call UnitApplyTimedLifeBJ( 3.00, 'BHwe',CreateUnit(Player(10),'h02K',GetUnitX(UAngle),GetUnitY(UAngle),0) )
+			else
+				call CreateSpellTextTag("光芒:"+I2S(IGuangmang)+"s",UAngle,100,0,100,2)
+			endif
+			if (IGuangmang <= 0) then
+				set IGuangmang = 15 - NanDiff * 2
+				call GuangmangBoom2()
+			endif
+		else
+			set IGuangmang = 0
+			call PauseTimer(t)
+			call DestroyTimer(t)
+		endif
+		set t = null
+	endfunction
+
+	function InitGuangmang takes nothing returns nothing
+		local timer t = CreateTimer()
+		set IGuangmang = 15 - NanDiff * 2
+		call TimerStart(t,1,true,function GuangmangBoom)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    英雄敌队化
+	*/
+	private function DestroyDiduihua takes nothing returns nothing
+		local integer i = 1
+		local integer j = 1
+
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				set j = 1
+				loop
+					exitwhen j > 6
+					if (i != j) then
+    					call SetPlayerAllianceStateBJ( ConvertedPlayer(i), ConvertedPlayer(j), bj_ALLIANCE_ALLIED )
+					endif
+					set j = j +1
+				endloop
+			endif
+
+			set i = i +1
+		endloop
+	endfunction
+
+	function InitDiduihua takes nothing returns nothing
+		local integer i = 1
+		local integer j = 1
+
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+				set j = 1
+				loop
+					exitwhen j > 6
+					if (i != j) then
+    					call SetPlayerAllianceStateBJ( ConvertedPlayer(i), ConvertedPlayer(j), bj_ALLIANCE_UNALLIED )
+					endif
+					set j = j +1
+				endloop
+			endif
+
+			set i = i +1
+		endloop
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    复活后伤害
+	*/
+	function ReviveDamage takes unit u returns nothing
+		if (UAngle != null) then
+			if (not(UnitHasItemOfTypeBJ(u,'I07K') or UnitHasItemOfTypeBJ(u,'I07J') or UnitHasItemOfTypeBJ(u,'I07I')) and GetRandomInt(1,2) == 1 and GetDiffculty() >= 6) then
+	    		call RecoverUnitHP(u,-1.2)
+	    		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(u),GetUnitY(u) ))
+				call CreateSpellTextTag("复活之火",u,0,100,0,2)
+			endif
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	function CycleFangKa takes nothing returns nothing
@@ -571,6 +815,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
     	local unit u = LoadUnitHandle(LHTable,id,1)
     	local group l_group = CreateGroup()
     	call GroupEnumUnitsInRange(l_group, GetUnitX(u),GetUnitY(u), 900, Condition(function EnemyFilter))
+    	if (IsUnitInGroup(gg_unit_haro_0030,l_group)) then
+    		call GroupRemoveUnit(l_group,gg_unit_haro_0030)
+    	endif
     	if (IsUnitAliveBJ(u) or GetUnitAbilityLevel(u,'A0KH') > 0) then
     		if (CountUnitsInGroup(l_group) >= 1) then
     			call IssueTargetOrder(u,"attack",GroupPickRandomUnit(l_group))
@@ -599,23 +846,37 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    人妖死亡后的判断
+		鬼仙死亡
 	*/
-	
-	private function TDeathRenyaoAct takes nothing returns nothing
-		if (not(IsUnitAliveBJ(UXiaoY)) and GetUnitAbilityLevel(UXiaoY,'A0KH') < 1 and not(IsUnitAliveBJ(UChuanzhang)) and GetUnitAbilityLevel(UChuanzhang,'A0KH') < 1) then
-		    call TFChuan.destroy()
+
+	private function TDeathGhostAngleAct takes nothing returns nothing
+		if (GetDyingUnit() == UGhost) then
+			call MLGhost.destroy()
+			call TShieldGhost.destroy()
+			call PauseTimer(TGhostShiye)
+			call DestroyTimer(TGhostShiye)
+			set TGhostShiye = null
+			call DestroyTrigger(TSpellGhost)
+			set UGhost = null
+		endif		
+		if (GetDyingUnit() == UAngle) then
+			call MLAngle.destroy()
+			call TShieldAngle.destroy()
+			call PauseTimer(TAngleQuestion)
+			call DestroyTimer(TAngleQuestion)
+			set TAngleQuestion = null
+			set IGuangmang = 0
+			call DestroyDiduihua()
+			set UAngle = null
+		endif
+		if (not(IsUnitAliveBJ(UGhost)) and GetUnitAbilityLevel(UGhost,'A0KH') < 1 and not(IsUnitAliveBJ(UAngle)) and GetUnitAbilityLevel(UAngle,'A0KH') < 1) then
 		    call PauseTimer( udg_Time_BOSS )
 		    call DestroyTimer(udg_Time_BOSS)
 	    	call DestroyTimerDialog( udg_Timer_BOSS )
-		    call PauseTimer(TRBChuan)
-		    call DestroyTimer(TRBChuan)
-			call DestroyConnection()
 			call CinematicModeBJ( true, GetPlayersAll() )
 		    call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "看似这场战争暂时性的结束了...不过看似这背后并不简单?", bj_TIMETYPE_ADD, 2.00, true )
 		    call PolledWait(2.00)
 		    call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "游戏将在60秒后结束...", bj_TIMETYPE_ADD, 2.00, true )
-		    debug call SaveAchievement()
 		    call PolledWait(2.00)
 	        call DTJ1.show()
 	        call DTJ2.show()
@@ -637,11 +898,173 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    call PrintXiaotingPassword()
 		    call PrintXiaotingPassword()
 		    call PrintXiaotingPassword()
-		    debug call SaveAchievementKuilei1()
+		    debug call SaveAchievementKuilei2()
+		    debug call CreateAllYuebing()
 		    call CinematicModeBJ( false, GetPlayersAll() )
 		    call PolledWait(60.00)
 		    call ForForce( GetPlayersAll(), function ShengliAll )
 
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    生命变化的重新设置1段无敌
+	*/
+	private function AfterBossLessLife takes unit u returns nothing
+		if (u == UGhost) then
+			call TShieldGhost.destroy()
+	        set TShieldGhost = SuperShield.create(UGhost,1)
+	        call TShieldGhost.SetDeathContinue()
+		elseif (u == UAngle) then
+			call TShieldAngle.destroy()
+	        set TShieldAngle = SuperShield.create(UAngle,1)
+	        call TShieldAngle.SetDeathContinue()
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化鬼与仙
+	*/
+	private function InitGhostAngle takes nothing returns nothing
+		local timer t = null
+		call ShowGameHintAll("
+		    |cffffff00上路BOSS(鬼王傀儡) 技能:|r
+	        4次生命,1段无敌
+	        瞬闪攻击
+	        视野无效化
+	        圈外免疫
+	        百分比攻击
+
+	        |cff00ccff下路BOSS(仙王傀儡) 技能:|r
+	        4次生命,1段无敌
+	        数学提问(回答错误会扣防护罩)
+	        光芒万丈(读秒预判)
+	        英雄敌队化(各自为战)
+	        复活之火(复活后的伤害)
+
+	        |cffff0000BOSS正式进攻!|r")
+		//call PolledWait(10)
+		set UGhost = CreateUnit(Player(11),'N02B',GetRectCenterX(gg_rct________3),GetRectCenterY(gg_rct________3),90)
+		set UAngle = CreateUnit(Player(11),'N02C',GetRectCenterX(gg_rct________6),GetRectCenterY(gg_rct________6),270)
+		//多条命
+		set MLGhost = MultiLife.create(UGhost,I3(IsWanjie(),4,I3(renshu == 1 or GetDiffculty() < 5,2,3)))
+		set MLAngle = MultiLife.create(UAngle,I3(IsWanjie(),4,I3(renshu == 1 or GetDiffculty() < 5,2,3)))
+
+
+		call MLGhost.setAL(AfterLessLife.AfterBossLessLife)
+		call MLAngle.setAL(AfterLessLife.AfterBossLessLife)
+        set TShieldGhost = SuperShield.create(UGhost,1)
+        call TShieldGhost.SetDeathContinue()
+        set TShieldAngle = SuperShield.create(UAngle,1)
+        call TShieldAngle.SetDeathContinue()
+
+		call SetUnitAbilityLevel(UAngle,'A0AG',udg_Nandu_JJJ)
+		call SetUnitAbilityLevel(UGhost,'A0AG',udg_Nandu_JJJ)
+		call StartFangKa( UGhost )
+		call StartFangKa( UAngle )
+
+	    call PauseTimer( TiGhostAngle )
+	    call DestroyTimer(TiGhostAngle)
+    	call DestroyTimerDialog( TiDiaGhostAngle )
+
+        set DTJ1 = DamageTJ.create(UAngle)
+        set DTJ2 = DamageTJ.create(UGhost)
+
+        set udg_Time_BOSS = CreateTimer()
+	    call StartTimerBJ( udg_Time_BOSS, false, 1200.00 )
+	    call CreateTimerDialogBJ( udg_Time_BOSS, "限时击杀时间" )
+	    set udg_Timer_BOSS = GetLastCreatedTimerDialogBJ()
+	    call TimerDialogDisplayBJ( true, udg_Timer_BOSS )
+	    if (not(CT7())) then
+		    set t = CreateTimer()
+		    call SaveUnitHandle(LHTable,GetHandleId(t),1,UAngle)
+		    call TimerStart(t,1,true,function JudgeBossAttackTimer)
+		    set t = CreateTimer()
+		    call SaveUnitHandle(LHTable,GetHandleId(t),1,UGhost)
+		    call TimerStart(t,1,true,function JudgeBossAttackTimer)
+		    set t = null
+		else
+			call BossAddOnlyAttack(UAngle)
+			call BossAddOnlyAttack(UGhost)
+	    endif
+
+
+
+	    //鬼王技能
+		call InitShiyeTimer()
+		set TSpellGhost = CreateTrigger()
+		call TriggerRegisterUnitEvent(TSpellGhost,UGhost,EVENT_UNIT_DAMAGED)
+		call TriggerAddCondition(TSpellGhost, Condition(function TSpellGhostCon))
+		call TriggerAddAction(TSpellGhost, function TSpellGhostAct)
+		if (GetDiffculty() >= 6) then
+			call InitShunshan()
+		endif
+
+	    //仙帝技能
+		call InitQuestionTimer()
+		call InitGuangmang()
+	    if (GetDiffculty() >= 6) then
+	    	call InitDiduihua()
+	    endif
+
+    	set TDeathGhostAngle = CreateTrigger()
+    	call TriggerAddAction(TDeathGhostAngle, function TDeathGhostAngleAct)
+    	call TriggerRegisterUnitEvent( TDeathGhostAngle, UGhost, EVENT_UNIT_DEATH )
+    	call TriggerRegisterUnitEvent( TDeathGhostAngle, UAngle, EVENT_UNIT_DEATH )
+
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+	/*
+	    开始鬼王与仙王的计时器
+	*/
+	function StartGhostAngleTimer takes nothing returns nothing
+        set TiGhostAngle = CreateTimer()
+        set TiDiaGhostAngle = CreateTimerDialogBJ(TiGhostAngle,"六界傀儡2")
+	    call PauseTimer( udg_Double_M[1] )
+	    call DestroyTimer(udg_Double_M[1])
+    	call DestroyTimerDialog( udg_Double_Me )
+        call TimerStart(TiGhostAngle,GetWangSpeed(),false,function InitGhostAngle)
+        call TimerDialogDisplay(TiDiaGhostAngle,true)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    人妖死亡后的判断
+	*/
+	
+	private function TDeathRenyaoAct takes nothing returns nothing
+		if (GetDyingUnit() == UXiaoY) then
+			call DestroyConnection()
+		endif		
+		if (GetDyingUnit() == UChuanzhang) then
+		    call TFChuan.destroy()
+		    call PauseTimer(TRBChuan)
+		    call DestroyTimer(TRBChuan)
+		endif
+		if (not(IsUnitAliveBJ(UXiaoY)) and GetUnitAbilityLevel(UXiaoY,'A0KH') < 1 and not(IsUnitAliveBJ(UChuanzhang)) and GetUnitAbilityLevel(UChuanzhang,'A0KH') < 1) then
+		    call PauseTimer( udg_Time_BOSS )
+		    call DestroyTimer(udg_Time_BOSS)
+	    	call DestroyTimerDialog( udg_Timer_BOSS )
+			//call CinematicModeBJ( true, GetPlayersAll() )
+		    //call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "看似这场战争暂时性的结束了...不过看似这背后并不简单?", bj_TIMETYPE_ADD, 2.00, true )
+		   // call PolledWait(2.00)
+		   // call TransmissionFromUnitWithNameBJ( GetPlayersAll(), udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "游戏将在60秒后结束...", bj_TIMETYPE_ADD, 2.00, true )
+		    debug call SaveAchievement()
+		    //call PolledWait(2.00)
+	        call DTJ1.show()
+	        call DTJ2.show()
+	        set DTJ1 = 0
+	        set DTJ2 = 0
+		    debug call SaveAchievementKuilei1()
+		    //call CinematicModeBJ( false, GetPlayersAll() )
+		    debug call CreateAllYuebing()
+		    call StartGhostAngleTimer()
+		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
+		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
+		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
+		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
+		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
 		endif
 	endfunction
 	
@@ -710,6 +1133,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    set TFChuan = TianfuForbidder.create(UChuanzhang,GetForbidTianfuTime(),10.-GetForbidTianfuTime())
 	    set TRBChuan = CreateTimer()
 	    call TimerStart(TRBChuan,1,true,function DaroubangJudge)
+
+    	set TDeathRenyao = CreateTrigger()
+    	call TriggerAddAction(TDeathRenyao, function TDeathRenyaoAct)
     	call TriggerRegisterUnitEvent( TDeathRenyao, UXiaoY, EVENT_UNIT_DEATH )
     	call TriggerRegisterUnitEvent( TDeathRenyao, UChuanzhang, EVENT_UNIT_DEATH )
 
@@ -750,11 +1176,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 //---------------------------------------------------------------------------------------------------
 
 	private function InitBoss takes nothing returns nothing
-		// body...
 		set bossTable = InitHashtable()
 
-    	set TDeathRenyao = CreateTrigger()
-    	call TriggerAddAction(TDeathRenyao, function TDeathRenyaoAct)
 
 	endfunction
 endlibrary

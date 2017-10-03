@@ -604,7 +604,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 		set i = 410
 		loop
-			exitwhen i > 414
+			exitwhen i > 417
 			set result = result and IsAchieveOK(p,i)
 			set i = i +1
 		endloop
@@ -788,12 +788,13 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(49) + S3(IsAchieveOK(p,49),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 			set i = 2
 		    loop
-		    	exitwhen i > 6
+		    	exitwhen i > 9
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 408) + S3(IsAchieveOK(p,i + 408),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
 		endif
 
+    	call SaveButtonHandle(LHTable,GetHandleId(d),17,DialogAddButtonBJ( d, "上一页"))
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
     	call SaveButtonHandle(LHTable,GetHandleId(d),11,DialogAddButton( d, "关闭|cffff6800(Esc)|r",512))
 	endfunction
@@ -880,6 +881,20 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
             call DialogClear(d)
 	    	set page = I3(page < PAGE_ACHIEVE,page + 1,1)
+    		call SaveInteger(LHTable,GetHandleId(d),12,page)
+	    	call DialogSetMessage( d, "我的成就|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_ACHIEVE)+"页)|r
+	    		收集全部成就可以自定义成就名" )
+	    	call NextPageAchievement(p,d,page)
+        	call DialogDisplay( p, d, true )
+		    set d = null
+		    set p = null
+	    	return
+	    endif
+
+	    //上一页
+	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),17)) then
+            call DialogClear(d)
+	    	set page = I3(page <= 1,PAGE_ACHIEVE,page - 1)
     		call SaveInteger(LHTable,GetHandleId(d),12,page)
 	    	call DialogSetMessage( d, "我的成就|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_ACHIEVE)+"页)|r
 	    		收集全部成就可以自定义成就名" )

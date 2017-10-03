@@ -1,52 +1,10 @@
 //! import "LHBase.j"
+//! import "item.j"
 
-library_once SameItem initializer InitSameItem requires LHBase 
+library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
 
 
-//-------------------------------------------------------------------------------
-	/*
-	    单位的某一格物品栏是否是人装
-	*/
-	private function UnitHasHumanInSlot takes unit u,integer slot returns boolean
-		return GetItemTypeId(UnitItemInSlotBJ(u,slot)) ==    'frhg' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'mlst' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'nspi' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'oli2' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'ofir' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'soul' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'sbok' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'arsc' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'gldo' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'gsou' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'envl' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rugt' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'shdt' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'crdt' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'pspd' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rump' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rump' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'shen' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'stpg' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rde0' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'oflg' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'frgd' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'tbsm' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'tfar' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'drph' /* 
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'oven' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rej4' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'dtsb' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'gobm' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'gvsm' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'pgin' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rej6' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'tels' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'tbak' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05Y' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05Z' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I060' 
-	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是否是不可共享的物品类型
@@ -67,7 +25,8 @@ library_once SameItem initializer InitSameItem requires LHBase
 			*/ or GetItemTypeId(i) == 'IXU1' /*
 			*/ or GetItemTypeId(i) == 'I049' /*
 			*/ or GetItemTypeId(i) == 'I04A' /*
-			*/ or GetItemTypeId(i) == 'I06N' 
+			*/ or GetItemTypeId(i) == 'I06N' /*
+			*/ or GetItemTypeId(i) == 'I07T' 
 	endfunction
 	
 //---------------------------------------------------------------------------------------------------
@@ -78,16 +37,6 @@ library_once SameItem initializer InitSameItem requires LHBase
 		return GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05P' /*
 			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05Q' /*
 			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05R' 
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    单位的某一格物品栏是否是项链
-	*/
-	private function UnitHasXianglianInSlot takes unit u,integer slot returns boolean
-		return GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'rde3' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'ssil' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I04Y' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05T' 
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -123,7 +72,7 @@ library_once SameItem initializer InitSameItem requires LHBase
 		//多个人器的判断
 		loop
 			exitwhen i > 6
-			if(UnitHasHumanInSlot(GetTriggerUnit(),i)) then
+			if(IsRen(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
 				set count = count + 1
 			endif
 			set i = i +1
@@ -161,7 +110,7 @@ library_once SameItem initializer InitSameItem requires LHBase
 		set count = 0 
 		loop
 			exitwhen i > 6
-			if(UnitHasXianglianInSlot(GetTriggerUnit(),i)) then
+			if(IsXianglian(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
 				set count = count + 1
 			endif
 			set i = i +1
@@ -172,7 +121,25 @@ library_once SameItem initializer InitSameItem requires LHBase
 			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个项链！")
 			return
+		endif		
 
+		//多个戒指的判断
+		set i = 1
+		set count = 0 
+		loop
+			exitwhen i > 6
+			if(IsGui(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
+				set count = count + 1
+			endif
+			set i = i +1
+		endloop
+
+		//如果计数君大于1则丢掉
+		if (count > 1) then
+			call PolledWait(0.1)
+			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个戒指！")
+			return
 		endif
 
 		call OnlyOneZhuangbei('ratc')

@@ -3,16 +3,14 @@
 //! import "SpellBase.j"
 //! import "Juexing.j"
 //! import "Boss.j"
-//! import "Boss.j"
 /////! import "Continous.j"
-//! import "Chenji.j"
 //! import "Shen.j"
 //! import "item.j"
 /////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Chenji,Box,Shen,ItemBase//,Continous
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase//,Continous
 	
 
 	globals
@@ -38,7 +36,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
         	exitwhen i > 6
         	if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
         		if (UnitItemInSlotBJ(u,i)!= null) then
-        			if (UnitItemInSlotBJ(u,i) != GetYeai() and GetItemTypeId(UnitItemInSlotBJ(u,i)) != 'I079' and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
+        			if (not(IsMinganItem(UnitItemInSlotBJ(u,i))) and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
 						call UnitAddItem( UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],UnitItemInSlotBJ(u,i))
         			else
         				call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.")
@@ -335,6 +333,9 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		elseif (IsShenAll(GetManipulatedItem())) then
 			//神器召唤
 			call SummonJingling(GetManipulatedItem(),GetTriggerUnit())
+		debug elseif (GetItemTypeId(GetManipulatedItem()) == 'I07T') then
+		debug 	//月饼
+		debug 	call OpenTheYuebing(GetOwningPlayer(GetTriggerUnit()))
     	//开箱子
 		debug elseif(GetItemTypeId(GetManipulatedItem()) == 'I06N') then
 			debug call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl",GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) ))

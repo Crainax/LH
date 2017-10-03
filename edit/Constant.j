@@ -38,14 +38,14 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.383"
+		return "3.394C"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11
 	*/
 	function Get11 takes nothing returns boolean
-		return false
+		return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -387,7 +387,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414 or achieveID == 415 or achieveID == 416
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -570,6 +570,12 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【淼无极】")
 		elseif (achieveID == 414) then
 			return GetColorString("【金瓯体】")
+		elseif (achieveID == 415) then
+			return GetColorString("【控神识】")
+		elseif (achieveID == 416) then
+			return GetColorString("【契歃约】")
+		elseif (achieveID == 417) then
+			return GetColorString("【宵无霁】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -742,6 +748,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "淼无极"
 		elseif (achieveID == 414) then
 			return "金瓯体"
+		elseif (achieveID == 415) then
+			return "控神识"
+		elseif (achieveID == 416) then
+			return "契歃约"
+		elseif (achieveID == 417) then
+			return "宵无霁"
 		endif
 		return ""
 	endfunction
@@ -1093,6 +1105,21 @@ library_once Constant initializer InitConstant requires JBase
 			return "输入-hs3进行防御检测，防御达到100W或以上。
 			（注意检测结果将不包含于装备中的防御定值光环与装备中的短暂BUFF效果）
 			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 415) then
+			return "在一局游戏中成功答对30次仙帝傀儡——樱乐的问题.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 416) then
+			return "在一局游戏中所有队友从未说过一句话通关游戏.
+			
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 417) then
+			return "成功击杀秘境BOSS(21-25层)——夜袭使者。
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif

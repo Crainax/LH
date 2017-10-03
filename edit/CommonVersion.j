@@ -388,6 +388,14 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    是否全字收集
+	*/
+	function HasAll14Word takes player p returns boolean
+		return false
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
 	    禁止秘藉
 	*/
 	/*private function ForbidMiji takes nothing returns nothing

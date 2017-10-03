@@ -1,13 +1,18 @@
 //! import "LHBase.j"
 /////! import "NetVersion.j"
+
 library_once Spin requires LHBase,Version
 	
+	globals
+		boolean array BCancelSpin
+	endglobals
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    瑟雨的皮肤条件
 	*/
 	function IsSeyuSpin1 takes player p returns boolean
-		return GetSeyu1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSeyu1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -15,7 +20,7 @@ library_once Spin requires LHBase,Version
 	    晓月的皮肤条件
 	*/
 	function IsXiaoyueSpin1 takes player p returns boolean
-		return GetXiaoyue1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXiaoyue1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 
@@ -24,7 +29,7 @@ library_once Spin requires LHBase,Version
 	    湮灭的皮肤条件
 	*/
 	function IsYanmieSpin1 takes player p returns boolean
-		return GetYanmie1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetYanmie1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -32,7 +37,7 @@ library_once Spin requires LHBase,Version
 	    玄雪的皮肤条件
 	*/
 	function IsXuanxueSpin1 takes player p returns boolean
-		return GetXuanxue1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXuanxue1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -40,7 +45,7 @@ library_once Spin requires LHBase,Version
 	    泰雅的皮肤条件
 	*/
 	function IsTaiyaSpin1 takes player p returns boolean
-		return GetTaiya1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetTaiya1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 
@@ -49,7 +54,7 @@ library_once Spin requires LHBase,Version
 	    寒殇的皮肤条件
 	*/
 	function IsHanshangSpin1 takes player p returns boolean
-		return GetHanshang1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHanshang1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 
@@ -58,7 +63,7 @@ library_once Spin requires LHBase,Version
 	    辰寂的皮肤条件
 	*/
 	function IsChenjiSpin1 takes player p returns boolean
-		return GetChenji1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetChenji1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -66,7 +71,7 @@ library_once Spin requires LHBase,Version
 	    辰寂的皮肤条件
 	*/
 	function IsChenjiSpin2 takes player p returns boolean
-		return GetChenji2Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetChenji2Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -74,7 +79,7 @@ library_once Spin requires LHBase,Version
 	    凌雪的皮肤条件
 	*/
 	function IsLingxueSpin1 takes player p returns boolean
-		return GetLingxue1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLingxue1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 
@@ -83,7 +88,7 @@ library_once Spin requires LHBase,Version
 	    莫琪的皮肤条件
 	*/
 	function IsMoqiSpin1 takes player p returns boolean
-		return GetMoqiSpin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetMoqiSpin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -91,7 +96,7 @@ library_once Spin requires LHBase,Version
 	    凯撒的皮肤条件
 	*/
 	function IsKaisaSpin1 takes player p returns boolean
-		return GetKaisaSpin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetKaisaSpin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 
@@ -100,7 +105,7 @@ library_once Spin requires LHBase,Version
 	    玄雪的皮肤条件
 	*/
 	function IsXuanxueSpin2 takes player p returns boolean
-		return GetXuanxue2Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXuanxue2Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -108,7 +113,7 @@ library_once Spin requires LHBase,Version
 	    霸绝的皮肤条件
 	*/
 	function IsBajueSpin1 takes player p returns boolean
-		return GetBajue1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetBajue1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -116,7 +121,7 @@ library_once Spin requires LHBase,Version
 	    摄焱的皮肤条件
 	*/
 	function IsSheyanSpin1 takes player p returns boolean
-		return GetSheyan1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSheyan1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -124,7 +129,7 @@ library_once Spin requires LHBase,Version
 	    幻逸的皮肤条件
 	*/
 	function IsHuanyiSpin1 takes player p returns boolean
-		return GetHuanyi1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHuanyi1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -132,7 +137,7 @@ library_once Spin requires LHBase,Version
 	    司宸的皮肤条件
 	*/
 	function IsSichenSpin1 takes player p returns boolean
-		return GetSichen1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSichen1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -140,7 +145,7 @@ library_once Spin requires LHBase,Version
 	    苍凌的皮肤条件
 	*/
 	function IsCanglingSpin1 takes player p returns boolean
-		return GetCangling1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetCangling1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -148,7 +153,7 @@ library_once Spin requires LHBase,Version
 	    司宸的皮肤条件
 	*/
 	function IsHeiyanSpin1 takes player p returns boolean
-		return GetHeiyan1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHeiyan1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -156,7 +161,7 @@ library_once Spin requires LHBase,Version
 	    司宸的皮肤条件
 	*/
 	function IsLichiSpin1 takes player p returns boolean
-		return GetLichi1Spin(p)
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLichi1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
 

@@ -41,6 +41,12 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 		unit testDyingUnit = null
 	endglobals
 
+	private function sadfsadfs takes nothing returns nothing
+	call SetPlayerTechResearchedSwap( 'R00C', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
+    call SetPlayerTechResearchedSwap( 'R00E', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
+
+	endfunction
+
 	/*
 		增加英雄属性
 	*/
@@ -388,7 +394,9 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 		endif
 
 		if (chat == "test darenshu") then
+		    call ForForce( GetPlayersAll(), function sadfsadfs )
 			set udg_RENSHU = 6
+			set renshu = 6
 			call BJDebugMsg("人数调成6")
 			return
 		endif		
@@ -438,6 +446,13 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 			call KillUnit(gg_unit_Npld_0253)
 			return
 		endif		
+
+		//测试鬼仙
+		if (chat == "test guixian") then
+			call PauseTimer(udg_Time_Start[1])
+			call DestroyTimer(udg_Time_Start[1])
+			call StartGhostAngleTimer()
+		endif
 
 		//直接后面直接来
 		if (chat == "test mijing") then

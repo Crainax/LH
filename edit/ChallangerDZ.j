@@ -16,6 +16,8 @@ library_once ChallangerDZ requires LHBase
 
 		//判断是否读取成功
 		boolean array Bdudang
+
+		string array Greward2
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -36,13 +38,33 @@ library_once ChallangerDZ requires LHBase
 	    获取仓库
 	*/
 	function GetAndSaveCangku takes player p,integer i returns nothing
-		debug if (GetBit(Greward[GetConvertedPlayerId(p)],i) < 1) then
-		debug 	set Greward[GetConvertedPlayerId(p)] = Greward[GetConvertedPlayerId(p)] + R2I(Pow(10,i-1))
-		debug 	call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
-		debug 	call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
-		debug 	call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
-		debug 	call DzAPI_Map_StoreInteger( p,  "Greward", Greward[GetConvertedPlayerId(p)] )
-		debug endif
+		local integer index = GetConvertedPlayerId(p)
+		local string temp = null
+		//if (GetBit(Greward[index],i) < 1 and i < 9) then
+		//	set Greward[index] = Greward[index] + R2I(Pow(10,i-1))
+		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+		//	call DzAPI_Map_StoreInteger( p,  "Greward", Greward[index] )
+		//endif
+		if (StringLength(Greward2[index]) < 62) then
+			set Greward2[index] = "00000000000000000000000000000000000000000000000000000000000000"
+		endif
+		if (S2I(SubStringBJ(Greward2[index],i,i)) != 1) then
+			set temp = Greward2[index]
+			set Greward2[index] = SubStringBJ(temp,1,i - 1)
+			set Greward2[index] = Greward2[index] + "1"
+			set Greward2[index] = Greward2[index] + SubStringBJ(temp,i+1,StringLength(temp))
+			set temp = null
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			debug call DzAPI_Map_StoreString( p,  "Greward2", Greward2[index] )
+		endif
+	endfunction
+
+	function IsHasCangku takes player p,integer i returns boolean
+		return S2I(SubStringBJ(Greward2[GetConvertedPlayerId(p)],i,i)) == 1
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -372,7 +394,7 @@ library_once ChallangerDZ requires LHBase
 
 			简单最低通关要求:(天国)
 			中等最低通关要求:(炼狱)
-			困难最低通关要求:(万劫)
+			困难最低通关要求:(轮回)
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
 			"
@@ -397,7 +419,7 @@ library_once ChallangerDZ requires LHBase
 		elseif (CType == 6) then
 			return C3(1,5,8)
 		elseif (CType == 7) then
-			return C3(1,5,9)
+			return C3(1,5,8)
 		endif
 		return 0
 	endfunction

@@ -188,6 +188,12 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call ChenjiJiance()
 		elseif (str == "-ph") then
 			call CameraSetSmoothingFactor( 0. )
+		elseif (str == "-qxpf") then
+			set BCancelSpin[GetConvertedPlayerId(GetTriggerPlayer())] = true
+			call BJDebugMsg("|cFFFF66CC【消息】|r成功取消皮肤效果.")
+		elseif (str == "-dm") then
+			call MultiboardDisplayBJ( true, udg_D )
+			call BJDebugMsg("|cFFFF66CC【消息】|r开启显示多面板.")
 		elseif (str == "--") then
 			call FixView(false)
 		debug elseif (str == "-ck") then
@@ -405,7 +411,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 52) then
 			set s = "秘境中成功通过某一层有2种方法，一种是将灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。"
 		elseif(i == 53) then
-			set s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有20层挑战～"
+			set s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有25层挑战～"
 		elseif(i == 54) then
 			set s = "某些英雄有特定的皮肤，这些皮肤可以通过英雄挑战来永久获取。（在基地左侧查看条件）"
 		elseif(i == 55) then

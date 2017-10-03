@@ -86,6 +86,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
         //仓库改称号
         boolean array BBoxName
+
+        boolean BBuqian1 = false
+        boolean BBuqian2 = false
+        boolean BBuqian3 = false
+
+        //英雄是否3秒复活
+        boolean array B3SecondRevive 
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -167,7 +174,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         禁止复制的装备
     */
     function IsCanCopy takes item i returns boolean
-        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060') and (GetItemTypeId(i) != 'I06N') and (GetItemTypeId(i) != 'I07D'))
+        return ((GetItemTypeId(i) != 'mgtk') and (GetItemTypeId(i) != 'k3m1') and (GetItemTypeId(i) != 'pomn') and (GetItemTypeId(i) != 'wild') and (GetItemTypeId(i) != 'hlst') and (GetItemTypeId(i) != 'totw') and (GetItemTypeId(i) != 'sror') and (GetItemTypeId(i) != 'fgrg') and (GetItemTypeId(i) != 'wshs') and (GetItemTypeId(i) != 'IXU1') and (GetItemTypeId(i) != 'I049') and (GetItemTypeId(i) != 'I04A') and (GetItemTypeId(i) != 'I000') and (GetItemTypeId(i) != 'I001') and (GetItemTypeId(i) != 'I002') and (GetItemTypeId(i) != 'I01D') and (GetItemTypeId(i) != 'I02W') and (GetItemTypeId(i) != 'sres') and (GetItemTypeId(i) != 'I06A') and (GetItemTypeId(i) != 'I06B') and (GetItemTypeId(i) != 'I06C') and (GetItemTypeId(i) != 'I06J') and (GetItemTypeId(i) != 'I062') and (GetItemTypeId(i) != 'ICS1') and (GetItemTypeId(i) != 'I04W') and (GetItemTypeId(i) != 'I04Y') and (GetItemTypeId(i) != 'I05T') and (GetItemTypeId(i) != 'I05W') and (GetItemTypeId(i) != 'I05V') and (GetItemTypeId(i) != 'ICY1') and (GetItemTypeId(i) != 'I05X') and (GetItemTypeId(i) != 'IB0A') and (GetItemTypeId(i) != 'I04X') and (GetItemTypeId(i) != 'ICX1') and (GetItemTypeId(i) != 'I05Y') and (GetItemTypeId(i) != 'I05Z') and (GetItemTypeId(i) != 'I060') and (GetItemTypeId(i) != 'I06N') and (GetItemTypeId(i) != 'I07D') and (GetItemTypeId(i) != 'I07T') and (GetItemTypeId(i) != 'I07E') and (GetItemTypeId(i) != 'I07F') and (GetItemTypeId(i) != 'I07G') and (GetItemTypeId(i) != 'I07H') and (GetItemTypeId(i) != 'I07I') and (GetItemTypeId(i) != 'I07J') and (GetItemTypeId(i) != 'I07K') and (GetItemTypeId(i) != 'I07O') and (GetItemTypeId(i) != 'I07N') and (GetItemTypeId(i) != 'I07P') and (GetItemTypeId(i) != 'I07Q') and (GetItemTypeId(i) != 'I07M') and (GetItemTypeId(i) != 'I07L') and (GetItemTypeId(i) != 'I05U') and (GetItemTypeId(i) != 'I07R'))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -389,6 +396,25 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
 //---------------------------------------------------------------------------------------------------
     /*
+        获取英雄身上的夜之哀伤
+    */
+    function GetYeai takes nothing returns item
+        if (UnitHasItemOfTypeBJ(chenji,'stel')) then
+            return GetItemOfTypeFromUnitBJ(chenji, 'stel')
+        elseif (UnitHasItemOfTypeBJ(chenji,'I04M')) then
+            return GetItemOfTypeFromUnitBJ(chenji, 'I04M')
+        endif
+        return null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        敏感物品
+    */
+    function IsMinganItem takes item i returns boolean
+        return i == GetYeai() or GetItemTypeId(i) == 'I079'
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         判断是否是灯
     */
     function IsDeng takes item i returns boolean
@@ -511,6 +537,17 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function ShengliAll takes nothing returns nothing
         call CustomVictoryBJ( GetEnumPlayer(), true, true )
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
+        矩形区域内的随机坐标
+    */
+    function GetRectRandomX takes rect r returns real
+        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r))
+    endfunction
+
+    function GetRectRandomY takes rect r returns real
+        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -718,9 +755,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         输出选英雄皮肤的提示
     */
     function ChooseSpinHero takes player p,unit u returns  nothing
-        call ShowGameHint(p,"该英雄是"+GetUnitName(u)+"英雄的皮肤"+GetHeroProperName(u)+"。"+S3(DEBUG_MODE,"
-        使用英雄"+GetUnitName(u)+"完成对应的英雄挑战即可获取该皮肤。
-        前往基地左边商店处可以查看该挑战的详细内容。","
+        call ShowGameHint(p,"
+        这是英雄"+GetUnitName(u)+"的皮肤。"+S3(DEBUG_MODE,"
+        使用该英雄\""+GetUnitName(u)+"\"完成对应英雄挑战即可获取该皮肤。
+        前往基地左边囚车商店可以查看该挑战的详细内容。","
         使用魔兽争霸官方对战平台(dz.163.com)进行游戏
         完成挑战即可获取该皮肤。"))
     endfunction

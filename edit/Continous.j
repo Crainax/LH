@@ -2,8 +2,9 @@
 //! import "item.j"
 //! import "Huodong.j"
 //! import "Achievement.j"
+//! import "Jizi.j"
 
-library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong
+library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong,Jizi
 
 
 	globals
@@ -12,9 +13,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		constant integer TIMESTAMP_START = 1500998400
 		boolean array BWuxing
 		//integer DzAPI_Map_GetGameStartTime() = 0
-		boolean BBuqian1 = false
-		boolean BBuqian2 = false
-		boolean BBuqian3 = false
+
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -168,6 +167,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
+			call CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),p)
 		else
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
@@ -238,7 +238,6 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		call UploadToNetEase(p)
 	endfunction
 
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    补签
@@ -251,7 +250,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 
 	function Buqian2 takes player p,string s returns nothing
-		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],22))) then
+		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],19))) then
 			set BBuqian2 = true
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签2阶段.")
 		endif

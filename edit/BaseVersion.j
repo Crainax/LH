@@ -39,6 +39,8 @@ library_once BaseVersion initializer InitBaseVersion requires LHBase,Box,Version
 
 		call TSpeakPassword()
 		set chat = null
+
+		debug set BSlince = true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------

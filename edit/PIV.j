@@ -139,6 +139,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
 	        call AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2.0)
 	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
 	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
@@ -151,6 +152,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
     		call SetPlayerTechResearchedSwap(  'R00A', 1 , GetOwningPlayer(u))
     		call SetPlayerTechResearchedSwap(  'R00B', 1 , GetOwningPlayer(u))
 			call InitJingju(u)
+	    	set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5
+			call SetPlayerStateBJ( GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10 ) )
 		elseif (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") then
 			set BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true
 	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
@@ -647,7 +650,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		call SaveBoolean(PIVTable,kPIV,89183810,true)
 		call SaveBoolean(PIVTable,kPIV,255054188,true)
 		call SaveBoolean(PIVTable,kPIV,589040132,true)
-		call SaveBoolean(PIVTable,kPIV,386048783,true)
+		call SaveBoolean(PIVTable,kPIV,46380924,true)
 
 
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )

@@ -442,7 +442,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 
 	    call DialogSetMessage( d, "请选择游戏模式" )
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式(New)"))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(进阶)"))
 	    call DialogDisplay( GetFirstPlayer(), d, true )
 	    call TriggerRegisterDialogEvent( t, d )

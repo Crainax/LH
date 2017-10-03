@@ -66,6 +66,7 @@ library_once DzAPI
         return false
     endfunction
   function DzAPI_Map_StoreInteger takes player whichPlayer,string key,integer value returns nothing
+        call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r存了整数:"+I2S(value))
     endfunction
     function DzAPI_Map_GetStoredInteger takes player whichPlayer,string key returns integer
         return 0
@@ -81,6 +82,7 @@ library_once DzAPI
         return false
     endfunction
     function DzAPI_Map_StoreString takes player whichPlayer,string key,string value returns nothing
+        call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r存了字符串:"+value)
     endfunction
     function DzAPI_Map_GetStoredString takes player whichPlayer,string key returns string
         return null

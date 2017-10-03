@@ -11,15 +11,15 @@ library_once Qixi requires LHBase,Achievement
 	    补偿
 	*/
 	function Buchang takes player p returns nothing
-		local integer i = GetConvertedPlayerId(p)
-		if (playerName[i] == "Cyandrizzle") then
-			call GetAchievementAndSave(p,325)
-			call GetAchievementAndSave(p,35)
-			call GetAchievementAndSave(p,321)
-			call GetAchievementAndSave(p,412)
-			call GetAchievementAndSave(p,413)
-			call GetAchievementAndSave(p,414)
-		endif
+		// local integer i = GetConvertedPlayerId(p)
+		// if (playerName[i] == "Cyandrizzle") then
+		// 	call GetAchievementAndSave(p,325)
+		// 	call GetAchievementAndSave(p,35)
+		// 	call GetAchievementAndSave(p,321)
+		// 	call GetAchievementAndSave(p,412)
+		// 	call GetAchievementAndSave(p,413)
+		// 	call GetAchievementAndSave(p,414)
+		// endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

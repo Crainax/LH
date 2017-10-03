@@ -297,8 +297,8 @@ function OutVIP()
 	document.getElementById("output1").value = sss +"名字对应的仓库,必须是单人模式下,先输入-ckhq,再以下指令:" + GetXunhuan(sss + boxType,0);
 	document.getElementById("output2").value = sss +"名字对应的皮肤,必须是单人模式下,先输入-sphq,再输入以下指令:" + GetXunhuan(sss + spinType,0);
 	document.getElementById("output3").value = sss +"名字对应的成就,必须是单人模式下,先输入-ac2,再以下指令:" + GetXunhuan(sss + "ac" + achi1 +achi2,0) + document.getElementById("input").innerHTML;	
-	/*document.getElementById("output1").value = GetXunhuan(sss + boxType,0);
-	document.getElementById("output2").value = GetXunhuan(sss + spinType,0);
-	document.getElementById("output3").value = GetXunhuan(sss + "ac" + achi1 +achi2,0);*/
+	// document.getElementById("output1").value = GetXunhuan(sss + boxType,0);
+	// document.getElementById("output2").value = GetXunhuan(sss + spinType,0);
+	// document.getElementById("output3").value = GetXunhuan(sss + "ac" + achi1 +achi2,0);
 	}
 	

@@ -1,14 +1,13 @@
-
 //! import "LHBase.j"
 //! import "Diffculty.j"
 library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
-globals
-	timerdialog TiDiaNecklace
-	unit UCrainax
+	globals
+		timerdialog TiDiaNecklace
+		unit UCrainax
 
-	boolean array BRing
-endglobals
+		boolean array BRing
+	endglobals
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -105,6 +104,12 @@ endglobals
 		
 		return IsMaxRing(i) or id == 'lgdh' or id == 'clfm' or id == 'bgst' or id == 'belv' or id == 'hcun' or id == 'rag1' or id == 'penr' or id == 'brac'
 	endfunction
+
+	function IsGui takes item i returns boolean
+		local integer id = GetItemTypeId(i) 
+		
+		return IsGui3(i) or id == 'rat9' or id == 'rlif'
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    翅膀
@@ -134,7 +139,15 @@ endglobals
 
 		return count 
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    项链
+	*/
+	function IsXianglian takes item i returns boolean
+		local integer id = GetItemTypeId(i) 
 
+		return id == 'rde3' or id == 'ssil' or id == 'I04Y' or id == 'I05T' or id == 'I07H' or id == 'I07G'
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    衣服
@@ -149,6 +162,12 @@ endglobals
 		local integer id = GetItemTypeId(i) 
 
 		return IsChaoren(i) or id == 'frhg' or id == 'mlst' or id == 'nspi' or id == 'oli2' or id == 'rump' or id == 'shen' or id == 'stpg' or id == 'ofir' or id == 'soul' or id == 'sbok' or id == 'arsc' or id == 'rde0' or id == 'oflg' or id == 'frgd' or id == 'gldo' or id == 'gsou' or id == 'envl' or id == 'rugt' or id == 'shdt' or id == 'crdt' or id == 'pspd'
+	endfunction
+
+	function IsRen takes item i returns boolean
+		local integer id = GetItemTypeId(i) 
+
+		return IsRen3(i) or id == 'rugt' or id == 'drph' or id == 'oven' or id == 'rej4' or id == 'dtsb' or id == 'gobm' or id == 'gvsm' or id == 'pgin' or id == 'rej6' or id == 'tels'
 	endfunction
 
 	function GetRenTime takes unit u returns real
@@ -180,6 +199,15 @@ endglobals
 			return 3.0
 		endif
 		return 0.
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    箱子
+	*/
+	function IsBox takes item i returns boolean
+		local integer id = GetItemTypeId(i) 
+
+		return id == 'wild' or id == 'hlst' or id == 'totw' or id == 'sror' or id == 'fgrg' or id == 'wshs' or id == 'I06N' or id == 'I07T'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -232,25 +260,32 @@ endglobals
 
 	//复活时长
 	function GetZhanfaReviveTime takes unit u returns real
-		if (ChaoxianCount(u) >= 1 or playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") then
-			return 3.0 / CModeH(1,2)
+		local real time = 0
+		if (ChaoxianCount(u) >= 1 or playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人" or B3SecondRevive[GetConvertedPlayerId(GetOwningPlayer(u))]) then
+			set time = 3.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'tgrh')) then
-			return 4.0 / CModeH(1,2)
+			set time = 4.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'I078') or UnitHasItemOfTypeBJ(u,'plcl')) then
-			return 8.0 / CModeH(1,2)
+			set time = 8.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'tcas')) then
-			return 10.0 / CModeH(1,2)
+			set time = 10.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'tsct')) then
-			return 12.0 / CModeH(1,2)
+			set time = 12.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'skul')) then
-			return 14.0 / CModeH(1,2)
+			set time = 14.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'vamp')) then
-			return 16.0 / CModeH(1,2)
+			set time = 16.0 / CModeH(1,2)
 		elseif (UnitHasItemOfTypeBJ(u,'I01U') or UnitHasItemOfTypeBJ(u,'rde2')) then
-			return 18.0 / CModeH(1,2)
+			set time = 18.0 / CModeH(1,2)
 		else
-			return 20.0 / CModeH(1,2)
+			set time = 20.0 / CModeH(1,2)
 		endif
+
+		if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))]) == 'n02D') then
+			set time = RMaxBJ(1.5,time - 1.5)
+		endif
+
+		return time
 	endfunction
 
 	//复活回复魔法
@@ -508,7 +543,6 @@ endglobals
 //---------------------------------------------------------------------------------------------------
 	private function InitItemBase takes nothing returns nothing
 
-
 		//删除书本的小点BUG
 		local trigger t = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
@@ -532,12 +566,8 @@ endglobals
 	    call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_DEATH )
 	    call TriggerAddAction(t, function BossDeathDropItem)
 		set UCrainax=CreateUnit(Player(10), 'Ekgg', - 1661.7, - 14985.1, 180.000)
-
-
-
 		set t = null
 
 	endfunction
 
 endlibrary
-

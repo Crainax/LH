@@ -460,6 +460,11 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call DestroyTrigger(TDeathKou)
             set TDeathKou = null
         endif
+        if (yexi != null) then
+            if (IsUnitDeadBJ(yexi)) then
+                debug call SaveAllPlayerAchievement(417)
+            endif
+        endif
         set yexi = null
         if (UDeng != null) then
             call RemoveUnit(UDeng)
