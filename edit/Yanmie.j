@@ -79,7 +79,19 @@ library_once Yanmie requires SpellBase,Spin,Aura
 			call GroupAddUnit(GShadow,u)
 		endif
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+ 	    雷神之怒
+	*/
+	function Leishenzhinu takes nothing returns nothing
+		local real time = GetUnitDistance(yanmie,GetAttacker())
+		if (time >= 1800) then
+			return
+		endif
+ 		call SimulateSpell(yanmie,GetAttacker(),'ACrf',1,5,"rainoffire",true,false,false)
+ 		call PolledWait(time)
+		call DamageArea(yanmie,GetUnitX(u),GetUnitY(u),300, GetDamageAgi(yanmie) * 0.2)
+	endfunction
 //---------------------------------------------------------------------------------------------------
 
 	//按照12345来判断

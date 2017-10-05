@@ -141,6 +141,21 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,Version
 	    	call StartGame1()
 	    	call BJDebugMsg("|cFFFF66CC【消息】|r迷你挑战-骷髅海开始啦!")
             call PingMinimapForForce( GetPlayersAll(), GetRectCenterX(gg_rct_Game1) , GetRectCenterY(gg_rct_Game1), 5.00 )
+        //中级游戏
+		elseif ((GetItemTypeId(GetSoldItem()) == 'I06K')) then
+			set x = GetRectCenterX(gg_rct_Game2)
+			set y = GetRectCenterY(gg_rct_Game2)
+
+	        call SetUnitX(GetBuyingUnit(),x)
+	        call SetUnitY(GetBuyingUnit(),y)
+	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),x,y,0.2)
+	        call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
+	        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+	        return
+	    elseif ((GetItemTypeId(GetSoldItem()) == 'I06M') and GetBuyingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] and RectContainsUnit(gg_rct_Game1,GetBuyingUnit())) then
+	    	call StartGame1()
+	    	call BJDebugMsg("|cFFFF66CC【消息】|r迷你挑战-骷髅海开始啦!")
+            call PingMinimapForForce( GetPlayersAll(), GetRectCenterX(gg_rct_Game1) , GetRectCenterY(gg_rct_Game1), 5.00 )
 	    endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
