@@ -1,4 +1,4 @@
-
+//! import "Spin.j"
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Attr.j"
@@ -6,7 +6,7 @@
 /*
     英雄梦霁的技能
 */
-library_once Cangling requires SpellBase,Printer,Attr,Aura
+library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 
 	globals
 		/*
@@ -15,7 +15,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 		/*
 		    物品
 		*/
-		item array IBibo
+		//item array IBibo(放到了LHBase)
 		private boolean BiBo = false
 
 		private trigger TSpellCangling = null
@@ -41,7 +41,18 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 		    死亡复活的布尔
 		*/
 		private boolean array BWusuo
+
 	endglobals
+
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断单位是否是苍凌皮肤
+	*/
+	function IsCanglingSpin takes nothing returns boolean
+		return GetUnitTypeId(cangling) == 'N023'
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是否获得的装备的function
@@ -168,6 +179,9 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.33, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			if (IsUnitDeadBJ(GetTriggerUnit())) then
 				call SetUnitUserData(GetEventDamageSource(),GetUnitUserData(GetEventDamageSource())+1)
+				if (GetUnitUserData(GetEventDamageSource()) >= 750) then
+					debug call SetCanglingSpinOK(GetOwningPlayer(cangling))
+				endif
 			endif
 			return true 
 		endif
@@ -210,9 +224,9 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 		local real damage = GetDamageAgi(cangling) * 0.4
 		local timer t = CreateTimer()
 		local unit u = CreateUnit(GetOwningPlayer(cangling),'h00V',x,y,270)
-		call SetUnitUserData(u,lifeTime)
+		call SetUnitUserData(u,lifeTime + I3(IsCanglingSpin(),1,0))
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
-		call SaveTextTagHandle(spellTable,GetHandleId(t),2,CreateTextTagUnitBJ( I2S(lifeTime)+"秒", u, 0, 20, 100, 0, 100, 0 ))
+		call SaveTextTagHandle(spellTable,GetHandleId(t),2,CreateTextTagUnitBJ( I2S(lifeTime + I3(IsCanglingSpin(),1,0))+"秒", u, 0, 20, 100, 0, 100, 0 ))
 		call TimerStart(t,1,true,function BuMieZhenYanTimer)
 	    call PrintSpell(GetOwningPlayer(cangling),GetAbilityName(abilityID),damage)
 	    set u = null
@@ -545,10 +559,26 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    初始化皮肤
+	*/
+	private function InitCanglingSpin takes unit u returns unit
+		if (IsCanglingSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'N023',GetUnitX(u),GetUnitY(u),0)
+			set gg_unit_Nsjs_0209 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+			call RemoveUnit(u)
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    初始化苍凌
 	*/
 	function InitCangling takes unit u returns nothing
-		set cangling = u
+		set cangling = InitCanglingSpin(u)
 
 	    //英雄第二个技能攻击事件
 	    set TSpellCangling2 = CreateTrigger()

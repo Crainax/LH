@@ -11,12 +11,12 @@ library_once Taiya requires LHBase,Spin,Version
 	    泰雅皮肤
 	*/
 	function AddTaiyaSpin takes nothing returns nothing
-		if (ITaiyamiao > 2000) then
+		if (ITaiyamiao > 2500) then
 			debug call SetTaiyaSpinOK(GetOwningPlayer(taiya))
 		else
 			set ITaiyamiao = ITaiyamiao + 1
 			if (ModuloInteger(ITaiyamiao,100) == 0) then
-				call DisplayTextToPlayer(GetOwningPlayer(taiya), 0., 0., "【|cFFCCFF66三弦星谧|r】完成进度"+I2S(ITaiyamiao)+"/2000.")
+				call DisplayTextToPlayer(GetOwningPlayer(taiya), 0., 0., "【|cFFCCFF66三弦星谧|r】完成进度"+I2S(ITaiyamiao)+"/2500.")
 			endif
 		endif
 	endfunction

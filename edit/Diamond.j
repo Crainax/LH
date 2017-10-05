@@ -38,11 +38,13 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         100%几率成功
     */
     private function Diamond100 takes integer itemID,integer newItemID returns boolean
-
+        local integer charges = 0
         if (GetItemTypeId(GetSpellTargetItem()) == itemID) then
             call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF66CC【消息】|r" + ( GetUnitName(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) + "以100%的成功率成功地升级了"+GetItemName(GetSpellTargetItem())+"！" ) ) )
+            set charges = GetItemCharges(GetSpellTargetItem())
             call RemoveItem( GetSpellTargetItem() )
             call UnitAddItemByIdSwapped( newItemID, GetTriggerUnit() )
+            call SetItemCharges(GetLastCreatedItem(),charges)
             call PlaySoundBJ( gg_snd_Chenggong )
             return true
         endif
@@ -1386,6 +1388,65 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     endfunction
 
 //---------------------------------------------------------------------------------------------------
+    /*
+        二阶混沌之石
+    */
+    private function Hundun2Diamond takes nothing returns nothing
+        if (IsItemPawnable(GetSpellTargetItem()) == false) then
+            call UnitAddItemByIdSwapped( 'I07R', GetTriggerUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
+            return
+        endif
+        
+        if (Diamond100('I04W','I07E') == true) then
+            return
+        endif
+        if (Diamond100('ICS1','I07F') == true) then
+            return
+        endif
+        if (Diamond100('I04Y','I07G') == true) then
+            return
+        endif
+        if (Diamond100('I05T','I07H') == true) then
+            return
+        endif
+        if (Diamond100('I060','I07I') == true) then
+            return
+        endif
+        if (Diamond100('I05Z','I07J') == true) then
+            return
+        endif
+        if (Diamond100('I05Y','I07K') == true) then
+            return
+        endif
+        if (Diamond100('I04X','I07O') == true) then
+            return
+        endif
+        if (Diamond100('IB0A','I07N') == true) then
+            return
+        endif
+        if (Diamond100('I05X','I07P') == true) then
+            return
+        endif
+        if (Diamond100('ICY1','I07Q') == true) then
+            return
+        endif
+        if (Diamond100('I05W','I07M') == true) then
+            return
+        endif
+        if (Diamond100('I05V','I07L') == true) then
+            return
+        endif
+        if (Diamond100('ICX1','I05U') == true) then
+            return
+        endif
+
+        call UnitAddItemByIdSwapped( 'I07R', GetTriggerUnit() )
+        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
+        return
+    endfunction
+
+//---------------------------------------------------------------------------------------------------
 
     /*
         技能跳转
@@ -1445,6 +1506,8 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call AddNinthCurseDiamond()
         elseif ((GetSpellAbilityId() == 'A0EK')) then
             call XueJingDiamond()
+        elseif ((GetSpellAbilityId() == 'A0N6')) then
+            call Hundun2Diamond()
         endif
     endfunction
 //---------------------------------------------------------------------------------------------------
@@ -1573,42 +1636,42 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
        
             if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                         call CreateItem( 'I02N', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                         set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nmyr')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'I04S', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnsw')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'azhr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nsnp')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'gmfr', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nhyc')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'jpnt', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop
                 return true
             elseif ((GetUnitTypeId(GetDyingUnit()) == 'nnrg')) then
                 loop
-                    exitwhen i > CModeH(1,2)
+                    exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
                     call CreateItem( 'glsk', GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()) )
                     set i = i + 1
                 endloop

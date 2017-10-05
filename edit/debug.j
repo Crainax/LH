@@ -2,6 +2,7 @@
 //! import "LHBase.j"
 //! import "Boss.j"
 //! import "PIV.j"
+//! import "Attr.j"
 /////! import "Diamond.j"
 /////! import "CenterCredit.j"
 /*
@@ -29,16 +30,22 @@
 	test Scredit    守家积分
 	test zhuanshengxx	 转生测试
 	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
-
+	test mijing 	秘境19
 	test bo29
 */
-library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,Diamond
+library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCredit,Diamond
 
 	globals
 		boolean debug_show_damage = false
 		boolean debug_show_attr = false
 		unit testDyingUnit = null
 	endglobals
+
+	private function sadfsadfs takes nothing returns nothing
+	call SetPlayerTechResearchedSwap( 'R00C', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
+    call SetPlayerTechResearchedSwap( 'R00E', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
+
+	endfunction
 
 	/*
 		增加英雄属性
@@ -214,6 +221,50 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			return
 		endif
 
+
+		if (chat == "test part5") then
+			
+			call addHeroAttr(1300000,280)
+
+			//超鬼
+			call UnitAddItemByIdSwapped('ICS1',udg_H[1])
+			//超神
+			call UnitAddItemByIdSwapped('I05Y',udg_H[1])
+			//超妖
+			call UnitAddItemByIdSwapped('I04Y',udg_H[1])
+			//超仙
+			call UnitAddItemByIdSwapped('ICX1',udg_H[1])
+			//超圣
+			call UnitAddItemByIdSwapped('I05V',udg_H[1])
+			//超人
+			call UnitAddItemByIdSwapped('IB0A',udg_H[1])
+
+			call UnitAddItemByIdSwapped('ILIK',udg_H[1])
+
+			call UnitAddItemByIdSwapped('ICY1',udg_H[1])
+
+			call BJDebugMsg("测试阶段5,混沌")
+
+			return
+		endif
+
+		if (chat == "test daddy") then
+
+
+			call AddDamagePercent(1,100.)
+			call BJDebugMsg("测试爆炸伤害")
+
+			return
+		endif
+
+
+		if (chat == "test daddy2") then
+			call AddDamagePercent(1,-100.)
+			call BJDebugMsg("测试爆炸伤害取消")
+
+			return
+		endif
+
 		if(chat == "test fangka") then
 			set u = CreateUnit(Player(0),'hpea',5790.6,4445.8,0)
 			call StartFangKa(u)
@@ -343,7 +394,9 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 		endif
 
 		if (chat == "test darenshu") then
+		    call ForForce( GetPlayersAll(), function sadfsadfs )
 			set udg_RENSHU = 6
+			set renshu = 6
 			call BJDebugMsg("人数调成6")
 			return
 		endif		
@@ -391,6 +444,20 @@ library_once Debug initializer Initdebug requires LHBase,Boss,PIV,CenterCredit,D
 			call KillUnit(gg_unit_Uear_0242)
 			call KillUnit(gg_unit_Nkjx_0241)
 			call KillUnit(gg_unit_Npld_0253)
+			return
+		endif		
+
+		//测试鬼仙
+		if (chat == "test guixian") then
+			call PauseTimer(udg_Time_Start[1])
+			call DestroyTimer(udg_Time_Start[1])
+			call StartGhostAngleTimer()
+		endif
+
+		//直接后面直接来
+		if (chat == "test mijing") then
+			set IDeng = 19
+			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
 			return
 		endif		
 

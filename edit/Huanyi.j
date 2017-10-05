@@ -46,6 +46,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		    古参
 		*/
 		key kIGuCan
+		timer TGuCan = null
 		/*
 		    寰宇
 		*/
@@ -58,7 +59,99 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		private effect ELowMoneng = null
 
 		private unit UGucan = null
+
+		//开始挑战的计时器
+        timer TiHuanyiTiaozhan = null
+        timerdialog TiDiaHuanyiTiaozhan = null
+        integer HuanyiTiaozhanCount = 0
+        integer HuanyiTiaozhanCurrent = 0
+        integer HuanyiWrongTimes = 0
 	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    开始挑战
+	*/
+	private function RandomSetHuanyiTiaozhan takes nothing returns nothing
+		local integer i = GetRandomInt(1,16)
+		if ( i == 1 ) then
+			set HuanyiTiaozhanCurrent = 'AHH5'
+		elseif ( i == 2 ) then
+			set HuanyiTiaozhanCurrent = 'AHH6'
+		elseif ( i == 3 ) then
+			set HuanyiTiaozhanCurrent = 'AHH7'
+		elseif ( i == 4 ) then
+			set HuanyiTiaozhanCurrent = 'AHH8'
+		elseif ( i == 5 ) then
+			set HuanyiTiaozhanCurrent = 'AHH9'
+		elseif ( i == 6 ) then
+			set HuanyiTiaozhanCurrent = 'AHHA'
+		elseif ( i == 7 ) then
+			set HuanyiTiaozhanCurrent = 'AHHB'
+		elseif ( i == 8 ) then
+			set HuanyiTiaozhanCurrent = 'AHHC'
+		elseif ( i == 9 ) then
+			set HuanyiTiaozhanCurrent = 'AHHD'
+		elseif ( i == 10 ) then
+			set HuanyiTiaozhanCurrent = 'AHHE'
+		elseif ( i == 11 ) then
+			set HuanyiTiaozhanCurrent = 'AHHF'
+		elseif ( i == 12 ) then
+			set HuanyiTiaozhanCurrent = 'AHHG'
+		elseif ( i == 13 ) then
+			set HuanyiTiaozhanCurrent = 'AHHH'
+		elseif ( i == 14 ) then
+			set HuanyiTiaozhanCurrent = 'AHHI'
+		elseif ( i == 15 ) then
+			set HuanyiTiaozhanCurrent = 'AHHJ'
+		else
+			set HuanyiTiaozhanCurrent = 'AHHK'
+		endif
+		call DisplayTextToPlayer(GetOwningPlayer(Huanyi), 0., 0., "|cFFFF66CC【消息】|r你的"+I2S(HuanyiTiaozhanCount)+"次技能挑战为"+GetAbilityName(HuanyiTiaozhanCurrent)+".")
+	endfunction
+
+    private function HuanyiTiaozhanTimeout takes nothing returns nothing
+    	call DisplayTextToPlayer(GetOwningPlayer(Huanyi), 0., 0., "|cFFFF66CC【消息】|r你成功在30秒内完成了"+I2S(HuanyiTiaozhanCount)+"个技能.")
+    	if (HuanyiTiaozhanCount >= 25) then
+    		debug call SetHuanyiSpinOK(GetOwningPlayer(Huanyi))
+    	endif
+        call TimerDialogDisplay(TiDiaHuanyiTiaozhan,false)
+        call DestroyTimerDialog(TiDiaHuanyiTiaozhan)
+        call PauseTimer(TiHuanyiTiaozhan)
+        call DestroyTimer(TiHuanyiTiaozhan)
+        set TiHuanyiTiaozhan = null
+        set TiDiaHuanyiTiaozhan = null
+		set HuanyiWrongTimes = 0
+        set HuanyiTiaozhanCount = 0
+    endfunction
+
+	private function HuanyiTiaozhanPanding takes nothing returns nothing
+		if (ICurrentSpell == HuanyiTiaozhanCurrent) then
+			set HuanyiTiaozhanCount = HuanyiTiaozhanCount +1
+			call RandomSetHuanyiTiaozhan()
+			set HuanyiWrongTimes = 0
+		else
+			set HuanyiWrongTimes = HuanyiWrongTimes + 1
+			if (HuanyiWrongTimes >= 7) then
+				set HuanyiTiaozhanCount = 0
+				set HuanyiWrongTimes = 0
+				call DisplayTextToPlayer(GetOwningPlayer(Huanyi), 0., 0., "|cFFFF66CC【消息】|r7次按键不能正确切换,清空挑战值.")
+			endif
+		endif
+	endfunction
+
+	function InitHuanyiTiaozhan takes nothing returns nothing
+		if (TiHuanyiTiaozhan != null) then
+			call DisplayTextToPlayer(GetOwningPlayer(Huanyi), 0., 0., "|cFFFF66CC【消息】|r请完成目前挑战再重新输入!")
+			return
+		endif
+        set TiHuanyiTiaozhan = CreateTimer()
+        set TiDiaHuanyiTiaozhan = CreateTimerDialogBJ(TiHuanyiTiaozhan,"幻逸挑战")
+        call TimerStart(TiHuanyiTiaozhan,30,false,function HuanyiTiaozhanTimeout)
+        call TimerDialogDisplay(TiDiaHuanyiTiaozhan,true)
+        set HuanyiTiaozhanCount = 1
+        call RandomSetHuanyiTiaozhan()
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    马甲的攻击伤害
@@ -315,7 +408,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if (IsAlly(l_unit,Huanyi)) then
+			    if (IsAlly(l_unit,Huanyi) and IsUnitAliveBJ(l_unit)) then
 			    	call RecoverUnitHP(l_unit,0.3)
 			    	call RecoverUnitMP(l_unit,20)
 			    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))
@@ -357,8 +450,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	*/
 
 	private function WaterLumberWindTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
+		local integer id = GetHandleId(TGuCan)
 		local integer times = LoadInteger(spellTable,id,kIGuCan)
 		local integer i = 1
 		local integer ii = 1
@@ -379,29 +471,32 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			call RemoveUnit(UGucan)
 			set UGucan = null
 			call FlushChildHashtable(spellTable,id)
-			call PauseTimer(t)
-			call DestroyTimer(t)
+			call PauseTimer(TGuCan)
+			call DestroyTimer(TGuCan)
+			set TGuCan = null 
 		endif
-		set t = null 
 	endfunction
 
 	private function WaterLumberWind takes real x,real y returns nothing
 		
 		local integer times = GetMultiSpell()
-		local timer t = CreateTimer()
 		if (UGucan != null) then
 			call RemoveUnit(UGucan)
 		endif
+		if (TGuCan != null) then
+			call PauseTimer(TGuCan)
+			call DestroyTimer(TGuCan)
+		endif
+		set TGuCan = CreateTimer()
 		set UGucan = CreateUnit(GetOwningPlayer(Huanyi),'hhh6',x,y,270)
 		if (times > 1) then
 	    	call CreateSpellTextTag(I2S(times)+"重施法",Huanyi,0,100,0,4)
 		endif
     	call SetUnitScalePercent( UGucan,  100.00 +  times * 20.00  , 100.00 +  times * 20.00, 100.00 +  times * 20.00 )
     	call SetUnitAnimation( UGucan, "stand birth alternate work upgrade" )
-		call SaveInteger(spellTable,GetHandleId(t),kIGuCan,times)
-		call TimerStart(t,1,true,function WaterLumberWindTimer)
+		call SaveInteger(spellTable,GetHandleId(TGuCan),kIGuCan,times)
+		call TimerStart(TGuCan,1,true,function WaterLumberWindTimer)
 	    call PrintSpellName(GetOwningPlayer(Huanyi),GetAbilityName('AHHG'))
-		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -726,6 +821,9 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		endif
 		if not(BTianfu) then
 			call SetPlayerAbilityAvailable(GetOwningPlayer(Huanyi),ICurrentSpell,true)
+		endif
+		if (TiHuanyiTiaozhan != null) then
+			call HuanyiTiaozhanPanding()
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

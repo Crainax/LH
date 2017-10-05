@@ -3,7 +3,8 @@
 //! import "LHBase.j"
 //! import "SpellBase.j"
 //! import "Diffculty.j"
-library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Version
+//! import "Boss.j"
+library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Boss,Version
 
 	globals
 
@@ -112,7 +113,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	*/
 
 	private function TSpellLingerCon takes nothing returns boolean
-	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true))
+	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and RectContainsUnit(gg_rct_Arena_all,GetAttackedUnitBJ()))
 	endfunction
 
 	private function TSpellLingerAct takes nothing returns nothing
@@ -573,6 +574,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Ver
 	                call UnitAddAbilityBJ( 'A0B9', challenager )
 	                call UnitAddAbilityBJ( 'A09W', challenager )
 	                call UnitAddAbilityBJ( 'A0P1', challenager )
+                	call BossAddOnlyAttack(challenager)
 	                call AddTianyanmokang(challenager)
 	                set textTag_Level = CreateTextTagUnitBJ( I2S(currentLevel) + "级", challenager, 0, 20, 100, 0, 0, 0 )
 	                call PolledWait(3.00)

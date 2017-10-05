@@ -1,7 +1,7 @@
 
 //! import "LHBase.j"
 //! import "ChallangerMode.j"
-//! import "Huodong.j"
+/////! import "Huodong.j"
 library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	
 	globals
@@ -12,7 +12,6 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 		unit UWanjieGuanghuan = null
 		boolean IsTianyan = false
 	endglobals
-
 
 
 //---------------------------------------------------------------------------------------------------
@@ -41,7 +40,6 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 			return 1
 		endif
 	endfunction
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    创建镜像单位
@@ -70,6 +68,10 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	function EnhanceDiffAttack takes unit u returns nothing
 		if (NanDiff <= 0) then
 			return
+		endif
+
+		if (IsTianyan) then
+			call UnitAddAbility(u,'A0G5')
 		endif
 
 		//100倍攻击加强
@@ -104,6 +106,8 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 
 		call UnitRemoveAbility(u,'A0EY')
 		call UnitRemoveAbility(u,'A05O')
+		call UnitRemoveAbility(u,'A0G5')
+		
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -154,6 +158,22 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 			return 'R01J'
 		else
 			return 'R01G'
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取混沌2对应等级的科技
+	*/
+	function GetHundun2Tech takes nothing returns integer
+
+		if (NanDiff == 1) then
+			return 'R01M'
+		elseif (NanDiff == 2) then
+			return 'R01N'
+		elseif (NanDiff == 3) then
+			return 'R01O'
+		else
+			return 'R01P'
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -422,7 +442,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 
 	    call DialogSetMessage( d, "请选择游戏模式" )
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式(New)"))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(进阶)"))
 	    call DialogDisplay( GetFirstPlayer(), d, true )
 	    call TriggerRegisterDialogEvent( t, d )

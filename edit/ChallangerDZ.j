@@ -3,7 +3,7 @@
 library_once ChallangerDZ requires LHBase
 	
 	globals
-		constant integer COUNT_CHALLANGER = 5
+		constant integer COUNT_CHALLANGER = 7
 
 		string array easyCString
 		string array middleCString
@@ -16,6 +16,8 @@ library_once ChallangerDZ requires LHBase
 
 		//判断是否读取成功
 		boolean array Bdudang
+
+		string array Greward2
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -36,13 +38,52 @@ library_once ChallangerDZ requires LHBase
 	    获取仓库
 	*/
 	function GetAndSaveCangku takes player p,integer i returns nothing
-		if (GetBit(Greward[GetConvertedPlayerId(p)],i) < 1) then
-			set Greward[GetConvertedPlayerId(p)] = Greward[GetConvertedPlayerId(p)] + R2I(Pow(10,i-1))
-			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
-			call DzAPI_Map_StoreInteger( p,  "Greward", Greward[GetConvertedPlayerId(p)] )
+		local integer index = GetConvertedPlayerId(p)
+		local string temp = null
+		//if (GetBit(Greward[index],i) < 1 and i < 9) then
+		//	set Greward[index] = Greward[index] + R2I(Pow(10,i-1))
+		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+		//	call DzAPI_Map_StoreInteger( p,  "Greward", Greward[index] )
+		//endif
+		if (StringLength(Greward2[index]) < 62) then
+			set Greward2[index] = "00000000000000000000000000000000000000000000000000000000000000"
 		endif
+		if (S2I(SubStringBJ(Greward2[index],i,i)) != 1) then
+			set temp = Greward2[index]
+			set Greward2[index] = SubStringBJ(temp,1,i - 1)
+			set Greward2[index] = Greward2[index] + "1"
+			set Greward2[index] = Greward2[index] + SubStringBJ(temp,i+1,StringLength(temp))
+			set temp = null
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+			debug call DzAPI_Map_StoreString( p,  "Greward2", Greward2[index] )
+		endif
+	endfunction
+
+	function IsHasCangku takes player p,integer i returns boolean
+		return S2I(SubStringBJ(Greward2[GetConvertedPlayerId(p)],i,i)) == 1
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取仓库
+	*/
+	function Huoqucangku takes player p,string chat returns nothing
+		local integer i = 1
+		local integer result = 0
+		loop
+			exitwhen i > 10
+
+			if (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)]+"ck"+I2S(i),1))) then
+				call GetAndSaveCangku(p,i)
+				exitwhen true
+			endif
+
+			set i = i +1
+		endloop
+		set BBuqian2 = false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -89,10 +130,24 @@ library_once ChallangerDZ requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    判断是否是镜像挑战
+	    判断是否是镜像英雄挑战
 	*/
 	function CT5 takes nothing returns boolean
 		return CType == 5
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是随机英雄挑战
+	*/
+	function CT6 takes nothing returns boolean
+		return CType == 6
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    判断是否是随机英雄挑战
+	*/
+	function CT7 takes nothing returns boolean
+		return CType == 7
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -232,6 +287,10 @@ library_once ChallangerDZ requires LHBase
 			return "创世篇挑战"
 		elseif (i == 5) then
 			return "镜像挑战"
+		elseif (i == 6) then
+			return "随机英雄挑战"
+		elseif (i == 7) then
+			return "金钟罩挑战"
 		endif
 		return ""
 	endfunction
@@ -250,7 +309,7 @@ library_once ChallangerDZ requires LHBase
 
 			简单最低通关要求:(天国)
 			中等最低通关要求:(炼狱)
-			困难最低通关要求:(万劫)
+			困难最低通关要求:(轮回)
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
 			"
@@ -264,7 +323,7 @@ library_once ChallangerDZ requires LHBase
 
 			简单最低通关要求:(天国)
 			中等最低通关要求:(炼狱)
-			困难最低通关要求:(万劫)
+			困难最低通关要求:(轮回)
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
 			"
@@ -307,8 +366,35 @@ library_once ChallangerDZ requires LHBase
 
 			简单最低通关要求:(天国)
 			中等最低通关要求:(炼狱)
-			困难最低通关要求:(万劫)
+			困难最低通关要求:(轮回)
 			难度越大每波怪对应的转数越大。
+
+			|cff00ccff在该模式下不能获得成就及皮肤.|r
+			"
+		elseif (i == 6) then
+			return "
+			随机英雄挑战如下:
+
+			只能选取随机英雄.
+			但是可以额外获得5000金币.
+
+			简单最低通关要求:(天国)
+			中等最低通关要求:(炼狱)
+			困难最低通关要求:(轮回)
+
+			|cff00ccff在该模式下不能获得成就及皮肤.|r
+			"
+		elseif (i == 7) then
+			return "
+			金钟罩挑战如下:
+
+			所有进攻怪与BOSS只会攻击基地,
+			包括部分副本BOSS.
+			但是你兑换防护罩时额外获得2个.
+
+			简单最低通关要求:(天国)
+			中等最低通关要求:(炼狱)
+			困难最低通关要求:(轮回)
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
 			"
@@ -321,15 +407,19 @@ library_once ChallangerDZ requires LHBase
 	*/
 	function GetChallangerDifficulty takes nothing returns integer
 		if (CType == 1) then
-			return C3(1,5,9)
+			return C3(1,5,8)
 		elseif (CType == 2) then
-			return C3(1,5,9)
+			return C3(1,5,8)
 		elseif (CType == 3) then
 			return C3(1,5,8)
 		elseif (CType == 4) then
 			return C3(1,5,8)
 		elseif (CType == 5) then
-			return C3(1,5,9)
+			return C3(1,5,8)
+		elseif (CType == 6) then
+			return C3(1,5,8)
+		elseif (CType == 7) then
+			return C3(1,5,8)
 		endif
 		return 0
 	endfunction

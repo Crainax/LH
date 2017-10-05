@@ -110,6 +110,7 @@ library_once Battle initializer InitBattle requires LHBase,ChallangerDZ
 	    傀儡时间
 	*/
 	function GetWangSpeed takes nothing returns real
+		//return 60.
 		if (IsFastly()) then
 			return 60.
 		else

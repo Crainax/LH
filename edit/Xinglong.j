@@ -183,7 +183,6 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
 		local unit u = LoadUnitHandle(spellTable,id,1)
-		local unit temp = null
 		if (IsUnitAliveBJ(u)) then
     		call SetUnitFlyHeight(CreateUnit(GetOwningPlayer(xinglong),'h01J',YDWECoordinateX(GetUnitX(u)+GetRandomReal(-900,900)), YDWECoordinateY(GetUnitY(u)+GetRandomReal(-900,900)),0), 0.00, 500.00 )
 		else
@@ -194,7 +193,6 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set temp = null
 		set t = null 
 	endfunction
 

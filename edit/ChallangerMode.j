@@ -1,16 +1,14 @@
 //! import "LHBase.j"
 /////! import "Huodong.j"
 //! import "ChallangerDZ.j"
-//! import "CangLing.j"
 //! import "Mirror.j"
 
-library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
+library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 
 	globals
 		integer EquipLoopingTime = 1
 		group GJingxiang = null
 	endglobals
-
 //---------------------------------------------------------------------------------------------------
     /*
         输出选英雄皮肤的提示
@@ -82,6 +80,10 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 			call StartTiaozhan2()
 		elseif (CT5()) then
 			set GJingxiang = CreateGroup()
+		elseif (CT7()) then
+	    	call SetPlayerTechResearchedSwap(  'R01L', 1 , Player(10))
+	    	call SetPlayerTechResearchedSwap(  'R01L', 1 , Player(11))
+			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 5
 		endif
 
 		if (CType != 0) then
@@ -162,32 +164,32 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 		    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
 		endif
 	    if (i < 6) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 7) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 8) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 9) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
 		endif
 		
 	    if (i < 10) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
 		endif
 
 	    if (IsTianyanOK()) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5+1波）" )
+		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[10] = GetLastCreatedButtonBJ()
 	    endif
 
@@ -196,6 +198,51 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 	    if (CType != 0) then
 	    	call InitChallanger()
 	    endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    选择速度后
+	*/
+	private function ChooseSpeedClick takes nothing returns nothing
+	    local dialog d = GetClickedDialogBJ()
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
+        	call BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为经典(常速).")
+			set mode = 1
+			set SgameMode = SgameMode + "C"
+    	endif
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+        	call BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为加速(进阶).")
+			set mode = 2
+			set SgameMode = SgameMode + "S"
+    	endif
+
+    	call ChooseDifficulty(GetChallangerDifficulty())
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+    	call DialogDisplay( Player(0), d, false )
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d = null
+        call DestroyTrigger(GetTriggeringTrigger())
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    选择加速与否
+	*/
+	private function CreateCDialog4 takes nothing returns nothing
+	    local trigger t  = CreateTrigger()
+	    local dialog d = DialogCreate()
+
+    	call DialogSetMessage( d, "经典(常速)还是加速?" )
+	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典(推荐)"))
+    	call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, "加速(进阶)",512))
+
+	    call DialogDisplay( GetFirstPlayer(), d, true )
+	    call TriggerRegisterDialogEvent( t, d )
+	    call TriggerAddAction(t, function ChooseSpeedClick)
+	    set d = null
+	    set t = null
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -206,8 +253,8 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 	    local dialog d = GetClickedDialogBJ()
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	call ChooseDifficulty(GetChallangerDifficulty())
-        	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择难度.")
+        	call CreateCDialog4()
+        	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.")
     	endif
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
@@ -289,10 +336,10 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Cangling,Mirror
 	    	call DialogSetMessage( d, "选择挑战类别(困难)" )
 	    endif
 
-	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetChallangerTitle(5) + S3(IsChallangerComplete(GetFirstPlayer(),5),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetChallangerTitle(7) + S3(IsChallangerComplete(GetFirstPlayer(),7),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	    loop
-	    	exitwhen i > 4
+	    	exitwhen i > 6
 		    call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetChallangerTitle(i) + S3(IsChallangerComplete(GetFirstPlayer(),i),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 	    	set i = i +1
 	    endloop

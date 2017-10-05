@@ -1,9 +1,10 @@
 
 //! import "LHBase.j"
+//! import "Attr.j"
 /*
     转生
 */
-library_once Mirror requires LHBase 
+library_once Mirror requires LHBase ,Attr
 
     globals
         timer TiMirror
@@ -94,6 +95,8 @@ library_once Mirror requires LHBase
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将获得减少50%魔法伤害技能。")
         elseif (count == 170) then
             call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将出生于英雄周围。")
+        elseif (count == 180) then
+            call DisplayTextToPlayer(GetOwningPlayer(defier), 0., 0., "|cFFFF66CC【消息】|r从"+I2S(count)+"转开始镜像将更加厉害的破魔。")
         endif
 
         if (count >= 20) then
@@ -124,6 +127,9 @@ library_once Mirror requires LHBase
         if (count >= 170) then
             call SetUnitX(mirror,GetUnitX(defier))
             call SetUnitY(mirror,GetUnitY(defier))
+        endif
+        if (count >= 180) then
+            call SetUnitAbilityLevel(mirror,'A0GQ',2)
         endif
     endfunction
 

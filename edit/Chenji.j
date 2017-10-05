@@ -15,15 +15,41 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
 
         private integer IYinduTimes = 0
     endglobals
+//---------------------------------------------------------------------------------------------------
+    /*
+        吞天妖刺
+    */
+    private function TuntianyaociEffect takes real radius,integer count returns nothing
+        local integer i = 1
+        loop
+            exitwhen i > count
+            call CreateUnitEffect(GetOwningPlayer(chenji),'hh00',YDWECoordinateX(GetUnitX(chenji) + radius * CosBJ(i*(360/count))), YDWECoordinateY(GetUnitY(chenji) + radius * SinBJ(i*(360/count))),0)
+            set i = i +1
+        endloop
+    endfunction
 
+    function Tuntianyaoci takes nothing returns nothing
+        local integer i = 1
+        loop
+            exitwhen i > 6
+            call TuntianyaociEffect(300 * i, i * 2 + 2)
+            set i = i +1
+        endloop
+        call PrintSpell(GetOwningPlayer(GetTriggerUnit()),"|cFFCCFF66吞天妖刺|r",GetDamageChenji(GetTriggerUnit())*3)
+        call DamageArea(chenji,GetUnitX(chenji), GetUnitY(chenji),1800,GetDamageChenji(GetTriggerUnit())*3)
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         检测此时辰寂的生命
     */
     function ChenjiJiance takes nothing returns nothing
         local real percentThousand = (GetUnitState(chenji,UNIT_STATE_LIFE) * 1000.)/GetUnitState(chenji,UNIT_STATE_MAX_LIFE)
-        if (percentThousand < 20 and IsUnitAliveBJ(chenji)) then
-            call SetChenji2SpinOK(GetOwningPlayer(chenji))
+        if (UnitHasBuffBJ(chenji,'Bapl') or UnitHasBuffBJ(chenji,'Bpoi') or UnitHasBuffBJ(chenji,'Bpsd')) then
+            call DisplayTextToPlayer(GetOwningPlayer(chenji), 0., 0., "|cFFFF66CC【消息】|r你拥有中毒BUFF.")
+            return
+        endif
+        if (percentThousand < 10 and IsUnitAliveBJ(chenji) and not(BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(chenji))])) then
+            debug call SetChenji2SpinOK(GetOwningPlayer(chenji))
         endif
         call DisplayTextToPlayer(GetOwningPlayer(chenji), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为千分之"+R2S(percentThousand)+".")
     endfunction
@@ -39,18 +65,6 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
         endif  
     endfunction
     
-//---------------------------------------------------------------------------------------------------
-    /*
-        获取英雄身上的夜之哀伤
-    */
-    function GetYeai takes nothing returns item
-        if (UnitHasItemOfTypeBJ(chenji,'stel')) then
-            return GetItemOfTypeFromUnitBJ(chenji, 'stel')
-        elseif (UnitHasItemOfTypeBJ(chenji,'I04M')) then
-            return GetItemOfTypeFromUnitBJ(chenji, 'I04M')
-        endif
-        return null
-    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         给英雄小无敌

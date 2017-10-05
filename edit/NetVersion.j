@@ -8,8 +8,9 @@
 //! import "Achievement.j"
 //! import "Huodong.j"
 //! import "Continous.j"
+//! import "Jizi.j"
 //! import "Qixi.j"
-library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi
+library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Jizi
 	
 	globals
 		integer array vipCode
@@ -79,16 +80,22 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 
 		//签到指数
-		integer array IQiandao2
+		//integer array IQiandao2
 
 		//总数不存在20个
 		boolean BZongshu = false
+
+		//箱子
+		string array SBoxWord
+
+		//不说话的成就
+		boolean BSlince = false
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    给所有玩家一个成就
 	*/
-	private function SaveAllPlayerAchievement takes integer id returns nothing
+	function SaveAllPlayerAchievement takes integer id returns nothing
 		local integer i = 1
 		loop
 			exitwhen i > 6
@@ -157,7 +164,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    星胧的提示文本
 	*/
 	function GetXinglongHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
+		return "|cff99ccff需要地图等级达到11级才能选取该英雄,或者在活动期间集满8个字.|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -172,7 +179,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function PrintCurrentPlatformLevel takes player p returns nothing
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r当前你的平台地图等级为：" + I2S(DzAPI_Map_GetMapLevel(p)) + "！")
-		call QixiHuodong(p)
+		// call QixiHuodong(p)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -207,7 +214,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    星胧选取条件
 	*/
 	function GetXinglongSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 11)
+		return (DzAPI_Map_GetMapLevel(p) >= 11) or GetPlayerWordCount(p) >= 8
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -278,13 +285,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set Ileishi[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "leishi")
     			set SDIY[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "diy")
     			set Greward[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "Greward")
+    			set Greward2[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "Greward2")
+    			set SJizi[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SJizi")
     			set IConDays[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IConDays")
     			set ILastTime[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "ILastTime")
-    			set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
+    			//签到指数
+    			//set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
     			set spin2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin2")
     			set easyCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "easyCString")
     			set middleCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "middleCString")
     			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")
+    			set SBoxWord[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SBoxWord")
     			
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
@@ -427,6 +438,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),327)
 				endif
 
+				if not (BSlince) then
+					call GetAchievementAndSave(ConvertedPlayer(i),416)
+				endif
+
 				if not(BZongshu)then
 					call GetAchievementAndSave(ConvertedPlayer(i),49)
 				endif
@@ -463,13 +478,32 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 
-				if (IsHuodong7()) then
-					call SetLingxueSpinOK(ConvertedPlayer(i))
-				endif
-
 				if (not(BShengming) and udg_RENSHU >= 4) then
 					call GetAchievementAndSave(ConvertedPlayer(i),45)
 				endif
+
+			endif
+			set i = i +1
+		endloop
+
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    击败傀儡2
+	*/
+	function SaveAchievementKuilei2 takes nothing returns nothing
+
+		local integer i = 1
+		local integer level = GetDiffculty()
+
+		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+
+		loop
+			exitwhen i > 6
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
+
+				call GetAndSaveCangku(ConvertedPlayer(i),9)
 
 			endif
 			set i = i +1
@@ -738,7 +772,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    属性的成就
+	    属性的成就,及月饼
 	*/
 	private function SaveAttrAchievement takes nothing returns nothing
 		local integer i = 1
@@ -764,6 +798,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			endif
 			set i = i +1
 		endloop
+		if (udg_RENSHU > 0) then
+			if (ModuloInteger(udg_Second[2],60/udg_RENSHU) == 0 and (udg_Second[2] != 0 or udg_RENSHU > 1)) then
+				call CreateYuebing(GetRectRandomX(GetPlayableMapRect()),GetRectRandomY(GetPlayableMapRect()))
+			endif
+		endif
+		
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -803,10 +843,40 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		检测1
+		检测1:到达1%以下
 	*/
 	function Jiance1 takes unit u returns nothing
-		// body...
+        local real percentThousand = (GetUnitState(u,UNIT_STATE_LIFE) * 1000.)/GetUnitState(u,UNIT_STATE_MAX_LIFE)
+        if (UnitHasBuffBJ(u,'Bapl') or UnitHasBuffBJ(u,'Bpoi') or UnitHasBuffBJ(u,'Bpsd')) then
+        	call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你拥有中毒BUFF.")
+        	return
+        endif
+        if (percentThousand < 10 and IsUnitAliveBJ(u) and not(BHeroDeath[GetConvertedPlayerId(GetOwningPlayer(u))])) then
+			call GetAchievementAndSave(GetOwningPlayer(u),412)
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为千分之"+R2S(percentThousand)+".")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+		检测2:到达5E
+	*/
+	function Jiance2 takes unit u returns nothing
+        local real life = GetUnitState(u,UNIT_STATE_MAX_LIFE)
+        if (life > 500000000) then
+			call GetAchievementAndSave(GetOwningPlayer(u),413)
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你当前的生命为"+R2S(life)+".")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+		检测3:防御检测
+	*/
+	function Jiance3 takes unit u returns nothing
+        local integer defense = GetHeroAgi(u,true)/100 + GetDefense(u)
+        if (defense > 1000000) then
+			call GetAchievementAndSave(GetOwningPlayer(u),414)
+        endif
+        call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你判定的防御为"+R2S(defense)+".")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -972,6 +1042,28 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		set SDIY[i] = s
 		call DzAPI_Map_StoreString( p,  "diy", SDIY[i] )
 		call SetAndSaveDIYName(p)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    指令获取成就
+	*/
+	function Huoquachi takes player p ,string chat,integer page returns nothing
+		local integer i = 1
+		local integer result = 0
+
+		loop
+			exitwhen i > 40
+
+			if (chat == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)]+"ac"+I2S(page)+I2S(i),1))) then
+				call GetAchievementAndSave(p,S2I(I2S(page)+I2S(i)))
+				exitwhen true
+
+			endif
+
+			set i = i +1
+		endloop
+
+		set BBuqian2 = false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

@@ -179,7 +179,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 			set ILianjinChi = ILianjinChi + 1
 
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5BAE281D)) then
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5BAE281D) * 2 / 5
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5BAE281D) * 2 / 5 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r全属性|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
@@ -188,7 +188,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x8D205575)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x8D205575) * 2 / 5
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x8D205575) * 2 / 5 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r力量|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            set ITotalEat = ITotalEat + i
@@ -196,7 +196,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x384C9D86)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x384C9D86) * 2 / 5
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x384C9D86) * 2 / 5 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r敏捷|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            set ITotalEat = ITotalEat + i
@@ -206,7 +206,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x1B5C932E)) then
 
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x1B5C932E) * 2 / 5
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x1B5C932E) * 2 / 5 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r智力|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_INT, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            set ITotalEat = ITotalEat + i
@@ -215,61 +215,61 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5039AFFB)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5039AFFB) * 2 / 5
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5039AFFB) * 2 / 5 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r攻击|cFFFF66CC】|r+" + I2S(i) ) )
 	            call AddAttack(hanshang,i)
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0xFCD961C9)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0xFCD961C9) * 2 / 5
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0xFCD961C9) * 2 / 5 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r生命上限|cFFFF66CC】|r+" + I2S(i) ) )
 	            call AddHP(hanshang,i)
 
 	        endif
 	        if (HaveSavedReal(YDHT, GetItemTypeId(it) , 0x06C64278)) then
 
-	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x06C64278) / 5
+	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x06C64278) / 5 * R3(JJ1,3.,1.)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0,  "|cFFFF66CC【|r力量加成|cFFFF66CC】|r+" +  I2S(R2I( r * 100.00 )) + "%。"   )
 	            call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 	        endif
 	        if (HaveSavedReal(YDHT, GetItemTypeId(it) , 0x6FFF4132)) then
 
-	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x6FFF4132) / 5
+	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x6FFF4132) / 5 * R3(JJ1,3.,1.)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0,  "|cFFFF66CC【|r敏捷加成|cFFFF66CC】|r+" +  I2S(R2I( r * 100.00 )) + "%。"   )
 	            call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 
 	        endif
 	        if (HaveSavedReal(YDHT, GetItemTypeId(it) , 0xC0C6918C)) then
 
-	            set r = LoadReal(YDHT, GetItemTypeId(it), 0xC0C6918C) / 5
+	            set r = LoadReal(YDHT, GetItemTypeId(it), 0xC0C6918C) / 5 * R3(JJ1,3.,1.)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0,  "|cFFFF66CC【|r智力加成|cFFFF66CC】|r+" +  I2S(R2I( r * 100.00 )) + "%。"   )
 	            call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 
 	        endif
 	        if (HaveSavedReal(YDHT, GetItemTypeId(it) , 0xFAA305CD)) then
 
-	            set r = LoadReal(YDHT, GetItemTypeId(it), 0xFAA305CD) / 5
+	            set r = LoadReal(YDHT, GetItemTypeId(it), 0xFAA305CD) / 5 * R3(JJ1,3.,1.)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0,  "|cFFFF66CC【|rHP上限加成|cFFFF66CC】|r+" +  I2S(R2I( r * 100.00 )) + "%。"   )
 	            call AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 
 	        endif
 	        if (HaveSavedReal(YDHT, GetItemTypeId(it) , 0x4C0507D9)) then
 
-	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x4C0507D9) / 5
+	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x4C0507D9) / 5 * R3(JJ1,3.,1.)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0,  "|cFFFF66CC【|r攻击加成|cFFFF66CC】|r+" +  I2S(R2I( r * 100.00 )) + "%。"   )
 	            call AddAttackPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 	        endif
 	        if (HaveSavedReal(YDHT, GetItemTypeId(it) , 0x0B6FB20F)) then
 
-	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x0B6FB20F) / 5
+	            set r = LoadReal(YDHT, GetItemTypeId(it), 0x0B6FB20F) / 5 * R3(JJ1,3.,1.)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0,  "|cFFFF66CC【|r防御加成|cFFFF66CC】|r+" +  I2S(R2I( r * 100.00 )) + "%。"   )
 	            call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),r)
 	        endif
 	    else
 	    	call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + "|cFFFF66CC】|r吞噬成功，增加的属性值如以下所示：" ) ) )
 	       if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5BAE281D)) then
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5BAE281D) /20
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5BAE281D) /20 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r全属性|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
@@ -278,7 +278,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x8D205575)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x8D205575) /20
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x8D205575) /20 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r力量|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_STR, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            set ITotalEat = ITotalEat + i
@@ -286,7 +286,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x384C9D86)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x384C9D86) /20
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x384C9D86) /20 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r敏捷|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_AGI, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            set ITotalEat = ITotalEat + i
@@ -296,7 +296,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x1B5C932E)) then
 
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x1B5C932E) /20
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x1B5C932E) /20 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r智力|cFFFF66CC】|r+" + I2S(i) ) )
 	            call ModifyHeroStat( bj_HEROSTAT_INT, hanshang, bj_MODIFYMETHOD_ADD, i )
 	            set ITotalEat = ITotalEat + i
@@ -305,14 +305,14 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5039AFFB)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5039AFFB) /20
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0x5039AFFB) /20 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r攻击|cFFFF66CC】|r+" + I2S(i) ) )
 	            call AddAttack(hanshang,i)
 
 	        endif
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0xFCD961C9)) then
 
-	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0xFCD961C9) /20
+	            set i = LoadInteger(YDHT, GetItemTypeId(it), 0xFCD961C9) /20 * I3(JJ1,3,1)
 	            call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r生命上限|cFFFF66CC】|r+" + I2S(i) ) )
 	            call AddHP(hanshang,i)
 

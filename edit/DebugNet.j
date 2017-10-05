@@ -29,8 +29,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 	endfunction	
 
 	private function TestCangku takes nothing returns nothing
-		set Greward[1] = 1
-		set killCount[1] = 124999
+		call GetAndSaveCangku(Player(0),9)
 	endfunction
 
 	/*private function Showxiao2 takes nothing returns nothing

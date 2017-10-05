@@ -201,6 +201,41 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
+	/*
+	    摄焱皮肤条件
+	*/
+	function GetHuanyi1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    司宸皮肤条件
+	*/
+	function GetSichen1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    苍凌皮肤条件
+	*/
+	function GetCangling1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    离魉皮肤条件
+	*/
+	function GetLichi1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    黑阎皮肤条件
+	*/
+	function GetHeiyan1Spin takes player p returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
     /*
         获取激活码
     */
@@ -271,7 +306,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			set Bcangling = true
 		elseif (chat == "xl"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bxinglong = true
-		elseif (chat == "xt"+I2S(GetXinglongCode(GetPlayerName(GetTriggerPlayer())))) then
+		elseif (chat == "xt"+I2S(GetXiaotingCode(GetPlayerName(GetTriggerPlayer())))) then
 			set Bxiaoting = true
 		endif
 		set chat = null
@@ -344,6 +379,21 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 			使用魔兽争霸官方对战平台
 			进行游戏才能使用该功能.")
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    获取时间
+	*/
+	function DzAPI_Map_GetGameStartTime takes nothing returns integer
+		return GetRandomInt(0,1000000000)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    是否全字收集
+	*/
+	function HasAll14Word takes player p returns boolean
+		return false
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    禁止秘藉

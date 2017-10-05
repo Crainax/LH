@@ -4,12 +4,15 @@
 /////! import "Continous.j"
 //! import "Diffculty.j"
 //! import "Xuanxue.j"
+//! import "Huanyi.j"
 //! import "Bajue.j"
+//! import "Juexing.j"
+//! import "BaseVersion.j"
 /*
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Bajue//,Continous
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,BaseVersion//,Continous
 	
 	globals
 		private item array IBox
@@ -18,6 +21,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		private boolean array BYincang
 
 		boolean BShengli = false
+
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -174,7 +178,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call ClearDiamond()
 		debug elseif (str == "-hs1") then
 		debug 	call Jiance1(u)
-		debug elseif (str == "-hs2") then
+		debug elseif (str == "-hs2" and u != bajue) then
 		debug 	call Jiance2(u)
 		debug elseif (str == "-hs3") then
 		debug 	call Jiance3(u)
@@ -184,10 +188,48 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call ChenjiJiance()
 		elseif (str == "-ph") then
 			call CameraSetSmoothingFactor( 0. )
+		elseif (str == "-qxpf") then
+			set BCancelSpin[GetConvertedPlayerId(GetTriggerPlayer())] = true
+			call BJDebugMsg("|cFFFF66CC【消息】|r成功取消皮肤效果.")
+		elseif (str == "-dm") then
+			call MultiboardDisplayBJ( true, udg_D )
+			call BJDebugMsg("|cFFFF66CC【消息】|r开启显示多面板.")
 		elseif (str == "--") then
 			call FixView(false)
-		elseif (str == "-我爱轮回之狱作者") then
-			call Buchang(GetTriggerPlayer())
+		debug elseif (str == "-ck") then
+		debug 	if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetTriggerPlayer())]) != 'nmgv') then
+				debug set BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] = true
+				debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r现在请输入你要自定义的仓库头衔吧（注意不要掺杂有英文与数字）!")
+				debug else
+					debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r默认箱子皮肤不能使用该指令，如要使用请解锁任意箱子皮肤再使用!")
+		debug 	endif
+		debug elseif (str == "-mm1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
+		debug 	set BX1 = not(BX1)
+		debug elseif (str == "-mm2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
+			set BX2 = not(BX2)
+		debug call SetDIYName(GetTriggerPlayer(),"信手哲天富可敌国")
+		elseif (str == "-wx1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
+			set JJ1 = not(JJ1)
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r1")
+		elseif (str == "-wx2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
+			set JJ2 = not(JJ2)
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r2")
+		elseif (str == "-wx3" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" and not(JJ3)) then
+			set JJ3 = true
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r3")
+	        call AddDamagePercent(GetConvertedPlayerId(GetTriggerPlayer()),1.5)
+	        call UnitAddAbility(u,'A0MU')
+			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MU',false)
+            call UnitMakeAbilityPermanent(u,true,'A0MU')
+            call UnitMakeAbilityPermanent(u,true,'A0MG')
+		elseif (str == "-wx4" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" and not(JJ4) and (u == kaisa or u == hanshang)) then
+			call InitHeroJuexing1(u)
+			call InitHeroJuexing2(u)
+			call InitHeroJuexing3(u)
+			set JJ4 = true
+			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r4")
+		debug elseif (str == "-我爱轮回之狱作者") then
+		debug 	call Buchang(GetTriggerPlayer())
 		//玄雪皮肤
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()
@@ -196,10 +238,32 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-bj" and GetOwningPlayer(bajue) == GetTriggerPlayer()) then
 			call InitFengshuang()
 			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启霸绝英雄挑战.")
+		//幻逸皮肤
+		elseif (str == "-hy" and GetOwningPlayer(Huanyi) == GetTriggerPlayer()) then
+			call InitHuanyiTiaozhan()
+			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启幻逸英雄挑战.")
 		elseif (str == "-yc") then
 			call YincangBroad()
-		debug elseif (str == "-jn") then
-			debug call ShowQiandao(GetTriggerPlayer())
+		debug elseif (str == "-bq" and renshu == 1) then
+		debug 	call Buqian1(GetTriggerPlayer())
+		debug elseif (str == "-ckhq" and renshu == 1 and not(BCangkuhuoqu)) then
+		debug 	set BCangkuhuoqu = true
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的仓库指令码")
+		debug elseif (str == "-sphq" and renshu == 1 and not(BSpinhuoqu)) then
+		debug 	set BSpinhuoqu = true
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的皮肤指令码")
+		debug elseif (str == "-ac1" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 1
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
+		debug elseif (str == "-ac2" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 2
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
+		debug elseif (str == "-ac3" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 3
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
+		debug elseif (str == "-ac4" and renshu == 1 and ISpinachi == 0) then
+		debug 	set ISpinachi = 4
+		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
 		elseif (str == "-sh") then
 			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")
@@ -347,7 +411,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 52) then
 			set s = "秘境中成功通过某一层有2种方法，一种是将灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。"
 		elseif(i == 53) then
-			set s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有20层挑战～"
+			set s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有25层挑战～"
 		elseif(i == 54) then
 			set s = "某些英雄有特定的皮肤，这些皮肤可以通过英雄挑战来永久获取。（在基地左侧查看条件）"
 		elseif(i == 55) then
@@ -372,7 +436,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	function ShowZanzhuHint takes nothing returns nothing
 	    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "永久赞助", "做图不易,你的如果你喜欢本图,也愿意赞助本图,那么你将获得以下功能:
 
-	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"星胧\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r、|cff00ccff\"苍凌\"|r、|cff00ccff\"宵霆\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前4个)均能体验24+5+1波进攻，并解锁混沌区域.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.
+	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"星胧\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r、|cff00ccff\"苍凌\"|r、|cff00ccff\"宵霆\"|r|cffff6600。|r|cffff6800|n2.英雄将获得七彩皮肤效果|n3.开局金币10000(不与平台等级叠加)|n4.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n5.选择所有难度(包括前4个)均能体验24+5+1波进攻，并解锁混沌区域.|n6.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n7.可以雇佣第5第6号雇佣兵.|n8.基地将获得3次防护罩效果.|n9.解锁仓库-熔炎火炮.
 
 	    	|r|cffffff00赞助后续版本永久有效,永久赞助请加QQ群413359254获取,"+S3(DEBUG_MODE,"","或者百度搜索\"17玩吧\"进入轮回之狱专区获取,")+"还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
 

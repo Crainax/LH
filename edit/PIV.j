@@ -1,8 +1,10 @@
 //! import "LHBase.j"
 //! import "Attr.j"
+//! import "SpellBase.j"
+//! import "Juexing.j"
 /////! import "Beast.j"
 /////! import "Netversion.j"
-library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
+library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
 	globals
 		boolean array sPIV
 		private boolean isFirst = true
@@ -12,7 +14,75 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	    key kPIVPlayer
 	    key kPIVPointer
 	    trigger T17Wan = null
+
+	    //信哲
+	    boolean BX1 = false
+	    boolean BX2 = false
+
 	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    定制初始化
+	*/
+	private function XinzheCon takes nothing returns boolean
+		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"))
+	endfunction
+
+	private function XinzheAct takes nothing returns nothing
+
+		if (IsInForbitRegion(GetOrderPointX(),GetOrderPointY(),GetTriggerUnit())) then
+			call IssueImmediateOrder( GetTriggerUnit(), "stop" )
+	        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达." )
+	        return
+		endif
+
+		call SetUnitX(GetTriggerUnit(),GetOrderPointX())
+		call SetUnitY(GetTriggerUnit(),GetOrderPointY())
+
+		if (BX1) then
+			call DamageArea(GetTriggerUnit(),GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()),600,GetDamageBase(GetTriggerUnit())*0.8)
+		endif
+
+	endfunction
+
+	function InitXinzhe takes unit u returns nothing
+		local trigger t = CreateTrigger()
+    	call TriggerRegisterUnitEvent( t, u, EVENT_UNIT_ISSUED_POINT_ORDER )
+		call TriggerAddCondition(t, Condition(function XinzheCon))
+		call TriggerAddAction(t, function XinzheAct)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    京剧
+	*/
+	private function JingjuCondition takes nothing returns boolean
+		return GetUnitTypeId(GetFilterUnit()) == 'n006' or GetUnitTypeId(GetFilterUnit()) == 'n00Y'
+	endfunction
+
+	private function JingjuDiyuhuo takes nothing returns nothing
+		call RecoverUnitHP(GetEnumUnit(),0.3)
+	endfunction
+
+	private function JingjuTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(LHTable,id,1)
+		local group g = GetUnitsOfPlayerMatching(GetOwningPlayer(u), Condition(function JingjuCondition))
+		call RecoverUnitHP(u,0.1)
+		call ForGroupBJ( g, function JingjuDiyuhuo )
+		set u = null
+		call DestroyGroup(g)
+		set t = null 
+		set g = null
+	endfunction
+
+	function InitJingju takes unit u returns nothing
+		local timer t = CreateTimer()
+		call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
+		call TimerStart(t,1,true,function JingjuTimer)
+		set t = null
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    列表是否含有名单
@@ -49,7 +119,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	private function InitPlayerPIV takes player p returns nothing
 		if (isFirst) then
 			set isFirst = false
-			set udg_I_Er_diansi[1] = 3
+			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2
 			call BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+1波的特权.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.")
 		endif
@@ -62,23 +132,18 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 	/*
 	    初始化英雄
 	*/
-	function InitPIVHero takes unit u returns nothing
+	private function InitDingzhi takes unit u returns nothing
 		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2)
-	        call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
+	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
 	        call AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2.0)
 	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
 	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
 	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
-	        call UnitAddAbility(u,'A0MU')
-			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MU',false)
-            call UnitMakeAbilityPermanent(u,true,'A0MU')
-            call UnitMakeAbilityPermanent(u,true,'A0MV')
-            call UnitMakeAbilityPermanent(u,true,'A0MG')
     		call SetPlayerTechResearchedSwap(  'R01K', 1 , GetOwningPlayer(u))
     		call SetPlayerTechResearchedSwap(  'R006', 1 , GetOwningPlayer(u))
     		call SetPlayerTechResearchedSwap(  'R007', 1 , GetOwningPlayer(u))
@@ -86,17 +151,28 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
     		call SetPlayerTechResearchedSwap(  'R009', 1 , GetOwningPlayer(u))
     		call SetPlayerTechResearchedSwap(  'R00A', 1 , GetOwningPlayer(u))
     		call SetPlayerTechResearchedSwap(  'R00B', 1 , GetOwningPlayer(u))
+			call InitJingju(u)
+	    	set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5
+			call SetPlayerStateBJ( GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10 ) )
 		elseif (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") then
+			set BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true
 	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
 	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
 	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
 	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
-	        call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.2)
+	        call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),4.)
 	        call UnitAddAbility(u,'A0MF')
             call UnitMakeAbilityPermanent(u,true,'A0MF')
             call UnitMakeAbilityPermanent(u,true,'A0MG')
 			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MF',false)
+			call InitXinzhe(u)
 		endif
+	endfunction
+
+	function InitPIVHero takes unit u returns nothing
+
+		debug call InitDingzhi(u)
+
 
 		if (IsPIV(GetOwningPlayer(u))) then
 			call UnitAddItemByIdSwapped('IXU1', u)
@@ -380,6 +456,10 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 			debug call SetBajueSpinOK(GetTriggerPlayer())
 			debug call SetSheyanSpinOK(GetTriggerPlayer())
 			debug call SetHuanyiSpinOK(GetTriggerPlayer())
+			debug call SetSichenSpinOK(GetTriggerPlayer())
+			debug call SetLichiSpinOK(GetTriggerPlayer())
+			debug call SetHeiyanSpinOK(GetTriggerPlayer())
+			debug call SetCanglingSpinOK(GetTriggerPlayer())
 		endif
 
 	endfunction
@@ -569,8 +649,8 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr
 		call SaveBoolean(PIVTable,kPIV,61444830,true)
 		call SaveBoolean(PIVTable,kPIV,89183810,true)
 		call SaveBoolean(PIVTable,kPIV,255054188,true)
-		call SaveBoolean(PIVTable,kPIV,83081461,true)
-		call SaveBoolean(PIVTable,kPIV,8326255,true)
+		call SaveBoolean(PIVTable,kPIV,589040132,true)
+		call SaveBoolean(PIVTable,kPIV,46380924,true)
 
 
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )

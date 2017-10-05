@@ -1,7 +1,7 @@
-
-
 //! import "LHBase.j"
-library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
+//! import "item.j"
+
+library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 	
 	globals
 
@@ -34,6 +34,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		constant integer DAMAGE_BEAST_09 = 200000000
 		constant integer DAMAGE_BEAST_10 = 400000000
 		constant integer DAMAGE_BEAST_11 = 200000000
+		constant integer DAMAGE_BEAST_12 = 600000000
+		constant integer DAMAGE_BEAST_13 = 400000000
 		/*
 		    充能次数
 		*/
@@ -122,7 +124,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer unitID = LoadInteger(itemTable,kBeastItem,itemId)
 		local unit u = CreateUnit(GetOwningPlayer(captain),unitID,GetUnitX(captain),GetUnitY(captain),0)
 		//变色
-		if ((unitID == 'ub08') or (unitID == 'ub09') or (unitID == 'ub10') or (unitID == 'ub11')) then
+		if ((unitID == 'ub08') or (unitID == 'ub09') or (unitID == 'ub10') or (unitID == 'ub11') or (unitID == 'ub12') or (unitID == 'ub13')) then
 			call Discolor(u)
 		endif
 
@@ -151,7 +153,9 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			*/ or GetItemTypeId(i) == 'IB08' /*
 			*/ or GetItemTypeId(i) == 'IB09' /*
 			*/ or GetItemTypeId(i) == 'I04X' /*
-			*/ or GetItemTypeId(i) == 'IB0A' 
+			*/ or GetItemTypeId(i) == 'IB0A' /*
+			*/ or GetItemTypeId(i) == 'I07O' /*
+			*/ or GetItemTypeId(i) == 'I07N' 
 	endfunction
 	/*
 	    不能带两个魔兽，先检测魔兽数量，再产生相对应的魔兽
@@ -201,11 +205,11 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			call CreateBeast(GetTriggerUnit(),GetItemTypeId(GetManipulatedItem()))
 
 			if (IsMo(GetTriggerUnit())) then
-				if(GetItemTypeId(GetManipulatedItem()) == 'IB09' or GetItemTypeId(GetManipulatedItem()) == 'IB0A' or GetItemTypeId(GetManipulatedItem()) == 'I04X') then
+				if (IsMo3(GetManipulatedItem())) then
 					call UnitAddAbility(GetTriggerUnit(),'A0MT')
+				endif
+				if (IsChaomo(GetManipulatedItem())) then
 					call SetUnitAbilityLevel(GetTriggerUnit(),'A0MT',2)
-				elseif (GetItemTypeId(GetManipulatedItem()) == 'IB04' or GetItemTypeId(GetManipulatedItem()) == 'IB05' or GetItemTypeId(GetManipulatedItem()) == 'IB06' or GetItemTypeId(GetManipulatedItem()) == 'IB07' or GetItemTypeId(GetManipulatedItem()) == 'IB08') then
-					call UnitAddAbility(GetTriggerUnit(),'A0MT')
 				endif
 			endif
 
@@ -254,7 +258,7 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 			call RemoveBeast(GetManipulatingUnit())
 
 			if (IsMo(GetTriggerUnit())) then
-				if (GetItemTypeId(GetManipulatedItem()) == 'IB09' or GetItemTypeId(GetManipulatedItem()) == 'IB0A' or GetItemTypeId(GetManipulatedItem()) == 'I04X' or GetItemTypeId(GetManipulatedItem()) == 'IB04' or GetItemTypeId(GetManipulatedItem()) == 'IB05' or GetItemTypeId(GetManipulatedItem()) == 'IB06' or GetItemTypeId(GetManipulatedItem()) == 'IB07' or GetItemTypeId(GetManipulatedItem()) == 'IB08') then
+				if (IsMo3(GetManipulatedItem())) then
 					call UnitRemoveAbility(GetTriggerUnit(),'A0MT')
 				endif
 			endif
@@ -274,7 +278,6 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		local integer playerID = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
 		local item beast = GetBeastInUnit(udg_H[playerID])
 
-
 		//魔兽怒吼
 		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABe9') >= 1) then
 			
@@ -287,8 +290,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		endif
 
 		//余数为4则施放
-		if (ModuloInteger(GetItemCharges(beast),4) == 0 and GetUnitTypeId(GetEventDamageSource()) == 'ub11') then
-			call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(ConvertedPlayer(playerID),'h01P',YDWECoordinateX(GetUnitX(GetEventDamageSource()) + GetRandomReal(-100,100)),YDWECoordinateY(GetUnitY(GetEventDamageSource()) + GetRandomReal(-100,100)),GetRandomReal(0,360)) )
+		if (ModuloInteger(GetItemCharges(beast),4) == 0 and (GetUnitTypeId(GetEventDamageSource()) == 'ub11' or GetUnitTypeId(GetEventDamageSource()) == 'ub13')) then
+			call UnitApplyTimedLifeBJ( 2.00, 'BHwe',CreateUnit(ConvertedPlayer(playerID),I3(GetUnitTypeId(GetEventDamageSource()) == 'ub11','h01P','h02J'),YDWECoordinateX(GetUnitX(GetEventDamageSource()) + GetRandomReal(-100,100)),YDWECoordinateY(GetUnitY(GetEventDamageSource()) + GetRandomReal(-100,100)),GetRandomReal(0,360)) )
 		endif
 
 		/*
@@ -323,6 +326,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		//! runtextmacro DamageBeast1("09")
 		//! runtextmacro DamageBeast1("10")
 		//! runtextmacro DamageBeast1("11")
+		//! runtextmacro DamageBeast1("12")
+		//! runtextmacro DamageBeast1("13")
 
 	endfunction
 
@@ -376,6 +381,8 @@ library_once Beast initializer InitBeast requires LHBase,YDWESetGuard
 		call SaveInteger(itemTable,kBeastItem,'IB09','ub09')
 		call SaveInteger(itemTable,kBeastItem,'IB0A','ub10')
 		call SaveInteger(itemTable,kBeastItem,'I04X','ub11')
+		call SaveInteger(itemTable,kBeastItem,'I07N','ub12')
+		call SaveInteger(itemTable,kBeastItem,'I07O','ub13')
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
