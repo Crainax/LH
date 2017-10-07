@@ -216,6 +216,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         rect gg_rct_Game1 = null
         rect gg_rct_Game2 = null
         unit gg_unit_n01Q_0273 = null
+        unit gg_unit_Eevi_0020 = null
 
         //声音
         sound gg_snd_cangling_5 = null
@@ -238,6 +239,9 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         sound gg_snd_GoodJob = null
         sound gg_snd_Baodiao = null
         sound gg_snd_Clock = null
+        sound gg_snd_yanmie_5 = null
+        sound gg_snd_MapPing = null
+        sound gg_snd_fanzhuan = null
 
         timer array udg_Double_M
         timerdialog udg_Double_Me = null
@@ -250,6 +254,9 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
         //光环
         unit gg_unit_n01S_0258 = null
+
+        //衣服无敌
+        boolean array udg_Yifu
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

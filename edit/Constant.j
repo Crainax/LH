@@ -339,7 +339,18 @@ library_once Constant initializer InitConstant requires JBase
 		endif
 		return result
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    反转的物品
+	*/
+	function GetFanzhuanItemType takes unit u returns integer
+		local integer id = GetHeroIndex(GetUnitTypeId(u))
+		if (id == 2) then
+			return 'I07U'
+		endif
 
+		return 0
+	endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         获取彩名依赖

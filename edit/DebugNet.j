@@ -29,7 +29,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 	endfunction	
 
 	private function TestCangku takes nothing returns nothing
-		call GetAndSaveCangku(Player(0),9)
+		call IncreaseYanmieFanzhuan(Player(0))
 	endfunction
 
 	/*private function Showxiao2 takes nothing returns nothing

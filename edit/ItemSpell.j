@@ -6,11 +6,12 @@
 /////! import "Continous.j"
 //! import "Shen.j"
 //! import "item.j"
+//! import "Yanmie.j"
 /////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase//,Continous
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie//,Continous
 	
 
 	globals
@@ -74,7 +75,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
         call DialogDisplay( GetOwningPlayer(u), d, true )
         call TriggerRegisterDialogEvent( t, d )
         call TriggerAddAction(t, function GetHeroItemClick)
-
+        
         set d = null
         set t = null
         set u = null
@@ -316,6 +317,8 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	    		call PolledWait(30)
 	    		if (TLifeConnect != null) then
 					set BGongxiang = true
+				else
+					set BGongxiang = false
 	    		endif
 	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
 	    		call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cffff0000【消息】恢复生命连结!|r")
@@ -333,6 +336,18 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		elseif (IsShenAll(GetManipulatedItem())) then
 			//神器召唤
 			call SummonJingling(GetManipulatedItem(),GetTriggerUnit())
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07U' and GetTriggerUnit() == yanmie) then
+			//湮灭变化
+			if (FanzhuanCondition(GetOwningPlayer(GetTriggerUnit()),2)) then
+				if (GetHeroLevel(GetTriggerUnit()) > 5) then
+					call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r请在英雄5级前使用.")
+					return
+				endif
+				call InitFanzhuanYanmie()
+				call RemoveItem(GetManipulatedItem())
+			else
+				call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),GetFanzhuanFailString(GetOwningPlayer(GetTriggerUnit()),2))
+			endif
 		debug elseif (GetItemTypeId(GetManipulatedItem()) == 'I07T') then
 		debug 	//月饼
 		debug 	call OpenTheYuebing(GetOwningPlayer(GetTriggerUnit()))

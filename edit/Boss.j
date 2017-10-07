@@ -368,6 +368,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call PauseTimer(TLifeConnect)
 		call DestroyTimer(TLifeConnect)
 		set TLifeConnect = null
+		set BGongxiang = false
+
 	endfunction
 
 	private function LifeConnectTimer takes nothing returns nothing

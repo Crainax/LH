@@ -10,14 +10,12 @@
 //! import "Continous.j"
 //! import "Jizi.j"
 //! import "Qixi.j"
-library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Jizi
+//! import "Fanzhuan.j"
+
+library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Jizi,Fanzhuan
 	
 	globals
 		integer array vipCode
-		/*
-		    抵御了多少次进攻
-		*/
-		integer array diyu
 		/*
 		    击败冥刹多少次
 		*/
@@ -225,31 +223,15 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    输出梦霁的密码
+	    输出密码
 	*/
 	function PrintMengjiPassword takes nothing returns nothing
-
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    输出苍凌的密码
-	*/
 	function PrintCanglingPassword takes nothing returns nothing
-
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    输出星胧的密码
-	*/
 	function PrintXinglongPassword takes nothing returns nothing
-
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    输出宵霆的密码
-	*/
 	function PrintXiaotingPassword takes nothing returns nothing
-
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -296,6 +278,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set middleCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "middleCString")
     			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")
     			set SBoxWord[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SBoxWord")
+    			set SFanzhaun[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SFanzhaun")
     			
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
@@ -387,6 +370,21 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    递增通关次数/恶魔反转
+	*/
+	function IncreaseYanmieFanzhuan takes player p returns nothing
+		local integer i = GetConvertedPlayerId(p)
+		if (diyu[i]/100000 < 5) then
+			set diyu[i] = diyu[i] + 100000
+			call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "defense", diyu[i] )
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r湮灭技能第二形态进度:"+I2S(diyu[i]/100000)+"/5")
+		endif
+		if (diyu[i]/100000 >= 5) then
+			call SetFanzhuanOK(p,2)
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    存储到服务器,通关
 	*/
 	function SaveAchievement takes nothing returns nothing
@@ -410,6 +408,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				//玄雪末日权杖
 				if (renshu == 1 and udg_H[i] == xuanxue and level >= 4) then
 					call SetXuanxue1SpinOK(ConvertedPlayer(i))
+				endif
+
+				if (level >= 4) then
+					call IncreaseYanmieFanzhuan(ConvertedPlayer(i))
 				endif
 
 				//基地的血

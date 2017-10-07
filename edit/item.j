@@ -79,7 +79,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 		elseif (UnitHasItemOfTypeBJ(u,'I050') or UnitHasItemOfTypeBJ(u,'I055') or UnitHasItemOfTypeBJ(u,'I03Y')) then
 			return 'A041'
 		endif
-
+		
 		return 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	*/
 	function IsChaomo takes item i returns boolean
 		local integer id = GetItemTypeId(i) 
-		return id == 'IB09' or id == 'IB0A' or id == 'I04X'
+		return id == 'IB09' or id == 'IB0A' or id == 'I04X' or id == 'I07O' or id == 'I07N'
 	endfunction
 
 	function IsMo3 takes item i returns boolean

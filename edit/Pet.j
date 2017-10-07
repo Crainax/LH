@@ -138,7 +138,7 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty,Challange
     */
 
     private function TPetDeathCon takes nothing returns boolean
-        return (IsUnitIllusionBJ(GetDyingUnit()) == false and ((IsUnitInGroup(GetDyingUnit(),GPet[1]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[2]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[3]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[4]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[5]) == true) or (IsUnitInGroup(GetDyingUnit(),GPet[6]) == true)))
+        return (IsUnitIllusionBJ(GetDyingUnit()) == false and ((IsUnitInGroup(GetDyingUnit(),GPet[1])) or (IsUnitInGroup(GetDyingUnit(),GPet[2])) or (IsUnitInGroup(GetDyingUnit(),GPet[3])) or (IsUnitInGroup(GetDyingUnit(),GPet[4])) or (IsUnitInGroup(GetDyingUnit(),GPet[5])) or (IsUnitInGroup(GetDyingUnit(),GPet[6]))))
     endfunction
 
     private function TPetDeathAct takes nothing returns nothing

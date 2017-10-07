@@ -1,5 +1,5 @@
 //! import "LHBase.j"
-/////! import "NetVersion.j"
+//! import "NetVersion.j"
 
 library_once Spin requires LHBase,Version
 	
@@ -7,6 +7,29 @@ library_once Spin requires LHBase,Version
 		boolean array BCancelSpin
 	endglobals
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    反转物品
+	*/
+	private function CreateFanzhuanItemTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local item it = LoadItemHandle(LHTable,id,1)
+		if (it != null) then
+			call RemoveItem(it)
+		endif
+		call PauseTimer(t)
+		call FlushChildHashtable(LHTable,id)
+		call DestroyTimer(t)
+		set it = null
+		set t = null 
+	endfunction
+
+	function CreateFanzhuanItem takes unit u returns nothing
+    	local timer t = CreateTimer()
+    	call SaveItemHandle(LHTable,GetHandleId(t),1,UnitAddItemByIdSwapped(GetFanzhuanItemType(u), u))
+    	call TimerStart(t,60,false,function CreateFanzhuanItemTimer)
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    瑟雨的皮肤条件
