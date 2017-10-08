@@ -22,7 +22,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		private real XinglongDamage = 0
 
 		//显示特效的flag
-		private boolean BEffUpdate = false
+		//private boolean BEffUpdate = false
 
 		//伤害的指示器
 		private boolean BDamage = false
@@ -33,7 +33,13 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 
 		//当前吐息数
 		integer ITuxi = 0
-		boolean BLunhuing = false
+
+		//龙皇轮回
+		private real RLunhui = 0.
+		private timer TLunhui = null
+		private unit ULunhui = null
+		private texttag TTLunhui = null
+		private integer ILunhui = 0
 	endglobals
 
 
@@ -54,7 +60,11 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
  			call DestroyEffect(AddSpecialEffect("war3mapImported\\IceStomp.mdx", GetUnitX(u),GetUnitY(u) ))
 		endif
 		if (GetUnitTypeId(u) == 'h01J') then
-			call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),300,XinglongDamage*0.4)
+			set ILunhui = ILunhui + 1
+			if (ILunhui >= 10) then
+				set ILunhui = 0
+				call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),900,XinglongDamage*2.5)
+			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(u),GetUnitY(u) ))
 		endif
 	endfunction
@@ -113,15 +123,15 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1) then
 			call PolledWait(0.5)
 			loop
-				exitwhen i > 10
+				exitwhen i > 5
 				if (GetRandomInt(1,100) > I3(BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xinglong))] and IsLong(),0,(i*10))) then
-					call Longhuangtuxi2(false,0,0,XinglongDamage*rate*0.1*i,i)
+					call Longhuangtuxi2(false,0,0,XinglongDamage*rate*0.1*i*2,i*2)
 	    			call CreateSpellTextTag(I2S(i)+"次共鸣！",xinglong,100,0,0,3)
 					call PolledWait(0.5)
 	    		else
 	    			exitwhen true
 				endif
-				set i = i +1
+				set i = i + 1
 			endloop
 		endif
 		set ITuxi = ITuxi - 1 
@@ -135,7 +145,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		call UnitAddAbility(xinglong,'A0JN')
     	call PrintSpellContent(GetOwningPlayer(xinglong),GetAbilityName('A0JO'),"，刷新成功。")
 		call UnitDamageTarget( xinglong, xinglong, GetUnitState(xinglong,UNIT_STATE_MAX_LIFE)*0.2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
+		call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -180,41 +190,39 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 
 	//伤害的计时器
 	private function LonghuanglunhuiDamageTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local unit u = LoadUnitHandle(spellTable,id,1)
-		if (IsUnitAliveBJ(u)) then
-    		call SetUnitFlyHeight(CreateUnit(GetOwningPlayer(xinglong),'h01J',YDWECoordinateX(GetUnitX(u)+GetRandomReal(-900,900)), YDWECoordinateY(GetUnitY(u)+GetRandomReal(-900,900)),0), 0.00, 500.00 )
+		if (RLunhui >= 0.) then
+			set RLunhui = RLunhui - 0.1
+			call SetTextTagText(TTLunhui,R2S(RLunhui)+"s",20)
+    		call SetUnitFlyHeight(CreateUnit(GetOwningPlayer(xinglong),'h01J',YDWECoordinateX(GetUnitX(ULunhui)+GetRandomReal(-900,900)), YDWECoordinateY(GetUnitY(ULunhui)+GetRandomReal(-900,900)),0), 0.00, 500.00 )
 		else
-			set BLunhuing = false
-			call UnitRemoveAbility(xinglong,'A0K1')
-			call PauseTimer(t)
-			call FlushChildHashtable(spellTable,id)
-			call DestroyTimer(t)
+			call PauseTimer(TLunhui)
+			call DestroyTimer(TLunhui)
+			set TLunhui = null
+			call RemoveUnit(ULunhui)
+			call DestroyTextTag(TTLunhui)
+			set ULunhui = null
+			set TTLunhui = null
 		endif
-		set u = null
-		set t = null 
 	endfunction
 
 	private function Longhuanglunhui takes nothing returns nothing
 		local integer i = GetHeroLevel(xinglong)
-		local timer t2 = CreateTimer()
-		local unit u = CreateUnit(GetOwningPlayer(xinglong),'h01K',GetUnitX(xinglong),GetUnitY(xinglong),0)
-		if (BLunhuing) then
-			return
+
+		set RLunhui = RMaxBJ(5.0,RLunhui)
+		if (TLunhui != null) then
+			set TLunhui = CreateTimer()
+			set ULunhui = CreateUnit(GetOwningPlayer(xinglong),'h01K',GetUnitX(xinglong),GetUnitY(xinglong),0)
+			set TTLunhui = CreateTextTagUnitBJ( R2S(RLunhui)+"s", ULunhui, 0, 20, 0, 0, 100, 0 )
 		endif
-		set BLunhuing = true
-		call UnitApplyTimedLifeBJ( 5, 'BHwe',u )
+		call SetUnitX(ULunhui,GetUnitX(xinglong))
+		call SetUnitY(ULunhui,GetUnitY(xinglong))
+		call SetTextTagPos(TTLunhui,GetUnitX(ULunhui),GetUnitY(ULunhui),0)
         call PlaySoundBJ(gg_snd_xinglong_4)
 		call PrintSpellName(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'))
-		call UnitAddAbility(xinglong,'A0K1')
-		call UnitMakeAbilityPermanent(xinglong,true,'A0K1')
+		// call UnitAddAbility(xinglong,'A0K1')
+		// call UnitMakeAbilityPermanent(xinglong,true,'A0K1')
 		//不断伤害
-		call SaveUnitHandle(spellTable,GetHandleId(t2),1,u)
-		call TimerStart(t2,0.05,true,function LonghuanglunhuiDamageTimer)
-		//快速升级
-		set t2 = null
-		set u = null
+		call TimerStart(TLunhui,0.1,true,function LonghuanglunhuiDamageTimer)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -241,25 +249,6 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	/*
 	    星胧升级后
 	*/
-	private function CreateEffect1 takes real x,real y returns nothing
-		local integer i = 1
-		call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl", x, y ))
-		loop
-			exitwhen i > 6
-			call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl", YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(y + 900 * SinBJ(i*60)) ))
-			set i = i +1
-		endloop
-	endfunction
-
-	private function CreateEffect2 takes real x,real y returns nothing
-		local integer i = 1
-	    call CreateUnitEffect(GetOwningPlayer(xinglong),'h01M',x,y,0)
-		loop
-			exitwhen i > 6
-	    	call CreateUnitEffect(GetOwningPlayer(xinglong),'h01M',YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(y + 900 * SinBJ(i*60)),0)
-			set i = i +1
-		endloop
-	endfunction
 
 	private function TSpellXinglongUpdateAct takes nothing returns nothing
 		if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1 and GetUnitLevel(xinglong) >= 101) then
@@ -270,35 +259,37 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		    call UnitAddAbility(xinglong,'A0JP')
 		    call UnitAddAbility(xinglong,'A0JQ')
 		    call UnitAddAbility(xinglong,'A0JR')
-			call CreateEffect2(GetUnitX(xinglong), GetUnitY(xinglong))
-	    	call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'),XinglongDamage*10)
-	    	call PolledWait(1)
-			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage *3)
+	    	call CreateUnitEffect(GetOwningPlayer(xinglong),'h01M',GetUnitX(xinglong),GetUnitY(xinglong),0)
+			//call CreateEffect2(GetUnitX(xinglong), GetUnitY(xinglong))
+	    	//call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'),XinglongDamage*10)
+	    	//call PolledWait(1)
+			//call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage *3)
 	    	return
 		endif
 
-		if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1 and not(BEffUpdate)) then
-			call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.5)
-			call CreateEffect1(GetUnitX(xinglong), GetUnitY(xinglong))
-			set BEffUpdate = true
-			call PolledWait(2)
-			set BEffUpdate = false
-		endif
+		//if (IsSecondSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JO') == 1 and not(BEffUpdate)) then
+		//	call DamageArea(xinglong,GetUnitX(xinglong), GetUnitY(xinglong),1800,XinglongDamage * 0.5)
+		//	call CreateEffect1(GetUnitX(xinglong), GetUnitY(xinglong))
+		//	set BEffUpdate = true
+		//	call PolledWait(2)
+		//	set BEffUpdate = false
+		//endif
 
+		set RLunhui = RMinBJ(30.,RLunhui + 1.0)
     	call SetUnitLifePercentBJ(xinglong,100)
     	call SetUnitManaBJ(xinglong,GetUnitState(xinglong,UNIT_STATE_MANA)+200)
     	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Orc\\HealingWave\\HealingWaveTarget.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
-    	if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1) then
-    		set BAttrTime = BAttrTime + 2
-
-    		if (GetUnitAbilityLevel(xinglong,'A0K2') != 1) then
-    			call UnitAddAbility(xinglong,'A0K2')
-    			call UnitMakeAbilityPermanent(xinglong,true,'A0K2')
-				call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)
-				call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)
-				call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)
-    		endif
-    	endif
+    	//if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1) then
+    	//	set BAttrTime = BAttrTime + 2
+//
+    	//	if (GetUnitAbilityLevel(xinglong,'A0K2') != 1) then
+    	//		call UnitAddAbility(xinglong,'A0K2')
+    	//		call UnitMakeAbilityPermanent(xinglong,true,'A0K2')
+		//		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)
+		//		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)
+		//		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.3)
+    	//	endif
+    	//endif
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -311,15 +302,15 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Orc\\Orcblood\\BattrollBlood.mdl", GetUnitX(xinglong), GetUnitY(xinglong) ))
 			call UnitDamageTarget( xinglong, xinglong, GetUnitState(xinglong,UNIT_STATE_MAX_LIFE)*0.1, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 		endif
-    	if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1 and BAttrTime != 0) then
-    		set BAttrTime = BAttrTime - 1
-    		if (BAttrTime == 0) then
-    			call UnitRemoveAbility(xinglong,'A0K2')
-				call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.3)
-				call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.3)
-				call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.3)
-    		endif
-    	endif
+    	// if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1 and BAttrTime != 0) then
+    	// 	set BAttrTime = BAttrTime - 1
+    	// 	if (BAttrTime == 0) then
+    	// 		call UnitRemoveAbility(xinglong,'A0K2')
+		// 		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.3)
+		// 		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.3)
+		// 		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.3)
+    	// 	endif
+    	// endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -338,7 +329,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	    	call PanCameraToTimedForPlayer( GetOwningPlayer(xinglong), GetUnitX(xinglong),GetUnitY(xinglong), 0.20 )
 	    	set udg_T1[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = true
 	    else
-	    	call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "|cFFFF66CC【消息】|r请选择你需要的"+I2S(IChooseAura)+"个英雄光环.")
+	    	call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "|cFFFF66CC【消息】|r请双击选择你需要的"+I2S(IChooseAura)+"个英雄光环.")
 		endif
 
 	endfunction
@@ -356,7 +347,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
         set d = null
 	    call PanCameraToTimedForPlayer( GetOwningPlayer(xinglong), GetRectCenterX(gg_rct_______c1),GetRectCenterY(gg_rct_______c1), 0.20 )
 	    call SetCameraBoundsToRectForPlayerBJ( GetOwningPlayer(xinglong), gg_rct_______c1 )
-	    call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "|cFFFF66CC【消息】|r请选择你需要的"+I2S(IChooseAura)+"个英雄光环.")
+	    call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "|cFFFF66CC【消息】|r请双击选择你需要的"+I2S(IChooseAura)+"个英雄光环.")
 	    set udg_T1[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = false
 	endfunction
 //---------------------------------------------------------------------------------------------------

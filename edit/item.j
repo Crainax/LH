@@ -282,7 +282,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 		endif
 
 		if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))]) == 'n02D') then
-			set time = RMaxBJ(1.5,time - 1.5)
+			set time = RMaxBJ(1.5,time - 1.0)
 		endif
 
 		return time

@@ -1,4 +1,4 @@
 
-//! import "Yanmie.j"
+//! import "Xinglong.j"
 function main takes nothing returns nothing
 endfunction

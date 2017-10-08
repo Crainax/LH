@@ -1172,49 +1172,49 @@ library_once Constant initializer InitConstant requires JBase
 
 		if (page == 1) then
 			if (i == 2) then
-				return "|cffff66cc赤血白燕|r"
+				return "瑟雨：|cffff66cc赤血白燕|r"
 			elseif (i == 3) then
-				return "|cff99ccff月轮绯狱|r"
+				return "晓月：|cff99ccff月轮绯狱|r"
 			elseif (i == 4) then
-				return "|cFFFF0000殛霆无迹|r"
+				return "湮灭：|cFFFF0000殛霆无迹|r"
 			elseif (i == 5) then
-				return "|cFF33FF33末日权杖|r"
+				return "玄雪：|cFF33FF33末日权杖|r"
 			elseif (i == 7) then
-				return "|cFFFF3333霜夜之哀|r"
+				return "辰寂：|cFFFF3333霜夜之哀|r"
 			elseif (i == 6) then
-				return "|cFFCCFF66三弦星谧|r"
+				return "泰雅：|cFFCCFF66三弦星谧|r"
 			elseif (i == 8) then
-				return "|cFF3333FF獠牙之匕|r"
+				return "寒殇：|cFF3333FF獠牙之匕|r"
 			elseif (i == 10) then
-				return "|cFFFF3333双流贯恒|r"
+				return "辰寂：|cFFFF3333双流贯恒|r"
 			elseif (i == 9) then
-				return "|cFF339933沐雪无瑕|r"
+				return "凌雪：|cFF339933沐雪无瑕|r"
 			endif
 		elseif (page == 2) then
 			if (i == 2) then
-				return "|cFF6699FF熔日煌世|r"
+				return "凯撒：|cFF6699FF熔日煌世|r"
 			elseif (i == 1) then
-				return "|cFFFF00CC星界麒麟|r"
+				return "莫琪：|cFFFF00CC星界麒麟|r"
 			elseif (i == 3) then
-				return "|cFFFF0000凝冰红灯|r"
+				return "玄雪：|cFFFF0000凝冰红灯|r"
 			elseif (i == 4) then
-				return "|cffff0000凰迹天知|r"
+				return "摄焱：|cffff0000凰迹天知|r"
 			elseif (i == 5) then
-				return "|cFF6699FF封霜玄锋|r"
+				return "霸绝：|cFF6699FF封霜玄锋|r"
 			elseif (i == 6) then
-				return "|cffff6800天罚四界|r"
+				return "幻逸：|cffff6800天罚四界|r"
 			elseif (i == 7) then
-				return "|cff33cccc白莲圣日·黑羽魔月|r"
+				return "司宸：|cff33cccc白莲圣日·黑羽魔月|r"
 			elseif (i == 8) then
-				return "|cff993366翎翼浮灵|r"
+				return "苍凌：|cff993366翎翼浮灵|r"
 			elseif (i == 9) then
-				return "|cff0000ff七阴之恸|r"
+				return "黑阎：|cff0000ff七阴之恸|r"
 			endif
 		elseif (page == 3) then
 			if (i == 1) then
-				return "|cffff6800谜幻逸空|r"
+				return "离魑：|cffff6800谜幻逸空|r"
 			elseif (i == 2) then
-				return "|cFF3333FF耀金独心|r"
+				return "寒殇：|cFF3333FF耀金独心|r"
 			endif
 		endif
 

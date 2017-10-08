@@ -149,7 +149,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	function SimulateDamageXiaoting takes unit u returns boolean
 		//绝焱
 		if (GetUnitTypeId(u) == 'h022') then
-			call UnitDamageTarget( xiaoting, GetTriggerUnit(), RDamageXiaoting * 0.3 * GetComboMulti(), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( xiaoting, GetTriggerUnit(), RDamageXiaoting * 1.2 * GetComboMulti(), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		return false
@@ -222,7 +222,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	*/
 	private function CreateJueyan takes unit u returns nothing
 		local unit temp = CreateUnit(GetOwningPlayer(xiaoting),'h022',GetUnitX(u),GetUnitY(u),0)
-		call UnitApplyTimedLifeBJ( 3.00, 'BHwe',temp )
+		call UnitApplyTimedLifeBJ( 10.00, 'BHwe',temp )
 		set temp = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -623,7 +623,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	    绝焱
 	*/
 	private function Jueyan takes nothing returns nothing
-		set IJueyan = IJueyan + 10
+		set IJueyan = IJueyan + 2
 	    call PrintSpellName(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()))
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting) ))
 	endfunction

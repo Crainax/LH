@@ -570,7 +570,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		set IDuxin = IDuxin + 1
 		call SaveInteger(HTHS,GetHandleId(hanshang),IDuxin,GetItemTypeId(GetManipulatedItem()))
 		if (IDuxin < 537) then
-			call BJDebugMsg("|cFF3333FF【耀金独心|r】|r进度:"+I2S(IDuxin) + "/537.")
+			call DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFF3333FF【耀金独心|r】|r进度:"+I2S(IDuxin) + "/537.")
 		else
 			debug call SetHanshang2SpinOK(GetOwningPlayer(hanshang))
 		endif
