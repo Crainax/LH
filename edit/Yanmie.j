@@ -36,7 +36,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		private real RHongmingX = 0.
 		private real RHongmingY = 0.
 		private timer THongming = null
-	endglobals#
+	endglobals
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -405,7 +405,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	    call TriggerRegisterUnitEvent(TSpellYanmie,yanmie,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellYanmie, function TSpellYanmieAct)
 
-	    debug if (GetUnitAbilityLevel(GetOwningPlayer(yanmie)) >= 5) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 5) then
 	    	call CreateFanzhuanItem(yanmie)
 	    debug endif
 

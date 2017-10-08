@@ -179,9 +179,18 @@ library_once Spin requires LHBase,Version
 		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHeiyan1Spin(p) or HasAll14Word(p))
 		//return true
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
-	    司宸的皮肤条件
+	    炼金的皮肤条件
+	*/
+	function IsHanshangSpin2 takes player p returns boolean
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHanshang2Spin(p) or HasAll14Word(p))
+		//return true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    离魑的皮肤条件
 	*/
 	function IsLichiSpin1 takes player p returns boolean
 		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLichi1Spin(p) or HasAll14Word(p))

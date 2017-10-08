@@ -274,6 +274,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			//签到指数
     			//set IQiandao2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "IQiandao2")
     			set spin2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin2")
+    			set spin3[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin3")
     			set easyCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "easyCString")
     			set middleCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "middleCString")
     			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")

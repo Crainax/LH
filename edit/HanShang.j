@@ -50,6 +50,11 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		    吃的数量
 		*/
 		private integer ILianjinChi = 1
+
+		//获得物品的数量
+		private integer IDuxin = 0
+		private trigger TDuxin = null
+		private hashtable HTHS = null
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -319,7 +324,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	        endif
 	    endif
 	    if (ITotalEat > 5000000) then
-	    	debug call SetHanshangSpinOK(GetOwningPlayer(hanshang))
+	    	debug call SetHanshang1SpinOK(GetOwningPlayer(hanshang))
 	    endif
 	    call RemoveItem( it )
 	    set it = null
@@ -543,9 +548,57 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    初始化皮肤任务
+	*/
+	private function TDuxinAct takes nothing returns nothing
+		local integer i
+		if (HTHS == null) then
+			return
+		endif
+
+		if (GetHanshang2Spin(GetOwningPlayer(hanshang))) then
+			return
+		endif
+		set i = 1
+		loop
+			exitwhen i > IDuxin
+    		if (LoadInteger(HTHS,GetHandleId(hanshang),i) == GetItemTypeId(GetManipulatedItem())) then
+    			return
+    		endif
+			set i = i +1
+		endloop
+		set IDuxin = IDuxin + 1
+		call SaveInteger(HTHS,GetHandleId(hanshang),IDuxin,GetItemTypeId(GetManipulatedItem()))
+		if (IDuxin < 537) then
+			call BJDebugMsg("|cFF3333FF【耀金独心|r】|r进度:"+I2S(IDuxin) + "/537.")
+		else
+			debug call SetHanshang2SpinOK(GetOwningPlayer(hanshang))
+		endif
+	endfunction
+	
+	function InitDuxin takes nothing returns nothing
+		set TDuxin = CreateTrigger()
+		set HTHS = InitHashtable()
+    	call TriggerRegisterUnitEvent( TDuxin, hanshang, EVENT_UNIT_PICKUP_ITEM )
+		call TriggerAddAction(TDuxin, function TDuxinAct)
+		set TDuxin = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    寒殇匕首
 	*/
 	private function InitHanshangSpin takes unit u returns unit
+
+        if (IsHanshangSpin2(GetOwningPlayer(u))) then
+            set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'E00H',GetUnitX(u),GetUnitY(u),0)
+            set gg_unit_E00C_0217 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+            call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+            call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
+            call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+            call RemoveUnit(u)
+        endif
+
 		if (IsHanshangSpin1(GetOwningPlayer(u))) then
 			call UnitAddAbility(u,'A0KV')
 			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)

@@ -5,6 +5,7 @@
 //! import "Diffculty.j"
 //! import "Xuanxue.j"
 //! import "Huanyi.j"
+//! import "Hanshang.j"
 //! import "Bajue.j"
 //! import "Juexing.j"
 //! import "BaseVersion.j"
@@ -12,7 +13,7 @@
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,BaseVersion//,Continous
+library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,Hanshang,BaseVersion//,Continous
 	
 	globals
 		private item array IBox
@@ -234,6 +235,10 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()
 			call DisplayTextToPlayer(GetOwningPlayer(xuanxue), 0., 0., "|cFFFF66CC【消息】|r开启玄雪英雄挑战.")
+		//炼金皮肤
+		elseif (str == "-lj" and GetOwningPlayer(hanshang) == GetTriggerPlayer()) then
+			call InitDuxin()
+			call DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFFFF66CC【消息】|r开启寒殇英雄挑战.")
 		//玄雪皮肤
 		elseif (str == "-bj" and GetOwningPlayer(bajue) == GetTriggerPlayer()) then
 			call InitFengshuang()

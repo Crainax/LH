@@ -18,6 +18,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		*/
 		integer array spin
 		integer array spin2
+		integer array spin3
 		string array heroCountString
 
 		//倾雪寒晶
@@ -207,6 +208,8 @@ library_once Achievement requires LHBase,ChallangerDZ
 				set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + R2I(Pow(10,index-1))
 			elseif (page == 2) then
 				set spin2[GetConvertedPlayerId(p)] = spin2[GetConvertedPlayerId(p)] + R2I(Pow(10,index-1))
+			elseif (page == 3) then
+				set spin3[GetConvertedPlayerId(p)] = spin3[GetConvertedPlayerId(p)] + R2I(Pow(10,index-1))
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取皮肤\""+GetHeroChallenageName(index,page)+"\"！")
 			call SaveSpinData(p)
@@ -221,7 +224,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		local integer j = 1
 		local integer result = 0
 		loop
-			exitwhen j > 2
+			exitwhen j > 3
 
 			set i = 1
 			loop
@@ -340,7 +343,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	/*
 	    寒殇皮肤OK了
 	*/
-	function SetHanshangSpinOK takes player p returns nothing
+	function SetHanshang1SpinOK takes player p returns nothing
 		call GetSpecifySpin(p,1,8)
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -522,6 +525,21 @@ library_once Achievement requires LHBase,ChallangerDZ
 	*/
 	function SetLichiSpinOK takes player p returns nothing
 		call GetSpecifySpin(p,2,10)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    寒殇皮肤条件
+	*/
+	function GetHanshang2Spin takes player p returns boolean
+		return GetBit(spin3[GetConvertedPlayerId(p)],1) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    寒殇皮肤OK了
+	*/
+	function SetHanshang2SpinOK takes player p returns nothing
+		call GetSpecifySpin(p,3,1)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -825,6 +843,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,2) + S3(GetHeiyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		elseif (page == 3) then
 			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1,3) + S3(GetLichi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2,3) + S3(GetHanshang2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))

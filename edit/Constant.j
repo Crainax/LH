@@ -88,7 +88,7 @@ library_once Constant initializer InitConstant requires JBase
 	    判断是否是皮肤
 	*/
 	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E' 
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E'  or GetUnitTypeId(u) == 'E00H' 
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 8
 		elseif (heroType == 'Harf' or heroType == 'H01W') then
 			return 9
-		elseif (heroType == 'E00C') then
+		elseif (heroType == 'E00C' or heroType == 'E00C') then
 			return 10
 		elseif (heroType == 'Etyr' or heroType == 'E00G') then
 			return 11
@@ -122,7 +122,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 12
 		elseif (heroType == 'Udea' or heroType == 'U003') then
 			return 13
-		elseif (heroType == 'Hkal') then
+		elseif (heroType == 'Hkal' or heroType == 'E00H') then
 			return 14
 		elseif (heroType == 'Hant' or heroType == 'H026') then
 			return 15
@@ -1213,6 +1213,8 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (page == 3) then
 			if (i == 1) then
 				return "|cffff6800谜幻逸空|r"
+			elseif (i == 2) then
+				return "|cFF3333FF耀金独心|r"
 			endif
 		endif
 
@@ -1325,6 +1327,11 @@ library_once Constant initializer InitConstant requires JBase
 				使用离魑在一局触发影爆次数达到100次.
 
 				完成该项挑战后你将获得离魑的皮肤\"|cffff6800谜幻逸空|r\"(拥有少量的属性加成)!"
+			elseif (i == 2) then
+				return "
+				使用寒殇在一局游戏中总共获得(捡起)过537种不同的物品(包括升级装备的书本).(需要输入-lj来开启该挑战)
+
+				完成该项挑战后你将获得寒殇的皮肤\"|cFF3333FF耀金独心|r\"(拥有少量的属性加成)!"
 			endif		
 		endif
 		return ""
