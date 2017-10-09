@@ -81,8 +81,9 @@ library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
             call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
             call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
             call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
-            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
             call RemoveUnit(u)
+            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+            
         endif
 
 		if (IsXuanxueSpin1(GetOwningPlayer(u))) then

@@ -120,7 +120,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		if (isFirst) then
 			set isFirst = false
 			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2
-			call BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+1波的特权.")
+			call BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+2波的特权.")
 			call BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.")
 		endif
 

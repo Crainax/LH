@@ -192,7 +192,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	private function LonghuanglunhuiDamageTimer takes nothing returns nothing
 		if (RLunhui >= 0.) then
 			set RLunhui = RLunhui - 0.1
-			call SetTextTagText(TTLunhui,R2S(RLunhui)+"s",20)
+			call SetTextTagTextBJ(TTLunhui,R2S(RLunhui)+"s",20)
     		call SetUnitFlyHeight(CreateUnit(GetOwningPlayer(xinglong),'h01J',YDWECoordinateX(GetUnitX(ULunhui)+GetRandomReal(-900,900)), YDWECoordinateY(GetUnitY(ULunhui)+GetRandomReal(-900,900)),0), 0.00, 500.00 )
 		else
 			call PauseTimer(TLunhui)
@@ -209,14 +209,14 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		local integer i = GetHeroLevel(xinglong)
 
 		set RLunhui = RMaxBJ(5.0,RLunhui)
-		if (TLunhui != null) then
+		if (TLunhui == null) then
 			set TLunhui = CreateTimer()
 			set ULunhui = CreateUnit(GetOwningPlayer(xinglong),'h01K',GetUnitX(xinglong),GetUnitY(xinglong),0)
-			set TTLunhui = CreateTextTagUnitBJ( R2S(RLunhui)+"s", ULunhui, 0, 20, 0, 0, 100, 0 )
+			set TTLunhui = CreateTextTagUnitBJ( R2S(RLunhui)+"s", xinglong, 20, 20, 0, 0, 100, 0 )
 		endif
 		call SetUnitX(ULunhui,GetUnitX(xinglong))
 		call SetUnitY(ULunhui,GetUnitY(xinglong))
-		call SetTextTagPos(TTLunhui,GetUnitX(ULunhui),GetUnitY(ULunhui),0)
+		//call SetTextTagPos(TTLunhui,GetUnitX(ULunhui),GetUnitY(ULunhui),0)
         call PlaySoundBJ(gg_snd_xinglong_4)
 		call PrintSpellName(GetOwningPlayer(xinglong),GetAbilityName('A0JQ'))
 		// call UnitAddAbility(xinglong,'A0K1')

@@ -102,26 +102,30 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		local integer i = 1
 		local real x = GetUnitX(yanmie)
 		local real y = GetUnitY(yanmie)
-		call PrintSpell(GetOwningPlayer(yanmie),GetAbilityName('AEev'),damage)
+		call PrintSpell(GetOwningPlayer(yanmie),GetAbilityName('AEev'),damage * 0.2)
 		call DamageArea(yanmie,GetUnitX(yanmie),GetUnitY(yanmie),1800, damage * 0.2)
 		call DisableTrigger(GetTriggeringTrigger())
 
 		loop
 			exitwhen i > 6
 			call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(x + 300 * CosBJ(i*60)), YDWECoordinateY(y + 300 * SinBJ(i*60)) ))
+			set i = i + 1
 		endloop
 
 		set i = 1
 		loop
 			exitwhen i > 12
 			call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(x + 900 * CosBJ(i*30)), YDWECoordinateY(y + 900 * SinBJ(i*30)) ))
+			set i = i + 1
 		endloop
 
 		set i = 1
 		loop
 			exitwhen i > 18
 			call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(x + 1500 * CosBJ(i*20)), YDWECoordinateY(y + 1500 * SinBJ(i*20)) ))
+			set i = i + 1
 		endloop
+		
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction

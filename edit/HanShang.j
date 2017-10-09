@@ -166,6 +166,10 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
             return
         endif
 
+        if (GetItemTypeId(GetManipulatedItem()) == 'I079') then
+        	return
+        endif
+
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(hanshang), GetUnitY(hanshang) ))
 
 	    if (IsItemPawnable(it)) then
@@ -569,8 +573,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		endloop
 		set IDuxin = IDuxin + 1
 		call SaveInteger(HTHS,GetHandleId(hanshang),IDuxin,GetItemTypeId(GetManipulatedItem()))
-		if (IDuxin < 537) then
-			call DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFF3333FF【耀金独心|r】|r进度:"+I2S(IDuxin) + "/537.")
+		if (IDuxin < 520) then
+			call DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFF3333FF【耀金独心|r】|r进度:"+I2S(IDuxin) + "/520.")
 		else
 			debug call SetHanshang2SpinOK(GetOwningPlayer(hanshang))
 		endif
@@ -595,8 +599,8 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
             call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
             call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
             call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
-            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
             call RemoveUnit(u)
+            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
         endif
 
 		if (IsHanshangSpin1(GetOwningPlayer(u))) then

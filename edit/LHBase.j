@@ -1,10 +1,10 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     globals
         unit learnSkillHero = null
@@ -757,8 +757,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,Test
     function ChooseSpinHero takes player p,unit u returns  nothing
         call ShowGameHint(p,"
         这是英雄"+GetUnitName(u)+"的皮肤。"+S3(DEBUG_MODE,"
-        使用该英雄\""+GetUnitName(u)+"\"完成对应英雄挑战即可获取该皮肤。
-        前往基地左边囚车商店可以查看该挑战的详细内容。","
+        双击中间的旗子查看挑战内容,
+        完成对应挑战即可永久解锁该皮肤。","
         使用魔兽争霸官方对战平台(dz.163.com)进行游戏
         完成挑战即可获取该皮肤。"))
     endfunction

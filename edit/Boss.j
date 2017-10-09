@@ -1165,8 +1165,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 			call DisableTrigger(GetTriggeringTrigger())
 			if (IsUnitType(GetTriggerUnit(), UNIT_TYPE_MAGIC_IMMUNE) and playerName[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] != "信哲大人") then
 				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
-			call EnableTrigger(GetTriggeringTrigger())
 			endif
+			call EnableTrigger(GetTriggeringTrigger())
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h01T' and IsUnitAliveBJ(UChuanzhang) and IsUnitDeadBJ(GetTriggerUnit())) then

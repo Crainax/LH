@@ -99,7 +99,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 		elseif (i == 8) then
 			return "熔炎火炮"
 		elseif (i == 9) then
-			return "|cffff609f紫|r|cffff40bf薇|r|cffff20df上|r|cffff00ff神|r"
+			return "紫薇上神"
 		endif
 
 		return ""
