@@ -102,8 +102,8 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		local integer i = 1
 		local real x = GetUnitX(yanmie)
 		local real y = GetUnitY(yanmie)
-		call PrintSpell(GetOwningPlayer(yanmie),GetAbilityName('AEev'),damage * 0.2)
-		call DamageArea(yanmie,GetUnitX(yanmie),GetUnitY(yanmie),1800, damage * 0.2)
+		call PrintSpell(GetOwningPlayer(yanmie),GetAbilityName('AEev'),damage)
+		call DamageArea(yanmie,GetUnitX(yanmie),GetUnitY(yanmie),1800, damage)
 		call DisableTrigger(GetTriggeringTrigger())
 
 		loop
@@ -194,6 +194,8 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		雷神影跃
 	*/
 	private function DestroyYueying takes nothing returns nothing
+		call UnitRemoveAbility(yanmie,'Avul')
+		set BShijieWudi = false
 		set RYingyueX = 0.
 		set RYingyueY = 0.
 		call PauseTimer(TYingyue)
@@ -409,7 +411,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	    call TriggerRegisterUnitEvent(TSpellYanmie,yanmie,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellYanmie, function TSpellYanmieAct)
 
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 5) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 0) then
 	    	call CreateFanzhuanItem(yanmie)
 	    debug endif
 

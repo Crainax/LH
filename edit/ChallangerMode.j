@@ -20,6 +20,13 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
     endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    初始化乱斗
+	*/
+	private function InitKuanghuan takes nothing returns nothing
+		set CType == -1
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    开始挑战3
 	*/
 	function StartTiaozhan1 takes nothing returns nothing

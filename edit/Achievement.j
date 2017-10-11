@@ -705,7 +705,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (udg_H[id] == null) then
 			return
 		endif
-		if (achieveID != 410 and achieveID != 411 and CType != 0) then
+		if (achieveID != 410 and achieveID != 411 and CType != 0 and CType != -1) then
 			return
 		endif
 		if not(IsAchieveOK(p,achieveID)) then

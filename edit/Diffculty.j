@@ -423,6 +423,13 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
 			set SgameMode = "加速"
 			call ChooseDifficulty(1)
+		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),4)) then
+			//挑战模式
+			set mode = 2
+			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".")
+			set SgameMode = "狂欢"
+			call ChooseDifficulty(4)
+			call InitKuanghuan()
 		endif	       
 
         call FlushChildHashtable(LHTable,GetHandleId(d))
@@ -441,9 +448,10 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 	    local dialog d = DialogCreate()
 
 	    call DialogSetMessage( d, "请选择游戏模式" )
+	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, "狂欢模式(活动)"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式"))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(进阶)"))
+	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(速通)"))
 	    call DialogDisplay( GetFirstPlayer(), d, true )
 	    call TriggerRegisterDialogEvent( t, d )
 	    call TriggerAddAction(t, function GameModeClick)

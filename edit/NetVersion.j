@@ -460,7 +460,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call GetAchievementAndSave(ConvertedPlayer(i),411)
 				endif
 
-				if (CType != 0) then
+				if (CType != 0 and CType != -1) then
 					call ChallangerSuccess(ConvertedPlayer(i))
 				endif
 
@@ -796,6 +796,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					endif
 					if ( attr > 20000000) then
 						call GetAchievementAndSave(ConvertedPlayer(i),317)
+					endif
+					if ( attr > 35000000 and udg_H[i] == sichen) then
+						call SetSichenSpinOK(ConvertedPlayer(i))
 					endif
 					if ( attr > 50000000) then
 						call GetAchievementAndSave(ConvertedPlayer(i),318)

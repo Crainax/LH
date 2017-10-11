@@ -38,14 +38,14 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.394C"
+		return "3.401"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11
 	*/
 	function Get11 takes nothing returns boolean
-		return true
+		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -114,7 +114,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 8
 		elseif (heroType == 'Harf' or heroType == 'H01W') then
 			return 9
-		elseif (heroType == 'E00C' or heroType == 'E00C') then
+		elseif (heroType == 'E00C' or heroType == 'E00H') then
 			return 10
 		elseif (heroType == 'Etyr' or heroType == 'E00G') then
 			return 11
@@ -122,7 +122,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 12
 		elseif (heroType == 'Udea' or heroType == 'U003') then
 			return 13
-		elseif (heroType == 'Hkal' or heroType == 'E00H') then
+		elseif (heroType == 'Hkal') then
 			return 14
 		elseif (heroType == 'Hant' or heroType == 'H026') then
 			return 15
@@ -1307,7 +1307,7 @@ library_once Constant initializer InitConstant requires JBase
 				完成该项挑战后你将获得幻逸的皮肤\"|cffff6800天罚四界|r\"(拥有少量的属性加成)!"
 			elseif (i == 7) then
 				return "
-				目前该皮肤可以通过每周六YY90163抽奖活动抽取.
+				使用司宸属性总和达到3500W.
 
 				完成该项挑战后你将获得司宸的皮肤\"|cff33cccc白莲圣日·黑羽魔月|r\"(拥有少量的属性加成)!"
 			elseif (i == 8) then

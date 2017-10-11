@@ -138,6 +138,13 @@ library_once ChallangerDZ requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    判断是否是随机英雄挑战
+	*/
+	function IsKuanghuan takes nothing returns boolean
+		return CType == -1
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取某个玩家的完成挑战(某个难度)
 	*/
 	function GetEasyComplete takes player p returns integer
@@ -223,6 +230,10 @@ library_once ChallangerDZ requires LHBase
 	function ChallangerSuccess takes player p returns nothing
 		local string temp = ""
 		local integer index = GetConvertedPlayerId(p)
+		if (CType == -1) then
+			set temp = null
+			return
+		endif
 		if (CDiff == 1) then
 			set temp = easyCString[index]
 			set easyCString[index] = SubStringBJ(temp,1,CType - 1)
@@ -241,6 +252,7 @@ library_once ChallangerDZ requires LHBase
 		endif
 		call InitChallangerData(p)
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的完成了"+SgameMode+".")
+		set temp = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

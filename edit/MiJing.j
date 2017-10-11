@@ -369,7 +369,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     /*
         给装备梦霁
     */
-    private function GiveMengjiMijing takes nothing returns nothing
+    /*private function GiveMengjiMijing takes nothing returns nothing
         local timer t = GetExpiredTimer()
         set IMijing[GetConvertedPlayerId(GetOwningPlayer(mengji))] = UnitAddItemByIdSwapped(GetDengJiangli(), udg_H[GetConvertedPlayerId(GetOwningPlayer(mengji))])
         call DisplayTextToPlayer(GetOwningPlayer(mengji), 0., 0., "|cFFFF66CC【消息】|r秘境挑战第"+ I2S(IDeng) + "层挑战成功！奖励"+GetItemName(GetLastCreatedItem())+"发放到了你的身上.")
@@ -377,7 +377,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         call PauseTimer(t)
         call DestroyTimer(t)
         set t = null
-    endfunction
+    endfunction*/
 //---------------------------------------------------------------------------------------------------
     /*
         发放奖励
@@ -410,7 +410,10 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         endif
         //call PolledWait(0.1)
         if (udg_H[index] == mengji) then
-            call TimerStart(CreateTimer(),0.1,false,function GiveMengjiMijing)
+            set IMijing[GetConvertedPlayerId(GetOwningPlayer(mengji))] = UnitAddItemByIdSwapped(GetDengJiangli(), UDepot[GetConvertedPlayerId(GetOwningPlayer(mengji))])
+            call DisplayTextToPlayer(GetOwningPlayer(mengji), 0., 0., "|cFFFF66CC【消息】|r秘境挑战第"+ I2S(IDeng) + "层挑战成功！奖励"+GetItemName(GetLastCreatedItem())+"发放到了你的仓库里面.")
+            call PingMinimapForForce( GetForceOfPlayer(GetOwningPlayer(mengji)), GetUnitX(UDepot[GetConvertedPlayerId(GetOwningPlayer(mengji))]), GetUnitY(UDepot[GetConvertedPlayerId(GetOwningPlayer(mengji))]), 5.00 )
+            //call TimerStart(CreateTimer(),0.1,false,function GiveMengjiMijing)
             return
         endif
         
