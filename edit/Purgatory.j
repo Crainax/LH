@@ -10,6 +10,61 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase
 
 //---------------------------------------------------------------------------------------------------
 	/*
+	    许愿之蛋
+	*/
+	private function XuyuanClick takes nothing returns nothing
+        local dialog d = GetClickedDialogBJ()
+        local unit u = LoadUnitHandle(LHTable,GetHandleId(d),3)
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
+            call SetUnitX(u,GetRectCenterX(gg_rct_Diamond2))
+            call SetUnitY(u,GetRectCenterY(gg_rct_Diamond2))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond2),GetRectCenterY(gg_rct_Diamond2),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond2), GetRectCenterY(gg_rct_Diamond2)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),4)) then
+            call SetUnitX(u,GetRectCenterX(gg_rct_Diamond3))
+            call SetUnitY(u,GetRectCenterY(gg_rct_Diamond3))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond3),GetRectCenterY(gg_rct_Diamond3),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond3), GetRectCenterY(gg_rct_Diamond3)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
+            call SetUnitX(u,GetRectCenterX(gg_rct________8))
+            call SetUnitY(u,GetRectCenterY(gg_rct________8))
+            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct________8),GetRectCenterY(gg_rct________8),0.2)
+            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct________8), GetRectCenterY(gg_rct________8)))
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        endif
+
+        call FlushChildHashtable(LHTable,GetHandleId(d))
+        call DialogDisplay( p, d, false )
+        call DialogClear(d)
+        call DialogDestroy(d)
+        set d = null
+        set u = null
+        call DestroyTrigger(GetTriggeringTrigger())
+	endfunction	
+
+	function Xuyuan takes player p returns nothing
+        local trigger t  = CreateTrigger()
+        local dialog d = DialogCreate()
+        call DialogSetMessage( d, "" )
+        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "低级宝石区1（次）"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, "低级宝石区2（次）"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "高级宝石区（主）"))
+        call SaveUnitHandle(LHTable,GetHandleId(d),3,u)
+        call DialogDisplay( p, d, true )
+        call TriggerRegisterDialogEvent( t, d )
+        call TriggerAddAction(t, function DiamondDialogClick)
+        set d = null
+        set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    炼狱90层以上怪物的设置
 	*/
 	function SetPurgatory90UpUnit takes nothing returns nothing
@@ -99,6 +154,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase
 	    call TriggerAddCondition(t, Condition(function TPurgatoryItemCon))
 	    call TriggerAddAction(t, function TPurgatoryItemAct)
 
+	    set t = null
 	endfunction
 
 endlibrary
