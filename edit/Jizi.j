@@ -7,7 +7,6 @@
 library_once Jizi  requires LHBase,Achievement,ChallangerDZ,Attr,Structs
 
 	globals
-		string array SJizi 
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

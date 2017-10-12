@@ -1,8 +1,9 @@
 
 //! import "LHBase.j"
 //! import "ChallangerMode.j"
+/////! import "Kuanghuan.j"
 /////! import "Huodong.j"
-library_once Diffculty requires LHBase,Huodong,ChallangerMode
+library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 	
 	globals
 		/*
@@ -423,13 +424,13 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".")
 			set SgameMode = "加速"
 			call ChooseDifficulty(1)
-		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),4)) then
+		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),5)) then
 			//挑战模式
 			set mode = 2
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".")
 			set SgameMode = "狂欢"
-			call ChooseDifficulty(4)
 			call InitKuanghuan()
+			call ChooseDifficulty(4)
 		endif	       
 
         call FlushChildHashtable(LHTable,GetHandleId(d))

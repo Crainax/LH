@@ -174,6 +174,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         rect gg_rct________8 = null
         rect gg_rct_Diamond2 = null
         rect gg_rct_Diamond3 = null
+        rect gg_rct_Chuancheng = null
         /*
             转生禁区
         */

@@ -7,12 +7,12 @@
 //! import "Shen.j"
 //! import "item.j"
 //! import "Yanmie.j"
+/////! import "Purgatory.j"
 /////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie//,Continous
-	
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie,Purgatory//,Continous
 
 	globals
 		boolean array BYaoShuxing 
@@ -336,6 +336,9 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		elseif (IsShenAll(GetManipulatedItem())) then
 			//神器召唤
 			call SummonJingling(GetManipulatedItem(),GetTriggerUnit())
+		elseif (ChooseBuffColor(GetOwningPlayer(GetTriggerUnit()),GetItemTypeId(GetManipulatedItem()))) then
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I02U') then
+			call Xuyuan(GetOwningPlayer(GetTriggerUnit()),GetManipulatedItem())
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07U' and GetTriggerUnit() == yanmie) then
 			//湮灭变化
 			if (FanzhuanCondition(GetOwningPlayer(GetTriggerUnit()),2)) then
@@ -348,9 +351,9 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			else
 				call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),GetFanzhuanFailString(GetOwningPlayer(GetTriggerUnit()),2))
 			endif
-		debug elseif (GetItemTypeId(GetManipulatedItem()) == 'I07T') then
-		debug 	//月饼
-		debug 	call OpenTheYuebing(GetOwningPlayer(GetTriggerUnit()))
+		//debug elseif (GetItemTypeId(GetManipulatedItem()) == 'I07T') then
+		//debug 	//月饼
+		//debug 	call OpenTheYuebing(GetOwningPlayer(GetTriggerUnit()))
     	//开箱子
 		debug elseif(GetItemTypeId(GetManipulatedItem()) == 'I06N') then
 			debug call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Transmute\\PileofGold.mdl",GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()) ))

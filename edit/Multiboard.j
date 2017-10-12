@@ -1,5 +1,6 @@
 
 //! import "LHBase.j"
+/////! import "NetVersion.j"
 
 library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	globals

@@ -20,13 +20,6 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
     endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    初始化乱斗
-	*/
-	private function InitKuanghuan takes nothing returns nothing
-		set CType == -1
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    开始挑战3
 	*/
 	function StartTiaozhan1 takes nothing returns nothing
@@ -44,6 +37,13 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 		set u = null
 	endfunction
 
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化乱斗
+	*/
+	function InitKuanghuan takes nothing returns nothing
+		set CType = -1
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    开始挑战4
@@ -202,7 +202,7 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 
 	    call DialogDisplay( GetFirstPlayer(), udg_X_Nandu, true )
 
-	    if (CType != 0) then
+	    if (CType != 0 and CType != -1) then
 	    	call InitChallanger()
 	    endif
 	endfunction

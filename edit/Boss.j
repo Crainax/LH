@@ -901,7 +901,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    call PrintXiaotingPassword()
 		    call PrintXiaotingPassword()
 		    debug call SaveAchievementKuilei2()
-		    debug call CreateAllYuebing()
+		    ////debug call CreateAllYuebing()
 		    call CinematicModeBJ( false, GetPlayersAll() )
 		    call PolledWait(60.00)
 		    call ForForce( GetPlayersAll(), function ShengliAll )
@@ -1060,7 +1060,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	        set DTJ2 = 0
 		    debug call SaveAchievementKuilei1()
 		    //call CinematicModeBJ( false, GetPlayersAll() )
-		    debug call CreateAllYuebing()
+		    //debug call CreateAllYuebing()
 		    call StartGhostAngleTimer()
 		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
 		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")

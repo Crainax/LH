@@ -2,9 +2,9 @@
 //! import "item.j"
 //! import "Huodong.j"
 //! import "Achievement.j"
-//! import "Jizi.j"
+/////! import "Jizi.j"
 
-library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong,Jizi
+library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong//,Jizi
 
 
 	globals
@@ -167,7 +167,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-			call CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),p)
+			//call CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),p)
 		else
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")

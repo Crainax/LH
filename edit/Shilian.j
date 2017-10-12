@@ -62,6 +62,8 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		//前的分身
 		private unit array UQian
 		private boolean array BQian
+
+		integer array IKuanghuanType
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -81,7 +83,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	    行的移动 效果
 	*/
 	private function TXingCon takes nothing returns boolean
-		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart")) and BShilianing[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]
+		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart")) and (BShilianing[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] or IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] == 2)
 	endfunction
 
 	private function TXingAct takes nothing returns nothing
@@ -433,7 +435,18 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		endif
 
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    为一个单位添加行字效果
+	*/
+	function AddXingUnit takes unit u returns nothing
+    	if (TXing == null) then
+			set TXing = CreateTrigger()
+			call TriggerAddCondition(TXing, Condition(function TXingCon))
+			call TriggerAddAction(TXing, function TXingAct)
+		endif
+    	call TriggerRegisterUnitEvent( TXing, u , EVENT_UNIT_ISSUED_POINT_ORDER )
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    刚刚定下你的真言的时候
@@ -500,12 +513,9 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			call UnitAddAbilityP(udg_H[id],'A0LG')
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的将|cff00ccff九字真言 - 行|r定为你的试练内容.")
 			call SetPlayerAbilityAvailable(p,'A0LG',false)
-			if (TXing == null) then
-				set TXing = CreateTrigger()
-				call TriggerAddCondition(TXing, Condition(function TXingCon))
-				call TriggerAddAction(TXing, function TXingAct)
-			endif
-	    	call TriggerRegisterUnitEvent( TXing, udg_H[GetConvertedPlayerId(p)], EVENT_UNIT_ISSUED_POINT_ORDER )
+
+			call AddXingUnit(udg_H[GetConvertedPlayerId(p)])
+
 		endif
 		call ShowGameHint(p,"
 			恭喜你完成了传承试练!

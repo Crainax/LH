@@ -1,41 +1,51 @@
 
 //! import "LHBase.j"
 //! import "item.j"
+//! import "ChallangerDZ.j"
 
-library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase
+library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,ChallangerDZ
 	
-	globals
-		// body...
-	endglobals
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    许愿之蛋
 	*/
 	private function XuyuanClick takes nothing returns nothing
         local dialog d = GetClickedDialogBJ()
-        local unit u = udg_H[GetConvertedPlayerId(LoadPlayerHandle(LHTable,GetHandleId(d),4))]
+        local player p = LoadPlayerHandle(LHTable,GetHandleId(d),4)
+        local unit u = udg_H[GetConvertedPlayerId(p)]
+        local integer int = 0
+        local integer str = 0
+        local integer agi = 0
 
         call RemoveItem(LoadItemHandle(LHTable,GetHandleId(d),5))
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	//回归1级，然后爆炸
+        	//回归100级，然后爆炸
+        	set int = GetHeroInt(u,false)
+        	set str = GetHeroStr(u,false)
+        	set agi = GetHeroAgi(u,false)
+		    call SetHeroLevelBJ( u, 100, false )
+        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你等级到了100级.")
+	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
+	    	call SetHeroInt(u,int,false)
+	    	call SetHeroAgi(u,agi,false)
+	    	call SetHeroStr(u,str,false)
         endif
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
-            call SetUnitX(u,GetRectCenterX(gg_rct_Diamond3))
-            call SetUnitY(u,GetRectCenterY(gg_rct_Diamond3))
-            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct_Diamond3),GetRectCenterY(gg_rct_Diamond3),0.2)
-            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct_Diamond3), GetRectCenterY(gg_rct_Diamond3)))
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        	//立即获取8%的属性
+        	call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
+        	call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
+        	call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
+	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
+        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的获得了8%的全属性.")
         endif
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),3)) then
-            call SetUnitX(u,GetRectCenterX(gg_rct________8))
-            call SetUnitY(u,GetRectCenterY(gg_rct________8))
-            call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),GetRectCenterX(gg_rct________8),GetRectCenterY(gg_rct________8),0.2)
-            call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetRectCenterX(gg_rct________8), GetRectCenterY(gg_rct________8)))
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
+        	//立即提高20级
+        	call SetHeroLevel(u,GetHeroLevel(u) + 50,true)
+        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的提高了50级.")
+	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
         endif
 
         call FlushChildHashtable(LHTable,GetHandleId(d))
@@ -44,6 +54,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase
         call DialogDestroy(d)
         set d = null
         set u = null
+        set p = null
         call DestroyTrigger(GetTriggeringTrigger())
 	endfunction	
 
@@ -51,14 +62,16 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase
         local trigger t  = CreateTrigger()
         local dialog d = DialogCreate()
         call DialogSetMessage( d, "选择你想要的愿望" )
-        call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "等级归0，属性不变"))
+        if ((udg_H[GetConvertedPlayerId(p)] != sichen and udg_H[GetConvertedPlayerId(p)] != xuanxue) or not IsKuanghuan()) then
+        	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "等级到100，属性不变"))
+        	call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "提高50级"))
+        endif
         call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "属性立马提高8%"))
-        call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "提高20级"))
         call SavePlayerHandle(LHTable,GetHandleId(d),4,p)
         call SaveItemHandle(LHTable,GetHandleId(d),5,i)
         call DialogDisplay( p, d, true )
         call TriggerRegisterDialogEvent( t, d )
-        call TriggerAddAction(t, function DiamondDialogClick)
+        call TriggerAddAction(t, function XuyuanClick)
         set d = null
         set t = null
 	endfunction

@@ -12,9 +12,13 @@
 //! import "Qixi.j"
 //! import "Fanzhuan.j"
 
-library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Jizi,Fanzhuan
+library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Fanzhuan//,Jizi
 	
 	globals
+
+
+		//集字
+		string array SJizi 
 
 		unit UChengjiu = null
 
@@ -92,6 +96,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		//不说话的成就
 		boolean BSlince = false
 	endglobals
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    给所有玩家一个成就
@@ -215,7 +220,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    星胧选取条件
 	*/
 	function GetXinglongSelectedCon takes player p returns boolean
-		return (DzAPI_Map_GetMapLevel(p) >= 11) or GetPlayerWordCount(p) >= 8
+		return (DzAPI_Map_GetMapLevel(p) >= 11)// or GetPlayerWordCount(p) >= 8
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -254,8 +259,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set heroCountString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hero")
     			set spin[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "spin")
     			set diyu[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "defense")
-    			/*set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
-    			set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
+    			set mingcha[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "mingcha")
+    			/*set passTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass")
     			set petTimes[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pet")
     			set pass1[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass1")
     			set pass2[i] = DzAPI_Map_GetStoredInteger(ConvertedPlayer(i), "pass2")
@@ -807,11 +812,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			endif
 			set i = i +1
 		endloop
-		if (udg_RENSHU > 0) then
-			if (ModuloInteger(udg_Second[2],60/udg_RENSHU) == 0 and (udg_Second[2] != 0 or udg_RENSHU > 1)) then
-				call CreateYuebing(GetRectRandomX(GetPlayableMapRect()),GetRectRandomY(GetPlayableMapRect()))
-			endif
-		endif
+		// if (udg_RENSHU > 0) then
+		// 	if (ModuloInteger(udg_Second[2],60/udg_RENSHU) == 0 and (udg_Second[2] != 0 or udg_RENSHU > 1)) then
+		// 		call CreateYuebing(GetRectRandomX(GetPlayableMapRect()),GetRectRandomY(GetPlayableMapRect()))
+		// 	endif
+		// endif
 		
 	endfunction
 //---------------------------------------------------------------------------------------------------

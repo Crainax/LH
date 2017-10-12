@@ -1,0 +1,194 @@
+//! import "LHBase.j"
+//! import "SpellBase.j"
+//! import "Shilian.j"
+/////! import "NetVersion.j"
+
+library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shilian,Version
+
+	globals
+		private trigger TRedAttack = null
+		private boolean array BKuanghuanRed
+	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    红BUFF
+	*/
+	private function TRedAttackCon takes nothing returns boolean
+		return (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))] == 1 and GetAttackedUnitBJ() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]) or (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))] == 1 and GetAttacker() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))])
+	endfunction
+	
+	private function TRedAttackAct takes nothing returns nothing
+		local unit u = null
+		if (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))] == 1) then
+			if not(BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))]) then
+				set u = GetAttacker()
+				call DestroyEffect(AddSpecialEffect("war3mapImported\\FireNova2.mdl", GetUnitX(u),GetUnitY(u) ))
+				call DamageArea(u,GetUnitX(uedPlayerId(GetOwningPlayer(u))] = true), GetUnitY(u),600,GetDamageBase(u) * 1.5	)
+	    		call CreateSpellTextTag("红色泪殇——炎",u,100,0,0,4)
+				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = true
+				set u = null
+				call PolledWait(3.0)
+				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = false
+			endif
+		else
+			if not(BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]) then
+				set u = GetAttackedUnitBJ()
+				call RecoverUnitHP(u,0.5)
+		    	call RecoverUnitMP(u,100)
+ 				call SimulateSpell(u,u,'A0NE',1,6,"stomp",false,true,false)
+				call DestroyEffect(AddSpecialEffect("war3mapImported\\FrostNova2.mdl", GetUnitX(u),GetUnitY(u) ))
+	    		call CreateSpellTextTag("红色泪殇——霜",u,0,0,80,4)
+				set BKuanghuanRed[GetConvert
+				set u = null
+				call PolledWait(3.0)
+				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = false
+			endif
+		endif
+	endfunction
+
+	private function InitRedColor takes player p returns nothing
+		set IKuanghuanType[GetConvertedPlayerId(p)] = 1
+		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 100.00, 0, 0, 0 )
+		call PlaySoundBJ( gg_snd_fanzhuan )
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(yanmie))+"获得了狂欢模式的|cffff0000【狂欢BUFF】红色泪殇|r.")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    蓝色BUFF
+	*/
+	private function InitBlueColor takes player p returns nothing
+		set IKuanghuanType[GetConvertedPlayerId(p)] = 2
+		call UnitAddAbilityP(udg_H[GetConvertedPlayerId(p)],'A0NF')
+		call SetPlayerAbilityAvailable(p,'A0NF',false)
+		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 0, 0, 100.0, 0 )
+		call PlaySoundBJ( gg_snd_fanzhuan )
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(yanmie))+"获得了狂欢模式的|cff00ccff【狂欢BUFF】蓝焰轰影|r.")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    绿色
+	*/
+
+	function GiveGreenEggs takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 6
+			if (IKuanghuanType[i] == 3) then
+				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】你获得了来自狂欢模式中每一波赠送的绿踪彩蛋.|r")
+				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】你获得了来自狂欢模式中每一波赠送的绿踪彩蛋.|r")
+				call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】你获得了来自狂欢模式中每一波赠送的绿踪彩蛋.|r")
+				call UnitAddItemByIdSwapped('I02U', udg_H[i])
+		        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,i)
+		        call PingMinimapForForce( GetForceOfPlayer(ConvertedPlayer(i)), GetUnitX(udg_H[i]),GetUnitY(udg_H[i]), 5.00 )
+			endif
+			set i = i +1
+		endloop
+	endfunction
+
+	private function InitGreenColor takes player p returns nothing
+		set IKuanghuanType[GetConvertedPlayerId(p)] = 3
+		//call UnitAddItemByIdSwapped('I02U', udg_H[GetConvertedPlayerId(p)])
+        //call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(p))
+		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 0, 100.0, 0, 0 )
+		call PlaySoundBJ( gg_snd_fanzhuan )
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(yanmie))+"获得了狂欢模式的|cff99cc00【狂欢BUFF】绿踪彩蛋|r.")
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    开局随机赠送并计时
+	*/	
+	function SetKuanghuanOK takes player p returns nothing
+		local integer i = GetConvertedPlayerId(p)
+		if (mingcha[i]/10000 < 5) then
+			set mingcha[i] = mingcha[i] + 10000
+			call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "mingcha", mingcha[i] )
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r狂欢场数进度:"+I2S(mingcha[i]/10000)+"/5")
+		endif
+		if (mingcha[i]/10000 >= 5) then
+			call DzAPI_Map_StoreInteger( p,  "kuanghuan", 1 )
+		endif
+	endfunction
+
+	private function AddKuanghuanTimes takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local integer index = LoadInteger(LHTable,id,1)
+		call SetKuanghuanOK(ConvertedPlayer(index))
+		call PauseTimer(t)
+		call FlushChildHashtable(LHTable,id)
+		call DestroyTimer(t)
+		set t = null 
+	endfunction
+
+	function GiveRandomEggs takes unit u returns nothing
+		local integer i = 1
+		local timer t = CreateTimer()
+		if (i == 1) then
+			call UnitAddItemByIdSwapped('I031', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call ShowGameHint(GetOwningPlayer(u),"
+			该模式是狂欢活动模式:
+
+			你获得了随机的|cffff0000【狂欢BUFF】红色泪殇|r,
+			注意查看你的背包,
+
+			使用后将让你获得很强大的能力哦,
+			快去试试吧!")		
+		elseif (i == 2) then
+			call UnitAddItemByIdSwapped('I02X', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call ShowGameHint(GetOwningPlayer(u),"
+			该模式是狂欢活动模式:
+
+			你获得了随机的|cff00ccff【狂欢BUFF】蓝焰轰影|r,
+			注意查看你的背包,
+
+			使用后将让你获得很强大的能力哦,
+			快去试试吧!")
+		elseif (i == 3) then
+			call UnitAddItemByIdSwapped('I02V', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			call ShowGameHint(GetOwningPlayer(u),"
+			该模式是狂欢活动模式:
+
+			你获得了随机的|cff99cc00【狂欢BUFF】绿踪彩蛋|r,
+			注意查看你的背包,
+
+			使用后将让你获得很强大的能力哦,
+			快去试试吧!")
+		endif
+
+		call SaveInteger(LHTable,GetHandleId(t),1,GetConvertedPlayerId(GetOwningPlayer(u)))
+		call TimerStart(t,300,false,function AddKuanghuanTimes)
+		set t = null
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    决定你命运的颜色
+	*/
+	function ChooseBuffColor takes player p,integer t returns boolean
+		if (t == 'I031') then
+			call InitRedColor(p)		
+			return true
+		elseif (t == 'I02X') then
+			call InitBlueColor(p)	
+			return true
+		elseif (t == 'I02V') then
+			call InitGreenColor(p)
+			return true
+		endif
+		return false
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    红BUFF
+	*/
+	private function InitKuanghuan takes nothing returns nothing
+
+		set TRedAttack = CreateTrigger()
+		call TriggerRegisterAnyUnitEventBJ(TRedAttack,EVENT_PLAYER_UNIT_ATTACKED)
+		call TriggerAddCondition(TRedAttack, Condition(function TRedAttackCon))
+		call TriggerAddAction(TRedAttack, function TRedAttackAct)
+	endfunction
+
+endlibrary

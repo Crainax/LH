@@ -166,7 +166,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
             return
         endif
 
-        if (GetItemTypeId(GetManipulatedItem()) == 'I079') then
+        if (GetItemTypeId(it) == 'I079') then
         	return
         endif
 

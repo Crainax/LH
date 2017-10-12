@@ -26,7 +26,8 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 			*/ or GetItemTypeId(i) == 'I049' /*
 			*/ or GetItemTypeId(i) == 'I04A' /*
 			*/ or GetItemTypeId(i) == 'I06N' /*
-			*/ or GetItemTypeId(i) == 'I07T' 
+			*/ or GetItemTypeId(i) == 'I07T' /*
+			*/ or GetItemTypeId(i) == 'I02U' 
 	endfunction
 	
 //---------------------------------------------------------------------------------------------------
