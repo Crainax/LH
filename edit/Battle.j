@@ -1,7 +1,7 @@
 //! import "LHBase.j"
-//! import "ChallangerDZ.j"
+//! import "Diffculty.j"
 
-library_once Battle initializer InitBattle requires LHBase,ChallangerDZ
+library_once Battle initializer InitBattle requires LHBase,Diffculty
 	
 	globals
 		boolean array BSkip
@@ -99,7 +99,7 @@ library_once Battle initializer InitBattle requires LHBase,ChallangerDZ
 	    两波间隔
 	*/
 	function GetBoSpeed takes nothing returns real
-		if (IsFastly()) then
+		if (IsFastly() or (IsKuanghuan() and GetDiffculty() >= 8)) then
 			return 51.
 		else
 			return RCModeH(300.,150.)

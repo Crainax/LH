@@ -23,8 +23,8 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 		if (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))] == 1) then
 			if not(BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))]) then
 				set u = GetAttacker()
-				call DestroyEffect(AddSpecialEffect("war3mapImported\\FireNova2.mdl", GetUnitX(u),GetUnitY(u) ))
-				call DamageArea(u,GetUnitX(uedPlayerId(GetOwningPlayer(u))] = true), GetUnitY(u),600,GetDamageBase(u) * 1.5	)
+				call DestroyEffect(AddSpecialEffect("war3mapImported\\FireNova2.mdl", GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()) ))
+				call DamageArea(u,GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()),600,GetDamageBase(u) * 2	)
 	    		call CreateSpellTextTag("红色泪殇——炎",u,100,0,0,4)
 				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = true
 				set u = null
@@ -34,12 +34,12 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 		else
 			if not(BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]) then
 				set u = GetAttackedUnitBJ()
-				call RecoverUnitHP(u,0.5)
-		    	call RecoverUnitMP(u,100)
+				call RecoverUnitHP(u,0.6)
+		    	call RecoverUnitMP(u,200)
  				call SimulateSpell(u,u,'A0NE',1,6,"stomp",false,true,false)
 				call DestroyEffect(AddSpecialEffect("war3mapImported\\FrostNova2.mdl", GetUnitX(u),GetUnitY(u) ))
 	    		call CreateSpellTextTag("红色泪殇——霜",u,0,0,80,4)
-				set BKuanghuanRed[GetConvert
+				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = true
 				set u = null
 				call PolledWait(3.0)
 				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = false
@@ -51,7 +51,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 		set IKuanghuanType[GetConvertedPlayerId(p)] = 1
 		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 100.00, 0, 0, 0 )
 		call PlaySoundBJ( gg_snd_fanzhuan )
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(yanmie))+"获得了狂欢模式的|cffff0000【狂欢BUFF】红色泪殇|r.")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(p)+"获得了狂欢模式的|cffff0000【狂欢BUFF】红色泪殇|r.")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -63,7 +63,8 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 		call SetPlayerAbilityAvailable(p,'A0NF',false)
 		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 0, 0, 100.0, 0 )
 		call PlaySoundBJ( gg_snd_fanzhuan )
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(yanmie))+"获得了狂欢模式的|cff00ccff【狂欢BUFF】蓝焰轰影|r.")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(p)+"获得了狂欢模式的|cff00ccff【狂欢BUFF】蓝焰轰影|r.")
+		call AddXingUnit(udg_H[GetConvertedPlayerId(p)])
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -92,7 +93,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
         //call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(p))
 		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 0, 100.0, 0, 0 )
 		call PlaySoundBJ( gg_snd_fanzhuan )
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(yanmie))+"获得了狂欢模式的|cff99cc00【狂欢BUFF】绿踪彩蛋|r.")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(p)+"获得了狂欢模式的|cff99cc00【狂欢BUFF】绿踪彩蛋|r.")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -122,7 +123,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 	endfunction
 
 	function GiveRandomEggs takes unit u returns nothing
-		local integer i = 1
+		local integer i = GetRandomInt(1,3)
 		local timer t = CreateTimer()
 		if (i == 1) then
 			call UnitAddItemByIdSwapped('I031', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])

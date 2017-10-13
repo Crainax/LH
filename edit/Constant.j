@@ -398,7 +398,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414 or achieveID == 415 or achieveID == 416
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414 or achieveID == 415 or achieveID == 416 or achieveID == 417
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -587,6 +587,10 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【契歃约】")
 		elseif (achieveID == 417) then
 			return GetColorString("【宵无霁】")
+		elseif (achieveID == 418) then
+			return GetColorString("【白夜·奉天】")
+		elseif (achieveID == 419) then
+			return GetColorString("【黑日·释帝】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -765,6 +769,10 @@ library_once Constant initializer InitConstant requires JBase
 			return "契歃约"
 		elseif (achieveID == 417) then
 			return "宵无霁"
+		elseif (achieveID == 418) then
+			return "白夜·奉天"
+		elseif (achieveID == 419) then
+			return "黑日·释帝"
 		endif
 		return ""
 	endfunction
@@ -1233,6 +1241,10 @@ library_once Constant initializer InitConstant requires JBase
 			return "连续登录20天"
 		elseif (i == 4) then
 			return "所有英雄99次使用"
+		elseif (i == 5) then
+			return "狂欢模式中单通万劫"
+		elseif (i == 6) then
+			return "狂欢模式中多通天魇"
 		endif
 		return ""
 	endfunction
@@ -1360,6 +1372,16 @@ library_once Constant initializer InitConstant requires JBase
 
 			完成该项挑战后每局游戏中在基地出现罩子时有着不一样的文字提醒哦!
 			并获得五字成就名"+GetAchievementName(48)+"。"
+		elseif (i == 5) then
+			return "在狂欢模式中单人通关万劫难度.
+
+			如果你同时完成了"+GetAchievementName(419)+",那么你将可以在许愿时获得额外的奖励.
+			获得成就名"+GetAchievementName(418)+"。"
+		elseif (i == 6) then
+			return "在狂欢模式中多人通关天魇难度.
+
+			如果你同时完成了"+GetAchievementName(418)+",那么你将可以在许愿时获得额外的奖励.
+			获得成就名"+GetAchievementName(419)+"。"
 		endif
 		return ""
 	endfunction

@@ -58,17 +58,16 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
         call DestroyTrigger(GetTriggeringTrigger())
 	endfunction	
 
-	function Xuyuan takes player p,item i returns nothing
+	function Xuyuan takes player p returns nothing
         local trigger t  = CreateTrigger()
         local dialog d = DialogCreate()
         call DialogSetMessage( d, "选择你想要的愿望" )
         if ((udg_H[GetConvertedPlayerId(p)] != sichen and udg_H[GetConvertedPlayerId(p)] != xuanxue) or not IsKuanghuan()) then
-        	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "等级到100，属性不变"))
         	call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "提高50级"))
         endif
+    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "等级到100，属性不变"))
         call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "属性立马提高8%"))
         call SavePlayerHandle(LHTable,GetHandleId(d),4,p)
-        call SaveItemHandle(LHTable,GetHandleId(d),5,i)
         call DialogDisplay( p, d, true )
         call TriggerRegisterDialogEvent( t, d )
         call TriggerAddAction(t, function XuyuanClick)
@@ -80,7 +79,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 	    炼狱90层以上怪物的设置
 	*/
 	function SetPurgatory90UpUnit takes nothing returns nothing
-		if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] >= 92)) then
+		if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] >= 92) and (udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] != 106)) then
 			call UnitAddItemByIdSwapped(GetRandomPotion(), udg_Unit)
 			call DisplayTextToPlayer(GetOwningPlayer(udg_Unit), 0., 0., "|cFFFF6699【炼狱】|r额外奖励"+  GetPlayerName(GetOwningPlayer(udg_Unit)) + GetItemName(GetLastCreatedItem())+".")
 		endif
@@ -116,8 +115,23 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00Z'
 	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 105)) then
 	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N010'
+	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 106)) then
+	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00Z'
+	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF6699【炼狱】|r额外奖励" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "|cffffcc001个人口，人口可以用来抓宠物。" ) ) )
+	        call SetPlayerStateBJ( GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ) )
+	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 107)) then
+	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N011'
+	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 108)) then
+	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N012'
+	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 109)) then
+	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N013'
+	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 110)) then
+	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N014'
+	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 111)) then
+	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N015'
 	    endif
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    炼狱掉落的物品
@@ -133,6 +147,8 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nsoc')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'npfl')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'ninm')/*
+	    */ or (GetUnitTypeId(GetDyingUnit()) == 'N014')/*
+	    */ or (GetUnitTypeId(GetDyingUnit()) == 'N015')/*
 	    */))
 	endfunction
 
@@ -154,7 +170,8 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 		//! runtextmacro CreatePurgatoryItem("nwns","IMJ5")
 		//! runtextmacro CreatePurgatoryItem("nsoc","IMJ6")
 		//! runtextmacro CreatePurgatoryItem("npfl","IMJ7")
-		//! runtextmacro CreatePurgatoryItem("ninm","IMJ8")
+		//! runtextmacro CreatePurgatoryItem("N014","IMJ8")
+		//! runtextmacro CreatePurgatoryItem("N015","IMJ8")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

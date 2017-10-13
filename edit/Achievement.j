@@ -860,6 +860,8 @@ library_once Achievement requires LHBase,ChallangerDZ
 		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetSuperChallenageName(2) + S3(IsAchieveOK(p,42),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetSuperChallenageName(3) + S3(IsAchieveOK(p,47),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetSuperChallenageName(4) + S3(GetLowerHeroCount(p,99,HERO_COUNT),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetSuperChallenageName(5) + S3(IsAchieveOK(p,418),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetSuperChallenageName(6) + S3(IsAchieveOK(p,419),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -1022,6 +1024,12 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    			call SetAchievement(p,47)
 	    			call SaveAchievePointer(p)
 		    	elseif (i == 4) then
+	    			call SetAchievement(p,48)
+	    			call SaveAchievePointer(p)
+		    	elseif (i == 5) then
+	    			call SetAchievement(p,48)
+	    			call SaveAchievePointer(p)
+		    	elseif (i == 6) then
 	    			call SetAchievement(p,48)
 	    			call SaveAchievePointer(p)
 		    	endif

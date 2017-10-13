@@ -2,8 +2,9 @@
 //! import "LHBase.j"
 //! import "NetVersion.j"
 //! import "Continous.j"
+//! import "Kuanghuan.j"
 
-library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
+library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous,Kuanghuan
 
 
 	function TestAchievement takes nothing returns nothing
@@ -29,7 +30,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 	endfunction	
 
 	private function TestCangku takes nothing returns nothing
-		call IncreaseYanmieFanzhuan(Player(0))
+		call SetKuanghuanOK(Player(0))
 	endfunction
 
 	/*private function Showxiao2 takes nothing returns nothing

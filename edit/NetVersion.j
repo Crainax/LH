@@ -469,6 +469,14 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call ChallangerSuccess(ConvertedPlayer(i))
 				endif
 
+				if (CType == -1 and level == 8 and renshu == 1) then
+					call GetAchievementAndSave(ConvertedPlayer(i),418)
+				endif
+
+				if (CType == -1 and level == 9) then
+					call GetAchievementAndSave(ConvertedPlayer(i),419)
+				endif
+
 			endif
 			set i = i +1
 		endloop

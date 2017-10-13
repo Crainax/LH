@@ -1077,7 +1077,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	private function InitRenYao takes nothing returns nothing
 		local timer t = null
 		call ShowGameHintAll("
-		    	|cffffff00上路BOSS(人王傀儡) 技能:|r
+		    |cffffff00上路BOSS(人王傀儡) 技能:|r
 	        3次生命
 	        火焰之棒(每死一次多一条棒,速度更快,注意躲开)
 	        航海领域(眩晕攻击)

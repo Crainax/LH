@@ -338,7 +338,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 			call SummonJingling(GetManipulatedItem(),GetTriggerUnit())
 		elseif (ChooseBuffColor(GetOwningPlayer(GetTriggerUnit()),GetItemTypeId(GetManipulatedItem()))) then
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I02U') then
-			call Xuyuan(GetOwningPlayer(GetTriggerUnit()),GetManipulatedItem())
+			call Xuyuan(GetOwningPlayer(GetTriggerUnit()))
 		elseif (GetItemTypeId(GetManipulatedItem()) == 'I07U' and GetTriggerUnit() == yanmie) then
 			//湮灭变化
 			if (FanzhuanCondition(GetOwningPlayer(GetTriggerUnit()),2)) then

@@ -325,14 +325,12 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 			    call TriggerRegisterAnyUnitEventBJ( TSpellYanmie2, EVENT_PLAYER_UNIT_ATTACKED )
 			    call TriggerAddCondition(TSpellYanmie2, Condition(function LeishenzhisuCon))
 			    call TriggerAddAction(TSpellYanmie2, function LeishenZhisu)
-			    call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r原2阶技能")
 			elseif (whichSpell == 2 and IsSecondSpellOK(yanmie) and (GetUnitAbilityLevel(yanmie,'A0NA') == 1)  ) then
 				//技能2(反)初始化
 			    set TSpellYanmie2 = CreateTrigger()
 			    call TriggerRegisterAnyUnitEventBJ( TSpellYanmie2, EVENT_PLAYER_UNIT_ATTACKED )
 			    call TriggerAddCondition(TSpellYanmie2, Condition(function LeishenzhisuCon))
 			    call TriggerAddAction(TSpellYanmie2, function Leishenzhinu)
-			    call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r反转2阶技能")
 			elseif (whichSpell == 3 and IsThirdSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'AHbh') == 1) then
 				//技能3初始化
 				call AddSpecialEffectTargetUnitBJ("origin",yanmie,"war3mapImported\\etherealaura.mdx")
@@ -341,12 +339,10 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 				//技能4初始化
 				set GShadow = CreateGroup()
 		        call EnableTrigger( gg_trg_____________3 )
-			    call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r原4阶技能")
 		        call EnableTrigger( gg_trg_____________5 )
 			elseif (whichSpell == 4 and IsFourthSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'A0NB') == 1) then
 				//技能4初始化
 		        call EnableTrigger( gg_trg_____________3 )
-			    call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r反转4阶技能")
 		        call EnableTrigger( gg_trg_____________5 )
 			endif
 		endif
