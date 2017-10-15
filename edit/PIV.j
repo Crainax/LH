@@ -461,6 +461,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 			debug call SetHeiyanSpinOK(GetTriggerPlayer())
 			debug call SetCanglingSpinOK(GetTriggerPlayer())
 			debug call SetHanshang2SpinOK(GetTriggerPlayer())
+			debug call SetXinglong1SpinOK(GetTriggerPlayer())
 		endif
 
 	endfunction

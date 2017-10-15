@@ -34,11 +34,17 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
         	//立即获取8%的属性
-        	call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
-        	call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
-        	call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.08)
+        	if (u != chenji) then
+        		call SetHeroInt(u,R2I(I2R(GetHeroInt(u,false)) * 1.1),false)
+        		call SetHeroAgi(u,R2I(I2R(GetHeroAgi(u,false)) * 1.1),false)
+        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
+        	else
+        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
+        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
+        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
+        	endif
 	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
-        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的获得了8%的全属性.")
+        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的获得了1%的全属性(直接相乘).")
         endif
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),3)) then
@@ -66,7 +72,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
         	call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "提高50级"))
         endif
     	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "等级到100，属性不变"))
-        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "属性立马提高8%"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "属性立马提高10%(直接相乘)"))
         call SavePlayerHandle(LHTable,GetHandleId(d),4,p)
         call DialogDisplay( p, d, true )
         call TriggerRegisterDialogEvent( t, d )
@@ -79,56 +85,63 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 	    炼狱90层以上怪物的设置
 	*/
 	function SetPurgatory90UpUnit takes nothing returns nothing
-		if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] >= 92) and (udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] != 106)) then
+		local integer i = GetConvertedPlayerId(GetOwningPlayer(udg_Unit))
+		if ((udg_I_Lianyu[i] >= 92) and (udg_I_Lianyu[i] != 106) and (udg_I_Lianyu[i] < 110) ) then
 			call UnitAddItemByIdSwapped(GetRandomPotion(), udg_Unit)
 			call DisplayTextToPlayer(GetOwningPlayer(udg_Unit), 0., 0., "|cFFFF6699【炼狱】|r额外奖励"+  GetPlayerName(GetOwningPlayer(udg_Unit)) + GetItemName(GetLastCreatedItem())+".")
 		endif
-	    if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 91)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'Nfir'
+	    if ((udg_I_Lianyu[i] == 91)) then
+	        set udg_Lianyu_Unit[i] = 'Nfir'
 	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF6699【炼狱】|r额外奖励" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "|cffffcc001个人口，人口可以用来抓宠物。" ) ) )
 	        call SetPlayerStateBJ( GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ) )
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 92)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00D'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 93)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00E'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 94)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00F'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 95)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00G'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 96)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00J'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 97)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00K'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 98)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00N'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 99)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00O'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 100)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00R'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 101)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00S'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 102)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00V'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 103)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00X'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 104)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00Z'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 105)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N010'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 106)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N00Z'
+	    elseif ((udg_I_Lianyu[i] == 92)) then
+	        set udg_Lianyu_Unit[i] = 'N00D'
+	    elseif ((udg_I_Lianyu[i] == 93)) then
+	        set udg_Lianyu_Unit[i] = 'N00E'
+	    elseif ((udg_I_Lianyu[i] == 94)) then
+	        set udg_Lianyu_Unit[i] = 'N00F'
+	    elseif ((udg_I_Lianyu[i] == 95)) then
+	        set udg_Lianyu_Unit[i] = 'N00G'
+	    elseif ((udg_I_Lianyu[i] == 96)) then
+	        set udg_Lianyu_Unit[i] = 'N00J'
+	    elseif ((udg_I_Lianyu[i] == 97)) then
+	        set udg_Lianyu_Unit[i] = 'N00K'
+	    elseif ((udg_I_Lianyu[i] == 98)) then
+	        set udg_Lianyu_Unit[i] = 'N00N'
+	    elseif ((udg_I_Lianyu[i] == 99)) then
+	        set udg_Lianyu_Unit[i] = 'N00O'
+	    elseif ((udg_I_Lianyu[i] == 100)) then
+	        set udg_Lianyu_Unit[i] = 'N00R'
+	    elseif ((udg_I_Lianyu[i] == 101)) then
+	        set udg_Lianyu_Unit[i] = 'N00S'
+	    elseif ((udg_I_Lianyu[i] == 102)) then
+	        set udg_Lianyu_Unit[i] = 'N00V'
+	    elseif ((udg_I_Lianyu[i] == 103)) then
+	        set udg_Lianyu_Unit[i] = 'N00X'
+	    elseif ((udg_I_Lianyu[i] == 104)) then
+	        set udg_Lianyu_Unit[i] = 'N010'
+	    elseif ((udg_I_Lianyu[i] == 105)) then
+	        set udg_Lianyu_Unit[i] = 'N00Z'
 	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF6699【炼狱】|r额外奖励" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "|cffffcc001个人口，人口可以用来抓宠物。" ) ) )
 	        call SetPlayerStateBJ( GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(udg_Unit), PLAYER_STATE_RESOURCE_FOOD_CAP) + 1 ) )
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 107)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N011'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 108)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N012'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 109)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N013'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 110)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N014'
-	    elseif ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] == 111)) then
-	        set udg_Lianyu_Unit[GetConvertedPlayerId(GetOwningPlayer(udg_Unit))] = 'N015'
+	    elseif ((udg_I_Lianyu[i] == 106)) then
+	        set udg_Lianyu_Unit[i] = 'N011'
+	    elseif ((udg_I_Lianyu[i] == 107)) then
+	        set udg_Lianyu_Unit[i] = 'N012'
+	    elseif ((udg_I_Lianyu[i] == 108)) then
+	        set udg_Lianyu_Unit[i] = 'N013'
+	    elseif ((udg_I_Lianyu[i] == 109)) then
+	        set udg_Lianyu_Unit[i] = 'N014'
+	    elseif ((udg_I_Lianyu[i] == 110)) then
+	        set udg_Lianyu_Unit[i] = 'N015'
+			call UnitAddItemByIdSwapped('I02U', udg_Unit)
+		    call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,i)
+	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF6699【炼狱】|r额外奖励" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "|cffffcc001个|cffff00ff【地狱】兮月蚕芯|r,可以许一个愿望。" ) ) )
+	    elseif ((udg_I_Lianyu[i] == 111)) then
+	    	//下一个就是阎王啦
+			call UnitAddItemByIdSwapped('I02U', udg_Unit)
+		    call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,i)
+	        call DisplayTextToForce( GetPlayersAll(), ( "|cFFFF6699【炼狱】|r额外奖励" + ( GetPlayerName(GetOwningPlayer(udg_Unit)) + "|cffffcc001个|cffff00ff【地狱】兮月蚕芯|r,可以许一个愿望。" ) ) )
 	    endif
 	endfunction
 
@@ -147,8 +160,6 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'nsoc')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'npfl')/*
 	    */ or (GetUnitTypeId(GetDyingUnit()) == 'ninm')/*
-	    */ or (GetUnitTypeId(GetDyingUnit()) == 'N014')/*
-	    */ or (GetUnitTypeId(GetDyingUnit()) == 'N015')/*
 	    */))
 	endfunction
 
@@ -170,8 +181,8 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 		//! runtextmacro CreatePurgatoryItem("nwns","IMJ5")
 		//! runtextmacro CreatePurgatoryItem("nsoc","IMJ6")
 		//! runtextmacro CreatePurgatoryItem("npfl","IMJ7")
-		//! runtextmacro CreatePurgatoryItem("N014","IMJ8")
-		//! runtextmacro CreatePurgatoryItem("N015","IMJ8")
+		//! runtextmacro CreatePurgatoryItem("ninm","IMJ7")
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

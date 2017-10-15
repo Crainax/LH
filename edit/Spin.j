@@ -196,6 +196,14 @@ library_once Spin requires LHBase,Version
 		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLichi1Spin(p))
 		//return true
 	endfunction
-
 	
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧的皮肤条件
+	*/
+	function IsXinglongSpin1 takes player p returns boolean
+		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXinglong1Spin(p))
+		//return true
+	endfunction
+
 endlibrary

@@ -712,6 +712,29 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
+        一个区域的敌方单位组
+    */
+    function GetEnemyGroup takes player p,real x,real y,real radius returns group
+        local group l_group = CreateGroup()
+        local unit l_unit
+        local group l_group2 = CreateGroup()
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        call GroupAddGroup(l_group,l_group2)
+        loop
+            set l_unit = FirstOfGroup(l_group2)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group2, l_unit)
+            if not(IsEnemyMP(l_unit,p)) then
+                call GroupRemoveUnit(l_group,l_unit)
+            endif
+        endloop
+        set l_unit = null
+        call DestroyGroup(l_group2)
+        set l_group2 = null
+        return l_group
+    endfunction
+//---------------------------------------------------------------------------------------------------
+    /*
         添加3W
     */
     function AddHero3W takes unit u, integer value returns nothing

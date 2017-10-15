@@ -108,7 +108,7 @@ library_once Structs requires LHBase
 			set .ab = ab
 			set .t = CreateTimer()
 			set thistype[.t] = integer(this)
-			call TimerStart(.t,time,true,function thistype.timeout)
+			call TimerStart(.t,time,false,function thistype.timeout)
 			return this
 		endmethod
 
@@ -121,6 +121,50 @@ library_once Structs requires LHBase
 			set .t = null
 		endmethod
 	endstruct
+//---------------------------------------------------------------------------------------------------
+	/*
+	    检测有人与否进入无敌
+	*/
+	struct JudgeInvu 
+		private unit u
+		private timer t
 
+		static method timeout takes nothing returns nothing
+			local thistype this = LoadInteger(LHTable,GetHandleId(GetExpiredTimer()),1)
+			local group g = null
+			if (IsUnitAliveBJ(.u)) then
+				set g = GetEnemyGroup(Player(10),GetUnitX(.u),GetUnitY(.u),900)
+				if (GetUnitAbilityLevel(.u,'Avul') < 1 and CountUnitsInGroup(g) == 0) then
+					call UnitAddAbility(.u,'Avul')
+					call PauseUnit(.u,true)
+					call SetUnitLifePercentBJ(.u,100)
+				elseif (GetUnitAbilityLevel(.u,'Avul') >= 1 and CountUnitsInGroup(g) != 0) then
+					call UnitRemoveAbility(.u,'Avul')
+					call PauseUnit(.u,false)
+				endif
+				call DestroyGroup(g)
+				set g = null
+			else
+            	call .destroy()
+			endif
+		endmethod
+
+		static method create takes unit u,real time returns thistype
+		   	local thistype this = thistype.allocate()
+			set .u = u
+			set .t = CreateTimer()
+			call SaveInteger(LHTable,GetHandleId(.t),1,this)
+			call TimerStart(.t,time,true,function thistype.timeout)
+			return this
+		endmethod
+
+		method onDestroy takes nothing returns nothing
+			call FlushChildHashtable(LHTable,GetHandleId(.t))
+			set .u = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+	endstruct
 endlibrary
 

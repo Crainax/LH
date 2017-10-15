@@ -2,11 +2,12 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Aura.j"
+//! import "Spin.j"
 
 /*
     英雄星胧的技能
 */
-library_once Xinglong requires SpellBase,Printer,Attr,Aura
+library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 
 
 	globals
@@ -40,15 +41,32 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 		private unit ULunhui = null
 		private texttag TTLunhui = null
 		private integer ILunhui = 0
+
+		//皮肤自增值
+		private integer ISpinValue = 1
 	endglobals
 
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    统计龙皇皮肤值
+	*/
+	function IncreaseXinglongSpin takes nothing returns nothing
+		if not (GetXinglong1Spin(GetOwningPlayer(xinglong))) then
+			set ISpinValue = ISpinValue + 1
+			if (ModuloInteger(ISpinValue,1000) == 0) then
+				call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "【|cffff00ff绯想龙域|r】完成进度"+I2S(ISpinValue)+"/50000.")
+			endif
+			debug if (ISpinValue >= 50000) then
+				debug call SetXinglong1SpinOK(GetOwningPlayer(xinglong))
+			debug endif
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是不是龙
 	*/
 	function IsLong takes nothing returns boolean
-		return GetUnitTypeId(xinglong) == 'H01I'
+		return GetUnitTypeId(xinglong) == 'H01I' or GetUnitTypeId(xinglong) == 'H02O'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -73,7 +91,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	    龙皇附体
 	*/
 	private function Longhuangfuti takes nothing returns nothing
-		if (GetUnitTypeId(xinglong) == 'Hapm') then
+		if (GetUnitTypeId(xinglong) == 'Hapm' or GetUnitTypeId(xinglong) == 'H02L') then
 			if (not(BBianshen)) then
 				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2*(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
 				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1*(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
@@ -84,7 +102,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 			call AddAttack(xinglong,0)
 			call AddDefense(xinglong,0)
 			call AddHP(xinglong,0)
-		elseif(GetUnitTypeId(xinglong) == 'H01I') then
+		elseif(GetUnitTypeId(xinglong) == 'H01I' or GetUnitTypeId(xinglong) == 'H02O') then
 			set BBianshen = false
 			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2 *(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
 			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1*(1+IJ2(xinglong,1,0)+IJ3(xinglong,1,0)))
@@ -251,6 +269,8 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 	*/
 
 	private function TSpellXinglongUpdateAct takes nothing returns nothing
+
+		call IncreaseXinglongSpin()
 		if (IsFourthSpellOK(xinglong) and GetUnitAbilityLevel(xinglong,'A0JQ') == 1 and GetUnitLevel(xinglong) >= 101) then
 			//龙皇轮回，伤害并眩晕，还有特效
 		    call SetHeroLevelBJ( xinglong, 1, false )
@@ -399,15 +419,33 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura
 			endif
 		endif
 	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧皮肤
+	*/
+	private function InitXinglongSpin takes unit u returns unit
+		if (IsXinglongSpin1(GetOwningPlayer(u))) then
+			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'H02L',GetUnitX(u),GetUnitY(u),0)
+			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
+			set BSpinXinglong = true
+	    	set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 0.5
+			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
+			call RemoveUnit(u)
+			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+		else
+			return u
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化英雄
 	*/
 	function InitXinglong takes unit u returns nothing
-		set xinglong = u
+		set xinglong = InitXinglongSpin(u)
 
 		set TSpellXinglong = CreateTrigger()
-	    call TriggerRegisterUnitEvent(TSpellXinglong,u,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerRegisterUnitEvent(TSpellXinglong,xinglong,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellXinglong, function TSpellXinglongAct)
 
 	    set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(xinglong))] + 5.

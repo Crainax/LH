@@ -190,6 +190,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (Bdudang[GetConvertedPlayerId(p)]) then
 			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
 			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+			call DzAPI_Map_StoreInteger( p,  "spin3", spin3[GetConvertedPlayerId(p)] )
 		else
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏皮肤数据读取失败,请重新开始游戏.")
 		endif
@@ -199,7 +200,14 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    获取皮肤名字
 	*/
 	function GetSpecifySpin takes player p, integer page,integer index returns nothing
-		local integer judge = I3(page == 1,spin[GetConvertedPlayerId(p)],spin2[GetConvertedPlayerId(p)])
+		local integer judge = 0
+		if (page == 1) then
+			set judge = spin[GetConvertedPlayerId(p)]
+		elseif (page == 2) then
+			set judge = spin2[GetConvertedPlayerId(p)]
+		elseif (page == 3) then
+			set judge = spin3[GetConvertedPlayerId(p)]
+		endif
 		if (CType != 0) then
 			return
 		endif
@@ -543,6 +551,21 @@ library_once Achievement requires LHBase,ChallangerDZ
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    星胧皮肤条件
+	*/
+	function GetXinglong1Spin takes player p returns boolean
+		return GetBit(spin3[GetConvertedPlayerId(p)],2) > 0
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧皮肤OK了
+	*/
+	function SetXinglong1SpinOK takes player p returns nothing
+		call GetSpecifySpin(p,3,2)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    获取成就索引条件是否满足了
 	*/
 	function IsAchieveOK takes player p,integer achieveID returns boolean
@@ -705,7 +728,12 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (udg_H[id] == null) then
 			return
 		endif
-		if (achieveID != 410 and achieveID != 411 and CType != 0 and CType != -1) then
+		//两个仅有的挑战成就
+		if (achieveID != 410 and achieveID != 411 and CType != 0) then
+			return
+		endif
+		//两个超级成就
+		if (achieveID != 418 and achieveID != 419 and CType != -1) then
 			return
 		endif
 		if not(IsAchieveOK(p,achieveID)) then
@@ -842,8 +870,9 @@ library_once Achievement requires LHBase,ChallangerDZ
 			call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetHeroChallenageName(8,2) + S3(GetCangling1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,2) + S3(GetHeiyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		elseif (page == 3) then
-			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(1,3) + S3(GetLichi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(10,2) + S3(GetLichi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2,3) + S3(GetHanshang2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3,3) + S3(GetXinglong1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))

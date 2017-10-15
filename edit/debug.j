@@ -393,6 +393,12 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 			return
 		endif
 
+		if (chat == "test lianyu5") then
+			set udg_I_Lianyu[1] = 105
+			call BJDebugMsg("炼狱105层")
+			return
+		endif
+
 		if (chat == "test darenshu") then
 		    call ForForce( GetPlayersAll(), function sadfsadfs )
 			set udg_RENSHU = 6

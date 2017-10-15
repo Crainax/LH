@@ -71,4 +71,26 @@ library_once RandomHero  requires LHBase,Version,PIV
 	    call SelectUnitForPlayerSingle( u, p )
 	    set u = null
 	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    到了5分钟后清除皮肤
+	*/
+	function ClearSpin takes nothing returns nothing
+		
+		local integer i = 1
+		local group g = GetUnitsOfPlayerMatching(Player(PLAYER_NEUTRAL_PASSIVE), Condition(function RandomPickCondition))
+		local unit l_unit = null
+		loop
+		    set l_unit = FirstOfGroup(g)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(g, l_unit)
+		    if (IsUnitIsSpin(l_unit)) then
+		    	call RemoveUnit(l_unit)
+		    endif
+		endloop
+		call DestroyGroup(g)
+		set g = null
+		set l_unit =null
+	endfunction
 endlibrary
+

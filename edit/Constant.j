@@ -32,13 +32,16 @@ library_once Constant initializer InitConstant requires JBase
 		integer mode = 0
 		constant integer COUNT_WANJIE = 47
 		private integer WPointer = 1
+
+		//星胧的标志位
+		boolean BSpinXinglong = false
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.401"
+		return "3.410"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -88,7 +91,7 @@ library_once Constant initializer InitConstant requires JBase
 	    判断是否是皮肤
 	*/
 	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E'  or GetUnitTypeId(u) == 'E00H' 
+		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E' or GetUnitTypeId(u) == 'E00H' or GetUnitTypeId(u) == 'H02L' or GetUnitTypeId(u) == 'H02O'
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -130,7 +133,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 16
 		elseif (heroType == 'Hhkl' or heroType == 'H02C') then
 			return 17
-		elseif (heroType == 'Hapm' or heroType == 'H01I') then
+		elseif (heroType == 'Hapm' or heroType == 'H01I' or heroType == 'H02L' or heroType == 'H02O') then
 			return 18
 		elseif (heroType == 'H01Y') then
 			return 19
@@ -230,7 +233,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (id == 17) then
 			return 'A0IP'
 		elseif (id == 18) then
-			return 'AEme'
+			return I3(BSpinXinglong,'A0NG','AEme')
 		elseif (id == 19) then
 			return 'A0LJ'
 		elseif (id == 20) then
@@ -588,9 +591,9 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 417) then
 			return GetColorString("【宵无霁】")
 		elseif (achieveID == 418) then
-			return GetColorString("【白夜·奉天】")
+			return GetColorString("【「白夜」奉天】")
 		elseif (achieveID == 419) then
-			return GetColorString("【黑日·释帝】")
+			return GetColorString("【「黑日」释帝】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -770,9 +773,9 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 417) then
 			return "宵无霁"
 		elseif (achieveID == 418) then
-			return "白夜·奉天"
+			return "「白夜」奉天"
 		elseif (achieveID == 419) then
-			return "黑日·释帝"
+			return "「黑日」释帝"
 		endif
 		return ""
 	endfunction
@@ -1217,12 +1220,14 @@ library_once Constant initializer InitConstant requires JBase
 				return "苍凌：|cff993366翎翼浮灵|r"
 			elseif (i == 9) then
 				return "黑阎：|cff0000ff七阴之恸|r"
+			elseif (i == 10) then
+				return "离魑：|cffff6800谜幻逸空|r"
 			endif
 		elseif (page == 3) then
 			if (i == 1) then
-				return "离魑：|cffff6800谜幻逸空|r"
-			elseif (i == 2) then
 				return "寒殇：|cFF3333FF耀金独心|r"
+			elseif (i == 2) then
+				return "星胧：|cffff00ff绯想龙域|r"
 			endif
 		endif
 
@@ -1344,6 +1349,11 @@ library_once Constant initializer InitConstant requires JBase
 				使用寒殇在一局游戏中总共获得(捡起)过520种不同的物品(包括升级装备的书本).(需要输入-lj来开启该挑战)
 
 				完成该项挑战后你将获得寒殇的皮肤\"|cFF3333FF耀金独心|r\"(拥有少量的属性加成)!"
+			elseif (i == 3) then
+				return "
+				使用星胧在一局游戏中总共升级累计50000次.
+
+				完成该项挑战后你将获得星胧的皮肤\"|cffff00ff绯想龙域|r\"(拥有少量的属性加成)!"
 			endif		
 		endif
 		return ""
@@ -1375,13 +1385,15 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (i == 5) then
 			return "在狂欢模式中单人通关万劫难度.
 
+			获得成就名"+GetAchievementName(418)+"。
 			如果你同时完成了"+GetAchievementName(419)+",那么你将可以在许愿时获得额外的奖励.
-			获得成就名"+GetAchievementName(418)+"。"
+			"
 		elseif (i == 6) then
 			return "在狂欢模式中多人通关天魇难度.
 
+			获得成就名"+GetAchievementName(419)+"。
 			如果你同时完成了"+GetAchievementName(418)+",那么你将可以在许愿时获得额外的奖励.
-			获得成就名"+GetAchievementName(419)+"。"
+			"
 		endif
 		return ""
 	endfunction
