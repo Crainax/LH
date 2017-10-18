@@ -60,7 +60,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 			call UnitDamageTarget( yanmie, GetTriggerUnit(), GetDamageAgi(yanmie) * 0.4, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 			return true
 		elseif (GetUnitTypeId(u) == 'h02M') then
-				call UnitDamageTarget( yanmie, GetTriggerUnit(), GetDamageAgi(yanmie) * 0.2 * R3(GetUnitUserData(u) == 1,2.5,1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+				call UnitDamageTarget( yanmie, GetTriggerUnit(), GetDamageAgi(yanmie) * 0.3 * R3(GetUnitUserData(u) == 1,2.5,1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 
 			return true
 		endif

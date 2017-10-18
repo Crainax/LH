@@ -35,22 +35,29 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
         	//立即获取8%的属性
         	if (u != chenji) then
-        		call SetHeroInt(u,R2I(I2R(GetHeroInt(u,false)) * 1.1),false)
-        		call SetHeroAgi(u,R2I(I2R(GetHeroAgi(u,false)) * 1.1),false)
-        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
+        		call SetHeroInt(u,IMinBJ(1000000000, R2I(I2R(GetHeroInt(u,false)) * 1.08)),false)
+        		call SetHeroAgi(u,IMinBJ(1000000000, R2I(I2R(GetHeroAgi(u,false)) * 1.08)),false)
+        		call SetHeroStr(u,IMinBJ(1000000000, R2I(I2R(GetHeroStr(u,false)) * 1.08)),false)
         	else
-        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
-        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
-        		call SetHeroStr(u,R2I(I2R(GetHeroStr(u,false)) * 1.1),false)
+        		call SetHeroStr(u,IMinBJ(1000000000, R2I(I2R(GetHeroStr(u,false)) * 1.08)),false)
+        		call SetHeroStr(u,IMinBJ(1000000000, R2I(I2R(GetHeroStr(u,false)) * 1.08)),false)
+        		call SetHeroStr(u,IMinBJ(1000000000, R2I(I2R(GetHeroStr(u,false)) * 1.08)),false)
         	endif
 	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
-        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的获得了1%的全属性(直接相乘).")
+        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的获得了8%的全属性(直接相乘).")
         endif
 
         if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),3)) then
         	//立即提高20级
         	call SetHeroLevel(u,GetHeroLevel(u) + 50,true)
         	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的提高了50级.")
+	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
+        endif
+
+        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),5)) then
+        	//50个木头
+        	call AdjustPlayerStateBJ( 50, p, PLAYER_STATE_RESOURCE_LUMBER )
+        	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你成功的获得了50个木头.")
 	    	call CreateUnitEffect(GetOwningPlayer(u),'h01M',GetUnitX(u),GetUnitY(u),0)
         endif
 
@@ -72,7 +79,8 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
         	call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "提高50级"))
         endif
     	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "等级到100，属性不变"))
-        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "属性立马提高10%(直接相乘)"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "属性立马提高8%(直接相乘)"))
+        call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, "获得50点木头"))
         call SavePlayerHandle(LHTable,GetHandleId(d),4,p)
         call DialogDisplay( p, d, true )
         call TriggerRegisterDialogEvent( t, d )
@@ -181,7 +189,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 		//! runtextmacro CreatePurgatoryItem("nwns","IMJ5")
 		//! runtextmacro CreatePurgatoryItem("nsoc","IMJ6")
 		//! runtextmacro CreatePurgatoryItem("npfl","IMJ7")
-		//! runtextmacro CreatePurgatoryItem("ninm","IMJ7")
+		//! runtextmacro CreatePurgatoryItem("ninm","IMJ8")
 
 	endfunction
 //---------------------------------------------------------------------------------------------------

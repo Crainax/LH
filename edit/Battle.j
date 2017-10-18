@@ -99,7 +99,7 @@ library_once Battle initializer InitBattle requires LHBase,Diffculty
 	    两波间隔
 	*/
 	function GetBoSpeed takes nothing returns real
-		if (IsFastly() or (IsKuanghuan() and GetDiffculty() >= 8)) then
+		if (IsFastly() or (IsKuanghuan() and IsTianyan)) then
 			return 51.
 		else
 			return RCModeH(300.,150.)

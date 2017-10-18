@@ -729,13 +729,19 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return
 		endif
 		//两个仅有的挑战成就
-		if (achieveID != 410 and achieveID != 411 and CType != 0) then
+		if ((achieveID == 410 or achieveID == 411 or achieveID == 418 or achieveID == 419) and CType == 0) then
+			return 
+		endif
+
+		if (achieveID != 410 and achieveID != 411 and CType > 0) then
+			return 
+		endif
+
+		if (achieveID != 418 and achieveID != 419 and CType == -1) then
 			return
 		endif
+
 		//两个超级成就
-		if (achieveID != 418 and achieveID != 419 and CType != -1) then
-			return
-		endif
 		if not(IsAchieveOK(p,achieveID)) then
 			if (GetAchievePage(achieveID) == 1) then
 				set achieve[id] = achieve[id] + R2I(Pow(10,I2R(achieveID-11)))
@@ -871,8 +877,8 @@ library_once Achievement requires LHBase,ChallangerDZ
 			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,2) + S3(GetHeiyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		elseif (page == 3) then
 			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(10,2) + S3(GetLichi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(2,3) + S3(GetHanshang2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3,3) + S3(GetXinglong1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(1,3) + S3(GetHanshang2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(2,3) + S3(GetXinglong1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))

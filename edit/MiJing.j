@@ -56,7 +56,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     endfunction
 
     function TDengDamageAct takes nothing returns nothing
-        call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE) - 1)
+        call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE) - RCModeH(1,2))
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -471,7 +471,6 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         set yexi = null
         if (UDeng != null) then
             call RemoveUnit(UDeng)
-
         endif
         call DestroyTextTag(TDengProcess)
         set UDeng = null
@@ -627,16 +626,16 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         set TMijingJudge = CreateTimer()
         set GMijing = CreateGroup()
         //检测计时器
-        call TimerStart(TMijingJudge,0.6,true,function JudgeDengTimer)
+        call TimerStart(TMijingJudge,RCModeH(0.6,0.3),true,function JudgeDengTimer)
         if (IDeng >= 21) then
             call CreateYexi()
         else
             //刷怪计时器
             set TMijingFlash = CreateTimer()
-            call TimerStart(TMijingFlash,1,true,function FlashMonsterTimer)
+            call TimerStart(TMijingFlash,RCModeH(1,0.5),true,function FlashMonsterTimer)
             //进攻与检测吸怪计时器
             set TMijingBound = CreateTimer()
-            call TimerStart(TMijingBound,4,true,function JudgeBoundTimer)
+            call TimerStart(TMijingBound,RCModeH(4,2),true,function JudgeBoundTimer)
         endif
         set r = null
     endfunction

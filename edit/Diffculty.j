@@ -449,7 +449,9 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 	    local dialog d = DialogCreate()
 
 	    call DialogSetMessage( d, "请选择游戏模式" )
-	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, "狂欢模式(活动)"))
+	    if (IsKuanghuanTime()) then
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, "狂欢模式(活动)"))
+	    endif
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典模式"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "挑战模式"))
 	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "加速模式(速通)"))

@@ -207,7 +207,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	function IsBox takes item i returns boolean
 		local integer id = GetItemTypeId(i) 
 
-		return id == 'wild' or id == 'hlst' or id == 'totw' or id == 'sror' or id == 'fgrg' or id == 'wshs' or id == 'I06N' or id == 'I07T'
+		return id == 'wild' or id == 'hlst' or id == 'totw' or id == 'sror' or id == 'fgrg' or id == 'wshs' or id == 'I06N' or id == 'I07T' or id == 'I02U'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

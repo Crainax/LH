@@ -54,9 +54,9 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 		if not (GetXinglong1Spin(GetOwningPlayer(xinglong))) then
 			set ISpinValue = ISpinValue + 1
 			if (ModuloInteger(ISpinValue,1000) == 0) then
-				call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "【|cffff00ff绯想龙域|r】完成进度"+I2S(ISpinValue)+"/50000.")
+				call DisplayTextToPlayer(GetOwningPlayer(xinglong), 0., 0., "【|cffff00ff绯想龙域|r】完成进度"+I2S(ISpinValue)+"/30000.")
 			endif
-			debug if (ISpinValue >= 50000) then
+			debug if (ISpinValue >= 30000) then
 				debug call SetXinglong1SpinOK(GetOwningPlayer(xinglong))
 			debug endif
 		endif
@@ -257,7 +257,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 		elseif (GetSpellAbilityId() == 'A0JQ') then
 			//龙皇轮回
 			call Longhuanglunhui()
-		elseif (GetSpellAbilityId() == 'AEme') then 
+		elseif (GetSpellAbilityId() == 'AEme' or GetSpellAbilityId() == 'A0NG') then 
 			//龙皇附体
 			call Longhuangfuti()
 		endif

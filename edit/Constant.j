@@ -41,7 +41,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	function GetVersion takes nothing returns string
-		return "3.410"
+		return "3.414"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -1351,7 +1351,7 @@ library_once Constant initializer InitConstant requires JBase
 				完成该项挑战后你将获得寒殇的皮肤\"|cFF3333FF耀金独心|r\"(拥有少量的属性加成)!"
 			elseif (i == 3) then
 				return "
-				使用星胧在一局游戏中总共升级累计50000次.
+				使用星胧在一局游戏中总共升级累计30000次.
 
 				完成该项挑战后你将获得星胧的皮肤\"|cffff00ff绯想龙域|r\"(拥有少量的属性加成)!"
 			endif		

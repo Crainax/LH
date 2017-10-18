@@ -20,6 +20,13 @@ library_once Huodong requires LHBase,Achievement
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    嘉年华活动:
+	*/
+	function IsKuanghuanTime takes nothing returns boolean
+		return ((DzAPI_Map_GetGameStartTime()/10) < 150946560)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    天魇难度的开启条件
 	*/
 	function IsTianyanOK takes nothing returns boolean
