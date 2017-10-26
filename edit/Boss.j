@@ -949,8 +949,9 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		set UGhost = CreateUnit(Player(11),'N02B',GetRectCenterX(gg_rct________3),GetRectCenterY(gg_rct________3),90)
 		set UAngle = CreateUnit(Player(11),'N02C',GetRectCenterX(gg_rct________6),GetRectCenterY(gg_rct________6),270)
 		//多条命
-		set MLGhost = MultiLife.create(UGhost,I3(IsWanjie(),4,I3(renshu == 1 or GetDiffculty() < 5,2,3)))
-		set MLAngle = MultiLife.create(UAngle,I3(IsWanjie(),4,I3(renshu == 1 or GetDiffculty() < 5,2,3)))
+
+		set MLGhost = MultiLife.create(UGhost,I3(renshu == 1 or GetDiffculty() < 5,2,I3(IsWanjie(),4,3)))
+		set MLAngle = MultiLife.create(UAngle,I3(renshu == 1 or GetDiffculty() < 5,2,I3(IsWanjie(),4,3)))
 
 
 		call MLGhost.setAL(AfterLessLife.AfterBossLessLife)
@@ -1094,8 +1095,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		set UXiaoY = CreateUnit(Player(11),'N01O',GetRectCenterX(gg_rct________6),GetRectCenterY(gg_rct________6),90)
 		set UChuanzhang = CreateUnit(Player(11),'N01P',GetRectCenterX(gg_rct________3),GetRectCenterY(gg_rct________3),270)
 		//多条命
-		set MLChuanzhang = MultiLife.create(UChuanzhang,I3(IsWanjie(),3,I3(renshu == 1 or GetDiffculty() < 5,1,2)))
-		set MLXiaoY = MultiLife.create(UXiaoY,I3(IsWanjie(),3,I3(renshu == 1 or GetDiffculty() < 5,1,2)))
+		set MLChuanzhang = MultiLife.create(UChuanzhang,I3(renshu == 1 or GetDiffculty() < 5,1,I3(IsWanjie(),3,2)))
+		set MLXiaoY = MultiLife.create(UXiaoY,I3(renshu == 1 or GetDiffculty() < 5,1,I3(IsWanjie(),3,2)))
 		call SetUnitAbilityLevel(UXiaoY,'A0AG',udg_Nandu_JJJ)
 		call SetUnitAbilityLevel(UChuanzhang,'A0AG',udg_Nandu_JJJ)
 		call StartFangKa( UXiaoY )

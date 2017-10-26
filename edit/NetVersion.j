@@ -170,7 +170,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    星胧的提示文本
 	*/
 	function GetXinglongHint takes nothing returns string
-		return "|cff99ccff需要地图等级达到11级才能选取该英雄,或者在活动期间集满8个字.|r"
+		return "|cff99ccff需要地图等级达到11级才能选取该英雄|r"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -469,11 +469,11 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 					call ChallangerSuccess(ConvertedPlayer(i))
 				endif
 
-				if (CType == -1 and level == 8 and renshu == 1) then
+				if (CType == -1 and level == 9 and renshu == 1) then
 					call GetAchievementAndSave(ConvertedPlayer(i),418)
 				endif
 
-				if (CType == -1 and level == 9) then
+				if (CType == -1 and IsTianyan) then
 					call GetAchievementAndSave(ConvertedPlayer(i),419)
 				endif
 

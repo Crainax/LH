@@ -3,6 +3,81 @@
 
 library_once Moqi  requires LHBase,Spin
 	
+	globals
+		private group array GMoqiXingxuan
+	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	     这个是星璇伤害
+	*/
+	function SimulateDamageMoqi takes unit u returns boolean
+		//雷神残影50%伤害
+		/*if (GetUnitTypeId(u) == 'h010') then
+			call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.4, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+			return true
+		elseif (GetUnitTypeId(u) == 'h02M') then
+				call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.3 * R3(GetUnitUserData(u) == 1,2.5,1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+
+			return true
+		endif*/
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星璇
+	*/
+	function XingxuanTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,1)
+		local integer times = LoadInteger(spellTable,GetHandleId(t),2)
+		//是第几颗星星
+		local integer i = LoadInteger(spellTable,GetHandleId(t),3)
+		local real degree = ModuloReal((((-80.0)*times/200.0)+90.0)*times,360.)+i*51.42
+		local real x = 20 * times * CosBJ(degree) + LoadReal(spellTable,GetHandleId(t),4)
+		local real y = 20 * times * SinBJ(degree) + LoadReal(spellTable,GetHandleId(t),5)
+		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r"+I2S(times)+":"+R2S(degree))
+		if (times < 100) then
+			set times = times + 1
+			//call CreateUnit(Player(0),'hpea', x,y ,0)
+			call SaveInteger(spellTable,GetHandleId(t),2,times)
+			//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r"+I2S(times))
+			call SetUnitX(u,x)
+			call SetUnitY(u,y)
+			call SetUnitFacing(u,degree+90)
+		else
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", x, y ))
+			call RemoveUnit(u)
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable,id)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+	endfunction
+
+	function XingxuanStart takes unit u,integer i returns nothing
+		local timer t = CreateTimer()
+		call SaveUnitHandle(spellTable,GetHandleId(t),1, CreateUnit(Player(0),'hpea', GetUnitX(u),GetUnitY(u) ,0))
+		call TimerStart(t,0.05,true,function XingxuanTimer)
+		call SaveInteger(spellTable,GetHandleId(t),2,0)
+		call SaveInteger(spellTable,GetHandleId(t),3,i)
+		call SaveReal(spellTable,GetHandleId(t),4,GetUnitX(moqi))
+		call SaveReal(spellTable,GetHandleId(t),5,GetUnitY(moqi))
+		set t = null	
+	endfunction
+
+	function Xingxuan takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 7
+			if (IsUnitAliveBJ(udg_Unit_Qixing[i])) then
+				call XingxuanStart(udg_Unit_Qixing[i],i)
+			endif
+			set i = i +1
+		endloop
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    大招角度得皮肤
@@ -81,6 +156,7 @@ library_once Moqi  requires LHBase,Spin
 			return u
 		endif
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化莫琪

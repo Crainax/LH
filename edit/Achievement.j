@@ -855,30 +855,28 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    创建英雄挑战对话框
 	*/
 	function CreateHeroDialogContent takes player p, dialog d,integer page returns nothing
+		local integer i = 1
 		if (page == 1) then
-			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(2,1) + S3(GetSeyu1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(3,1) + S3(GetXiaoyue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(4,1) + S3(GetYanmie1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(5,1) + S3(GetXuanxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(7,1) + S3(GetChenji1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6,1) + S3(GetTaiya1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetHeroChallenageName(8,1) + S3(GetHanshang1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetHeroChallenageName(10,1) + S3(GetChenji2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,1) + S3(GetLingxue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			set i = 2
+			loop
+				exitwhen i > 10
+				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,1) + S3(GetBit(spin[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+				set i = i +1
+			endloop
 		elseif (page == 2) then
-			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(2,2) + S3(GetKaisaSpin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(1,2) + S3(GetMoqiSpin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(3,2) + S3(GetXuanxue2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetHeroChallenageName(5,2) + S3(GetBajue1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetHeroChallenageName(4,2) + S3(GetSheyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetHeroChallenageName(6,2) + S3(GetHuanyi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetHeroChallenageName(7,2) + S3(GetSichen1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),8,DialogAddButtonBJ( d, GetHeroChallenageName(8,2) + S3(GetCangling1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetHeroChallenageName(9,2) + S3(GetHeiyan1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			set i = 1
+			loop
+				exitwhen i > 10
+				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,2) + S3(GetBit(spin2[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+				set i = i +1
+			endloop
 		elseif (page == 3) then
-			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetHeroChallenageName(10,2) + S3(GetLichi1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetHeroChallenageName(1,3) + S3(GetHanshang2Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-			call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetHeroChallenageName(2,3) + S3(GetXinglong1Spin(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+			set i = 1
+			loop
+				exitwhen i > 2
+				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,3) + S3(GetBit(spin3[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+				set i = i +1
+			endloop
 		endif
 
     	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
@@ -1020,7 +1018,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 	    //点击
 	    loop
-	        exitwhen i > 9
+	        exitwhen i > 10
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
                 call DialogClear(d)
 		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetHeroChallenageName(i,page) + "|r英雄挑战的条件如下所示:")

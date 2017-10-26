@@ -40,14 +40,14 @@ library_once Constant initializer InitConstant requires JBase
 	/*
 	    获取当前版本
 	*/
-	function GetVersion takes nothing returns string
-		return "3.414"
+	constant function GetVersion takes nothing returns string
+		return "3.415B"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11
 	*/
-	function Get11 takes nothing returns boolean
+	constant function Get11 takes nothing returns boolean
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -429,7 +429,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 17) then
 			return "|cffff0000【末日车】"
 		elseif (achieveID == 16) then
-			return "|cffff6600【地狱使】"
+			return "|cffff6600【地狱w使】"
 		elseif (achieveID == 15) then
 			return "|cffffff00【灭炼狱】"
 		elseif (achieveID == 14) then
@@ -1190,22 +1190,23 @@ library_once Constant initializer InitConstant requires JBase
 				return "湮灭：|cFFFF0000殛霆无迹|r"
 			elseif (i == 5) then
 				return "玄雪：|cFF33FF33末日权杖|r"
-			elseif (i == 7) then
-				return "辰寂：|cFFFF3333霜夜之哀|r"
 			elseif (i == 6) then
 				return "泰雅：|cFFCCFF66三弦星谧|r"
+			elseif (i == 7) then
+				return "辰寂：|cFFFF3333霜夜之哀|r"
 			elseif (i == 8) then
 				return "寒殇：|cFF3333FF獠牙之匕|r"
-			elseif (i == 10) then
-				return "辰寂：|cFFFF3333双流贯恒|r"
 			elseif (i == 9) then
 				return "凌雪：|cFF339933沐雪无瑕|r"
+			elseif (i == 10) then
+				return "辰寂：|cFFFF3333双流贯恒|r"
 			endif
 		elseif (page == 2) then
-			if (i == 2) then
-				return "凯撒：|cFF6699FF熔日煌世|r"
-			elseif (i == 1) then
+		
+			if (i == 1) then
 				return "莫琪：|cFFFF00CC星界麒麟|r"
+			elseif (i == 2) then
+				return "凯撒：|cFF6699FF熔日煌世|r"
 			elseif (i == 3) then
 				return "玄雪：|cFFFF0000凝冰红灯|r"
 			elseif (i == 4) then
@@ -1259,64 +1260,65 @@ library_once Constant initializer InitConstant requires JBase
 	*/
 	function GetHeroChallenageContent takes integer i,integer page returns string
 		if (page == 1) then
-			if (i == 1) then
+			if (i == 2) then
 				return "使用瑟雨在1秒内将能量从0%直接增加至105%(或以上).
 
 				完成该项挑战后你将获得瑟雨的皮肤\"|cffff66cc赤血白燕|r\"(拥有少量的属性加成)!"
-			elseif (i == 2) then
+			elseif (i == 3) then
 				return "使用晓月在一局游戏内成功在黯黑杀阵内成功复活满150人.
 
 				完成该项挑战后你将获得晓月的皮肤\"|cff99ccff月轮绯狱|r\"(拥有少量的属性加成)!"
-			elseif (i == 3) then
+			elseif (i == 4) then
 				return "使用湮灭在一局游戏内成功完成125次转生.
 
 				完成该项挑战后你将获得湮灭的皮肤\"|cFFFF0000殛霆无迹|r\"(拥有少量的属性加成)!"
-			elseif (i == 4) then
+			elseif (i == 5) then
 				return "使用玄雪在一局游戏内成功单通战争难度(或以上).
 
 				完成该项挑战后你将获得玄雪的模型法杖\"|cFF33FF33末日权杖|r\"(拥有少量的属性加成)!"
-			elseif (i == 5) then
-				return "使用辰寂在一局游戏中成功使用满7次90剑灵技能-引渡.
-
-				完成该项挑战后你将获得辰寂的模型特效\"|cFFFF3333霜夜之哀|r\"(拥有少量的属性加成)!"
 			elseif (i == 6) then
 				return "使用泰雅在一局游戏中成功使用月神之箭技能触发\"秒\"效果杀死至少2500个单位.
 
 				完成该项挑战后你将获得泰雅的皮肤\"|cFFCCFF66三弦星谧|r\"(拥有少量的属性加成)!"
 			elseif (i == 7) then
+				return "使用辰寂在一局游戏中成功使用满7次90剑灵技能-引渡.
+
+				完成该项挑战后你将获得辰寂的模型特效\"|cFFFF3333霜夜之哀|r\"(拥有少量的属性加成)!"
+			elseif (i == 8) then
 				return "使用寒殇在一局游戏内成功使用无穷吞噬技能获得超过500万的总和属性.
 
 				完成该项挑战后你将获得寒殇的模型武器\"|cFF3333FF獠牙之匕|r\"(拥有少量的属性加成)!"
-			elseif (i == 8) then
-				return "输入-chenji可以进行检测，若此时英雄的生命低于1%，则完成该挑战。
-
-				完成该项挑战后你将获得辰寂的皮肤\"|cFFFF3333双流贯恒|r\"(拥有少量的属性加成)!"
 			elseif (i == 9) then
 				return "在每天的连续签到中达到14天。
 
 				完成该项挑战后你将获得凌雪的皮肤\"|cFF339933沐雪无瑕|r\"(拥有少量的属性加成)!"
+			elseif (i == 10) then
+				return "输入-chenji可以进行检测，若此时英雄的生命低于1%，则完成该挑战。
+
+				完成该项挑战后你将获得辰寂的皮肤\"|cFFFF3333双流贯恒|r\"(拥有少量的属性加成)!"
 			endif
 		elseif (page == 2) then
-			if (i == 1) then
-				return "使用凯撒在一局游戏中只靠|cffff6800忠诚之躯|r技能杀死攻击基地的敌人2500个.
 
-				完成该项挑战后你将获得凯撒的皮肤\"|cFF6699FF熔日煌世|r\"(拥有少量的属性加成)!"
-			elseif (i == 2) then
+			if (i == 1) then
 				return "使用莫琪在使用|cffffcc00裁决|r技能时的施法角度在89.9-90.1度之内.
 						(换句话说即为完全垂直向上射)
 				完成该项挑战后你将获得莫琪的皮肤\"|cFFFF00CC星界麒麟|r\"(拥有少量的属性加成)!"
+			elseif (i == 2) then
+				return "使用凯撒在一局游戏中只靠|cffff6800忠诚之躯|r技能杀死攻击基地的敌人2500个.
+
+				完成该项挑战后你将获得凯撒的皮肤\"|cFF6699FF熔日煌世|r\"(拥有少量的属性加成)!"
 			elseif (i == 3) then
 				return "使用玄雪在一局游戏内成功侵入134种不同的生物.(注意,如果你需要进行该挑战,请在第一波前输入-xx以开启该英雄挑战)
 
 				完成该项挑战后你将获得玄雪的皮肤\"|cFFFF0000凝冰红灯|r\"(拥有少量的属性加成)!"
 			elseif (i == 4) then
-				return "使用霸绝在使用|cFFFF0099剑法IV式 - 永恒|r技能结束后的落点距离英雄在施放该技能的位置有8000码远.(注意,如果你需要进行该挑战,请在第一波前输入-bj以开启该英雄挑战,注意要使用主英雄施放,其他分身施放无效)
-
-				完成该项挑战后你将获得霸绝的皮肤\"|cFF6699FF封霜玄锋|r\"(拥有少量的属性加成)!"
-			elseif (i == 5) then
 				return "使用摄焱在一局游戏中杀敌数满125000.
 
 				完成该项挑战后你将获得摄焱的皮肤\"|cffff0000凰迹天知|r\"(拥有少量的属性加成)!"
+			elseif (i == 5) then
+				return "使用霸绝在使用|cFFFF0099剑法IV式 - 永恒|r技能结束后的落点距离英雄在施放该技能的位置有8000码远.(注意,如果你需要进行该挑战,请在第一波前输入-bj以开启该英雄挑战,注意要使用主英雄施放,其他分身施放无效)
+
+				完成该项挑战后你将获得霸绝的皮肤\"|cFF6699FF封霜玄锋|r\"(拥有少量的属性加成)!"
 			elseif (i == 6) then
 				return "
 				使用幻逸输入-hy后进入挑战:将会随机出现一个技能名字,切换到对应名字的技能即可,然后继续随机出现下一个技能名字,30秒内成功切换25次即为挑战成功.
@@ -1337,19 +1339,19 @@ library_once Constant initializer InitConstant requires JBase
 				使用黑阎在一局使用泣罗刹祭品替死达到300次,且自身不能死亡一次.
 
 				完成该项挑战后你将获得黑阎的皮肤\"|cff0000ff七阴之恸|r\"(拥有少量的属性加成)!"
-			endif		
-		elseif (page == 3) then
-			if (i == 1) then
+			elseif (i == 10) then
 				return "
 				使用离魑在一局触发影爆次数达到100次.
 
 				完成该项挑战后你将获得离魑的皮肤\"|cffff6800谜幻逸空|r\"(拥有少量的属性加成)!"
-			elseif (i == 2) then
+			endif		
+		elseif (page == 3) then
+			if (i == 1) then
 				return "
 				使用寒殇在一局游戏中总共获得(捡起)过520种不同的物品(包括升级装备的书本).(需要输入-lj来开启该挑战)
 
 				完成该项挑战后你将获得寒殇的皮肤\"|cFF3333FF耀金独心|r\"(拥有少量的属性加成)!"
-			elseif (i == 3) then
+			elseif (i == 2) then
 				return "
 				使用星胧在一局游戏中总共升级累计30000次.
 

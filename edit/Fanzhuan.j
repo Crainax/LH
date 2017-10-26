@@ -18,6 +18,14 @@ library_once Fanzhuan requires LHBase
 	    反转失败提示语
 	*/
 	function GetFanzhuanFailString takes player p,integer i returns string
+		if not(DEBUG_MODE) then
+			return "
+			在该版本中获取赞助后永久解锁使用.(请看复活点介绍)
+
+			或者在官方平台使用该英雄30次后解锁.
+			"
+		endif
+
 		if (i == 2) then
 			return "
 			在本版本中通关5次战争难度(或以上)永久解锁使用.
