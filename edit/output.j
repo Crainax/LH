@@ -79,7 +79,7 @@ integer renshu= 0
 		
 integer mode= 0
 constant integer COUNT_WANJIE= 47
-integer Constant___WPointer= 1
+integer Constant__WPointer= 1
 
 		//星胧的标志位
 boolean BSpinXinglong= false
@@ -400,6 +400,13 @@ constant boolean LIBRARY_Fanzhuan=true
 integer array diyu
 string array SFanzhaun
 //endglobals from Fanzhuan
+//globals from Printer:
+constant boolean LIBRARY_Printer=true
+//endglobals from Printer
+//globals from SpellBase:
+constant boolean LIBRARY_SpellBase=true
+constant integer kUImmuteDamage=4
+//endglobals from SpellBase
 //globals from Structs:
 constant boolean LIBRARY_Structs=true
 //endglobals from Structs
@@ -526,7 +533,7 @@ boolean array BCancelSpin
 //endglobals from Spin
 //globals from Moqi:
 constant boolean LIBRARY_Moqi=true
-group array Moqi__GMoqiXingxuan
+group Moqi___GMoqiXingxuan= null
 //endglobals from Moqi
 string bj_AllString=".................................!.#$%&'()*+,-./0123456789:;<=>.@ABCDEFGHIJKLMNOPQRSTUVWXYZ[.]^_`abcdefghijklmnopqrstuvwxyz{|}~................................................................................................................................"
 //全局系统变量
@@ -548,7 +555,90 @@ string array yd_PlayerColor
 trigger l__library_init
 
 //JASSHelper struct globals:
-constant integer si__TextTagBind=1
+constant integer si__OnlyAttackBase=1
+integer si__OnlyAttackBase_F=0
+integer si__OnlyAttackBase_I=0
+integer array si__OnlyAttackBase_V
+unit array s__OnlyAttackBase_u
+timer array s__OnlyAttackBase_t
+constant integer si__Connect=2
+integer si__Connect_F=0
+integer si__Connect_I=0
+integer array si__Connect_V
+boolean array s__Connect_BDie
+unit array s__Connect_unit1
+unit array s__Connect_unit2
+lightning array s__Connect_l
+timer array s__Connect_t
+constant integer si__Attract=3
+integer si__Attract_F=0
+integer si__Attract_I=0
+integer array si__Attract_V
+unit array s__Attract_caster
+real array s__Attract_radius
+real array s__Attract_interval
+real array s__Attract_speed
+timer array s__Attract_t
+boolean array s__Attract_forbitHero
+boolean array s__Attract_deathContinue
+constant integer si__Missile=4
+integer si__Missile_F=0
+integer si__Missile_I=0
+integer array si__Missile_V
+unit array s__Missile_caster
+string array s__Missile_effx
+real array s__Missile_radius
+real array s__Missile_interval1
+real array s__Missile_interval2
+real array s__Missile_damage
+real array s__Missile_x
+real array s__Missile_y
+timer array s__Missile_t
+constant integer si__Questions=5
+integer si__Questions_F=0
+integer si__Questions_I=0
+integer array si__Questions_V
+player array s__Questions_p
+integer array s__Questions_time
+trigger array s__Questions_click
+dialog array s__Questions_d
+timer array s__Questions_t
+integer array s__Questions_rightPos
+string array s__Questions_question
+integer array s__Questions_as
+constant integer si__Roubang=6
+integer si__Roubang_F=0
+integer si__Roubang_I=0
+integer array si__Roubang_V
+unit array s___Roubang_URou
+constant integer s___Roubang_URou_size=20
+integer array s__Roubang_URou
+real array s__Roubang_aSpeed
+real array s__Roubang_cAngle
+real array s__Roubang_radius
+timer array s__Roubang_t
+integer array s__Roubang_number
+unit array s__Roubang_caster
+constant integer si__MultiLife=8
+integer si__MultiLife_F=0
+integer si__MultiLife_I=0
+integer array si__MultiLife_V
+unit array s__MultiLife_caster
+integer array s__MultiLife_times
+integer array s__MultiLife_current
+timer array s__MultiLife_t
+texttag array s__MultiLife_ttHint
+integer array s__MultiLife_al
+constant integer si__SuperShield=9
+integer si__SuperShield_F=0
+integer si__SuperShield_I=0
+integer array si__SuperShield_V
+unit array s__SuperShield_caster
+integer array s__SuperShield_times
+integer array s__SuperShield_current
+timer array s__SuperShield_t
+boolean array s__SuperShield_deathContinue
+constant integer si__TextTagBind=10
 integer si__TextTagBind_F=0
 integer si__TextTagBind_I=0
 integer array si__TextTagBind_V
@@ -559,19 +649,40 @@ real array s__TextTagBind_yOff
 real array s__TextTagBind_size
 string array s__TextTagBind_content
 timer array s__TextTagBind_t
-constant integer si__Buff=2
+constant integer si__Buff=11
 integer si__Buff_F=0
 integer si__Buff_I=0
 integer array si__Buff_V
 player array s__Buff_p
 integer array s__Buff_ab
 timer array s__Buff_t
-constant integer si__JudgeInvu=3
+constant integer si__JudgeInvu=12
 integer si__JudgeInvu_F=0
 integer si__JudgeInvu_I=0
 integer array si__JudgeInvu_V
 unit array s__JudgeInvu_u
 timer array s__JudgeInvu_t
+trigger st__OnlyAttackBase__staticgetindex
+trigger st__OnlyAttackBase_onDestroy
+trigger st__OnlyAttackBase_destroy
+trigger st__Connect__staticgetindex
+trigger st__Connect_onDestroy
+trigger st__Attract__staticgetindex
+trigger st__Attract_onDestroy
+trigger st__Attract_destroy
+trigger st__Missile__staticgetindex
+trigger st__Missile_onDestroy
+trigger st__Missile_destroy
+trigger st__Questions_onDestroy
+trigger st__Questions_destroy
+trigger st__Roubang__staticgetindex
+trigger st__Roubang_onDestroy
+trigger st__Roubang_destroy
+trigger st__MultiLife__staticgetindex
+trigger st__MultiLife_onDestroy
+trigger st__SuperShield__staticgetindex
+trigger st__SuperShield_onDestroy
+trigger st__SuperShield_destroy
 trigger st__TextTagBind__staticgetindex
 trigger st__TextTagBind_onDestroy
 trigger st__Buff__staticgetindex
@@ -579,9 +690,11 @@ trigger st__Buff_onDestroy
 trigger st__Buff_destroy
 trigger st__JudgeInvu_onDestroy
 trigger st__JudgeInvu_destroy
+trigger array st___prototype31
 trigger array st___prototype38
 trigger array st___prototype228
 handle f__arg_handle1
+unit f__arg_unit1
 player f__arg_player1
 integer f__arg_this
 integer f__result_integer
@@ -589,47 +702,50 @@ integer f__result_integer
 endglobals
 
 
-//Generated method caller for TextTagBind._staticgetindex
-function sc__TextTagBind__staticgetindex takes handle h returns integer
+//Generated method caller for OnlyAttackBase._staticgetindex
+function sc__OnlyAttackBase__staticgetindex takes handle h returns integer
     set f__arg_handle1=h
-    call TriggerEvaluate(st__TextTagBind__staticgetindex)
+    call TriggerEvaluate(st__OnlyAttackBase__staticgetindex)
  return f__result_integer
 endfunction
 
-//Generated method caller for TextTagBind.onDestroy
-function sc__TextTagBind_onDestroy takes integer this returns nothing
+//Generated method caller for OnlyAttackBase.onDestroy
+function sc__OnlyAttackBase_onDestroy takes integer this returns nothing
     set f__arg_this=this
-    call TriggerEvaluate(st__TextTagBind_onDestroy)
+    call TriggerEvaluate(st__OnlyAttackBase_onDestroy)
 endfunction
 
-//Generated allocator of TextTagBind
-function s__TextTagBind__allocate takes nothing returns integer
- local integer this=si__TextTagBind_F
+//Generated allocator of OnlyAttackBase
+function s__OnlyAttackBase__allocate takes nothing returns integer
+ local integer this=si__OnlyAttackBase_F
     if (this!=0) then
-        set si__TextTagBind_F=si__TextTagBind_V[this]
+        set si__OnlyAttackBase_F=si__OnlyAttackBase_V[this]
     else
-        set si__TextTagBind_I=si__TextTagBind_I+1
-        set this=si__TextTagBind_I
+        set si__OnlyAttackBase_I=si__OnlyAttackBase_I+1
+        set this=si__OnlyAttackBase_I
     endif
     if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: OnlyAttackBase")
         return 0
     endif
 
-    set si__TextTagBind_V[this]=-1
+    set si__OnlyAttackBase_V[this]=-1
  return this
 endfunction
 
-//Generated destructor of TextTagBind
-function sc__TextTagBind_deallocate takes integer this returns nothing
+//Generated destructor of OnlyAttackBase
+function sc__OnlyAttackBase_deallocate takes integer this returns nothing
     if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: OnlyAttackBase")
         return
-    elseif (si__TextTagBind_V[this]!=-1) then
+    elseif (si__OnlyAttackBase_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: OnlyAttackBase")
         return
     endif
     set f__arg_this=this
-    call TriggerEvaluate(st__TextTagBind_onDestroy)
-    set si__TextTagBind_V[this]=si__TextTagBind_F
-    set si__TextTagBind_F=this
+    call TriggerEvaluate(st__OnlyAttackBase_onDestroy)
+    set si__OnlyAttackBase_V[this]=si__OnlyAttackBase_F
+    set si__OnlyAttackBase_F=this
 endfunction
 
 //Generated method caller for JudgeInvu.onDestroy
@@ -651,6 +767,7 @@ function s__JudgeInvu__allocate takes nothing returns integer
         set this=si__JudgeInvu_I
     endif
     if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: JudgeInvu")
         return 0
     endif
 
@@ -661,8 +778,10 @@ endfunction
 //Generated destructor of JudgeInvu
 function sc__JudgeInvu_deallocate takes integer this returns nothing
     if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: JudgeInvu")
         return
     elseif (si__JudgeInvu_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: JudgeInvu")
         return
     endif
     set f__arg_this=this
@@ -694,6 +813,7 @@ function s__Buff__allocate takes nothing returns integer
         set this=si__Buff_I
     endif
     if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Buff")
         return 0
     endif
 
@@ -704,14 +824,402 @@ endfunction
 //Generated destructor of Buff
 function sc__Buff_deallocate takes integer this returns nothing
     if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Buff")
         return
     elseif (si__Buff_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Buff")
         return
     endif
     set f__arg_this=this
     call TriggerEvaluate(st__Buff_onDestroy)
     set si__Buff_V[this]=si__Buff_F
     set si__Buff_F=this
+endfunction
+
+//Generated method caller for TextTagBind._staticgetindex
+function sc__TextTagBind__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__TextTagBind__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for TextTagBind.onDestroy
+function sc__TextTagBind_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__TextTagBind_onDestroy)
+endfunction
+
+//Generated allocator of TextTagBind
+function s__TextTagBind__allocate takes nothing returns integer
+ local integer this=si__TextTagBind_F
+    if (this!=0) then
+        set si__TextTagBind_F=si__TextTagBind_V[this]
+    else
+        set si__TextTagBind_I=si__TextTagBind_I+1
+        set this=si__TextTagBind_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: TextTagBind")
+        return 0
+    endif
+
+    set si__TextTagBind_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of TextTagBind
+function sc__TextTagBind_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: TextTagBind")
+        return
+    elseif (si__TextTagBind_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: TextTagBind")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__TextTagBind_onDestroy)
+    set si__TextTagBind_V[this]=si__TextTagBind_F
+    set si__TextTagBind_F=this
+endfunction
+
+//Generated method caller for SuperShield._staticgetindex
+function sc__SuperShield__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__SuperShield__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for SuperShield.onDestroy
+function sc__SuperShield_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__SuperShield_onDestroy)
+endfunction
+
+//Generated allocator of SuperShield
+function s__SuperShield__allocate takes nothing returns integer
+ local integer this=si__SuperShield_F
+    if (this!=0) then
+        set si__SuperShield_F=si__SuperShield_V[this]
+    else
+        set si__SuperShield_I=si__SuperShield_I+1
+        set this=si__SuperShield_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: SuperShield")
+        return 0
+    endif
+
+    set si__SuperShield_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of SuperShield
+function sc__SuperShield_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: SuperShield")
+        return
+    elseif (si__SuperShield_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: SuperShield")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__SuperShield_onDestroy)
+    set si__SuperShield_V[this]=si__SuperShield_F
+    set si__SuperShield_F=this
+endfunction
+
+//Generated method caller for MultiLife._staticgetindex
+function sc__MultiLife__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__MultiLife__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for MultiLife.onDestroy
+function sc__MultiLife_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__MultiLife_onDestroy)
+endfunction
+
+//Generated allocator of MultiLife
+function s__MultiLife__allocate takes nothing returns integer
+ local integer this=si__MultiLife_F
+    if (this!=0) then
+        set si__MultiLife_F=si__MultiLife_V[this]
+    else
+        set si__MultiLife_I=si__MultiLife_I+1
+        set this=si__MultiLife_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: MultiLife")
+        return 0
+    endif
+
+    set si__MultiLife_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of MultiLife
+function sc__MultiLife_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: MultiLife")
+        return
+    elseif (si__MultiLife_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: MultiLife")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__MultiLife_onDestroy)
+    set si__MultiLife_V[this]=si__MultiLife_F
+    set si__MultiLife_F=this
+endfunction
+
+//Generated method caller for Roubang._staticgetindex
+function sc__Roubang__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__Roubang__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for Roubang.onDestroy
+function sc__Roubang_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__Roubang_onDestroy)
+endfunction
+
+//Generated allocator of Roubang
+function s__Roubang__allocate takes nothing returns integer
+ local integer this=si__Roubang_F
+    if (this!=0) then
+        set si__Roubang_F=si__Roubang_V[this]
+    else
+        set si__Roubang_I=si__Roubang_I+1
+        set this=si__Roubang_I
+    endif
+    if (this>408) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Roubang")
+        return 0
+    endif
+    set s__Roubang_URou[this]=(this-1)*20
+    set si__Roubang_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Roubang
+function sc__Roubang_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Roubang")
+        return
+    elseif (si__Roubang_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Roubang")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Roubang_onDestroy)
+    set si__Roubang_V[this]=si__Roubang_F
+    set si__Roubang_F=this
+endfunction
+
+//Generated method caller for Questions.onDestroy
+function sc__Questions_onDestroy takes integer this returns nothing
+			call PauseTimer(s__Questions_t[this])
+			call DestroyTimer(s__Questions_t[this])
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_t[this]))
+			set s__Questions_t[this]=null
+			set s__Questions_time[this]=0
+			set s__Questions_rightPos[this]=0
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_click[this]))
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_d[this]))
+			call DestroyTrigger(s__Questions_click[this])
+	    	call DialogDisplay(s__Questions_p[this], s__Questions_d[this], false)
+	        call DialogClear(s__Questions_d[this])
+	        call DialogDestroy(s__Questions_d[this])
+			set s__Questions_click[this]=null
+			set s__Questions_p[this]=null
+			set s__Questions_question[this]=null
+			set s__Questions_d[this]=null
+endfunction
+
+//Generated allocator of Questions
+function s__Questions__allocate takes nothing returns integer
+ local integer this=si__Questions_F
+    if (this!=0) then
+        set si__Questions_F=si__Questions_V[this]
+    else
+        set si__Questions_I=si__Questions_I+1
+        set this=si__Questions_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Questions")
+        return 0
+    endif
+
+    set si__Questions_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Questions
+function sc__Questions_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Questions")
+        return
+    elseif (si__Questions_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Questions")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Questions_onDestroy)
+    set si__Questions_V[this]=si__Questions_F
+    set si__Questions_F=this
+endfunction
+
+//Generated method caller for Missile._staticgetindex
+function sc__Missile__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__Missile__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for Missile.onDestroy
+function sc__Missile_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__Missile_onDestroy)
+endfunction
+
+//Generated allocator of Missile
+function s__Missile__allocate takes nothing returns integer
+ local integer this=si__Missile_F
+    if (this!=0) then
+        set si__Missile_F=si__Missile_V[this]
+    else
+        set si__Missile_I=si__Missile_I+1
+        set this=si__Missile_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Missile")
+        return 0
+    endif
+
+    set si__Missile_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Missile
+function sc__Missile_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Missile")
+        return
+    elseif (si__Missile_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Missile")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Missile_onDestroy)
+    set si__Missile_V[this]=si__Missile_F
+    set si__Missile_F=this
+endfunction
+
+//Generated method caller for Attract._staticgetindex
+function sc__Attract__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__Attract__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for Attract.onDestroy
+function sc__Attract_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__Attract_onDestroy)
+endfunction
+
+//Generated allocator of Attract
+function s__Attract__allocate takes nothing returns integer
+ local integer this=si__Attract_F
+    if (this!=0) then
+        set si__Attract_F=si__Attract_V[this]
+    else
+        set si__Attract_I=si__Attract_I+1
+        set this=si__Attract_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Attract")
+        return 0
+    endif
+
+    set si__Attract_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Attract
+function sc__Attract_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Attract")
+        return
+    elseif (si__Attract_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Attract")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Attract_onDestroy)
+    set si__Attract_V[this]=si__Attract_F
+    set si__Attract_F=this
+endfunction
+
+//Generated method caller for Connect._staticgetindex
+function sc__Connect__staticgetindex takes handle h returns integer
+    set f__arg_handle1=h
+    call TriggerEvaluate(st__Connect__staticgetindex)
+ return f__result_integer
+endfunction
+
+//Generated method caller for Connect.onDestroy
+function sc__Connect_onDestroy takes integer this returns nothing
+    set f__arg_this=this
+    call TriggerEvaluate(st__Connect_onDestroy)
+endfunction
+
+//Generated allocator of Connect
+function s__Connect__allocate takes nothing returns integer
+ local integer this=si__Connect_F
+    if (this!=0) then
+        set si__Connect_F=si__Connect_V[this]
+    else
+        set si__Connect_I=si__Connect_I+1
+        set this=si__Connect_I
+    endif
+    if (this>8190) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: Connect")
+        return 0
+    endif
+
+    set si__Connect_V[this]=-1
+ return this
+endfunction
+
+//Generated destructor of Connect
+function sc__Connect_deallocate takes integer this returns nothing
+    if this==null then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Connect")
+        return
+    elseif (si__Connect_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Connect")
+        return
+    endif
+    set f__arg_this=this
+    call TriggerEvaluate(st__Connect_onDestroy)
+    set si__Connect_V[this]=si__Connect_F
+    set si__Connect_F=this
+endfunction
+function sc___prototype31_execute takes integer i,unit a1 returns nothing
+    set f__arg_unit1=a1
+
+    call TriggerExecute(st___prototype31[i])
+endfunction
+function sc___prototype31_evaluate takes integer i,unit a1 returns nothing
+    set f__arg_unit1=a1
+
+    call TriggerEvaluate(st___prototype31[i])
+
 endfunction
 function sc___prototype38_execute takes integer i returns nothing
 
@@ -1959,7 +2467,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  constant function GetVersion takes nothing returns string
-		return "3.415"
+		return "3.415B"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -1979,7 +2487,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function CModeH takes integer i1,integer i2 returns integer
-		if ( (mode == 1) ) then // INLINED!!
+		if ( IsClassic() ) then
 			return i1
 		else
 			return i2
@@ -1988,7 +2496,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function RCModeH takes real r1,real r2 returns real
-		if ( (mode == 1) ) then // INLINED!!
+		if ( IsClassic() ) then
 			return r1
 		else
 			return r2
@@ -3004,103 +3512,103 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetWanjieluName takes nothing returns string
-		set Constant___WPointer=Constant___WPointer - 1
-		if ( Constant___WPointer <= 0 ) then
-			set Constant___WPointer=COUNT_WANJIE
+		set Constant__WPointer=Constant__WPointer - 1
+		if ( Constant__WPointer <= 0 ) then
+			set Constant__WPointer=COUNT_WANJIE
 		endif
-		if ( Constant___WPointer == 1 ) then
+		if ( Constant__WPointer == 1 ) then
 			return "你把我灌醉。"
-		elseif ( Constant___WPointer == 2 ) then
+		elseif ( Constant__WPointer == 2 ) then
 			return "辉煌丶神偷"
-		elseif ( Constant___WPointer == 3 ) then
+		elseif ( Constant__WPointer == 3 ) then
 			return "丶7℃ャ跃娃"
-		elseif ( Constant___WPointer == 4 ) then
+		elseif ( Constant__WPointer == 4 ) then
 			return "深邃的孤独丶"
-		elseif ( Constant___WPointer == 5 ) then
+		elseif ( Constant__WPointer == 5 ) then
 			return "雷瑟守备最强王者"
-		elseif ( Constant___WPointer == 6 ) then
+		elseif ( Constant__WPointer == 6 ) then
 			return "你的牛奶呢丶"
-		elseif ( Constant___WPointer == 7 ) then
+		elseif ( Constant__WPointer == 7 ) then
 			return "浪逼郭小癞"
-		elseif ( Constant___WPointer == 8 ) then
+		elseif ( Constant__WPointer == 8 ) then
 			return "很烦很皮"
-		elseif ( Constant___WPointer == 9 ) then
+		elseif ( Constant__WPointer == 9 ) then
 			return "sky"
-		elseif ( Constant___WPointer == 10 ) then
+		elseif ( Constant__WPointer == 10 ) then
 			return "梦露丶baby"
-		elseif ( Constant___WPointer == 11 ) then
+		elseif ( Constant__WPointer == 11 ) then
 			return "0万物皆空0"
-		elseif ( Constant___WPointer == 12 ) then
+		elseif ( Constant__WPointer == 12 ) then
 			return "回忆专用小马甲"
-		elseif ( Constant___WPointer == 13 ) then
+		elseif ( Constant__WPointer == 13 ) then
 			return "我鸡鸡贼大"
-		elseif ( Constant___WPointer == 14 ) then
+		elseif ( Constant__WPointer == 14 ) then
 			return "树林里故事"
-		elseif ( Constant___WPointer == 15 ) then
+		elseif ( Constant__WPointer == 15 ) then
 			return "星辰末日"
-		elseif ( Constant___WPointer == 16 ) then
+		elseif ( Constant__WPointer == 16 ) then
 			return "夕子奈月"
-		elseif ( Constant___WPointer == 17 ) then
+		elseif ( Constant__WPointer == 17 ) then
 			return "Rascal丶恋情"
-		elseif ( Constant___WPointer == 18 ) then
+		elseif ( Constant__WPointer == 18 ) then
 			return "请带着我飞"
-		elseif ( Constant___WPointer == 19 ) then
+		elseif ( Constant__WPointer == 19 ) then
 			return "阴优"
-		elseif ( Constant___WPointer == 20 ) then
+		elseif ( Constant__WPointer == 20 ) then
 			return "czy888"
-		elseif ( Constant___WPointer == 21 ) then
+		elseif ( Constant__WPointer == 21 ) then
 			return "Flower丶God"
-		elseif ( Constant___WPointer == 22 ) then
+		elseif ( Constant__WPointer == 22 ) then
 			return "逸灬仙"
-		elseif ( Constant___WPointer == 23 ) then
+		elseif ( Constant__WPointer == 23 ) then
 			return "至简i"
-		elseif ( Constant___WPointer == 24 ) then
+		elseif ( Constant__WPointer == 24 ) then
 			return "躺车门始祖"
-		elseif ( Constant___WPointer == 25 ) then
+		elseif ( Constant__WPointer == 25 ) then
 			return "浪逼康小帅"
-		elseif ( Constant___WPointer == 26 ) then
+		elseif ( Constant__WPointer == 26 ) then
 			return "7葡萄"
-		elseif ( Constant___WPointer == 27 ) then
+		elseif ( Constant__WPointer == 27 ) then
 			return "心雪"
-		elseif ( Constant___WPointer == 28 ) then
+		elseif ( Constant__WPointer == 28 ) then
 			return "Dear冷月"
-		elseif ( Constant___WPointer == 29 ) then
+		elseif ( Constant__WPointer == 29 ) then
 			return "墙头蹲红杏"
-		elseif ( Constant___WPointer == 30 ) then
+		elseif ( Constant__WPointer == 30 ) then
 			return "one丶lifeの爱"
-		elseif ( Constant___WPointer == 31 ) then
+		elseif ( Constant__WPointer == 31 ) then
 			return "牛头居然能打巨能"
-		elseif ( Constant___WPointer == 32 ) then
+		elseif ( Constant__WPointer == 32 ) then
 			return "无缘之邪"
-		elseif ( Constant___WPointer == 33 ) then
+		elseif ( Constant__WPointer == 33 ) then
 			return "那天1234"
-		elseif ( Constant___WPointer == 34 ) then
+		elseif ( Constant__WPointer == 34 ) then
 			return "糖糖不在甜"
-		elseif ( Constant___WPointer == 35 ) then
+		elseif ( Constant__WPointer == 35 ) then
 			return "稞宿"
-		elseif ( Constant___WPointer == 36 ) then
+		elseif ( Constant__WPointer == 36 ) then
 			return "小米酥丶"
-		elseif ( Constant___WPointer == 37 ) then
+		elseif ( Constant__WPointer == 37 ) then
 			return "月丶暗影"
-		elseif ( Constant___WPointer == 38 ) then
+		elseif ( Constant__WPointer == 38 ) then
 			return "嚣张城"
-		elseif ( Constant___WPointer == 39 ) then
+		elseif ( Constant__WPointer == 39 ) then
 			return "灵魂的缠绵"
-		elseif ( Constant___WPointer == 40 ) then
+		elseif ( Constant__WPointer == 40 ) then
 			return "1 1"
-		elseif ( Constant___WPointer == 41 ) then
+		elseif ( Constant__WPointer == 41 ) then
 			return "丶念少。"
-		elseif ( Constant___WPointer == 42 ) then
+		elseif ( Constant__WPointer == 42 ) then
 			return "话唠。"
-		elseif ( Constant___WPointer == 43 ) then
+		elseif ( Constant__WPointer == 43 ) then
 			return "神天羽"
-		elseif ( Constant___WPointer == 44 ) then
+		elseif ( Constant__WPointer == 44 ) then
 			return "你挺得劲"
-		elseif ( Constant___WPointer == 45 ) then
+		elseif ( Constant__WPointer == 45 ) then
 			return "司宸"
-		elseif ( Constant___WPointer == 46 ) then
+		elseif ( Constant__WPointer == 46 ) then
 			return "与你童在"
-		elseif ( Constant___WPointer == 47 ) then
+		elseif ( Constant__WPointer == 47 ) then
 			return "＿雅姬ベ"
 		endif
 		return ""
@@ -3109,7 +3617,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function Constant___InitConstant takes nothing returns nothing
+ function Constant__InitConstant takes nothing returns nothing
   local integer i= 1
 		loop
 			exitwhen i > 6
@@ -3455,7 +3963,7 @@ endfunction
     endfunction
 
    function IsEnemy takes unit u,unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and (IsEnemyMP((u ) , GetOwningPlayer(( caster)))) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false // INLINED!!
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u , caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -3721,7 +4229,7 @@ endfunction
     
     
     function ChooseSpinHero takes player p,unit u returns nothing
-        call ShowGameHint(p , "\n        这是英雄" + GetUnitName(u) + "的皮肤。" + S3(false , "\n        双击中间的旗子查看挑战内容,\n        完成对应挑战即可永久解锁该皮肤。" , "\n        使用魔兽争霸官方对战平台(dz.163.com)进行游戏\n        完成挑战即可获取该皮肤。"))
+        call ShowGameHint(p , "\n        这是英雄" + GetUnitName(u) + "的皮肤。" + S3(true , "\n        双击中间的旗子查看挑战内容,\n        完成对应挑战即可永久解锁该皮肤。" , "\n        使用魔兽争霸官方对战平台(dz.163.com)进行游戏\n        完成挑战即可获取该皮肤。"))
     endfunction
 //---------------------------------------------------------------------------------------------------
     
@@ -3914,8 +4422,8 @@ endfunction
  function FlashHeroStr takes player p returns nothing
   local integer index= GetConvertedPlayerId(p)
   local integer temp= 0
-		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( (udg_I_Xianglian[( (index) )]) != 0 or IStr[index] != 0 ) ) then // INLINED!!
-			set temp=R2I(I2R(GetHeroStr(udg_H[index], true) - IStr[index]) * (udg_I_Xianglian[( (index) )])) // INLINED!!
+		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( GetStrPercent(index) != 0 or IStr[index] != 0 ) ) then
+			set temp=R2I(I2R(GetHeroStr(udg_H[index], true) - IStr[index]) * GetStrPercent(index))
 			if ( temp != IStr[index] ) then
 				call SetHeroStr(udg_H[index], GetHeroStr(udg_H[index], true) - IStr[index] + temp, true)
 				set IStr[index]=temp
@@ -3938,8 +4446,8 @@ endfunction
  function FlashHeroAgi takes player p returns nothing
   local integer index= GetConvertedPlayerId(p)
   local integer temp= 0
-		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( (udg_I_Xianglian[( (index) + 6 )]) != 0 or IAgi[index] != 0 ) ) then // INLINED!!
-			set temp=R2I(I2R(GetHeroAgi(udg_H[index], true) - IAgi[index]) * (udg_I_Xianglian[( (index) + 6 )])) // INLINED!!
+		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( GetAgiPercent(index) != 0 or IAgi[index] != 0 ) ) then
+			set temp=R2I(I2R(GetHeroAgi(udg_H[index], true) - IAgi[index]) * GetAgiPercent(index))
 			if ( temp != IAgi[index] ) then
 				call SetHeroAgi(udg_H[index], GetHeroAgi(udg_H[index], true) - IAgi[index] + temp, true)
 				set IAgi[index]=temp
@@ -3961,8 +4469,8 @@ endfunction
  function FlashHeroInt takes player p returns nothing
   local integer index= GetConvertedPlayerId(p)
   local integer temp= 0
-		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( (udg_I_Xianglian[( (index) + 12 )]) != 0 or IInt[index] != 0 ) ) then // INLINED!!
-			set temp=R2I(I2R(GetHeroInt(udg_H[index], true) - IInt[index]) * (udg_I_Xianglian[( (index) + 12 )])) // INLINED!!
+		if ( ( GetPlayerSlotState(p) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(p) == MAP_CONTROL_USER ) and ( GetIntPercent(index) != 0 or IInt[index] != 0 ) ) then
+			set temp=R2I(I2R(GetHeroInt(udg_H[index], true) - IInt[index]) * GetIntPercent(index))
 			if ( temp != IInt[index] ) then
 				call SetHeroInt(udg_H[index], GetHeroInt(udg_H[index], true) - IInt[index] + temp, true)
 				set IInt[index]=temp
@@ -3989,7 +4497,7 @@ endfunction
 			call FlashHeroStr(GetOwningPlayer(hero))
 		else
 			set index=GetConvertedPlayerId(GetOwningPlayer(hero))
-			set delta=R2I(I2R(i) * (udg_I_Xianglian[( (index) )])) // INLINED!!
+			set delta=R2I(I2R(i) * GetStrPercent(index))
 			set IStr[index]=IStr[index] - delta
 			call SetHeroStr(hero, GetHeroStr(hero, true) - i - delta, true)
 			call FlashHeroStr(GetOwningPlayer(hero))
@@ -4004,7 +4512,7 @@ endfunction
 			call FlashHeroAgi(GetOwningPlayer(hero))
 		else
 			set index=GetConvertedPlayerId(GetOwningPlayer(hero))
-			set delta=R2I(I2R(i) * (udg_I_Xianglian[( (index) + 6 )])) // INLINED!!
+			set delta=R2I(I2R(i) * GetAgiPercent(index))
 			set IAgi[index]=IAgi[index] - delta
 			call SetHeroAgi(hero, GetHeroAgi(hero, true) - i - delta, true)
 			call FlashHeroAgi(GetOwningPlayer(hero))
@@ -4019,7 +4527,7 @@ endfunction
 			call FlashHeroInt(GetOwningPlayer(hero))
 		else
 			set index=GetConvertedPlayerId(GetOwningPlayer(hero))
-			set delta=R2I(I2R(i) * (udg_I_Xianglian[( (index) + 12 )])) // INLINED!!
+			set delta=R2I(I2R(i) * GetIntPercent(index))
 			set IInt[index]=IInt[index] - delta
 			call SetHeroInt(hero, GetHeroInt(hero, true) - i - delta, true)
 			call FlashHeroInt(GetOwningPlayer(hero))
@@ -4113,7 +4621,7 @@ endfunction
 	endfunction	
 
  function AddAttack takes unit u,integer attack returns nothing
-		call SetAttack(u , (LoadInteger(YDHT, GetHandleId((u)), 0x5039AFFB)) + attack) // INLINED!!
+		call SetAttack(u , GetAttack(u) + attack)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -4128,7 +4636,7 @@ endfunction
 	endfunction	
 
  function AddDefense takes unit u,integer defense returns nothing
-		call SetDefense(u , (LoadInteger(YDHT, GetHandleId((u)), 0x81FD3994)) + defense) // INLINED!!
+		call SetDefense(u , GetDefense(u) + defense)
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -4144,11 +4652,11 @@ endfunction
 	endfunction	
 
  function AddHP takes unit u,integer hp returns nothing
-		call SetHP(u , (LoadInteger(YDHT, GetHandleId((u)), 0xFCD961C9)) + hp) // INLINED!!
+		call SetHP(u , GetHP(u) + hp)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function Attr___InitAttr takes nothing returns nothing
+ function Attr__InitAttr takes nothing returns nothing
 		
 
 
@@ -4183,6 +4691,7 @@ endfunction
 			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
 			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
+    call DzAPI_Map_StoreString(p , "Greward2" , Greward2[index])
 		endif
 	endfunction
 
@@ -4208,7 +4717,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerDZ___C3 takes integer i1,integer i2,integer i3 returns integer
+ function ChallangerDZ__C3 takes integer i1,integer i2,integer i3 returns integer
 		if ( CDiff == 1 ) then
 			return i1
 		elseif ( CDiff == 2 ) then
@@ -4325,6 +4834,10 @@ endfunction
 	
  function InitChallangerData takes player p returns nothing
 		if ( Bdudang[GetConvertedPlayerId(p)] ) then
+       call DzAPI_Map_Stat_SetStat(p , "chal" , I2S(GetAllComplete(p)) + "/" + I2S(3 * COUNT_CHALLANGER))
+    call DzAPI_Map_StoreString(p , "easyCString" , easyCString[GetConvertedPlayerId(p)])
+    call DzAPI_Map_StoreString(p , "middleCString" , middleCString[GetConvertedPlayerId(p)])
+    call DzAPI_Map_StoreString(p , "hardCString" , hardCString[GetConvertedPlayerId(p)])
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -4415,19 +4928,19 @@ endfunction
 	
  function GetChallangerDifficulty takes nothing returns integer
 		if ( CType == 1 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		elseif ( CType == 2 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		elseif ( CType == 3 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		elseif ( CType == 4 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		elseif ( CType == 5 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		elseif ( CType == 6 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		elseif ( CType == 7 ) then
-			return ChallangerDZ___C3(1 , 5 , 8)
+			return ChallangerDZ__C3(1 , 5 , 8)
 		endif
 		return 0
 	endfunction
@@ -4443,6 +4956,10 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetFanzhuanFailString takes player p,integer i returns string
+		if not ( true ) then
+			return "\n			在该版本中获取赞助后永久解锁使用.(请看复活点介绍)\n\n			或者在官方平台使用该英雄30次后解锁.\n			"
+		endif
+
 		if ( i == 2 ) then
 			return "\n			在本版本中通关5次战争难度(或以上)永久解锁使用.\n\n			进度:" + I2S(diyu[GetConvertedPlayerId(p)] / 100000) + "/5"
 		endif
@@ -4469,6 +4986,937 @@ endfunction
 	endfunction
 
 //library Fanzhuan ends
+//library Printer:
+
+	
+
+//---------------------------------------------------------------------------------------------------
+	
+
+ function PrintSpellAdd takes player whichPlayer,string spellName,real damage,string addtional returns nothing
+		if ( BHideDamage[GetConvertedPlayerId(whichPlayer)] ) then
+			return
+		endif
+		if ( damage > 10000 ) then
+	    	call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r伤害加成" + I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage / 10000)) + "万" + addtional + "." ) ) ))
+	    else
+	    	call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r伤害加成" + I2S(R2I(( ( udg_I_Jinengjiacheng[GetConvertedPlayerId(whichPlayer)] * 100.00 ) - 99.00 ))) + ( "%,伤害" + ( I2S(R2I(damage)) + addtional + "." ) ) ))
+		endif
+	endfunction
+
+ function PrintSpell takes player whichPlayer,string spellName,real damage returns nothing
+		call PrintSpellAdd(whichPlayer , spellName , damage , "")
+	endfunction
+	
+ function PrintSpellContent takes player whichPlayer,string spellName,string content returns nothing
+		if ( BHideDamage[GetConvertedPlayerId(whichPlayer)] ) then
+			return
+		endif
+	    call DisplayTextToPlayer(whichPlayer, 0, 0, ( "|cFFFF66CC【|r" + spellName + "|cFFFF66CC】|r" + content ))
+	endfunction
+
+ function PrintSpellName takes player whichPlayer,string spellName returns nothing
+		call PrintSpellContent(whichPlayer , spellName , "")
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+ function Printer__InitPrinter takes nothing returns nothing
+		
+	endfunction
+
+
+//library Printer ends
+//library SpellBase:
+
+
+//---------------------------------------------------------------------------------------------------
+
+	
+ function SpellBase__ImmuteDamageTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit u= LoadUnitHandle(spellTable, id, kUImmuteDamage)
+		call PauseTimer(t)
+		call DestroyTimer(t)
+		call FlushChildHashtable(spellTable, id)
+		call UnitRemoveAbility(u, 'Avul')
+		set u=null
+		set t=null
+	endfunction
+
+ function ImmuteDamageInterval takes unit u,real time returns nothing
+  local timer t= CreateTimer()
+		call UnitAddAbility(u, 'Avul')
+		call SaveUnitHandle(spellTable, GetHandleId(t), kUImmuteDamage, u)
+		call TimerStart(t, time, false, function SpellBase__ImmuteDamageTimer)
+		set t=null
+	endfunction
+
+ function ImmuteDamage takes unit u returns nothing
+		call ImmuteDamageInterval(u , 0)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+		
+
+  function s__OnlyAttackBase_flashAttack takes nothing returns nothing
+   local integer this= sc__OnlyAttackBase__staticgetindex(GetExpiredTimer())
+			if ( IsUnitAliveBJ(s__OnlyAttackBase_u[this]) or GetUnitAbilityLevel(s__OnlyAttackBase_u[this], 'A0KH') > 0 ) then
+				call IssueTargetOrder(s__OnlyAttackBase_u[this], "attack", gg_unit_haro_0030)
+			else
+				call sc__OnlyAttackBase_deallocate(this)
+			endif
+  endfunction
+
+        function s__OnlyAttackBase__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SpellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__OnlyAttackBase__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SpellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__OnlyAttackBase_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SpellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+  function s__OnlyAttackBase_create takes unit u returns integer
+      local integer this= s__OnlyAttackBase__allocate()
+		   	set s__OnlyAttackBase_u[this]=u
+			set s__OnlyAttackBase_t[this]=CreateTimer()
+			call s__OnlyAttackBase__staticsetindex(s__OnlyAttackBase_t[this], (this))
+			call TimerStart(s__OnlyAttackBase_t[this], 3, true, function s__OnlyAttackBase_flashAttack)
+			call IssueTargetOrder(u, "attack", gg_unit_haro_0030)
+			return this
+  endfunction
+
+  function s__OnlyAttackBase_onDestroy takes integer this returns nothing
+			call s__OnlyAttackBase_flush(s__OnlyAttackBase_t[this])
+			set s__OnlyAttackBase_u[this]=null
+			call PauseTimer(s__OnlyAttackBase_t[this])
+			call DestroyTimer(s__OnlyAttackBase_t[this])
+			set s__OnlyAttackBase_t[this]=null
+  endfunction
+
+//Generated destructor of OnlyAttackBase
+function s__OnlyAttackBase_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: OnlyAttackBase")
+        return
+    elseif (si__OnlyAttackBase_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: OnlyAttackBase")
+        return
+    endif
+    call s__OnlyAttackBase_onDestroy(this)
+    set si__OnlyAttackBase_V[this]=si__OnlyAttackBase_F
+    set si__OnlyAttackBase_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+		
+
+  function s__Connect_connect takes nothing returns nothing
+   local integer this= sc__Connect__staticgetindex(GetExpiredTimer())
+			if ( s__Connect_BDie[this] ) then
+				if ( not ( IsUnitAliveBJ(s__Connect_unit1[this]) ) or not ( IsUnitAliveBJ(s__Connect_unit2[this]) ) ) then
+					call DestroyLightningBJ(s__Connect_l[this])
+					set s__Connect_l[this]=null
+				else
+					if ( s__Connect_l[this] != null ) then
+						call MoveLightning(s__Connect_l[this], true, GetUnitX(s__Connect_unit1[this]), GetUnitY(s__Connect_unit1[this]), GetUnitX(s__Connect_unit2[this]), GetUnitY(s__Connect_unit2[this]))
+					endif
+				endif
+			else
+				call MoveLightning(s__Connect_l[this], true, GetUnitX(s__Connect_unit1[this]), GetUnitY(s__Connect_unit1[this]), GetUnitX(s__Connect_unit2[this]), GetUnitY(s__Connect_unit2[this]))
+			endif
+  endfunction
+
+        function s__Connect__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SpellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__Connect__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SpellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__Connect_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SpellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+  function s__Connect_create takes unit unit1,unit unit2,string lightningType returns integer
+      local integer this= s__Connect__allocate()
+		   	set s__Connect_unit1[this]=unit1
+		   	set s__Connect_unit2[this]=unit2
+		   	set s__Connect_BDie[this]=false
+			set s__Connect_l[this]=AddLightning(lightningType, true, GetUnitX(unit1), GetUnitY(unit1), GetUnitX(unit2), GetUnitY(unit2))
+			set s__Connect_t[this]=CreateTimer()
+			call s__Connect__staticsetindex(s__Connect_t[this], (this))
+			call TimerStart(s__Connect_t[this], 0.05, true, function s__Connect_connect)
+			return this
+  endfunction
+
+  function s__Connect_setDieVanish takes integer this returns nothing
+			set s__Connect_BDie[this]=true
+  endfunction
+
+  function s__Connect_onDestroy takes integer this returns nothing
+			call s__Connect_flush(s__Connect_t[this])
+			set s__Connect_unit1[this]=null
+			set s__Connect_unit2[this]=null
+			call DestroyLightningBJ(s__Connect_l[this])
+			set s__Connect_l[this]=null
+			call PauseTimer(s__Connect_t[this])
+			call DestroyTimer(s__Connect_t[this])
+			set s__Connect_t[this]=null
+  endfunction
+
+//Generated destructor of Connect
+function s__Connect_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Connect")
+        return
+    elseif (si__Connect_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Connect")
+        return
+    endif
+    call s__Connect_onDestroy(this)
+    set si__Connect_V[this]=si__Connect_F
+    set si__Connect_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+  
+
+  function s__Attract_attract takes nothing returns nothing
+   local real x1
+   local real y1
+   local real x2
+   local real y2
+   local real facing
+   local real distance
+   local integer this= sc__Attract__staticgetindex(GetExpiredTimer())
+   local group l_group= CreateGroup()
+   local unit l_unit
+			if ( IsUnitAliveBJ(s__Attract_caster[this]) ) then
+				call GroupEnumUnitsInRange(l_group, GetUnitX(s__Attract_caster[this]), GetUnitY(s__Attract_caster[this]), s__Attract_radius[this], null)
+				loop
+				    set l_unit=FirstOfGroup(l_group)
+				    exitwhen l_unit == null
+				    call GroupRemoveUnit(l_group, l_unit)
+				    if ( IsEnemyM(l_unit , s__Attract_caster[this]) and ( GetUnitMoveSpeed(l_unit) > 0 ) and ( not ( s__Attract_forbitHero[this] and IsUnitType(l_unit, UNIT_TYPE_HERO) ) ) and GetUnitAbilityLevel(l_unit, 'A0IH') < 1 ) then
+				    	set x2=GetUnitX(l_unit)
+				    	set y2=GetUnitY(l_unit)
+				    	set x1=GetUnitX(s__Attract_caster[this])
+				    	set y1=GetUnitY(s__Attract_caster[this])
+				    	set distance=SquareRoot(( x1 - x2 ) * ( x1 - x2 ) + ( y1 - y2 ) * ( y1 - y2 ))
+				    	if ( distance > 80 ) then
+				    	set facing=Atan2BJ(y1 - y2, x1 - x2)
+				    	call SetUnitX(l_unit, YDWECoordinateX(x2 + CosBJ(facing) * s__Attract_speed[this]))
+				    	call SetUnitY(l_unit, YDWECoordinateY(y2 + SinBJ(facing) * s__Attract_speed[this]))
+				    	endif
+				    endif
+				endloop
+				call DestroyGroup(l_group)
+			else
+				if not ( s__Attract_deathContinue[this] ) then
+					call sc__Attract_deallocate(this)
+				endif
+			endif
+			set l_group=null
+			set l_unit=null
+  endfunction
+
+        function s__Attract__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__Attract__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__Attract_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+  function s__Attract_create takes unit caster,real radius,real interval,real speed returns integer
+      local integer this= s__Attract__allocate()
+      local timer t
+			set s__Attract_caster[this]=caster
+			set s__Attract_radius[this]=radius
+			set s__Attract_interval[this]=interval
+			set s__Attract_speed[this]=speed
+			set s__Attract_forbitHero[this]=false
+			set s__Attract_deathContinue[this]=false
+			return this
+  endfunction
+
+  function s__Attract_SetForbitHero takes integer this returns nothing
+			set s__Attract_forbitHero[this]=true
+  endfunction
+
+  function s__Attract_SetDeathContinue takes integer this returns nothing
+			set s__Attract_deathContinue[this]=true
+  endfunction
+
+  function s__Attract_setSpeed takes integer this,real speed returns nothing
+			set s__Attract_speed[this]=speed
+  endfunction
+
+  function s__Attract_start takes integer this returns nothing
+			set s__Attract_t[this]=CreateTimer()
+			call s__Attract__staticsetindex(s__Attract_t[this], (this))
+			call TimerStart(s__Attract_t[this], s__Attract_interval[this], true, function s__Attract_attract)
+  endfunction
+
+  function s__Attract_onDestroy takes integer this returns nothing
+			call s__Attract_flush(s__Attract_t[this])
+			set s__Attract_caster[this]=null
+			call PauseTimer(s__Attract_t[this])
+			call DestroyTimer(s__Attract_t[this])
+			set s__Attract_t[this]=null
+  endfunction
+
+//Generated destructor of Attract
+function s__Attract_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Attract")
+        return
+    elseif (si__Attract_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Attract")
+        return
+    endif
+    call s__Attract_onDestroy(this)
+    set si__Attract_V[this]=si__Attract_F
+    set si__Attract_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+
+
+  function s__Missile_explode takes nothing returns nothing
+   local integer this= sc__Missile__staticgetindex(GetExpiredTimer())
+   local group l_group= CreateGroup()
+   local unit l_unit
+			call GroupEnumUnitsInRange(l_group, s__Missile_x[this], s__Missile_y[this], s__Missile_radius[this], null)
+			loop
+			    set l_unit=FirstOfGroup(l_group)
+			    exitwhen l_unit == null
+			    call GroupRemoveUnit(l_group, l_unit)
+			    if ( IsEnemyM(l_unit , s__Missile_caster[this]) == true ) then
+			    	call UnitDamageTarget(s__Missile_caster[this], l_unit, s__Missile_damage[this], false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
+			    endif
+			endloop
+			call DestroyGroup(l_group)
+			set l_group=null
+			set l_unit=null
+			call sc__Missile_deallocate(this)
+  endfunction
+
+  function s__Missile_launch takes nothing returns nothing
+   local integer this= sc__Missile__staticgetindex(GetExpiredTimer())
+			call DestroyEffect(AddSpecialEffect(s__Missile_effx[this], s__Missile_x[this], s__Missile_y[this]))
+			call PauseTimer(s__Missile_t[this])
+			call TimerStart(s__Missile_t[this], s__Missile_interval2[this], false, function s__Missile_explode)
+  endfunction
+
+
+        function s__Missile__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__Missile__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__Missile_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+
+  function s__Missile_createXY takes unit caster,integer preview,string effx,real radius,real x,real y,real interval1,real interval2,real damage returns integer
+      local integer this= s__Missile__allocate()
+		   	set s__Missile_x[this]=x
+		   	set s__Missile_y[this]=y
+			set s__Missile_caster[this]=caster
+			set s__Missile_effx[this]=effx
+			set s__Missile_radius[this]=radius
+			set s__Missile_interval1[this]=interval1
+			set s__Missile_interval2[this]=interval2
+			set s__Missile_damage[this]=damage
+
+			set s__Missile_t[this]=CreateTimer()
+			call s__Missile__staticsetindex(s__Missile_t[this], (this))
+			call UnitApplyTimedLifeBJ(interval1 + interval2, 'BHwe', CreateUnit(GetOwningPlayer(s__Missile_caster[this]), preview, s__Missile_x[this], s__Missile_y[this], 0))
+			call TimerStart(s__Missile_t[this], s__Missile_interval1[this], false, function s__Missile_launch)
+			return this
+  endfunction
+
+  function s__Missile_create takes unit caster,integer preview,string effx,real radius,real range,real interval1,real interval2,real damage returns integer
+      local real Rangel= GetRandomReal(- 180, 180)
+      local real Rradius= GetRandomReal(0, range)
+			return s__Missile_createXY(caster , preview , effx , radius , GetUnitX(caster) + Rradius * CosBJ(Rangel) , GetUnitY(caster) + Rradius * SinBJ(Rangel) , interval1 , interval2 , damage)
+  endfunction		
+
+  function s__Missile_onDestroy takes integer this returns nothing
+			call s__Missile_flush(s__Missile_t[this])
+			set s__Missile_caster[this]=null
+			call PauseTimer(s__Missile_t[this])
+			call DestroyTimer(s__Missile_t[this])
+			set s__Missile_t[this]=null
+  endfunction
+
+//Generated destructor of Missile
+function s__Missile_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Missile")
+        return
+    elseif (si__Missile_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Missile")
+        return
+    endif
+    call s__Missile_onDestroy(this)
+    set si__Missile_V[this]=si__Missile_F
+    set si__Missile_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+//processed:     function interface AfterSucceed takes nothing returns nothing
+
+				
+
+		//失败
+  function s__Questions_fail takes integer this returns nothing
+	    	call PlaySoundBJ(gg_snd_kill_boss)
+			set udg_I_Er_diansi[1]=IMaxBJ(0, udg_I_Er_diansi[1] - ( IMaxBJ(1, R2I(0.2 * udg_I_Er_diansi[1])) ))
+        	call BJDebugMsg("|cFFFF66CC【消息】|r问题回答错误,你们失去了五分之一的防护罩,还剩" + I2S(udg_I_Er_diansi[1]) + "个...")
+			call sc__Questions_deallocate(this)
+  endfunction
+
+		//成功
+  function s__Questions_succeed takes integer this returns nothing
+        	call PlaySoundBJ(gg_snd_GoodJob)
+        	call BJDebugMsg("|cFFFF66CC【消息】|r问题回答正确,BOSS失去10%的生命.")
+        	if ( s__Questions_as[this] != 0 ) then
+                call sc___prototype38_execute(s__Questions_as[this])
+        	endif
+			call sc__Questions_deallocate(this)
+  endfunction
+
+  function s__Questions_flashTimeout takes nothing returns nothing
+   local integer this= LoadInteger(LHTable, GetHandleId(GetExpiredTimer()), 1)
+			set s__Questions_time[this]=s__Questions_time[this] - 1
+			if ( s__Questions_time[this] <= 0 ) then
+				call s__Questions_fail(this)
+			else
+				call DialogSetMessage(s__Questions_d[this], s__Questions_question[this] + "(剩余时间:" + I2S(s__Questions_time[this]) + "s)")
+			endif
+  endfunction
+
+  function s__Questions_chooseAnswer takes nothing returns nothing
+   local integer this= LoadInteger(LHTable, GetHandleId(LoadTimerHandle(LHTable, GetHandleId(GetTriggeringTrigger()), 1)), 1)
+   local integer i= 1
+			loop
+				exitwhen i > 10
+		        if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(s__Questions_d[this]), i) ) then
+		        	if ( i == s__Questions_rightPos[this] ) then
+		        		call s__Questions_succeed(this)
+		        		return
+		        	else
+		        		call s__Questions_fail(this)
+		        		return
+		        	endif
+		        endif
+				set i=i + 1
+			endloop
+  endfunction
+
+        function s__Questions_GetRightAnswer takes integer shu1,integer shu2,boolean jia returns integer
+        	if ( jia ) then
+        		return shu1 + shu2
+        	else
+        		return shu1 * shu2
+        	endif
+        endfunction
+
+        function s__Questions_GetWrongAnswer takes integer shu,integer diff returns integer
+         local integer result= 0
+         local integer result2= 0
+        	if ( GetRandomInt(1, 2) == 1 ) then
+        		set result=shu + GetRandomInt(1, R2I(Pow(2, diff)))
+        		if ( diff >= 10 ) then
+        			set result2=S2I(SubStringBJ(I2S(result), 1, StringLength(I2S(result)) - 2) + SubStringBJ(I2S(shu), StringLength(I2S(shu)) - 1, StringLength(I2S(shu))))
+        			if ( result2 != shu ) then
+        				return result2
+        			endif
+        		endif
+        		return result
+        	else
+        		set result=shu - GetRandomInt(1, R2I(Pow(2, diff)))
+        		if ( diff >= 10 ) then
+        			set result2=S2I(SubStringBJ(I2S(result), 1, StringLength(I2S(result)) - 2) + SubStringBJ(I2S(shu), StringLength(I2S(shu)) - 1, StringLength(I2S(shu))))
+        			if ( result2 != shu ) then
+        				return result2
+        			endif
+        		endif
+        		return result
+        	endif
+        endfunction
+
+        function s__Questions_create takes player p,integer diff,integer count,integer as returns integer
+      local integer this= s__Questions__allocate()
+      local string s= ""
+      local boolean jia= ( GetRandomInt(1, 2) == 1 )
+      local integer shu1= GetRandomInt(R2I(Pow(2, diff - 1)), R2I(Pow(2, diff)))
+      local integer shu2= GetRandomInt(R2I(Pow(2, diff - 1)), R2I(Pow(2, diff)))
+      local integer right= s__Questions_GetRightAnswer(shu1 , shu2 , jia)
+      local integer i= 1
+
+		   	if ( as != 0 ) then
+		   		set s__Questions_as[this]=as
+		   	endif
+		   	set s__Questions_rightPos[this]=GetRandomInt(1, count)
+		   	set s__Questions_time[this]=5
+		   	set s__Questions_click[this]=CreateTrigger()
+			set s__Questions_p[this]=p
+			set s__Questions_t[this]=CreateTimer()
+			set s__Questions_d[this]=DialogCreate()
+			set s__Questions_question[this]=I2S(shu1) + S3(jia , "+" , "x") + I2S(shu2) + "=?"
+			call DialogSetMessage(s__Questions_d[this], s__Questions_question[this] + "(剩余时间:5s)")
+			loop
+				exitwhen i > count
+				if ( i == s__Questions_rightPos[this] ) then
+					call SaveButtonHandle(LHTable, GetHandleId(s__Questions_d[this]), i, DialogAddButtonBJ(s__Questions_d[this], I2S(right)))
+				else
+					call SaveButtonHandle(LHTable, GetHandleId(s__Questions_d[this]), i, DialogAddButtonBJ(s__Questions_d[this], I2S(s__Questions_GetWrongAnswer(right , diff))))
+				endif
+				set i=i + 1
+			endloop
+			call SaveTimerHandle(LHTable, GetHandleId(s__Questions_click[this]), 1, s__Questions_t[this])
+			call SaveInteger(LHTable, GetHandleId(s__Questions_t[this]), 1, this)
+			call DialogDisplay(s__Questions_p[this], s__Questions_d[this], true)
+			call TriggerRegisterDialogEvent(s__Questions_click[this], s__Questions_d[this])
+			call TriggerAddAction(s__Questions_click[this], function s__Questions_chooseAnswer)
+			call TimerStart(s__Questions_t[this], 1, true, function s__Questions_flashTimeout)
+			return this
+  endfunction
+
+  function s__Questions_onDestroy takes integer this returns nothing
+			call PauseTimer(s__Questions_t[this])
+			call DestroyTimer(s__Questions_t[this])
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_t[this]))
+			set s__Questions_t[this]=null
+			set s__Questions_time[this]=0
+			set s__Questions_rightPos[this]=0
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_click[this]))
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_d[this]))
+			call DestroyTrigger(s__Questions_click[this])
+	    	call DialogDisplay(s__Questions_p[this], s__Questions_d[this], false)
+	        call DialogClear(s__Questions_d[this])
+	        call DialogDestroy(s__Questions_d[this])
+			set s__Questions_click[this]=null
+			set s__Questions_p[this]=null
+			set s__Questions_question[this]=null
+			set s__Questions_d[this]=null
+  endfunction
+
+//Generated destructor of Questions
+function s__Questions_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Questions")
+        return
+    elseif (si__Questions_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Questions")
+        return
+    endif
+    call s__Questions_onDestroy(this)
+    set si__Questions_V[this]=si__Questions_F
+    set si__Questions_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+
+
+  function s__Roubang_roubangrotate takes nothing returns nothing
+   local integer this= sc__Roubang__staticgetindex(GetExpiredTimer())
+   local integer i= 1
+			if ( not ( IsUnitAliveBJ(s__Roubang_caster[this]) ) and GetUnitAbilityLevel(s__Roubang_caster[this], 'A0KH') < 1 ) then
+				call sc__Roubang_deallocate(this)
+			endif
+			set s__Roubang_cAngle[this]=ModuloReal(s__Roubang_cAngle[this] + s__Roubang_aSpeed[this], 360.)
+			loop
+				exitwhen i > s__Roubang_number[this]
+				if ( s___Roubang_URou[s__Roubang_URou[this]+i] != null ) then
+					call SetUnitX(s___Roubang_URou[s__Roubang_URou[this]+i], YDWECoordinateX(GetUnitX(s__Roubang_caster[this]) + s__Roubang_radius[this] * ( 2 * i - 1 ) * CosBJ(s__Roubang_cAngle[this])))
+					call SetUnitY(s___Roubang_URou[s__Roubang_URou[this]+i], YDWECoordinateY(GetUnitY(s__Roubang_caster[this]) + s__Roubang_radius[this] * ( 2 * i - 1 ) * SinBJ(s__Roubang_cAngle[this])))
+					call SetUnitFacing(s___Roubang_URou[s__Roubang_URou[this]+i], s__Roubang_cAngle[this] + 90)
+				endif
+				set i=i + 1
+			endloop
+  endfunction
+
+        function s__Roubang__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__Roubang__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__Roubang_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+  function s__Roubang_create takes unit caster,integer number,real radius,real aSpeed,real angle,integer utype returns integer
+   local integer i= 2
+      local integer this= s__Roubang__allocate()
+			set s__Roubang_caster[this]=caster
+			set s__Roubang_number[this]=IMinBJ(29, number)
+			set s__Roubang_radius[this]=radius
+			set s__Roubang_aSpeed[this]=aSpeed
+			set s__Roubang_cAngle[this]=angle
+			set s__Roubang_t[this]=CreateTimer()
+			call s__Roubang__staticsetindex(s__Roubang_t[this], (this))
+			set s___Roubang_URou[s__Roubang_URou[this]+1]=null
+		   	loop
+		   		exitwhen i > IMinBJ(29, number)
+	   			set s___Roubang_URou[s__Roubang_URou[this]+i]=CreateUnit(GetOwningPlayer(caster), utype, YDWECoordinateX(GetUnitX(caster) + radius * ( 2 * i - 1 ) * CosBJ(angle)), YDWECoordinateY(GetUnitY(caster) + radius * ( 2 * i - 1 ) * SinBJ(angle)), angle + 90)
+		   		set i=i + 1
+		   	endloop
+			call TimerStart(s__Roubang_t[this], 0.05, true, function s__Roubang_roubangrotate)
+			return this
+  endfunction
+
+  function s__Roubang_onDestroy takes integer this returns nothing
+   local integer i= 1
+			call s__Roubang_flush(s__Roubang_t[this])
+			set s__Roubang_caster[this]=null
+			loop
+				exitwhen i > s__Roubang_number[this]
+				if ( s___Roubang_URou[s__Roubang_URou[this]+i] != null ) then
+					call RemoveUnit(s___Roubang_URou[s__Roubang_URou[this]+i])
+					set s___Roubang_URou[s__Roubang_URou[this]+i]=null
+				endif
+				set i=i + 1
+			endloop
+			call PauseTimer(s__Roubang_t[this])
+			call DestroyTimer(s__Roubang_t[this])
+			set s__Roubang_aSpeed[this]=0.
+			set s__Roubang_cAngle[this]=0.
+			set s__Roubang_radius[this]=0.
+			set s__Roubang_number[this]=0
+			set s__Roubang_t[this]=null
+  endfunction
+
+//Generated destructor of Roubang
+function s__Roubang_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Roubang")
+        return
+    elseif (si__Roubang_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Roubang")
+        return
+    endif
+    call s__Roubang_onDestroy(this)
+    set si__Roubang_V[this]=si__Roubang_F
+    set si__Roubang_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+//processed:     function interface AfterLessLife takes unit u returns nothing
+
+		
+		
+  function s__MultiLife_flashLoc takes nothing returns nothing
+   local integer this= sc__MultiLife__staticgetindex(GetExpiredTimer())
+			if ( s__MultiLife_times[this] < 2 ) then
+				call UnitRemoveAbility(s__MultiLife_caster[this], 'A0KH')
+			endif
+			if ( s__MultiLife_current[this] >= s__MultiLife_times[this] ) then
+				return
+			endif
+			call SetTextTagPosUnitBJ(s__MultiLife_ttHint[this], s__MultiLife_caster[this], 20)
+			if not ( IsUnitAliveBJ(s__MultiLife_caster[this]) ) then
+				set s__MultiLife_current[this]=s__MultiLife_current[this] + 1
+				call SetUnitLifePercentBJ(s__MultiLife_caster[this], 100)
+				call SetTextTagTextBJ(s__MultiLife_ttHint[this], I2S(s__MultiLife_current[this]) + "/" + I2S(s__MultiLife_times[this]) + "次生命", 20)
+				if ( s__MultiLife_current[this] >= s__MultiLife_times[this] ) then
+					call UnitRemoveAbility(s__MultiLife_caster[this], 'A0KH')
+				endif
+				if ( s__MultiLife_al[this] != 0 ) then
+					call sc___prototype31_execute(s__MultiLife_al[this],s__MultiLife_caster[this])
+				endif
+			endif
+  endfunction
+
+  function s__MultiLife_getTimes takes integer this returns integer
+			return s__MultiLife_current[this]
+  endfunction
+
+  function s__MultiLife_setAL takes integer this,integer al returns nothing
+			set s__MultiLife_al[this]=al
+  endfunction
+
+  function s__MultiLife__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__MultiLife__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__MultiLife_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__MultiLife_create takes unit caster,integer times returns integer
+
+      local integer this
+		   	set this=s__MultiLife__allocate()
+			set s__MultiLife_caster[this]=caster
+			set s__MultiLife_times[this]=times
+			set s__MultiLife_al[this]=0
+			set s__MultiLife_ttHint[this]=CreateTextTagUnitBJ("1/" + I2S(times) + "次生命", caster, 0, 20, 0, 100, 100, 0)
+			set s__MultiLife_current[this]=1
+			//加上复活技能
+			call UnitAddAbility(caster, 'A0KH')
+			set s__MultiLife_t[this]=CreateTimer()
+			call s__MultiLife__staticsetindex(s__MultiLife_t[this], (this))
+			call TimerStart(s__MultiLife_t[this], 0.05, true, function s__MultiLife_flashLoc)
+			return this
+  endfunction
+
+  function s__MultiLife_onDestroy takes integer this returns nothing
+			call s__MultiLife_flush(s__MultiLife_t[this])
+			call UnitRemoveAbility(s__MultiLife_caster[this], 'A0KH')
+			call DestroyTextTag(s__MultiLife_ttHint[this])
+			set s__MultiLife_ttHint[this]=null
+			set s__MultiLife_caster[this]=null
+			call PauseTimer(s__MultiLife_t[this])
+			call DestroyTimer(s__MultiLife_t[this])
+			set s__MultiLife_t[this]=null
+  endfunction
+
+//Generated destructor of MultiLife
+function s__MultiLife_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: MultiLife")
+        return
+    elseif (si__MultiLife_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: MultiLife")
+        return
+    endif
+    call s__MultiLife_onDestroy(this)
+    set si__MultiLife_V[this]=si__MultiLife_F
+    set si__MultiLife_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+		
+
+  function s__SuperShield_flashLife takes nothing returns nothing
+
+   local integer this= sc__SuperShield__staticgetindex(GetExpiredTimer())
+			if ( IsUnitAliveBJ(s__SuperShield_caster[this]) ) then
+				if ( s__SuperShield_current[this] <= s__SuperShield_times[this] and GetUnitState(s__SuperShield_caster[this], UNIT_STATE_LIFE) < ( GetUnitState(s__SuperShield_caster[this], UNIT_STATE_MAX_LIFE) * ( 1.0 - ( ( I2R(s__SuperShield_current[this]) ) / ( I2R(s__SuperShield_times[this] + 1) ) ) ) ) ) then
+					call ImmuteDamageInterval(s__SuperShield_caster[this] , 5)
+					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(s__SuperShield_caster[this]), GetUnitY(s__SuperShield_caster[this])))
+		    		call CreateSpellTextTag(I2S(s__SuperShield_current[this]) + "/" + I2S(s__SuperShield_times[this]) + "段无敌" , s__SuperShield_caster[this] , 100 , 0 , 0 , 4)
+		    		call SetUnitLifePercentBJ(s__SuperShield_caster[this], 100.0 * ( 1.0 - ( ( I2R(s__SuperShield_current[this]) ) / ( I2R(s__SuperShield_times[this] + 1) ) ) ))
+					call UnitRemoveBuffsBJ(bj_REMOVEBUFFS_ALL, s__SuperShield_caster[this])
+					set s__SuperShield_current[this]=s__SuperShield_current[this] + 1
+				endif
+			else
+				if not ( s__SuperShield_deathContinue[this] ) then
+					call sc__SuperShield_deallocate(this)
+				endif
+			endif
+
+  endfunction
+
+        function s__SuperShield__staticgetindex takes handle h returns integer
+            return YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+        function s__SuperShield__staticsetindex takes handle h,integer value returns nothing
+            call YDWESaveIntegerByString("SPellBase" , I2S(YDWEH2I(h)) , value)
+        endfunction
+
+        function s__SuperShield_flush takes handle h returns nothing
+            call YDWEFlushStoredIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+        endfunction
+
+  function s__SuperShield_create takes unit caster,integer times returns integer
+
+      local integer this= s__SuperShield__allocate()
+			set s__SuperShield_caster[this]=caster
+			set s__SuperShield_times[this]=times
+			set s__SuperShield_current[this]=1
+			set s__SuperShield_deathContinue[this]=false
+			set s__SuperShield_t[this]=CreateTimer()
+			call s__SuperShield__staticsetindex(s__SuperShield_t[this], (this))
+			call TimerStart(s__SuperShield_t[this], 0.5, true, function s__SuperShield_flashLife)
+			return this
+  endfunction
+
+
+  function s__SuperShield_SetDeathContinue takes integer this returns nothing
+			set s__SuperShield_deathContinue[this]=true
+  endfunction
+
+  function s__SuperShield_onDestroy takes integer this returns nothing
+			call s__SuperShield_flush(s__SuperShield_t[this])
+			set s__SuperShield_caster[this]=null
+			call PauseTimer(s__SuperShield_t[this])
+			call DestroyTimer(s__SuperShield_t[this])
+			set s__SuperShield_t[this]=null
+  endfunction
+
+//Generated destructor of SuperShield
+function s__SuperShield_deallocate takes integer this returns nothing
+    if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: SuperShield")
+        return
+    elseif (si__SuperShield_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: SuperShield")
+        return
+    endif
+    call s__SuperShield_onDestroy(this)
+    set si__SuperShield_V[this]=si__SuperShield_F
+    set si__SuperShield_F=this
+endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function IJ1 takes unit u,integer i1,integer i2 returns integer
+		if ( BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] ) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	
+ function RJ1 takes unit u,real r1,real r2 returns real
+		if ( BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] ) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function IJ2 takes unit u,integer i1,integer i2 returns integer
+		if ( BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] ) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function RJ2 takes unit u,real r1,real r2 returns real
+		if ( BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] ) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function IJ3 takes unit u,integer i1,integer i2 returns integer
+		if ( BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] ) then
+			return i1
+		else
+			return i2
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function RJ3 takes unit u,real r1,real r2 returns real
+		if ( BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] ) then
+			return r1
+		else
+			return r2
+		endif
+	endfunction
+
+
+//---------------------------------------------------------------------------------------------------
+
+	
+ function GetDamageStr takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) * 1.80 ) + ( GetHeroAgi(uH, true) ) + ( GetHeroInt(uH, true) * 1.20 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction
+
+	
+ function GetDamageChenji takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage=  ( GetHeroStr(uH, true) ) * 2 * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction
+
+	
+ function GetDamageAgi takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) * 1.80 ) + ( GetHeroInt(uH, true) * 1.20 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction
+
+	
+ function GetDamageInt takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) ) + ( GetHeroInt(uH, true) * 2.0 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction	
+
+	
+ function GetDamageBase takes unit u returns real
+  local unit uH= udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
+  local real damage= ( ( GetHeroStr(uH, true) * 1.30 ) + ( GetHeroAgi(uH, true) * 1.30 ) + ( GetHeroInt(uH, true) * 1.3 ) ) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
+		set uH=null
+		return damage
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function IsSecondSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R006', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsThirdSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R007', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsFourthSpellOK takes unit hero returns boolean
+		return GetPlayerTechCountSimple('R008', GetOwningPlayer(hero)) == 1
+	endfunction
+
+	
+ function IsFifthSpellOK takes unit hero returns boolean
+		return ( GetPlayerTechCountSimple('R009', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00A', GetOwningPlayer(hero)) == 1 ) and ( GetPlayerTechCountSimple('R00B', GetOwningPlayer(hero)) == 1 )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+
+
+
+//library SpellBase ends
 //library Structs:
 	
 //---------------------------------------------------------------------------------------------------
@@ -4476,31 +5924,31 @@ endfunction
 
   function s__TextTagBind_flash takes nothing returns nothing
    local integer this= sc__TextTagBind__staticgetindex(GetExpiredTimer())
-			call SetTextTagPos(s__TextTagBind_tt[this], (RMinBJ(RMaxBJ(((GetUnitX(s__TextTagBind_caster[this]) - s__TextTagBind_xOff[this])*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(s__TextTagBind_caster[this]) - s__TextTagBind_yOff[this])*1.0), yd_MapMinY), yd_MapMaxY)), 20) // INLINED!!
+			call SetTextTagPos(s__TextTagBind_tt[this], YDWECoordinateX(GetUnitX(s__TextTagBind_caster[this]) - s__TextTagBind_xOff[this]), YDWECoordinateY(GetUnitY(s__TextTagBind_caster[this]) - s__TextTagBind_yOff[this]), 20)
   endfunction
 
         function s__TextTagBind__staticgetindex takes handle h returns integer
-            return (LoadInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+            return YDWEGetIntegerByString("TextTagBind" , I2S(YDWEH2I(h)))
         endfunction
 
         function s__TextTagBind__staticsetindex takes handle h,integer value returns nothing
-            call SaveInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
+            call YDWESaveIntegerByString("TextTagBind" , I2S(YDWEH2I(h)) , value)
         endfunction
 
         function s__TextTagBind_flush takes handle h returns nothing
-            call RemoveSavedInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
+            call YDWEFlushStoredIntegerByString("TextTagBind" , I2S(YDWEH2I(h)))
         endfunction
 
   function s__TextTagBind_create takes unit caster,real xOff,real yOff returns integer
       local integer this= s__TextTagBind__allocate()
-      local location point= Location((RMinBJ(RMaxBJ(((GetUnitX(caster) - xOff)*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(caster) - yOff)*1.0), yd_MapMinY), yd_MapMaxY))) // INLINED!!
+      local location point= Location(YDWECoordinateX(GetUnitX(caster) - xOff), YDWECoordinateY(GetUnitY(caster) - yOff))
 			set s__TextTagBind_xOff[this]=xOff
 			set s__TextTagBind_yOff[this]=yOff
 			set s__TextTagBind_caster[this]=caster
 			set s__TextTagBind_size[this]=20.
 			set s__TextTagBind_tt[this]=CreateTextTagLocBJ("", point, 0, 20.00, 0, 100, 100, 0)
 			set s__TextTagBind_t[this]=CreateTimer()
-			call SaveInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId(((s__TextTagBind_t[this]))))) )), ( ( (this)))) // INLINED!!
+			call s__TextTagBind__staticsetindex(s__TextTagBind_t[this], (this))
 			call TimerStart(s__TextTagBind_t[this], 0.05, true, function s__TextTagBind_flash)
 			call RemoveLocation(point)
 			set point=null
@@ -4518,7 +5966,7 @@ endfunction
   endfunction
 
   function s__TextTagBind_onDestroy takes integer this returns nothing
-			call RemoveSavedInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId(((s__TextTagBind_t[this])))))))) // INLINED!!
+			call s__TextTagBind_flush(s__TextTagBind_t[this])
 			set s__TextTagBind_caster[this]=null
 			call DestroyTextTag(s__TextTagBind_tt[this])
 			set s__TextTagBind_tt[this]=null
@@ -4532,8 +5980,10 @@ endfunction
 //Generated destructor of TextTagBind
 function s__TextTagBind_deallocate takes integer this returns nothing
     if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: TextTagBind")
         return
     elseif (si__TextTagBind_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: TextTagBind")
         return
     endif
     call s__TextTagBind_onDestroy(this)
@@ -4554,15 +6004,15 @@ endfunction
   endfunction
 
         function s__Buff__staticgetindex takes handle h returns integer
-            return (LoadInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+            return YDWEGetIntegerByString("TextTagBind" , I2S(YDWEH2I(h)))
         endfunction
 
         function s__Buff__staticsetindex takes handle h,integer value returns nothing
-            call SaveInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h)))) )), ( value)) // INLINED!!
+            call YDWESaveIntegerByString("TextTagBind" , I2S(YDWEH2I(h)) , value)
         endfunction
 
         function s__Buff_flush takes handle h returns nothing
-            call RemoveSavedInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h))))))) // INLINED!!
+            call YDWEFlushStoredIntegerByString("TextTagBind" , I2S(YDWEH2I(h)))
         endfunction
 
   function s__Buff_create takes player p,real time,integer ab returns integer
@@ -4570,13 +6020,13 @@ endfunction
 			set s__Buff_p[this]=p
 			set s__Buff_ab[this]=ab
 			set s__Buff_t[this]=CreateTimer()
-			call SaveInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId(((s__Buff_t[this]))))) )), ( ( (this)))) // INLINED!!
+			call s__Buff__staticsetindex(s__Buff_t[this], (this))
 			call TimerStart(s__Buff_t[this], time, false, function s__Buff_timeout)
 			return this
   endfunction
 
   function s__Buff_onDestroy takes integer this returns nothing
-			call RemoveSavedInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId(((s__Buff_t[this])))))))) // INLINED!!
+			call s__Buff_flush(s__Buff_t[this])
 			set s__Buff_p[this]=null
 			set s__Buff_ab[this]=0
 			call PauseTimer(s__Buff_t[this])
@@ -4587,8 +6037,10 @@ endfunction
 //Generated destructor of Buff
 function s__Buff_deallocate takes integer this returns nothing
     if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: Buff")
         return
     elseif (si__Buff_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: Buff")
         return
     endif
     call s__Buff_onDestroy(this)
@@ -4638,8 +6090,10 @@ endfunction
 //Generated destructor of JudgeInvu
 function s__JudgeInvu_deallocate takes integer this returns nothing
     if this==null then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: JudgeInvu")
         return
     elseif (si__JudgeInvu_V[this]!=-1) then
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: JudgeInvu")
         return
     endif
     call s__JudgeInvu_onDestroy(this)
@@ -4779,17 +6233,17 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetAchievePage takes integer i returns integer
+ function Achievement__GetAchievePage takes integer i returns integer
 		return S2I(SubStringBJ(I2S(i), 1, 1))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___GetAchieveTarget takes integer i returns integer
+ function Achievement__GetAchieveTarget takes integer i returns integer
 		return S2I(SubStringBJ(I2S(i), 2, StringLength(I2S(i))))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Achievement___SaveSpinData takes player p returns nothing
+ function Achievement__SaveSpinData takes player p returns nothing
 		if ( Bdudang[GetConvertedPlayerId(p)] ) then
 			call DzAPI_Map_StoreInteger(p , "spin" , spin[GetConvertedPlayerId(p)])
 			call DzAPI_Map_StoreInteger(p , "spin2" , spin2[GetConvertedPlayerId(p)])
@@ -4821,7 +6275,7 @@ endfunction
 				set spin3[GetConvertedPlayerId(p)]=spin3[GetConvertedPlayerId(p)] + R2I(Pow(10, index - 1))
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你成功获取皮肤\"" + GetHeroChallenageName(index , page) + "\"！")
-			call Achievement___SaveSpinData(p)
+			call Achievement__SaveSpinData(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -5083,8 +6537,8 @@ endfunction
 	
  function IsAchieveOK takes player p,integer achieveID returns boolean
   local integer id= GetConvertedPlayerId(p)
-  local integer page= (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) // INLINED!!
-  local integer target= Achievement___GetAchieveTarget(achieveID)
+  local integer page= Achievement__GetAchievePage(achieveID)
+  local integer target= Achievement__GetAchieveTarget(achieveID)
 		if ( achieveID == 48 ) then
 			return GetLowerHeroCount(p , 99 , HERO_COUNT)
 		endif
@@ -5240,14 +6694,14 @@ endfunction
 
 		//两个超级成就
 		if not ( IsAchieveOK(p , achieveID) ) then
-			if ( (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) == 1 ) then // INLINED!!
+			if ( Achievement__GetAchievePage(achieveID) == 1 ) then
 				set achieve[id]=achieve[id] + R2I(Pow(10, I2R(achieveID - 11)))
-			elseif ( (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) == 2 ) then // INLINED!!
-				set achieve2[id]=SetIntegerBit(achieve2[id] , Achievement___GetAchieveTarget(achieveID) , true)
-			elseif ( (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) == 3 ) then // INLINED!!
-				set achieve3[id]=SetIntegerBit(achieve3[id] , Achievement___GetAchieveTarget(achieveID) , true)
-			elseif ( (S2I(SubStringBJ(I2S((achieveID)), 1, 1))) == 4 ) then // INLINED!!
-				set achieve4[id]=SetIntegerBit(achieve4[id] , Achievement___GetAchieveTarget(achieveID) , true)
+			elseif ( Achievement__GetAchievePage(achieveID) == 2 ) then
+				set achieve2[id]=SetIntegerBit(achieve2[id] , Achievement__GetAchieveTarget(achieveID) , true)
+			elseif ( Achievement__GetAchievePage(achieveID) == 3 ) then
+				set achieve3[id]=SetIntegerBit(achieve3[id] , Achievement__GetAchieveTarget(achieveID) , true)
+			elseif ( Achievement__GetAchievePage(achieveID) == 4 ) then
+				set achieve4[id]=SetIntegerBit(achieve4[id] , Achievement__GetAchieveTarget(achieveID) , true)
 			endif
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r恭喜你获得成就\"" + GetAchievementName(achieveID) + "|r\",该成就会显示在游戏大厅内及你的名字前面.")
 		    call SetAchievement(p , achieveID)
@@ -5628,9 +7082,9 @@ endfunction
         call SetHeroInt(mirror, GetLimit(GetHeroInt(u1, true) * times), true)
         call SetHeroAgi(mirror, GetLimit(GetHeroAgi(u1, true) * times), true)
         call SetHeroStr(mirror, GetLimit(GetHeroStr(u1, true) * times), true)
-        call SetAttack(mirror , (LoadInteger(YDHT, GetHandleId((u1)), 0x5039AFFB)) * times) // INLINED!!
-        call SetDefense(mirror , (LoadInteger(YDHT, GetHandleId((u1)), 0x81FD3994)) * times) // INLINED!!
-        call SetHP(mirror , (LoadInteger(YDHT, GetHandleId((u1)), 0xFCD961C9)) * times) // INLINED!!
+        call SetAttack(mirror , GetAttack(u1) * times)
+        call SetDefense(mirror , GetDefense(u1) * times)
+        call SetHP(mirror , GetHP(u1) * times)
         if ( u1 == kaisa ) then
             call UnitRemoveAbility(mirror, 'AOre')
         elseif ( u1 == taiya ) then
@@ -5738,7 +7192,7 @@ endfunction
 	
  function IsHuodong7 takes nothing returns boolean
 		//return true
-		return ( ( (0) / 10 ) > 149978880 ) and ( ( (0) / 10 ) < 150315840 ) // INLINED!!
+		return ( ( DzAPI_Map_GetGameStartTime() / 10 ) > 149978880 ) and ( ( DzAPI_Map_GetGameStartTime() / 10 ) < 150315840 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -5748,7 +7202,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsKuanghuanTime takes nothing returns boolean
-		return ( ( (0) / 10 ) < 150946560 ) // INLINED!!
+		return ( ( DzAPI_Map_GetGameStartTime() / 10 ) < 150946560 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -5892,10 +7346,10 @@ endfunction
 	
  function Jizi__GetWordCountReward takes player p returns nothing
 		if ( GetPlayerWordCount(p) >= 10 ) then
-			call GetSpecifySpin((p) , 1 , 4) // INLINED!!
+			call SetYanmieSpinOK(p)
 		endif
 		if ( GetPlayerWordCount(p) >= 12 ) then
-			call GetSpecifySpin((p) , 2 , 7) // INLINED!!
+			call SetSichenSpinOK(p)
 			call GetAndSaveCangku(p , 5)
 		endif
 		if ( GetPlayerWordCount(p) >= 14 ) then
@@ -6086,7 +7540,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___Tiaozhan2Timer takes nothing returns nothing
+ function ChallangerMode__Tiaozhan2Timer takes nothing returns nothing
   local integer i= 1
 		if ( udg_Bo >= 13 ) then
 			loop
@@ -6108,22 +7562,22 @@ endfunction
 	endfunction
 
  function StartTiaozhan2 takes nothing returns nothing
-		call TimerStart(CreateTimer(), 1, true, function ChallangerMode___Tiaozhan2Timer)
+		call TimerStart(CreateTimer(), 1, true, function ChallangerMode__Tiaozhan2Timer)
 		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战2,所有英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)")
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function InitChallanger takes nothing returns nothing
-		if ( (CType == 2) ) then // INLINED!!
+		if ( CT2() ) then
 			set EquipLoopingTime=6
-		elseif ( (CType == 3) ) then // INLINED!!
+		elseif ( CT3() ) then
 			call StartTiaozhan1()
-		elseif ( (CType == 4) ) then // INLINED!!
+		elseif ( CT4() ) then
 			call StartTiaozhan2()
-		elseif ( (CType == 5) ) then // INLINED!!
+		elseif ( CT5() ) then
 			set GJingxiang=CreateGroup()
-		elseif ( (CType == 7) ) then // INLINED!!
+		elseif ( CT7() ) then
 	    	call SetPlayerTechResearchedSwap('R01L', 1, Player(10))
 	    	call SetPlayerTechResearchedSwap('R01L', 1, Player(11))
 			set udg_I_Er_diansi[1]=udg_I_Er_diansi[1] + 5
@@ -6139,7 +7593,7 @@ endfunction
  function InitChallanger2Hero takes unit u returns nothing
   local integer i= 2
   local item it= null
-		if not ( (CType == 2) ) then // INLINED!!
+		if not ( CT2() ) then
 			return
 		endif
 		loop
@@ -6166,7 +7620,7 @@ endfunction
   local integer int= 0
   local integer agi= 0
   local integer str= 0
-		if not ( (CType == 1) ) then // INLINED!!
+		if not ( CT1() ) then
 			return
 		endif
 		set int=GetHeroInt(u, true)
@@ -6225,7 +7679,7 @@ endfunction
 		    set udg_X_Nandu_Chuangkou[9]=GetLastCreatedButtonBJ()
 		endif
 
-	    if ( (IsAchieveOK(Player(0) , 325)) ) then // INLINED!!
+	    if ( IsTianyanOK() ) then
 		    call DialogAddButtonBJ(udg_X_Nandu, "|cff993366天魇|r（24+5+2波）")
 		    set udg_X_Nandu_Chuangkou[10]=GetLastCreatedButtonBJ()
 	    endif
@@ -6238,7 +7692,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___ChooseSpeedClick takes nothing returns nothing
+ function ChallangerMode__ChooseSpeedClick takes nothing returns nothing
      local dialog d= GetClickedDialogBJ()
 
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 1) ) then
@@ -6263,7 +7717,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___CreateCDialog4 takes nothing returns nothing
+ function ChallangerMode__CreateCDialog4 takes nothing returns nothing
      local trigger t= CreateTrigger()
      local dialog d= DialogCreate()
 
@@ -6273,23 +7727,23 @@ endfunction
 
 	    call DialogDisplay(GetFirstPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function ChallangerMode___ChooseSpeedClick)
+	    call TriggerAddAction(t, function ChallangerMode__ChooseSpeedClick)
 	    set d=null
 	    set t=null
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___ChooseComfirmClick takes nothing returns nothing
+ function ChallangerMode__ChooseComfirmClick takes nothing returns nothing
      local dialog d= GetClickedDialogBJ()
 
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 1) ) then
-        	call ChallangerMode___CreateCDialog4()
+        	call ChallangerMode__CreateCDialog4()
         	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.")
     	endif
 
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2) ) then
-    		call TriggerExecute(st___prototype38[(1)]) // INLINED!!
+    		call sc___prototype38_execute(1)
         	call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战类型.")
     	endif
 
@@ -6302,7 +7756,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___CreateCDialog3 takes integer i returns nothing
+ function ChallangerMode__CreateCDialog3 takes integer i returns nothing
      local trigger t= CreateTrigger()
      local dialog d= DialogCreate()
 
@@ -6315,27 +7769,27 @@ endfunction
 
 	    call DialogDisplay(GetFirstPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function ChallangerMode___ChooseComfirmClick)
+	    call TriggerAddAction(t, function ChallangerMode__ChooseComfirmClick)
 	    set d=null
 	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___ChooseChallangerClick takes nothing returns nothing
+ function ChallangerMode__ChooseChallangerClick takes nothing returns nothing
      local dialog d= GetClickedDialogBJ()
      local integer i= 1
 
 	    loop
 	    	exitwhen i > 9
 	        if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i) ) then
-        		call ChallangerMode___CreateCDialog3(i)
+        		call ChallangerMode__CreateCDialog3(i)
         		call BJDebugMsg("|cFFFF66CC【消息】|r当前挑战为" + GetChallangerTitle(i) + ".")
 	    	endif
 	    	set i=i + 1
 	    endloop
 
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 10) ) then
-    		call TriggerExecute(st___prototype38[(2)]) // INLINED!!
+    		call sc___prototype38_execute(2)
     		call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战难度.")
     	endif
 
@@ -6372,13 +7826,13 @@ endfunction
     	call SaveButtonHandle(LHTable, GetHandleId(d), 10, DialogAddButton(d, "返回|cffff6800(Esc)|r", 512))
 	    call DialogDisplay(GetFirstPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function ChallangerMode___ChooseChallangerClick)
+	    call TriggerAddAction(t, function ChallangerMode__ChooseChallangerClick)
 	    set d=null
 	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ChallangerMode___ChooseDifficultyClick takes nothing returns nothing
+ function ChallangerMode__ChooseDifficultyClick takes nothing returns nothing
      local dialog d= GetClickedDialogBJ()
 
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 1) ) then
@@ -6409,7 +7863,7 @@ endfunction
      local dialog d= DialogCreate()
 
 	    call DialogSetMessage(d, "选择挑战难度")
-	    if ( false ) then
+	    if ( true ) then
 		    call SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"))
 		    call SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"))
 		    call SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"))
@@ -6420,7 +7874,7 @@ endfunction
 	    endif
 	    call DialogDisplay(GetFirstPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function ChallangerMode___ChooseDifficultyClick)
+	    call TriggerAddAction(t, function ChallangerMode__ChooseDifficultyClick)
 	    set d=null
 	    set t=null
 	endfunction
@@ -6464,7 +7918,7 @@ endfunction
 	
  function CreateJingongguai takes integer unitType,real facing returns nothing
   local integer id
-		if ( (CType == 5) ) then // INLINED!!
+		if ( CT5() ) then
 			set id=GetNextPlayerID()
 	    	call CreateNUnitsAtLoc(1, GetUnitTypeId(udg_H[id]), Player(11), udg_Point, facing)
 	    	call SetUnitMirror(GetLastCreatedUnit() , udg_H[id] , I3(udg_Bo == 1 , 1 , udg_Bo * GetDiffculty()))
@@ -6522,7 +7976,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 		
  function EnhanceWanjieAttack takes unit u returns nothing
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
+		if ( IsWanjie() ) then
 			call EnhanceDiffAttack(u)
 		endif
 	endfunction
@@ -6604,7 +8058,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetWanjieInt takes integer value,real rate returns integer
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
+		if ( IsWanjie() ) then
 			return IMinBJ(2100000000, R2I(I2R(value) * rate))
 		endif
 
@@ -6613,7 +8067,7 @@ endfunction
 
 	
  function GetWanjieReal takes real value,real rate returns real
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
+		if ( IsWanjie() ) then
 			return value * rate
 		endif
 
@@ -6621,7 +8075,7 @@ endfunction
 	endfunction
 	
  function GetWanjieAddInt takes integer value,integer add returns integer
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
+		if ( IsWanjie() ) then
 			return value + add
 		endif
 
@@ -6632,7 +8086,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function AddWanjieSpell takes unit u returns nothing
-		if ( (GetDiffculty() == 9) ) then // INLINED!!
+		if ( IsWanjie() ) then
 			if ( udg_Bo > 10 ) then
 				//60倍技能
 				call UnitAddAbility(u, 'A0GL')
@@ -6774,7 +8228,7 @@ endfunction
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".")
 			set SgameMode="挑战"
 			set mode=1
-			call CreateCDialog1() // INLINED!!
+			call ShowTiaozhanDialog()
 		elseif ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2) ) then
 			//挑战模式
 			set mode=2
@@ -6786,7 +8240,7 @@ endfunction
 			set mode=2
 			call BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".")
 			set SgameMode="狂欢"
-			set CType=- 1 // INLINED!!
+			call InitKuanghuan()
 			call ChooseDifficulty(4)
 		endif
 
@@ -6804,7 +8258,7 @@ endfunction
      local dialog d= DialogCreate()
 
 	    call DialogSetMessage(d, "请选择游戏模式")
-	    if ( (( (0) / 10 ) < 150946560) ) then // INLINED!!
+	    if ( IsKuanghuanTime() ) then
 	    	call SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"))
 	    endif
 	    call SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"))
@@ -7389,7 +8843,7 @@ endfunction
 		endif
 
 		if ( i >= 14 ) then
-			call GetSpecifySpin((p) , 1 , 9) // INLINED!!
+			call SetLingxueSpinOK(p)
 		endif
 
 		if ( i >= 20 ) then
@@ -7420,10 +8874,10 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function GetContinousDay takes player p returns integer
-		if ( (0) < TIMESTAMP_START ) then // INLINED!!
+		if ( DzAPI_Map_GetGameStartTime() < TIMESTAMP_START ) then
 			return 0
 		endif
-		return ( (0) - ILastTime[GetConvertedPlayerId(p)] ) / 86400 // INLINED!!
+		return ( DzAPI_Map_GetGameStartTime() - ILastTime[GetConvertedPlayerId(p)] ) / 86400
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -7450,12 +8904,12 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Continous___GetCurrentStartTime takes nothing returns integer
-		return TIMESTAMP_START + ( ( (0) - TIMESTAMP_START ) / 86400 ) * 86400 // INLINED!!
+		return TIMESTAMP_START + ( ( DzAPI_Map_GetGameStartTime() - TIMESTAMP_START ) / 86400 ) * 86400
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Continous___GetOldStartTime takes integer day returns integer
-		return (TIMESTAMP_START + ( ( (0) - TIMESTAMP_START ) / 86400 ) * 86400) - ( ( day - 1 ) * 86400 ) // INLINED!!
+		return Continous___GetCurrentStartTime() - ( ( day - 1 ) * 86400 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -7511,7 +8965,7 @@ endfunction
 	
  function SetDenglu takes player p returns nothing
 		//活动还没开始，或者说是首次
-		if ( (0) < TIMESTAMP_START ) then // INLINED!!
+		if ( DzAPI_Map_GetGameStartTime() < TIMESTAMP_START ) then
 			call BJDebugMsg("|cFFFF66CC【消息】|r ")
 			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r嘉年华时间未开始.")
 			return
@@ -7535,7 +8989,7 @@ endfunction
 
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(今天的签到数据已经在前面游戏中保存了哦).")
 		else
-			set ILastTime[GetConvertedPlayerId(p)]=(TIMESTAMP_START + ( ( (0) - TIMESTAMP_START ) / 86400 ) * 86400) // INLINED!!
+			set ILastTime[GetConvertedPlayerId(p)]=Continous___GetCurrentStartTime()
 			set IConDays[GetConvertedPlayerId(p)]=1
 
 			//set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
@@ -7570,7 +9024,7 @@ endfunction
 
 			if ( s == I2S(GetCycleHash(I2S(i) , 1)) ) then
 				set IConDays[GetConvertedPlayerId(p)]=i
-				set ILastTime[GetConvertedPlayerId(p)]=((TIMESTAMP_START + ( ( (0) - TIMESTAMP_START ) / 86400 ) * 86400) - ( ( (i) - 1 ) * 86400 )) // INLINED!!
+				set ILastTime[GetConvertedPlayerId(p)]=Continous___GetOldStartTime(i)
 				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签为" + I2S(i) + "天.")
 				call SaveLoginState(p)
 				exitwhen true
@@ -7853,7 +9307,7 @@ endfunction
 
 				//玄雪末日权杖
 				if ( renshu == 1 and udg_H[i] == xuanxue and level >= 4 ) then
-					call GetSpecifySpin((ConvertedPlayer(i)) , 1 , 5) // INLINED!!
+					call SetXuanxue1SpinOK(ConvertedPlayer(i))
 				endif
 
 				if ( level >= 4 ) then
@@ -7894,11 +9348,11 @@ endfunction
 					call GetAchievementAndSave(ConvertedPlayer(i) , 49)
 				endif
 
-				if ( (CType == 3) ) then // INLINED!!
+				if ( CT3() ) then
 					call GetAchievementAndSave(ConvertedPlayer(i) , 410)
 				endif
 				
-				if ( (CType == 4) ) then // INLINED!!
+				if ( CT4() ) then
 					call GetAchievementAndSave(ConvertedPlayer(i) , 411)
 				endif
 
@@ -7972,7 +9426,7 @@ endfunction
 			if ( ( GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING ) and ( GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER ) ) then
 
 				//通关称号,时间
-				if ( (mode == 1) ) then // INLINED!!
+				if ( IsClassic() ) then
 					if ( udg_Second[2] < 135 ) then
 						call GetAchievementAndSave(ConvertedPlayer(i) , 223)
 					endif
@@ -8005,7 +9459,7 @@ endfunction
 			call GetAchievementAndSave(p , 23)
 		endif
 		if ( zhuan == 125 and udg_H[GetConvertedPlayerId(p)] == yanmie ) then
-			call GetSpecifySpin((p) , 1 , 4) // INLINED!!
+			call SetYanmieSpinOK(p)
 		endif
 		if ( zhuan >= 150 ) then
 			call GetAchievementAndSave(p , 24)
@@ -8216,7 +9670,7 @@ endfunction
 						call GetAchievementAndSave(ConvertedPlayer(i) , 317)
 					endif
 					if ( attr > 35000000 and udg_H[i] == sichen ) then
-						call GetSpecifySpin((ConvertedPlayer(i)) , 2 , 7) // INLINED!!
+						call SetSichenSpinOK(ConvertedPlayer(i))
 					endif
 					if ( attr > 50000000 ) then
 						call GetAchievementAndSave(ConvertedPlayer(i) , 318)
@@ -8261,7 +9715,7 @@ endfunction
 			call GetAchievementAndSave(p , 230)
 		endif
 		if ( killCount[GetConvertedPlayerId(p)] >= 125000 and udg_H[GetConvertedPlayerId(p)] == sheyan ) then
-			call GetSpecifySpin((p) , 2 , 4) // INLINED!!
+			call SetSheyanSpinOK(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -8289,7 +9743,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Jiance3 takes unit u returns nothing
-        local integer defense= GetHeroAgi(u, true) / 100 + (LoadInteger(YDHT, GetHandleId((u)), 0x81FD3994)) // INLINED!!
+        local integer defense= GetHeroAgi(u, true) / 100 + GetDefense(u)
         if ( defense > 1000000 ) then
 			call GetAchievementAndSave(GetOwningPlayer(u) , 414)
         endif
@@ -8546,134 +10000,134 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsSeyuSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetSeyu1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsXiaoyueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 3) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetXiaoyue1Spin(p) )
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function IsYanmieSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 4) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetYanmie1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsXuanxueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 5) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetXuanxue1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsTaiyaSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 6) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetTaiya1Spin(p) )
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function IsHanshangSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 8) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetHanshang1Spin(p) )
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function IsChenjiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 7) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetChenji1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsChenjiSpin2 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 10) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetChenji2Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsLingxueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 9) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetLingxue1Spin(p) )
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function IsMoqiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 1) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetMoqiSpin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsKaisaSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetKaisaSpin(p) )
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function IsXuanxueSpin2 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 3) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetXuanxue2Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsBajueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 5) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetBajue1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsSheyanSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 4) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetSheyan1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsHuanyiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 6) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetHuanyi1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsSichenSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 7) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetSichen1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsCanglingSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 8) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetCangling1Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsHeiyanSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 9) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetHeiyan1Spin(p) )
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	
  function IsHanshangSpin2 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin3[GetConvertedPlayerId((p))] , 1) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetHanshang2Spin(p) )
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function IsLichiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 10) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetLichi1Spin(p) )
 		//return true
 	endfunction
 	
 //---------------------------------------------------------------------------------------------------
 	
  function IsXinglongSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin3[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( GetXinglong1Spin(p) )
 		//return true
 	endfunction
 
@@ -8685,8 +10139,14 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function SimulateDamageMoqi takes unit u returns boolean
-		//雷神残影50%伤害
-		
+		//星璇的伤害
+		if ( GetUnitTypeId(u) == 'h010' ) then
+			if not ( IsUnitInGroup(GetTriggerUnit(), Moqi___GMoqiXingxuan) ) then
+				call UnitDamageTarget(moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.01 * GetUnitUserData(u), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS)
+				call GroupAddUnit(Moqi___GMoqiXingxuan, GetTriggerUnit())
+			endif
+			return true
+		endif
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -8698,16 +10158,22 @@ endfunction
   local integer times= LoadInteger(spellTable, GetHandleId(t), 2)
 		//是第几颗星星
   local integer i= LoadInteger(spellTable, GetHandleId(t), 3)
-  local real degree= ModuloReal(( ( ( - 80 ) * times / 200 ) + 90 ) * times, 360.) + i * 51.42
-  local real x= 30 * times * CosBJ(degree) + LoadReal(spellTable, GetHandleId(t), 4)
-  local real y= 30 * times * SinBJ(degree) + LoadReal(spellTable, GetHandleId(t), 5)
+  local real degree= ModuloReal(( ( ( - 80.0 ) * times / 200.0 ) + 90.0 ) * times, 360.) + i * 51.42
+  local real x= 20 * times * CosBJ(degree) + LoadReal(spellTable, GetHandleId(t), 4)
+  local real y= 20 * times * SinBJ(degree) + LoadReal(spellTable, GetHandleId(t), 5)
+		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r"+I2S(times)+":"+R2S(degree))
 		if ( times < 100 ) then
 			set times=times + 1
-			call SaveInteger(spellTable, GetHandleId(t), 2, times + 1)
+			//call CreateUnit(Player(0),'hpea', x,y ,0)
+			call SetUnitUserData(u, times * 2 + 50)
+			call SaveInteger(spellTable, GetHandleId(t), 2, times)
+			//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r"+I2S(times))
 			call SetUnitX(u, x)
 			call SetUnitY(u, y)
 			call SetUnitFacing(u, degree + 90)
 		else
+			call DestroyGroup(Moqi___GMoqiXingxuan)
+			set Moqi___GMoqiXingxuan=null
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", x, y))
 			call RemoveUnit(u)
 			call PauseTimer(t)
@@ -8720,7 +10186,7 @@ endfunction
 
  function XingxuanStart takes unit u,integer i returns nothing
   local timer t= CreateTimer()
-		call SaveUnitHandle(spellTable, GetHandleId(t), 1, u)
+		call SaveUnitHandle(spellTable, GetHandleId(t), 1, CreateUnit(Player(0), 'hpea', GetUnitX(u), GetUnitY(u), 0))
 		call TimerStart(t, 0.05, true, function XingxuanTimer)
 		call SaveInteger(spellTable, GetHandleId(t), 2, 0)
 		call SaveInteger(spellTable, GetHandleId(t), 3, i)
@@ -8735,6 +10201,53 @@ endfunction
 			exitwhen i > 7
 			if ( IsUnitAliveBJ(udg_Unit_Qixing[i]) ) then
 				call XingxuanStart(udg_Unit_Qixing[i] , i)
+			endif
+			set i=i + 1
+		endloop
+		set Moqi___GMoqiXingxuan=CreateGroup()
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function Moqi___XingchenTimer takes nothing returns nothing
+  local timer t= GetExpiredTimer()
+  local integer id= GetHandleId(t)
+  local unit u= LoadUnitHandle(spellTable, id, 1)
+  local real x= LoadReal(spellTable, GetHandleId(t), 2)
+  local real y= LoadReal(spellTable, GetHandleId(t), 3)
+  local real facing= LoadReal(spellTable, GetHandleId(t), 4)
+		if ( GetDistance(GetUnitX(u) , GetUnitY(u) , x , y) > 50. ) then
+			call SetUnitX(u, GetUnitX(u) + CosBJ(facing) * 75.)
+			call SetUnitY(u, GetUnitY(u) + SinBJ(facing) * 75.)
+		else
+			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u), GetUnitY(u)))
+	    	call DamageArea(moqi , GetUnitX(u) , GetUnitY(u) , 450 , GetDamageAgi(moqi) * 0.7)
+			call KillUnit(u)
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable, id)
+			call DestroyTimer(t)
+		endif
+		set u=null
+		set t=null
+	endfunction
+
+ function XingchenStart takes unit u,real x,real y returns nothing
+  local timer t= CreateTimer()
+  local real facing= GetFacingBetweenXY(GetUnitX(u) , GetUnitY(u) , x , y)
+		call SaveUnitHandle(spellTable, GetHandleId(t), 1, u)
+		call SaveReal(spellTable, GetHandleId(t), 2, x)
+		call SaveReal(spellTable, GetHandleId(t), 3, y)
+		call SaveReal(spellTable, GetHandleId(t), 4, facing)
+		call SetUnitFacing(u, facing)
+		call TimerStart(t, 0.05, true, function Moqi___XingchenTimer)
+		set t=null
+	endfunction
+
+ function Xingchen takes nothing returns nothing
+  local integer i= 1
+		loop
+			exitwhen i > 7
+			if ( IsUnitAliveBJ(udg_Unit_Qixing[i]) ) then
+				call XingchenStart(udg_Unit_Qixing[i] , GetSpellTargetX() , GetSpellTargetY())
 			endif
 			set i=i + 1
 		endloop
@@ -8753,6 +10266,7 @@ endfunction
 		set angle=AngleBetweenPoints(point1, point2)
 		call DisplayTextToPlayer(GetOwningPlayer(moqi), 0., 0., "|cFFFF66CC【消息】|r技能施放角度为" + R2S(angle) + "度.")
 		if ( angle < 90.1 and angle > 89.9 ) then
+    call SetMoqiSpinOK(GetOwningPlayer(moqi))
 		endif
 
 		call RemoveLocation(point1)
@@ -8792,7 +10306,7 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function Moqi__InitMoqiSpin takes unit u returns unit
+ function Moqi___InitMoqiSpin takes unit u returns unit
 		if ( IsMoqiSpin1(GetOwningPlayer(u)) ) then
 			set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]=CreateUnit(GetOwningPlayer(u), 'H01X', GetUnitX(u), GetUnitY(u), 0)
 			set gg_unit_Hvwd_0016=udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
@@ -8808,7 +10322,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function InitMoqi takes unit u returns nothing
-		set moqi=Moqi__InitMoqiSpin(u)
+		set moqi=Moqi___InitMoqiSpin(u)
 
 		call TriggerRegisterUnitEvent(gg_trg_______17, moqi, EVENT_UNIT_DAMAGED)
 		call TriggerRegisterUnitEvent(gg_trg_______19, moqi, EVENT_UNIT_ATTACKED)
@@ -8886,6 +10400,16 @@ endfunction
 
 
 // END IMPORT OF LHBase.j
+// BEGIN IMPORT OF Printer.j
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
+// END IMPORT OF Printer.j
+// BEGIN IMPORT OF SpellBase.j
+
+// IGNORE DOUBLE IMPORT OF LHBase.j
+
+ 
+// END IMPORT OF SpellBase.j
 // BEGIN IMPORT OF Spin.j
 // IGNORE DOUBLE IMPORT OF LHBase.j
 // BEGIN IMPORT OF NetVersion.j
@@ -8973,11 +10497,12 @@ endfunction
 // END IMPORT OF Moqi.j
 function main takes nothing returns nothing
 
-call ExecuteFunc("jasshelper__initstructs1069333937")
-call ExecuteFunc("Constant___InitConstant")
+call ExecuteFunc("jasshelper__initstructs2474121804")
+call ExecuteFunc("Constant__InitConstant")
 call ExecuteFunc("Test___InitTest")
 call ExecuteFunc("LHBase___InitLHBase")
-call ExecuteFunc("Attr___InitAttr")
+call ExecuteFunc("Attr__InitAttr")
+call ExecuteFunc("Printer__InitPrinter")
 call ExecuteFunc("ItemBase___InitItemBase")
 call ExecuteFunc("Continous___InitContinous")
 call ExecuteFunc("InitVersion")
@@ -8986,23 +10511,20 @@ endfunction
 
 
 
+
 //Struct method generated initializers/callers:
-function sa__TextTagBind__staticgetindex takes nothing returns boolean
+function sa__OnlyAttackBase__staticgetindex takes nothing returns boolean
 local handle h=f__arg_handle1
-set f__result_integer= (LoadInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+set f__result_integer= YDWEGetIntegerByString("SpellBase" , I2S(YDWEH2I(h)))
    return true
 endfunction
-function sa__TextTagBind_onDestroy takes nothing returns boolean
+function sa__OnlyAttackBase_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-			call RemoveSavedInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId(((s__TextTagBind_t[this])))))))) // INLINED!!
-			set s__TextTagBind_caster[this]=null
-			call DestroyTextTag(s__TextTagBind_tt[this])
-			set s__TextTagBind_tt[this]=null
-			set s__TextTagBind_xOff[this]=0.
-			set s__TextTagBind_yOff[this]=0.
-			call PauseTimer(s__TextTagBind_t[this])
-			call DestroyTimer(s__TextTagBind_t[this])
-			set s__TextTagBind_t[this]=null
+			call s__OnlyAttackBase_flush(s__OnlyAttackBase_t[this])
+			set s__OnlyAttackBase_u[this]=null
+			call PauseTimer(s__OnlyAttackBase_t[this])
+			call DestroyTimer(s__OnlyAttackBase_t[this])
+			set s__OnlyAttackBase_t[this]=null
    return true
 endfunction
 function sa__JudgeInvu_onDestroy takes nothing returns boolean
@@ -9016,17 +10538,158 @@ local integer this=f__arg_this
 endfunction
 function sa__Buff__staticgetindex takes nothing returns boolean
 local handle h=f__arg_handle1
-set f__result_integer= (LoadInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId((h)))))))) // INLINED!!
+set f__result_integer= YDWEGetIntegerByString("TextTagBind" , I2S(YDWEH2I(h)))
    return true
 endfunction
 function sa__Buff_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-			call RemoveSavedInteger(YDHT, StringHash(("TextTagBind" )), StringHash(( I2S((GetHandleId(((s__Buff_t[this])))))))) // INLINED!!
+			call s__Buff_flush(s__Buff_t[this])
 			set s__Buff_p[this]=null
 			set s__Buff_ab[this]=0
 			call PauseTimer(s__Buff_t[this])
 			call DestroyTimer(s__Buff_t[this])
 			set s__Buff_t[this]=null
+   return true
+endfunction
+function sa__TextTagBind__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("TextTagBind" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__TextTagBind_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call s__TextTagBind_flush(s__TextTagBind_t[this])
+			set s__TextTagBind_caster[this]=null
+			call DestroyTextTag(s__TextTagBind_tt[this])
+			set s__TextTagBind_tt[this]=null
+			set s__TextTagBind_xOff[this]=0.
+			set s__TextTagBind_yOff[this]=0.
+			call PauseTimer(s__TextTagBind_t[this])
+			call DestroyTimer(s__TextTagBind_t[this])
+			set s__TextTagBind_t[this]=null
+   return true
+endfunction
+function sa__SuperShield__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__SuperShield_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call s__SuperShield_flush(s__SuperShield_t[this])
+			set s__SuperShield_caster[this]=null
+			call PauseTimer(s__SuperShield_t[this])
+			call DestroyTimer(s__SuperShield_t[this])
+			set s__SuperShield_t[this]=null
+   return true
+endfunction
+function sa__MultiLife__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__MultiLife_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call s__MultiLife_flush(s__MultiLife_t[this])
+			call UnitRemoveAbility(s__MultiLife_caster[this], 'A0KH')
+			call DestroyTextTag(s__MultiLife_ttHint[this])
+			set s__MultiLife_ttHint[this]=null
+			set s__MultiLife_caster[this]=null
+			call PauseTimer(s__MultiLife_t[this])
+			call DestroyTimer(s__MultiLife_t[this])
+			set s__MultiLife_t[this]=null
+   return true
+endfunction
+function sa__Roubang__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__Roubang_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+   local integer i= 1
+			call s__Roubang_flush(s__Roubang_t[this])
+			set s__Roubang_caster[this]=null
+			loop
+				exitwhen i > s__Roubang_number[this]
+				if ( s___Roubang_URou[s__Roubang_URou[this]+i] != null ) then
+					call RemoveUnit(s___Roubang_URou[s__Roubang_URou[this]+i])
+					set s___Roubang_URou[s__Roubang_URou[this]+i]=null
+				endif
+				set i=i + 1
+			endloop
+			call PauseTimer(s__Roubang_t[this])
+			call DestroyTimer(s__Roubang_t[this])
+			set s__Roubang_aSpeed[this]=0.
+			set s__Roubang_cAngle[this]=0.
+			set s__Roubang_radius[this]=0.
+			set s__Roubang_number[this]=0
+			set s__Roubang_t[this]=null
+   return true
+endfunction
+function sa__Questions_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call PauseTimer(s__Questions_t[this])
+			call DestroyTimer(s__Questions_t[this])
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_t[this]))
+			set s__Questions_t[this]=null
+			set s__Questions_time[this]=0
+			set s__Questions_rightPos[this]=0
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_click[this]))
+			call FlushChildHashtable(LHTable, GetHandleId(s__Questions_d[this]))
+			call DestroyTrigger(s__Questions_click[this])
+	    	call DialogDisplay(s__Questions_p[this], s__Questions_d[this], false)
+	        call DialogClear(s__Questions_d[this])
+	        call DialogDestroy(s__Questions_d[this])
+			set s__Questions_click[this]=null
+			set s__Questions_p[this]=null
+			set s__Questions_question[this]=null
+			set s__Questions_d[this]=null
+   return true
+endfunction
+function sa__Missile__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__Missile_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call s__Missile_flush(s__Missile_t[this])
+			set s__Missile_caster[this]=null
+			call PauseTimer(s__Missile_t[this])
+			call DestroyTimer(s__Missile_t[this])
+			set s__Missile_t[this]=null
+   return true
+endfunction
+function sa__Attract__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("SPellBase" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__Attract_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call s__Attract_flush(s__Attract_t[this])
+			set s__Attract_caster[this]=null
+			call PauseTimer(s__Attract_t[this])
+			call DestroyTimer(s__Attract_t[this])
+			set s__Attract_t[this]=null
+   return true
+endfunction
+function sa__Connect__staticgetindex takes nothing returns boolean
+local handle h=f__arg_handle1
+set f__result_integer= YDWEGetIntegerByString("SpellBase" , I2S(YDWEH2I(h)))
+   return true
+endfunction
+function sa__Connect_onDestroy takes nothing returns boolean
+local integer this=f__arg_this
+			call s__Connect_flush(s__Connect_t[this])
+			set s__Connect_unit1[this]=null
+			set s__Connect_unit2[this]=null
+			call DestroyLightningBJ(s__Connect_l[this])
+			set s__Connect_l[this]=null
+			call PauseTimer(s__Connect_t[this])
+			call DestroyTimer(s__Connect_t[this])
+			set s__Connect_t[this]=null
    return true
 endfunction
 function sa___prototype228_Jizi__AfterMoneyBuffTime takes nothing returns boolean
@@ -9071,7 +10734,7 @@ function sa___prototype38_CreateCDialog2 takes nothing returns boolean
     	call SaveButtonHandle(LHTable, GetHandleId(d), 10, DialogAddButton(d, "返回|cffff6800(Esc)|r", 512))
 	    call DialogDisplay(GetFirstPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function ChallangerMode___ChooseChallangerClick)
+	    call TriggerAddAction(t, function ChallangerMode__ChooseChallangerClick)
 	    set d=null
 	    set t=null
     return true
@@ -9081,7 +10744,7 @@ function sa___prototype38_CreateCDialog1 takes nothing returns boolean
      local trigger t= CreateTrigger()
      local dialog d= DialogCreate()
 	    call DialogSetMessage(d, "选择挑战难度")
-	    if ( false ) then
+	    if ( true ) then
 		    call SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"))
 		    call SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"))
 		    call SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"))
@@ -9092,23 +10755,53 @@ function sa___prototype38_CreateCDialog1 takes nothing returns boolean
 	    endif
 	    call DialogDisplay(GetFirstPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function ChallangerMode___ChooseDifficultyClick)
+	    call TriggerAddAction(t, function ChallangerMode__ChooseDifficultyClick)
 	    set d=null
 	    set t=null
     return true
 endfunction
 
-function jasshelper__initstructs1069333937 takes nothing returns nothing
-    set st__TextTagBind__staticgetindex=CreateTrigger()
-    call TriggerAddCondition(st__TextTagBind__staticgetindex,Condition( function sa__TextTagBind__staticgetindex))
-    set st__TextTagBind_onDestroy=CreateTrigger()
-    call TriggerAddCondition(st__TextTagBind_onDestroy,Condition( function sa__TextTagBind_onDestroy))
+function jasshelper__initstructs2474121804 takes nothing returns nothing
+    set st__OnlyAttackBase__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__OnlyAttackBase__staticgetindex,Condition( function sa__OnlyAttackBase__staticgetindex))
+    set st__OnlyAttackBase_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__OnlyAttackBase_onDestroy,Condition( function sa__OnlyAttackBase_onDestroy))
     set st__JudgeInvu_onDestroy=CreateTrigger()
     call TriggerAddCondition(st__JudgeInvu_onDestroy,Condition( function sa__JudgeInvu_onDestroy))
     set st__Buff__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__Buff__staticgetindex,Condition( function sa__Buff__staticgetindex))
     set st__Buff_onDestroy=CreateTrigger()
     call TriggerAddCondition(st__Buff_onDestroy,Condition( function sa__Buff_onDestroy))
+    set st__TextTagBind__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__TextTagBind__staticgetindex,Condition( function sa__TextTagBind__staticgetindex))
+    set st__TextTagBind_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__TextTagBind_onDestroy,Condition( function sa__TextTagBind_onDestroy))
+    set st__SuperShield__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__SuperShield__staticgetindex,Condition( function sa__SuperShield__staticgetindex))
+    set st__SuperShield_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__SuperShield_onDestroy,Condition( function sa__SuperShield_onDestroy))
+    set st__MultiLife__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__MultiLife__staticgetindex,Condition( function sa__MultiLife__staticgetindex))
+    set st__MultiLife_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__MultiLife_onDestroy,Condition( function sa__MultiLife_onDestroy))
+    set st__Roubang__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__Roubang__staticgetindex,Condition( function sa__Roubang__staticgetindex))
+    set st__Roubang_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Roubang_onDestroy,Condition( function sa__Roubang_onDestroy))
+    set st__Questions_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Questions_onDestroy,Condition( function sa__Questions_onDestroy))
+    set st__Missile__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__Missile__staticgetindex,Condition( function sa__Missile__staticgetindex))
+    set st__Missile_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Missile_onDestroy,Condition( function sa__Missile_onDestroy))
+    set st__Attract__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__Attract__staticgetindex,Condition( function sa__Attract__staticgetindex))
+    set st__Attract_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Attract_onDestroy,Condition( function sa__Attract_onDestroy))
+    set st__Connect__staticgetindex=CreateTrigger()
+    call TriggerAddCondition(st__Connect__staticgetindex,Condition( function sa__Connect__staticgetindex))
+    set st__Connect_onDestroy=CreateTrigger()
+    call TriggerAddCondition(st__Connect_onDestroy,Condition( function sa__Connect_onDestroy))
     set st___prototype228[1]=CreateTrigger()
     call TriggerAddAction(st___prototype228[1],function sa___prototype228_Jizi__AfterMoneyBuffTime)
     call TriggerAddCondition(st___prototype228[1],Condition(function sa___prototype228_Jizi__AfterMoneyBuffTime))
@@ -9124,6 +10817,17 @@ function jasshelper__initstructs1069333937 takes nothing returns nothing
     set st___prototype38[2]=CreateTrigger()
     call TriggerAddAction(st___prototype38[2],function sa___prototype38_CreateCDialog1)
     call TriggerAddCondition(st___prototype38[2],Condition(function sa___prototype38_CreateCDialog1))
+
+
+
+
+
+
+
+
+
+
+
 
 
 

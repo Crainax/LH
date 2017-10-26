@@ -1,10 +1,12 @@
 //! import "LHBase.j"
+//! import "Printer.j"
+//! import "SpellBase.j"
 //! import "Spin.j"
 
-library_once Moqi  requires LHBase,Spin
+library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	
 	globals
-		private group array GMoqiXingxuan
+		private group GMoqiXingxuan = null
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -12,15 +14,14 @@ library_once Moqi  requires LHBase,Spin
 	     这个是星璇伤害
 	*/
 	function SimulateDamageMoqi takes unit u returns boolean
-		//雷神残影50%伤害
-		/*if (GetUnitTypeId(u) == 'h010') then
-			call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.4, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+		//星璇的伤害
+		if (GetUnitTypeId(u) == 'h010') then
+			if not(IsUnitInGroup(GetTriggerUnit(),GMoqiXingxuan)) then
+				call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.01 * GetUnitUserData(u), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+				call GroupAddUnit(GMoqiXingxuan,GetTriggerUnit())
+			endif
 			return true
-		elseif (GetUnitTypeId(u) == 'h02M') then
-				call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.3 * R3(GetUnitUserData(u) == 1,2.5,1), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
-
-			return true
-		endif*/
+		endif
 		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -41,12 +42,15 @@ library_once Moqi  requires LHBase,Spin
 		if (times < 100) then
 			set times = times + 1
 			//call CreateUnit(Player(0),'hpea', x,y ,0)
+			call SetUnitUserData(u,times * 2 + 50)
 			call SaveInteger(spellTable,GetHandleId(t),2,times)
 			//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r"+I2S(times))
 			call SetUnitX(u,x)
 			call SetUnitY(u,y)
 			call SetUnitFacing(u,degree+90)
 		else
+			call DestroyGroup(GMoqiXingxuan)
+			set GMoqiXingxuan = null
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", x, y ))
 			call RemoveUnit(u)
 			call PauseTimer(t)
@@ -74,6 +78,55 @@ library_once Moqi  requires LHBase,Spin
 			exitwhen i > 7
 			if (IsUnitAliveBJ(udg_Unit_Qixing[i])) then
 				call XingxuanStart(udg_Unit_Qixing[i],i)
+			endif
+			set i = i +1
+		endloop
+		set GMoqiXingxuan = CreateGroup()
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星尘
+	*/
+	private function XingchenTimer takes nothing returns nothing
+		local timer t = GetExpiredTimer()
+		local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,id,1)
+		local real x = LoadReal(spellTable,GetHandleId(t),2)
+		local real y = LoadReal(spellTable,GetHandleId(t),3)
+		local real facing = LoadReal(spellTable,GetHandleId(t),4)
+		if (GetDistance(GetUnitX(u),GetUnitY(u),x,y) > 50.) then
+			call SetUnitX(u,GetUnitX(u)+ CosBJ(facing) * 75.)
+			call SetUnitY(u,GetUnitY(u)+ SinBJ(facing) * 75.)
+		else
+			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u),GetUnitY(u) ))
+	    	call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)* 0.7)
+			call KillUnit(u)
+			call PauseTimer(t)
+			call FlushChildHashtable(spellTable,id)
+			call DestroyTimer(t)
+		endif
+		set u = null
+		set t = null 
+	endfunction
+
+	function XingchenStart takes unit u,real x,real y returns nothing
+		local timer t = CreateTimer()
+		local real facing = GetFacingBetweenXY(GetUnitX(u),GetUnitY(u),x,y)
+		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
+		call SaveReal(spellTable,GetHandleId(t),2,x)
+		call SaveReal(spellTable,GetHandleId(t),3,y)
+		call SaveReal(spellTable,GetHandleId(t),4,facing)
+		call SetUnitFacing(u,facing)
+		call TimerStart(t,0.05,true,function XingchenTimer)
+		set t = null
+	endfunction
+
+	function Xingchen takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 7
+			if (IsUnitAliveBJ(udg_Unit_Qixing[i])) then
+				call XingchenStart(udg_Unit_Qixing[i],GetSpellTargetX(),GetSpellTargetY())
 			endif
 			set i = i +1
 		endloop
