@@ -350,6 +350,8 @@ library_once Constant initializer InitConstant requires JBase
 		local integer id = GetHeroIndex(GetUnitTypeId(u))
 		if (id == 2) then
 			return 'I07U'
+		elseif (id == 3) then
+			return 'I032'
 		endif
 
 		return 0

@@ -2,10 +2,9 @@
 //! import "Attr.j"
 //! import "SpellBase.j"
 //! import "Juexing.j"
-//! import "PIVInterface.j"
 /////! import "Beast.j"
 /////! import "Netversion.j"
-library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing,PIVInterface
+library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
 	globals
 		private boolean isFirst = true
 		private hashtable PIVTable = InitHashtable()

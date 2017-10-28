@@ -1,10 +1,11 @@
 //! import "LHBase.j"
-/////! import "NetVersion.j"
+//! import "NetVersion.j"
 
 library_once Spin requires LHBase,Version
 	
 	globals
 		boolean array BCancelSpin
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

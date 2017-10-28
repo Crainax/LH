@@ -1,6 +1,4 @@
-//! import "LHBase.j"
-
-library_once PIVInterface  requires LHBase 
+library_once PIVInterface 
 
 	globals
 		boolean array sPIV

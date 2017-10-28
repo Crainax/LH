@@ -7,6 +7,8 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	
 	globals
 		private group GMoqiXingxuan = null
+		
+		boolean BFanzhuanMQ
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -15,7 +17,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	*/
 	function SimulateDamageMoqi takes unit u returns boolean
 		//星璇的伤害
-		if (GetUnitTypeId(u) == 'h010') then
+		if (GetUnitTypeId(u) == 'h02Q') then
 			if not(IsUnitInGroup(GetTriggerUnit(),GMoqiXingxuan)) then
 				call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.01 * GetUnitUserData(u), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 				call GroupAddUnit(GMoqiXingxuan,GetTriggerUnit())
@@ -23,6 +25,20 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 			return true
 		endif
 		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    马甲的死亡事件
+	*/
+	function SimulateDeathMoqi takes unit u returns nothing
+		if (GetUnitTypeId(u) == 'h02P') then 
+			//星落
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(u),GetUnitY(u) ))
+		elseif (GetUnitTypeId(u) == 'h001') then 
+			//星雨
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(u),GetUnitY(u) ))
+			call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)*0.35)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -63,7 +79,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 
 	function XingxuanStart takes unit u,integer i returns nothing
 		local timer t = CreateTimer()
-		call SaveUnitHandle(spellTable,GetHandleId(t),1, CreateUnit(Player(0),'hpea', GetUnitX(u),GetUnitY(u) ,0))
+		call SaveUnitHandle(spellTable,GetHandleId(t),1, CreateUnit(Player(0),'h02Q', GetUnitX(u),GetUnitY(u) ,0))
 		call TimerStart(t,0.05,true,function XingxuanTimer)
 		call SaveInteger(spellTable,GetHandleId(t),2,0)
 		call SaveInteger(spellTable,GetHandleId(t),3,i)
@@ -120,12 +136,13 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		call TimerStart(t,0.05,true,function XingchenTimer)
 		set t = null
 	endfunction
-
+ 	
 	function Xingchen takes nothing returns nothing
 		local integer i = 1
 		loop
 			exitwhen i > 7
 			if (IsUnitAliveBJ(udg_Unit_Qixing[i])) then
+				call SetUnitUserData(udg_Unit_Qixing[i],1)
 				call XingchenStart(udg_Unit_Qixing[i],GetSpellTargetX(),GetSpellTargetY())
 			endif
 			set i = i +1
@@ -135,28 +152,147 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	/*
 	    星落
 	*/
-	private function CreateXingluo takes real x ,real y returns nothing
-		local integer i = 1
-		local real damage = GetDamageAgi(moqi)
-		call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", x, y ))
-		loop
-			exitwhen i > 6
-			call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(y + 900 * SinBJ(i*60)) ))
-			set i = i +1
-		endloop
-		call DamageArea(moqi,x,y,900,damage)
+	private function CreateEffect1 takes real x,real y returns nothing
+	    local integer i = 1
+	    local integer j = 1
+	    local unit u = null
+        set u = CreateUnit(GetOwningPlayer(moqi),'h02P',x,y,0)
+        call SetUnitFlyHeight( u, 0.00, 2000.00 )
+	    loop
+	        exitwhen j > 6
+	        set i = 1
+	        loop
+	            exitwhen i > 6 + 2 * j
+	            set u = CreateUnit(GetOwningPlayer(moqi),'h02P',YDWECoordinateX(x + 150 * j * CosBJ(i*360.0/(6 + 2 * j))), YDWECoordinateY(y + 150 * j * SinBJ(i*360.0/(6 + 2 * j))),0)
+	            call SetUnitFlyHeight( u, 0.00, 2000.00 )
+	            set i = i +1
+	        endloop
+	        set j = j +1
+	    endloop
+	    set u = null
 	endfunction
 
-	function Xingluo takes real damageRate,integer abilityID,real x2,real y2,integer count returns nothing
+	private function XingluoDamageTimer takes nothing returns nothing
+	    local timer t = GetExpiredTimer()
+	    local integer id = GetHandleId(t)
+	    local real x = LoadReal(spellTable,GetHandleId(t),1)
+	    local real y = LoadReal(spellTable,GetHandleId(t),2)
+	    call DamageArea(moqi,x,y,900,GetDamageAgi(moqi))
+	    call PauseTimer(t)
+	    call FlushChildHashtable(spellTable,id)
+	    call DestroyTimer(t)
+	    set t = null 
+	endfunction
+
+	function CreateXingluo takes real rate returns nothing
+	    local timer t = CreateTimer()
+	    call CreateEffect1(GetUnitX(moqi),GetUnitY(moqi))
+	    call SaveReal(spellTable,GetHandleId(t),1,GetUnitX(moqi))
+	    call SaveReal(spellTable,GetHandleId(t),2,GetUnitY(moqi))
+	    call TimerStart(t,1,false,function XingluoDamageTimer)
+	    set t = null
+	endfunction
+
+	private function XingluoStartCreate takes nothing returns nothing
+	    local timer t = GetExpiredTimer()
+	    local integer id = GetHandleId(t)
+	    local integer i = LoadInteger(spellTable,id,1)
+		local real rate = LoadReal(spellTable,GetHandleId(t),2)
+	    if (i <= 1 + IJ1(moqi,1,0) + IJ2(moqi,1,0)) then
+	        set i = i + 1
+	        call SaveInteger(spellTable,GetHandleId(t),1,i)
+	        call CreateXingluo(rate)
+	    else
+	        call PauseTimer(t)
+	        call FlushChildHashtable(spellTable,id)
+	        call DestroyTimer(t)
+	    endif
+	    set t = null 
+	endfunction
+
+	function Xingluo takes real damageRate,integer abilityID,real x2,real y2 returns nothing
 		local real x = GetUnitX(moqi)
 		local real y = GetUnitY(moqi)
 		local real damage = GetDamageAgi(moqi)
-		local integer i = 1
-		loop
-			exitwhen i > 1 + IJ1(moqi,1,0) + IJ2(moqi,1,0)
-			set i = i +1
-		endloop
-	    call PrintSpell(GetOwningPlayer(moqi),GetAbilityName(GetSpellAbilityId()),damage)
+		local timer t = CreateTimer()
+		call SaveInteger(spellTable,GetHandleId(t),1,1)
+		call SaveReal(spellTable,GetHandleId(t),2,damageRate)
+		call TimerStart(t,0.5,true,function XingluoStartCreate)
+		set t = null
+	    call PrintSpell(GetOwningPlayer(moqi),GetAbilityName(abilityID),damage)
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	    主英雄使用技能
+	*/
+	private function TSpellMoqiAct takes nothing returns nothing
+		if (GetSpellAbilityId() == 'A0NH') then
+			//箭落
+			call Xingluo(1.0,GetSpellAbilityId(),GetUnitX(moqi),GetUnitY(moqi))
+		elseif (GetSpellAbilityId() == 'A0NC') then
+		endif
+	endfunction
+
+//---------------------------------------------------------------------------------------------------
+
+	//按照12345来判断
+	function LearnSkillMoqiI takes unit learner,integer whichSpell returns nothing
+		local integer i
+		if (learner == moqi) then
+
+        call EnableTrigger( gg_trg_______18 )
+			if (whichSpell == 1) then
+				//技能1初始化
+        		call EnableTrigger( gg_trg_______18 )
+			elseif (whichSpell == 2 and IsSecondSpellOK(moqi) and (GetUnitAbilityLevel(moqi,'A0G0') == 1 or GetUnitAbilityLevel(moqi,'A0NI') == 1)  ) then
+				//技能2初始化
+        		call EnableTrigger( gg_trg_______19 )
+			elseif (whichSpell == 2 and IsSecondSpellOK(yanmie) and (GetUnitAbilityLevel(yanmie,'A0NA') == 1)  ) then
+				//技能2(反)初始化
+			    set TSpellYanmie2 = CreateTrigger()
+			    call TriggerRegisterAnyUnitEventBJ( TSpellYanmie2, EVENT_PLAYER_UNIT_ATTACKED )
+			    call TriggerAddCondition(TSpellYanmie2, Condition(function LeishenzhisuCon))
+			    call TriggerAddAction(TSpellYanmie2, function Leishenzhinu)
+			elseif (whichSpell == 3 and IsThirdSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'AHbh') == 1) then
+				//技能3初始化
+				call AddSpecialEffectTargetUnitBJ("origin",yanmie,"war3mapImported\\etherealaura.mdx")
+				call InitYanmieAura()
+			elseif (whichSpell == 4 and IsFourthSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'AHab') == 1) then
+				//技能4初始化
+				set GShadow = CreateGroup()
+		        call EnableTrigger( gg_trg_____________3 )
+		        call EnableTrigger( gg_trg_____________5 )
+			elseif (whichSpell == 4 and IsFourthSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'A0NB') == 1) then
+				//技能4初始化
+		        call EnableTrigger( gg_trg_____________3 )
+		        call EnableTrigger( gg_trg_____________5 )
+			endif
+		endif
+	endfunction
+
+	function LearnSkillMoqi takes unit learner,integer learnSpellID returns nothing
+		if (learner == moqi) then
+			if (learnSpellID == 'A0FZ') then
+				call LearnSkillMoqiI(learner,1)
+			elseif (learnSpellID == 'A0G0' or learnSpellID == 'A0NI') then
+				call LearnSkillMoqiI(learner,2)
+			elseif (learnSpellID == 'AHbh') then
+				call LearnSkillMoqiI(learner,3)
+			elseif (learnSpellID == 'AHab' or learnSpellID == 'A0NB') then
+				call LearnSkillMoqiI(learner,4)
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    碎星来刷新技能
+	*/
+	function FlashJianluo takes nothing returns nothing
+	    if (BFanzhuanMQ) then
+	        call UnitRemoveAbility(moqi,'hehe')
+	        call UnitAddAbility(moqi,'hehe')
+	    endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -222,6 +358,21 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    初始化反转形态
+	*/
+	function InitFanzhuanMoqi takes nothing returns nothing
+		call UnitAddAbility(moqi,'A0NL')
+		call SetPlayerAbilityAvailable(GetOwningPlayer(moqi),'A0NL',false)
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		set BFanzhuanMQ = true
+		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 100.00, 0, 0, 0 )
+		call PlaySoundBJ( gg_snd_fanzhuan )
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    皮肤
 	*/
 	private function InitMoqiSpin takes unit u returns unit
@@ -246,6 +397,10 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 
 		call TriggerRegisterUnitEvent( gg_trg_______17, moqi, EVENT_UNIT_DAMAGED )
 		call TriggerRegisterUnitEvent( gg_trg_______19, moqi, EVENT_UNIT_ATTACKED )
+
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 5 or IsPIV(GetOwningPlayer(moqi))) then
+	    	call CreateFanzhuanItem(moqi)
+	    debug endif
 
 	endfunction
 endlibrary

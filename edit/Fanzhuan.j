@@ -1,7 +1,7 @@
 //! import "LHBase.j"
-//! import "PIVInterface.j"
+//! import "Achievement.j"
 
-library_once Fanzhuan requires LHBase,PIVInterface
+library_once Fanzhuan requires LHBase,Achievement
 
 	globals
 		integer array diyu
@@ -15,7 +15,7 @@ library_once Fanzhuan requires LHBase,PIVInterface
 		if not(DEBUG_MODE) then
 			return IsPIV(p)
 		else
-			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or IsPIV(p)
+			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or GetSpecifyHeroTimes(p,i) >= 30 or IsPIV(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -31,12 +31,10 @@ library_once Fanzhuan requires LHBase,PIVInterface
 			"
 		endif
 
-		if (i == 2) then
-			return "
-			在本版本中通关5次战争难度(或以上)永久解锁使用.
+		return "
+		该英雄使用次数达到30次.
 
-			进度:"+I2S(diyu[GetConvertedPlayerId(p)]/100000)+"/5"
-		endif
+		进度:"+I2S(GetSpecifyHeroTimes(p,i))+"/30"
 
 		return ""
 	endfunction
