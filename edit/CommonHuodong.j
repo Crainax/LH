@@ -29,6 +29,13 @@ library_once Huodong requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    嘉年华活动:
+	*/
+	function IsKuanghuanTime takes nothing returns boolean
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    天魇
 	*/
 	function IsTianyanOK takes nothing returns boolean

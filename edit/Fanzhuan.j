@@ -1,6 +1,7 @@
 //! import "LHBase.j"
+//! import "PIVInterface.j"
 
-library_once Fanzhuan requires LHBase
+library_once Fanzhuan requires LHBase,PIVInterface
 
 	globals
 		integer array diyu
@@ -11,7 +12,11 @@ library_once Fanzhuan requires LHBase
 	    反转条件
 	*/
 	function FanzhuanCondition takes player p,integer i returns boolean
-		return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1
+		if not(DEBUG_MODE) then
+			return IsPIV(p)
+		else
+			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or IsPIV(p)
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -52,7 +57,7 @@ library_once Fanzhuan requires LHBase
 			set SFanzhaun[index] = SFanzhaun[index] + SubStringBJ(temp,i+1,StringLength(temp))
 			set temp = null
 			call DisplayTextToPlayer(p, 0., 0., "|cff3366ff【消息】恭喜你成功解锁英雄"+GetIndexHeroColorName(i)+"|cff3366ff新的技能形态!|r")
-			call DzAPI_Map_StoreString( p,  "SFanzhaun", SFanzhaun[index] )
+			debug call DzAPI_Map_StoreString( p,  "SFanzhaun", SFanzhaun[index] )
 		endif
 	endfunction
 endlibrary

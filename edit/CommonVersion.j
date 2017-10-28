@@ -19,6 +19,11 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		boolean BTiaozhan2 = false
 
 		boolean array BWuxing
+
+		boolean array BAllSpin
+
+		unit UChengjiu = null
+		
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -100,140 +105,161 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	    彩名皮肤
 	*/
 	function IsColorSpin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    瑟雨皮肤条件
 	*/
 	function GetSeyu1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    晓月皮肤条件
 	*/
 	function GetXiaoyue1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    湮灭皮肤条件
 	*/
 	function GetYanmie1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    白虎皮肤条件
 	*/
 	function GetTaiya1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    玄雪皮肤条件
 	*/
 	function GetXuanxue1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    玄雪皮肤条件
 	*/
 	function GetXuanxue2Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    赛殇皮肤条件
 	*/
 	function GetHanshang1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    辰寂皮肤条件
 	*/
 	function GetChenji2Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    辰寂皮肤条件
 	*/
 	function GetChenji1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    凌雪皮肤条件
 	*/
 	function GetLingxue1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    莫琪皮肤条件
 	*/
 	function GetMoqiSpin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    牛头皮肤条件
 	*/
 	function GetKaisaSpin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    剑圣皮肤条件
 	*/
 	function GetBajue1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    摄焱皮肤条件
 	*/
 	function GetSheyan1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    摄焱皮肤条件
 	*/
 	function GetHuanyi1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    司宸皮肤条件
 	*/
 	function GetSichen1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    苍凌皮肤条件
 	*/
 	function GetCangling1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    离魉皮肤条件
 	*/
 	function GetLichi1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    黑阎皮肤条件
 	*/
 	function GetHeiyan1Spin takes player p returns boolean
-		return false
+		return false or BAllSpin[GetConvertedPlayerId(p)]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    炼金皮肤条件
+	*/
+	function GetHanshang2Spin takes player p returns boolean
+		return false or BAllSpin[GetConvertedPlayerId(p)]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    星胧皮肤条件
+	*/
+	function GetXinglong1Spin takes player p returns boolean
+		return false or BAllSpin[GetConvertedPlayerId(p)]
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    激活所有皮肤
+	*/
+	function ActivateAllSpin takes player p returns nothing
+		set BAllSpin[GetConvertedPlayerId(p)] = true
 	endfunction
 //---------------------------------------------------------------------------------------------------
     /*

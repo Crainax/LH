@@ -146,6 +146,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    激活所有皮肤(空)
+	*/
+	function ActivateAllSpin takes player p returns nothing
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    幻逸的提示文本
 	*/
 	function GetHuanyiHint takes nothing returns string

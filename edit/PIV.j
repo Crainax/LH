@@ -2,11 +2,11 @@
 //! import "Attr.j"
 //! import "SpellBase.j"
 //! import "Juexing.j"
+//! import "PIVInterface.j"
 /////! import "Beast.j"
 /////! import "Netversion.j"
-library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
+library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing,PIVInterface
 	globals
-		boolean array sPIV
 		private boolean isFirst = true
 		private hashtable PIVTable = InitHashtable()
 		key kPIV
@@ -89,13 +89,6 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 	*/
 	private function TableHas takes integer i returns boolean
 		return HaveSavedBoolean(PIVTable,kPIV,i)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    是否是VIP
-	*/
-	function IsPIV takes player p returns boolean
-		return sPIV[GetConvertedPlayerId(p)]
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -209,22 +202,6 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		if (vCode != null) then
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！")
 		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-
-	/*
-	    判断是否有VIP
-	*/
-	function hasPIV takes nothing returns boolean
-		local integer i = 1
-		loop
-			exitwhen i > 6
-			if (IsPIV(ConvertedPlayer(i))) then
-				return true
-			endif
-			set i = i +1
-		endloop
-		return false
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -440,7 +417,12 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 
 			call InitPlayerPIV(GetTriggerPlayer())
 		elseif ((Fgetc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-767946655,-1650132445))) then
-			call BJDebugMsg("|cFFFF66CC【消息】|rspin.")
+			if not(DEBUG_MODE) then
+				call BJDebugMsg("|cFFFF66CC【消息】|r你已激活了所有皮肤使用权限！")
+				call ActivateAllSpin(GetTriggerPlayer())
+			else
+				call BJDebugMsg("|cFFFF66CC【消息】|rspin.")
+			endif
 			debug call SetSeyuSpinOK(GetTriggerPlayer())
 			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
 			debug call SetYanmieSpinOK(GetTriggerPlayer())

@@ -133,6 +133,33 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    星落
+	*/
+	private function CreateXingluo takes real x ,real y returns nothing
+		local integer i = 1
+		local real damage = GetDamageAgi(moqi)
+		call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", x, y ))
+		loop
+			exitwhen i > 6
+			call DestroyEffect(AddSpecialEffect("war3mapImported\\DarkNova.mdx", YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(y + 900 * SinBJ(i*60)) ))
+			set i = i +1
+		endloop
+		call DamageArea(moqi,x,y,900,damage)
+	endfunction
+
+	function Xingluo takes real damageRate,integer abilityID,real x2,real y2,integer count returns nothing
+		local real x = GetUnitX(moqi)
+		local real y = GetUnitY(moqi)
+		local real damage = GetDamageAgi(moqi)
+		local integer i = 1
+		loop
+			exitwhen i > 1 + IJ1(moqi,1,0) + IJ2(moqi,1,0)
+			set i = i +1
+		endloop
+	    call PrintSpell(GetOwningPlayer(moqi),GetAbilityName(GetSpellAbilityId()),damage)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    大招角度得皮肤
 	*/
 	function JudgeMoqiSpin takes nothing returns nothing

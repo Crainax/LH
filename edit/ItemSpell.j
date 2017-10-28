@@ -7,12 +7,13 @@
 //! import "Shen.j"
 //! import "item.j"
 //! import "Yanmie.j"
+//! import "Fanzhuan.j"
 /////! import "Purgatory.j"
 /////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie,Purgatory//,Continous
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie,Purgatory,Fanzhuan//,Continous
 
 	globals
 		boolean array BYaoShuxing 
