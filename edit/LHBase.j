@@ -1,11 +1,11 @@
 
 
-/////! import "Test.j"
+//! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 //! import "PIVInterface.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface//,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface,Test
 
     globals
         unit learnSkillHero = null

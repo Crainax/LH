@@ -153,8 +153,9 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		local real y = LoadReal(spellTable,GetHandleId(t),3)
 		local real facing = LoadReal(spellTable,GetHandleId(t),4)
 		if (GetDistance(GetUnitX(u),GetUnitY(u),x,y) > 50. and IsUnitAliveBJ(u) and GetUnitUserData(u) == 1) then
-			call SetUnitX(u,GetUnitX(u)+ CosBJ(facing) * 75.)
-			call SetUnitY(u,GetUnitY(u)+ SinBJ(facing) * 75.)
+			call SetUnitX(u,YDWECoordinateX(GetUnitX(u)+ CosBJ(facing) * 75.))
+			call SetUnitY(u,YDWECoordinateY(GetUnitY(u)+ SinBJ(facing) * 75.))
+
 		else
 			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u),GetUnitY(u) ))
 	    	call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)* 0.7)

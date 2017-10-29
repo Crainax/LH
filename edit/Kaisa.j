@@ -18,8 +18,11 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		private real ILiebian = 0
 		private real RLiebianX = 0.
 		private real RLiebianY = 0.
+		private effect ELiebian = null
 		private real RDistanceLiebian = 0.
-		private TextTagBind TTBLiebian
+		private TextTagBind TTBLiebian = 0
+
+		//图腾
 
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -32,6 +35,12 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		set TLiebian = null
 		call SetUnitScalePercent( kaisa,  100.00  , 100.00, 100.00 )
 		call TTBLiebian.destroy()
+		set ILiebian = 0
+		set BLiebian = false
+		set RLiebianX = 0.
+		set RLiebianY = 0.
+		set RDistanceLiebian = 0.
+		call DestroyEffect(ELiebian)
 	endfunction
 
 	private function TiandiliebianTimer takes nothing returns nothing
@@ -62,14 +71,81 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		set ILiebian = 0
 		set BLiebian = true 
 		set TTBLiebian = TextTagBind.create(kaisa,35,35)
-
+		//todo : 指示特效。
+		set ELiebian = AddSpecialEffectTargetUnitBJ("overhead",kaisa,"war3mapImported\\blackbird.mdx")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    天灵冲撞
 	*/
+	private function CreateEffect1 takes real x,real y returns nothing
+		local integer i = 1
+		loop
+		    exitwhen i > 6
+		    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", YDWECoordinateX(x + 300 * CosBJ(i*360.0/(6))), YDWECoordinateY(y + 300 * SinBJ(i*360.0/(6))) ))
+		    set i = i +1
+		endloop
+	endfunction
+
+	private function ChongzhuangTimer takes nothing returns nothing
+	    local timer t = GetExpiredTimer()
+	    local integer id = GetHandleId(t)
+	    //i是速度
+	    local integer i = LoadInteger(spellTable,id,1)
+		local real facing = LoadReal(spellTable,GetHandleId(t),2)
+		local group temp = GetEnemyGroup(GetOwningPlayer(kaisa),GetUnitX(kaisa),GetUnitY(kaisa),400)
+		local real xp = GetUnitX(kaisa)+ CosBJ(facing) * I2R(i)
+		local real yp = GetUnitY(kaisa)+ SinBJ(facing) * I2R(i)
+		//判断数量
+	    if (CountUnitsInGroup(temp) == 0 or xp > yd_MapMaxX or xp < yd_MapMinX or yp > yd_MapMaxY or yp < yd_MapMinY) then
+	    	//速度加快
+	        set i = i + 5
+	        call SaveInteger(spellTable,GetHandleId(t),1,i)
+			call SetUnitX(kaisa,xp)
+			call SetUnitY(kaisa,yp)
+			if (ModuloInteger(i,100) == 0) then
+				//todo:0.5秒一次的尘土特效
+				call DestroyEffect(AddSpecialEffect("Abilities\Spells\Human\MassTeleport\MassTeleportCaster.mdl", GetUnitX(kaisa),GetUnitY(kaisa) ))
+    		    call SetUnitAnimation( kaisa, "move" ) 
+			endif
+	    else
+	    	//伤害：每2秒加100%？
+	    	call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(i/200))
+	    	call CreateEffect1(GetUnitX(kaisa),GetUnitY(kaisa))
+	    	//todo：技能显示
+	    	call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName('aaaa'),GetDamageStr(kaisa)*(i/200))
+	    	//todo:眩晕效果
+
+	    	call PauseUnit(kaisa,false)
+	    	call UnitRemoveAbility(kaisa,'Avul')
+	        call PauseTimer(t)
+	        call FlushChildHashtable(spellTable,id)
+	        call DestroyTimer(t)
+	    endif
+	    call DestroyGroup(temp)
+	    set temp = null
+	    set t = null 
+	endfunction
+
 	function Tianlingchongzhuang takes nothing returns nothing
-		
+		local real facing = GetFacingBetweenXY(GetUnitX(u),GetUnitY(u),GetSpellTargetX(),GetSpellTargetY())
+		local timer t = CreateTimer()
+		call PauseUnit(kaisa,true)
+		call UnitAddAbility(kaisa,'Avul')
+		call SetUnitFacing(facing)
+		call SaveInteger(spellTable,GetHandleId(t),1,20)
+		call SaveReal(spellTable,GetHandleId(t),2,facing)
+		call TimerStart(t,0.05,true,function ChongzhuangTimer)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    万荒图腾
+	*/
+	function Tuteng takes nothing returns nothing
+		if (BFanzhuanKS) then
+
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
