@@ -7,8 +7,10 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	
 	globals
 		private group GMoqiXingxuan = null
-		
-		boolean BFanzhuanMQ
+
+		boolean BFanzhuanMQ = false
+
+		private trigger TSpellMoqi = null
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -42,6 +44,48 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
+	    星辰(旧)
+	*/
+	private function XingchenOldTimer takes nothing returns nothing
+	    local timer t = GetExpiredTimer()
+	    local integer id = GetHandleId(t)
+		local effect e = LoadEffectHandle(spellTable,GetHandleId(t),1)
+		local integer n = LoadInteger(spellTable,GetHandleId(t),2)
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(moqi)),-0.3 * n)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(moqi)),-0.3 * n)
+		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(moqi)),-0.3 * n)
+		call DestroyEffect(e)
+	    call PauseTimer(t)
+	    call FlushChildHashtable(spellTable,id)
+	    call DestroyTimer(t)
+	    set t = null 
+	endfunction
+
+	function XingchenOld takes nothing returns nothing
+		local integer i = 1
+		local integer n = 0
+		local effect e = null
+		local timer t = CreateTimer()
+		loop
+			exitwhen i > 7
+			if (IsUnitAliveBJ(udg_Unit_Qixing[i])) then
+				call KillUnit(udg_Unit_Qixing[i])
+				set n = n + 1
+			endif
+			set i = i +1
+		endloop
+		call PrintSpellContent(GetOwningPlayer(moqi),GetAbilityName(GetSpellAbilityId()),"成功增加"+I2S(n*30)+"%的三围.")
+		call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(moqi)),0.3 * n)
+		call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(moqi)),0.3 * n)
+		call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(moqi)),0.3 * n)
+		set e = AddSpecialEffectTarget("Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl", moqi, "chest")
+		call SaveEffectHandle(spellTable,GetHandleId(t),1,e)
+		call SaveInteger(spellTable,GetHandleId(t),2,n)
+		call TimerStart(t,60,false,function XingchenOld)
+		set t = null
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
 	    星璇
 	*/
 	function XingxuanTimer takes nothing returns nothing
@@ -52,8 +96,8 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		//是第几颗星星
 		local integer i = LoadInteger(spellTable,GetHandleId(t),3)
 		local real degree = ModuloReal((((-80.0)*times/200.0)+90.0)*times,360.)+i*51.42
-		local real x = 20 * times * CosBJ(degree) + LoadReal(spellTable,GetHandleId(t),4)
-		local real y = 20 * times * SinBJ(degree) + LoadReal(spellTable,GetHandleId(t),5)
+		local real x = 20 * times * CosBJ(degree) + GetUnitX(moqi)
+		local real y = 20 * times * SinBJ(degree) + GetUnitY(moqi)
 		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r"+I2S(times)+":"+R2S(degree))
 		if (times < 100) then
 			set times = times + 1
@@ -83,8 +127,6 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		call TimerStart(t,0.05,true,function XingxuanTimer)
 		call SaveInteger(spellTable,GetHandleId(t),2,0)
 		call SaveInteger(spellTable,GetHandleId(t),3,i)
-		call SaveReal(spellTable,GetHandleId(t),4,GetUnitX(moqi))
-		call SaveReal(spellTable,GetHandleId(t),5,GetUnitY(moqi))
 		set t = null	
 	endfunction
 
@@ -110,7 +152,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		local real x = LoadReal(spellTable,GetHandleId(t),2)
 		local real y = LoadReal(spellTable,GetHandleId(t),3)
 		local real facing = LoadReal(spellTable,GetHandleId(t),4)
-		if (GetDistance(GetUnitX(u),GetUnitY(u),x,y) > 50.) then
+		if (GetDistance(GetUnitX(u),GetUnitY(u),x,y) > 50. and IsUnitAliveBJ(u) and GetUnitUserData(u) == 1) then
 			call SetUnitX(u,GetUnitX(u)+ CosBJ(facing) * 75.)
 			call SetUnitY(u,GetUnitY(u)+ SinBJ(facing) * 75.)
 		else
@@ -128,6 +170,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	function XingchenStart takes unit u,real x,real y returns nothing
 		local timer t = CreateTimer()
 		local real facing = GetFacingBetweenXY(GetUnitX(u),GetUnitY(u),x,y)
+		call SetUnitUserData(u,1)
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
 		call SaveReal(spellTable,GetHandleId(t),2,x)
 		call SaveReal(spellTable,GetHandleId(t),3,y)
@@ -136,17 +179,17 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		call TimerStart(t,0.05,true,function XingchenTimer)
 		set t = null
 	endfunction
- 	
+
 	function Xingchen takes nothing returns nothing
 		local integer i = 1
 		loop
 			exitwhen i > 7
 			if (IsUnitAliveBJ(udg_Unit_Qixing[i])) then
-				call SetUnitUserData(udg_Unit_Qixing[i],1)
 				call XingchenStart(udg_Unit_Qixing[i],GetSpellTargetX(),GetSpellTargetY())
 			endif
 			set i = i +1
 		endloop
+	    call PrintSpellName(GetOwningPlayer(moqi),GetAbilityName(GetSpellAbilityId()))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -162,7 +205,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	        exitwhen j > 6
 	        set i = 1
 	        loop
-	            exitwhen i > 6 + 2 * j
+	            exitwhen i > 6 + j
 	            set u = CreateUnit(GetOwningPlayer(moqi),'h02P',YDWECoordinateX(x + 150 * j * CosBJ(i*360.0/(6 + 2 * j))), YDWECoordinateY(y + 150 * j * SinBJ(i*360.0/(6 + 2 * j))),0)
 	            call SetUnitFlyHeight( u, 0.00, 2000.00 )
 	            set i = i +1
@@ -177,7 +220,8 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    local integer id = GetHandleId(t)
 	    local real x = LoadReal(spellTable,GetHandleId(t),1)
 	    local real y = LoadReal(spellTable,GetHandleId(t),2)
-	    call DamageArea(moqi,x,y,900,GetDamageAgi(moqi))
+	    local real rate = LoadReal(spellTable,GetHandleId(t),3)
+	    call DamageArea(moqi,x,y,900,GetDamageAgi(moqi)*rate)
 	    call PauseTimer(t)
 	    call FlushChildHashtable(spellTable,id)
 	    call DestroyTimer(t)
@@ -189,6 +233,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    call CreateEffect1(GetUnitX(moqi),GetUnitY(moqi))
 	    call SaveReal(spellTable,GetHandleId(t),1,GetUnitX(moqi))
 	    call SaveReal(spellTable,GetHandleId(t),2,GetUnitY(moqi))
+	    call SaveReal(spellTable,GetHandleId(t),3,rate)
 	    call TimerStart(t,1,false,function XingluoDamageTimer)
 	    set t = null
 	endfunction
@@ -230,7 +275,15 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		if (GetSpellAbilityId() == 'A0NH') then
 			//箭落
 			call Xingluo(1.0,GetSpellAbilityId(),GetUnitX(moqi),GetUnitY(moqi))
-		elseif (GetSpellAbilityId() == 'A0NC') then
+		elseif (GetSpellAbilityId() == 'A0NI') then
+			//星尘
+			call Xingchen()
+		elseif (GetSpellAbilityId() == 'A04L') then
+			//星辰
+			call XingchenOld()
+		elseif (GetSpellAbilityId() == 'A0NJ') then
+			//星辰
+			call Xingxuan()
 		endif
 	endfunction
 
@@ -248,25 +301,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 			elseif (whichSpell == 2 and IsSecondSpellOK(moqi) and (GetUnitAbilityLevel(moqi,'A0G0') == 1 or GetUnitAbilityLevel(moqi,'A0NI') == 1)  ) then
 				//技能2初始化
         		call EnableTrigger( gg_trg_______19 )
-			elseif (whichSpell == 2 and IsSecondSpellOK(yanmie) and (GetUnitAbilityLevel(yanmie,'A0NA') == 1)  ) then
-				//技能2(反)初始化
-			    set TSpellYanmie2 = CreateTrigger()
-			    call TriggerRegisterAnyUnitEventBJ( TSpellYanmie2, EVENT_PLAYER_UNIT_ATTACKED )
-			    call TriggerAddCondition(TSpellYanmie2, Condition(function LeishenzhisuCon))
-			    call TriggerAddAction(TSpellYanmie2, function Leishenzhinu)
-			elseif (whichSpell == 3 and IsThirdSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'AHbh') == 1) then
-				//技能3初始化
-				call AddSpecialEffectTargetUnitBJ("origin",yanmie,"war3mapImported\\etherealaura.mdx")
-				call InitYanmieAura()
-			elseif (whichSpell == 4 and IsFourthSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'AHab') == 1) then
-				//技能4初始化
-				set GShadow = CreateGroup()
-		        call EnableTrigger( gg_trg_____________3 )
-		        call EnableTrigger( gg_trg_____________5 )
-			elseif (whichSpell == 4 and IsFourthSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'A0NB') == 1) then
-				//技能4初始化
-		        call EnableTrigger( gg_trg_____________3 )
-		        call EnableTrigger( gg_trg_____________5 )
+        		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r开放2")
 			endif
 		endif
 	endfunction
@@ -277,10 +312,6 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 				call LearnSkillMoqiI(learner,1)
 			elseif (learnSpellID == 'A0G0' or learnSpellID == 'A0NI') then
 				call LearnSkillMoqiI(learner,2)
-			elseif (learnSpellID == 'AHbh') then
-				call LearnSkillMoqiI(learner,3)
-			elseif (learnSpellID == 'AHab' or learnSpellID == 'A0NB') then
-				call LearnSkillMoqiI(learner,4)
 			endif
 		endif
 	endfunction
@@ -290,8 +321,8 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	*/
 	function FlashJianluo takes nothing returns nothing
 	    if (BFanzhuanMQ) then
-	        call UnitRemoveAbility(moqi,'hehe')
-	        call UnitAddAbility(moqi,'hehe')
+	        call UnitRemoveAbility(moqi,'A0NH')
+	        call UnitAddAbility(moqi,'A0NH')
 	    endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -397,6 +428,11 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 
 		call TriggerRegisterUnitEvent( gg_trg_______17, moqi, EVENT_UNIT_DAMAGED )
 		call TriggerRegisterUnitEvent( gg_trg_______19, moqi, EVENT_UNIT_ATTACKED )
+
+
+		set TSpellMoqi = CreateTrigger()
+	    call TriggerRegisterUnitEvent(TSpellMoqi,moqi,EVENT_UNIT_SPELL_EFFECT)
+	    call TriggerAddAction(TSpellMoqi, function TSpellMoqiAct)
 
 	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 5 or IsPIV(GetOwningPlayer(moqi))) then
 	    	call CreateFanzhuanItem(moqi)

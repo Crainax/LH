@@ -9,8 +9,68 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	globals
 		private trigger TSpellKaisa = null
 		private integer INiuSpinCount = 0
-	endglobals
 
+		boolean BFanzhuanKS = false
+
+		//天地裂变
+		private boolean BLiebian = false
+		private timer TLiebian = null
+		private real ILiebian = 0
+		private real RLiebianX = 0.
+		private real RLiebianY = 0.
+		private real RDistanceLiebian = 0.
+		private TextTagBind TTBLiebian
+
+	endglobals
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天地裂变
+	*/
+	private function DestroyLiebianTimer takes nothing returns nothing
+		call PauseTimer(TLiebian)
+		call DestroyTimer(TLiebian)
+		set TLiebian = null
+		call SetUnitScalePercent( kaisa,  100.00  , 100.00, 100.00 )
+		call TTBLiebian.destroy()
+	endfunction
+
+	private function TiandiliebianTimer takes nothing returns nothing
+		if (IsUnitAliveBJ(kaisa) and BLiebian) then
+			//todo :死亡处加上BLiebian变化 
+    		set ILiebian = IMinBJ(100,ILiebian + 1)
+			call TTBLiebian.setContent(I2S(ILiebian)+"%")
+    		call SetUnitScalePercent( kaisa,  100.00 +  2 * ILiebian  , 100.00 +  2 * ILiebian, 100.00 +  2 * ILiebian )
+    		if (RLiebianX != GetUnitX(kaisa) or RLiebianY != GetUnitY(kaisa)) then
+	    		set RDistanceLiebian = RDistanceLiebian + GetDistance(RLiebianX,RLiebianY,GetUnitX(kaisa),GetUnitY(kaisa))
+	    		set RLiebianX = GetUnitX(kaisa)
+	    		set RLiebianY = GetUnitY(kaisa)
+	    		if (RDistanceLiebian >= 250.0) then
+	    			call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),450.0,GetDamageStr(kaisa)*0.01*ILiebian)
+	    			call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl",GetUnitX(kaisa),GetUnitY(kaisa) ))
+	    			set RDistanceLiebian = 0.0
+	    		endif
+    		endif
+    	else
+    		call DestroyLiebianTimer()
+		endif
+	endfunction
+
+	function Tiandiliebian takes nothing returns nothing
+		set TLiebian = CreateTimer()
+		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(kaisa),GetUnitY(kaisa)))
+		call TimerStart(TLiebian,0.1,true,function TiandiliebianTimer)
+		set ILiebian = 0
+		set BLiebian = true 
+		set TTBLiebian = TextTagBind.create(kaisa,35,35)
+
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    天灵冲撞
+	*/
+	function Tianlingchongzhuang takes nothing returns nothing
+		
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    皮肤条件
@@ -28,8 +88,6 @@ library_once Kaisa requires SpellBase,Printer,Spin
 			endif
 		endif
 	endfunction
-
-	
 //---------------------------------------------------------------------------------------------------
 	/*
 	    三阶觉醒
@@ -71,6 +129,21 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		if (GetSpellAbilityId() == 'AOhx') then
 			call Lianxueyiji()
 		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    初始化反转形态
+	*/
+	function InitFanzhuanKaisa takes nothing returns nothing
+		call UnitAddAbility(moqi,'A0NL')
+		call SetPlayerAbilityAvailable(GetOwningPlayer(moqi),'A0NL',false)
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
+		set BFanzhuanMQ = true
+		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 100.00, 0, 0, 0 )
+		call PlaySoundBJ( gg_snd_fanzhuan )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
