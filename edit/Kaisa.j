@@ -141,10 +141,12 @@ library_once Kaisa requires SpellBase,Printer,Spin
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万荒图腾
+	    todo:加到死亡处
 	*/
 	function Tuteng takes nothing returns nothing
-		if (BFanzhuanKS) then
-
+		//Todo:bbbb改成大招序号
+		if (BFanzhuanKS and IsFifthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'bbbb') == 1) then
+			
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
