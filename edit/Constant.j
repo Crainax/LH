@@ -348,7 +348,9 @@ library_once Constant initializer InitConstant requires JBase
 	*/
 	function GetFanzhuanItemType takes unit u returns integer
 		local integer id = GetHeroIndex(GetUnitTypeId(u))
-		if (id == 2) then
+		if (id == 1) then
+			return 'I046'
+		elseif (id == 2) then
 			return 'I07U'
 		elseif (id == 3) then
 			return 'I032'

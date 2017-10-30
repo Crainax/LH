@@ -258,6 +258,10 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
         //衣服无敌
         boolean array udg_Yifu
+
+        //凯撒
+        trigger gg_trg_____________7 = null
+        unit gg_unit_Ocbh_0251 = null
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

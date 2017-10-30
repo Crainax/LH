@@ -21,7 +21,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		//星璇的伤害
 		if (GetUnitTypeId(u) == 'h02Q') then
 			if not(IsUnitInGroup(GetTriggerUnit(),GMoqiXingxuan)) then
-				call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.01 * GetUnitUserData(u), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
+				call UnitDamageTarget( moqi, GetTriggerUnit(), GetDamageAgi(moqi) * 0.04 * GetUnitUserData(u), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 				call GroupAddUnit(GMoqiXingxuan,GetTriggerUnit())
 			endif
 			return true

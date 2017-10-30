@@ -13,9 +13,9 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		boolean BFanzhuanKS = false
 
 		//天地裂变
-		private boolean BLiebian = false
+		boolean BLiebian = false
 		private timer TLiebian = null
-		private real ILiebian = 0
+		private integer ILiebian = 0
 		private real RLiebianX = 0.
 		private real RLiebianY = 0.
 		private effect ELiebian = null
@@ -23,8 +23,44 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		private TextTagBind TTBLiebian = 0
 
 		//图腾
-
+		private group GTuteng = null
 	endglobals
+
+//---------------------------------------------------------------------------------------------------
+	/*
+	     这个是星璇伤害
+	*/
+	private function CreateEffect1 takes real x,real y returns nothing
+		local integer i = 1
+		loop
+		    exitwhen i > 6
+		    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", YDWECoordinateX(x + 400 * CosBJ(i*360.0/(6))), YDWECoordinateY(y + 400 * SinBJ(i*360.0/(6))) ))
+		    set i = i +1
+		endloop
+	endfunction
+
+	function SimulateDamageKaisa takes unit u returns boolean
+		//小牛头的伤害
+		if (GetUnitTypeId(u) == 'h02R') then
+			call CreateEffect1(GetUnitX(u),GetUnitY(u))
+			call DamageArea(kaisa,GetUnitX(u),GetUnitY(u),600,GetDamageStr(kaisa)*0.4)
+			if (GetRandomInt(1,7) == 1) then
+				call CreateSpellTextTag("地震",u,0,100,50,3)
+				call SimulateSpell(u,GetTriggerUnit(),'A0NP',1/*level*/,6/*time*/,"stomp",false/*point*/,true/*immediately*/,false/*unit*/)
+			endif
+			return true
+		endif
+		return false
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    马甲的死亡事件
+	*/
+	function SimulateDeathKaisa takes unit u returns nothing
+		if (GetUnitTypeId(u) == 'h02R') then 
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(u),GetUnitY(u) ))
+		endif
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    天地裂变
@@ -45,7 +81,6 @@ library_once Kaisa requires SpellBase,Printer,Spin
 
 	private function TiandiliebianTimer takes nothing returns nothing
 		if (IsUnitAliveBJ(kaisa) and BLiebian) then
-			//todo :死亡处加上BLiebian变化 
     		set ILiebian = IMinBJ(100,ILiebian + 1)
 			call TTBLiebian.setContent(I2S(ILiebian)+"%")
     		call SetUnitScalePercent( kaisa,  100.00 +  2 * ILiebian  , 100.00 +  2 * ILiebian, 100.00 +  2 * ILiebian )
@@ -71,14 +106,13 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		set ILiebian = 0
 		set BLiebian = true 
 		set TTBLiebian = TextTagBind.create(kaisa,35,35)
-		//todo : 指示特效。
-		set ELiebian = AddSpecialEffectTargetUnitBJ("overhead",kaisa,"war3mapImported\\blackbird.mdx")
+		set ELiebian = AddSpecialEffectTargetUnitBJ("chest",kaisa,"war3mapImported\\DefenceMatrix.mdl")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    天灵冲撞
 	*/
-	private function CreateEffect1 takes real x,real y returns nothing
+	private function CreateEffect2 takes real x,real y returns nothing
 		local integer i = 1
 		loop
 		    exitwhen i > 6
@@ -104,18 +138,15 @@ library_once Kaisa requires SpellBase,Printer,Spin
 			call SetUnitX(kaisa,xp)
 			call SetUnitY(kaisa,yp)
 			if (ModuloInteger(i,100) == 0) then
-				//todo:0.5秒一次的尘土特效
-				call DestroyEffect(AddSpecialEffect("Abilities\Spells\Human\MassTeleport\MassTeleportCaster.mdl", GetUnitX(kaisa),GetUnitY(kaisa) ))
+				call DestroyEffect(AddSpecialEffect("Abilities\\Weapons\\AncientProtectorMissile\\AncientProtectorMissile.mdl", GetUnitX(kaisa),GetUnitY(kaisa) ))
     		    call SetUnitAnimation( kaisa, "move" ) 
 			endif
 	    else
 	    	//伤害：每2秒加100%？
-	    	call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(i/200))
-	    	call CreateEffect1(GetUnitX(kaisa),GetUnitY(kaisa))
-	    	//todo：技能显示
-	    	call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName('aaaa'),GetDamageStr(kaisa)*(i/200))
-	    	//todo:眩晕效果
-
+	    	call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(i/100))
+	    	call CreateEffect2(GetUnitX(kaisa),GetUnitY(kaisa))
+	    	call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName('A0NQ'),GetDamageStr(kaisa)*(i/200))
+	    	call SimulateSpell(kaisa,kaisa,'A0NN',i/100/*level*/,6/*time*/,"stomp",false/*point*/,true/*immediately*/,false/*unit*/)
 	    	call PauseUnit(kaisa,false)
 	    	call UnitRemoveAbility(kaisa,'Avul')
 	        call PauseTimer(t)
@@ -128,11 +159,11 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	endfunction
 
 	function Tianlingchongzhuang takes nothing returns nothing
-		local real facing = GetFacingBetweenXY(GetUnitX(u),GetUnitY(u),GetSpellTargetX(),GetSpellTargetY())
+		local real facing = GetFacingBetweenXY(GetUnitX(kaisa),GetUnitY(kaisa),GetSpellTargetX(),GetSpellTargetY())
 		local timer t = CreateTimer()
 		call PauseUnit(kaisa,true)
 		call UnitAddAbility(kaisa,'Avul')
-		call SetUnitFacing(facing)
+		call SetUnitFacing(kaisa,facing)
 		call SaveInteger(spellTable,GetHandleId(t),1,20)
 		call SaveReal(spellTable,GetHandleId(t),2,facing)
 		call TimerStart(t,0.05,true,function ChongzhuangTimer)
@@ -141,12 +172,50 @@ library_once Kaisa requires SpellBase,Printer,Spin
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万荒图腾
-	    todo:加到死亡处
 	*/
+	private function PeriodicCreateNiutou takes nothing returns nothing
+	    local timer t = GetExpiredTimer()
+	    local integer id = GetHandleId(t)
+		local unit u = LoadUnitHandle(spellTable,GetHandleId(t),1)
+		local unit temp = null
+		local real x = 0.0
+		local real y = 0.0
+	    if (IsUnitAliveBJ(u)) then
+	    	set x = YDWECoordinateX(GetUnitX(u) + GetRandomReal(-600.0,600.0))
+	    	set y = YDWECoordinateY(GetUnitY(u) + GetRandomReal(-600.0,600.0))
+	    	set temp = CreateUnit(GetOwningPlayer(u),'h02R',x,y,0)
+			call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", GetUnitX(u),GetUnitY(u) ))
+	    	call UnitApplyTimedLifeBJ( 5.00, 'BHwe',temp )
+	    else
+	        call PauseTimer(t)
+	        call FlushChildHashtable(spellTable,id)
+	        call DestroyTimer(t)
+	    endif
+	    set temp = null
+	    set t = null 
+	endfunction
+
+	private function TimerCreateNiutou takes unit u returns nothing
+		local timer t = CreateTimer()	
+		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
+		call TimerStart(t,5,true,function PeriodicCreateNiutou)
+		set t = null
+	endfunction
+
 	function Tuteng takes nothing returns nothing
-		//Todo:bbbb改成大招序号
-		if (BFanzhuanKS and IsFifthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'bbbb') == 1) then
-			
+		local unit u = null
+		if (BFanzhuanKS and IsFifthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0NO') == 1) then
+			if (CountUnitsInGroup(GTuteng) > 3) then
+				set u = FirstOfGroup(GTuteng)
+				call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", GetUnitX(u),GetUnitY(u) ))
+				call GroupRemoveUnit(GTuteng,u)
+				call RemoveUnit(u)
+			endif
+			set u = CreateUnit(GetOwningPlayer(kaisa),'h02S',GetUnitX(kaisa),GetUnitY(kaisa),0)
+			call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", GetUnitX(u),GetUnitY(u) ))
+			call GroupAddUnit(GTuteng,u)
+			call TimerCreateNiutou(u)
+	    	call PrintSpellName(GetOwningPlayer(kaisa),GetAbilityName('A0NO'))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -205,7 +274,9 @@ library_once Kaisa requires SpellBase,Printer,Spin
 
 	private function TSpellKaisaAct takes nothing returns nothing
 		if (GetSpellAbilityId() == 'AOhx') then
-			call Lianxueyiji()
+			call Lianxueyiji()		
+		elseif (GetSpellAbilityId() == 'A0NR') then
+			call Tiandiliebian()
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -213,13 +284,13 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	    初始化反转形态
 	*/
 	function InitFanzhuanKaisa takes nothing returns nothing
-		call UnitAddAbility(moqi,'A0NL')
-		call SetPlayerAbilityAvailable(GetOwningPlayer(moqi),'A0NL',false)
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(moqi))+"变化了英雄|cFF999900莫琪|r的技能形态!")
-		set BFanzhuanMQ = true
+		call UnitAddAbility(kaisa,'A0NM')
+		call SetPlayerAbilityAvailable(GetOwningPlayer(kaisa),'A0NM',false)
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(kaisa))+"变化了英雄|cffff0000凯撒|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(kaisa))+"变化了英雄|cffff0000凯撒|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(kaisa))+"变化了英雄|cffff0000凯撒|r的技能形态!")
+		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetPlayerName(GetOwningPlayer(kaisa))+"变化了英雄|cffff0000凯撒|r的技能形态!")
+		set BFanzhuanKS = true
 		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 100.00, 0, 0, 0 )
 		call PlaySoundBJ( gg_snd_fanzhuan )
 	endfunction
@@ -252,6 +323,10 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	    call TriggerAddAction(TSpellKaisa, function TSpellKaisaAct)
 
 		call TriggerRegisterUnitEvent( gg_trg_____________7, kaisa, EVENT_UNIT_DAMAGED )
+
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 5 or IsPIV(GetOwningPlayer(kaisa))) then
+	    	call CreateFanzhuanItem(kaisa)
+	    debug endif
 
 	endfunction
 
