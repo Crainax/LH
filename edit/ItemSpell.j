@@ -8,13 +8,14 @@
 //! import "item.j"
 //! import "Yanmie.j"
 //! import "Moqi.j"
+//! import "Kaisa.j"
 //! import "Fanzhuan.j"
 /////! import "Purgatory.j"
 /////! import "Box.j"
 /*
     物品技能
 */
-library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie,Purgatory,Fanzhuan,Moqi//,Continous
+library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,Juexing,Boss,Box,Shen,ItemBase,Yanmie,Purgatory,Fanzhuan,Moqi,Kaisa//,Continous
 
 	globals
 		boolean array BYaoShuxing 
@@ -364,6 +365,18 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 				call RemoveItem(GetManipulatedItem())
 			else
 				call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),GetFanzhuanFailString(GetOwningPlayer(GetTriggerUnit()),3))
+			endif
+		elseif (GetItemTypeId(GetManipulatedItem()) == 'I046' and GetTriggerUnit() == kaisa) then
+			//凯撒变化
+			if (FanzhuanCondition(GetOwningPlayer(GetTriggerUnit()),1)) then
+				if (GetHeroLevel(GetTriggerUnit()) > 5) then
+					call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r请在英雄5级前使用.")
+					return
+				endif
+				call InitFanzhuanKaisa()
+				call RemoveItem(GetManipulatedItem())
+			else
+				call ShowGameHint(GetOwningPlayer(GetTriggerUnit()),GetFanzhuanFailString(GetOwningPlayer(GetTriggerUnit()),1))
 			endif
 		//debug elseif (GetItemTypeId(GetManipulatedItem()) == 'I07T') then
 		//debug 	//月饼

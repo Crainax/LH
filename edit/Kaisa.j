@@ -173,25 +173,26 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	/*
 	    万荒图腾
 	*/
+	private function CreateXiaoNiutou takes unit u returns nothing
+		local real x = YDWECoordinateX(GetUnitX(u) + GetRandomReal(-600.0,600.0))
+		local real y = YDWECoordinateY(GetUnitY(u) + GetRandomReal(-600.0,600.0))
+    	local unit temp = CreateUnit(GetOwningPlayer(u),'h02R',x,y,0)
+		call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", x,y ))
+    	call UnitApplyTimedLifeBJ( 5.00, 'BHwe',temp )
+    	set temp = null
+	endfunction
+
 	private function PeriodicCreateNiutou takes nothing returns nothing
 	    local timer t = GetExpiredTimer()
 	    local integer id = GetHandleId(t)
 		local unit u = LoadUnitHandle(spellTable,GetHandleId(t),1)
-		local unit temp = null
-		local real x = 0.0
-		local real y = 0.0
 	    if (IsUnitAliveBJ(u)) then
-	    	set x = YDWECoordinateX(GetUnitX(u) + GetRandomReal(-600.0,600.0))
-	    	set y = YDWECoordinateY(GetUnitY(u) + GetRandomReal(-600.0,600.0))
-	    	set temp = CreateUnit(GetOwningPlayer(u),'h02R',x,y,0)
-			call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", GetUnitX(u),GetUnitY(u) ))
-	    	call UnitApplyTimedLifeBJ( 5.00, 'BHwe',temp )
+	    	call CreateXiaoNiutou(u)
 	    else
 	        call PauseTimer(t)
 	        call FlushChildHashtable(spellTable,id)
 	        call DestroyTimer(t)
 	    endif
-	    set temp = null
 	    set t = null 
 	endfunction
 
@@ -217,6 +218,26 @@ library_once Kaisa requires SpellBase,Printer,Spin
 			call TimerCreateNiutou(u)
 	    	call PrintSpellName(GetOwningPlayer(kaisa),GetAbilityName('A0NO'))
 		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    图腾的主动效果
+	*/
+	private function Wanhuangtuteng takes nothing returns nothing
+		local group l_group2 = CreateGroup()
+		local unit l_unit = null
+		call GroupAddGroup(GTuteng,l_group2)
+		loop
+		    set l_unit = FirstOfGroup(l_group2)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group2, l_unit)
+		    call CreateXiaoNiutou(l_unit)
+		    call CreateXiaoNiutou(l_unit)
+		    call CreateXiaoNiutou(l_unit)
+		endloop
+		call DestroyGroup(l_group2)
+		set l_group2 = null
+		set l_unit =null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -268,6 +289,38 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
+
+	//按照12345来判断
+	function LearnSkillKaisaI takes unit learner,integer whichSpell returns nothing
+		local integer i = 0
+		if (learner == kaisa) then
+
+			if (whichSpell == 3 and IsThirdSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0FZ') == 1) then
+				//忠诚之躯
+        		call EnableTrigger( gg_trg_______19 )
+			elseif (whichSpell == 3 and IsThirdSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0NR') == 1) then
+				//天地裂变
+        		call EnableTrigger( gg_trg_______19 )
+			elseif (whichSpell == 4 and IsFourthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0G0') == 1) then
+				//战栗灵魂
+        		call EnableTrigger( gg_trg_______19 )
+			elseif (whichSpell == 4 and IsFourthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0NQ') == 1) then
+				//天灵冲撞
+        		call EnableTrigger( gg_trg_______19 )
+			endif
+		endif
+	endfunction
+
+	function LearnSkillKaisa takes unit learner,integer learnSpellID returns nothing
+		if (learner == kaisa) then
+			if (learnSpellID == 'A0FZ' or learnSpellID == 'A0NR') then
+				call LearnSkillKaisaI(learner,3)
+			elseif (learnSpellID == 'A0G0' or learnSpellID == 'A0G0') then
+				call LearnSkillKaisaI(learner,4)
+			endif
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
 	/*
 	    主英雄技能判断
 	*/
@@ -276,7 +329,14 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		if (GetSpellAbilityId() == 'AOhx') then
 			call Lianxueyiji()		
 		elseif (GetSpellAbilityId() == 'A0NR') then
+			//天地裂变
 			call Tiandiliebian()
+		elseif (GetSpellAbilityId() == 'A0NQ') then
+			//天灵冲撞
+			call Tianlingchongzhuang()
+		elseif (GetSpellAbilityId() == 'A0NO') then
+			//万荒图腾
+			call Wanhuangtuteng()
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

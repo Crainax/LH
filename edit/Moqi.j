@@ -295,14 +295,12 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		local integer i
 		if (learner == moqi) then
 
-        call EnableTrigger( gg_trg_______18 )
 			if (whichSpell == 1) then
 				//技能1初始化
         		call EnableTrigger( gg_trg_______18 )
 			elseif (whichSpell == 2 and IsSecondSpellOK(moqi) and (GetUnitAbilityLevel(moqi,'A0G0') == 1 or GetUnitAbilityLevel(moqi,'A0NI') == 1)  ) then
 				//技能2初始化
         		call EnableTrigger( gg_trg_______19 )
-        		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r开放2")
 			endif
 		endif
 	endfunction

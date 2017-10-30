@@ -26,7 +26,6 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		private real RYingyueX = 0.
 		private real RYingyueY = 0.
 		private timer TYingyue = null
-		private boolean BShijieWudi = false
 		private unit UShijie = null
 		private integer IYingyue = 0
 
@@ -195,7 +194,6 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	*/
 	private function DestroyYueying takes nothing returns nothing
 		call UnitRemoveAbility(yanmie,'Avul')
-		set BShijieWudi = false
 		set RYingyueX = 0.
 		set RYingyueY = 0.
 		call PauseTimer(TYingyue)
@@ -223,13 +221,9 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		endif
 		if (UShijie != null) then
 			if (GetUnitDistance(UShijie,yanmie) > 1200) then
-				if (BShijieWudi) then
-					call UnitRemoveAbility(yanmie,'Avul')
-					set BShijieWudi = false
-				endif
+				call UnitRemoveAbility(yanmie,'Avul')
 			else
 				call UnitAddAbility(yanmie,'Avul')
-				set BShijieWudi = true
 				if (u != null) then
 					call SetUnitUserData(u,1)
 				endif

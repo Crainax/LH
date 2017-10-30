@@ -19,8 +19,6 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 	    return ((IsUnitIllusionBJ(GetTriggerUnit()) != true) and BuyerFilter(GetTriggerUnit()) )
 	endfunction
 
-
-
 	//直接学习
 	private function HeroLearnSkillAct takes nothing returns nothing
 		set learnSkillHero = udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]
@@ -39,6 +37,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 		call LearnSkillXiaoting(learnSkillHero,GetLearnedSkill()) 
 		call LearnSkillLichi(learnSkillHero,GetLearnedSkill()) 
 		call LearnSkillMoqi(learnSkillHero,GetLearnedSkill()) 
+		call LearnSkillKaisa(learnSkillHero,GetLearnedSkill()) 
 	endfunction
 
 	//通过判断学习第几个来判断
@@ -59,6 +58,7 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 		call LearnSkillLichiI(learnSkillHero,which)
 		call LearnSkillMoqiI(learnSkillHero,which)
 		call LearnSkillXiaotingI(learnSkillHero,which)
+		call LearnSkillKaisaI(learnSkillHero,which)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
