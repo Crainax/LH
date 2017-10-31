@@ -262,6 +262,12 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         //凯撒
         trigger gg_trg_____________7 = null
         unit gg_unit_Ocbh_0251 = null
+        trigger gg_trg_____________17 = null
+        trigger gg_trg_____________18 = null
+        trigger gg_trg_____________19 = null
+        trigger gg_trg_____________22 = null
+
+        unit gg_unit_E00C_0217 = null
 	endglobals
 
     function OperatorDegreeAdd takes real r1,real r2 returns real

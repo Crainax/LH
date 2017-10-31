@@ -480,7 +480,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				endif
 
 				if (CType == -1 and IsTianyan) then
-					call GetAchievementAndSave(ConvertedPlayer(i),419)
+					call GetAchievementAndSave(ConvertedPlayer(i),420)
 				endif
 
 			endif

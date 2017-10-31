@@ -1,7 +1,6 @@
 //! import "LHBase.j"
 //! import "Attr.j"
 
-
 library_once Aura requires LHBase,Attr 
 	
 	globals

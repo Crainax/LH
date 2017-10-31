@@ -30,6 +30,8 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 			return
 		elseif (SimulateDamageMoqi(u)) then
 			return
+		elseif (SimulateDamageKaisa(u)) then
+			return
 		elseif (SimulateDamageHuanyi(u)) then
 			return
 		elseif (SimulateDamageMengji(u)) then
@@ -64,6 +66,7 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 		call SimulateDeathLichi(GetDyingUnit())
 		call SimulateDeathMijing(GetDyingUnit())
 		call SimulateDeathMoqi(GetDyingUnit())
+		call SimulateDeathKaisa(GetDyingUnit())
 	endfunction
 //---------------------------------------------------------------------------------------------------
 

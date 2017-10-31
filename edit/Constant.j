@@ -596,7 +596,7 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【宵无霁】")
 		elseif (achieveID == 418) then
 			return GetColorString("【「白夜」奉天】")
-		elseif (achieveID == 419) then
+		elseif (achieveID == 420) then
 			return GetColorString("【「黑日」释帝】")
 		//完了再加到Achievement.j上的全成就.
 		endif
@@ -778,7 +778,7 @@ library_once Constant initializer InitConstant requires JBase
 			return "宵无霁"
 		elseif (achieveID == 418) then
 			return "「白夜」奉天"
-		elseif (achieveID == 419) then
+		elseif (achieveID == 420) then
 			return "「黑日」释帝"
 		endif
 		return ""
@@ -1392,12 +1392,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "在狂欢模式中单人通关万劫难度.
 
 			获得成就名"+GetAchievementName(418)+"。
-			如果你同时完成了"+GetAchievementName(419)+",那么你将可以在许愿时获得额外的奖励.
+			如果你同时完成了"+GetAchievementName(420)+",那么你将可以在许愿时获得额外的奖励.
 			"
 		elseif (i == 6) then
 			return "在狂欢模式中多人通关天魇难度.
 
-			获得成就名"+GetAchievementName(419)+"。
+			获得成就名"+GetAchievementName(420)+"。
 			如果你同时完成了"+GetAchievementName(418)+",那么你将可以在许愿时获得额外的奖励.
 			"
 		endif

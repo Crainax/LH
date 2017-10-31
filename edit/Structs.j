@@ -166,5 +166,67 @@ library_once Structs requires LHBase
 			set .t = null
 		endmethod
 	endstruct
+//---------------------------------------------------------------------------------------------------
+	/*
+	    扔炸弹
+	*/
+	struct Boom
+
+		private unit caster
+		private timer t
+		private real x
+		private real y
+		private real facing
+		private real damage
+		private real speed
+		private real radius
+		private string effx
+
+		static method move takes nothing returns nothing
+			local thistype this = LoadInteger(LHTable,GetHandleId(GetExpiredTimer()),1)
+
+			if (GetDistance(GetUnitX(.caster),GetUnitY(.caster),.x,.y) > .speed) then
+				call SetUnitX(.caster,GetUnitX(.caster)+ CosBJ(.facing) * .speed)
+				call SetUnitY(.caster,GetUnitY(.caster)+ SinBJ(.facing) * .speed)
+			else
+				call DamageAreaMirror(.caster,.x,.y,.radius,.damage)
+				call DestroyEffect(AddSpecialEffect(.effx, .x, .y ))
+				call .destroy()
+			endif
+		endmethod
+
+		static method create takes unit u,real x,real y,real facing,real damage,real speed,real radius,real inteval, string effx returns thistype
+		   	local thistype this = thistype.allocate()
+			set .caster = u
+			set .x = x
+			set .y = y
+			set .facing = facing
+			set .damage = damage
+			set .speed = speed
+			set .radius = radius
+			set .effx = effx
+			set .t = CreateTimer()
+			call SaveInteger(LHTable,GetHandleId(.t),1,this)
+			call TimerStart(.t,inteval,true,function thistype.move)
+			return this
+		endmethod
+
+		method onDestroy takes nothing returns nothing
+			call FlushChildHashtable(LHTable,GetHandleId(.t))
+			call RemoveUnit(.caster)
+			set .caster = null
+			set .x = 0.0
+			set .y = 0.0
+			set .facing = 0.0
+			set .damage = 0.0
+			set .speed = 0.0
+			set .radius = 0.0
+			set .effx = null
+			call PauseTimer(.t)
+			call DestroyTimer(.t)
+			set .t = null
+		endmethod
+
+	endstruct
 endlibrary
 

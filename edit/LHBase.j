@@ -1,11 +1,11 @@
 
 
-//! import "Test.j"
+/////! import "Test.j"
 //! import "Constant.j"
 //! import "JBase.j"
 //! import "PIVInterface.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface//,Test
 
     globals
         unit learnSkillHero = null
@@ -507,7 +507,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface,
         */ and IsUnitEnemy(u, p)                              and GetUnitPointValue(u) != 123                 /*
         */ and GetUnitPointValue(u) != 0
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         删除单位组里面的所有单位并清空自定义数据

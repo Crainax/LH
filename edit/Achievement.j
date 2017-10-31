@@ -729,7 +729,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return
 		endif
 		//两个仅有的挑战成就
-		if ((achieveID == 410 or achieveID == 411 or achieveID == 418 or achieveID == 419) and CType == 0) then
+		if ((achieveID == 410 or achieveID == 411 or achieveID == 418 or achieveID == 420) and CType == 0) then
 			return 
 		endif
 
@@ -737,7 +737,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return 
 		endif
 
-		if (achieveID != 418 and achieveID != 419 and CType == -1) then
+		if (achieveID != 418 and achieveID != 420 and CType == -1) then
 			return
 		endif
 
@@ -879,7 +879,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			endloop
 		endif
 
-    	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButtonBJ( d, "下一页"))
+    	call SaveButtonHandle(LHTable,GetHandleId(d),14,DialogAddButtonBJ( d, "下一页"))
     	call SaveButtonHandle(LHTable,GetHandleId(d),11,DialogAddButton( d, "关闭|cffff6800(Esc)|r",512))
 
 	endfunction
@@ -894,7 +894,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetSuperChallenageName(3) + S3(IsAchieveOK(p,47),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButtonBJ( d, GetSuperChallenageName(4) + S3(GetLowerHeroCount(p,99,HERO_COUNT),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButtonBJ( d, GetSuperChallenageName(5) + S3(IsAchieveOK(p,418),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-		call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetSuperChallenageName(6) + S3(IsAchieveOK(p,419),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+		call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButtonBJ( d, GetSuperChallenageName(6) + S3(IsAchieveOK(p,420),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -1004,7 +1004,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    endif
 
 	    //下一页
-	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
+	    if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),14)) then
             call DialogClear(d)
 	    	set page = I3(page < PAGE_HERO_CHALLANGER,page + 1,1)
 	    	call DialogSetMessage( d, "英雄挑战|cffff6800(第"+I2S(page)+"/"+I2S(PAGE_HERO_CHALLANGER)+"页)|r" )
@@ -1018,7 +1018,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 	    //点击
 	    loop
-	        exitwhen i > 10
+	        exitwhen i > 
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
                 call DialogClear(d)
 		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetHeroChallenageName(i,page) + "|r英雄挑战的条件如下所示:")
@@ -1060,10 +1060,10 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    			call SetAchievement(p,48)
 	    			call SaveAchievePointer(p)
 		    	elseif (i == 5) then
-	    			call SetAchievement(p,48)
+	    			call SetAchievement(p,418)
 	    			call SaveAchievePointer(p)
 		    	elseif (i == 6) then
-	    			call SetAchievement(p,48)
+	    			call SetAchievement(p,420)
 	    			call SaveAchievePointer(p)
 		    	endif
 	            exitwhen true

@@ -3,8 +3,9 @@
 //! import "SpellBase.j"
 //! import "Printer.j"
 //! import "Spin.j"
+//! import "Aura.j"
 
-library_once Kaisa requires SpellBase,Printer,Spin
+library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	
 	globals
 		private trigger TSpellKaisa = null
@@ -28,7 +29,7 @@ library_once Kaisa requires SpellBase,Printer,Spin
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	     这个是星璇伤害
+	     这个是凯撒伤害
 	*/
 	private function CreateEffect1 takes real x,real y returns nothing
 		local integer i = 1
@@ -59,6 +60,8 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	function SimulateDeathKaisa takes unit u returns nothing
 		if (GetUnitTypeId(u) == 'h02R') then 
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(u),GetUnitY(u) ))
+            call FlushChildHashtable(YDHT,GetHandleId(u))
+            call RemoveUnit( u )
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -81,15 +84,15 @@ library_once Kaisa requires SpellBase,Printer,Spin
 
 	private function TiandiliebianTimer takes nothing returns nothing
 		if (IsUnitAliveBJ(kaisa) and BLiebian) then
-    		set ILiebian = IMinBJ(100,ILiebian + 1)
-			call TTBLiebian.setContent(I2S(ILiebian)+"%")
-    		call SetUnitScalePercent( kaisa,  100.00 +  2 * ILiebian  , 100.00 +  2 * ILiebian, 100.00 +  2 * ILiebian )
+    		set ILiebian = IMinBJ(800,ILiebian + 1)
+			call TTBLiebian.setContent(I2S(ILiebian/4)+"%")
+    		call SetUnitScalePercent( kaisa,  100.00 +  0.25 * ILiebian  , 100.00 +  0.25 * ILiebian, 100.00 +  0.25 * ILiebian )
     		if (RLiebianX != GetUnitX(kaisa) or RLiebianY != GetUnitY(kaisa)) then
 	    		set RDistanceLiebian = RDistanceLiebian + GetDistance(RLiebianX,RLiebianY,GetUnitX(kaisa),GetUnitY(kaisa))
 	    		set RLiebianX = GetUnitX(kaisa)
 	    		set RLiebianY = GetUnitY(kaisa)
 	    		if (RDistanceLiebian >= 250.0) then
-	    			call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),450.0,GetDamageStr(kaisa)*0.01*ILiebian)
+	    			call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),450.0,GetDamageStr(kaisa)*0.01*I2R(ILiebian) * 0.25)
 	    			call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl",GetUnitX(kaisa),GetUnitY(kaisa) ))
 	    			set RDistanceLiebian = 0.0
 	    		endif
@@ -100,13 +103,15 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	endfunction
 
 	function Tiandiliebian takes nothing returns nothing
-		set TLiebian = CreateTimer()
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(kaisa),GetUnitY(kaisa)))
-		call TimerStart(TLiebian,0.1,true,function TiandiliebianTimer)
-		set ILiebian = 0
-		set BLiebian = true 
-		set TTBLiebian = TextTagBind.create(kaisa,35,35)
-		set ELiebian = AddSpecialEffectTargetUnitBJ("chest",kaisa,"war3mapImported\\DefenceMatrix.mdl")
+		if (TLiebian == null) then
+			set TLiebian = CreateTimer()
+			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(kaisa),GetUnitY(kaisa)))
+			call TimerStart(TLiebian,0.1,true,function TiandiliebianTimer)
+			set ILiebian = 0
+			set BLiebian = true 
+			set TTBLiebian = TextTagBind.create(kaisa,35,35)
+			set ELiebian = AddSpecialEffectTargetUnitBJ("chest",kaisa,"war3mapImported\\DefenceMatrix.mdl")
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -131,27 +136,24 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		local real xp = GetUnitX(kaisa)+ CosBJ(facing) * I2R(i)
 		local real yp = GetUnitY(kaisa)+ SinBJ(facing) * I2R(i)
 		//判断数量
-	    if (CountUnitsInGroup(temp) == 0 or xp > yd_MapMaxX or xp < yd_MapMinX or yp > yd_MapMaxY or yp < yd_MapMinY) then
+	    if (CountUnitsInGroup(temp) == 0 and xp < yd_MapMaxX and xp > yd_MapMinX and yp < yd_MapMaxY and yp > yd_MapMinY) then
 	    	//速度加快
-	        set i = i + 5
+	        set i = i + 2
 	        call SaveInteger(spellTable,GetHandleId(t),1,i)
 			call SetUnitX(kaisa,xp)
 			call SetUnitY(kaisa,yp)
-			if (ModuloInteger(i,100) == 0) then
-				call DestroyEffect(AddSpecialEffect("Abilities\\Weapons\\AncientProtectorMissile\\AncientProtectorMissile.mdl", GetUnitX(kaisa),GetUnitY(kaisa) ))
-    		    call SetUnitAnimation( kaisa, "move" ) 
-			endif
 	    else
 	    	//伤害：每2秒加100%？
-	    	call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(i/100))
+	    	call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(R2I(i)/30.0))
 	    	call CreateEffect2(GetUnitX(kaisa),GetUnitY(kaisa))
-	    	call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName('A0NQ'),GetDamageStr(kaisa)*(i/200))
+	    	call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName('A0NQ'),GetDamageStr(kaisa)*(R2I(i)/30.0))
 	    	call SimulateSpell(kaisa,kaisa,'A0NN',i/100/*level*/,6/*time*/,"stomp",false/*point*/,true/*immediately*/,false/*unit*/)
 	    	call PauseUnit(kaisa,false)
 	    	call UnitRemoveAbility(kaisa,'Avul')
 	        call PauseTimer(t)
 	        call FlushChildHashtable(spellTable,id)
 	        call DestroyTimer(t)
+			call SetUnitTimeScale(kaisa,3.00)
 	    endif
 	    call DestroyGroup(temp)
 	    set temp = null
@@ -167,18 +169,20 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		call SaveInteger(spellTable,GetHandleId(t),1,20)
 		call SaveReal(spellTable,GetHandleId(t),2,facing)
 		call TimerStart(t,0.05,true,function ChongzhuangTimer)
+		call SetUnitAnimationByIndex( kaisa, 3 )
+		call SetUnitTimeScale(kaisa,3.00)
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万荒图腾
 	*/
-	private function CreateXiaoNiutou takes unit u returns nothing
+	private function CreateXiaoNiutou takes unit u,real lifeTime returns nothing
 		local real x = YDWECoordinateX(GetUnitX(u) + GetRandomReal(-600.0,600.0))
 		local real y = YDWECoordinateY(GetUnitY(u) + GetRandomReal(-600.0,600.0))
     	local unit temp = CreateUnit(GetOwningPlayer(u),'h02R',x,y,0)
 		call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", x,y ))
-    	call UnitApplyTimedLifeBJ( 5.00, 'BHwe',temp )
+    	call UnitApplyTimedLifeBJ( lifeTime, 'BHwe',temp )
     	set temp = null
 	endfunction
 
@@ -187,7 +191,7 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	    local integer id = GetHandleId(t)
 		local unit u = LoadUnitHandle(spellTable,GetHandleId(t),1)
 	    if (IsUnitAliveBJ(u)) then
-	    	call CreateXiaoNiutou(u)
+	    	call CreateXiaoNiutou(u,5.0)
 	    else
 	        call PauseTimer(t)
 	        call FlushChildHashtable(spellTable,id)
@@ -206,7 +210,7 @@ library_once Kaisa requires SpellBase,Printer,Spin
 	function Tuteng takes nothing returns nothing
 		local unit u = null
 		if (BFanzhuanKS and IsFifthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0NO') == 1) then
-			if (CountUnitsInGroup(GTuteng) > 3) then
+			if (CountUnitsInGroup(GTuteng) > 2) then
 				set u = FirstOfGroup(GTuteng)
 				call DestroyEffect(AddSpecialEffect("war3mapImported\\LionSong.mdx", GetUnitX(u),GetUnitY(u) ))
 				call GroupRemoveUnit(GTuteng,u)
@@ -231,9 +235,9 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		    set l_unit = FirstOfGroup(l_group2)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group2, l_unit)
-		    call CreateXiaoNiutou(l_unit)
-		    call CreateXiaoNiutou(l_unit)
-		    call CreateXiaoNiutou(l_unit)
+		    call CreateXiaoNiutou(l_unit,15.0)
+		    call CreateXiaoNiutou(l_unit,15.0)
+		    call CreateXiaoNiutou(l_unit,15.0)
 		endloop
 		call DestroyGroup(l_group2)
 		set l_group2 = null
@@ -295,31 +299,34 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		local integer i = 0
 		if (learner == kaisa) then
 
-			if (whichSpell == 3 and IsThirdSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0FZ') == 1) then
+			if (whichSpell == 3 and IsThirdSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A007') == 1) then
 				//忠诚之躯
-        		call EnableTrigger( gg_trg_______19 )
+		        call EnableTrigger( gg_trg_____________17 )
+		        call EnableTrigger( gg_trg_____________18 )
 			elseif (whichSpell == 3 and IsThirdSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0NR') == 1) then
 				//天地裂变
-        		call EnableTrigger( gg_trg_______19 )
-			elseif (whichSpell == 4 and IsFourthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0G0') == 1) then
+				call InitKaisaAura()
+			elseif (whichSpell == 4 and IsFourthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0B0') == 1) then
 				//战栗灵魂
-        		call EnableTrigger( gg_trg_______19 )
+		        call EnableTrigger( gg_trg_____________19 )
+		        call EnableTrigger( gg_trg_____________22 )
 			elseif (whichSpell == 4 and IsFourthSpellOK(kaisa) and GetUnitAbilityLevel(kaisa,'A0NQ') == 1) then
 				//天灵冲撞
-        		call EnableTrigger( gg_trg_______19 )
+		        call EnableTrigger( gg_trg_____________22 )
 			endif
 		endif
 	endfunction
 
 	function LearnSkillKaisa takes unit learner,integer learnSpellID returns nothing
 		if (learner == kaisa) then
-			if (learnSpellID == 'A0FZ' or learnSpellID == 'A0NR') then
+			if (learnSpellID == 'A007' or learnSpellID == 'A0NR') then
 				call LearnSkillKaisaI(learner,3)
-			elseif (learnSpellID == 'A0G0' or learnSpellID == 'A0G0') then
+			elseif (learnSpellID == 'A0B0' or learnSpellID == 'A0NQ') then
 				call LearnSkillKaisaI(learner,4)
 			endif
 		endif
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    主英雄技能判断
@@ -353,6 +360,7 @@ library_once Kaisa requires SpellBase,Printer,Spin
 		set BFanzhuanKS = true
 		call CinematicFadeBJ( bj_CINEFADETYPE_FADEOUTIN, 3.00, "ReplaceableTextures\\CameraMasks\\White_mask.blp", 100.00, 0, 0, 0 )
 		call PlaySoundBJ( gg_snd_fanzhuan )
+		set GTuteng = CreateGroup()
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

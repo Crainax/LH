@@ -81,7 +81,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		set e = AddSpecialEffectTarget("Abilities\\Spells\\NightElf\\Starfall\\StarfallCaster.mdl", moqi, "chest")
 		call SaveEffectHandle(spellTable,GetHandleId(t),1,e)
 		call SaveInteger(spellTable,GetHandleId(t),2,n)
-		call TimerStart(t,60,false,function XingchenOld)
+		call TimerStart(t,60,false,function XingchenOldTimer)
 		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -203,11 +203,11 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
         set u = CreateUnit(GetOwningPlayer(moqi),'h02P',x,y,0)
         call SetUnitFlyHeight( u, 0.00, 2000.00 )
 	    loop
-	        exitwhen j > 6
+	        exitwhen j > 3
 	        set i = 1
 	        loop
-	            exitwhen i > 6 + j
-	            set u = CreateUnit(GetOwningPlayer(moqi),'h02P',YDWECoordinateX(x + 150 * j * CosBJ(i*360.0/(6 + 2 * j))), YDWECoordinateY(y + 150 * j * SinBJ(i*360.0/(6 + 2 * j))),0)
+	            exitwhen i > 8
+	            set u = CreateUnit(GetOwningPlayer(moqi),'h02P',YDWECoordinateX(x + 300 * j * CosBJ(i*360.0/I2R(8))), YDWECoordinateY(y + 300 * j * SinBJ(i*360.0/I2R(8))),0)
 	            call SetUnitFlyHeight( u, 0.00, 2000.00 )
 	            set i = i +1
 	        endloop

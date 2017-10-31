@@ -81,7 +81,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 			set ILunhui = ILunhui + 1
 			if (ILunhui >= 10) then
 				set ILunhui = 0
-				call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),900,XinglongDamage*2.5)
+				call DamageAreaMirror(xinglong,GetUnitX(u),GetUnitY(u),900,XinglongDamage*2.5)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", GetUnitX(u),GetUnitY(u) ))
 		endif

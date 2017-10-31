@@ -1,5 +1,6 @@
 
 //! import "SpellBase.j"
+//! import "Structs.j"
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Diffculty.j"
@@ -8,7 +9,7 @@
 /*
     英雄寒殇的技能
 */
-library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spin
+library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spin,Structs
 	
 	globals
 
@@ -109,23 +110,6 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	/*
 	    死神炸弹
 	*/
-/*	function SiShenZhaDan takes real x,real y,real damageRate,integer abilityID returns nothing
-		local real n
-		local real damage = GetDamageAgi(hanshang) * damageRate * 1.66
-		local real x1 = GetUnitX(hanshang)
-	    local real y1 = GetUnitY(hanshang)
-	    local real facing = Atan2(y-y1,x-x1)
-	    local real distance = SquareRoot((y-y1)*(y-y1)+(x-x1)*(x-x1))
-	    set n = RMaxBJ( R3(IsWanjie(),0.01,0.1) , 1 - distance / I3(IsWanjie(),2400,24000))
-
-	    set damage = damage * n
-	    if (abilityID != 0) then
-	    	call PrintSpellAdd(GetOwningPlayer(hanshang),GetAbilityName(abilityID),damage,",距离伤害衰减"+I2S(100 - R2I(n*100))+"%.")
-	    endif
-	    call DamageAreaMirror(hanshang,x,y,450,damage)
-	    call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
-	endfunction*/
-
 	function SiShenZhaDan takes real x,real y,real damageRate,integer abilityID returns nothing
 		local real n
 		local real damage = GetDamageAgi(hanshang) * damageRate
@@ -141,7 +125,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	    	set n = (1.5 + (distance - 4000) / 5000)
 	    endif
 	    set damage = damage * n
-	    call CreateBoom(CreateUnit(GetOwningPlayer(hanshang),'h007',x1,y1,facing),facing,distance,1200*IJ2(hanshang,2,1),0.05,damage,450,"Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl")
+	    call Boom.create(CreateUnit(GetOwningPlayer(hanshang),'h007',x1,y1,facing),x,y,facing,damage,60*IJ2(hanshang,2,1),450,0.05,"Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl")
 	    if(BJuexing2[GetConvertedPlayerId(GetOwningPlayer(hanshang))]) then
 	    	call SetUnitLifePercentBJ(hanshang,100)
 	    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(hanshang),GetUnitY(hanshang) ))
