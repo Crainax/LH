@@ -962,7 +962,6 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	function QianAchievement takes player p returns nothing
 		if (GetUnitTypeId(GetKillingUnitBJ()) == 'N01Y') then
 			set IQianAchievement[GetConvertedPlayerId(p)] = IQianAchievement[GetConvertedPlayerId(p)] + 1
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r前:"+I2S(IQianAchievement[GetConvertedPlayerId(p)]))
 			if (IQianAchievement[GetConvertedPlayerId(p)] >= 6700) then
 				debug call GetAchievementAndSave(p,422)
 			elseif (ModuloInteger(IQianAchievement[GetConvertedPlayerId(p)],300) == 0) then
