@@ -266,6 +266,7 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
         trigger gg_trg_____________18 = null
         trigger gg_trg_____________19 = null
         trigger gg_trg_____________22 = null
+        rect gg_rct__________u = null
 
         unit gg_unit_E00C_0217 = null
 	endglobals

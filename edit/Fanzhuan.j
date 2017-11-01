@@ -15,7 +15,7 @@ library_once Fanzhuan requires LHBase,Achievement
 		if not(DEBUG_MODE) then
 			return IsPIV(p)
 		else
-			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or GetSpecifyHeroTimes(p,i) >= 30 or IsPIV(p)
+			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or GetSpecifyHeroTimes(p,i) >= 25 or IsPIV(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -27,14 +27,14 @@ library_once Fanzhuan requires LHBase,Achievement
 			return "
 			在该版本中获取赞助后永久解锁使用.(请看复活点介绍)
 
-			或者在官方平台使用该英雄30次后解锁.
+			或者在官方平台使用该英雄25次后解锁.
 			"
 		endif
 
 		return "
-		该英雄使用次数达到30次.
+		该英雄使用次数达到25次.
 
-		进度:"+I2S(GetSpecifyHeroTimes(p,i))+"/30"
+		进度:"+I2S(GetSpecifyHeroTimes(p,i))+"/25"
 
 		return ""
 	endfunction

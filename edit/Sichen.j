@@ -81,7 +81,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	*/
 	private function InitWudi takes unit u returns nothing
 		local trigger t = CreateTrigger()
-	    call TriggerRegisterUnitInRangeSimple(t,300,u)
+	    call TriggerRegisterUnitInRangeSimple(t,100,u)
 	    call TriggerAddCondition(t,Condition(function CloserWudiTowerCon))
 	    call TriggerAddAction(t,function CloserWudiTowerAct)
 	    call SaveUnitHandle(spellTable,GetHandleId(t),1,u)

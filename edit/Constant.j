@@ -19,7 +19,7 @@ library_once Constant initializer InitConstant requires JBase
 		/*
 		    成就页数
 		*/
-		constant integer PAGE_ACHIEVE = 10
+		constant integer PAGE_ACHIEVE = 11
 		constant integer PAGE_HERO_CHALLANGER = 3
 		/*
 		    实际人数(从一开始的)
@@ -405,7 +405,7 @@ library_once Constant initializer InitConstant requires JBase
 	    条件：彩名成就索引条件
 	*/
 	function IsAchieveColor takes integer achieveID returns boolean
-		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414 or achieveID == 415 or achieveID == 416 or achieveID == 417
+		return achieveID == 325 or achieveID == 24 or achieveID == 28 or achieveID == 29 or achieveID == 220 or achieveID == 226 or achieveID == 230 or achieveID == 35 or achieveID == 310 or achieveID == 314 or achieveID == 318 or achieveID == 326 or achieveID == 320 or achieveID == 321 or achieveID == 322 or achieveID == 323 or achieveID == 324 or achieveID == 327 or achieveID == 331 or achieveID == 42 or achieveID == 44 or achieveID == 45 or achieveID == 46 or achieveID == 47 or achieveID == 48 or achieveID == 49 or achieveID == 410 or achieveID == 411 or achieveID == 412 or achieveID == 413 or achieveID == 414 or achieveID == 415 or achieveID == 416 or achieveID == 417 or achieveID == 418 or achieveID == 420 or achieveID == 421 or achieveID == 422
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -433,7 +433,7 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (achieveID == 17) then
 			return "|cffff0000【末日车】"
 		elseif (achieveID == 16) then
-			return "|cffff6600【地狱w使】"
+			return "|cffff6600【地狱使】"
 		elseif (achieveID == 15) then
 			return "|cffffff00【灭炼狱】"
 		elseif (achieveID == 14) then
@@ -598,6 +598,12 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【「白夜」奉天】")
 		elseif (achieveID == 420) then
 			return GetColorString("【「黑日」释帝】")
+		elseif (achieveID == 421) then
+			return GetColorString("【皆之初】")
+		elseif (achieveID == 422) then
+			return GetColorString("【前之痕】")
+		elseif (achieveID == 423) then
+			return GetColorString("【者之尘】")
 		//完了再加到Achievement.j上的全成就.
 		endif
 		return ""
@@ -780,6 +786,12 @@ library_once Constant initializer InitConstant requires JBase
 			return "「白夜」奉天"
 		elseif (achieveID == 420) then
 			return "「黑日」释帝"
+		elseif (achieveID == 421) then
+			return "皆之初"
+		elseif (achieveID == 422) then
+			return "前之痕"
+		elseif (achieveID == 423) then
+			return "者之尘"
 		endif
 		return ""
 	endfunction
@@ -1148,6 +1160,21 @@ library_once Constant initializer InitConstant requires JBase
 
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 421) then
+			return "使用\"皆\"字传承施放伤害时对超过120个单位同时造成伤害.(英雄需要在三级野区以右的地区施放.)
+
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 422) then
+			return "使用\"前\"字传承,利用前字幻影超过击杀6700个来进攻基地的怪物.
+
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
+		elseif (achieveID == 423) then
+			return "使用\"者\"字传承,在一次性时间(5秒,不能拥有霄霆加的光环)内累计死亡18次.
+
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
+			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		endif
 		return ""
 	endfunction
@@ -1176,6 +1203,8 @@ library_once Constant initializer InitConstant requires JBase
 			return I3(index <= 4 ,index + 327,index + 38)
 		elseif (page == 10) then
 			return I3(index == 1 ,49,index + 408)
+		elseif (page == 11) then
+			return index + 420
 		endif
 		return 0
 	endfunction

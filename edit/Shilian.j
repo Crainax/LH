@@ -5,11 +5,12 @@
 //! import "Diffculty.j"
 //! import "Multiboard.j"
 //! import "GoldSystem.j"
+//! import "NetVersion.j"
 
 /*
     传承试练
 */
-library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,Attr,Diffculty,Multiboard,GoldSystem
+library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,Attr,Diffculty,Multiboard,GoldSystem,Version
 
 	
 	globals
@@ -64,6 +65,9 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		private boolean array BQian
 
 		integer array IKuanghuanType
+
+		integer array IQianAchievement
+		integer array IZheCountOnce
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -75,11 +79,14 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	endfunction
 
 	private function TZheAct takes nothing returns nothing
+		if (GetUnitAbilityLevel(gg_unit_n01S_0258,'A0M5') == 0) then
+			set IZheCountOnce[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = IZheCountOnce[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] + 1
+		endif
 		call ImmuteDamageInterval(GetTriggerUnit(),0.1)
 		call SetUnitLifePercentBJ(GetTriggerUnit(),100)
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	/*
+	/*	
 	    行的移动 效果
 	*/
 	private function TXingCon takes nothing returns boolean
@@ -191,6 +198,11 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		    	set count = count + 1
 		    endif
 		endloop
+		if (count >= 120 and IsInRect(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),gg_rct__________u)) then
+			debug call GetAchievementAndSave(p,421)
+		elseif (count >= 20) then
+			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r数量:"+I2S(count))
+		endif
 		call DestroyGroup(l_group)
 		set damage = RMinBJ(300000000.*100,damage2 * 100000000 + damage1)/IMaxBJ(1,count)
 		call CreateTextTagA( I2S(R2I(damage/10000)) + "万伤害!",udg_H[GetConvertedPlayerId(p)],100,0,0,3,30)
@@ -292,7 +304,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 3) then
 			call UnitAddAbilityP(udg_H[id],'A0LC')
 		elseif (IShilianType[id] == 4) then
-			
+			set IZheCountOnce[id] = 0
 		elseif (IShilianType[id] == 5) then
 			call InitJieDamage(p)
 		elseif (IShilianType[id] == 6) then
@@ -319,7 +331,13 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 3) then
 			call UnitRemoveAbility(udg_H[id],'A0LC')
 		elseif (IShilianType[id] == 4) then
-			
+			if (IZheCountOnce[id] > 0) then
+				if (IZheCountOnce[id] >= 18) then
+					call GetAchievementAndSave(p,423)
+				else
+					call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【者之尘】|r"+I2S(IZheCountOnce[id]))
+				endif
+			endif
 		elseif (IShilianType[id] == 5) then
 			call JieDamageExpose(p)
 		elseif (IShilianType[id] == 6) then
@@ -410,8 +428,6 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 			//已经开始施放了,则关闭
 			call DestroyShilianSpell(p)
 		endif
-
-
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -937,6 +953,21 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	function ZheBeidong takes unit u returns nothing
 		if (IShilianType[GetConvertedPlayerId(GetOwningPlayer(u))] == 2) then
 			set IShilianTime[GetConvertedPlayerId(GetOwningPlayer(u))] = IShilianTime[GetConvertedPlayerId(GetOwningPlayer(u))] + 50
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	/*
+	    前字的成就
+	*/
+	function QianAchievement takes player p returns nothing
+		if (GetUnitTypeId(GetKillingUnitBJ()) == 'N01Y') then
+			set IQianAchievement[GetConvertedPlayerId(p)] = IQianAchievement[GetConvertedPlayerId(p)] + 1
+			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r前:"+I2S(IQianAchievement[GetConvertedPlayerId(p)]))
+			if (IQianAchievement[GetConvertedPlayerId(p)] >= 6700) then
+				debug call GetAchievementAndSave(p,422)
+			elseif (ModuloInteger(IQianAchievement[GetConvertedPlayerId(p)],300) == 0) then
+				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【前之痕】|r:"+I2S(IQianAchievement[GetConvertedPlayerId(p)]))
+			endif
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

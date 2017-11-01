@@ -692,6 +692,28 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
 //---------------------------------------------------------------------------------------------------
 
     /*
+        伤害一个区域，附带特效(Mirror)
+    */
+    function DamageAreaEffMirror takes unit attacker,real x,real y,real radius,real damage,string eff returns nothing
+        local group l_group = CreateGroup()
+        local unit l_unit
+        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
+        loop
+            set l_unit = FirstOfGroup(l_group)
+            exitwhen l_unit == null
+            call GroupRemoveUnit(l_group, l_unit)
+            if (IsEnemy(l_unit,attacker) and (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == attacker)) then
+                call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+                call DestroyEffect(AddSpecialEffect(eff, GetUnitX(l_unit), GetUnitY(l_unit) ))
+            endif
+        endloop
+        call DestroyGroup(l_group)
+        set l_group = null
+        set l_unit =null
+    endfunction
+//---------------------------------------------------------------------------------------------------
+
+    /*
         伤害一个区域，附带特效
     */
     function DamageAreaEff takes unit attacker,real x,real y,real radius,real damage,string eff returns nothing

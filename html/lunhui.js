@@ -397,7 +397,7 @@ function OutVIP()
 	document.getElementById("output12").value = GetMengjiAll(sss);
 	document.getElementById("output13").value = GetCanglingAll(sss);
 	document.getElementById("output14").value = GetXunhuan(sss,19);
-	document.getElementById("output15").value = GetXunhuan(sss,18);
+	document.getElementById("output15").value = GetXunhuan(sss,24);
 	document.getElementById("output16").value = GetXunhuan(sss,21);
 	document.getElementById("output17").value = GetXunhuan(sss,0);
 	}

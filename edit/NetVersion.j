@@ -1066,10 +1066,10 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		//计时英雄数
 		call CreateAllHeroTimesTimer(GetOwningPlayer(u))
 
-		if (achiPage[id] == -1) then
+		if (achiPage[id] == -1 and (IsQuanchengjiu(GetOwningPlayer(u)) or playerName[id] == "信哲大人")) then
 			call SetAndSaveDIYName(GetOwningPlayer(u))
 		else
-			if (StringLength(I2S(achiPage[id])) < 2) then
+			if (StringLength(I2S(achiPage[id])) < 2 or achiPage[id] < 0) then
 				set achiPage[id] = 10
 				call InitOldAchievement(id)
 				call SaveAchievePointer(GetOwningPlayer(u))

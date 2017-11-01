@@ -115,7 +115,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		local real damage = GetDamageAgi(hanshang) * damageRate
 		local real x1 = GetUnitX(hanshang)
 	    local real y1 = GetUnitY(hanshang)
-	    local real facing = Atan2(y-y1,x-x1)
+	    local real facing = GetFacingBetweenXY(x1,y1,x,y)
 	    local real distance = SquareRoot((y-y1)*(y-y1)+(x-x1)*(x-x1))
 	    if (distance < 1000) then
 	    	set n = 1

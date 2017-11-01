@@ -189,7 +189,7 @@ library_once Structs requires LHBase
 				call SetUnitX(.caster,GetUnitX(.caster)+ CosBJ(.facing) * .speed)
 				call SetUnitY(.caster,GetUnitY(.caster)+ SinBJ(.facing) * .speed)
 			else
-				call DamageAreaMirror(.caster,.x,.y,.radius,.damage)
+				call DamageAreaMirror(udg_H[GetConvertedPlayerId(GetOwningPlayer(.caster))],.x,.y,.radius,.damage)
 				call DestroyEffect(AddSpecialEffect(.effx, .x, .y ))
 				call .destroy()
 			endif

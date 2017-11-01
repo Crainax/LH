@@ -202,11 +202,11 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	    loop
 	    	exitwhen i > IMinBJ(8,chongCount)
 	    	if (chongdongs[i] != null) then
-	    		call DamageAreaEff(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+	    		call DamageAreaEffMirror(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
 	    	endif
 	    	set i = i +1
 	    endloop
-		call DamageAreaEff(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
+		call DamageAreaEffMirror(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage,"Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
 		call CreateUnitEffect(GetOwningPlayer(seyu),'h00E',GetUnitX(seyu),GetUnitY(seyu),0)
 
 	    //输出伤害

@@ -250,7 +250,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 
 	function Buqian2 takes player p,string s returns nothing
-		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],19))) then
+		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],25))) then
 			set BBuqian2 = true
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签2阶段.")
 		endif

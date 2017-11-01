@@ -140,6 +140,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 			set i = i +1
 		endloop
 		set GMoqiXingxuan = CreateGroup()
+		call PrintSpellName(GetOwningPlayer(moqi),GetAbilityName(GetSpellAbilityId()))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -155,7 +156,6 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		if (GetDistance(GetUnitX(u),GetUnitY(u),x,y) > 50. and IsUnitAliveBJ(u) and GetUnitUserData(u) == 1) then
 			call SetUnitX(u,YDWECoordinateX(GetUnitX(u)+ CosBJ(facing) * 75.))
 			call SetUnitY(u,YDWECoordinateY(GetUnitY(u)+ SinBJ(facing) * 75.))
-
 		else
 			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u),GetUnitY(u) ))
 	    	call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)* 0.7)
@@ -433,7 +433,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    call TriggerRegisterUnitEvent(TSpellMoqi,moqi,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellMoqi, function TSpellMoqiAct)
 
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 5 or IsPIV(GetOwningPlayer(moqi))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 3 or IsPIV(GetOwningPlayer(moqi))) then
 	    	call CreateFanzhuanItem(moqi)
 	    debug endif
 

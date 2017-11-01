@@ -650,6 +650,13 @@ library_once Achievement requires LHBase,ChallangerDZ
 			set i = i +1
 		endloop
 
+		set i = 421
+		loop
+			exitwhen i > 423
+			set result = result and IsAchieveOK(p,i)
+			set i = i +1
+		endloop
+
 		return result
 
 	endfunction
@@ -729,7 +736,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return
 		endif
 		//两个仅有的挑战成就
-		if ((achieveID == 410 or achieveID == 411 or achieveID == 418 or achieveID == 420) and CType == 0) then
+		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then
 			return 
 		endif
 
@@ -775,7 +782,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 10) + S3(IsAchieveOK(p,i + 10),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
-	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(325) + S3(IsAchieveOK(p,325),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+	    	call SaveButtonHandle(LHTable,GetHandleId(d),9,DialogAddButtonBJ( d, GetAchievementName(325) + S3(IsAchieveOK(p,325),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		elseif (page == 2) then
 		    loop
 		    	exitwhen i > 8
@@ -842,6 +849,13 @@ library_once Achievement requires LHBase,ChallangerDZ
 		    loop
 		    	exitwhen i > 9
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 408) + S3(IsAchieveOK(p,i + 408),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
+		    	set i = i + 1
+		    endloop
+		elseif (page == 11) then
+			set i = 1
+		    loop
+		    	exitwhen i > 3
+		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 420) + S3(IsAchieveOK(p,i + 420),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
 		    endloop
 		endif
@@ -1018,7 +1032,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 	    //点击
 	    loop
-	        exitwhen i > 
+	        exitwhen i > 10
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
                 call DialogClear(d)
 		    	call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r" + GetHeroChallenageName(i,page) + "|r英雄挑战的条件如下所示:")
