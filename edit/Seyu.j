@@ -161,8 +161,10 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 			call CancelChongdong()
 		//空间免疫
 		elseif (GetSpellAbilityId() == 'ACam') then
-			call ImmuteDamageInterval(GetSpellTargetUnit(),3)
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
+			if (GetUnitAbilityLevel(GetSpellTargetUnit(),'Avul') == 0) then
+				call ImmuteDamageInterval(GetSpellTargetUnit(),3)
+				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
+			endif
 		//空间囚笼
 		elseif (GetSpellAbilityId() == 'A0G1') then
  			call SimulateSpell(GetSpellAbilityUnit(),GetSpellAbilityUnit(),'A0G2',1,6,"stomp",false,true,false)
@@ -190,7 +192,6 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	    return result
     endfunction
 
-    
 //---------------------------------------------------------------------------------------------------
 	/*
 	    曼陀罗之刺

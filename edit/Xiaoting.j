@@ -436,6 +436,9 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 	*/
 	private function Yanzhi takes nothing returns nothing
 		local integer i = 1 
+		local group g = CreateGroup()
+		local group temp = null
+		local unit l_unit = null
 		if (BJingzhi) then
 			call ClearAllArrow()
 			return
@@ -443,13 +446,27 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
-				call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.25 * (GetComboMulti() + 1))
+				set temp = GetEnemyGroup(GetOwningPlayer(xiaoting),GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900)
+				call GroupAddGroup(temp,g)
+				call DestroyGroup(temp)
+				//call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.50 * (GetComboMulti() + 1))
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(UArrow[i]),GetUnitY(UArrow[i]) ))
 			endif
 			set i = i +1
 		endloop
+		//伤害
+		loop
+		    set l_unit = FirstOfGroup(g)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(g, l_unit)
+		    call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting* 0.50 * (GetComboMulti() + 1), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+		endloop
 		call ClearAllArrow()
-	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting* 0.25 * (GetComboMulti() + 1))
+	    call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting* 0.50 * (GetComboMulti() + 1))
+	    call DestroyGroup(g)
+	    set g = null
+	    set temp = null
+	    set l_unit = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

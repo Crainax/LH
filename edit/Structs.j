@@ -205,6 +205,7 @@ library_once Structs requires LHBase
 			set .speed = speed
 			set .radius = radius
 			set .effx = effx
+			call SetUnitFacing(u,facing)
 			set .t = CreateTimer()
 			call SaveInteger(LHTable,GetHandleId(.t),1,this)
 			call TimerStart(.t,inteval,true,function thistype.move)
