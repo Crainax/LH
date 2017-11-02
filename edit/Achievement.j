@@ -26,7 +26,6 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 	endglobals
 
-
 //---------------------------------------------------------------------------------------------------
 	/*
 	    十转2

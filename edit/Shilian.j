@@ -198,7 +198,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		    	set count = count + 1
 		    endif
 		endloop
-		if (count >= 120 and IsInRect(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),gg_rct__________u)) then
+		if (count >= 120 and not(IsInRect(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),gg_rct__________u))) then
 			debug call GetAchievementAndSave(p,421)
 		elseif (count >= 20) then
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r数量:"+I2S(count))

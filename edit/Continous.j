@@ -58,6 +58,10 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			call UnitAddItemByIdSwapped('hlst', u)
 		endif
 
+		if (i >= 40) then
+			call GetAchievementAndSave(p,47)
+		endif
+
 		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -77,6 +81,8 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 			return "|cFF339933沐雪无瑕|r皮肤"
 		elseif (days == 20) then
 			return "|cff808080【E】幸运宝箱|r"
+		elseif (days == 40) then
+			return GetAchievementName(47)+"成就"
 		endif
 
 		return null
@@ -107,7 +113,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
         	"
         local integer i = 1
         loop
-        	exitwhen i > 26
+        	exitwhen i > 41
         	if (GetDailyReward(i) != null) then
         		set s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) +S3(IConDays[GetConvertedPlayerId(p)] >= i,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r") + "
         		"

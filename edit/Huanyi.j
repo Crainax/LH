@@ -155,7 +155,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 //---------------------------------------------------------------------------------------------------
 	/*
 	    马甲的攻击伤害
-	*/F
+	*/
 	
 	function SimulateDamageHuanyi takes unit u returns boolean
 
