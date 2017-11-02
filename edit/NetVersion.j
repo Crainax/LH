@@ -95,6 +95,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 
 		//不说话的成就
 		boolean BSlince = false
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -294,7 +295,9 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
     			set hardCString[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "hardCString")
     			set SBoxWord[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SBoxWord")
     			set SFanzhaun[i] = DzAPI_Map_GetStoredString(ConvertedPlayer(i), "SFanzhaun")
-    			
+
+    			//全局变量
+    			set IKuanghuan = S2I(DzAPI_Map_GetMapConfig("kh"))
     			call DisplayTextToPlayer(ConvertedPlayer(i), 0., 0., "|cFFFF66CC【消息】|r读取数据中.....")
 			endif
 			set i = i +1

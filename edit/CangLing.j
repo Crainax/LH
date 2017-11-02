@@ -186,7 +186,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h00W') then
-			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.20, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
+			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.35, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			return true 
 		endif
 		if (GetUnitTypeId(u) == 'h00Y') then

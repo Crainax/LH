@@ -2,10 +2,10 @@
 //! import "LHBase.j"
 //! import "SpellBase.j"
 //! import "Diffculty.j"
-//! import "BigBoss.j"
+/////! import "BigBoss.j"
 /////! import "Diamond.j"
 
-library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,Diffculty,BigBoss,YDWETimerPattern
+library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,Diffculty,YDWETimerPattern
 	
 	globals
 		trigger TSpellQianfa

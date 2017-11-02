@@ -3,11 +3,12 @@
 //! import "Printer.j"
 //! import "Attr.j"
 //! import "Aura.j"
+//! import "Diffculty.j"
 /////! import "Diamond.j"
 /*
     英雄霄霆的技能
 */
-library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
+library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	
 	globals
 		/*
@@ -893,7 +894,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond
 		endif
 
 		set ICombo = ICombo + 1
-		call TimerStart(TComboAdd,RMaxBJ(0.1,I2R(5 + IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0) - (ICombo / 20))),false,function ComboDuan)
+		call TimerStart(TComboAdd,RMaxBJ(0.1,I2R(5 + IJ1(xiaoting,1,0)+IJ3(xiaoting,1,0) - (ICombo / 20)))/R3(IsWanjie(),2.0,1.0),false,function ComboDuan)
     	call CreateSpellTextTag("Combo:"+I2S(ICombo),xiaoting,100,0,0,3)
 
 		if (GetComboMulti() == 4 and IMaxCombo != 16) then

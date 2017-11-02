@@ -155,7 +155,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 //---------------------------------------------------------------------------------------------------
 	/*
 	    马甲的攻击伤害
-	*/
+	*/F
 	
 	function SimulateDamageHuanyi takes unit u returns boolean
 
@@ -184,18 +184,18 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    获取多重施法的重数:1-5(万劫3)
+	    获取多重施法的重数:1-5
 	*/
 	private function GetMultiSpell takes nothing returns integer
 		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Huanyi))]) then
-			return 6
+			return I3(IsWanjie(),6,5)
 		endif
 
 		if not(IsThirdSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH2') == 1) then
 			return 1 + IJ2(Huanyi,1,0)
 		endif
 
-		return IMaxBJ(IMinBJ(IMoneng/2,5),1) + IJ2(Huanyi,1,0)
+		return IMaxBJ(IMinBJ(IMoneng/2,I3(IsWanjie(),4,5)),1) + IJ2(Huanyi,1,0)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

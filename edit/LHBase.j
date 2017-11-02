@@ -471,6 +471,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123                 /*
         */ and GetUnitPointValue(u) != 0
     endfunction
+    GetDamageAgi(taiya) * 0.2
 //---------------------------------------------------------------------------------------------------
     /*
         干掉一个区域的所有单位

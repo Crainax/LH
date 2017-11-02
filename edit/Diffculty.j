@@ -12,6 +12,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 		integer NanDiff = 0
 		unit UWanjieGuanghuan = null
 		boolean IsTianyan = false
+
 	endglobals
 
 

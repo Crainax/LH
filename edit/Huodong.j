@@ -3,6 +3,10 @@
 //! import "Achievement.j"
 library_once Huodong requires LHBase,Achievement
 
+	globals
+		integer IKuanghuan = 0
+	endglobals
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    限时活动6:12-23
@@ -20,10 +24,10 @@ library_once Huodong requires LHBase,Achievement
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    嘉年华活动:
+	    狂欢模式活动:
 	*/
 	function IsKuanghuanTime takes nothing returns boolean
-		return ((DzAPI_Map_GetGameStartTime()/10) < 150946560)
+		return IKuanghuan == 1
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
