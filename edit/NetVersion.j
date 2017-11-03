@@ -1029,39 +1029,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    狂欢
-	*/
-	function SetKuanghuanOK takes player p returns nothing
-		local integer i = GetConvertedPlayerId(p)
-		if (mingcha[i]/10000 < 9) then
-			set mingcha[i] = mingcha[i] + 10000
-			call DzAPI_Map_StoreInteger( ConvertedPlayer(i),  "mingcha", mingcha[i] )
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r狂欢场数进度:"+I2S(mingcha[i]/10000)+"/9")
-		endif
-		if (mingcha[i]/10000 >= 9) then
-			call DzAPI_Map_StoreInteger( p,  "kuanghuan", 1 )
-		endif
-	endfunction
-
-	private function AddKuanghuanTimes takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local integer index = LoadInteger(LHTable,id,1)
-		call SetKuanghuanOK(ConvertedPlayer(index))
-		call PauseTimer(t)
-		call FlushChildHashtable(LHTable,id)
-		call DestroyTimer(t)
-		set t = null 
-	endfunction
-
-	private function AddKuanghuan takes player p returns nothing
-		local timer t = CreateTimer()
-		call SaveInteger(LHTable,GetHandleId(t),1,GetConvertedPlayerId(p))
-		call TimerStart(t,300,false,function AddKuanghuanTimes)
-		set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    初始化游戏名
 	*/
 	function InitAchievementName takes unit u returns nothing
@@ -1094,7 +1061,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		endif
 
 		call InitChallangerData(GetOwningPlayer(u))
-		call AddKuanghuan(GetOwningPlayer(u))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

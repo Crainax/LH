@@ -5,7 +5,7 @@
 //! import "Diffculty.j"
 //! import "Multiboard.j"
 //! import "GoldSystem.j"
-//! import "NetVersion.j"
+/////! import "NetVersion.j"
 
 /*
     传承试练
@@ -333,7 +333,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 4) then
 			if (IZheCountOnce[id] > 0) then
 				if (IZheCountOnce[id] >= 18) then
-					call GetAchievementAndSave(p,423)
+					debug call GetAchievementAndSave(p,423)
 				else
 					call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【者之尘】|r"+I2S(IZheCountOnce[id]))
 				endif
@@ -960,12 +960,11 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	    前字的成就
 	*/
 	function QianAchievement takes player p returns nothing
-		if (GetUnitTypeId(GetKillingUnitBJ()) == 'N01Y') then
-			set IQianAchievement[GetConvertedPlayerId(p)] = IQianAchievement[GetConvertedPlayerId(p)] + 1
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r数量:"+I2S(IQianAchievement[GetConvertedPlayerId(p)]))
+		if (GetUnitTypeId(GetKillingUnitBJ()) == 'N01Y' or (GetUnitTypeId(GetKillingUnitBJ()) == 'h02T' and GetUnitUserData(GetKillingUnitBJ()) == 1)) then
+			set IQianAchievement[GetConvertedPlayerId(p)] = IQianAchievement[GetConvertedPlayerId(p)] + CModeH(1,2)
 			if (IQianAchievement[GetConvertedPlayerId(p)] >= 6700) then
 				debug call GetAchievementAndSave(p,422)
-			elseif (ModuloInteger(IQianAchievement[GetConvertedPlayerId(p)],300) == 0) then
+			elseif (ModuloInteger(IQianAchievement[GetConvertedPlayerId(p)],100) == 0) then
 				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【前之痕】|r:"+I2S(IQianAchievement[GetConvertedPlayerId(p)]))
 			endif
 		endif

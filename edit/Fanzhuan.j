@@ -1,7 +1,7 @@
 //! import "LHBase.j"
-//! import "Achievement.j"
+/////! import "NetVersion.j"
 
-library_once Fanzhuan requires LHBase,Achievement
+library_once Fanzhuan requires LHBase,Version
 
 	globals
 		integer array diyu

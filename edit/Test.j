@@ -29,8 +29,6 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
     //技能触发
     trigger gg_trg_____________71 = null
     trigger gg_trg_______21 = null
-        //基地总区域
-        rect gg_rct__________u = null
         //杀阵
         unit gg_unit_h00K_0254 = null
 	   //冥王

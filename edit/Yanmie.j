@@ -281,8 +281,10 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	    雷神轰鸣
 	*/
 	private function Leishenhongming takes nothing returns nothing
-		local real x = RHongmingX + GetRandomReal(-900,900)
-		local real y = RHongmingY + GetRandomReal(-900,900)
+		local real radius = GetRandomReal(0,900)
+		local real degree = GetRandomReal(0,360)
+		local real x = YDWECoordinateX(RHongmingX + radius * CosBJ(degree))
+		local real y = YDWECoordinateX(RHongmingY + radius * SinBJ(degree))
 		if (IsUnitAliveBJ(yanmie)) then
 			call DamageArea(yanmie,x,y,450, GetDamageAgi(yanmie) * 0.4)
 		    call CreateUnitEffect(GetOwningPlayer(yanmie),'h00C',x,y,0)
@@ -293,6 +295,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 			set THongming = null
 		endif
 	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    主英雄使用技能

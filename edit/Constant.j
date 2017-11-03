@@ -41,7 +41,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	constant function GetVersion takes nothing returns string
-		return "3.420"
+		return "3.421B"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -1184,7 +1184,7 @@ library_once Constant initializer InitConstant requires JBase
 	*/
 	function GetAchievementIndex takes integer page,integer index returns integer
 		if (page == 1) then
-			return I3(index == 9,page * 10 + index,325)
+			return I3(index == 9,325,page * 10 + index)
 		elseif (page == 2) then
 			return (page * 10 + index)
 		elseif (page == 3) then

@@ -419,7 +419,13 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 	function HasAll14Word takes player p returns boolean
 		return false
 	endfunction
-
+//---------------------------------------------------------------------------------------------------
+	/*
+	    英雄次数
+	*/
+	function GetSpecifyHeroTimes takes player p,integer i returns integer
+		return 0
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    禁止秘藉

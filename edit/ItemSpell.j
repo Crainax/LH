@@ -556,7 +556,10 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		local real y1 = GetUnitY(GetAttacker())
 		local real x2 = GetUnitX(GetAttackedUnitBJ())
 		local real y2 = GetUnitY(GetAttackedUnitBJ())
-        local unit  u = CreateUnit(GetOwningPlayer(GetAttacker()),'h000',x1,y1,Atan2BJ(y2-y1,x2-x1))
+        local unit  u = CreateUnit(GetOwningPlayer(GetAttacker()),'h02T',x1,y1,Atan2BJ(y2-y1,x2-x1))
+        if (GetUnitTypeId(GetAttacker()) == 'N01Y') then
+        	call SetUnitUserData(u,1)
+        endif
         call UnitApplyTimedLifeBJ( 3.00, 'BHwe',u )
         call UnitAddAbilityBJ( 'A0HP',u )
         call SetUnitAbilityLevel(u,'A0HP',GetDeng(GetAttacker()) - 6)
