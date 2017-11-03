@@ -1,0 +1,10 @@
+[CustomSkin]
+LoadingMeleeBackground=war3mapImported\LoadingScreen.mdx
+IdlePeon=ReplaceableTextures\CommandButtons\BTNMagicVault.blp
+
+[FrameDef]
+BONUS_MANAREGEN=TRIGSTR_7319
+BONUS_MANA=TRIGSTR_7311
+IDLE_PEON=TRIGSTR_7321
+IDLE_PEON_DESC=TRIGSTR_7324
+
