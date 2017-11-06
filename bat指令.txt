@@ -1,0 +1,1 @@
+dir F:\视频\三国演义 /b > C:\Users\xhs\Desktop\1.txt
