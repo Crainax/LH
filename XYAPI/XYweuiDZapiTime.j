@@ -7,34 +7,35 @@
 library XYweuiDZapiTime initializer UpdateTimeAll requires XYwebase, DzAPI
 
 /*
-º¯ÊýÃû³Æ£º    DZapi·þÎñÆ÷Ê±¼ä´Á×ª»» 
-Ô­×÷Õß£º      Ð¡¹íQimp 
-ÐÞ¸ÄÕß£º      ÐÂÔÂÍÅ¶Ó:¶ñÄ§-ÒÅÍü 
-×îºóÐÞ¸ÄÈÕÆÚ£º2016Äê/12ÔÂ/17ÈÕ 
-º¯Êý°æ±¾ºÅ£º  3.0
+å‡½æ•°åç§°ï¼š    DZapiæœåŠ¡å™¨æ—¶é—´æˆ³è½¬æ¢ 
+åŽŸä½œè€…ï¼š      å°é¬¼Qimp 
+ä¿®æ”¹è€…ï¼š      æ–°æœˆå›¢é˜Ÿ:æ¶é­”-é—å¿˜ 
+æœ€åŽä¿®æ”¹æ—¥æœŸï¼š2016å¹´/12æœˆ/17æ—¥ 
+å‡½æ•°ç‰ˆæœ¬å·ï¼š  3.0
 */
 
 function InitArray takes nothing returns nothing
-	set NORMALMON[1] = 31
-	set NORMALMON[2] = 28
-	set NORMALMON[3] = 31
-	set NORMALMON[4] = 30
-	set NORMALMON[5] = 31
-	set NORMALMON[6] = 30
-	set NORMALMON[7] = 31
-	set NORMALMON[8] = 31
-	set NORMALMON[9] = 30
-	set NORMALMON[10] = 31
-	set NORMALMON[11] = 30
-	set NORMALMON[12] = 31
-    set WEEKSTR[0] = "æ—¥" 
-    set WEEKSTR[1] = "ä¸€"
-    set WEEKSTR[2] = "äºŒ"
-    set WEEKSTR[3] = "ä¸‰"
-    set WEEKSTR[4] = "å››"
-    set WEEKSTR[5] = "äº”"
-    set WEEKSTR[6] = "å…­"
+    set NORMALMON[1] = 31
+    set NORMALMON[2] = 28
+    set NORMALMON[3] = 31
+    set NORMALMON[4] = 30
+    set NORMALMON[5] = 31
+    set NORMALMON[6] = 30
+    set NORMALMON[7] = 31
+    set NORMALMON[8] = 31
+    set NORMALMON[9] = 30
+    set NORMALMON[10] = 31 
+    set NORMALMON[11] = 30
+    set NORMALMON[12] = 31
+    set WEEKSTR[0] = "æ˜ŸæœŸå¤©"
+    set WEEKSTR[1] = "æ˜ŸæœŸ1"
+    set WEEKSTR[2] = "æ˜ŸæœŸ2"
+    set WEEKSTR[3] = "æ˜ŸæœŸ3"
+    set WEEKSTR[4] = "æ˜ŸæœŸ4"
+    set WEEKSTR[5] = "æ˜ŸæœŸ5"
+    set WEEKSTR[6] = "æ˜ŸæœŸ6"
 endfunction
+
 
 function MathMod takes integer dividend, integer divisor returns integer
     local integer modulus = dividend - (dividend / divisor) * divisor
@@ -46,90 +47,90 @@ function MathMod takes integer dividend, integer divisor returns integer
 endfunction
 
 function MathFloor takes real a returns integer
-	return R2I(a)
+    return R2I(a)
 endfunction
 
 function IsLeapYear takes integer y returns boolean
-	if MathMod(y,4) == 0 then
-		if MathMod(y,100) == 0 then
+    if MathMod(y,4) == 0 then
+        if MathMod(y,100) == 0 then
             if MathMod(y,400) == 0 then
                 return true
             else
                 return false
             endif
-		endif
-		return true
-	endif
-	return false
+        endif
+        return true
+    endif
+    return false
 endfunction
 
 function Time_UpdateDate takes integer y, integer remainSec, integer dayBy2015 returns nothing
-	local boolean bIsLeap = IsLeapYear(y)
+    local boolean bIsLeap = IsLeapYear(y)
     local real dayNum = I2R(remainSec) / (24*60*60)
-	local integer totalDay = MathFloor(dayNum)
+    local integer totalDay = MathFloor(dayNum)
     local integer totalDayBase = 0
-	local integer totalMonDay = 0
-	local integer curMonDay = 0
-	local integer m = 1
+    local integer totalMonDay = 0
+    local integer curMonDay = 0
+    local integer m = 1
 
-	if (dayNum - I2R(totalDay)) > 0 then
-		set totalDay = totalDay + 1
-	endif
-	if totalDay == 0 then
-		set totalDay = 1
-	endif
+    if (dayNum - I2R(totalDay)) > 0 then
+        set totalDay = totalDay + 1
+    endif
+    if totalDay == 0 then
+        set totalDay = 1
+    endif
 
     set dayBy2015 = dayBy2015 + totalDay
     
-	loop
-	exitwhen m > 12
-		if bIsLeap and m == 2 then 
-			set curMonDay = NORMALMON[m] + 1
-		else
-			set curMonDay = NORMALMON[m]
-		endif
+    loop
+    exitwhen m > 12
+        if bIsLeap and m == 2 then 
+            set curMonDay = NORMALMON[m] + 1
+        else
+            set curMonDay = NORMALMON[m]
+        endif
         if totalDay <= curMonDay then
             set XYweuiZHDZapiTime_Year = y
-			set XYweuiZHDZapiTime_Mon = m
-			set XYweuiZHDZapiTime_Day = totalDay
-			set XYweuiZHDZapiTime_Hour = MathMod(MathFloor(remainSec/(60*60) ), 24)
-			set XYweuiZHDZapiTime_Min = MathMod(MathFloor(remainSec/60) , 60 )
-			set XYweuiZHDZapiTime_Sec = MathMod(remainSec , 60)
+            set XYweuiZHDZapiTime_Mon = m
+            set XYweuiZHDZapiTime_Day = totalDay
+            set XYweuiZHDZapiTime_Hour = MathMod(MathFloor(remainSec/(60*60) ), 24)
+            set XYweuiZHDZapiTime_Min = MathMod(MathFloor(remainSec/60) , 60 )
+            set XYweuiZHDZapiTime_Sec = MathMod(remainSec , 60)
             set m = 100
         endif
         
-		set m = m + 1
+        set m = m + 1
         set totalDay = totalDay - curMonDay
-	endloop
-	
-	set XYweuiZHDZapiTime_Week = MathMod( MathMod(dayBy2015,7) + BASE2015_WEEKDAY, 7 )
+    endloop
+    
+    set XYweuiZHDZapiTime_Week = MathMod( MathMod(dayBy2015,7) + BASE2015_WEEKDAY, 7 )
 
 endfunction
 
 function GetDate takes integer now returns nothing
-	local integer remain = now - BASE2015_SEC + BJTIME// Ä¬ÈÏ¶«°ËÇø
-	local integer y = 2016
-	local integer baseRemain = 0
+    local integer remain = now - BASE2015_SEC + BJTIME// é»˜è®¤ä¸œå…«åŒº
+    local integer y = 2016
+    local integer baseRemain = 0
     local integer dayBy2015 = 0
     local integer baseDayBy2015 = 0
     
-	loop
-	exitwhen y > 3000
-		set baseRemain = remain
+    loop
+    exitwhen y > 3000
+        set baseRemain = remain
         set baseDayBy2015 = dayBy2015
-		if IsLeapYear(y) then
-			set remain = remain - LS
+        if IsLeapYear(y) then
+            set remain = remain - LS
             set dayBy2015 = dayBy2015 + 366
-		else
-			set remain = remain - NS
+        else
+            set remain = remain - NS
             set dayBy2015 = dayBy2015 + 365
-		endif
-		if remain < 0 then
-			call Time_UpdateDate(y, baseRemain, baseDayBy2015)
-			set y = 10000
-		endif
-		set y = y + 1
-	endloop
+        endif
+        if remain < 0 then
+            call Time_UpdateDate(y, baseRemain, baseDayBy2015)
+            set y = 10000
+        endif
+        set y = y + 1
+    endloop
 endfunction
 
 
@@ -142,7 +143,7 @@ function ShowDataByTime takes integer time returns nothing
         set time = DzAPI_Map_GetGameStartTime()
     endif
     call GetDate(time)
-    call BJDebugMsg( "ÏÖÔÚÊ±¼äÎª" + I2S(XYweuiZHDZapiTime_Year) + "Äê" + I2S(XYweuiZHDZapiTime_Mon)+"ÔÂ"+ I2S(XYweuiZHDZapiTime_Day)+"ÈÕ"+ I2S(XYweuiZHDZapiTime_Hour)+"Ê±"+ I2S(XYweuiZHDZapiTime_Min)+"·Ö"+ I2S(XYweuiZHDZapiTime_Sec)+"Ãë  "+"ÐÇÆÚ" + WEEKSTR[XYweuiZHDZapiTime_Week]  )
+    call BJDebugMsg( "çŽ°åœ¨æ—¶é—´ä¸º" + I2S(XYweuiZHDZapiTime_Year) + "å¹´" + I2S(XYweuiZHDZapiTime_Mon)+"æœˆ"+ I2S(XYweuiZHDZapiTime_Day)+"æ—¥"+ I2S(XYweuiZHDZapiTime_Hour)+"æ—¶"+ I2S(XYweuiZHDZapiTime_Min)+"åˆ†"+ I2S(XYweuiZHDZapiTime_Sec)+"ç§’  "+"æ˜ŸæœŸ" + WEEKSTR[XYweuiZHDZapiTime_Week]  )
 endfunction
 
 function UpdateTimeAllTimer takes nothing returns nothing
