@@ -115,7 +115,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 				call DisplayTextToPlayer(GetOwningPlayer(cangling), 0., 0., "|cFFFF66CC【消息】|r战魂与法魂冷却期间不能切换装备栏,请等冷却结束.")
 				return
 			endif  
-			set iiii = iiii +1
+			set iiii = iiii + 1
 		endloop
 		//保存装备
 		loop

@@ -1262,6 +1262,8 @@ library_once Constant initializer InitConstant requires JBase
 				return "寒殇：|cFF3333FF耀金独心|r"
 			elseif (i == 2) then
 				return "星胧：|cffff00ff绯想龙域|r"
+			elseif (i == 3) then
+				return "梦霁：|cffff00ff独步帝弓|r"
 			endif
 		endif
 
