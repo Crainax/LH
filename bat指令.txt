@@ -1,1 +1,4 @@
 dir F:\视频\三国演义 /b > C:\Users\xhs\Desktop\1.txt
+
+sed -i 's/a/b/g' a.txt
+sed -i 's/被替换的内容/要替换成的内容/' file        -i 直接修改并保存
