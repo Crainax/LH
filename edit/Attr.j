@@ -7,6 +7,7 @@ library_once Attr initializer InitAttr requires LHBase
 		integer array IAgi
 		integer array IInt
 	endglobals
+	
 //---------------------------------------------------------------------------------------------------
 
 	/*
