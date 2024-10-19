@@ -1,8 +1,8 @@
-//! import "Spin.j"
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
+#include  "Spin.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
 /*
     英雄梦霁的技能
 */
@@ -114,7 +114,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 			if (IsZhanfahun(UnitItemInSlotBJ(cangling,iiii)) and not(IsItemPawnable(UnitItemInSlotBJ(cangling,iiii)))) then
 				call DisplayTextToPlayer(GetOwningPlayer(cangling), 0., 0., "|cFFFF66CC【消息】|r战魂与法魂冷却期间不能切换装备栏,请等冷却结束.")
 				return
-			endif  
+			endif
 			set iiii = iiii + 1
 		endloop
 		//保存装备
@@ -172,7 +172,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 	/*
 	    马甲的攻击伤害
 	*/
-	
+
 	function SimulateDamageCangling takes unit u returns boolean
 
 		if (GetUnitTypeId(u) == 'h00V') then
@@ -183,15 +183,15 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 					debug call SetCanglingSpinOK(GetOwningPlayer(cangling))
 				endif
 			endif
-			return true 
+			return true
 		endif
 		if (GetUnitTypeId(u) == 'h00W') then
 			call UnitDamageTarget( cangling, GetTriggerUnit(), GetDamageAgi(cangling) * 0.35, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		if (GetUnitTypeId(u) == 'h00Y') then
 			call SimulateSpell(GetEventDamageSource(),GetTriggerUnit(),'A0HU',1,5,"hex",false,false,true)
-			return true 
+			return true
 		endif
 		return false
 	endfunction
@@ -216,8 +216,8 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
-		set tt = null 
+		set t = null
+		set tt = null
 	endfunction
 
 	private function BuMieZhenYan takes integer lifeTime,integer abilityID,real x,real y returns nothing
@@ -320,7 +320,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 		call PauseTimer(t)
 		call FlushChildHashtable(spellTable,id)
 		call DestroyTimer(t)
-    	set t = null 
+    	set t = null
     endfunction
 
     private function StartTimerGuangyin takes unit u returns nothing
@@ -340,8 +340,8 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 		    call SetUnitManaBJ( GetDyingUnit(), 0.5 * GetUnitState(GetDyingUnit(),UNIT_STATE_MAX_MANA) )
 			return true
 		else
-			return false 	
-		endif 
+			return false
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -465,7 +465,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 			call DestroyTimer(t)
 	    	call PrintSpellContent(GetOwningPlayer(cangling),GetAbilityName('A0HM'),"技能时间结束！")
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	/*
@@ -505,21 +505,21 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 			call BuMieZhenYan(5,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY())
 		elseif (GetSpellAbilityId() == 'A0HJ' and GetSpellAbilityUnit() == cangling) then
 			call LianJieDiMeng()
-		elseif (GetSpellAbilityId() == 'A0HK') then 
+		elseif (GetSpellAbilityId() == 'A0HK') then
 			call GuangYinWuSuo()
-		elseif (GetSpellAbilityId() == 'A0HL') then 
+		elseif (GetSpellAbilityId() == 'A0HL') then
 			call YiQiSanHua()
-		elseif (GetSpellAbilityId() == 'A0HM') then 
+		elseif (GetSpellAbilityId() == 'A0HM') then
 			call TanLangMangYao()
 		//切换背包
-		elseif (GetSpellAbilityId() == 'A0HH') then 
+		elseif (GetSpellAbilityId() == 'A0HH') then
 			if (IsInRect(GetUnitX(cangling),GetUnitY(cangling),gg_rct_______a3) and IsInRect(GetUnitX(cangling),GetUnitY(cangling),gg_rct_______a3)) then
 				call DisplayTextToPlayer(GetOwningPlayer(cangling), 0., 0., "|cFFFF66CC【消息】|r此处禁止切换背包.")
 			else
 				call BiBoBaoZhuo()
 			endif
 		//阳炎无双
-		elseif (GetSpellAbilityId() == 'A0HS') then 
+		elseif (GetSpellAbilityId() == 'A0HS') then
 			call YangYanWuShuang()
 
 		endif

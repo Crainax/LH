@@ -1,11 +1,11 @@
- //! import "LHBase.j"
-//! import "Moqi.j"
-//! import "Seyu.j"
-//! import "Mengji.j"
-//! import "Huanyi.j"
-//! import "Xinglong.j"
-//! import "Lichi.j"
-//! import "Xiaoting.j"
+ #include  "LHBase.j"
+#include  "Moqi.j"
+#include  "Seyu.j"
+#include  "Mengji.j"
+#include  "Huanyi.j"
+#include  "Xinglong.j"
+#include  "Lichi.j"
+#include  "Xiaoting.j"
 
 library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Lichi,Xiaoting
 
@@ -15,7 +15,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	    天赋禁用
 	*/
 	function ForbidTianfu takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		set BTianfu = true
 		loop
 			exitwhen i > 6
@@ -30,7 +30,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)			
+					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
 				else
 					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),false)
 				endif
@@ -43,7 +43,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	    天赋允许
 	*/
 	function AllowTianfu takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		set BTianfu = false
 		loop
 			exitwhen i > 6
@@ -89,11 +89,11 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	    循环禁用天赋
 	*/
 	struct TianfuForbidder
-		
+
 		private real IForbid
 		private real IAllow
 		private timer t
-		
+
 
 		static method allowTimer takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
@@ -340,7 +340,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function Yanyanhuo12 takes unit caster returns nothing
@@ -369,7 +369,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 
 	private function TDengEquitAct takes nothing returns nothing
 		local integer i = 1
-		local integer dengCount = 0 
+		local integer dengCount = 0
 		loop
 			exitwhen i > 6
 			if(IsDeng(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
@@ -400,7 +400,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 
 	private function TDengDropAct takes nothing returns nothing
 		local integer i = 1
-		local integer dengCount = 0 
+		local integer dengCount = 0
 		loop
 			exitwhen i > 6
 			if(IsDeng(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
@@ -408,7 +408,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 			endif
 			set i = i +1
 		endloop
-		if (dengCount <= 1 and GetDeng(GetTriggerUnit())>= 3) then	
+		if (dengCount <= 1 and GetDeng(GetTriggerUnit())>= 3) then
 			call CancelJuexing(GetTriggerUnit())
 		endif
 	endfunction

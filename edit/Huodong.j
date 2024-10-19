@@ -1,6 +1,6 @@
 
-//! import "LHBase.j"
-//! import "Achievement.j"
+#include  "LHBase.j"
+#include  "Achievement.j"
 library_once Huodong requires LHBase,Achievement
 
 	globals

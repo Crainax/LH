@@ -1,8 +1,8 @@
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-//! import "Spin.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+#include  "Spin.j"
 
 /*
     英雄星胧的技能
@@ -70,8 +70,8 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		马甲的死亡触发效果 
-	*/	
+		马甲的死亡触发效果
+	*/
 	function SimulateDeathXinglong takes unit u returns nothing
 		if (GetUnitTypeId(u) == 'h01L') then
 			call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),600,XinglongDamage*R3(IsLong(),1.5,1)/10*GetUnitUserData(u))
@@ -133,7 +133,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 		if (ITuxi >= 3) then
 			return
 		endif
-		set ITuxi = ITuxi + 1 
+		set ITuxi = ITuxi + 1
 		if (abilityID != 0) then
 	    	call PrintSpell(GetOwningPlayer(xinglong),GetAbilityName(abilityID),XinglongDamage)
 		endif
@@ -152,7 +152,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 				set i = i + 1
 			endloop
 		endif
-		set ITuxi = ITuxi - 1 
+		set ITuxi = ITuxi - 1
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -190,7 +190,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
     private function TSpellXinglongDamageCon takes nothing returns boolean
     	return IsThirdSpellOK(xinglong) and GetEventDamage() < GetUnitState(xinglong,UNIT_STATE_MAX_LIFE) and GetUnitAbilityLevel(xinglong,'A0JP') == 1 and IsUnitInUnitBack(xinglong,GetEventDamageSource(),60) and GetEventDamage() > 0 and GetEventDamageSource() != xinglong
     endfunction
-    
+
     private function TSpellXinglongDamageAct takes nothing returns nothing
 		call SetUnitLifeBJ(xinglong,GetUnitState(xinglong,UNIT_STATE_LIFE)+GetEventDamage()*2)
     	if not(BDamage) then
@@ -257,7 +257,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 		elseif (GetSpellAbilityId() == 'A0JQ') then
 			//龙皇轮回
 			call Longhuanglunhui()
-		elseif (GetSpellAbilityId() == 'AEme' or GetSpellAbilityId() == 'A0NG') then 
+		elseif (GetSpellAbilityId() == 'AEme' or GetSpellAbilityId() == 'A0NG') then
 			//龙皇附体
 			call Longhuangfuti()
 		endif
@@ -454,7 +454,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 	    call TimerStart(CreateTimer(),1,true,function FlashXinglongDamage)
 
 	    //升级回血及造成伤害
-	    set TSpellXinglongUpdate = CreateTrigger() 
+	    set TSpellXinglongUpdate = CreateTrigger()
 	    call TriggerRegisterUnitEvent( TSpellXinglongUpdate, xinglong, EVENT_UNIT_HERO_LEVEL )
 	    call TriggerAddAction(TSpellXinglongUpdate, function TSpellXinglongUpdateAct)
 
@@ -463,7 +463,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 	    call TriggerRegisterAnyUnitEventBJ( TSpellXinglongAttack, EVENT_PLAYER_UNIT_ATTACKED )
 	    call TriggerAddCondition(TSpellXinglongAttack, Condition(function TSpellXinglongAttackCon))
 	    call TriggerAddAction(TSpellXinglongAttack, function TSpellXinglongAttackAct)
-	    
+
 	    //伤害免疫事件
 	    set TSpellXinglongDamage = CreateTrigger()
 	    call TriggerRegisterUnitEvent( TSpellXinglongDamage, xinglong, EVENT_UNIT_DAMAGED )

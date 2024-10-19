@@ -1,5 +1,5 @@
 
-//! import "HanShang.j"
+#include  "HanShang.j"
 function main takes nothing returns nothing
 endfunction
 

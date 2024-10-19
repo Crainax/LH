@@ -1,12 +1,12 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
 /*
     英雄瑟雨的技能
 */
-library_once Seyu requires SpellBase,Printer,Attr 
-	
+library_once Seyu requires SpellBase,Printer,Attr
+
 	globals
 		unit seyu = null
 
@@ -16,16 +16,16 @@ library_once Seyu requires SpellBase,Printer,Attr
 		private texttag TTPower
 		private integer IPower
 		/*
-			增益值 
-		*/	
+			增益值
+		*/
 		private real RAddtion
 
 		/*
 		    空间封冻技能
 		*/
-		private trigger TSpellSeyu		
-		private trigger TSpellSeyu2		
-		private trigger TSpellSeyu3	
+		private trigger TSpellSeyu
+		private trigger TSpellSeyu2
+		private trigger TSpellSeyu3
 		key kAnShaCount
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    local unit l_unit
 	    call GroupEnumUnitsInRange(l_group, GetUnitX(speller), GetUnitY(speller), 600, Condition(function EnemyFilterSeyu))
 	    call AddChongdongGroup(l_group,600,R2I(SquareRoot(I2R(GetHeroLevel(seyu)))))
-	    
+
 	    loop
 	        set l_unit = FirstOfGroup(l_group)
 	        exitwhen l_unit == null
@@ -122,7 +122,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 		call SetTextTagPosUnitBJ(TTPower,seyu,25)
 	endfunction
 
-	
+
 	//数值刷新,1秒1次
 	private function FlashPowerData takes nothing returns nothing
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(seyu))
@@ -138,7 +138,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 			call AddAgiPercent(index, delta - RAddtion  )
 			set RAddtion = delta
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(seyu), GetUnitY(seyu) ))
-		endif 
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -147,7 +147,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	private function TDeathAddPowerCon takes nothing returns boolean
 		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu)
 	endfunction
-	
+
 	private function TDeathAddPowerAct takes nothing returns nothing
 		set IPower = IPower + 1
 	endfunction
@@ -182,7 +182,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	private function TSpellSeyu3Con takes nothing returns boolean
     	return GetAttackedUnitBJ() == seyu and GetRandomInt(1,20) == 1 and GetUnitState(seyu,UNIT_STATE_MANA) >= 400
 	endfunction
-		
+
 	private function TSpellSeyu3Act takes nothing returns nothing
 		local real damage = GetDamageAgi(seyu) * 2.5
 		local group g = CreateGroup()
@@ -214,7 +214,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	private function AnShaZhiWuTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
-		local group g 
+		local group g
 		local real damage = GetDamageAgi(seyu) * 0.5
 		local integer value = LoadInteger(spellTable,id,kAnShaCount)
 		local group l_group
@@ -254,7 +254,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 			call DestroyTimer(t)
 			call FlushChildHashtable(spellTable,id)
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function AnShaZhiWu takes nothing returns nothing
@@ -302,7 +302,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 				set i = 1
        			loop
        				exitwhen i > 6
-       				
+
 		            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 		                call AddAgiPercent(i,0.4)
 		            endif

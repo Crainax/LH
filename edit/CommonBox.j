@@ -1,4 +1,4 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 
 library_once Box requires LHBase
 

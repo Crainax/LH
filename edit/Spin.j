@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+///#include  "NetVersion.j"
 
 library_once Spin requires LHBase,Version
-	
+
 	globals
 		boolean array BCancelSpin
 
@@ -23,7 +23,7 @@ library_once Spin requires LHBase,Version
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
 		set it = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function CreateFanzhuanItem takes unit u returns nothing
@@ -197,7 +197,7 @@ library_once Spin requires LHBase,Version
 		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLichi1Spin(p))
 		//return true
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    星胧的皮肤条件

@@ -1,8 +1,8 @@
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-//! import "Spin.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+#include  "Spin.j"
 
 /*
     英雄离魑的技能
@@ -42,7 +42,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 
 		//神月缺的单位组
 		private integer IShenyue = 0
-		private group array GShenyue 
+		private group array GShenyue
 		private boolean BShenyue = false
 
 		//囚天地
@@ -79,8 +79,8 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		马甲的死亡触发效果 
-	*/	
+		马甲的死亡触发效果
+	*/
 	function SimulateDeathLichi takes unit u returns nothing
 		if (GetUnitTypeId(u) == 'h02A') then
 			call DamageArea(lichi,GetUnitX(u),GetUnitY(u),350,LichiDamage * 0.25)
@@ -95,11 +95,11 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 		//幻影
 		if (GetUnitTypeId(u) == 'h028' or GetUnitTypeId(u) == 'h02F') then
 			call UnitDamageTarget( lichi, GetTriggerUnit(), LichiDamage * 0.05 * IJ3(lichi,2,1) , false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		if (GetUnitTypeId(u) == 'h02A') then
 			call UnitDamageTarget( lichi, GetTriggerUnit(), LichiDamage * 0.01 , false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		return false
 	endfunction
@@ -119,7 +119,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	/*
 	    获取幻影的数量
 	*/
-	private function GetHuanyingCount takes nothing returns integer 
+	private function GetHuanyingCount takes nothing returns integer
 		local integer i = 1
 		local integer result = 0
 		loop
@@ -214,7 +214,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
     			endloop
     		endif
     	endif
-	endfunction	
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    殉-影炎绝
@@ -293,7 +293,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 				set ny = y + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
 				call DamageArea(lichi,nx,ny,350 + RJ3(lichi,50,0) + R3(IsLichiSpin(),25,0),damage)
 	    		call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", nx,ny ))
-    		    call SetUnitAnimation( UHuan[i], "Spell Throw" ) 
+    		    call SetUnitAnimation( UHuan[i], "Spell Throw" )
 			endif
 			set i = i +1
 		endloop
@@ -305,7 +305,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
    	private function TAttackLichiCon takes nothing returns boolean
     	return GetAttacker() == lichi or GetAttackedUnitBJ() == lichi
     endfunction
-    
+
     private function TAttackLichiAct takes nothing returns nothing
     	local integer i
     	if (GetAttacker() == lichi) then
@@ -341,7 +341,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
     private function TSpellLichiDamageCon takes nothing returns boolean
     	return GetEventDamage() > GetUnitState(lichi,UNIT_STATE_LIFE) and not(BTianfu)
     endfunction
-    
+
     private function TSpellLichiDamageAct takes nothing returns nothing
     	local integer i = 1
     	loop
@@ -392,7 +392,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 			call DestroyTimer(t)
 			call ClearYanhun()
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function Yanhunyin takes unit u returns nothing
@@ -417,7 +417,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    神月盈     
+	    神月盈
 	*/
 	private function ShenyueyingTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
@@ -447,7 +447,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
      		if (UHuan[i] != null) then
 				call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Avatar\\AvatarCaster.mdl", GetUnitX(UHuan[i]),GetUnitY(UHuan[i])) )
 	    		call UnitAddAbility(UHuan[i],'A0B9')
-    		    call SetUnitAnimation( UHuan[i], "Spell Throw" ) 
+    		    call SetUnitAnimation( UHuan[i], "Spell Throw" )
     		endif
 			set i = i +1
 		endloop
@@ -460,7 +460,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	private function QiutiandiSmart takes real x,real y returns nothing
 		local unit u = null
 		if (GetDistance(GetUnitX(lichi),GetUnitY(lichi),x,y) > 1200) then
-			return 
+			return
 		endif
 		set u = CreateUnit(GetOwningPlayer(lichi),'h02A',x,y,0)
 		set IQiutian = IQiutian + 1
@@ -515,15 +515,15 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 500 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 500 * SinBJ(GetUnitFacing(lichi)))
 		elseif (GetSpellAbilityId() == 'A0ML') then
 			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 750 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 750 * SinBJ(GetUnitFacing(lichi)))
-		elseif (GetSpellAbilityId() == 'A0MM') then 
+		elseif (GetSpellAbilityId() == 'A0MM') then
 			call Yingyanjue(GetSpellAbilityId(),GetUnitX(lichi) + 1000 * CosBJ(GetUnitFacing(lichi)),GetUnitY(lichi) + 1000 * SinBJ(GetUnitFacing(lichi)))
-		elseif (GetSpellAbilityId() == 'A0MO') then 
+		elseif (GetSpellAbilityId() == 'A0MO') then
 			//湮魂印
 			call Yanhunyin(GetSpellTargetUnit())
-		elseif (GetSpellAbilityId() == 'A0MP') then 
+		elseif (GetSpellAbilityId() == 'A0MP') then
 			//神月盈
 			call Shenyueying()
-		elseif (GetSpellAbilityId() == 'A0MQ') then 
+		elseif (GetSpellAbilityId() == 'A0MQ') then
 			//囚天地
 			call Qiutiandi()
 		endif
@@ -539,7 +539,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 			if (GetUnitLifePercent(lichi) < 98) then
 				call SetUnitLifeBJ(lichi,(GetUnitState(lichi,UNIT_STATE_LIFE)/6) * 5 + GetUnitState(lichi,UNIT_STATE_MAX_LIFE)  / 6)
 		    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(lichi), GetUnitY(lichi) ))
-			endif	
+			endif
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
-//! import "LHBase.j"
-//! import "Attr.j"
+#include  "LHBase.j"
+#include  "Attr.j"
 
-library_once Shen requires LHBase,Attr 
+library_once Shen requires LHBase,Attr
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -22,7 +22,7 @@ library_once Shen requires LHBase,Attr
 		local unit u = null
 		local string s = null
 		local group g = null
-		
+
 		//单位类型
 		if (((itemType == 'tlum') or (itemType == 'ICS1') or (itemType == 'I04W'))) then
         	set s = "Objects\\Spawnmodels\\Undead\\UDeathMedium\\UDeath.mdl"

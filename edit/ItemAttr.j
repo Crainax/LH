@@ -1,10 +1,10 @@
-//! import "LHBase.j"
-//! import "Attr.j"
+#include  "LHBase.j"
+#include  "Attr.j"
 /*
     物品类型的属性初始化
 */
 library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    力量
@@ -206,7 +206,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	/*
 	    初始化衣服还有新灯
 	*/
-	
+
 	private function InitDengClothes takes nothing returns nothing
 		//灯
 	    call SetItem3W( 'ILI1', 1000 )
@@ -395,7 +395,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 	    call SetItem3W( 'IB07' , 70000)
 	    call SetItem3W( 'IB04' , 24000)
 	    call SetItem3W( 'IB02' , 8000)
-    
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -537,7 +537,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemAgiPerc( 'I05T', 0.35)
 		call SetItemIntPerc( 'I05T', 0.35)
 		call SetItemAttackPerc( 'I05T', 0.75)
-	    call SetItemSpellPerc( 'I05T' ,  0.5)		
+	    call SetItemSpellPerc( 'I05T' ,  0.5)
 		call SetItemHPPer( 'I04Y' , 0.35)
 		call SetItemDefensePer( 'I04Y', 0.35)
 		call SetItemDamagePerc( 'I04Y' , 0.35)
@@ -545,7 +545,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemAgiPerc( 'I04Y', 0.35)
 		call SetItemIntPerc( 'I04Y', 0.35)
 		call SetItemAttackPerc( 'I04Y', 0.75)
-	    call SetItemSpellPerc( 'I04Y' ,  0.5)		
+	    call SetItemSpellPerc( 'I04Y' ,  0.5)
 
 		call SetItemHPPer( 'I07G' , 0.4)
 		call SetItemDefensePer( 'I07G', 0.4)
@@ -554,7 +554,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemAgiPerc( 'I07G', 0.4)
 		call SetItemIntPerc( 'I07G', 0.4)
 		call SetItemAttackPerc( 'I07G', 0.8)
-	    call SetItemSpellPerc( 'I07G' ,  0.6)		
+	    call SetItemSpellPerc( 'I07G' ,  0.6)
 		call SetItemHPPer( 'I07H' , 0.4)
 		call SetItemDefensePer( 'I07H', 0.4)
 		call SetItemDamagePerc( 'I07H' , 0.4)
@@ -562,7 +562,7 @@ library_once ItemAttr initializer InitItemAttr requires LHBase,Attr
 		call SetItemAgiPerc( 'I07H', 0.4)
 		call SetItemIntPerc( 'I07H', 0.4)
 		call SetItemAttackPerc( 'I07H', 0.8)
-	    call SetItemSpellPerc( 'I07H' ,  0.6)		
+	    call SetItemSpellPerc( 'I07H' ,  0.6)
 		/*
 		    衣服
 		*/

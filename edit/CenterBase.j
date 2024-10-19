@@ -1,4 +1,4 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 /*
     基地有关,不能A队友
 */
@@ -10,11 +10,11 @@ library_once CenterBase initializer InitCenterBase requires LHBase,Version
 //---------------------------------------------------------------------------------------------------
 	/*
 		A基地的处死
-	*/	
+	*/
 	private function TAttackCenterBaseCon takes nothing returns boolean
 		return ((IsUnitType(GetAttackedUnitBJ(), UNIT_TYPE_STRUCTURE) == true) and (GetOwningPlayer(GetAttackedUnitBJ()) == Player(6)) and (IsUnitAlly(GetAttacker(), Player(6)) == true))
 	endfunction
-	
+
 	private function TAttackCenterBaseAct takes nothing returns nothing
 			call IssueImmediateOrder(GetAttacker(),"stop")
 			call KillSelf(GetAttacker())
@@ -52,7 +52,7 @@ library_once CenterBase initializer InitCenterBase requires LHBase,Version
     	call TriggerRegisterUnitEvent( gg_trg____________________035, gg_unit_haro_0030, EVENT_UNIT_DAMAGED )
 	    call UnitAddAbility(gg_unit_haro_0030,'Avul')
 	    call PolledWait(30.00)
-	    call UnitRemoveAbility(gg_unit_haro_0030,'Avul')	    
+	    call UnitRemoveAbility(gg_unit_haro_0030,'Avul')
 	    call DisplayTextToForce( GetPlayersAll(), "|cFFFF66CC【提示】|r防护罩消失。" )
 	    call DisplayTextToForce( GetPlayersAll(), "|cFFFF66CC【提示】|r防护罩消失。" )
 	    call DisplayTextToForce( GetPlayersAll(), "|cFFFF66CC【提示】|r防护罩消失。" )

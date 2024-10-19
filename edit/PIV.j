@@ -1,9 +1,9 @@
-//! import "LHBase.j"
-//! import "Attr.j"
-//! import "SpellBase.j"
-//! import "Juexing.j"
-/////! import "Beast.j"
-/////! import "Netversion.j"
+#include  "LHBase.j"
+#include  "Attr.j"
+#include  "SpellBase.j"
+#include  "Juexing.j"
+///#include  "Beast.j"
+///#include  "Netversion.j"
 library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
 	globals
 		private boolean isFirst = true
@@ -72,7 +72,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		call ForGroupBJ( g, function JingjuDiyuhuo )
 		set u = null
 		call DestroyGroup(g)
-		set t = null 
+		set t = null
 		set g = null
 	endfunction
 
@@ -116,7 +116,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 			call BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.")
 		endif
 
-		set sPIV[GetConvertedPlayerId(p)] = true 
+		set sPIV[GetConvertedPlayerId(p)] = true
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权，如果要关闭赞助功能,请输入-zz")
 		debug call SavePIV(p,GetPIVCode(GetPlayerName(p)))
 	endfunction
@@ -253,7 +253,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 	endfunction
 
 	function CreatePIVDialog takes nothing returns nothing
-	    local trigger t 
+	    local trigger t
 	    local dialog d
 
 		if (IsPIV(GetTriggerPlayer())) then
@@ -349,7 +349,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		local integer llOOO=0
 		local string lllOO= ""
 		local string ll1OO= ""
-		local string array l1lOO 
+		local string array l1lOO
 		local integer O0l11=IAbsBJ(StringHash(GetPlayerName(l1000)))
 		local integer l11O0=IAbsBJ(StringHash(GetPlayerName(l1000)))
 		local string OOl11=SubStringBJ(l1OOO, 1, 10)
@@ -493,7 +493,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 	function ClosePIV takes nothing returns nothing
 		call FlushParentHashtable(PIVTable)
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	private function InitPIV takes nothing returns nothing
 		local integer i = 1
@@ -505,7 +505,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 			set i = i +1
 		endloop
 
-		call SaveBoolean(PIVTable,kPIV,560584534,true) 
+		call SaveBoolean(PIVTable,kPIV,560584534,true)
 		//call SaveBoolean(PIVTable,kPIV,805389327,true)
 		//2.64:
 		call SaveBoolean(PIVTable,kPIV,1386963254,true)

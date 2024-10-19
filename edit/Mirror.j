@@ -1,6 +1,6 @@
 
-//! import "LHBase.j"
-//! import "Attr.j"
+#include  "LHBase.j"
+#include  "Attr.j"
 /*
     转生
 */
@@ -72,7 +72,7 @@ library_once Mirror requires LHBase ,Attr
     /*
         根据难度给转生加上技能与提示
     */
-    
+
     function AddMirrorSpell takes nothing returns nothing
         local unit mirror = udg_U_Zhuansheng_Dantiao[2]
         local unit defier = udg_U_Zhuansheng_Dantiao[1]

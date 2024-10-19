@@ -1,12 +1,12 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
-//! import "SpellBase.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
+#include  "SpellBase.j"
+///#include  "NetVersion.j"
 /*
     新副本，秘境挑战
 */
 library_once MiJing requires LHBase,Diffculty,SpellBase,Version
-	
+
     globals
         //当前层数
         integer IDeng = 0
@@ -163,7 +163,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         call DestroyGroup(l_group)
         set l_group = null
         set l_unit =null
-        return count 
+        return count
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -172,12 +172,12 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     private function TDeathYexiCon takes nothing returns boolean
         return RectContainsUnit(gg_rct_M6,GetDyingUnit()) and (GetUnitPointValue(GetDyingUnit()) != 0) and (GetUnitPointValue(GetDyingUnit()) != 123) and (GetPlayerController(GetOwningPlayer(GetDyingUnit())) == MAP_CONTROL_USER)
     endfunction
-    
+
     private function TDeathYexiAct takes nothing returns nothing
         call CreateSpellTextTag("减少灯进度",GetDyingUnit(),0,0,0,2)
         set IProcess = IMaxBJ(IProcess - 1,0)
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         21-25夜袭
@@ -218,7 +218,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call PauseTimer(t)
             call DestroyTimer(t)
         endif
-        set t = null 
+        set t = null
     endfunction
 
     //创建大爆炸
@@ -230,7 +230,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call PauseTimer(t)
             call DestroyTimer(t)
         endif
-        set t = null 
+        set t = null
     endfunction
 
     //位移打人
@@ -250,8 +250,8 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call PauseTimer(t)
             call DestroyTimer(t)
         endif
-        set t = null 
-    endfunction    
+        set t = null
+    endfunction
 
     //创建假灯
     private function SummonBingfeng takes nothing returns nothing
@@ -268,7 +268,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call PauseTimer(t)
             call DestroyTimer(t)
         endif
-        set t = null 
+        set t = null
     endfunction
 
     private function CreateYexi takes nothing returns nothing
@@ -416,7 +416,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             //call TimerStart(CreateTimer(),0.1,false,function GiveMengjiMijing)
             return
         endif
-        
+
         set IMijing[index] = UnitAddItemByIdSwapped(GetDengJiangli(), udg_H[index])
         call DisplayTextToPlayer(ConvertedPlayer(index), 0., 0., "|cFFFF66CC【消息】|r秘境挑战第"+ I2S(IDeng) + "层挑战成功！奖励"+GetItemName(GetLastCreatedItem())+"发放到了你的身上.")
         call PingMinimapForForce( GetForceOfPlayer(ConvertedPlayer(index)), GetUnitX(udg_H[index]), GetUnitY(udg_H[index]), 5.00 )
@@ -478,7 +478,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         call ForGroupBJ( GMijing, function RemoveAllMijingUnit )
         call DisableTrigger(TDengUnderAttacked)
         set BMijingStart = false
-        set IProcess = 0 
+        set IProcess = 0
         set ITotalMonster = 0
         call PauseTimer(TMijingJudge)
         call DestroyTimer(TMijingJudge)
@@ -502,7 +502,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         set IProcess = IProcess + 1
 
         //失败条件:任一灯爆了
-        if not(IsUnitAliveBJ(UDeng)) then 
+        if not(IsUnitAliveBJ(UDeng)) then
             call DestroyAllMijing()
             call MijingFail()
             return
@@ -571,7 +571,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
         debug set BJiulun = true
         if (IDeng >= 25) then
             call BJDebugMsg("|cFFFF66CC【消息】|r秘境挑战已经达到最高的25层，25层之后敬请期待.")
-            return 
+            return
         endif
         if (BMijingStart) then
             call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r请完成当前挑战再挑战新的秘境.")
@@ -584,7 +584,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             endif
             call AdjustPlayerStateBJ( -1000, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
-        set IDeng = IDeng + 1 
+        set IDeng = IDeng + 1
         //强化怪物
         if (IDeng == 12) then
             call SetPlayerTechResearchedSwap(  'R012', NanDiff + 1 , Player(10))
@@ -656,7 +656,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
         elseif ((GetItemTypeId(GetSoldItem()) == 'I048')) then
             call StartMijing()
-        endif        
+        endif
 
     endfunction
 //---------------------------------------------------------------------------------------------------

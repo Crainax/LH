@@ -1,13 +1,13 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
 
 library_once Battle initializer InitBattle requires LHBase,Diffculty
-	
+
 	globals
 		boolean array BSkip
 	endglobals
 //---------------------------------------------------------------------------------------------------
-	
+
 	/*
 	    开启极速模式
 	*/

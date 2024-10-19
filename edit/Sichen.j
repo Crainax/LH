@@ -1,9 +1,9 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-/////! import "Pet.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+///#include  "Pet.j"
 /*
     英雄司宸的技能
 */
@@ -32,7 +32,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			
+
 	        if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 	            call AddMoneyPercent(i,value)
 	        endif
@@ -48,7 +48,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			
+
 	        if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
                 call AddIntPercent(i,value)
                 call AddAgiPercent(i,value)
@@ -104,7 +104,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	    马甲的死亡
 	*/
 	function SimulateDeathSichen takes unit u returns nothing
-		if (IsUnitInGroup(u,GTower)) then 
+		if (IsUnitInGroup(u,GTower)) then
 			if (GetUnitTypeId(GetDyingUnit()) == 'h0s2') then
 				call DestroyEffect(LoadEffectHandle(spellTable,GetHandleId(GetDyingUnit()),1))
 				call FlushChildHashtable(spellTable,GetHandleId(GetDyingUnit()))
@@ -161,7 +161,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	*/
 	function TSichenBuildingCon takes nothing returns boolean
 		return GetOwningPlayer(GetTriggerUnit()) == GetOwningPlayer(sichen)
-	endfunction 
+	endfunction
 
 	function TSichenBuildingUpdate takes nothing returns nothing
     	local unit u = GetTriggerUnit()
@@ -290,7 +290,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	/*
 	    马甲的攻击伤害
 	*/
-	
+
 	function SimulateDamageSichen takes nothing returns boolean
 
 		if (GetEventDamage() > 0) then
@@ -298,26 +298,26 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 			//塔1
 			if (GetUnitTypeId(GetEventDamageSource()) == 'h01C') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 		
+				return true
 			//塔2
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s1') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Incinerate\\FireLordDeathExplode.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-				return true 
+				return true
 			//千刃
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s2') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.15, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
+				return true
 			//神镜
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s4') then
 				call Yunluoliuyan(0,GetTriggerUnit(),6)
-				return true 
+				return true
 			//散华
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s5') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				call SetUnitLifeBJ(sichen,GetUnitState(sichen,UNIT_STATE_LIFE)+SichenDamage * 0.02)
 				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetDamageAgi(GetTriggerUnit()) * 0.02)
-				return true 
+				return true
 			//十绝一灭
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s6') then
 				if (GetUnitUserData(GetEventDamageSource()) >= 10) then
@@ -330,11 +330,11 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 					call SetUnitUserData(GetEventDamageSource(),GetUnitUserData(GetEventDamageSource())+1)
 				endif
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.5, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
+				return true
 			//穿云
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s7') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
+				return true
 			//孤鸿
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h0s8') then
 
@@ -343,7 +343,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 				call SetUnitLifeBJ(GetTriggerUnit(),GetUnitState(GetTriggerUnit(),UNIT_STATE_LIFE)+GetDamageAgi(GetTriggerUnit()) * 0.1)
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 				call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
-				return true 
+				return true
 			//抓宠物
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h1s7' or GetUnitTypeId(GetEventDamageSource()) == 'h1s4') then
 				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) and not(IsUnitIllusion(GetTriggerUnit()))) then
@@ -352,11 +352,11 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 			//硫炎
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01G') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.33, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
+				return true
 			//火箭
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h01H') then
 				call UnitDamageTarget( sichen, GetTriggerUnit(), SichenDamage * 0.75, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-				return true 
+				return true
 			endif
 
 		endif
@@ -368,7 +368,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	    亘月天地
 	*/
 	private function GenyuetiandiA takes nothing returns boolean
-		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] == GetFilterUnit() and not(IsWudi(GetFilterUnit())) 
+		return udg_H[GetConvertedPlayerId(GetOwningPlayer(GetFilterUnit()))] == GetFilterUnit() and not(IsWudi(GetFilterUnit()))
 	endfunction
 
     private function GenyuetiandiB takes nothing returns nothing
@@ -396,7 +396,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		call DestroyTimer(t)
 		call DestroyGroup(l_group)
 		set l_group = null
-		set t = null 
+		set t = null
 	endfunction
 
 	private function Genyuetiandi takes nothing returns nothing
@@ -439,7 +439,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
     private function TSpellSichen2Con takes nothing returns boolean
     	return (GetAttackedUnitBJ() == sichen or IsUnitInGroup(GetAttackedUnitBJ(),GTower)) and IsSecondSpellOK(sichen) == true and GetUnitState(sichen,UNIT_STATE_MANA) >= 250 and GetUnitAbilityLevel(sichen,'A0IR') == 1 and GetRandomInt(1,20) == 1
     endfunction
-    
+
     private function TSpellSichen2Act takes nothing returns nothing
     	call DisableTrigger(GetTriggeringTrigger())
 		call Yunluoliuyan('A0IR',GetAttackedUnitBJ(),2)
@@ -454,7 +454,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	private function TSpellSichen3Con takes nothing returns boolean
 		return IsThirdSpellOK(sichen) == true and GetUnitAbilityLevel(sichen,'A0IS') == 1 and GetEventDamage() > GetUnitState(sichen,UNIT_STATE_LIFE) and (GetTriggerUnit() == sichen or GetTriggerUnit() == UCili) and IsUnitAliveBJ(sichen) and GetRandomInt(1,2) == 1 and GetTriggerUnit() != null
 	endfunction
-	
+
 	private function TSpellSichen3Act takes nothing returns nothing
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", GetUnitX(sichen), GetUnitY(sichen) ))
 		call SetUnitLifePercentBJ(sichen,100)
@@ -463,7 +463,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 //---------------------------------------------------------------------------------------------------
 	/*
 		圣皇赐力
-	*/	
+	*/
 	private function ShenghuangciliTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
@@ -473,16 +473,16 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		call AddSpellPercent(index,-0.6)
 		if (UCili != null) then
 			call UnitRemoveAbility(UCili,'A0FU')
-		endif	
+		endif
 	    call PrintSpellContent(GetOwningPlayer(sichen),GetAbilityName('A0IT'),"，时间结束。")
 		call PauseTimer(t)
 		call FlushChildHashtable(spellTable,id)
 		call DestroyTimer(t)
 		set UCili = null
-		set t = null 
+		set t = null
 		set eff = null
 	endfunction
-		
+
 	private function Shenghuangcili takes nothing returns nothing
 		local timer t = CreateTimer()
 		//圣皇赐力
@@ -553,7 +553,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 			call SetUnitLifePercentBJ(GetSpellTargetUnit(),100)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\HolyBolt\\HolyBoltSpecialArt.mdl", GetUnitX(GetSpellTargetUnit()), GetUnitY(GetSpellTargetUnit()) ))
 	    	call PrintSpellName(GetOwningPlayer(sichen),GetAbilityName('A0IS'))
-		elseif (GetSpellAbilityId() == 'A0IT' and GetSpellTargetUnit() != gg_unit_haro_0030) then 
+		elseif (GetSpellAbilityId() == 'A0IT' and GetSpellTargetUnit() != gg_unit_haro_0030) then
 			call Shenghuangcili()
 		endif
 
@@ -662,7 +662,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 	    call TriggerAddCondition(TSpellSichen3,Condition(function TSpellSichen3Con))
 	    call TriggerAddAction(TSpellSichen3,function TSpellSichen3Act)
 	    //升级解锁科技
-	    set TSpellSichenUpdate = CreateTrigger() 
+	    set TSpellSichenUpdate = CreateTrigger()
 	    call TriggerRegisterUnitEvent( TSpellSichenUpdate, sichen, EVENT_UNIT_HERO_LEVEL )
 	    call TriggerAddAction(TSpellSichenUpdate, function TSpellSichenUpdateAct)
 	    //马甲伤害

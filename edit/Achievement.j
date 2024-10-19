@@ -1,10 +1,10 @@
-//! import "LHBase.j"
-//! import "ChallangerDZ.j"
+#include  "LHBase.j"
+#include  "ChallangerDZ.j"
 /*
     debug模式是网易模式
 */
 library_once Achievement requires LHBase,ChallangerDZ
-	
+
 	globals
 		integer array achiPage
 		integer array achieve
@@ -12,7 +12,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		integer array achieve3
 		integer array achieve4
 		effect array achiEff
-		
+
 		/*
 		    是否有彩色皮肤
 		*/
@@ -69,7 +69,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 
 		loop
 			exitwhen i == 1
-			
+
 			set result = result + R2I(Pow(2,mi)) * S2I(SubStringBJ(bin,i,i))
 
 			set mi = mi + 1
@@ -157,7 +157,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	function GetLowerHeroCount takes player p,integer limit,integer number returns boolean
 		local integer count = 0
 		local integer i = 1
-		loop 
+		loop
 			exitwhen i > HERO_COUNT
 			if (GetSpecifyHeroTimes(p,i) >= limit) then
 				set count = count + 1
@@ -671,7 +671,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		endif
 		if (IsAchieveOK(p,achieveID)) then
 			set achiPage[id] = achieveID
-			//彩名	
+			//彩名
 			if (IsAchieveColor(achieveID)) then
 				call SetPlayerName(p, GetAchievementName(achieveID) + GetRandomColor() + playerName[id] + "|r")
 			elseif (IsAchieveWhite(achieveID)) then
@@ -687,7 +687,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 				set achiEff[id] = AddSpecialEffectTargetUnitBJ("origin",udg_H[id],"war3mapImported\\lunhuitexiao.mdl")
 			endif
 			call DzAPI_Map_Stat_SetStat( p, "achi", GetAchievementWhiteName(achieveID) )
-		endif	
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -695,7 +695,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	*/
 	function SaveAchievePointer takes player p returns nothing
 		call DzAPI_Map_StoreInteger( p,  "page", achiPage[GetConvertedPlayerId(p)] )
-	endfunction 
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    存储成就数据1
@@ -736,11 +736,11 @@ library_once Achievement requires LHBase,ChallangerDZ
 		endif
 		//两个仅有的挑战成就
 		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then
-			return 
+			return
 		endif
 
 		if (achieveID != 410 and achieveID != 411 and CType > 0) then
-			return 
+			return
 		endif
 
 		if (achieveID != 418 and achieveID != 420 and CType == -1) then
@@ -768,10 +768,10 @@ library_once Achievement requires LHBase,ChallangerDZ
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想使用其他的成就，请输入\"-cj\"来切换你的现有成就。")
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
-	    创建成就对话框 
+	    创建成就对话框
 	*/
 	function NextPageAchievement takes player p, dialog d , integer page returns nothing
 	    local integer i = 1
@@ -841,7 +841,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		    	exitwhen i > 8
 		    	call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetAchievementName(i  + 38) + S3(IsAchieveOK(p,i + 38),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 		    	set i = i + 1
-		    endloop		
+		    endloop
 		elseif (page == 10) then
 	    	call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetAchievementName(49) + S3(IsAchieveOK(p,49),"|cffff9900(已解锁)|r","|cff33cccc(未解锁)|r")))
 			set i = 2
@@ -901,7 +901,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    创建超级成就对话框
 	*/
 	function CreateSuperDialogContent takes player p,dialog d returns nothing
-		
+
 		call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, GetSuperChallenageName(1) + S3(IsQuanchengjiu(p),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, GetSuperChallenageName(2) + S3(IsAchieveOK(p,42),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 		call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, GetSuperChallenageName(3) + S3(IsAchieveOK(p,47),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))

@@ -1,7 +1,7 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 
 library_once ChallangerDZ requires LHBase
-	
+
 	globals
 		constant integer COUNT_CHALLANGER = 7
 
@@ -206,8 +206,8 @@ library_once ChallangerDZ requires LHBase
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		获取一个玩家的完成率 
-	*/	
+		获取一个玩家的完成率
+	*/
 	function GetCompleteRate takes player p returns real
 		return I2R(GetAllComplete(p)) / (3.0*I2R(COUNT_CHALLANGER))
 	endfunction
@@ -263,9 +263,9 @@ library_once ChallangerDZ requires LHBase
 		local string s = ""
 		if (CDiff == 1) then
 			return S2I(SubStringBJ(easyCString[index] ,bit,bit)) > 0
-		elseif (CDiff == 2) then 
+		elseif (CDiff == 2) then
 			return S2I(SubStringBJ(middleCString[index] ,bit,bit)) > 0
-		elseif (CDiff == 3) then 
+		elseif (CDiff == 3) then
 			return S2I(SubStringBJ(hardCString[index] ,bit,bit)) > 0
 		endif
 
@@ -352,7 +352,7 @@ library_once ChallangerDZ requires LHBase
 			困难最低通关要求:(轮回)
 
 			|cff00ccff在该模式下不能获得成就及皮肤.|r
-			"		
+			"
 		elseif (i == 5) then
 			return "
 			镜像挑战如下:

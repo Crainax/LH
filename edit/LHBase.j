@@ -1,9 +1,9 @@
 
 
-/////! import "Test.j"
-//! import "Constant.j"
-//! import "JBase.j"
-//! import "PIVInterface.j"
+///#include  "Test.j"
+#include  "Constant.j"
+#include  "JBase.j"
+#include  "PIVInterface.j"
 
 library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface//,Test
 
@@ -23,7 +23,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         /*
             万劫封帝录
         */
-        
+
         unit Uwanjie = null
         hashtable itemTable = InitHashtable()
         hashtable LHTable = InitHashtable()
@@ -53,7 +53,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         unit lichi = null
         /*
             觉醒
-        */ 
+        */
         boolean array BJuexing1
         boolean array BJuexing2
         boolean array BJuexing3
@@ -76,7 +76,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
 
         //轮流玩家指针
         integer INextPlayerID = 0
-        
+
         //京剧
         boolean JJ1 = false
         boolean JJ2 = false
@@ -93,7 +93,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         boolean BBuqian3 = false
 
         //英雄是否3秒复活
-        boolean array B3SecondRevive 
+        boolean array B3SecondRevive
     endglobals
 //---------------------------------------------------------------------------------------------------
     /*
@@ -102,7 +102,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
     function IsStrHero takes unit u returns boolean
         return u == kaisa or u == chenji or u ==bajue or u == Heiyan or u == xinglong
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         判断是否是敏捷英雄
@@ -110,7 +110,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
     function IsAgiHero takes unit u returns boolean
         return u == taiya or u == xiaoyue or u == mengji or u == moqi or u == hanshang or u == cangling or u == seyu or u == yanmie or u == sichen or u == xiaoting
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         判断是否是智力英雄
@@ -148,7 +148,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         return (spell == 'Acht') or (spell =='A03A') or (spell =='A0BM') /*
             */or (spell =='A07Z') or (spell =='A07T') or (spell =='A05Z')/*
             */or (spell =='ACro') or (spell =='Acht') or (spell =='A07X') or (spell =='A05Y')/*
-            */or (spell =='AChv') or (spell =='A07V') or (spell =='Awrg') or (spell =='A05X')/*  
+            */or (spell =='AChv') or (spell =='A07V') or (spell =='Awrg') or (spell =='A05X')/*
             */or (spell =='A07C') or (spell =='A07D') or (spell =='Awrh') or (spell =='A075')/*
             */or (spell =='A06W') or (spell =='A06Y') or (spell =='A06Q') or (spell =='A07R')/*
             */or (spell =='ACcl') or (spell =='AOhw') or (spell =='AIin') or (spell =='AIil')/*
@@ -162,7 +162,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
     function IsYuansu takes unit u returns boolean
         return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy' or GetUnitTypeId(u) == 'nbzd'
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         友军过滤器
@@ -368,7 +368,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
 
     //判断超
     function IsZhanfaChao takes item i returns boolean
-        local integer id = GetItemTypeId(i) 
+        local integer id = GetItemTypeId(i)
         return id == 'rst1' or id == 'I05U' or id == 'ICX1'
     endfunction
 
@@ -377,7 +377,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
 
         return IsZhanfaChao(i) or id == 'rde2' or id == 'vamp' or id == 'skul' or id == 'tsct' or id == 'tcas' or id == 'plcl' or id == 'tgrh' or id == 'I01E'
     endfunction
-    
+
     function IsFa0 takes item i returns boolean
         local integer id = GetItemTypeId(i)
 
@@ -432,7 +432,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         */ and IsUnitHidden(u) == false                       and IsUnitEnemy(u, p)                           /*
         */ and IsUnitVisible(u, p)                            and GetUnitAbilityLevel(u,'Avul') < 1           /*
         */ and GetUnitPointValue(u) != 123                    and GetUnitPointValue(u) != 0
-    endfunction   
+    endfunction
 //---------------------------------------------------------------------------------------------------
 
     /*
@@ -440,7 +440,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
     */
     function IsEnemyM takes unit u, unit caster returns boolean
         return IsEnemyMP(u,GetOwningPlayer(caster))
-    endfunction   
+    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         雇佣兵过滤器
@@ -513,7 +513,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         删除单位组里面的所有单位并清空自定义数据
     */
     function DeleteGroup takes group g returns nothing
-        
+
         local unit l_unit
         loop
             set l_unit = FirstOfGroup(g)
@@ -531,7 +531,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
     function HG takes unit u returns nothing
         call SetUnitPositionLoc(u,udg_Point_Fuhuo)
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         全部胜利
@@ -607,7 +607,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
 
     /*
             召唤马甲然后施放技能
-    */  
+    */
     function SimulateSpell takes unit caster,unit target,integer spellId,integer spellLevel,real lifeTime ,string orderId,boolean isPoint,boolean isImmediate,boolean isTarget returns nothing
         local unit  u = CreateUnit(GetOwningPlayer(caster),'h000',GetUnitX(target),GetUnitY(target),0)
         call UnitApplyTimedLifeBJ( 5.00, 'BHwe',u )
@@ -796,7 +796,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         set d = null
     endfunction
 //---------------------------------------------------------------------------------------------------
-    
+
     /*
         输出选英雄皮肤的提示
     */
@@ -972,7 +972,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             call FlushChildHashtable(LHTable,id)
             call DestroyTimer(t)
         endif
-        set t = null 
+        set t = null
     endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing

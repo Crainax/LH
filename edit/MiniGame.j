@@ -1,10 +1,10 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
-/////! import "NetVersion.j"
-//! import "SpellBase.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
+///#include  "NetVersion.j"
+#include  "SpellBase.j"
 
 library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBase,Version
-	
+
 	globals
 		private timer TGame1 = null
 		private texttag TTGame1 = null
@@ -36,7 +36,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
 
 	private function StartTimerXiaojuneng takes unit u returns nothing
@@ -76,7 +76,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
 
 	private function RefreshMiniMingcha takes unit u returns nothing
@@ -87,7 +87,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
 	endfunction
 
 	function CreateGame2Majia takes nothing returns nothing
-		local real x = GetRandomReal(GetRectMinX(gg_rct_Game2),GetRectMaxX(gg_rct_Game2))		
+		local real x = GetRandomReal(GetRectMinX(gg_rct_Game2),GetRectMaxX(gg_rct_Game2))
 		local real y = GetRandomReal(GetRectMinY(gg_rct_Game2),GetRectMaxY(gg_rct_Game2))
 		local unit u = CreateUnit(Player(10),'h02D',x,y,GetRandomReal(0,360))
 		call RefreshMiniMingcha(u)
@@ -289,7 +289,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
         endif
         call DestroyGroup( group1 )
         set group1 = null
-	endfunction	
+	endfunction
 
 	//离开2事件
 	private function TLeaveMiniGame2Act takes nothing returns nothing
@@ -307,11 +307,11 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
         call DestroyGroup( group1 )
         set group1 = null
 	endfunction
-	
+
 	//进入事件
 	private function TEnterMiniGameAct takes nothing returns nothing
 		if (RectContainsUnit(gg_rct_Game1,GetTriggerUnit())) then
-			set IGoldGame1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = 1		
+			set IGoldGame1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = 1
 		elseif (RectContainsUnit(gg_rct_Game2,GetTriggerUnit())) then
 			set IGoldGame2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = 1
 			if not(udg_Zhandouli[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] > 5000) then
@@ -329,7 +329,7 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
 	function SimulateDamageMiniGame takes unit u returns boolean
 		if ((GetUnitTypeId(u) == 'h01U' or GetUnitTypeId(u) == 'h02D') and GetTriggerUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
 				call HG(GetTriggerUnit())
-			return true 
+			return true
 		endif
 		return false
 	endfunction

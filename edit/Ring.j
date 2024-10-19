@@ -1,11 +1,11 @@
-//! import "LHBase.j"
-//! import "LHBase.j"
+#include  "LHBase.j"
+#include  "LHBase.j"
 
 /*
     戒指
 */
 library_once Ring initializer InitRing requires LHBase,Version
-	
+
 	globals
 		boolean array BHintRing
 	endglobals
@@ -23,7 +23,7 @@ library_once Ring initializer InitRing requires LHBase,Version
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
 		set p = null
-		set t = null 
+		set t = null
 	endfunction
 
 	private function CreateRingTimer takes player p returns nothing
@@ -135,7 +135,7 @@ library_once Ring initializer InitRing requires LHBase,Version
 		    	endif
 		    endif
 		//! endtextmacro
-		
+
 		//! runtextmacro ShuaRingMax("brac","5000")
 		//! runtextmacro ShuaRingMax("I05W","13000")
 		//! runtextmacro ShuaRingMax("I05V","10000")

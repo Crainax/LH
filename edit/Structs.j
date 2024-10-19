@@ -1,13 +1,13 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 
 
 library_once Structs requires LHBase
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    文字绑定
 	*/
-	struct TextTagBind 
+	struct TextTagBind
 		private unit caster
 		private texttag tt
 		private real xOff
@@ -78,7 +78,7 @@ library_once Structs requires LHBase
 	*/
     function interface AfterBuffTime takes player p returns nothing
 
-	struct Buff 
+	struct Buff
 
 		private player p
 		private AfterBuffTime ab
@@ -125,7 +125,7 @@ library_once Structs requires LHBase
 	/*
 	    检测有人与否进入无敌
 	*/
-	struct JudgeInvu 
+	struct JudgeInvu
 		private unit u
 		private timer t
 

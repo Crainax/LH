@@ -1,7 +1,7 @@
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "Shilian.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "Shilian.j"
+///#include  "NetVersion.j"
 
 library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shilian,Version
 
@@ -17,7 +17,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 	private function TRedAttackCon takes nothing returns boolean
 		return (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))] == 1 and GetAttackedUnitBJ() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]) or (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))] == 1 and GetAttacker() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))])
 	endfunction
-	
+
 	private function TRedAttackAct takes nothing returns nothing
 		local unit u = null
 		if (IKuanghuanType[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))] == 1) then
@@ -98,7 +98,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 //---------------------------------------------------------------------------------------------------
 	/*
 	    开局随机赠送并计时
-	*/	
+	*/
 	function GiveRandomEggs takes unit u returns nothing
 		local integer pos = 0
 		local integer i = 1
@@ -116,7 +116,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 			注意查看你的背包,
 
 			使用后将让你获得很强大的能力哦,
-			快去试试吧!")		
+			快去试试吧!")
 		elseif (pos == 2) then
 			call UnitAddItemByIdSwapped('I02X', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call ShowGameHint(GetOwningPlayer(u),"
@@ -146,10 +146,10 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 	*/
 	function ChooseBuffColor takes player p,integer t returns boolean
 		if (t == 'I031') then
-			call InitRedColor(p)		
+			call InitRedColor(p)
 			return true
 		elseif (t == 'I02X') then
-			call InitBlueColor(p)	
+			call InitBlueColor(p)
 			return true
 		elseif (t == 'I02V') then
 			call InitGreenColor(p)

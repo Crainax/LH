@@ -1,17 +1,17 @@
 
-//! import "LHBase.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+///#include  "NetVersion.j"
 
 library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	globals
-		
+
 		integer array centerCredit
 		/*
 		    统计的伤害
 		*/
 		integer array Mdamage1
 		integer array Mdamage2
-		
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	private function TAddAllDamageAct takes nothing returns nothing
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetEventDamageSource()))
 		local integer divede1e = 0
-		
+
 		if (GetEventDamage() > 100000000) then
 			set divede1e =R2I(GetEventDamage() / 100000000)
 			set Mdamage2[index] = Mdamage2[index] + divede1e
@@ -55,7 +55,7 @@ library_once Multiboard initializer InitMultiboard requires LHBase,Version
 			call MultiboardSetItemValueBJ( udg_D, 9,  index + 1 , I2S(centerCredit[index]) )
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    每10秒刷新一次伤害总值

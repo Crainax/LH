@@ -1,7 +1,7 @@
-//! import "LHBase.j"
-/////! import "Huodong.j"
-//! import "ChallangerDZ.j"
-//! import "Mirror.j"
+#include  "LHBase.j"
+///#include  "Huodong.j"
+#include  "ChallangerDZ.j"
+#include  "Mirror.j"
 
 library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 
@@ -155,15 +155,15 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	function ChooseDifficulty takes integer i returns nothing
 		call DialogSetMessage( udg_X_Nandu, "选择难度" )
 	    if (i < 2) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "天国（24波）") 
+		    call DialogAddButtonBJ( udg_X_Nandu, "天国（24波）")
 		    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
 	    endif
 	    if (i < 3) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "太平（24波）") 
+		    call DialogAddButtonBJ( udg_X_Nandu, "太平（24波）")
 		    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
 	    endif
 	    if (i < 4) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24+5波）") 
+		    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24+5波）")
 		    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
 	    endif
 	    if (i < 5) then
@@ -174,22 +174,22 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 		    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()
 		endif
-		
+
 	    if (i < 7) then
 		    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ()
 		endif
-		
+
 	    if (i < 8) then
 		    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ()
 		endif
-		
+
 	    if (i < 9) then
 		    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
 		endif
-		
+
 	    if (i < 10) then
 		    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+2波）" )
 		    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
@@ -287,7 +287,7 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
     	call DialogSetMessage( d, GetChallangerContent(i) )
     	//设置类型
     	set CType = i
-	    
+
 	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "确认选择"))
     	call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, "返回|cffff6800(Esc)|r",512))
 
@@ -377,7 +377,7 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
         	set CDiff = 3
         	call CreateCDialog2()
         	call BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为困难.")
-		endif	       
+		endif
 
         call FlushChildHashtable(LHTable,GetHandleId(d))
     	call DialogDisplay( Player(0), d, false )
@@ -397,11 +397,11 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	    call DialogSetMessage( d, "选择挑战难度" )
 	    if (DEBUG_MODE) then
 		    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
-		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")")) 
+		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
 		    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
 		else
 			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单"))
-		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等")) 
+		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等"))
 		    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难"))
 	    endif
 	    call DialogDisplay( GetFirstPlayer(), d, true )
@@ -417,5 +417,5 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	function ShowTiaozhanDialog takes nothing returns nothing
 		call CreateCDialog1()
 	endfunction
-	
+
 endlibrary

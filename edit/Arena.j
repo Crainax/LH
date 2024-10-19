@@ -1,9 +1,9 @@
 
 
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "Diffculty.j"
-//! import "Boss.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "Diffculty.j"
+#include  "Boss.j"
 library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Boss,Version
 
 	globals
@@ -93,12 +93,12 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 //---------------------------------------------------------------------------------------------------
 	/*
 		更新擂台等级的位置
-	*/		
+	*/
 	private function updateLevelLoc takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		if (IsUnitAliveBJ(challenager)) then
 			call SetTextTagPosUnitBJ(textTag_Level,challenager,25)
-		else 
+		else
 			call DestroyTextTag(textTag_Level)
 			call PauseTimer(t)
 			call DestroyTimer(t)
@@ -175,7 +175,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 //---------------------------------------------------------------------------------------------------
 	/*
 		血魔技能1：召唤5个敌方单位复制
-	*/	
+	*/
 	private function TSpellXuemo1Con takes nothing returns boolean
 	    return ((GetAttacker() == challenager) and (IsUnitAliveBJ(GetAttacker()) == true) and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 40) == 1))
 	endfunction
@@ -229,7 +229,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	endfunction
 
 	private function TSpellWuxinAct takes nothing returns nothing
-		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()))) 
+		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ())))
 		call UnitDamageTarget( challenager, GetAttackedUnitBJ(), ( 0.01 * GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 	endfunction
 
@@ -262,7 +262,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	endfunction
 
 	private function TSpellFuwangAct takes nothing returns nothing
-		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()))) 
+		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ())))
 		call UnitDamageTarget( challenager, GetAttackedUnitBJ(), ( 0.1 * GetUnitStateSwap(UNIT_STATE_LIFE, GetAttackedUnitBJ()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_POISON, WEAPON_TYPE_WHOKNOWS )
 	    call CreateSpellTextTag("淘汰之刃！",challenager,0,100,0,2)
 	endfunction
@@ -394,7 +394,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	    call CreateSpellTextTag("冰封囚笼！",challenager,0,255,0,2)
 	endfunction
 
-	
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -491,7 +491,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	            if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] != 11)) then
 	            	//开始啦
 	                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r挑战将在3秒后开始。" )
-	                
+
 	                if ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 0)) then
 	                    set challenager = CreateUnit(Player(10), 'Huth', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 1)) then
@@ -516,8 +516,8 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 						call EnableTrigger( TSpellXuemo2 )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 5)) then
 	                    set challenager = CreateUnit(Player(10), 'O003', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
-	                	call UnitAddAbilityBJ( 'A0F1', challenager )	
-	                	call UnitAddAbilityBJ( 'Adtg', challenager )    
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 
 						call EnableTrigger( TSpellWuxin )
 	                    call TimerStart(CreateTimer(),5,TRUE,function WuxinFlash)
@@ -526,8 +526,8 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	                    set challenager = CreateUnit(Player(10), 'Ogrh', GetRandomReal(GetRectMinX(gg_rct_Arena_all),GetRectMaxX(gg_rct_Arena_all)),GetRandomReal(GetRectMinY(gg_rct_Arena_all),GetRectMaxY(gg_rct_Arena_all)), 180.00)
 	                    set attract = Attract.create(challenager,600,0.05,20)
 	                    call attract.start()
-	                	call UnitAddAbilityBJ( 'A0F1', challenager )	
-	                	call UnitAddAbilityBJ( 'Adtg', challenager )    
+	                	call UnitAddAbilityBJ( 'A0F1', challenager )
+	                	call UnitAddAbilityBJ( 'Adtg', challenager )
 
 						call EnableTrigger( TSpellFuwang )
 	                elseif ((currentArena[GetConvertedPlayerId(GetOwningPlayer(defier))] == 7)) then
@@ -568,7 +568,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 					call SetUnitX(defier,GetRectCenterX(gg_rct_Arena_1))
 					call SetUnitY(defier,GetRectCenterY(gg_rct_Arena_1))
 	                call SetUnitInvulnerable( challenager, true )
-	                call PauseUnitBJ( true, challenager )	    
+	                call PauseUnitBJ( true, challenager )
 	                set currentLevel = 1
 	                call UnitAddAbilityBJ( 'A0ES', challenager )
 	                call UnitAddAbilityBJ( 'A0B9', challenager )
@@ -598,7 +598,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	    else
 	        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r请让英雄购买！" )
 	    endif
-	    
+
 	endfunction
 
 	private function TArenaStartCon takes nothing returns boolean
@@ -682,7 +682,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	endfunction
 
 	function TDieEventActions takes nothing returns nothing
-	   
+
 	    local integer ty = (GetUnitTypeId(GetDyingUnit()))
 	    if (ty == 'Huth') then
 	        call CreateItem( 'prvt', GetRectCenterX(gg_rct_Arena_all),GetRectCenterY(gg_rct_Arena_all) )

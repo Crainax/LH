@@ -1,5 +1,5 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
 
 library_once Jungle requires LHBase,Diffculty
 
@@ -88,7 +88,7 @@ library_once Jungle requires LHBase,Diffculty
 	*/
 	function InitJungle takes nothing returns nothing
 	    local trigger t = CreateTrigger()
-	    
+
 	    set UYeYang = CreateUnit(Player(10), 'Orkn', 14707.6, - 290.4, 180.000)
 	    set UYeYin = CreateUnit(Player(10), 'Osam', 1923.9, - 420.4, 0.000)
 	    call EnhanceDiffAttack(UYeYang)

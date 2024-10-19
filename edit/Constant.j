@@ -1,10 +1,10 @@
 
-//! import "JBase.j"
+#include  "JBase.j"
 /*
     常量
 */
 library_once Constant initializer InitConstant requires JBase
-	
+
 	globals
 		string diffculty = ""
 		string SgameMode = ""
@@ -25,7 +25,7 @@ library_once Constant initializer InitConstant requires JBase
 		    实际人数(从一开始的)
 		*/
 		integer renshu = 0
-		
+
 		/*
 		    游戏模式
 		*/
@@ -141,7 +141,7 @@ library_once Constant initializer InitConstant requires JBase
 			return 20
 		endif
 		return 0
-	endfunction	
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取英雄名，由索引
@@ -388,7 +388,7 @@ library_once Constant initializer InitConstant requires JBase
     function GetColorString takes string s returns string
 		local integer length = StringLength(s)
 		local string result = ""
-		local integer i =1 
+		local integer i =1
 		if (length == 0) then
 			return ""
 		endif
@@ -544,7 +544,7 @@ library_once Constant initializer InitConstant requires JBase
 			return GetColorString("【封神门】")
 		elseif (achieveID == 320) then
 			return GetColorString("【圣洁玉】")
-		elseif (achieveID == 321) then 
+		elseif (achieveID == 321) then
 			return GetColorString("【孤心戒】")
 		elseif (achieveID == 322) then
 			return GetColorString("【御天启】")
@@ -841,41 +841,41 @@ library_once Constant initializer InitConstant requires JBase
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 21) then
 			return "完成20次转生即可自动获得该成就.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 22) then
 			return "完成50次转生即可自动获得该成就.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 23) then
 			return "完成100次转生即可自动获得该成就.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 24) then
 			return "完成150次转生即可自动获得该成就.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 25) then
 			return "木材大于20000即可自动获得该成就.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 26) then
 			return "木材大于50000即可自动获得该成就.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 27) then
 			return "木材大于100000即可自动获得该成就.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 28) then
 			return "木材大于200000即可自动获得该成就.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 29) then
 			return "单通|cffff00ff\"轮回\"难度|r即可自动获得该成就.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 210) then
@@ -909,224 +909,224 @@ library_once Constant initializer InitConstant requires JBase
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 217) then
 			return "使用至少12个英雄，每个进行至少1场游戏.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 218) then
 			return "使用至少12个英雄，每个进行至少5场游戏.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 219) then
 			return "使用至少12个英雄，每个进行至少10场游戏.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 220) then
 			return "使用至少12个英雄，每个进行至少30场游戏.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 221) then
 			return "在基地剩余0次防护罩时通关游戏.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 222) then
 			return "在基地剩余0次防护罩,且生命低于25%时通关游戏.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 223) then
 			return "在经典模式中135分钟内击败冥刹.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 224) then
 			return "在经典模式中120分钟内击败冥刹.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 225) then
 			return "在经典模式中90分钟内击败冥刹.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 226) then
 			return "在经典模式中60分钟内击败冥刹.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 227) then
 			return "在单场游戏中杀敌数达到1.5万。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 228) then
 			return "在单场游戏中杀敌数达到4万。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 229) then
 			return "在单场游戏中杀敌数达到8万。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 230) then
 			return "在单场游戏中杀敌数达到15万。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 231) then
 			return "单局游戏死亡次数达到100次。（凯撒触发天赋技能也算死亡）
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 32) then
 			return "在单场游戏中造成的总伤害达500亿。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 33) then
 			return "在单场游戏中造成的总伤害达4000亿。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 34) then
 			return "在单场游戏中造成的总伤害达30000亿。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 35) then
 			return "在单场游戏中造成的总伤害达600000亿。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 36) then
 			return "通过秘境挑战13层。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 37) then
 			return "通过秘境挑战15层。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 38) then
 			return "通过秘境挑战17层。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 39) then
 			return "通过秘境挑战20层。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 310) then
 			return "击败冥刹时所有玩家均0死亡。（凯撒触发天赋技能也算死亡）
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 311) then
 			return "击败任意难度巨能融合石6次。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 312) then
 			return "击败任意难度巨能融合石20次。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 313) then
 			return "击败轮回难度巨能融合石12次。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 314) then
 			return "击败轮回难度巨能融合石40次。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 315) then
 			return "总属性之和达到300W.（成就获取在1分钟内，请耐心等待）
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 316) then
 			return "总属性之和达到800W.（成就获取在1分钟内，请耐心等待）
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 317) then
 			return "总属性之和达到2000W.（成就获取在1分钟内，请耐心等待）
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 318) then
 			return "总属性之和达到5000W.（成就获取在1分钟内，请耐心等待）
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 326) then
 			return "在8分钟内将复活点处的门毁坏。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 320) then
 			return "到通关为止基地未受到任何伤害。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 321) then
 			return "鬼MAX戒指或者超鬼戒指吸收灵魂层数达到120.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 322) then
 			return "使用至少12个英雄击败擂台十英雄-辕煞.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 323) then
 			return "自己与所有队友从头到尾不打任何宝石,不打任何秘境,不打任何擂台,不合成任何翅膀通关游戏.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 324) then
 			return "与低于(或等于)5级的玩家进行游戏通关满100人.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 327) then
 			return "自己与所有队友不学2级技能，10级技能，20级技能，40级技能，100级技能通关游戏。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 328) then
 			return "使用中型捕兽网（50W上限）成功捕捉大于或等于50级的怪物。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 329) then
 			return "使用中型捕兽网（50W上限）成功捕捉大于或等于70级的怪物。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 330) then
 			return "使用中型捕兽网（50W上限）成功捕捉大于或等于100级的怪物。
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 331) then
 			return "使用中型捕兽网（50W上限）成功捕捉大于或等于150级的怪物。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 43) then
 			return "在迷你挑战1-骷髅海中里面的时间成功超过35秒.
-			
+
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 44) then
 			return "在迷你挑战1-骷髅海中里面的时间成功超过80秒.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 45) then
 			return "4人及以上游戏时,在击败人王傀儡与妖王傀儡时从未触发过BOSS生命联结技能.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 46) then
 			return "单次技能伤害达到300亿.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 49) then
 			return "从头到尾全地图同时存在的进攻怪从未超过20个.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 410) then
 			return "完成任意难度的挑战模式中的\"驻永恒挑战\"
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 411) then
 			return "完成任意难度的挑战模式中的\"创世篇挑战\"
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 412) then
@@ -1136,23 +1136,23 @@ library_once Constant initializer InitConstant requires JBase
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 413) then
 			return "输入-hs2进行生命检测，使用非霸绝英雄进行游戏，生命值达到5亿或以上。
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 414) then
 			return "输入-hs3进行防御检测，防御达到100W或以上。
 			（注意检测结果将不包含于装备中的防御定值光环与装备中的短暂BUFF效果）
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 415) then
 			return "在一局游戏中成功答对30次仙帝傀儡——樱乐的问题.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 416) then
 			return "在一局游戏中所有队友从未说过一句话通关游戏.
-			
+
 			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!|r"
 		elseif (achieveID == 417) then
@@ -1235,7 +1235,7 @@ library_once Constant initializer InitConstant requires JBase
 				return "辰寂：|cFFFF3333双流贯恒|r"
 			endif
 		elseif (page == 2) then
-		
+
 			if (i == 1) then
 				return "莫琪：|cFFFF00CC星界麒麟|r"
 			elseif (i == 2) then
@@ -1379,7 +1379,7 @@ library_once Constant initializer InitConstant requires JBase
 				使用离魑在一局触发影爆次数达到100次.
 
 				完成该项挑战后你将获得离魑的皮肤\"|cffff6800谜幻逸空|r\"(拥有少量的属性加成)!"
-			endif		
+			endif
 		elseif (page == 3) then
 			if (i == 1) then
 				return "
@@ -1391,7 +1391,7 @@ library_once Constant initializer InitConstant requires JBase
 				使用星胧在一局游戏中总共升级累计30000次.
 
 				完成该项挑战后你将获得星胧的皮肤\"|cffff00ff绯想龙域|r\"(拥有少量的属性加成)!"
-			endif		
+			endif
 		endif
 		return ""
 	endfunction
@@ -1408,7 +1408,7 @@ library_once Constant initializer InitConstant requires JBase
 			return "通关隐藏难度|cff993366天魇|r(通关|cff008000万劫|r难度解锁)
 
 			完成该项挑战后你的名字将在以后始终置顶于|cff008000\"封帝万劫录\"|r中!
-			并获得四字成就名"+GetAchievementName(42)+"。"		
+			并获得四字成就名"+GetAchievementName(42)+"。"
 		elseif (i == 3) then
 			return "在嘉年华活动版本中连续签到达20天.
 

@@ -1,11 +1,11 @@
-//! import "LHBase.j"
-//! import "Spin.j"
+#include  "LHBase.j"
+#include  "Spin.j"
 
 library_once Xiaoyue  requires LHBase,Spin,Version
 
 	globals
 		private integer IFuhuo
-	endglobals	
+	endglobals
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -45,6 +45,6 @@ library_once Xiaoyue  requires LHBase,Spin,Version
 	function InitXiaoyue takes unit u returns nothing
 		set IFuhuo = 0
 		set xiaoyue = InitXiaoyueSpin(u)
-		
+
 	endfunction
 endlibrary

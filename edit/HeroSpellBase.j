@@ -1,10 +1,10 @@
 
-//! import "Heiyan.j"
-//! import "Seyu.j"
-//! import "LHBase.j"
+#include  "Heiyan.j"
+#include  "Seyu.j"
+#include  "LHBase.j"
 
 library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu,Hanshang,Huanyi,Chenji,Mengji,Yanmie,Cangling,Sichen,Xinglong,Xiaoting
-	
+
 	globals
 		boolean array BTianting1
 		boolean array BTianting2
@@ -24,20 +24,20 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 		set learnSkillHero = udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]
 
 		//加入英雄内部判断
-		call LearnSkillHeiyan(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillSeyu(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillHanshang(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillHuanyi(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillChenji(learnSkillHero,GetLearnedSkill()) 
+		call LearnSkillHeiyan(learnSkillHero,GetLearnedSkill())
+		call LearnSkillSeyu(learnSkillHero,GetLearnedSkill())
+		call LearnSkillHanshang(learnSkillHero,GetLearnedSkill())
+		call LearnSkillHuanyi(learnSkillHero,GetLearnedSkill())
+		call LearnSkillChenji(learnSkillHero,GetLearnedSkill())
 		call LearnSkillMengji(learnSkillHero,GetLearnedSkill())
-		call LearnSkillYanmie(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillCangling(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillSichen(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillXinglong(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillXiaoting(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillLichi(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillMoqi(learnSkillHero,GetLearnedSkill()) 
-		call LearnSkillKaisa(learnSkillHero,GetLearnedSkill()) 
+		call LearnSkillYanmie(learnSkillHero,GetLearnedSkill())
+		call LearnSkillCangling(learnSkillHero,GetLearnedSkill())
+		call LearnSkillSichen(learnSkillHero,GetLearnedSkill())
+		call LearnSkillXinglong(learnSkillHero,GetLearnedSkill())
+		call LearnSkillXiaoting(learnSkillHero,GetLearnedSkill())
+		call LearnSkillLichi(learnSkillHero,GetLearnedSkill())
+		call LearnSkillMoqi(learnSkillHero,GetLearnedSkill())
+		call LearnSkillKaisa(learnSkillHero,GetLearnedSkill())
 	endfunction
 
 	//通过判断学习第几个来判断
@@ -45,12 +45,12 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 		set learnSkillHero = udg_H[convertedPlayerID]
 
 		//加入英雄内部判断
-		call LearnSkillHeiyanI(learnSkillHero,which) 
-		call LearnSkillSeyuI(learnSkillHero,which) 
-		call LearnSkillHanshangI(learnSkillHero,which) 
-		call LearnSkillHuanyiI(learnSkillHero,which) 
-		call LearnSkillChenjiI(learnSkillHero,which) 
-		call LearnSkillMengjiI(learnSkillHero,which) 
+		call LearnSkillHeiyanI(learnSkillHero,which)
+		call LearnSkillSeyuI(learnSkillHero,which)
+		call LearnSkillHanshangI(learnSkillHero,which)
+		call LearnSkillHuanyiI(learnSkillHero,which)
+		call LearnSkillChenjiI(learnSkillHero,which)
+		call LearnSkillMengjiI(learnSkillHero,which)
 		call LearnSkillYanmieI(learnSkillHero,which)
 		call LearnSkillCanglingI(learnSkillHero,which)
 		call LearnSkillSichenI(learnSkillHero,which)

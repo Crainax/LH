@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "Spin.j"
+#include  "LHBase.j"
+#include  "Spin.j"
 
 library_once Taiya requires LHBase,Spin,Version
-	
+
 	globals
 		private integer ITaiyamiao = 0
 	endglobals
@@ -20,7 +20,7 @@ library_once Taiya requires LHBase,Spin,Version
 			endif
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    泰雅皮肤
@@ -32,7 +32,7 @@ library_once Taiya requires LHBase,Spin,Version
 			call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
 			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
 			call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
-			
+
 			call RemoveUnit(u)
 			return udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
 		else
@@ -40,7 +40,7 @@ library_once Taiya requires LHBase,Spin,Version
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	
+
 	function InitTaiya takes unit u returns nothing
 		set taiya = InitTaiyaSpin(u)
 

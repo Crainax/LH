@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "item.j"
+#include  "LHBase.j"
+#include  "item.j"
 
 library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
-	
+
 	globals
 
 		/*
@@ -68,7 +68,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		if((IsUnitAliveBJ(u) == true) or (IsUnitType(u,UNIT_TYPE_HERO))) then
 
 			//! textmacro ChangeColor takes Color
-				
+
 			if (s$Color$ > 0) then
 				set $Color$ = $Color$ + GetRandomInt(0,s$Color$)
 			else
@@ -113,7 +113,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		if (IsUnitType(u,UNIT_TYPE_HERO)) then
 			set TBianse[GetConvertedPlayerId(GetOwningPlayer(u))] = t
 		endif
-		set t = null 
+		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -131,7 +131,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		if (Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] != null) then
 			call RemoveUnit(Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))])
 		endif
-		set Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] = u 
+		set Unit_Beast[GetConvertedPlayerId(GetOwningPlayer(captain))] = u
 		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(captain), GetUnitY(captain) ))
 		if (BMoshou[GetConvertedPlayerId(GetOwningPlayer(captain))]) then
 			call UnitAddAbility(u,'Aloc')
@@ -140,7 +140,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	
+
 	private function IsBeast takes item i returns boolean
 		return GetItemTypeId(i) == 'IB00' /*
 			*/ or GetItemTypeId(i) == 'IB01' /*
@@ -155,13 +155,13 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 			*/ or GetItemTypeId(i) == 'I04X' /*
 			*/ or GetItemTypeId(i) == 'IB0A' /*
 			*/ or GetItemTypeId(i) == 'I07O' /*
-			*/ or GetItemTypeId(i) == 'I07N' 
+			*/ or GetItemTypeId(i) == 'I07N'
 	endfunction
 	/*
 	    不能带两个魔兽，先检测魔兽数量，再产生相对应的魔兽
 	*/
 	private function UnitHasBeastInSlot takes unit u,integer slot returns boolean
-		return IsBeast(UnitItemInSlotBJ(u,slot)) 
+		return IsBeast(UnitItemInSlotBJ(u,slot))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -172,7 +172,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if(UnitHasBeastInSlot(u,i)) then	
+			if(UnitHasBeastInSlot(u,i)) then
 				return UnitItemInSlotBJ(u,i)
 			endif
 			set i = i +1
@@ -185,7 +185,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 	*/
 	private function TBeastEquitAct takes nothing returns nothing
 		local integer i = 1
-		local integer beastCount = 0 
+		local integer beastCount = 0
 		loop
 			exitwhen i > 6
 			if(UnitHasBeastInSlot(GetTriggerUnit(),i)) then
@@ -246,7 +246,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 	private function TBeastDropAct takes nothing returns nothing
 
 		local integer i = 1
-		local integer beastCount = 0 
+		local integer beastCount = 0
 		loop
 			exitwhen i > 6
 			if(UnitHasBeastInSlot(GetTriggerUnit(),i)) then
@@ -254,7 +254,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 			endif
 			set i = i +1
 		endloop
-		if (beastCount != 2) then	
+		if (beastCount != 2) then
 			call RemoveBeast(GetManipulatingUnit())
 
 			if (IsMo(GetTriggerUnit())) then
@@ -280,7 +280,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 
 		//魔兽怒吼
 		if (GetUnitAbilityLevel(Unit_Beast[playerID],'ABe9') >= 1) then
-			
+
 			call SetItemCharges(beast,GetItemCharges(beast)+1)
 			if (GetItemCharges(beast) > CHARGES_BEAST) then
 					call CreateSpellTextTag("魔兽怒吼!",Unit_Beast[playerID],0,100,0,2)
@@ -352,7 +352,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 			return
 		endif
 		//! endtextmacro
-		
+
 		//! runtextmacro SummonBeast("IB00","IMJ1","IB01")
 		//! runtextmacro SummonBeast("IB01","IMJ2","IB02")
 		//! runtextmacro SummonBeast("IB02","IMJ3","IB03")
@@ -361,8 +361,8 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		//! runtextmacro SummonBeast("IB05","IMJ6","IB06")
 		//! runtextmacro SummonBeast("IB06","IMJ7","IB07")
 		//! runtextmacro SummonBeast("IB07","IMJ8","IB08")
-	endfunction        
-     
+	endfunction
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -408,6 +408,6 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DROP_ITEM)
 		call TriggerAddCondition(t,Condition(function TBeastDropCon))
 		call TriggerAddAction(t,function TBeastDropAct)
-		set t = null 
+		set t = null
 	endfunction
 endlibrary

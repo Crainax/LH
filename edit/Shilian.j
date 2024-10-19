@@ -1,18 +1,18 @@
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "Structs.j"
-//! import "Attr.j"
-//! import "Diffculty.j"
-//! import "Multiboard.j"
-//! import "GoldSystem.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "Structs.j"
+#include  "Attr.j"
+#include  "Diffculty.j"
+#include  "Multiboard.j"
+#include  "GoldSystem.j"
+///#include  "NetVersion.j"
 
 /*
     传承试练
 */
 library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,Attr,Diffculty,Multiboard,GoldSystem,Version
 
-	
+
 	globals
 		unit UShilian = null
 
@@ -40,7 +40,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 
 		//单位组，传承试练
 		private group GShilian = null
-		//试练玩家 
+		//试练玩家
 		private player PShilian = null
 		//正在挑战的试练
 		private integer IContinousShilian = 0
@@ -86,7 +86,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		call SetUnitLifePercentBJ(GetTriggerUnit(),100)
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	/*	
+	/*
 	    行的移动 效果
 	*/
 	private function TXingCon takes nothing returns boolean
@@ -273,7 +273,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		local player p = LoadPlayerHandle(LHTable,id,1)
 		call SyncQian(p)
 		set p = null
-		set t = null 
+		set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -308,7 +308,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 5) then
 			call InitJieDamage(p)
 		elseif (IShilianType[id] == 6) then
-			
+
 		elseif (IShilianType[id] == 7) then
 			call UnitAddAbilityP(udg_H[id],'A0MA')
 			set BGoldGongxiang[id] = true
@@ -341,7 +341,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		elseif (IShilianType[id] == 5) then
 			call JieDamageExpose(p)
 		elseif (IShilianType[id] == 6) then
-			
+
 		elseif (IShilianType[id] == 7) then
 			call UnitRemoveAbility(udg_H[id],'A0MA')
 			set BGoldGongxiang[id] = false
@@ -751,7 +751,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
         call DestroyGroup(l_group)
         set l_group = null
         set l_unit =null
-        return count 
+        return count
     endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -924,7 +924,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
             call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),x,y,0.2)
             call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "|cFFFF66CC【消息】|r回去输入“HG”。" )
-        endif        
+        endif
         //试练
         if ((GetItemTypeId(GetSoldItem()) == 'I06Q')) then
         	call StartShilian(GetOwningPlayer(GetBuyingUnit()),1)
@@ -944,7 +944,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
         	call StartShilian(GetOwningPlayer(GetBuyingUnit()),8)
         elseif ((GetItemTypeId(GetSoldItem()) == 'I077')) then
         	call StartShilian(GetOwningPlayer(GetBuyingUnit()),9)
-        endif        
+        endif
     endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -974,7 +974,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	    初始化
 	*/
 	private function InitShilian takes nothing returns nothing
-		
+
 		local trigger t = CreateTrigger()
 
 		set UShilian = CreateUnit( Player(PLAYER_NEUTRAL_PASSIVE), 'n01T', -14272.0, -5440.0, 270.000 )

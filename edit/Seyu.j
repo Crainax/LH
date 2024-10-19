@@ -1,14 +1,14 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Spin.j"
-//! import "Aura.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Spin.j"
+#include  "Aura.j"
 /*
     英雄瑟雨的技能
 */
 library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
-	
+
 	globals
 		unit array chongdongs
 		unit array shashous
@@ -20,8 +20,8 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 		private texttag TTPower = null
 		private integer IPower
 		/*
-			增益值 
-		*/	
+			增益值
+		*/
 		private real RAddtion
 
 		/*
@@ -170,7 +170,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
  			call SimulateSpell(GetSpellAbilityUnit(),GetSpellAbilityUnit(),'A0G2',1,6,"stomp",false,true,false)
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    敌方单位
@@ -237,7 +237,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 		call SetTextTagPosUnitBJ(TTPower,seyu,25)
 	endfunction
 
-	
+
 	//数值刷新,1秒1次
 	private function FlashPowerData takes nothing returns nothing
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(seyu))
@@ -257,7 +257,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 			call AddAgiPercent(index, delta - RAddtion  )
 			set RAddtion = delta
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(seyu), GetUnitY(seyu) ))
-		endif 
+		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -266,7 +266,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	private function TDeathAddPowerCon takes nothing returns boolean
 		return (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetKillingUnitBJ()))] == seyu)
 	endfunction
-	
+
 	private function TDeathAddPowerAct takes nothing returns nothing
 		set IPower = IPower + 1
 	endfunction
@@ -301,7 +301,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	private function TSpellSeyu3Con takes nothing returns boolean
     	return GetAttackedUnitBJ() == seyu and GetRandomInt(1,20) == 1 and GetUnitState(seyu,UNIT_STATE_MANA) >= 400 and IsThirdSpellOK(seyu) == true and GetUnitAbilityLevel(seyu,'AEar') == 1
 	endfunction
-		
+
 	private function TSpellSeyu3Act takes nothing returns nothing
 		local real damage = GetDamageAgi(seyu) * 2
 		local integer i = 1
@@ -369,7 +369,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 			exitwhen i > IMinBJ(8,chongCount)
 			if (IsUnitAliveBJ(shashous[i]) and shashous[i] != null) then
 				if not(IsUnitInRange(shashous[i], chongdongs[i], 1800.00)) then
-					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(shashous[i]), GetUnitY(shashous[i]) ))				
+					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(shashous[i]), GetUnitY(shashous[i]) ))
 					call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(chongdongs[i]), GetUnitY(chongdongs[i]) ))
 					call SetUnitPosition(shashous[i],GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]))
 
@@ -410,7 +410,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 			call DestroyTimer(t)
 			call FlushChildHashtable(spellTable,id)
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function AnShaZhiWu takes nothing returns nothing
@@ -511,7 +511,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	*/
 	function InitSeyu takes unit u returns nothing
 		local integer i = 1
- 		
+
  		//皮肤
 		set seyu = InitSeyuSpin(u)
 		set chongCount = 2

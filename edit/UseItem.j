@@ -1,10 +1,10 @@
 
-//! import "LHBase.j"
+#include  "LHBase.j"
 /*
     使用物品
 */
-library_once UseItem initializer InitUse requires LHBase 
-    
+library_once UseItem initializer InitUse requires LHBase
+
 //---------------------------------------------------------------------------------------------------
     /*
         使用物品(药与魔王之心)
@@ -31,7 +31,7 @@ library_once UseItem initializer InitUse requires LHBase
     endfunction
 //---------------------------------------------------------------------------------------------------
     private function InitUse takes nothing returns nothing
-        
+
         local trigger t = CreateTrigger()
         call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_USE_ITEM )
         call TriggerAddAction(t, function TUseItem)

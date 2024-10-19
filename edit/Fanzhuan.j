@@ -1,5 +1,5 @@
-//! import "LHBase.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+///#include  "NetVersion.j"
 
 library_once Fanzhuan requires LHBase,Version
 

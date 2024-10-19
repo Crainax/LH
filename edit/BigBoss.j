@@ -1,9 +1,9 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 
 /*
     巨能与混沌的减伤法则
 */
-library_once BigBoss initializer InitBigBoss 
+library_once BigBoss initializer InitBigBoss
 
 	globals
 		group GBigBoss = null
@@ -17,7 +17,7 @@ library_once BigBoss initializer InitBigBoss
 	private function TJuNengDamageCon takes nothing returns boolean
         return (IsUnitInGroup(GetTriggerUnit(),GBigBoss) or IsUnitInGroup(GetEventDamageSource(),GBigBoss)) and (GetEventDamage() >= 10.00)
 	endfunction
-	
+
 	private function TJuNengDamageAct takes nothing returns nothing
         if (IsUnitInGroup(GetTriggerUnit(),GBigBoss) and udg_RENSHU > 1) then
             //减伤

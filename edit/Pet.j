@@ -1,7 +1,7 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
-//! import "ChallangerDZ.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
+#include  "ChallangerDZ.j"
+///#include  "NetVersion.j"
 /*
     宠物系统
 */
@@ -10,7 +10,7 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty,Challange
     globals
         group array GPet
     endglobals
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         创建宠物
@@ -87,7 +87,7 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty,Challange
                 return
             endif
         //! endtextmacro
-         
+
         //! runtextmacro CatchPet("A06D","I073","10000")
         //! runtextmacro CatchPet("A04P","I074","100000")
         //! runtextmacro CatchPet("A04Q","I075","500000")

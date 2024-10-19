@@ -1,10 +1,10 @@
-//! import "LHBase.j"
-//! import "Printer.j"
-//! import "SpellBase.j"
-//! import "Spin.j"
+#include  "LHBase.j"
+#include  "Printer.j"
+#include  "SpellBase.j"
+#include  "Spin.j"
 
 library_once Moqi  requires LHBase,Spin,Printer,SpellBase
-	
+
 	globals
 		private group GMoqiXingxuan = null
 
@@ -33,10 +33,10 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    马甲的死亡事件
 	*/
 	function SimulateDeathMoqi takes unit u returns nothing
-		if (GetUnitTypeId(u) == 'h02P') then 
+		if (GetUnitTypeId(u) == 'h02P') then
 			//星落
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(u),GetUnitY(u) ))
-		elseif (GetUnitTypeId(u) == 'h001') then 
+		elseif (GetUnitTypeId(u) == 'h001') then
 			//星雨
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(u),GetUnitY(u) ))
 			call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)*0.35)
@@ -58,7 +58,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    call PauseTimer(t)
 	    call FlushChildHashtable(spellTable,id)
 	    call DestroyTimer(t)
-	    set t = null 
+	    set t = null
 	endfunction
 
 	function XingchenOld takes nothing returns nothing
@@ -118,7 +118,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function XingxuanStart takes unit u,integer i returns nothing
@@ -127,7 +127,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		call TimerStart(t,0.05,true,function XingxuanTimer)
 		call SaveInteger(spellTable,GetHandleId(t),2,0)
 		call SaveInteger(spellTable,GetHandleId(t),3,i)
-		set t = null	
+		set t = null
 	endfunction
 
 	function Xingxuan takes nothing returns nothing
@@ -165,7 +165,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function XingchenStart takes unit u,real x,real y returns nothing
@@ -226,7 +226,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    call PauseTimer(t)
 	    call FlushChildHashtable(spellTable,id)
 	    call DestroyTimer(t)
-	    set t = null 
+	    set t = null
 	endfunction
 
 	function CreateXingluo takes real rate returns nothing
@@ -253,7 +253,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	        call FlushChildHashtable(spellTable,id)
 	        call DestroyTimer(t)
 	    endif
-	    set t = null 
+	    set t = null
 	endfunction
 
 	function Xingluo takes real damageRate,integer abilityID,real x2,real y2 returns nothing

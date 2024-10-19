@@ -1,12 +1,12 @@
 
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Spin.j"
-//! import "Aura.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Spin.j"
+#include  "Aura.j"
 
 library_once Kaisa requires SpellBase,Printer,Spin,Aura
-	
+
 	globals
 		private trigger TSpellKaisa = null
 		private integer INiuSpinCount = 0
@@ -58,7 +58,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	    马甲的死亡事件
 	*/
 	function SimulateDeathKaisa takes unit u returns nothing
-		if (GetUnitTypeId(u) == 'h02R') then 
+		if (GetUnitTypeId(u) == 'h02R') then
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(u),GetUnitY(u) ))
             call FlushChildHashtable(YDHT,GetHandleId(u))
             call RemoveUnit( u )
@@ -108,7 +108,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\NightElf\\BattleRoar\\RoarCaster.mdl", GetUnitX(kaisa),GetUnitY(kaisa)))
 			call TimerStart(TLiebian,0.1,true,function TiandiliebianTimer)
 			set ILiebian = 0
-			set BLiebian = true 
+			set BLiebian = true
 			set TTBLiebian = TextTagBind.create(kaisa,35,35)
 			set ELiebian = AddSpecialEffectTargetUnitBJ("chest",kaisa,"war3mapImported\\DefenceMatrix.mdl")
 		endif
@@ -157,7 +157,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	    endif
 	    call DestroyGroup(temp)
 	    set temp = null
-	    set t = null 
+	    set t = null
 	endfunction
 
 	function Tianlingchongzhuang takes nothing returns nothing
@@ -197,11 +197,11 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	        call FlushChildHashtable(spellTable,id)
 	        call DestroyTimer(t)
 	    endif
-	    set t = null 
+	    set t = null
 	endfunction
 
 	private function TimerCreateNiutou takes unit u returns nothing
-		local timer t = CreateTimer()	
+		local timer t = CreateTimer()
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
 		call TimerStart(t,5,true,function PeriodicCreateNiutou)
 		set t = null
@@ -334,7 +334,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 
 	private function TSpellKaisaAct takes nothing returns nothing
 		if (GetSpellAbilityId() == 'AOhx') then
-			call Lianxueyiji()		
+			call Lianxueyiji()
 		elseif (GetSpellAbilityId() == 'A0NR') then
 			//天地裂变
 			call Tiandiliebian()

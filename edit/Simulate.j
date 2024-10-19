@@ -1,20 +1,20 @@
 
 
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "HeiYan.j"
-//! import "Yanmie.j"
-//! import "Huanyi.j"
-//! import "ItemSpell.j"
-//! import "MiniGame.j"
-//! import "Boss.j"
-//! import "MiJing.j"
-/////! import "CenterCredit.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "HeiYan.j"
+#include  "Yanmie.j"
+#include  "Huanyi.j"
+#include  "ItemSpell.j"
+#include  "MiniGame.j"
+#include  "Boss.j"
+#include  "MiJing.j"
+///#include  "CenterCredit.j"
 /*
     马甲模拟
 */
 library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,Yanmie,CenterCredit,ItemSpell,MiniGame,Boss,MiJing
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    马甲伤害模拟总列表
@@ -71,7 +71,7 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 //---------------------------------------------------------------------------------------------------
 
 	private function InitSimulate takes nothing returns nothing
-		
+
 	    local trigger t = CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DEATH)
 		call TriggerAddAction(t, function SimulateAllDeath)

@@ -1,11 +1,11 @@
-//! import "LHBase.j"
-//! import "Achievement.j"
+#include  "LHBase.j"
+#include  "Achievement.j"
 
 /*
     七夕
 */
 library_once Qixi requires LHBase,Achievement
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    补偿
@@ -127,7 +127,7 @@ library_once Qixi requires LHBase,Achievement
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
 		set p = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function QixiHuodong takes player p returns nothing

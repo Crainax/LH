@@ -1,7 +1,7 @@
-//! import "SpellBase.j"
-//! import "Spin.j"
+#include  "SpellBase.j"
+#include  "Spin.j"
 library_once Lingxue requires SpellBase ,Spin
-	
+
 	globals
 	endglobals
 //---------------------------------------------------------------------------------------------------

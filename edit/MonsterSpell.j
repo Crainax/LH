@@ -1,12 +1,12 @@
 
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "Diffculty.j"
-/////! import "BigBoss.j"
-/////! import "Diamond.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "Diffculty.j"
+///#include  "BigBoss.j"
+///#include  "Diamond.j"
 
 library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,Diffculty,YDWETimerPattern
-	
+
 	globals
 		trigger TSpellQianfa
 		trigger TSpellDart
@@ -130,9 +130,9 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
-	
+
 	function StartJudgeTransmit takes unit u returns nothing
 		local timer t = CreateTimer()
 		local SuperShield shield
@@ -247,7 +247,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
     private function TMijingAttackSpellCon takes nothing returns boolean
     	return GetUnitTypeId(GetAttacker()) == 'nrwm'
     endfunction
-    
+
     private function TMijingAttackSpellAct takes nothing returns nothing
     	if (GetRandomInt(1,10) == 1) then
     		call IssuePointOrder(GetAttacker(),"clusterrockets",GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()))
@@ -258,7 +258,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
     		return
     	endif
     endfunction
-	    
+
 //---------------------------------------------------------------------------------------------------
 
 	/*

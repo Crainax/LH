@@ -1,9 +1,9 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-//! import "ChallangerDZ.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+#include  "ChallangerDZ.j"
 /*
     英雄梦霁的技能
 */
@@ -34,7 +34,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 		/*
 		    玲珑舞两个单位及闪电特效
 		*/
-		private unit ULinglong1 = null 
+		private unit ULinglong1 = null
 		private unit ULinglong2 = null
 		private lightning array LLinglong
 	endglobals
@@ -42,12 +42,12 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 	/*
 	    马甲的攻击伤害
 	*/
-	
+
 	function SimulateDamageMengji takes unit u returns boolean
 
 		if (GetUnitTypeId(u) == 'hhm1') then
 			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.2, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		if (GetUnitTypeId(u) == 'hhm2') then
 
@@ -65,7 +65,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 		endif
 		if (GetUnitTypeId(u) == 'hhm4') then
 			call UnitDamageTarget( mengji, GetTriggerUnit(), GetDamageAgi(mengji) * 0.4, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		return false
 	endfunction
@@ -80,7 +80,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 			return true
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断英雄是否拿着圣弓
@@ -138,7 +138,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 		call PauseTimer(t)
 		call FlushChildHashtable(spellTable,id)
 		call DestroyTimer(t)
-		set t = null 
+		set t = null
 	endfunction
 
 	private function Nitai takes nothing returns nothing
@@ -248,7 +248,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
     		endif
     	endif
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    苍龙探幽箭
@@ -268,7 +268,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 	    	call UnitApplyTimedLifeBJ( 2, 'BHwe', u)
 		    call YDWETimerPatternRushSlide( u, facing + i * 20 , 2000, 2, 0.05, damage, 300., false, true, true, "origin", "Abilities\\Spells\\Undead\\DeathCoil\\DeathCoilSpecialArt.mdl", "Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl" )
 			set i = i + 1
-		endloop 
+		endloop
 	    call PrintSpell(GetOwningPlayer(mengji),GetAbilityName(abilityID),damage)
 	    set u = null
 	endfunction
@@ -295,7 +295,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
     private function TSpellMengji2Con takes nothing returns boolean
     	return GetAttacker() == mengji and IsSecondSpellOK(mengji) == true and GetUnitState(mengji,UNIT_STATE_MANA) >= 250 and HasShenggong() and GetUnitAbilityLevel(mengji,'AHM2') == 1
     endfunction
-    
+
     private function TSpellMengji2Act takes nothing returns nothing
     	call DisableTrigger(GetTriggeringTrigger())
 		call Tanyoujian(0.4,'AHM2',GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()),1)
@@ -368,7 +368,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
         // if (RAbsBJ(GetUnitX(mengji)-x1) < 600) then
 	    //     call SetUnitX(mengji,x1)
 	    //     call SetUnitY(mengji,y1)
-        // 	endif	
+        // 	endif
         // call IssueImmediateOrder(mengji,"stop")
 	endfunction
 
@@ -422,7 +422,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 			call FlushChildHashtable(spellTable,id)
 			call DestroyTimer(t)
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function Linglongwu takes nothing returns nothing
@@ -454,14 +454,14 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 			call Tanyoujian(0.75,GetSpellAbilityId(),GetSpellTargetX(),GetSpellTargetY(),5)
 		elseif (GetSpellAbilityId() == 'AHM2') then
 			call Zhenhunsuo()
-		elseif (GetSpellAbilityId() == 'A0GW') then 
+		elseif (GetSpellAbilityId() == 'A0GW') then
 			call Sanchuanjian()
-		elseif (GetSpellAbilityId() == 'AHM4') then 
+		elseif (GetSpellAbilityId() == 'AHM4') then
 			call Shunfaxin()
-		elseif (GetSpellAbilityId() == 'AHM5') then 
+		elseif (GetSpellAbilityId() == 'AHM5') then
 			call Linglongwu()
 		//拟态
-		elseif (GetSpellAbilityId() == 'A0JG' and IsCanCopy(GetSpellTargetItem())) then 
+		elseif (GetSpellAbilityId() == 'A0JG' and IsCanCopy(GetSpellTargetItem())) then
 			if (IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3) and IsInRect(GetUnitX(mengji),GetUnitY(mengji),gg_rct_______a3)) then
 				call DisplayTextToPlayer(GetOwningPlayer(mengji), 0., 0., "|cFFFF66CC【消息】|r此处禁止拟态.")
 			else

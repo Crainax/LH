@@ -1,6 +1,6 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
+///#include  "NetVersion.j"
 /*
     宝石升级装备
 */
@@ -244,7 +244,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondA('esaz','sksh',80) == true) then
             return
         endif
@@ -352,7 +352,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondB('sksh','oslo','esaz',90) == true) then
             return
         endif
@@ -395,7 +395,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondA('sksh','oslo', 60) == true) then
             return
         endif
@@ -438,7 +438,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -502,7 +502,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondB('oslo','grsl','sksh',80) == true) then
             return
         endif
@@ -545,7 +545,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondA('oslo','grsl', 50) == true) then
             return
         endif
@@ -631,7 +631,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -695,7 +695,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondB('grsl','flag','oslo',70) == true) then
             return
         endif
@@ -738,7 +738,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondA('grsl','flag',40) == true) then
             return
         endif
@@ -781,7 +781,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (DiamondC('grsl','flag','sksh',80) == true) then
             return
         endif
@@ -824,7 +824,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -870,7 +870,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -914,7 +914,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -1002,7 +1002,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
- 
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang1[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -1048,7 +1048,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
- 
+
         if not(HasLiuli(GetTriggerUnit())) then
             if not(BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) then
                 set BLuoshang2[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] = true
@@ -1109,7 +1109,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     ")
             endif
         endif
-        
+
         if (DiamondA('rump','shen',30) == true) then
             return
         endif
@@ -1153,7 +1153,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     ")
             endif
         endif
-        
+
         if (DiamondC('rump','shen','nspi',70) == true) then
             return
         endif
@@ -1199,7 +1199,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     ")
             endif
         endif
-        
+
         if (DiamondB ('shen','stpg','rump',40) == true) then
             return
         endif
@@ -1243,7 +1243,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     ")
             endif
         endif
-        
+
         if (DiamondB ('shen','stpg','rump',60) == true) then
             return
         endif
@@ -1285,7 +1285,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     ")
             endif
         endif
-        
+
         if (DiamondA('shen','stpg',30) == true) then
             return
         endif
@@ -1327,7 +1327,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     ")
             endif
         endif
-        
+
         if (DiamondC ('shen','stpg','oli2',70) == true) then
             return
         endif
@@ -1353,7 +1353,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (Diamond100('oli2','rump') == true) then
             return
         endif
@@ -1397,7 +1397,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
             call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, DIAMOND_CANT_UPDATE )
             return
         endif
-        
+
         if (Diamond100('I04W','I07E') == true) then
             return
         endif
@@ -1543,7 +1543,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
         elseif (RectContainsUnit(gg_rct_Diamond2,GetSellingUnit())) then
             set x = GetRandomReal(GetRectMinX(gg_rct_Diamond2),GetRectMaxX(gg_rct_Diamond2))
             set y = GetRandomReal(GetRectMinY(gg_rct_Diamond2),GetRectMaxY(gg_rct_Diamond2))
-        else 
+        else
             set x = GetRandomReal(GetRectMinX(gg_rct_Diamond3),GetRectMaxX(gg_rct_Diamond3))
             set y = GetRandomReal(GetRectMinY(gg_rct_Diamond3),GetRectMaxY(gg_rct_Diamond3))
         endif
@@ -1633,7 +1633,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
     */
     private function MonsterDropDiamond takes nothing returns boolean
         local integer i = 1
-       
+
             if ((GetUnitTypeId(GetDyingUnit()) == 'nnmg')) then
                 loop
                     exitwhen i > CModeH(1,2) * I3(JJ2,3,1)
@@ -1768,7 +1768,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
                 endif
             endif
         endif
-        
+
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -1919,7 +1919,7 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
 	    宝石初始化
 	*/
 	private function InitDiamond takes nothing returns nothing
-		
+
         local trigger t = CreateTrigger()
 
         call TriggerRegisterAnyUnitEventBJ( t, EVENT_PLAYER_UNIT_SPELL_EFFECT )

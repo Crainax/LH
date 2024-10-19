@@ -1,7 +1,7 @@
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "Diffculty.j"
-//! import "Boss.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "Diffculty.j"
+#include  "Boss.j"
 library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffculty,Boss
 
 	globals
@@ -133,9 +133,9 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
-	
+
 	function StartJudgeTransmitHundun takes unit u returns nothing
 		local timer t = CreateTimer()
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
@@ -287,9 +287,9 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	endfunction
 
 	function DialogCombine takes unit buyer,integer materials1,integer materials2,integer targetItem1,integer targetItem2,string targetName1,string targetName2,integer lumber returns nothing
-		local trigger t 
-	    local dialog d  
-	    local integer i  
+		local trigger t
+	    local dialog d
+	    local integer i
 
 		if ((GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1)) == materials1) and (GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2)) == materials2) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2)))) then
 	    	set i = GetItemCharges(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))
@@ -322,7 +322,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	    直接合成物品
 	*/
 	function CombineI takes unit buyer,integer materials1,integer materials2,integer targetItem,integer lumber,boolean hints returns nothing
-	    local integer i  
+	    local integer i
 
 		if ((GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1)) == materials1) and (GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2)) == materials2) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))) and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials2)))) then
 	    	set i = GetItemCharges(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), materials1))
@@ -387,9 +387,9 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	    商店合成混沌夜之哀伤
 	*/
 	function CombineHundunyeai takes nothing returns nothing
-		local integer i 
+		local integer i
 		if ((GetItemTypeId(GetSoldItem()) == 'I04Q')) then
-			
+
 		    if ((GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), 'I04L')) == 'I04L') and (GetItemTypeId(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), 'stel')) == 'stel') and (IsItemPawnable(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), 'I04L')) == true)) then
 		    	set i = GetItemCharges(GetItemOfTypeFromUnitBJ(GetBuyingUnit(), 'stel'))
 		        call RemoveItem( GetItemOfTypeFromUnitBJ(GetBuyingUnit(), 'I04L') )
@@ -407,7 +407,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		    endif
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    合成装备
@@ -465,7 +465,7 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    初始化混沌区的技能 
+	    初始化混沌区的技能
 	*/
 	function InitHundunInner takes nothing returns nothing
 

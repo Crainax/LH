@@ -1,13 +1,13 @@
 
-//! import "LHBase.j"
-library_once Attr initializer InitAttr requires LHBase 
-	
+#include  "LHBase.j"
+library_once Attr initializer InitAttr requires LHBase
+
 	globals
 		integer array IStr
 		integer array IAgi
 		integer array IInt
 	endglobals
-	
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -45,7 +45,7 @@ library_once Attr initializer InitAttr requires LHBase
 			endif
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    全刷力量
@@ -165,7 +165,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    增加生命上限增益
 	*/
 	function AddHPPercent takes integer playerID , real value returns nothing
-		set udg_I_Xianglian[( playerID + 18 )] =  udg_I_Xianglian[( playerID + 18 )] + value 
+		set udg_I_Xianglian[( playerID + 18 )] =  udg_I_Xianglian[( playerID + 18 )] + value
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    敏捷增益
 	*/
 	function AddAgiPercent takes integer playerID , real value returns nothing
-		set udg_I_Xianglian[( playerID + 6 )] =  udg_I_Xianglian[( playerID + 6 )] + value 
+		set udg_I_Xianglian[( playerID + 6 )] =  udg_I_Xianglian[( playerID + 6 )] + value
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 
@@ -190,7 +190,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    力量增益
 	*/
 	function AddStrPercent takes integer playerID , real value returns nothing
-		set udg_I_Xianglian[( playerID)] =  udg_I_Xianglian[( playerID)] + value 
+		set udg_I_Xianglian[( playerID)] =  udg_I_Xianglian[( playerID)] + value
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 
@@ -207,7 +207,7 @@ library_once Attr initializer InitAttr requires LHBase
 	    智力增益
 	*/
 	function AddIntPercent takes integer playerID , real value returns nothing
-		set udg_I_Xianglian[( playerID + 12 )] =  udg_I_Xianglian[( playerID + 12 )] + value 
+		set udg_I_Xianglian[( playerID + 12 )] =  udg_I_Xianglian[( playerID + 12 )] + value
 		call TriggerExecute( gg_trg_D7 )
 	endfunction
 
@@ -267,11 +267,11 @@ library_once Attr initializer InitAttr requires LHBase
 	    set udg_Unit = u
 	    call SaveInteger(YDHT,GetHandleId(u),0x5039AFFB,attack)
 	    call TriggerExecute( gg_trg_____________800W )
-	endfunction	
+	endfunction
 
 	function GetAttack takes unit u returns integer
 		return LoadInteger(YDHT,GetHandleId(u),0x5039AFFB)
-	endfunction	
+	endfunction
 
 	function AddAttack takes unit u,integer attack returns nothing
 		call SetAttack(u,GetAttack(u) + attack)
@@ -280,7 +280,7 @@ library_once Attr initializer InitAttr requires LHBase
 	/*
 	    设置防御
 	*/
-	function SetDefense takes unit u,integer defense returns nothing    
+	function SetDefense takes unit u,integer defense returns nothing
 	    set udg_Unit = u
 	    call SaveInteger(YDHT,GetHandleId(u),0x81FD3994,defense)
 	    call TriggerExecute( gg_trg___________________4000______u )
@@ -288,7 +288,7 @@ library_once Attr initializer InitAttr requires LHBase
 
 	function GetDefense takes unit u returns integer
 		return LoadInteger(YDHT,GetHandleId(u),0x81FD3994)
-	endfunction	
+	endfunction
 
 	function AddDefense takes unit u,integer defense returns nothing
 		call SetDefense(u,GetDefense(u) + defense)
@@ -303,10 +303,10 @@ library_once Attr initializer InitAttr requires LHBase
 	    call SaveInteger(YDHT,GetHandleId(u),0xFCD961C9,hp)
     	call TriggerExecute( gg_trg_HP_____________________u )
 	endfunction
-	
+
 	function GetHP takes unit u returns integer
 		return LoadInteger(YDHT,GetHandleId(u),0xFCD961C9)
-	endfunction	
+	endfunction
 
 	function AddHP takes unit u,integer hp returns nothing
 		call SetHP(u,GetHP(u) + hp)
@@ -314,7 +314,7 @@ library_once Attr initializer InitAttr requires LHBase
 //---------------------------------------------------------------------------------------------------
 
 	private function InitAttr takes nothing returns nothing
-		
+
 
 
 	endfunction

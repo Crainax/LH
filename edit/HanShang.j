@@ -1,16 +1,16 @@
 
-//! import "SpellBase.j"
-//! import "Structs.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Diffculty.j"
-//! import "Aura.j"
-//! import "Spin.j"
+#include  "SpellBase.j"
+#include  "Structs.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Diffculty.j"
+#include  "Aura.j"
+#include  "Spin.j"
 /*
     英雄寒殇的技能
 */
 library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spin,Structs
-	
+
 	globals
 
 		private boolean IsLianhuan = false
@@ -72,7 +72,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
         call FlushChildHashtable(spellTable,id)
         call DestroyTimer(t)
         set it = null
-        set t = null 
+        set t = null
     endfunction
 
 	private function Guifushengong takes nothing returns nothing
@@ -92,7 +92,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 					set IJuexing = 0
 			        set it = null
 			        set t = null
-					return 
+					return
 				else
         			call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【|r|cffff00ff鬼斧神工|r|cFFFF66CC】|r还需要使用"+I2S(20 - IJuexing)+"次才为真品。" ) )
         		endif
@@ -121,7 +121,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	    	set n = 1
 	    elseif (distance < 4000) then
 	    	set n =1.5
-	    else 
+	    else
 	    	set n = (1.5 + (distance - 4000) / 5000)
 	    endif
 	    set damage = damage * n
@@ -166,9 +166,9 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	    		endif
 	    		set i = i +1
 	    	endloop
-			
+
 	    	call DisplayTextToPlayer( GetOwningPlayer(hanshang), 0, 0, ( "|cFFFF66CC【|r" + ( GetAbilityName(GetSpellAbilityId()) + "|cFFFF66CC】|r吞噬成功，增加的属性值如以下所示：" ) ) )
-			call SaveInteger(spellTable,GetHandleId(hanshang),ILianjinChi,GetItemTypeId(it))	    	
+			call SaveInteger(spellTable,GetHandleId(hanshang),ILianjinChi,GetItemTypeId(it))
 			set ILianjinChi = ILianjinChi + 1
 
 	        if (HaveSavedInteger(YDHT, GetItemTypeId(it) , 0x5BAE281D)) then
@@ -316,7 +316,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	    endif
 	    call RemoveItem( it )
 	    set it = null
-    
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -374,7 +374,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	/*
 	    连环炸弹
 	*/
-	
+
 	private function LianhuanBoomTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
 		local integer id = GetHandleId(t)
@@ -391,9 +391,9 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 			call DestroyTimer(t)
 			call FlushChildHashtable(spellTable,id)
 		endif
-		set t = null 
+		set t = null
 	endfunction
-	
+
 	private function LianhuanBoom takes nothing returns nothing
 		local timer t = CreateTimer()
 		set IsLianhuan = true
@@ -496,7 +496,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 	private function TSpellHanshang3Con takes nothing returns boolean
 		return IsThirdSpellOK(hanshang) == true and GetUnitAbilityLevel(hanshang,'A0BN') == 1 and GetEventDamage() > 100 and GetTriggerUnit() == hanshang and IsUnitAliveBJ(hanshang)
 	endfunction
-	
+
 	private function TSpellHanshang3Act takes nothing returns nothing
 		call SetUnitLifeBJ(hanshang,GetUnitState(hanshang,UNIT_STATE_LIFE)+GetEventDamage() * RLianjin2)
 	endfunction
@@ -563,7 +563,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 			debug call SetHanshang2SpinOK(GetOwningPlayer(hanshang))
 		endif
 	endfunction
-	
+
 	function InitDuxin takes nothing returns nothing
 		set TDuxin = CreateTrigger()
 		set HTHS = InitHashtable()

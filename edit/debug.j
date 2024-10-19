@@ -1,10 +1,10 @@
 
-//! import "LHBase.j"
-//! import "Boss.j"
-//! import "PIV.j"
-//! import "Attr.j"
-/////! import "Diamond.j"
-/////! import "CenterCredit.j"
+#include  "LHBase.j"
+#include  "Boss.j"
+#include  "PIV.j"
+#include  "Attr.j"
+///#include  "Diamond.j"
+///#include  "CenterCredit.j"
 /*
     测试指令:
 	test damage 关闭/开启伤害显示
@@ -93,7 +93,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 	private function debugChat takes nothing returns nothing
 		//关闭伤害显示
 		local string chat = GetEventPlayerChatString()
-		local integer bo 
+		local integer bo
 		local unit u
 		if(chat == "test damage") then
 			set debug_show_damage = not(debug_show_damage)
@@ -134,7 +134,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 		endif
 
 		if (chat == "test part0") then
-			
+
 			call addHeroAttr(10000,60)
 
 			//鬼1
@@ -156,7 +156,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 		endif
 
 		if (chat == "test part2") then
-			
+
 			call addHeroAttr(40000,120)
 
 			//鬼5
@@ -178,7 +178,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 		endif
 
 		if (chat == "test part3") then
-			
+
 			call addHeroAttr(80000,140)
 
 			//鬼8
@@ -200,7 +200,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 		endif
 
 		if (chat == "test part4") then
-			
+
 			call addHeroAttr(150000,170)
 
 			//超鬼
@@ -223,7 +223,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 
 
 		if (chat == "test part5") then
-			
+
 			call addHeroAttr(1300000,280)
 
 			//超鬼
@@ -405,7 +405,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 			set renshu = 6
 			call BJDebugMsg("人数调成6")
 			return
-		endif		
+		endif
 
 		if (chat == "test renkou") then
 			call SetPlayerStateBJ( Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP) + 100 ) )
@@ -451,7 +451,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 			call KillUnit(gg_unit_Nkjx_0241)
 			call KillUnit(gg_unit_Npld_0253)
 			return
-		endif		
+		endif
 
 		//测试鬼仙
 		if (chat == "test guixian") then
@@ -465,7 +465,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 			set IDeng = 19
 			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
 			return
-		endif		
+		endif
 
 		//测试生命共享
 		if (chat == "test gongxiang") then
@@ -491,7 +491,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 	function SetTestUnit takes unit u returns nothing
 		set testDyingUnit = u
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 
 	/*
@@ -526,7 +526,7 @@ library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCre
 	endfunction
 
 	private function Initdebug takes nothing returns nothing
-		
+
 		call initDebugTri()
 
 	endfunction

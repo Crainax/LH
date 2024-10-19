@@ -1,10 +1,10 @@
 
-//! import "LHBase.j"
-//! import "item.j"
-//! import "ChallangerDZ.j"
+#include  "LHBase.j"
+#include  "item.j"
+#include  "ChallangerDZ.j"
 
 library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,ChallangerDZ
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    许愿之蛋
@@ -69,7 +69,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
         set u = null
         set p = null
         call DestroyTrigger(GetTriggeringTrigger())
-	endfunction	
+	endfunction
 
 	function Xuyuan takes player p returns nothing
         local trigger t  = CreateTrigger()
@@ -173,7 +173,7 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 
 	function TPurgatoryItemAct takes nothing returns nothing
 		local integer dyingUnitId = GetUnitTypeId(GetDyingUnit())
-		//! textmacro CreatePurgatoryItem takes UnitType,ItemType	
+		//! textmacro CreatePurgatoryItem takes UnitType,ItemType
 		if (dyingUnitId == '$UnitType$') then
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetDyingUnit()), GetUnitY(GetDyingUnit()) ))
 			call CreateItem('$ItemType$',GetUnitX(GetDyingUnit()),GetUnitY(GetDyingUnit()))

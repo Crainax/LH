@@ -1,5 +1,5 @@
-//! import "LHBase.j"
-//! import "Spin.j"
+#include  "LHBase.j"
+#include  "Spin.j"
 
 library_once Bajue  requires LHBase,Spin
 
@@ -63,7 +63,7 @@ library_once Bajue  requires LHBase,Spin
 		set baseX = 0.
 		set baseY = 0.
 		set tempX = 0.
-		set tempY = 0.		
+		set tempY = 0.
 		set BFengshuangStart = false
 
 	endfunction

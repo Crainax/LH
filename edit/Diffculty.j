@@ -1,10 +1,10 @@
 
-//! import "LHBase.j"
-//! import "ChallangerMode.j"
-/////! import "Kuanghuan.j"
-/////! import "Huodong.j"
+#include  "LHBase.j"
+#include  "ChallangerMode.j"
+///#include  "Kuanghuan.j"
+///#include  "Huodong.j"
 library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
-	
+
 	globals
 		/*
 		    地狱1,末日2,轮回万劫3
@@ -84,7 +84,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 
 		call UnitAddAbility(u,'A0EY')
 		call SetUnitAbilityLevel(u,'A0EY',NanDiff)
-		
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -109,12 +109,12 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 		call UnitRemoveAbility(u,'A0EY')
 		call UnitRemoveAbility(u,'A05O')
 		call UnitRemoveAbility(u,'A0G5')
-		
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万劫的加强攻击力
-	*/	
+	*/
 	function EnhanceWanjieAttack takes unit u returns nothing
 		if(IsWanjie()) then
 			call EnhanceDiffAttack(u)
@@ -220,7 +220,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 	endfunction
 
 	/*
-	    万劫数据才value*rate，实数版 
+	    万劫数据才value*rate，实数版
 	*/
 	function GetWanjieReal takes real value ,real rate returns real
 		if (IsWanjie()) then
@@ -240,7 +240,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 		return value
 	endfunction
 
-	 
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万劫给怪物加闪烁技能，波数11波后60倍攻击
@@ -330,9 +330,9 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
-	
+
 	function UnlimitSlienceTianyan takes unit u returns nothing
 		local timer t = CreateTimer()
 		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
@@ -432,7 +432,7 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 			set SgameMode = "狂欢"
 			call InitKuanghuan()
 			call ChooseDifficulty(4)
-		endif	       
+		endif
 
         call FlushChildHashtable(LHTable,GetHandleId(d))
     	call DialogDisplay( Player(0), d, false )

@@ -1,9 +1,9 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 /*
     翅膀
 */
-library_once Wing requires LHBase 
-	
+library_once Wing requires LHBase
+
 	globals
 		key kWingDialog1
 		key kWingDialog2

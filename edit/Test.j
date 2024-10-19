@@ -1,13 +1,13 @@
 
-//! import "dependency/YDWESetGuard.j"
-//! import "dependency/YDWETriggerEvent.j"
-//! import "dependency/YDWETimerSystem.j"
-//! import "dependency/YDWETimerPattern.j"
-//! import "dependency/YDWEBase_common.j"
-//! import "dependency/YDWEBase_hashtable.j"
-//! import "dependency/YDWEAroundSystem.j"
+#include  "dependency/YDWESetGuard.j"
+#include  "dependency/YDWETriggerEvent.j"
+#include  "dependency/YDWETimerSystem.j"
+#include  "dependency/YDWETimerPattern.j"
+#include  "dependency/YDWEBase_common.j"
+#include  "dependency/YDWEBase_hashtable.j"
+#include  "dependency/YDWEAroundSystem.j"
 
-//! import "DzAPI.j"
+#include  "DzAPI.j"
 library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem,DzAPI
 
 	globals
@@ -271,28 +271,28 @@ library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YD
 
     function OperatorDegreeAdd takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorDegreeSubtract takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorDegreeMultiply takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorDegreeDivide takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorRadianAdd takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorRadianSubtract takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorRadianMultiply takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
     function OperatorRadianDivide takes real r1,real r2 returns real
          return 0.
-     endfunction 
+     endfunction
 
 	private function InitTest takes nothing returns nothing
         set udg_I_Er_diansi[1] = 20

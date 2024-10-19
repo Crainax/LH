@@ -1,8 +1,8 @@
 
-//! import "LHBase.j"
+#include  "LHBase.j"
 library_once Printer initializer InitPrinter requires LHBase
 
-	
+
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -23,7 +23,7 @@ library_once Printer initializer InitPrinter requires LHBase
 	function PrintSpell takes player whichPlayer,string spellName,real damage returns nothing
 		call PrintSpellAdd(whichPlayer,spellName,damage,"")
 	endfunction
-	
+
 	function PrintSpellContent takes player whichPlayer,string spellName,string content returns nothing
 		if (BHideDamage[GetConvertedPlayerId(whichPlayer)]) then
 			return
@@ -38,7 +38,7 @@ library_once Printer initializer InitPrinter requires LHBase
 //---------------------------------------------------------------------------------------------------
 
 	private function InitPrinter takes nothing returns nothing
-		
+
 	endfunction
 
 endlibrary

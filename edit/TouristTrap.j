@@ -1,8 +1,8 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 /*
     黑店
 */
-library_once TouristTrap initializer InitTouristTrap requires LHBase 
+library_once TouristTrap initializer InitTouristTrap requires LHBase
 
 	globals
 		/*
@@ -10,7 +10,7 @@ library_once TouristTrap initializer InitTouristTrap requires LHBase
 		*/
 		boolean array HasCombineHalf
 	endglobals
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    贩卖顶级神器的地方
@@ -18,7 +18,7 @@ library_once TouristTrap initializer InitTouristTrap requires LHBase
 	private function TTouristTrapSellCon takes nothing returns boolean
 		return (GetUnitTypeId(GetSellingUnit()) == 'uS01')
 	endfunction
-	
+
 	private function TTouristTrapSellAct takes nothing returns nothing
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
 		local integer lumber
@@ -55,7 +55,7 @@ library_once TouristTrap initializer InitTouristTrap requires LHBase
 		//! runtextmacro GiveMaxShen("IXU6","shcw")
 		//! runtextmacro GiveMaxShen("IXU7","shtm")
 	endfunction
-		
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化

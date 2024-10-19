@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
 
 library_once LHOther initializer InitLHOther requires LHBase,Diffculty
-	
+
 	globals
 	endglobals
 
@@ -76,7 +76,7 @@ library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 	private function TAttackAllyCon takes nothing returns boolean
 		return ((GetPlayerController(GetOwningPlayer(GetAttacker())) == MAP_CONTROL_USER) and (GetAttackedUnitBJ() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetAttackedUnitBJ()))]) and IsUnitAlly(GetAttacker(),GetOwningPlayer(GetAttackedUnitBJ())))
 	endfunction
-	
+
 	private function TAttackAllyAct takes nothing returns nothing
 			call IssueImmediateOrder(GetAttacker(),"stop")
 			if (GetUnitTypeId(GetAttacker()) != 'h028') then

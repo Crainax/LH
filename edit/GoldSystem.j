@@ -1,7 +1,7 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 
 library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
-	
+
 	globals
 		boolean array BGoldGongxiang
 	endglobals
@@ -26,7 +26,7 @@ library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
 		loop
 			exitwhen i > 6
 			if (i == index or BGoldGongxiang[i]) then
-	    		set udg_gold[i] = (R2I(I2R(I3(IsUnitInGroup(GetDyingUnit(),GJingxiang),udg_Bo * 75 + 225,LoadInteger(YDHT, GetUnitTypeId(GetDyingUnit()), 0x9DA51395))) * udg_I_Jinqianhuodelv[i])) * rate + udg_gold[i] + udg_gold[i + 6] 
+	    		set udg_gold[i] = (R2I(I2R(I3(IsUnitInGroup(GetDyingUnit(),GJingxiang),udg_Bo * 75 + 225,LoadInteger(YDHT, GetUnitTypeId(GetDyingUnit()), 0x9DA51395))) * udg_I_Jinqianhuodelv[i])) * rate + udg_gold[i] + udg_gold[i + 6]
 			endif
 			set i = i +1
 		endloop

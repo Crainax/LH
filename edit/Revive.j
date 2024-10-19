@@ -1,12 +1,12 @@
 
-//! import "LHBase.j"
-/////! import "Beast.j"
-//! import "Lingxue.j"
-//! import "Xinglong.j"
+#include  "LHBase.j"
+///#include  "Beast.j"
+#include  "Lingxue.j"
+#include  "Xinglong.j"
 library_once Revive initializer InitRevive requires LHBase,Beast,Lingxue,Xinglong
-	
+
 //---------------------------------------------------------------------------------------------------
-	
+
 function TReviveHeroCon takes nothing returns boolean
     return ((IsUnitIllusionBJ(GetRevivingUnit()) == false) and (GetRevivingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetRevivingUnit()))]))
 endfunction

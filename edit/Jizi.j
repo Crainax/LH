@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "Achievement.j"
-//! import "ChallangerDZ.j"
-//! import "Attr.j"
-//! import "Structs.j"
+#include  "LHBase.j"
+#include  "Achievement.j"
+#include  "ChallangerDZ.j"
+#include  "Attr.j"
+#include  "Structs.j"
 
 library_once Jizi  requires LHBase,Achievement,ChallangerDZ,Attr,Structs
 
@@ -233,7 +233,7 @@ library_once Jizi  requires LHBase,Achievement,ChallangerDZ,Attr,Structs
 //---------------------------------------------------------------------------------------------------
 	/*
 	    创建一个月饼
-	*/	
+	*/
 	function CreateYuebingPlayer takes real x,real y,player p returns nothing
 		local item it = null
 		call BJDebugMsg("|cFFFF66CC【消息】|r地图出现了一个月饼!")

@@ -1,14 +1,14 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-//! import "Spin.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+#include  "Spin.j"
 /*
     英雄黑阎的技能
 */
 library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
-	
+
 	globals
 		/*
 		    主动技能触发
@@ -56,7 +56,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	  	次数统计  
+	  	次数统计
 	*/
 	private function SpinTongji takes nothing returns nothing
 		if not (GetHeiyan1Spin(GetOwningPlayer(Heiyan))) then
@@ -82,9 +82,9 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	*/
 	private function CreateBasicSacrifice takes real tx, real ty returns nothing
 		local unit u
-		local real angle 
+		local real angle
 		local real x
-		local real y 
+		local real y
 		local integer i = 3
 		if (IsFull()) then
 			return
@@ -145,7 +145,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	/*
 	    祭品的攻击伤害
 	*/
-	
+
 	function SimulateDamageHeiyan takes unit u returns boolean
 		//祭品的伤害
 		if (GetUnitTypeId(u) == 'h012') then
@@ -169,14 +169,14 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 			call DisableTrigger(GetTriggeringTrigger())
 			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 10, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call EnableTrigger(GetTriggeringTrigger())
-			return true 
+			return true
 		endif
 		if (GetUnitTypeId(u) == 'h011') then
 			call DisableTrigger(GetTriggeringTrigger())
 			call UnitDamageTarget( u, GetTriggerUnit(), DamageSacri * 50, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 			call SetUnitLifeBJ(Heiyan,GetUnitState(Heiyan,UNIT_STATE_LIFE)+ DamageSacri * 1.5)
 			call EnableTrigger(GetTriggeringTrigger())
-			return true 
+			return true
 		endif
 		return false
 	endfunction
@@ -270,7 +270,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
     private function TSpellHeiyan2Con takes nothing returns boolean
     	return GetAttacker() == Heiyan and IsSecondSpellOK(Heiyan) == true and GetUnitState(Heiyan,UNIT_STATE_MANA) >= 250 and CountUnitsInGroup(GSacri) >= 1 and GetUnitAbilityLevel(Heiyan,'A0C8') == 1
     endfunction
-    
+
     private function TSpellHeiyan2Act takes nothing returns nothing
     	call DisableTrigger(GetTriggeringTrigger())
 		call QianGuiXie(Heiyan,GetAttackedUnitBJ(),0.4,'A0C8')
@@ -293,7 +293,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
     		call FlushChildHashtable(spellTable,GetHandleId(t))
     	endif
     	set u = null
-    	set t = null 
+    	set t = null
     endfunction
 
     private function YanLuoDian takes nothing returns nothing
@@ -357,7 +357,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	private function TSpellHeiyan41Con takes nothing returns boolean
 		return (GetEventDamage() > GetUnitState(Heiyan,UNIT_STATE_LIFE) and (CountUnitsInGroup(GSacri) >= 1) and (IsFourthSpellOK(Heiyan) == true) and (GetUnitAbilityLevel(Heiyan,'A0D2') == 1)) and (GetEventDamage() < GetUnitState(Heiyan,UNIT_STATE_MAX_LIFE) or GetRandomInt(1,2) == 1)
 	endfunction
-	
+
 	private function TSpellHeiyan41Act takes nothing returns nothing
 		call KillUnit(FirstOfGroup(GSacri))
     	call RecoverUnitHP(Heiyan,0.1)
@@ -390,7 +390,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 			call DestroyTimer(t)
 			set UZangJiuTian = null
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function ZangJiuTian takes nothing returns nothing
@@ -416,13 +416,13 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 			call YeShenJi()
 			//不召唤祭品
 			return
-		elseif (GetSpellAbilityId() == 'A0C8') then 
+		elseif (GetSpellAbilityId() == 'A0C8') then
 			call YanLuoDian()
-		elseif (GetSpellAbilityId() == 'A0JH') then 
+		elseif (GetSpellAbilityId() == 'A0JH') then
 			call SheHunJue()
-		elseif (GetSpellAbilityId() == 'A0D2') then 
+		elseif (GetSpellAbilityId() == 'A0D2') then
 			call QiLuoCha()
-		elseif (GetSpellAbilityId() == 'A0DD') then 
+		elseif (GetSpellAbilityId() == 'A0DD') then
 			call ZangJiuTian()
 		endif
 
@@ -510,7 +510,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	    初始化新英雄,选取时调用
 	*/
 	function InitHeiyan takes unit u returns nothing
-		local timer t = CreateTimer()		
+		local timer t = CreateTimer()
 		set GSacri = CreateGroup()
 		set Heiyan = InitHeiyanSpin(u)
 		call SetUnitPathing( Heiyan, false )

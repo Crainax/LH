@@ -1,5 +1,5 @@
 
-//! import "LHBase.j"
+#include  "LHBase.j"
 library_once SpellBase requires LHBase
 
 	globals
@@ -20,7 +20,7 @@ library_once SpellBase requires LHBase
 		call FlushChildHashtable(spellTable,id)
 		call UnitRemoveAbility(u,'Avul')
 		set u = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function ImmuteDamageInterval takes unit u,real time returns nothing
@@ -39,8 +39,8 @@ library_once SpellBase requires LHBase
 	/*
 	    只打基地
 	*/
-	struct OnlyAttackBase 
-		
+	struct OnlyAttackBase
+
 		private unit u
 		private timer t
 
@@ -88,8 +88,8 @@ library_once SpellBase requires LHBase
 	/*
 	    然后这是连结2个人
 	*/
-	struct Connect 
-		
+	struct Connect
+
 		private boolean BDie
 		private unit unit1
 		private unit unit2
@@ -153,8 +153,8 @@ library_once SpellBase requires LHBase
 
 	endstruct
 //---------------------------------------------------------------------------------------------------
-  
-	struct Attract 
+
+	struct Attract
 		private unit caster
 		private real radius
 		private real interval
@@ -255,7 +255,7 @@ library_once SpellBase requires LHBase
 	endstruct
 //---------------------------------------------------------------------------------------------------
 
-	struct Missile 
+	struct Missile
 		private unit caster
 		private string effx
 		private real radius
@@ -329,7 +329,7 @@ library_once SpellBase requires LHBase
 		   	local real Rangel = GetRandomReal(-180,180)
 		   	local real Rradius= GetRandomReal(0,range)
 			return createXY(caster,preview,effx,radius,GetUnitX(caster) + Rradius * CosBJ(Rangel),GetUnitY(caster) + Rradius * SinBJ(Rangel),interval1,interval2,damage)
-		endmethod		
+		endmethod
 
 		method onDestroy takes nothing returns nothing
 			call thistype.flush(.t)
@@ -346,8 +346,8 @@ library_once SpellBase requires LHBase
 	*/
     function interface AfterSucceed takes nothing returns nothing
 
-	struct Questions 
-				
+	struct Questions
+
 		private player p
 		private integer time
 		private trigger click
@@ -412,7 +412,7 @@ library_once SpellBase requires LHBase
         endmethod
 
         static method GetWrongAnswer takes integer shu,integer diff returns integer
-        	local integer result = 0 
+        	local integer result = 0
         	local integer result2 = 0
         	if (GetRandomInt(1,2) == 1) then
         		set result = shu + GetRandomInt(1,R2I(Pow(2,diff)))
@@ -486,7 +486,7 @@ library_once SpellBase requires LHBase
 	    	call DialogDisplay( .p, .d, false )
 	        call DialogClear(.d)
 	        call DialogDestroy(.d)
-			set .click = null 
+			set .click = null
 			set .p = null
 			set .question = null
 			set .d = null
@@ -586,14 +586,14 @@ library_once SpellBase requires LHBase
     function interface AfterLessLife takes unit u returns nothing
 
 	struct MultiLife
-		
+
 		private unit caster
 		private integer times
 		private integer current
 		private timer t
 		private texttag ttHint
 		private AfterLessLife al
-		
+
 		static method flashLoc takes nothing returns nothing
 			local thistype this = thistype[GetExpiredTimer()]
 			if (times < 2) then
@@ -669,8 +669,8 @@ library_once SpellBase requires LHBase
 	/*
 	    几段无敌
 	*/
-	struct SuperShield 
-		
+	struct SuperShield
+
 		private unit caster
 		private integer times
 		private integer current
@@ -781,7 +781,7 @@ library_once SpellBase requires LHBase
 			return r2
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    判断是否是三段觉醒,前面是觉醒能力值
@@ -846,7 +846,7 @@ library_once SpellBase requires LHBase
 		local real damage = (( GetHeroStr(uH, true) ) + ( GetHeroAgi(uH, true) ) +  ( GetHeroInt(uH, true) * 2.0 )) * SquareRoot(GetHeroLevel(uH)) * udg_I_Jinengjiacheng[GetConvertedPlayerId(GetOwningPlayer(uH))]
 		set uH = null
 		return damage
-	endfunction	
+	endfunction
 
 	/*
 	    获取基础英雄技能伤害
@@ -890,4 +890,3 @@ library_once SpellBase requires LHBase
 
 endlibrary
 
- 

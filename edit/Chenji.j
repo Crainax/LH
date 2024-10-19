@@ -1,11 +1,11 @@
 
-//! import "Printer.j"
-//! import "SpellBase.j"
-//! import "Spin.j"
-//! import "Attr.j"
+#include  "Printer.j"
+#include  "SpellBase.j"
+#include  "Spin.j"
+#include  "Attr.j"
 
 library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
-    
+
     globals
         /*
             受到伤害召唤鬼魂
@@ -62,16 +62,16 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
             debug call SetChenji1SpinOK(GetOwningPlayer(chenji))
         else
             set IYinduTimes = IYinduTimes + 1
-        endif  
+        endif
     endfunction
-    
+
 //---------------------------------------------------------------------------------------------------
     /*
         给英雄小无敌
     */
     /*function Yeaiwudi takes nothing returns nothing
         if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(chenji))]) then
-            
+
             call ImmuteDamageInterval(chenji,3)
             call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(chenji), GetUnitY(chenji) ))
         endif
@@ -132,7 +132,7 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
             call FlushChildHashtable(spellTable,id)
             call DestroyTimer(t)
         endif
-        set t = null 
+        set t = null
         set u = null
     endfunction
 
@@ -202,7 +202,7 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
 
         set chenji = InitChenjiSpin(u)
 
-        call TriggerRegisterUnitEvent( gg_trg_____________132, chenji, EVENT_UNIT_DEATH ) 
+        call TriggerRegisterUnitEvent( gg_trg_____________132, chenji, EVENT_UNIT_DEATH )
         call TriggerRegisterUnitEvent( gg_trg_____________125, chenji, EVENT_UNIT_DAMAGED )
         call TriggerRegisterUnitEvent( gg_trg_____________130, chenji, EVENT_UNIT_DAMAGED )
 

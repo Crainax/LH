@@ -1,13 +1,13 @@
 
-//! import "LHBase.j"
-//! import "PIV.j"
-//! import "Multiboard.j"
-/////! import "Exercise.j"
+#include  "LHBase.j"
+#include  "PIV.j"
+#include  "Multiboard.j"
+///#include  "Exercise.j"
 /*
     守家基分商店
 */
 library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,PIV,Multiboard
-	
+
 	globals
 		private constant integer CREDIT_SOLIDER_1 = 2500
 		private constant integer CREDIT_SOLIDER_2 = 5000
@@ -19,7 +19,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 	/*
 	    积分购买雇佣兵
 	*/
-	
+
 	private function TBuySoliderCon takes nothing returns boolean
 		return (GetUnitTypeId(GetSellingUnit()) == 'uS02') and RectContainsUnit(regionM1[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))],GetSellingUnit())
 	endfunction
@@ -28,7 +28,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 		local integer index = GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))
 		local real x
 		local real y
-		//! textmacro BuySoldier takes UnitType,Index	
+		//! textmacro BuySoldier takes UnitType,Index
 		if (GetUnitTypeId(GetSoldUnit()) == '$UnitType$') then
 			if (centerCredit[index] < CREDIT_SOLIDER_$Index$) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你的守家积分只有"+I2S(centerCredit[index])+",不足"+I2S(CREDIT_SOLIDER_$Index$))
@@ -38,21 +38,21 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 			endif
 			set centerCredit[index] = centerCredit[index] - CREDIT_SOLIDER_$Index$
 			set x = GetRectCenterX(regionM$Index$[index])
-			set y = GetRectCenterY(regionM$Index$[index]) 
+			set y = GetRectCenterY(regionM$Index$[index])
 			call MultiboardSetItemValueBJ( udg_D, 9,  index + 1 , I2S(centerCredit[index]) )
 			call SetUnitX(GetSoldUnit(),x)
 			call SetUnitY(GetSoldUnit(),y)
 	        call PanCameraToTimedForPlayer(GetOwningPlayer(GetBuyingUnit()),x,y,0.2)
 	        call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", x, y))
 	        call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r雇佣成功!")
-	        return 
+	        return
 		endif
 		//! endtextmacro
 
 		//! runtextmacro BuySoldier("uG01","1")
 		//! runtextmacro BuySoldier("uG02","2")
 		//! runtextmacro BuySoldier("uG03","3")
-		//! runtextmacro BuySoldier("uG04","4")	
+		//! runtextmacro BuySoldier("uG04","4")
 
 		if (GetUnitTypeId(GetSoldUnit()) == 'uG05') then
 			if (IsPIV(GetOwningPlayer(GetBuyingUnit())) != true) then

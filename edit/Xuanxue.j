@@ -1,9 +1,9 @@
-//! import "LHBase.j"
-//! import "Spin.j"
-//! import "ChallangerDZ.j"
+#include  "LHBase.j"
+#include  "Spin.j"
+#include  "ChallangerDZ.j"
 
 library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
-	
+
 	globals
 		hashtable HTXX = null
 		private integer IQinru
@@ -57,7 +57,7 @@ library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
 	    call PolledWait(1)
 		call DamageAreaEff(xuanxue,x,y,600,damage,"Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl")
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    万古玄霜的被动效果
@@ -83,7 +83,7 @@ library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
             call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
             call RemoveUnit(u)
             set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-            
+
         endif
 
 		if (IsXuanxueSpin1(GetOwningPlayer(u))) then

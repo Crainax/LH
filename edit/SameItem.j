@@ -1,5 +1,5 @@
-//! import "LHBase.j"
-//! import "item.j"
+#include  "LHBase.j"
+#include  "item.j"
 
 library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
@@ -27,9 +27,9 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 			*/ or GetItemTypeId(i) == 'I04A' /*
 			*/ or GetItemTypeId(i) == 'I06N' /*
 			*/ or GetItemTypeId(i) == 'I07T' /*
-			*/ or GetItemTypeId(i) == 'I02U' 
+			*/ or GetItemTypeId(i) == 'I02U'
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    单位的某一格物品栏是否是聚宝
@@ -37,7 +37,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 	private function UnitHasJubaoInSlot takes unit u,integer slot returns boolean
 		return GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05P' /*
 			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05Q' /*
-			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05R' 
+			*/ or GetItemTypeId(UnitItemInSlotBJ(u,slot)) == 'I05R'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -45,7 +45,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 	*/
 	private function OnlyOneZhuangbei takes integer itemID returns nothing
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 		loop
 			exitwhen i > 6
 			if(GetItemTypeId(UnitItemInSlotBJ(GetTriggerUnit(),i)) == itemID) then
@@ -68,7 +68,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 	*/
 	private function TOnlyOneItemAct takes nothing returns nothing
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 
 		//多个人器的判断
 		loop
@@ -89,7 +89,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
 		//多个聚宝的判断
 		set i = 1
-		set count = 0 
+		set count = 0
 		loop
 			exitwhen i > 6
 			if(UnitHasJubaoInSlot(GetTriggerUnit(),i)) then
@@ -108,7 +108,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
 		//多个项链的判断
 		set i = 1
-		set count = 0 
+		set count = 0
 		loop
 			exitwhen i > 6
 			if(IsXianglian(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
@@ -122,11 +122,11 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个项链！")
 			return
-		endif		
+		endif
 
 		//多个戒指的判断
 		set i = 1
-		set count = 0 
+		set count = 0
 		loop
 			exitwhen i > 6
 			if(IsGui(UnitItemInSlotBJ(GetTriggerUnit(),i))) then

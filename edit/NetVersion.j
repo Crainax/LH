@@ -3,22 +3,22 @@
     debug模式是网易模式
 */
 
-//! import "LHBase.j"
-//! import "Diffculty.j"
-//! import "Achievement.j"
-//! import "Huodong.j"
-//! import "Continous.j"
-//! import "Jizi.j"
-//! import "Qixi.j"
-//! import "Fanzhuan.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
+#include  "Achievement.j"
+#include  "Huodong.j"
+#include  "Continous.j"
+#include  "Jizi.j"
+#include  "Qixi.j"
+#include  "Fanzhuan.j"
 
 library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Fanzhuan//,Jizi
-	
+
 	globals
 
 
 		//集字
-		string array SJizi 
+		string array SJizi
 
 		unit UChengjiu = null
 
@@ -118,7 +118,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    获取平台的金币
 	*/
 	function GetPlatformLevelGold takes player p returns nothing
-		
+
 		if (DzAPI_Map_GetMapLevel(p) >= 20) then
 			call AdjustPlayerStateBJ( 8000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 15) then
@@ -127,7 +127,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call AdjustPlayerStateBJ( 4000, p , PLAYER_STATE_RESOURCE_GOLD )
 		elseif (DzAPI_Map_GetMapLevel(p) >= 5) then
 			call AdjustPlayerStateBJ( 2000, p , PLAYER_STATE_RESOURCE_GOLD )
-		endif 
+		endif
 
 	endfunction
 //-----------------------------------------------------------------1---------------------------------
@@ -371,7 +371,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    统计带新人数并保存
 	*/
 	function SaveDaixin takes integer index returns nothing
-		local integer i = 1 
+		local integer i = 1
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER) and (index != i) and (DzAPI_Map_GetMapLevel(ConvertedPlayer(i))<= 5)) then
@@ -469,7 +469,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 				if (CT3())then
 					call GetAchievementAndSave(ConvertedPlayer(i),410)
 				endif
-				
+
 				if (CT4())then
 					call GetAchievementAndSave(ConvertedPlayer(i),411)
 				endif
@@ -569,7 +569,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set i = i +1
 		endloop
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    转生的成就
@@ -626,8 +626,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function IncreaseHeroCount takes player p, integer i returns nothing
 		local integer index = GetConvertedPlayerId(p)
 		local integer length
-		local integer times 
-		local string temp 
+		local integer times
+		local string temp
 		if (i<1 or i>31) then
 			return
 		endif
@@ -673,12 +673,12 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer max = 0
 		local integer maxIndex = 0
 		local integer i = HERO_COUNT
-		loop 
+		loop
 			exitwhen i < 1
 			if ((GetSpecifyHeroTimes(p,i) > max) or (GetSpecifyHeroTimes(p,i) == max and GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)])) == i)) then
 				set max = GetSpecifyHeroTimes(p,i)
 				set maxIndex = i
-			endif 
+			endif
 			set i = i - 1
 		endloop
 
@@ -714,7 +714,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		//call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想取消彩色皮肤,请输入-qc")
 
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    死亡次数的成就：无心冢
@@ -834,7 +834,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		// 		call CreateYuebing(GetRectRandomX(GetPlayableMapRect()),GetRectRandomY(GetPlayableMapRect()))
 		// 	endif
 		// endif
-		
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -853,7 +853,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	/*
 	    杀怪成就
 	*/
-	
+
 	function SaveAchievement5 takes player p, integer count returns nothing
 		set killCount[GetConvertedPlayerId(p)] = killCount[GetConvertedPlayerId(p)] + count
 		if (killCount[GetConvertedPlayerId(p)] >= 15000) then
@@ -930,7 +930,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 //---------------------------------------------------------------------------------------------------
 	/*
 		抓宠物的成就
-	*/	
+	*/
 	function SavePetAchievement takes player p,integer level returns nothing
 		if (level >= 50) then
 			call GetAchievementAndSave(p,328)
@@ -986,7 +986,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		call PauseTimer(t)
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
-		set t = null 
+		set t = null
 		set p = null
 	endfunction
 
@@ -1023,7 +1023,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SetAndSaveDIYName takes player p returns nothing
 		local integer id = GetConvertedPlayerId(p)
 		set achiPage[id] = -1
-		call SaveAchievePointer(p) 
+		call SaveAchievePointer(p)
 		call SetPlayerName(p, GetRandomColor() +"【" + GetRandomColor() + SDIY[id] + GetRandomColor() + "】" + GetRandomColor() + playerName[id] + "|r")
 		call DzAPI_Map_Stat_SetStat( p, "achi", SDIY[id] )
 	endfunction

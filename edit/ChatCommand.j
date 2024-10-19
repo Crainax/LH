@@ -1,20 +1,20 @@
 
-//! import "LHBase.j"
-//! import "PIV.j"
-/////! import "Continous.j"
-//! import "Diffculty.j"
-//! import "Xuanxue.j"
-//! import "Huanyi.j"
-//! import "Hanshang.j"
-//! import "Bajue.j"
-//! import "Juexing.j"
-//! import "BaseVersion.j"
+#include  "LHBase.j"
+#include  "PIV.j"
+///#include  "Continous.j"
+#include  "Diffculty.j"
+#include  "Xuanxue.j"
+#include  "Huanyi.j"
+#include  "Hanshang.j"
+#include  "Bajue.j"
+#include  "Juexing.j"
+#include  "BaseVersion.j"
 /*
     游戏指令
     -kill自杀
 */
 library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,Hanshang,BaseVersion//,Continous
-	
+
 	globals
 		private item array IBox
 		private integer IBoxSucceed = 0
@@ -146,7 +146,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 400.00 ), 0 )
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    隐藏面板
@@ -454,11 +454,11 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 |cFFFF9900点击左上角“任务”查看。|r" )
 	    call DestroyTimer( GetExpiredTimer() )
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 
 	private function InitChatCommand takes nothing returns nothing
-		
+
 	    local trigger t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "-", false )
 		call TriggerRegisterPlayerChatEvent( t, Player(1), "-", false )

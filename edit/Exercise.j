@@ -1,19 +1,19 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 library_once Exercise initializer InitExercise requires LHBase
 
 	globals
 		rect array regionAll
 		//怪物的区域
-		rect array regionM1 
-		rect array regionM2 
-		rect array regionM3 
-		rect array regionM4 
-		rect array regionM5 
-		rect array regionM6 
+		rect array regionM1
+		rect array regionM2
+		rect array regionM3
+		rect array regionM4
+		rect array regionM5
+		rect array regionM6
 		private timer array TiExercise
 	endglobals
 //---------------------------------------------------------------------------------------------------
-	
+
 	/*
 	    区域123456的刷怪过滤器
 	*/
@@ -55,7 +55,7 @@ library_once Exercise initializer InitExercise requires LHBase
 	//! textmacro FlashMonster takes Index
 	function FlashMonsterPlayer$Index$ takes nothing returns nothing
 
-		local group g 
+		local group g
 		local group g2
 
 		//区域1
@@ -192,7 +192,7 @@ library_once Exercise initializer InitExercise requires LHBase
 	endfunction
 
 	//! endtextmacro
-	
+
 	//! runtextmacro FlashMonster("1")
 	//! runtextmacro FlashMonster("2")
 	//! runtextmacro FlashMonster("3")
@@ -202,7 +202,7 @@ library_once Exercise initializer InitExercise requires LHBase
 //---------------------------------------------------------------------------------------------------
 	/*
 		禁止进入
-	*/	
+	*/
 	//! textmacro TExerciseForbitCon takes Index
 		private function TExerciseForbitCon$Index$ takes nothing returns boolean
 			return ((ConvertedPlayer($Index$) != GetOwningPlayer(GetTriggerUnit())) and (IsEnemy3(GetTriggerUnit(),Player(10))))
@@ -260,7 +260,7 @@ library_once Exercise initializer InitExercise requires LHBase
 		call PauseTimer(TiExercise[GetConvertedPlayerId(p)])
 		call DestroyTimer(TiExercise[GetConvertedPlayerId(p)])
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化所有区域
@@ -273,7 +273,7 @@ library_once Exercise initializer InitExercise requires LHBase
 	    set regionM4[1]=Rect(- 13312.0, 12288.0, - 12064.0, 13568.0)
 	    set regionM5[1]=Rect(- 15488.0, 10624.0, - 14208.0, 11904.0)
 	    set regionM6[1]=Rect(- 13312.0, 10624.0, - 12032.0, 11904.0)
-		
+
 	    set regionM1[2]=Rect(- 15488.0, 8960.0, - 14240.0, 10240.0)
 	    set regionM2[2]=Rect(- 13280.0, 8960.0, - 12096.0, 10240.0)
 	    set regionM3[2]=Rect(- 15488.0, 7296.0, - 14208.0, 8544.0)
@@ -287,14 +287,14 @@ library_once Exercise initializer InitExercise requires LHBase
 	    set regionM4[3]=Rect(- 8928.0, 12288.0, - 7680.0, 13568.0)
 	    set regionM5[3]=Rect(- 11136.0, 10624.0, - 9856.0, 11904.0)
 	    set regionM6[3]=Rect(- 8960.0, 10624.0, - 7680.0, 11904.0)
-		
+
 	    set regionM1[4]=Rect(- 11104.0, 8992.0, - 9888.0, 10240.0)
 	    set regionM2[4]=Rect(- 8960.0, 8960.0, - 7680.0, 10240.0)
 	    set regionM3[4]=Rect(- 11136.0, 7296.0, - 9888.0, 8544.0)
 	    set regionM4[4]=Rect(- 8928.0, 7296.0, - 7680.0, 8576.0)
 	    set regionM5[4]=Rect(- 11136.0, 5632.0, - 9856.0, 6912.0)
 	    set regionM6[4]=Rect(- 8960.0, 5632.0, - 7680.0, 6912.0)
-		
+
 	    set regionM1[5]=Rect(- 6752.0, 13952.0, - 5536.0, 15200.0)
 	    set regionM2[5]=Rect(- 4736.0, 13952.0, - 3456.0, 15232.0)
 	    set regionM3[5]=Rect(- 6784.0, 12256.0, - 5536.0, 13504.0)
@@ -353,6 +353,6 @@ library_once Exercise initializer InitExercise requires LHBase
 	endfunction
 
 endlibrary
-	
+
 
 

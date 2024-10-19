@@ -1,17 +1,17 @@
-//! import "LHBase.j"
-//! import "CommonHuodong.j"
+#include  "LHBase.j"
+#include  "CommonHuodong.j"
 
 /*
     其他平台的提示文本
 */
 library_once Version initializer InitVersion requires LHBase,Huodong
-	
+
 	globals
-		private boolean Bxinglong = false 
-		private boolean Bhuanyi = false 
-		private boolean Bmengji = false 
-		private boolean Bcangling = false 
-		private boolean Bxiaoting = false 
+		private boolean Bxinglong = false
+		private boolean Bhuanyi = false
+		private boolean Bmengji = false
+		private boolean Bcangling = false
+		private boolean Bxiaoting = false
 
 		boolean BZongshu = true
 
@@ -23,7 +23,7 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 		boolean array BAllSpin
 
 		unit UChengjiu = null
-		
+
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
-//! import "LHBase.j"
+#include  "LHBase.j"
 
-library_once Guide requires LHBase 
+library_once Guide requires LHBase
 
 	globals
 		texttag array ttGuide

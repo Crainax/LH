@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "NetVersion.j"
-//! import "ChallangerDZ.j"
-//! import "PIV.j"
-//! import "Structs.j"
+#include  "LHBase.j"
+#include  "NetVersion.j"
+#include  "ChallangerDZ.j"
+#include  "PIV.j"
+#include  "Structs.j"
 
 library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 
@@ -27,7 +27,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	private function InitBoxWord takes player p returns nothing
 		local integer index = GetConvertedPlayerId(p)
 		set TTBBox[index] = TextTagBind.create(UDepot[index],50,50)
-		call TTBBox[index].setContent(S3(StringLength(SBoxWord[index]) < 1,"输入-ck改头衔",SBoxWord[index]))		
+		call TTBBox[index].setContent(S3(StringLength(SBoxWord[index]) < 1,"输入-ck改头衔",SBoxWord[index]))
 		call TTBBox[index].setSize(12.)
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 			call DzAPI_Map_StoreString( p,  "SBoxWord", SBoxWord[GetConvertedPlayerId(p)] )
 			if (TTBBox[GetConvertedPlayerId(p)] != 0) then
 				call TTBBox[GetConvertedPlayerId(p)].setContent(SBoxWord[GetConvertedPlayerId(p)])
-			endif	
+			endif
 		else
 			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r头衔格式不对！不允许中英(或数字)混杂输入。")
 		endif
@@ -233,7 +233,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	    			call CreateNewBox(p,i)
 	    			call InitBoxWord(p)
 	        	endif
-			endif	 
+			endif
 	    	set i = i +1
 	    endloop
 

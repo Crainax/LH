@@ -1,15 +1,15 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-//! import "Diffculty.j"
-/////! import "Diamond.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+#include  "Diffculty.j"
+///#include  "Diamond.j"
 /*
     英雄霄霆的技能
 */
 library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
-	
+
 	globals
 		/*
 		    技能触发
@@ -56,8 +56,8 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 		private unit UJianKeji2 = null
 
 		/*
-			增益值 
-		*/	
+			增益值
+		*/
 		private real RAddtion = 0.
 
 
@@ -84,7 +84,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
     private function TAttackXTCon takes nothing returns boolean
     	return GetAttacker() == xiaoting
     endfunction
-    
+
     private function TAttackXTAct takes nothing returns nothing
     	local integer attack = IMinBJ(500000000,IAttackAdd + GetHeroAgi(xiaoting,true)/4)
     	if (EAttackXT == null) then
@@ -146,12 +146,12 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	/*
 	    马甲的攻击伤害
 	*/
-	
+
 	function SimulateDamageXiaoting takes unit u returns boolean
 		//绝焱
 		if (GetUnitTypeId(u) == 'h022') then
 			call UnitDamageTarget( xiaoting, GetTriggerUnit(), RDamageXiaoting * 1.2 * GetComboMulti(), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		return false
 	endfunction
@@ -402,7 +402,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	    贯虹箭
 	*/
 	private function Guanhongjian takes real x,real y,real facing,boolean spellID returns nothing
-		local integer i = 1 
+		local integer i = 1
 		call SetShe2Tech()
 		if (spellID) then
 	    	call PrintSpell(GetOwningPlayer(xiaoting),GetAbilityName(GetSpellAbilityId()),RDamageXiaoting * GetComboMulti())
@@ -436,7 +436,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	    炎止
 	*/
 	private function Yanzhi takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		local group g = CreateGroup()
 		local group temp = null
 		local unit l_unit = null
@@ -474,7 +474,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	    沉默
 	*/
 	private function Chenmo takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
@@ -490,7 +490,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	    追心
 	*/
 	private function Zhuixin takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
@@ -556,7 +556,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	endfunction
 
 	private function Fenlie takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		local integer max = 0
 		loop
 			exitwhen i > IMaxCombo
@@ -583,7 +583,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	    瞬体
 	*/
 	private function Shunti takes nothing returns nothing
-		local integer i = 1 
+		local integer i = 1
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
@@ -607,7 +607,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 		call PauseTimer(t)
 		call FlushChildHashtable(spellTable,id)
 		call DestroyTimer(t)
-    	set t = null 
+    	set t = null
     endfunction
 
 	private function Duyue takes nothing returns nothing
@@ -668,7 +668,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 		local integer defense =(GetHeroAgi(xiaoting,true)/100 + GetDefense(xiaoting))
 		local integer hp =(GetHeroStr(xiaoting,true) * 10 + GetHP(xiaoting))
 		local unit u
-		local integer i = 1 
+		local integer i = 1
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
@@ -731,7 +731,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 		call DestroyGroup(l_group)
 		set l_unit = null
 		set l_group = null
@@ -877,7 +877,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 			set RAddtion = delta
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(xiaoting), GetUnitY(xiaoting) ))
     		call CreateSpellTextTag(I2S(R2I(delta*100))+"%全属性提高",xiaoting,0,100,0,3)
-		endif 
+		endif
 
 	endfunction
 
@@ -932,24 +932,24 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 			call SetUnitAbilityLevel(xiaoting,'A0LL',1+IJ1(xiaoting,1,0)+IJ2(xiaoting,1,0)+IJ3(xiaoting,1,0))
 			call SetSpellSet(2)
 			set ICombo = ICombo + IJ1(xiaoting,1,0) * IJ3(xiaoting,2,1)
-		elseif (GetSpellAbilityId() == 'A0LL') then 
+		elseif (GetSpellAbilityId() == 'A0LL') then
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LL',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LM',true)
 			call SetUnitAbilityLevel(xiaoting,'A0LM',1+IJ1(xiaoting,1,0)+IJ2(xiaoting,1,0)+IJ3(xiaoting,1,0))
 			call SetSpellSet(3)
 			set ICombo = ICombo + IJ1(xiaoting,1,0) * IJ3(xiaoting,2,1)
-		elseif (GetSpellAbilityId() == 'A0LM') then 
+		elseif (GetSpellAbilityId() == 'A0LM') then
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LM',false)
 			call SetPlayerAbilityAvailable(GetOwningPlayer(xiaoting),'A0LJ',true)
 			call SetUnitAbilityLevel(xiaoting,'A0LJ',1+IJ1(xiaoting,1,0)+IJ2(xiaoting,1,0)+IJ3(xiaoting,1,0))
 			call SetSpellSet(0)
 			set ICombo = ICombo + IJ1(xiaoting,1,0) * IJ3(xiaoting,2,1)
 		//大招-箭绝天技
-		elseif (GetSpellAbilityId() == 'A0M3') then 
+		elseif (GetSpellAbilityId() == 'A0M3') then
 			call AddCombo()
 			call Jianjuetianji()
 		//贯虹箭
-		elseif (GetSpellAbilityId() == 'A0LN') then 
+		elseif (GetSpellAbilityId() == 'A0LN') then
 			call AddCombo()
 			call Guanhongjian(GetSpellTargetX(),GetSpellTargetY(),GetFacingBetweenXY(GetUnitX(xiaoting),GetUnitY(xiaoting),GetSpellTargetX(),GetSpellTargetY()),true)
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -959,7 +959,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-折返
-		elseif (GetSpellAbilityId() == 'A0LO') then 
+		elseif (GetSpellAbilityId() == 'A0LO') then
 			call AddCombo()
 			call Zhefan()
 			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
@@ -967,7 +967,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-炎止
-		elseif (GetSpellAbilityId() == 'A0LP') then 
+		elseif (GetSpellAbilityId() == 'A0LP') then
 			call AddCombo()
 			call Yanzhi()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -977,7 +977,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-沉默
-		elseif (GetSpellAbilityId() == 'A0LQ') then 
+		elseif (GetSpellAbilityId() == 'A0LQ') then
 			call AddCombo()
 			call Chenmo()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -987,7 +987,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-瞬体
-		elseif (GetSpellAbilityId() == 'A0LT') then 
+		elseif (GetSpellAbilityId() == 'A0LT') then
 			call AddCombo()
 			call Shunti()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -997,7 +997,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//绝技-冰墙
-		elseif (GetSpellAbilityId() == 'A0LR') then 
+		elseif (GetSpellAbilityId() == 'A0LR') then
 			call AddCombo()
 			call Bingqiang()
 			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
@@ -1005,7 +1005,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//绝技-静体
-		elseif (GetSpellAbilityId() == 'A0LU') then 
+		elseif (GetSpellAbilityId() == 'A0LU') then
 			call AddCombo()
 			call Jingti()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1015,7 +1015,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-分裂
-		elseif (GetSpellAbilityId() == 'A0LS') then 
+		elseif (GetSpellAbilityId() == 'A0LS') then
 			call AddCombo()
 			call Fenlie()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1025,7 +1025,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-渡越
-		elseif (GetSpellAbilityId() == 'A0LV') then 
+		elseif (GetSpellAbilityId() == 'A0LV') then
 			call AddCombo()
 			call Duyue()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1035,7 +1035,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-追心
-		elseif (GetSpellAbilityId() == 'A0LY') then 
+		elseif (GetSpellAbilityId() == 'A0LY') then
 			call AddCombo()
 			call Zhuixin()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1045,7 +1045,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-御箭
-		elseif (GetSpellAbilityId() == 'A0LW') then 
+		elseif (GetSpellAbilityId() == 'A0LW') then
 			call AddCombo()
 			call Yujian()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1055,7 +1055,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-绝焱
-		elseif (GetSpellAbilityId() == 'A0LX') then 
+		elseif (GetSpellAbilityId() == 'A0LX') then
 			call AddCombo()
 			call Jueyan()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1065,7 +1065,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-静滞
-		elseif (GetSpellAbilityId() == 'A0LZ') then 
+		elseif (GetSpellAbilityId() == 'A0LZ') then
 			call AddCombo()
 			call Jingzhi()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1075,7 +1075,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-箭灵
-		elseif (GetSpellAbilityId() == 'A0M0') then 
+		elseif (GetSpellAbilityId() == 'A0M0') then
 			call AddCombo()
 			call Jianling()
 			if (IsFifthSpellOK(xiaoting)and GetUnitAbilityLevel(xiaoting,'A0M3') == 1) then
@@ -1083,7 +1083,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//箭技-穿刺
-		elseif (GetSpellAbilityId() == 'A0M1') then 
+		elseif (GetSpellAbilityId() == 'A0M1') then
 			call AddCombo()
 			call Gangti()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1093,7 +1093,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				call UnitAddAbility(xiaoting,'A0M3')
 			endif
 		//绝技-屏障
-		elseif (GetSpellAbilityId() == 'A0M2') then 
+		elseif (GetSpellAbilityId() == 'A0M2') then
 			call AddCombo()
 			call Pingzhang()
 			call UnitRemoveAbility(xiaoting,'A0LO')
@@ -1132,7 +1132,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 				//技能2初始化
 			    call UnitAddAbility(xiaoting,'A0LR')
 			    call UnitAddAbility(xiaoting,'A0LU')
-			    call UnitAddAbility(xiaoting,'A0LS')	
+			    call UnitAddAbility(xiaoting,'A0LS')
 			elseif (whichSpell == 3 and IsThirdSpellOK(xiaoting) == true and GetUnitAbilityLevel(xiaoting,'A0LY') == 1) then
 				call InitXiaotingAura()
 				call AddSpecialEffectTargetUnitBJ("origin",xiaoting,"war3mapImported\\oakaura.mdx")

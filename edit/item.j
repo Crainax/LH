@@ -1,5 +1,5 @@
-//! import "LHBase.j"
-//! import "Diffculty.j"
+#include  "LHBase.j"
+#include  "Diffculty.j"
 library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
 	globals
@@ -14,14 +14,14 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	    判断是否是超神器
 	*/
 	function IsChaoshen takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return id == 'I07F' or id == 'I07E' or id == 'ICS1' or id == 'I04W' or id == 'tlum'
 	endfunction
 
 	//判断是否大于3级的神器
 	function IsShen3 takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return IsChaoshen(i) or id == 'sksh' or id == 'oslo' or id == 'grsl' or id == 'flag' or id == 'ocor' or id == 'blba' or id == 'cosl' or id == 'shhn' or id == 'rat3' or id == 'pams' or id == 'jdrn' or id == 'shcw' or id == 'stre' or id == 'shrs' or id == 'kgal' or id == 'shtm' or id == 'lure' or id == 'thdm' or id == 'arsh' or id == 'srtl' or id == 'rots' or id == 'tmmt' or id == 'brag' or id == 'olig' or id == 'tbar' or id == 'ccmd' or id == 'iwbr'
 	endfunction
@@ -29,14 +29,14 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	    判断是否是神器(全部)
 	*/
 	function IsShenAll takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 		return IsShen3(i) or id == 'I04Z' or id == 'I056' or id == 'I057' or id == 'I050' or id == 'I055' or id == 'I03Y' or id == 'nflg' or id == 'spre' or id == 'fwss' or id == 'uflg' or id == 'tgxp' or id == 'dust' or id == 'esaz' or id == 'asbl' or id == 'ram4' or id == 'ram3' or id == 'ram2' or id == 'ram1'
 	endfunction
 
 	//判断身上神器的数量
 	function Shen3Count takes unit u returns integer
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 		loop
 			exitwhen i > 6
 			if (IsShen3(UnitItemInSlotBJ(u,i))) then
@@ -45,7 +45,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 			set i = i +1
 		endloop
 
-		return count 
+		return count
 
 	endfunction
 
@@ -79,7 +79,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 		elseif (UnitHasItemOfTypeBJ(u,'I050') or UnitHasItemOfTypeBJ(u,'I055') or UnitHasItemOfTypeBJ(u,'I03Y')) then
 			return 'A041'
 		endif
-		
+
 		return 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -87,27 +87,27 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	    魔
 	*/
 	function IsChaomo takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 		return id == 'IB09' or id == 'IB0A' or id == 'I04X' or id == 'I07O' or id == 'I07N'
 	endfunction
 
 	function IsMo3 takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
-		return IsChaomo(i) or id == 'IB04' or id == 'IB05' or id == 'IB06' or id == 'IB07' or id == 'IB08'		
+		local integer id = GetItemTypeId(i)
+		return IsChaomo(i) or id == 'IB04' or id == 'IB05' or id == 'IB06' or id == 'IB07' or id == 'IB08'
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    戒指
 	*/
 	function IsGui3 takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
-		
+		local integer id = GetItemTypeId(i)
+
 		return IsMaxRing(i) or id == 'lgdh' or id == 'clfm' or id == 'bgst' or id == 'belv' or id == 'hcun' or id == 'rag1' or id == 'penr' or id == 'brac'
 	endfunction
 
 	function IsGui takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
-		
+		local integer id = GetItemTypeId(i)
+
 		return IsGui3(i) or id == 'rat9' or id == 'rlif'
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -115,20 +115,20 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	    翅膀
 	*/
 	function IsChaoyao takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
-		
+		local integer id = GetItemTypeId(i)
+
 		return id == 'ICY1' or id == 'I05X' or id == 'I05F' or id == 'I07P' or id == 'I07Q'
 	endfunction
 
 	function IsYao3 takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
-		
+		local integer id = GetItemTypeId(i)
+
 		return IsChaoyao(i) or id == 'I041' or id == 'I04R' or id == 'I05C' or id == 'I05B'
 	endfunction
-		
+
 	function Yao3Count takes unit u returns integer
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 		loop
 			exitwhen i > 6
 			if (IsYao3(UnitItemInSlotBJ(u,i))) then
@@ -137,14 +137,14 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 			set i = i +1
 		endloop
 
-		return count 
+		return count
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    项链
 	*/
 	function IsXianglian takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return id == 'rde3' or id == 'ssil' or id == 'I04Y' or id == 'I05T' or id == 'I07H' or id == 'I07G'
 	endfunction
@@ -153,19 +153,19 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	    衣服
 	*/
 	function IsChaoren takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return id == 'tbsm' or id == 'tfar' or id == 'tbak' or id == 'I05Y' or id == 'I05Z' or id == 'I060' or id == 'I07K' or id == 'I07J' or id == 'I07I'
 	endfunction
-	
+
 	function IsRen3 takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return IsChaoren(i) or id == 'frhg' or id == 'mlst' or id == 'nspi' or id == 'oli2' or id == 'rump' or id == 'shen' or id == 'stpg' or id == 'ofir' or id == 'soul' or id == 'sbok' or id == 'arsc' or id == 'rde0' or id == 'oflg' or id == 'frgd' or id == 'gldo' or id == 'gsou' or id == 'envl' or id == 'rugt' or id == 'shdt' or id == 'crdt' or id == 'pspd'
 	endfunction
 
 	function IsRen takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return IsRen3(i) or id == 'rugt' or id == 'drph' or id == 'oven' or id == 'rej4' or id == 'dtsb' or id == 'gobm' or id == 'gvsm' or id == 'pgin' or id == 'rej6' or id == 'tels'
 	endfunction
@@ -205,7 +205,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	    箱子
 	*/
 	function IsBox takes item i returns boolean
-		local integer id = GetItemTypeId(i) 
+		local integer id = GetItemTypeId(i)
 
 		return id == 'wild' or id == 'hlst' or id == 'totw' or id == 'sror' or id == 'fgrg' or id == 'wshs' or id == 'I06N' or id == 'I07T' or id == 'I02U'
 	endfunction
@@ -218,7 +218,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
 	function Xian3Count takes unit u returns integer
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 		loop
 			exitwhen i > 6
 			if (IsZhanfa3(UnitItemInSlotBJ(u,i))) then
@@ -227,12 +227,12 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 			set i = i +1
 		endloop
 
-		return count 
+		return count
 	endfunction
 
 	function Zhan0Count takes unit u returns integer
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 		loop
 			exitwhen i > 6
 			if (IsZhan0(UnitItemInSlotBJ(u,i))) then
@@ -241,12 +241,12 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 			set i = i +1
 		endloop
 
-		return count 
+		return count
 	endfunction
 
 	function ChaoxianCount takes unit u returns integer
 		local integer i = 1
-		local integer count = 0 
+		local integer count = 0
 		loop
 			exitwhen i > 6
 			if (IsZhanfaChao(UnitItemInSlotBJ(u,i))) then
@@ -255,7 +255,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 			set i = i +1
 		endloop
 
-		return count 
+		return count
 	endfunction
 
 	//复活时长
@@ -334,7 +334,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 		else
 			return 0
 		endif
-	endfunction	
+	endfunction
 
 	//减少的伤害
 	function GetZhanhunJianshang takes item i returns integer
@@ -358,7 +358,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 		endif
 	endfunction
 
-	
+
 	//复活时长
 	function GetZhanfaReviveCool takes unit u returns real
 		if (ChaoxianCount(u) >= 1) then
@@ -411,7 +411,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	private function TGetWingSpellCon takes nothing returns boolean
 		return (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] or GetManipulatingUnit() == udg_U_Zhuansheng_Dantiao[2])
 	endfunction
-	
+
 	private function TGetWingSpellPickAct takes nothing returns nothing
 		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
 			call UnitAddAbility(GetManipulatingUnit(),'Apxf')
@@ -439,7 +439,7 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 			call SetUnitAbilityLevel(GetManipulatingUnit(),'A0KF',2)
 		endif
 	endfunction
-	
+
 	private function TGetWingSpellDropAct takes nothing returns nothing
 		if (GetItemTypeId(GetManipulatedItem()) == 'I043') then
 			call UnitRemoveAbility(GetManipulatingUnit(),'Apxf')

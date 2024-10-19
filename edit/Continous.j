@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "item.j"
-//! import "Huodong.j"
-//! import "Achievement.j"
-/////! import "Jizi.j"
+#include  "LHBase.j"
+#include  "item.j"
+#include  "Huodong.j"
+#include  "Achievement.j"
+///#include  "Jizi.j"
 
 library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong//,Jizi
 
@@ -39,7 +39,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		if (i >= 4) then
 			call UnitAddItemByIdSwapped('k3m1', u)
 		endif
-		
+
 		if (i >= 7) then
 			call UnitAddItemByIdSwapped('I07A', u)
 			set BWuxing[GetConvertedPlayerId(p)] = true
@@ -109,7 +109,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
         	你获得了第"+I2S(IConDays[GetConvertedPlayerId(p)])+"天对应的"+I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)]))+"金币!
         	明天继续签到可以获得"+I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1))+"的金币!
 
-        	
+
         	"
         local integer i = 1
         loop
@@ -184,7 +184,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		等10分钟后上传到网易    
+		等10分钟后上传到网易
 	*/
 	private function UploadToNetEaseTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
@@ -195,7 +195,7 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
 		set p = null
-		set t = null 
+		set t = null
 	endfunction
 
 	function UploadToNetEase takes player p returns nothing
@@ -283,9 +283,9 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
-	
+
 	private function InitContinous takes nothing returns nothing
-		
+
 	endfunction
 
 endlibrary

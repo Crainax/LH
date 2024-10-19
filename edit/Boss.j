@@ -1,12 +1,12 @@
 
 
-//! import "LHBase.j"
-//! import "SpellBase.j"
-//! import "Diffculty.j"
-//! import "Attr.j"
-//! import "Juexing.j"
-//! import "Battle.j"
-/////! import "NetVersion.j"
+#include  "LHBase.j"
+#include  "SpellBase.j"
+#include  "Diffculty.j"
+#include  "Attr.j"
+#include  "Juexing.j"
+#include  "Battle.j"
+///#include  "NetVersion.j"
 library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,Juexing,Battle,Version
 	globals
 		/*
@@ -87,14 +87,14 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    伤害统计系统
 	*/
 	struct DamageTJ
-		
+
 		private real array RTongji [7]
 		private trigger t
 		private unit monitor
 
 		private static method DamageCon takes nothing returns boolean
 			return GetEventDamage() > 10000000
-		endmethod		
+		endmethod
 
 		private static method DamageAct takes nothing returns nothing
 			local thistype this = thistype[GetTriggeringTrigger()]
@@ -165,8 +165,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	*/
 	private function HaiHangTimer takes nothing returns nothing
 		local timer t = GetExpiredTimer()
-		local real x 
-		local real y 
+		local real x
+		local real y
 		local unit temp
 		local integer times = IMaxBJ(1,MLChuanzhang.getTimes())
 		if (IsUnitAliveBJ(UChuanzhang) or GetUnitAbilityLevel(UChuanzhang,'A0KH') > 0) then
@@ -180,10 +180,10 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
-		set t = null 
+		set t = null
 		set temp = null
 	endfunction
-		
+
 
 	function InitHanghai takes nothing returns nothing
 		local timer t = CreateTimer()
@@ -214,7 +214,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call PauseTimer(t)
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
-		set t = null 
+		set t = null
 	endfunction
 
 	private function TimerStoneKaipao takes unit u returns nothing
@@ -280,7 +280,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		call PauseTimer(t)
 		call FlushChildHashtable(LHTable,id)
 		call DestroyTimer(t)
-		set t = null 
+		set t = null
 	endfunction
 
 	private function StartFashang takes integer playerID returns nothing
@@ -325,7 +325,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 			call FlushChildHashtable(spellTable,id)
 			call DestroyTimer(t)
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	function InitFashangfuTimer takes nothing returns nothing
@@ -452,8 +452,8 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
             call PauseTimer(t)
             call DestroyTimer(t)
         endif
-        set t = null 
-    endfunction    
+        set t = null
+    endfunction
 
 	function InitShunshan takes nothing returns nothing
 		local timer t = CreateTimer()
@@ -521,7 +521,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	private function AfterQuestionSucceed takes nothing returns nothing
 		if (IsUnitAliveBJ(UGhost)) then
 	    	call RecoverUnitHP(UGhost,-0.1)
-		endif		
+		endif
 		if (IsUnitAliveBJ(UAngle)) then
 	    	call RecoverUnitHP(UAngle,-0.1)
 		endif
@@ -834,7 +834,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
     	call DestroyGroup(l_group)
     	set l_group = null
     	set u = null
-    	set t = null 
+    	set t = null
     endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -860,7 +860,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 			set TGhostShiye = null
 			call DestroyTrigger(TSpellGhost)
 			set UGhost = null
-		endif		
+		endif
 		if (GetDyingUnit() == UAngle) then
 			call MLAngle.destroy()
 			call TShieldAngle.destroy()
@@ -1035,11 +1035,11 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	/*
 	    人妖死亡后的判断
 	*/
-	
+
 	private function TDeathRenyaoAct takes nothing returns nothing
 		if (GetDyingUnit() == UXiaoY) then
 			call DestroyConnection()
-		endif		
+		endif
 		if (GetDyingUnit() == UChuanzhang) then
 		    call TFChuan.destroy()
 		    call PauseTimer(TRBChuan)
@@ -1070,7 +1070,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    call BJDebugMsg("|cffff0000【注意】第二波傀儡将于7分钟后进攻!|r")
 		endif
 	endfunction
-	
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    初始化人与妖
@@ -1168,11 +1168,11 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 				call UnitDamageTarget( u, GetTriggerUnit(), GetUnitState(GetTriggerUnit(),UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			endif
 			call EnableTrigger(GetTriggeringTrigger())
-			return true 
+			return true
 		endif
 		if (GetUnitTypeId(u) == 'h01T' and IsUnitAliveBJ(UChuanzhang) and IsUnitDeadBJ(GetTriggerUnit())) then
 			call RecoverUnitHP(UChuanzhang,0.005)
-			return true 
+			return true
 		endif
 		return false
 	endfunction

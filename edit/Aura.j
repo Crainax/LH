@@ -1,8 +1,8 @@
-//! import "LHBase.j"
-//! import "Attr.j"
+#include  "LHBase.j"
+#include  "Attr.j"
 
-library_once Aura requires LHBase,Attr 
-	
+library_once Aura requires LHBase,Attr
+
 	globals
 		private integer array YKillCount
 		private trigger TSpellYanmie3 = null
@@ -71,7 +71,7 @@ library_once Aura requires LHBase,Attr
 			call FlushChildHashtable(spellTable,id)
 			call DestroyTimer(t)
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function InitShunyi takes nothing returns nothing
@@ -256,14 +256,14 @@ library_once Aura requires LHBase,Attr
 	    梦霁光环
 	*/
 	function InitMengjiAura takes nothing returns nothing
-		
+
 	    //英雄第三个技能瞬移事件
 	    set TSpellMengji3 = CreateTrigger()
 	    call TriggerAddCondition(TSpellMengji3, Condition(function TSpellMengji3Con))
 	    call TriggerAddAction(TSpellMengji3, function TSpellMengji3Act)
 		call UnitAddAbility(gg_unit_n01S_0258,'A0EL')
 		call InitShunyi()
-		
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

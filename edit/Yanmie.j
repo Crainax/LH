@@ -1,8 +1,8 @@
 
-//! import "SpellBase.j"
-//! import "Spin.j"
-//! import "Aura.j"
-//! import "Printer.j"
+#include  "SpellBase.j"
+#include  "Spin.j"
+#include  "Aura.j"
+#include  "Printer.j"
 /*
     湮灭
 */
@@ -125,7 +125,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 			call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", YDWECoordinateX(x + 1500 * CosBJ(i*20)), YDWECoordinateY(y + 1500 * SinBJ(i*20)) ))
 			set i = i + 1
 		endloop
-		
+
 		call PolledWait(5)
 		call EnableTrigger(GetTriggeringTrigger())
 	endfunction
@@ -137,7 +137,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		local unit u
 		if not (IsFourthSpellOK(yanmie) and GetUnitAbilityLevel(yanmie,'AHab') == 1 and GetUnitState(yanmie,UNIT_STATE_MANA) >= 600) then
 				return
-			endif	
+			endif
 		if (CountUnitsInGroup(GShadow) >= ICountShadowMAX) then
 			return
 		endif
@@ -152,9 +152,9 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	    马甲的死亡事件：移除单位组
 	*/
 	function SimulateDeathYanmie takes unit u returns nothing
-		if (IsUnitInGroup(u,GShadow)) then 
+		if (IsUnitInGroup(u,GShadow)) then
 			call GroupAddUnit(GShadow,u)
-		elseif (GetUnitTypeId(u) == 'h02M' and GetUnitUserData(u) == 1) then 
+		elseif (GetUnitTypeId(u) == 'h02M' and GetUnitUserData(u) == 1) then
 
 			set IYingyue = IYingyue + 1
 			call DestroyEffect(AddSpecialEffect("war3mapImported\\OrbitalRay.mdx", GetUnitX(u),GetUnitY(u) ))
@@ -265,7 +265,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 			call PauseTimer(t)
 			call DestroyTimer(t)
 		endif
-		set t = null 
+		set t = null
 	endfunction
 
 	private function Leishenshijie takes nothing returns nothing

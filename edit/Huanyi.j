@@ -1,21 +1,21 @@
 
-//! import "SpellBase.j"
-//! import "Printer.j"
-//! import "Attr.j"
-//! import "Aura.j"
-//! import "Diffculty.j"
-//! import "Spin.j"
-/////! import "Diamond.j"
+#include  "SpellBase.j"
+#include  "Printer.j"
+#include  "Attr.j"
+#include  "Aura.j"
+#include  "Diffculty.j"
+#include  "Spin.j"
+///#include  "Diamond.j"
 /*
     英雄幻逸的技能
 */
 library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
-	
+
 	globals
 		/*
 		    技能触发
 		*/
-		private trigger TSpellHuanyi = null 
+		private trigger TSpellHuanyi = null
 
 		/*
 		    伤害
@@ -156,13 +156,13 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	/*
 	    马甲的攻击伤害
 	*/
-	
+
 	function SimulateDamageHuanyi takes unit u returns boolean
 
 		//风
 		if (GetUnitTypeId(u) == 'hhh3') then
 			call UnitDamageTarget( Huanyi, GetTriggerUnit(), RDamageHuanyi * 0.3, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-			return true 
+			return true
 		endif
 		//冰火
 		if (GetUnitTypeId(u) == 'h01B' and udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] == Huanyi) then
@@ -173,10 +173,10 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		马甲的死亡触发效果 
-	*/	
+		马甲的死亡触发效果
+	*/
 	function SimulateDeathHuanyi takes unit u returns nothing
-		
+
 		if (GetUnitTypeId(u) == 'hhh7') then
 			call DamageArea(Huanyi,GetUnitX(u),GetUnitY(u),300,RDamageHuanyi*1.5)
 	    	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u), GetUnitY(u) ))
@@ -230,7 +230,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 //---------------------------------------------------------------------------------------------------
 	/*
 		七炎焚狱
-	*/	
+	*/
 	private function Fire takes real x,real y returns nothing
 		local integer times = GetMultiSpell()
 		local real damage = RDamageHuanyi
@@ -356,7 +356,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			set i = i +1
 		endloop
 		call DamageArea(Huanyi,x,y,range,damage)
-	endfunction	
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    火轮烁日
@@ -368,9 +368,9 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		local real damage = RDamageHuanyi
 		local integer i = 1
 
-	    local real x1 
-	    local real y1 
-	    local real facing 
+	    local real x1
+	    local real y1
+	    local real facing
 		local unit u
 
 		if (times > 1) then
@@ -424,7 +424,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			call DestroyTimer(t)
 		endif
 		set u = null
-		set t = null 
+		set t = null
 		call DestroyGroup(l_group)
 		set l_unit = null
 		set l_group = null
@@ -473,12 +473,12 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			call FlushChildHashtable(spellTable,id)
 			call PauseTimer(TGuCan)
 			call DestroyTimer(TGuCan)
-			set TGuCan = null 
+			set TGuCan = null
 		endif
 	endfunction
 
 	private function WaterLumberWind takes real x,real y returns nothing
-		
+
 		local integer times = GetMultiSpell()
 		if (UGucan != null) then
 			call RemoveUnit(UGucan)
@@ -530,7 +530,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			exitwhen times <= 0
 			call PolledWait(0.5)
 		endloop
-		set u = null 
+		set u = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -706,7 +706,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		call RecoverUnitMP(Huanyi,-800)
 		call FireWaterLumberWind()
 	    call PrintSpellContent(GetOwningPlayer(Huanyi),GetAbilityName('AHH4'),",施法结束.")
-			
+
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -714,7 +714,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	*/
 	private function TSpellHuanyi2Act takes nothing returns nothing
 		call SetUnitAbilityLevel(Huanyi,'AHH7',IMinBJ(100,GetHeroLevel(Huanyi)/2))
-	endfunction 
+	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
 	    幻逸魔能等级减少受到的伤害
@@ -722,7 +722,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	private function TSpellHuanyi3Con takes nothing returns boolean
 		return IsFourthSpellOK(Huanyi) == true and GetUnitAbilityLevel(Huanyi,'AHH3') == 1 and IMoneng <= 5 and GetRandomInt(1,2) == 1
 	endfunction
-	
+
 	private function TSpellHuanyi3Act takes nothing returns nothing
 		call SetUnitLifeBJ(Huanyi,GetUnitState(Huanyi,UNIT_STATE_LIFE)+GetEventDamage())
 	endfunction
@@ -840,53 +840,53 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 		elseif (GetSpellAbilityId() == 'AHH1') then
 			set IsWater = not (IsWater)
 			call SetHuanyiSpell()
-		elseif (GetSpellAbilityId() == 'AHH2') then 
+		elseif (GetSpellAbilityId() == 'AHH2') then
 			set IsLumber = not (IsLumber)
 			call SetHuanyiSpell()
-		elseif (GetSpellAbilityId() == 'AHH3') then 
+		elseif (GetSpellAbilityId() == 'AHH3') then
 			set IsWind = not (IsWind)
 			call SetHuanyiSpell()
 		//复苏
-		elseif (GetSpellAbilityId() == 'AHH4') then 
+		elseif (GetSpellAbilityId() == 'AHH4') then
 			call Fusu()
 		//幻元伏心
-		elseif (GetSpellAbilityId() == 'AHH5') then 
+		elseif (GetSpellAbilityId() == 'AHH5') then
 			call None()
 		//七炎焚狱
-		elseif (GetSpellAbilityId() == 'AHH6') then 
+		elseif (GetSpellAbilityId() == 'AHH6') then
 			call Fire(GetSpellTargetX(),GetSpellTargetY())
 		//天古木精
-		elseif (GetSpellAbilityId() == 'AHH8') then 
+		elseif (GetSpellAbilityId() == 'AHH8') then
 			call Lumber()
 		//幻化残卷
-		elseif (GetSpellAbilityId() == 'AHH9') then 
+		elseif (GetSpellAbilityId() == 'AHH9') then
 			call Wind()
 		//冰火双绝
-		elseif (GetSpellAbilityId() == 'AHHA') then 
+		elseif (GetSpellAbilityId() == 'AHHA') then
 			call FireWater()
 		//万象归影
-		elseif (GetSpellAbilityId() == 'AHHB') then 
+		elseif (GetSpellAbilityId() == 'AHHB') then
 			call FireLumber(GetSpellTargetX(),GetSpellTargetY())
 		//火轮烁日
-		elseif (GetSpellAbilityId() == 'AHHC') then 
+		elseif (GetSpellAbilityId() == 'AHHC') then
 			call FireWind(GetSpellTargetX(),GetSpellTargetY())
 		//幻冥天泉
-		elseif (GetSpellAbilityId() == 'AHHE') then 
+		elseif (GetSpellAbilityId() == 'AHHE') then
 			call WaterWind(GetSpellTargetX(),GetSpellTargetY())
 		//沧怒古参
-		elseif (GetSpellAbilityId() == 'AHHG') then 
+		elseif (GetSpellAbilityId() == 'AHHG') then
 			call WaterLumberWind(GetSpellTargetX(),GetSpellTargetY())
 		//雨玥千里
-		elseif (GetSpellAbilityId() == 'AHHH') then 
+		elseif (GetSpellAbilityId() == 'AHHH') then
 			call FireLumberWind()
 		//残月流星
-		elseif (GetSpellAbilityId() == 'AHHI') then 
+		elseif (GetSpellAbilityId() == 'AHHI') then
 			call FireWaterWind(GetSpellTargetX(),GetSpellTargetY())
 		//引力界场
-		elseif (GetSpellAbilityId() == 'AHHJ') then 
+		elseif (GetSpellAbilityId() == 'AHHJ') then
 			call FireWaterLumber(GetSpellTargetX(),GetSpellTargetY())
 		//寰宇归一
-		elseif (GetSpellAbilityId() == 'AHHK') then 
+		elseif (GetSpellAbilityId() == 'AHHK') then
 			call FireWaterLumberWind()
 		endif
 	endfunction

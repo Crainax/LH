@@ -1,6 +1,6 @@
-//! import "LHBase.j"
-/////! import "NetVersion.j"
-//! import "PIV.j"
+#include  "LHBase.j"
+///#include  "NetVersion.j"
+#include  "PIV.j"
 
 library_once RandomHero  requires LHBase,Version,PIV
 
@@ -76,7 +76,7 @@ library_once RandomHero  requires LHBase,Version,PIV
 	    到了5分钟后清除皮肤
 	*/
 	function ClearSpin takes nothing returns nothing
-		
+
 		local integer i = 1
 		local group g = GetUnitsOfPlayerMatching(Player(PLAYER_NEUTRAL_PASSIVE), Condition(function RandomPickCondition))
 		local unit l_unit = null

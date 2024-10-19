@@ -1,14 +1,14 @@
 
-//! import "LHBase.j"
-//! import "NetVersion.j"
-//! import "Continous.j"
-//! import "Kuanghuan.j"
+#include  "LHBase.j"
+#include  "NetVersion.j"
+#include  "Continous.j"
+#include  "Kuanghuan.j"
 
 library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous,Kuanghuan
 
 
 	function TestAchievement takes nothing returns nothing
-		
+
 		local string s = GetEventPlayerChatString()
 
 		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
@@ -29,7 +29,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
 		call IncreaseXinglongSpin()
 
-	endfunction	
+	endfunction
 
 	private function TestCangku takes nothing returns nothing
 		call SetKuanghuanOK(Player(0))
@@ -45,9 +45,9 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 	endfunction*/
 
 	/*function TestTime takes nothing returns nothing
-		
+
 		call SetDenglu(Player(0))
-	endfunction	
+	endfunction
 
 	function ShowTime takes nothing returns nothing
 		call BJDebugMsg("IConDays[1]"+"="+I2S(IConDays[1]))
@@ -57,7 +57,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 
 	function ShowDialog takes nothing returns nothing
 		call CreateLoginDialog(Player(0))
-	endfunction	
+	endfunction
 
 	function SetHanxin takes nothing returns nothing
 		set Greward[1] = 1
@@ -69,7 +69,7 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 	    初始化
 	*/
 	private function InitDebugNet takes nothing returns nothing
-		
+
 		local trigger t = CreateTrigger()
 
 		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
@@ -86,5 +86,5 @@ library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous
 		set t = null
 
 	endfunction
-	
+
 endlibrary
