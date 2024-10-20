@@ -1,3 +1,6 @@
+#ifndef LingxueIncluded
+#define LingxueIncluded
+
 #include  "edit/SpellBase.j"
 #include  "edit/Spin.j"
 library_once Lingxue requires SpellBase ,Spin
@@ -40,3 +43,5 @@ library_once Lingxue requires SpellBase ,Spin
 	endfunction
 
 endlibrary
+
+#endif

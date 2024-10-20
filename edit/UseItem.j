@@ -1,3 +1,5 @@
+#ifndef UseItemIncluded
+#define UseItemIncluded
 
 #include  "edit/LHBase.j"
 /*
@@ -40,3 +42,4 @@ library_once UseItem initializer InitUse requires LHBase
 endlibrary
 
 
+#endif

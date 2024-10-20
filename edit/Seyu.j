@@ -1,3 +1,5 @@
+#ifndef SeyuIncluded
+#define SeyuIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -547,3 +549,5 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	    call QJuexingSeyu()
 	endfunction
 endlibrary
+
+#endif

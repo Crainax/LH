@@ -1,3 +1,5 @@
+#ifndef HuanyiIncluded
+#define HuanyiIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -1012,3 +1014,5 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	endfunction
 
 endlibrary
+
+#endif

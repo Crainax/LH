@@ -1,3 +1,6 @@
+#ifndef AuraIncluded
+#define AuraIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Attr.j"
 
@@ -356,3 +359,4 @@ library_once Aura requires LHBase,Attr
 	endfunction
 
 endlibrary
+#endif

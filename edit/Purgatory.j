@@ -1,3 +1,5 @@
+#ifndef PurgatoryIncluded
+#define PurgatoryIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/item.j"
@@ -208,3 +210,4 @@ library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,Challa
 endlibrary
 
 
+#endif

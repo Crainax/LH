@@ -1,3 +1,5 @@
+#ifndef XiaotingIncluded
+#define XiaotingIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -1212,3 +1214,5 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 	endfunction
 
 endlibrary
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef SpinIncluded
+#define SpinIncluded
+
 #include  "edit/LHBase.j"
 ///#include  "edit/NetVersion.j"
 
@@ -208,3 +211,4 @@ library_once Spin requires LHBase,Version
 	endfunction
 
 endlibrary
+#endif

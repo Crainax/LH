@@ -1,3 +1,6 @@
+#ifndef MoqiIncluded
+#define MoqiIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Printer.j"
 #include  "edit/SpellBase.j"
@@ -439,3 +442,4 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 
 	endfunction
 endlibrary
+#endif

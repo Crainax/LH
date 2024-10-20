@@ -1,3 +1,5 @@
+#ifndef ReviveIncluded
+#define ReviveIncluded
 
 #include  "edit/LHBase.j"
 ///#include  "edit/Beast.j"
@@ -35,3 +37,5 @@ endfunction
 	    call TriggerAddAction(t, function TReviveHeroAct)
 	endfunction
 endlibrary
+
+#endif

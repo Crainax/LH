@@ -1,4 +1,7 @@
- #include  "edit/LHBase.j"
+#ifndef JuexingIncluded
+#define JuexingIncluded
+
+#include  "edit/LHBase.j"
 #include  "edit/Moqi.j"
 #include  "edit/Seyu.j"
 #include  "edit/Mengji.j"
@@ -429,3 +432,4 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 		set t = null
 	endfunction
 endlibrary
+#endif

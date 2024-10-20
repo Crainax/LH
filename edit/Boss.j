@@ -1,4 +1,5 @@
-
+#ifndef BossIncluded
+#define BossIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/SpellBase.j"
@@ -1184,3 +1185,5 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 
 	endfunction
 endlibrary
+
+#endif

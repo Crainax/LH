@@ -1,3 +1,5 @@
+#ifndef MengjiIncluded
+#define MengjiIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -573,4 +575,4 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 
 endlibrary
 
-
+#endif

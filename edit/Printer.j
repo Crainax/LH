@@ -1,3 +1,5 @@
+#ifndef PrinterIncluded
+#define PrinterIncluded
 
 #include  "edit/LHBase.j"
 library_once Printer initializer InitPrinter requires LHBase
@@ -42,3 +44,4 @@ library_once Printer initializer InitPrinter requires LHBase
 	endfunction
 
 endlibrary
+#endif

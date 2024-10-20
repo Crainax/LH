@@ -1,3 +1,6 @@
+#ifndef BattleIncluded
+#define BattleIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Diffculty.j"
 
@@ -138,3 +141,4 @@ library_once Battle initializer InitBattle requires LHBase,Diffculty
 	    set t = null
 	endfunction
 endlibrary
+#endif

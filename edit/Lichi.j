@@ -1,3 +1,6 @@
+#ifndef LichiIncluded
+#define LichiIncluded
+
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
 #include  "edit/Attr.j"
@@ -652,3 +655,5 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	    call CreateHuanying()
 	endfunction
 endlibrary
+
+#endif

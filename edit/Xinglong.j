@@ -1,3 +1,7 @@
+#ifndef XinglongIncluded
+#define XinglongIncluded
+
+
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
 #include  "edit/Attr.j"
@@ -471,3 +475,5 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 	    call TriggerAddAction(TSpellXinglongDamage, function TSpellXinglongDamageAct)
 	endfunction
 endlibrary
+
+#endif

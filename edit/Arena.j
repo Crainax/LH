@@ -1,4 +1,5 @@
-
+#ifndef ArenaIncluded
+#define ArenaIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/SpellBase.j"
@@ -861,4 +862,5 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	endfunction
 endlibrary
 
+#endif
 
