@@ -1,8 +1,8 @@
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Aura.j"
-#include  "Spin.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Aura.j"
+#include  "edit/Spin.j"
 
 /*
     英雄离魑的技能

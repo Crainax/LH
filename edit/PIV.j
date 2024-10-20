@@ -1,9 +1,13 @@
-#include  "LHBase.j"
-#include  "Attr.j"
-#include  "SpellBase.j"
-#include  "Juexing.j"
-///#include  "Beast.j"
-///#include  "Netversion.j"
+
+#ifndef PIVIncluded
+#define PIVIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/Attr.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Juexing.j"
+///#include  "edit/Beast.j"
+///#include  "edit/Netversion.j"
 library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
 	globals
 		private boolean isFirst = true
@@ -657,3 +661,5 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 	endfunction
 
 endlibrary
+#endif
+

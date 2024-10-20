@@ -1,7 +1,7 @@
 
-#include  "Heiyan.j"
-#include  "Seyu.j"
-#include  "LHBase.j"
+#include  "edit/Heiyan.j"
+#include  "edit/Seyu.j"
+#include  "edit/LHBase.j"
 
 library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu,Hanshang,Huanyi,Chenji,Mengji,Yanmie,Cangling,Sichen,Xinglong,Xiaoting
 

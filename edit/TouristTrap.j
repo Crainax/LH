@@ -1,4 +1,4 @@
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
 /*
     黑店
 */

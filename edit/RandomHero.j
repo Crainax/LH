@@ -1,6 +1,6 @@
-#include  "LHBase.j"
-///#include  "NetVersion.j"
-#include  "PIV.j"
+#include  "edit/LHBase.j"
+///#include  "edit/NetVersion.j"
+#include  "edit/PIV.j"
 
 library_once RandomHero  requires LHBase,Version,PIV
 

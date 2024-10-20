@@ -1,11 +1,11 @@
 
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Aura.j"
-#include  "Diffculty.j"
-#include  "Spin.j"
-///#include  "Diamond.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Aura.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Spin.j"
+///#include  "edit/Diamond.j"
 /*
     英雄幻逸的技能
 */

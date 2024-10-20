@@ -1639,54 +1639,54 @@ endfunction
 //***************************************************************************
 //TESH.scrollpos=12
 //TESH.alwaysfold=0
-#include  "edit/LHBase.j"
-#include  "edit/item.j"
-#include  "edit/MonsterSpell.j"
-#include  "edit/Arena.j""
-#include  "edit/Boss.j"
-#include  "edit/Beast.j"
-#include  "edit/Revive.j"
-#include  "edit/Purgatory.j"
+#include  "edit/edit/LHBase.j"
+#include  "edit/edit/item.j"
+#include  "edit/edit/MonsterSpell.j"
+#include  "edit/edit/Arena.j""
+#include  "edit/edit/Boss.j"
+#include  "edit/edit/Beast.j"
+#include  "edit/edit/Revive.j"
+#include  "edit/edit/Purgatory.j"
 //VIP
-#include  "edit/PIV.j"
+#include  "edit/edit/PIV.j"
 //多面板
-#include  "edit/Multiboard.j"
+#include  "edit/edit/Multiboard.j"
 //转生
-#include  "edit/Mirror.j"
+#include  "edit/edit/Mirror.j"
 //黑店
-#include  "edit/TouristTrap.j"
+#include  "edit/edit/TouristTrap.j"
 //宠物有关
-#include  "edit/Pet.j"
+#include  "edit/edit/Pet.j"
 //合成装备
-#include  "edit/Combine.j"
+#include  "edit/edit/Combine.j"
 //宝石升级
-#include  "edit/Diamond.j"
+#include  "edit/edit/Diamond.j"
 //属性加成
-#include  "edit/Attr.j"
+#include  "edit/edit/Attr.j"
 //导入基地有关
-#include  "edit/CenterBase.j"
+#include  "edit/edit/CenterBase.j"
 //导入英雄
-#include  "edit/HeiYan.j"
-#include  "edit/Yanmie.j"
-#include  "edit/Kaisa.j"
-#include  "edit/Lingxue.j"
-#include  "edit/Seyu.j"
-#include  "edit/Hanshang.j"
-#include  "edit/Huanyi.j"
-#include  "edit/Chenji.j"
+#include  "edit/edit/HeiYan.j"
+#include  "edit/edit/Yanmie.j"
+#include  "edit/edit/Kaisa.j"
+#include  "edit/edit/Lingxue.j"
+#include  "edit/edit/Seyu.j"
+#include  "edit/edit/Hanshang.j"
+#include  "edit/edit/Huanyi.j"
+#include  "edit/edit/Chenji.j"
 //马甲模拟
-#include  "edit/Simulate.j"
+#include  "edit/edit/Simulate.j"
 //导入指令
-#include  "edit/ChatCommand.j"
+#include  "edit/edit/ChatCommand.j"
 //学习技能
-#include  "edit/HeroSpellBase.j"
+#include  "edit/edit/HeroSpellBase.j"
 //金币系统
-#include  "edit/GoldSystem.j"
+#include  "edit/edit/GoldSystem.j"
 //练级场
-#include  "edit/Exercise.j"
-#include  "edit/CenterCredit.j"
+#include  "edit/edit/Exercise.j"
+#include  "edit/edit/CenterCredit.j"
 //测试文件
-#include  "edit/Debug.j"
+#include  "edit/edit/Debug.j"
 //***************************************************************************
 //*
 //*  Triggers

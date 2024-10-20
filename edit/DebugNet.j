@@ -1,8 +1,8 @@
 
-#include  "LHBase.j"
-#include  "NetVersion.j"
-#include  "Continous.j"
-#include  "Kuanghuan.j"
+#include  "edit/LHBase.j"
+#include  "edit/NetVersion.j"
+#include  "edit/Continous.j"
+#include  "edit/Kuanghuan.j"
 
 library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous,Kuanghuan
 

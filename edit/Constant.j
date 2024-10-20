@@ -1,5 +1,8 @@
+#ifndef ConstantIncluded
+#define ConstantIncluded
 
-#include  "JBase.j"
+
+#include  "edit/JBase.j"
 /*
     常量
 */
@@ -1474,3 +1477,5 @@ library_once Constant initializer InitConstant requires JBase
 		endloop
 	endfunction
 endlibrary
+#endif
+

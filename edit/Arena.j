@@ -1,9 +1,9 @@
 
 
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "Diffculty.j"
-#include  "Boss.j"
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Boss.j"
 library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Boss,Version
 
 	globals

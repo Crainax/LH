@@ -1,6 +1,6 @@
-#include  "LHBase.j"
-#include  "Spin.j"
-#include  "ChallangerDZ.j"
+#include  "edit/LHBase.j"
+#include  "edit/Spin.j"
+#include  "edit/ChallangerDZ.j"
 
 library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
 

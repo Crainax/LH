@@ -1891,106 +1891,106 @@ endfunction
 //***************************************************************************
 //TESH.scrollpos=74
 //TESH.alwaysfold=0
-#include  "/edit/LHBase.j"
-#include  "/edit/NetVersion.j"
-#include  "/edit/BaseVersion.j"
-#include  "/edit/Box.j"
-#include  "/edit/item.j"
-#include  "/edit/Arena.j""
-#include  "/edit/Boss.j"
-#include  "/edit/Revive.j"
-#include  "/edit/Purgatory.j"
-#include  "/edit/UseItem.j"
-#include  "/edit/Juexing.j"
+#include  "edit//edit/LHBase.j"
+#include  "edit//edit/NetVersion.j"
+#include  "edit//edit/BaseVersion.j"
+#include  "edit//edit/Box.j"
+#include  "edit//edit/item.j"
+#include  "edit//edit/Arena.j""
+#include  "edit//edit/Boss.j"
+#include  "edit//edit/Revive.j"
+#include  "edit//edit/Purgatory.j"
+#include  "edit//edit/UseItem.j"
+#include  "edit//edit/Juexing.j"
 //基础
-#include  "/edit/LHOther.j"
+#include  "edit//edit/LHOther.j"
 //高难系数
-#include  "/edit/Diffculty.j"
+#include  "edit//edit/Diffculty.j"
 //装备属性初始化
-#include  "/edit/ItemAttr.j"
+#include  "edit//edit/ItemAttr.j"
 //VIP
-#include  "/edit/PIV.j"
+#include  "edit//edit/PIV.j"
 //多面板
-#include  "/edit/Multiboard.j"
+#include  "edit//edit/Multiboard.j"
 //转生
-#include  "/edit/Mirror.j"
+#include  "edit//edit/Mirror.j"
 //黑店
-#include  "/edit/TouristTrap.j"
+#include  "edit//edit/TouristTrap.j"
 //宠物有关
-#include  "/edit/Pet.j"
+#include  "edit//edit/Pet.j"
 //合成装备
-#include  "/edit/Combine.j"
-#include  "/edit/Hundun.j"
+#include  "edit//edit/Combine.j"
+#include  "edit//edit/Hundun.j"
 //宝石升级
-#include  "/edit/Diamond.j"
+#include  "edit//edit/Diamond.j"
 //属性加成
-#include  "/edit/Attr.j"
+#include  "edit//edit/Attr.j"
 //导入基地有关
-#include  "/edit/CenterBase.j"
+#include  "edit//edit/CenterBase.j"
 //物品技能
-#include  "/edit/ItemSpell.j"
+#include  "edit//edit/ItemSpell.j"
 //翅膀
-#include  "/edit/Wing.j"
+#include  "edit//edit/Wing.j"
 //戒指
-#include  "/edit/Ring.j"
+#include  "edit//edit/Ring.j"
 //皮肤
-#include  "/edit/Spin.j"
+#include  "edit//edit/Spin.j"
 //导入英雄
-#include  "/edit/HeiYan.j"
-#include  "/edit/Yanmie.j"
-#include  "/edit/Kaisa.j"
-#include  "/edit/Lingxue.j"
-#include  "/edit/Seyu.j"
-#include  "/edit/Moqi.j"
-#include  "/edit/Sheyan.j"
-#include  "/edit/Hanshang.j"
-#include  "/edit/Huanyi.j"
-#include  "/edit/Chenji.j"
-#include  "/edit/Mengji.j"
-#include  "/edit/CangLing.j"
-#include  "/edit/Xiaoyue.j"
-#include  "/edit/Sichen.j"
-#include  "/edit/Xuanxue.j"
-#include  "/edit/Taiya.j"
-#include  "/edit/Xinglong.j"
-#include  "/edit/Xiaoting.j"
-#include  "/edit/Bajue.j"
-#include  "/edit/Lichi.j"
+#include  "edit//edit/HeiYan.j"
+#include  "edit//edit/Yanmie.j"
+#include  "edit//edit/Kaisa.j"
+#include  "edit//edit/Lingxue.j"
+#include  "edit//edit/Seyu.j"
+#include  "edit//edit/Moqi.j"
+#include  "edit//edit/Sheyan.j"
+#include  "edit//edit/Hanshang.j"
+#include  "edit//edit/Huanyi.j"
+#include  "edit//edit/Chenji.j"
+#include  "edit//edit/Mengji.j"
+#include  "edit//edit/CangLing.j"
+#include  "edit//edit/Xiaoyue.j"
+#include  "edit//edit/Sichen.j"
+#include  "edit//edit/Xuanxue.j"
+#include  "edit//edit/Taiya.j"
+#include  "edit//edit/Xinglong.j"
+#include  "edit//edit/Xiaoting.j"
+#include  "edit//edit/Bajue.j"
+#include  "edit//edit/Lichi.j"
 //战斗调整
-#include  "/edit/Battle.j"
+#include  "edit//edit/Battle.j"
 //野区
-#include  "/edit/Jungle.j"
+#include  "edit//edit/Jungle.j"
 //秘境
-#include  "/edit/MiJing.j"
+#include  "edit//edit/MiJing.j"
 //传承试练
-#include  "/edit/Shilian.j"
+#include  "edit//edit/Shilian.j"
 //马甲模拟
-#include  "/edit/Simulate.j"
+#include  "edit//edit/Simulate.j"
 //导入指令
-#include  "/edit/ChatCommand.j"
+#include  "edit//edit/ChatCommand.j"
 //学习技能
-#include  "/edit/HeroSpellBase.j"
+#include  "edit//edit/HeroSpellBase.j"
 //金币系统
-#include  "/edit/GoldSystem.j"
+#include  "edit//edit/GoldSystem.j"
 //怪物技能
-#include  "/edit/MonsterSpell.j"
+#include  "edit//edit/MonsterSpell.j"
 //魔兽技能
-#include  "/edit/Beast.j"
+#include  "edit//edit/Beast.j"
 //练级场
-#include  "/edit/Exercise.j"
-#include  "/edit/CenterCredit.j"
+#include  "edit//edit/Exercise.j"
+#include  "edit//edit/CenterCredit.j"
 //迷你游戏
-#include  "/edit/MiniGame.j"
+#include  "edit//edit/MiniGame.j"
 //随机英雄
-#include  "/edit/RandomHero.j"
+#include  "edit//edit/RandomHero.j"
 //狂欢活动
-#include  "/edit/Kuanghuan.j"
+#include  "edit//edit/Kuanghuan.j"
 //连续登录
-#include  "/edit/Continous.j"
+#include  "edit//edit/Continous.j"
 //测试文件
-///#include  "/edit/Debug.j"
-///#include  "/edit/NotPublic.j"
-///#include  "/edit/DebugNet.j"
+///#include  "edit//edit/Debug.j"
+///#include  "edit//edit/NotPublic.j"
+///#include  "edit//edit/DebugNet.j"
 //***************************************************************************
 //*
 //*  Triggers
@@ -23275,7 +23275,7 @@ endfunction
 //===========================================================================
 //TESH.scrollpos=0
 //TESH.alwaysfold=0
-#include  "SameItem.j"//===========================================================================
+#include  "edit/SameItem.j"//===========================================================================
 function InitCustomTriggers takes nothing returns nothing
     call InitTrig_________________________a( )
     call InitTrig_________________________c( )

@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "item.j"
+#include  "edit/LHBase.j"
+#include  "edit/item.j"
 
 library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 

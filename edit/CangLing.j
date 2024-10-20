@@ -1,8 +1,8 @@
-#include  "Spin.j"
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Aura.j"
+#include  "edit/Spin.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Aura.j"
 /*
     英雄梦霁的技能
 */

@@ -1,10 +1,10 @@
 
-#include  "LHBase.j"
-#include  "Boss.j"
-#include  "PIV.j"
-#include  "Attr.j"
-///#include  "Diamond.j"
-///#include  "CenterCredit.j"
+#include  "edit/LHBase.j"
+#include  "edit/Boss.j"
+#include  "edit/PIV.j"
+#include  "edit/Attr.j"
+///#include  "edit/Diamond.j"
+///#include  "edit/CenterCredit.j"
 /*
     测试指令:
 	test damage 关闭/开启伤害显示

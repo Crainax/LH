@@ -1,9 +1,9 @@
 
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Aura.j"
-#include  "ChallangerDZ.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Aura.j"
+#include  "edit/ChallangerDZ.j"
 /*
     英雄梦霁的技能
 */

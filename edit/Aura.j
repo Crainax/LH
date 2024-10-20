@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "Attr.j"
+#include  "edit/LHBase.j"
+#include  "edit/Attr.j"
 
 library_once Aura requires LHBase,Attr
 

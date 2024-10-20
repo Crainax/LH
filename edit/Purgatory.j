@@ -1,7 +1,7 @@
 
-#include  "LHBase.j"
-#include  "item.j"
-#include  "ChallangerDZ.j"
+#include  "edit/LHBase.j"
+#include  "edit/item.j"
+#include  "edit/ChallangerDZ.j"
 
 library_once Purgatory initializer InitPurgatory requires LHBase,ItemBase,ChallangerDZ
 

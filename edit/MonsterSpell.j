@@ -1,9 +1,9 @@
 
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "Diffculty.j"
-///#include  "BigBoss.j"
-///#include  "Diamond.j"
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Diffculty.j"
+///#include  "edit/BigBoss.j"
+///#include  "edit/Diamond.j"
 
 library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,Diffculty,YDWETimerPattern
 

@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
 
 library_once Battle initializer InitBattle requires LHBase,Diffculty
 

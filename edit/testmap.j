@@ -1,7 +1,7 @@
 
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
 /*
     英雄瑟雨的技能
 */

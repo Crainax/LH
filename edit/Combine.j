@@ -1,7 +1,7 @@
 
-#include  "LHBase.j"
-#include  "Hundun.j"
-///#include  "Beast.j"
+#include  "edit/LHBase.j"
+#include  "edit/Hundun.j"
+///#include  "edit/Beast.j"
 /*
     合成物品
 */

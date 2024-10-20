@@ -1,4 +1,6 @@
-#include  "LHBase.j"
+#ifndef GoldSystemIncluded
+#define GoldSystemIncluded
+#include  "edit/LHBase.j"
 
 library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
 
@@ -169,4 +171,6 @@ library_once GoldSystem initializer InitGoldSystem requires LHBase,Version
 	endfunction
 
 endlibrary
+
+#endif
 

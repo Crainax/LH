@@ -1,15 +1,15 @@
 
 
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "HeiYan.j"
-#include  "Yanmie.j"
-#include  "Huanyi.j"
-#include  "ItemSpell.j"
-#include  "MiniGame.j"
-#include  "Boss.j"
-#include  "MiJing.j"
-///#include  "CenterCredit.j"
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/HeiYan.j"
+#include  "edit/Yanmie.j"
+#include  "edit/Huanyi.j"
+#include  "edit/ItemSpell.j"
+#include  "edit/MiniGame.j"
+#include  "edit/Boss.j"
+#include  "edit/MiJing.j"
+///#include  "edit/CenterCredit.j"
 /*
     马甲模拟
 */

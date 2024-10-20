@@ -1,11 +1,14 @@
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "Structs.j"
-#include  "Attr.j"
-#include  "Diffculty.j"
-#include  "Multiboard.j"
-#include  "GoldSystem.j"
-///#include  "NetVersion.j"
+ #ifndef ShilianIncluded
+ #define ShilianIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Structs.j"
+#include  "edit/Attr.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Multiboard.j"
+#include  "edit/GoldSystem.j"
+///#include  "edit/NetVersion.j"
 
 /*
     传承试练
@@ -997,3 +1000,5 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 	endfunction
 
 endlibrary
+ #endif
+

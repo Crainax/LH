@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
+#include  "edit/LHBase.j"
 
 /*
     戒指

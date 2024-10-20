@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
 
 library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 

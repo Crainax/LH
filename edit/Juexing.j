@@ -1,11 +1,11 @@
- #include  "LHBase.j"
-#include  "Moqi.j"
-#include  "Seyu.j"
-#include  "Mengji.j"
-#include  "Huanyi.j"
-#include  "Xinglong.j"
-#include  "Lichi.j"
-#include  "Xiaoting.j"
+ #include  "edit/LHBase.j"
+#include  "edit/Moqi.j"
+#include  "edit/Seyu.j"
+#include  "edit/Mengji.j"
+#include  "edit/Huanyi.j"
+#include  "edit/Xinglong.j"
+#include  "edit/Lichi.j"
+#include  "edit/Xiaoting.j"
 
 library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Lichi,Xiaoting
 

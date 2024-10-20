@@ -1,13 +1,13 @@
 
-#include  "dependency/YDWESetGuard.j"
-#include  "dependency/YDWETriggerEvent.j"
-#include  "dependency/YDWETimerSystem.j"
-#include  "dependency/YDWETimerPattern.j"
-#include  "dependency/YDWEBase_common.j"
-#include  "dependency/YDWEBase_hashtable.j"
-#include  "dependency/YDWEAroundSystem.j"
+#include  "edit/dependency/YDWESetGuard.j"
+#include  "edit/dependency/YDWETriggerEvent.j"
+#include  "edit/dependency/YDWETimerSystem.j"
+#include  "edit/dependency/YDWETimerPattern.j"
+#include  "edit/dependency/YDWEBase_common.j"
+#include  "edit/dependency/YDWEBase_hashtable.j"
+#include  "edit/dependency/YDWEAroundSystem.j"
 
-#include  "DzAPI.j"
+#include  "edit/DzAPI.j"
 library_once Test initializer InitTest requires YDWESetGuard,YDWETriggerEvent,YDWEBaseHashtable,YDWEBaseCommon,YDWETimerSystem,YDWETimerPattern,YDWEAroundSystem,DzAPI
 
 	globals

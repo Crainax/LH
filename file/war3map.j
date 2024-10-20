@@ -9628,14 +9628,14 @@ endfunction
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/LHBase.j
 
 
-///#include  "Test.j"
+///#include  "edit/Test.j"
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/LHBase.j
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/item.j
 
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
 
 
-///#include  "Test.j"
+///#include  "edit/Test.j"
 // redeclaration of library LHBase skipped
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/item.j
@@ -9702,7 +9702,7 @@ endfunction
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/Combine.j
 
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
-///#include  "Beast.j"
+///#include  "edit/Beast.j"
 
 
 
@@ -9827,7 +9827,7 @@ endfunction
 
 // redeclaration of library Multiboard skipped
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Multiboard.j
-///#include  "Exercise.j"
+///#include  "edit/Exercise.j"
 
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/CenterCredit.j
 //测试文件
@@ -9842,7 +9842,7 @@ endfunction
 // redeclaration of library Boss skipped
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Boss.j
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\PIV.j
-///#include  "CenterCredit.j"
+///#include  "edit/CenterCredit.j"
 
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Debug.j
 //***************************************************************************

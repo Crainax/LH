@@ -1,8 +1,11 @@
-#include  "LHBase.j"
-#include  "Achievement.j"
-#include  "ChallangerDZ.j"
-#include  "Attr.j"
-#include  "Structs.j"
+#ifndef JiziIncluded
+#define JiziIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/Achievement.j"
+#include  "edit/ChallangerDZ.j"
+#include  "edit/Attr.j"
+#include  "edit/Structs.j"
 
 library_once Jizi  requires LHBase,Achievement,ChallangerDZ,Attr,Structs
 
@@ -265,3 +268,4 @@ library_once Jizi  requires LHBase,Achievement,ChallangerDZ,Attr,Structs
 	endfunction
 endlibrary
 
+#endif

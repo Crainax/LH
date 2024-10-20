@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "Spin.j"
+#include  "edit/LHBase.j"
+#include  "edit/Spin.j"
 
 library_once Bajue  requires LHBase,Spin
 

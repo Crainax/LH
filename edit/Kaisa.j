@@ -1,9 +1,9 @@
 
 
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Spin.j"
-#include  "Aura.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Spin.j"
+#include  "edit/Aura.j"
 
 library_once Kaisa requires SpellBase,Printer,Spin,Aura
 

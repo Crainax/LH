@@ -1,8 +1,11 @@
-#include  "LHBase.j"
-#include  "NetVersion.j"
-#include  "ChallangerDZ.j"
-#include  "PIV.j"
-#include  "Structs.j"
+#ifndef BoxIncluded
+#define BoxIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/NetVersion.j"
+#include  "edit/ChallangerDZ.j"
+#include  "edit/PIV.j"
+#include  "edit/Structs.j"
 
 library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 
@@ -269,3 +272,4 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	endfunction
 //---------------------------------------------------------------------------------------------------
 endlibrary
+#endif

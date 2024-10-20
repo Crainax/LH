@@ -1,8 +1,11 @@
-#include  "LHBase.j"
-#include  "item.j"
-#include  "Huodong.j"
-#include  "Achievement.j"
-///#include  "Jizi.j"
+#ifndef ContinousIncluded
+#define ContinousIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/item.j"
+#include  "edit/Huodong.j"
+#include  "edit/Achievement.j"
+///#include  "edit/Jizi.j"
 
 library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achievement,Huodong//,Jizi
 
@@ -289,3 +292,5 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 	endfunction
 
 endlibrary
+#endif
+

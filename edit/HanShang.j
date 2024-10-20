@@ -1,11 +1,11 @@
 
-#include  "SpellBase.j"
-#include  "Structs.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Diffculty.j"
-#include  "Aura.j"
-#include  "Spin.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Structs.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Aura.j"
+#include  "edit/Spin.j"
 /*
     英雄寒殇的技能
 */

@@ -1,5 +1,8 @@
-#include  "LHBase.j"
-#include  "Achievement.j"
+#ifndef QixiIncluded
+#define QixiIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/Achievement.j"
 
 /*
     七夕
@@ -138,3 +141,4 @@ library_once Qixi requires LHBase,Achievement
 	endfunction
 
 endlibrary
+#endif

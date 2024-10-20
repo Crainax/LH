@@ -1,7 +1,10 @@
-#include  "LHBase.j"
-///#include  "Huodong.j"
-#include  "ChallangerDZ.j"
-#include  "Mirror.j"
+#ifndef ChallangerModeIncluded
+#define ChallangerModeIncluded
+
+#include  "edit/LHBase.j"
+///#include  "edit/Huodong.j"
+#include  "edit/ChallangerDZ.j"
+#include  "edit/Mirror.j"
 
 library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 
@@ -419,3 +422,5 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	endfunction
 
 endlibrary
+#endif
+

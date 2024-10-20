@@ -1,4 +1,4 @@
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
 /*
     基地有关,不能A队友
 */

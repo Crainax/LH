@@ -1,5 +1,8 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
+#ifndef ItemBaseIncluded
+#define ItemBaseIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
 library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 
 	globals
@@ -571,3 +574,5 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	endfunction
 
 endlibrary
+#endif
+

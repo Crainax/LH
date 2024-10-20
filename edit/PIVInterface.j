@@ -1,4 +1,7 @@
-library_once PIVInterface 
+#ifndef PIVInterfaceIncluded
+#define PIVInterfaceIncluded
+
+library_once PIVInterface
 
 	globals
 		boolean array sPIV
@@ -28,5 +31,7 @@ library_once PIVInterface
 		return false
 	endfunction
 
-	
+
 endlibrary
+#endif
+

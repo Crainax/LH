@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "Attr.j"
+#include  "edit/LHBase.j"
+#include  "edit/Attr.j"
 /*
     物品类型的属性初始化
 */

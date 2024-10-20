@@ -1,5 +1,5 @@
 
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
 /*
     使用物品
 */

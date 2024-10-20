@@ -1,10 +1,10 @@
 
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Aura.j"
-#include  "Diffculty.j"
-///#include  "Diamond.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Aura.j"
+#include  "edit/Diffculty.j"
+///#include  "edit/Diamond.j"
 /*
     英雄霄霆的技能
 */

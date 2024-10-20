@@ -1,16 +1,19 @@
+#ifndef VersionIncluded
+#define VersionIncluded
+
 /*
     网易平台的功能初始化
     debug模式是网易模式
 */
 
-#include  "LHBase.j"
-#include  "Diffculty.j"
-#include  "Achievement.j"
-#include  "Huodong.j"
-#include  "Continous.j"
-#include  "Jizi.j"
-#include  "Qixi.j"
-#include  "Fanzhuan.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Achievement.j"
+#include  "edit/Huodong.j"
+#include  "edit/Continous.j"
+#include  "edit/Jizi.j"
+#include  "edit/Qixi.j"
+#include  "edit/Fanzhuan.j"
 
 library_once Version initializer InitVersion requires LHBase,Diffculty,Achievement,Continous,Qixi,Fanzhuan//,Jizi
 
@@ -1124,3 +1127,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 
 endlibrary
+#endif
+
+

@@ -1,6 +1,7 @@
-
-#include  "LHBase.j"
-#include  "Attr.j"
+#ifndef MirrorIncluded
+#define MirrorIncluded
+#include  "edit/LHBase.j"
+#include  "edit/Attr.j"
 /*
     转生
 */
@@ -134,3 +135,6 @@ library_once Mirror requires LHBase ,Attr
     endfunction
 
 endlibrary
+#endif
+
+

@@ -1,5 +1,8 @@
-#include  "LHBase.j"
-///#include  "Box.j"
+#ifndef BaseVersionIncluded
+#define BaseVersionIncluded
+
+#include  "edit/LHBase.j"
+///#include  "edit/Box.j"
 
 library_once BaseVersion initializer InitBaseVersion requires LHBase,Box,Version
 
@@ -57,3 +60,4 @@ library_once BaseVersion initializer InitBaseVersion requires LHBase,Box,Version
 	endfunction
 
 endlibrary
+#endif

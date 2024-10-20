@@ -1,7 +1,7 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
-#include  "ChallangerDZ.j"
-///#include  "NetVersion.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
+#include  "edit/ChallangerDZ.j"
+///#include  "edit/NetVersion.j"
 /*
     宠物系统
 */

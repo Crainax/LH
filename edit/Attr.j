@@ -1,5 +1,8 @@
+#ifndef AttrIncluded
+#define AttrIncluded
 
-#include  "LHBase.j"
+
+#include  "edit/LHBase.j"
 library_once Attr initializer InitAttr requires LHBase
 
 	globals
@@ -320,3 +323,5 @@ library_once Attr initializer InitAttr requires LHBase
 	endfunction
 
 endlibrary
+#endif
+

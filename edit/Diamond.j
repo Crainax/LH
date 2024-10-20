@@ -1,6 +1,6 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
-///#include  "NetVersion.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
+///#include  "edit/NetVersion.j"
 /*
     宝石升级装备
 */

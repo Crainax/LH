@@ -1,7 +1,10 @@
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "Shilian.j"
-///#include  "NetVersion.j"
+#ifndef KuanghuanIncluded
+#define KuanghuanIncluded
+
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Shilian.j"
+///#include  "edit/NetVersion.j"
 
 library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shilian,Version
 
@@ -171,3 +174,5 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 	endfunction
 
 endlibrary
+#endif
+

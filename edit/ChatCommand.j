@@ -1,14 +1,14 @@
 
-#include  "LHBase.j"
-#include  "PIV.j"
-///#include  "Continous.j"
-#include  "Diffculty.j"
-#include  "Xuanxue.j"
-#include  "Huanyi.j"
-#include  "Hanshang.j"
-#include  "Bajue.j"
-#include  "Juexing.j"
-#include  "BaseVersion.j"
+#include  "edit/LHBase.j"
+#include  "edit/PIV.j"
+///#include  "edit/Continous.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Xuanxue.j"
+#include  "edit/Huanyi.j"
+#include  "edit/Hanshang.j"
+#include  "edit/Bajue.j"
+#include  "edit/Juexing.j"
+#include  "edit/BaseVersion.j"
 /*
     游戏指令
     -kill自杀

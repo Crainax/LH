@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "item.j"
+#include  "edit/LHBase.j"
+#include  "edit/item.j"
 
 library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 

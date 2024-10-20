@@ -11234,7 +11234,7 @@ endfunction
 // IGNORE DOUBLE IMPORT OF LHBase.j
 // BEGIN IMPORT OF ChallangerMode.j
 // IGNORE DOUBLE IMPORT OF LHBase.j
-///#include  "Huodong.j"
+///#include  "edit/Huodong.j"
 // BEGIN IMPORT OF ChallangerDZ.j
 // IGNORE DOUBLE IMPORT OF LHBase.j
 
@@ -11247,8 +11247,8 @@ endfunction
 // END IMPORT OF Mirror.j
 
 // END IMPORT OF ChallangerMode.j
-///#include  "Kuanghuan.j"
-///#include  "Huodong.j"
+///#include  "edit/Kuanghuan.j"
+///#include  "edit/Huodong.j"
 // END IMPORT OF Diffculty.j
 // BEGIN IMPORT OF Aura.j
 // IGNORE DOUBLE IMPORT OF LHBase.j
@@ -11281,7 +11281,7 @@ endfunction
 // END IMPORT OF item.j
 // IGNORE DOUBLE IMPORT OF Huodong.j
 // IGNORE DOUBLE IMPORT OF Achievement.j
-///#include  "Jizi.j"
+///#include  "edit/Jizi.j"
 
 // END IMPORT OF Continous.j
 // BEGIN IMPORT OF Jizi.j

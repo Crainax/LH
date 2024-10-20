@@ -1,8 +1,10 @@
+#ifndef DiffcultyIncluded
+#define DiffcultyIncluded
 
-#include  "LHBase.j"
-#include  "ChallangerMode.j"
-///#include  "Kuanghuan.j"
-///#include  "Huodong.j"
+#include  "edit/LHBase.j"
+#include  "edit/ChallangerMode.j"
+#include  "edit/Kuanghuan.j"
+#include  "edit/Huodong.j"
 library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 
 	globals
@@ -463,3 +465,5 @@ library_once Diffculty requires LHBase,Huodong,ChallangerMode//,Kuanghuan
 	    set t = null
 	endfunction
 endlibrary
+#endif
+

@@ -1,5 +1,5 @@
 
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
 
 library_once Huodong requires LHBase
 

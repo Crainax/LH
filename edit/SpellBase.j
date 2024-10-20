@@ -1,5 +1,8 @@
+#ifndef SpellBaseIncluded
+#define SpellBaseIncluded
 
-#include  "LHBase.j"
+
+#include  "edit/LHBase.j"
 library_once SpellBase requires LHBase
 
 	globals
@@ -890,3 +893,5 @@ library_once SpellBase requires LHBase
 
 endlibrary
 
+
+#endif

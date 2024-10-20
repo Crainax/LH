@@ -1,12 +1,12 @@
 
 
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "Diffculty.j"
-#include  "Attr.j"
-#include  "Juexing.j"
-#include  "Battle.j"
-///#include  "NetVersion.j"
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Attr.j"
+#include  "edit/Juexing.j"
+#include  "edit/Battle.j"
+///#include  "edit/NetVersion.j"
 library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,Juexing,Battle,Version
 	globals
 		/*

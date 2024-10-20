@@ -1,5 +1,8 @@
-#include  "LHBase.j"
-///#include  "NetVersion.j"
+#ifndef FanzhuanIncluded
+#define FanzhuanIncluded
+
+#include  "edit/LHBase.j"
+///#include  "edit/NetVersion.j"
 
 library_once Fanzhuan requires LHBase,Version
 
@@ -59,3 +62,5 @@ library_once Fanzhuan requires LHBase,Version
 		endif
 	endfunction
 endlibrary
+#endif
+

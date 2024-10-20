@@ -1,7 +1,7 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
-#include  "SpellBase.j"
-///#include  "NetVersion.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
+#include  "edit/SpellBase.j"
+///#include  "edit/NetVersion.j"
 /*
     新副本，秘境挑战
 */

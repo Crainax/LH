@@ -1,6 +1,9 @@
+#ifndef MultiboardIncluded
+#define MultiboardIncluded
 
-#include  "LHBase.j"
-///#include  "NetVersion.j"
+
+#include  "edit/LHBase.j"
+///#include  "edit/NetVersion.j"
 
 library_once Multiboard initializer InitMultiboard requires LHBase,Version
 	globals
@@ -91,3 +94,5 @@ library_once Multiboard initializer InitMultiboard requires LHBase,Version
     	set t = null
 	endfunction
 endlibrary
+
+#endif

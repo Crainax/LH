@@ -1,6 +1,9 @@
+#ifndef HuodongIncluded
+#define HuodongIncluded
 
-#include  "LHBase.j"
-#include  "Achievement.j"
+
+#include  "edit/LHBase.j"
+#include  "edit/Achievement.j"
 library_once Huodong requires LHBase,Achievement
 
 	globals
@@ -38,3 +41,4 @@ library_once Huodong requires LHBase,Achievement
 	endfunction
 
 endlibrary
+#endif

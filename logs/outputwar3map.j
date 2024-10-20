@@ -12387,7 +12387,7 @@ endfunction
 // BEGIN IMPORT OF edit/LHBase.j
 
 
-///#include  "Test.j"
+///#include  "edit/Test.j"
 // BEGIN IMPORT OF edit/\Constant.j
 
 // END IMPORT OF edit/\Constant.j
@@ -12401,7 +12401,7 @@ endfunction
 // BEGIN IMPORT OF edit/\LHBase.j
 
 
-///#include  "Test.j"
+///#include  "edit/Test.j"
 // IGNORE DOUBLE IMPORT OF edit/\Constant.j
 // IGNORE DOUBLE IMPORT OF edit/\CommonVersion.j
 
@@ -12444,7 +12444,7 @@ endfunction
 // BEGIN IMPORT OF edit/Revive.j
 
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
-///#include  "Beast.j"
+///#include  "edit/Beast.j"
 // BEGIN IMPORT OF edit/\Lingxue.j
 // IGNORE DOUBLE IMPORT OF edit/\SpellBase.j
 // END IMPORT OF edit/\Lingxue.j
@@ -12457,7 +12457,7 @@ endfunction
 //VIP
 // BEGIN IMPORT OF edit/PIV.j
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
-///#include  "Beast.j"
+///#include  "edit/Beast.j"
 // END IMPORT OF edit/PIV.j
 //多面板
 // BEGIN IMPORT OF edit/Multiboard.j
@@ -12488,7 +12488,7 @@ endfunction
 // BEGIN IMPORT OF edit/Combine.j
 
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
-///#include  "Beast.j"
+///#include  "edit/Beast.j"
 
 
 
@@ -12603,7 +12603,7 @@ endfunction
 
 // redeclaration of library Huanyi skipped
 // END IMPORT OF edit/\Huanyi.j
-///#include  "CenterCredit.j"
+///#include  "edit/CenterCredit.j"
 
 // END IMPORT OF edit/Simulate.j
 //导入指令
@@ -12612,7 +12612,7 @@ endfunction
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
 // BEGIN IMPORT OF edit/\PIV.j
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
-///#include  "Beast.j"
+///#include  "edit/Beast.j"
 // redeclaration of library PIV skipped
 // END IMPORT OF edit/\PIV.j
 
@@ -12658,7 +12658,7 @@ endfunction
 
 // redeclaration of library Multiboard skipped
 // END IMPORT OF edit/\Multiboard.j
-///#include  "Exercise.j"
+///#include  "edit/Exercise.j"
 
 // END IMPORT OF edit/CenterCredit.j
 //测试文件
@@ -12673,7 +12673,7 @@ endfunction
 // redeclaration of library Boss skipped
 // END IMPORT OF edit/\Boss.j
 // IGNORE DOUBLE IMPORT OF edit/\PIV.j
-///#include  "CenterCredit.j"
+///#include  "edit/CenterCredit.j"
 
 // END IMPORT OF edit/Debug.j
 //***************************************************************************

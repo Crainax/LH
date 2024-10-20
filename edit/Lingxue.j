@@ -1,5 +1,5 @@
-#include  "SpellBase.j"
-#include  "Spin.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Spin.j"
 library_once Lingxue requires SpellBase ,Spin
 
 	globals

@@ -1,7 +1,7 @@
-#include  "LHBase.j"
-#include  "SpellBase.j"
-#include  "Diffculty.j"
-#include  "Boss.j"
+#include  "edit/LHBase.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Diffculty.j"
+#include  "edit/Boss.j"
 library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffculty,Boss
 
 	globals

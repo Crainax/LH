@@ -1,4 +1,4 @@
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
 library_once Exercise initializer InitExercise requires LHBase
 
 	globals

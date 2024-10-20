@@ -1,8 +1,8 @@
 
-#include  "LHBase.j"
-///#include  "Beast.j"
-#include  "Lingxue.j"
-#include  "Xinglong.j"
+#include  "edit/LHBase.j"
+///#include  "edit/Beast.j"
+#include  "edit/Lingxue.j"
+#include  "edit/Xinglong.j"
 library_once Revive initializer InitRevive requires LHBase,Beast,Lingxue,Xinglong
 
 //---------------------------------------------------------------------------------------------------

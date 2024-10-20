@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-///#include  "NetVersion.j"
+#include  "edit/LHBase.j"
+///#include  "edit/NetVersion.j"
 
 library_once Spin requires LHBase,Version
 

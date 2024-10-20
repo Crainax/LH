@@ -1,5 +1,5 @@
-#include  "LHBase.j"
-#include  "CommonHuodong.j"
+#include  "edit/LHBase.j"
+#include  "edit/CommonHuodong.j"
 
 /*
     其他平台的提示文本

@@ -1,4 +1,7 @@
-#include  "LHBase.j"
+#ifndef StructsIncluded
+#define StructsIncluded
+
+#include  "edit/LHBase.j"
 
 
 library_once Structs requires LHBase
@@ -230,4 +233,6 @@ library_once Structs requires LHBase
 
 	endstruct
 endlibrary
+#endif
+
 

@@ -1,7 +1,7 @@
-#include  "LHBase.j"
-#include  "Printer.j"
-#include  "SpellBase.j"
-#include  "Spin.j"
+#include  "edit/LHBase.j"
+#include  "edit/Printer.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Spin.j"
 
 library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 

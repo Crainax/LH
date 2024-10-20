@@ -1,8 +1,8 @@
 
-#include  "LHBase.j"
-#include  "PIV.j"
-#include  "Multiboard.j"
-///#include  "Exercise.j"
+#include  "edit/LHBase.j"
+#include  "edit/PIV.j"
+#include  "edit/Multiboard.j"
+///#include  "edit/Exercise.j"
 /*
     守家基分商店
 */

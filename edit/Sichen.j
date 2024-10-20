@@ -1,9 +1,9 @@
 
-#include  "SpellBase.j"
-#include  "Printer.j"
-#include  "Attr.j"
-#include  "Aura.j"
-///#include  "Pet.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Printer.j"
+#include  "edit/Attr.j"
+#include  "edit/Aura.j"
+///#include  "edit/Pet.j"
 /*
     英雄司宸的技能
 */

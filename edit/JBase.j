@@ -1,12 +1,16 @@
+
+#ifndef JBaseIncluded
+#define JBaseIncluded
+
 /*
     语法基础
 */
-library_once JBase  
+library_once JBase
 
 //---------------------------------------------------------------------------------------------------
     /*
         获取位数字,1是个位
-    */ 
+    */
     function GetBit takes integer num,integer bit returns integer
         local string s = I2S(num)
         local integer length = StringLength(s)
@@ -71,5 +75,7 @@ library_once JBase
             return u2
         endif
     endfunction
-    
+
 endlibrary
+#endif
+

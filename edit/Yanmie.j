@@ -1,8 +1,8 @@
 
-#include  "SpellBase.j"
-#include  "Spin.j"
-#include  "Aura.j"
-#include  "Printer.j"
+#include  "edit/SpellBase.j"
+#include  "edit/Spin.j"
+#include  "edit/Aura.j"
+#include  "edit/Printer.j"
 /*
     湮灭
 */

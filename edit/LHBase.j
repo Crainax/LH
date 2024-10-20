@@ -1,9 +1,11 @@
 
+#ifndef LHBaseIncluded
+#define LHBaseIncluded
 
-///#include  "Test.j"
-#include  "Constant.j"
-#include  "JBase.j"
-#include  "PIVInterface.j"
+///#include  "edit/Test.j"
+#include  "edit/Constant.j"
+#include  "edit/JBase.j"
+#include  "edit/PIVInterface.j"
 
 library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface//,Test
 
@@ -1006,3 +1008,4 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         set t = null
     endfunction
 endlibrary
+#endif

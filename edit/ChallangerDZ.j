@@ -1,4 +1,7 @@
-#include  "LHBase.j"
+#ifndef ChallangerDZIncluded
+#define ChallangerDZIncluded
+
+#include  "edit/LHBase.j"
 
 library_once ChallangerDZ requires LHBase
 
@@ -423,3 +426,5 @@ library_once ChallangerDZ requires LHBase
 		return 0
 	endfunction
 endlibrary
+#endif
+

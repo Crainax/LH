@@ -1,7 +1,7 @@
-#include  "LHBase.j"
-#include  "Diffculty.j"
-///#include  "NetVersion.j"
-#include  "SpellBase.j"
+#include  "edit/LHBase.j"
+#include  "edit/Diffculty.j"
+///#include  "edit/NetVersion.j"
+#include  "edit/SpellBase.j"
 
 library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBase,Version
 

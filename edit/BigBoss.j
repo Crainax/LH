@@ -1,4 +1,4 @@
-#include  "LHBase.j"
+#include  "edit/LHBase.j"
 
 /*
     巨能与混沌的减伤法则
