@@ -2,9 +2,9 @@
 #define FanzhuanIncluded
 
 #include  "edit/LHBase.j"
-///#include  "edit/NetVersion.j"
+#include  "edit/Achievement.j"
 
-library_once Fanzhuan requires LHBase,Version
+library_once Fanzhuan requires LHBase,Achievement
 
 	globals
 		integer array diyu

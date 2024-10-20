@@ -1,3 +1,6 @@
+#ifndef XiaoyueIncluded
+#define XiaoyueIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Spin.j"
 
@@ -48,3 +51,5 @@ library_once Xiaoyue  requires LHBase,Spin,Version
 
 	endfunction
 endlibrary
+
+#endif

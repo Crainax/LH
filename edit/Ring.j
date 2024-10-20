@@ -1,4 +1,6 @@
-#include  "edit/LHBase.j"
+#ifndef RingIncluded
+#define RingIncluded
+
 #include  "edit/LHBase.j"
 
 /*
@@ -192,3 +194,5 @@ library_once Ring initializer InitRing requires LHBase,Version
 	endfunction
 
 endlibrary
+
+#endif

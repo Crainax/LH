@@ -1,3 +1,5 @@
+#ifndef SichenIncluded
+#define SichenIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -697,3 +699,5 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 endlibrary
 
 
+
+#endif

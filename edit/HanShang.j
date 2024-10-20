@@ -1,3 +1,5 @@
+#ifndef HanshangIncluded
+#define HanshangIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Structs.j"
@@ -634,5 +636,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 		call TimerStart(CreateTimer(),CModeH(150,75),true,function GiveDiyu)
 	endfunction
 endlibrary
+
+#endif
 
 

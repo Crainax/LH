@@ -1,3 +1,6 @@
+#ifndef CanglingIncluded
+#define CanglingIncluded
+
 #include  "edit/Spin.j"
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -598,5 +601,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 
 endlibrary
+
+#endif
 
 

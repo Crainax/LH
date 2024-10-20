@@ -1,3 +1,6 @@
+#ifndef MiniGameIncluded
+#define MiniGameIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Diffculty.j"
 ///#include  "edit/NetVersion.j"
@@ -364,3 +367,5 @@ library_once MiniGame initializer InitMiniGame requires LHBase,Diffculty,SpellBa
 	endfunction
 
 endlibrary
+
+#endif

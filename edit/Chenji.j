@@ -1,3 +1,5 @@
+#ifndef ChenjiIncluded
+#define ChenjiIncluded
 
 #include  "edit/Printer.j"
 #include  "edit/SpellBase.j"
@@ -210,6 +212,7 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
 
 endlibrary
 
+#endif
 
 
 

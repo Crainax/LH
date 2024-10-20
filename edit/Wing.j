@@ -1,3 +1,6 @@
+#ifndef WingIncluded
+#define WingIncluded
+
 #include  "edit/LHBase.j"
 /*
     翅膀
@@ -69,3 +72,5 @@ library_once Wing requires LHBase
 	endfunction
 
 endlibrary
+
+#endif

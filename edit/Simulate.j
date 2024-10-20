@@ -1,4 +1,5 @@
-
+#ifndef SimulateIncluded
+#define SimulateIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/SpellBase.j"
@@ -79,3 +80,5 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 	endfunction
 
 endlibrary
+
+#endif

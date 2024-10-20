@@ -1,3 +1,5 @@
+#ifndef YanmieIncluded
+#define YanmieIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Spin.j"
@@ -423,3 +425,5 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	endfunction
 
 endlibrary
+
+#endif

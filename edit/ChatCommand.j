@@ -1,3 +1,5 @@
+#ifndef ChatCommandIncluded
+#define ChatCommandIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/PIV.j"
@@ -479,3 +481,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 //---------------------------------------------------------------------------------------------------
 
 endlibrary
+
+
+#endif

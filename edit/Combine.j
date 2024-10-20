@@ -1,3 +1,5 @@
+#ifndef CombineIncluded
+#define CombineIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/Hundun.j"
@@ -43,3 +45,4 @@ library_once Combine initializer InitCombine requires LHBase,Beast,Hundun
 
 endlibrary
 
+#endif

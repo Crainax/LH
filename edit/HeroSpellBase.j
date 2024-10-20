@@ -1,3 +1,5 @@
+#ifndef HeroSpellBaseIncluded
+#define HeroSpellBaseIncluded
 
 #include  "edit/Heiyan.j"
 #include  "edit/Seyu.j"
@@ -72,3 +74,5 @@ library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,
 	endfunction
 endlibrary
 
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef CenterBaseIncluded
+#define CenterBaseIncluded
+
 #include  "edit/LHBase.j"
 /*
     基地有关,不能A队友
@@ -94,3 +97,5 @@ library_once CenterBase initializer InitCenterBase requires LHBase,Version
 
 
 endlibrary
+
+#endif

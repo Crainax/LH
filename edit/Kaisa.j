@@ -1,4 +1,5 @@
-
+#ifndef KaisaIncluded
+#define KaisaIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -399,3 +400,6 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	endfunction
 
 endlibrary
+
+
+#endif

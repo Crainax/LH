@@ -1,3 +1,5 @@
+#ifndef CenterCreditIncluded
+#define CenterCreditIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/PIV.j"
@@ -123,3 +125,5 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 	endfunction
 
 endlibrary
+
+#endif

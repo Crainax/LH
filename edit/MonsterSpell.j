@@ -1,3 +1,5 @@
+#ifndef MonsterSpellIncluded
+#define MonsterSpellIncluded
 
 #include  "edit/LHBase.j"
 #include  "edit/SpellBase.j"
@@ -358,3 +360,6 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
 	endfunction
 endlibrary
 
+
+
+#endif

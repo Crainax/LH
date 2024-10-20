@@ -1,3 +1,6 @@
+#ifndef BajueIncluded
+#define BajueIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Spin.j"
 
@@ -119,3 +122,5 @@ library_once Bajue  requires LHBase,Spin
 		set bajue = InitBajueSpin(u)
 	endfunction
 endlibrary
+
+#endif

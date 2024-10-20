@@ -1,3 +1,6 @@
+#ifndef DiamondIncluded
+#define DiamondIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Diffculty.j"
 ///#include  "edit/NetVersion.j"
@@ -1955,3 +1958,5 @@ library_once Diamond initializer InitDiamond requires LHBase,Diffculty,Version
 	endfunction
 
 endlibrary
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef ItemSpellIncluded
+#define ItemSpellIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Attr.j"
 #include  "edit/SpellBase.j"
@@ -628,3 +631,4 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 endlibrary
 
 
+#endif

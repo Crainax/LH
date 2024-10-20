@@ -1,3 +1,6 @@
+#ifndef TouristTrapIncluded
+#define TouristTrapIncluded
+
 #include  "edit/LHBase.j"
 /*
     黑店
@@ -70,3 +73,5 @@ library_once TouristTrap initializer InitTouristTrap requires LHBase
 		set t = null
 	endfunction
 endlibrary
+
+#endif

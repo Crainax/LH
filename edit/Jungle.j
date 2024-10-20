@@ -1,3 +1,6 @@
+#ifndef JungleIncluded
+#define JungleIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Diffculty.j"
 
@@ -104,3 +107,5 @@ library_once Jungle requires LHBase,Diffculty
 	endfunction
 
 endlibrary
+
+#endif

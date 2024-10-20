@@ -1,3 +1,5 @@
+#ifndef HeiYanIncluded
+#define HeiYanIncluded
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
@@ -543,3 +545,5 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 
 endlibrary
+
+#endif

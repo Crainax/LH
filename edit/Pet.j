@@ -1,3 +1,6 @@
+#ifndef PetIncluded
+#define PetIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Diffculty.j"
 #include  "edit/ChallangerDZ.j"
@@ -258,3 +261,5 @@ library_once Pet initializer InitPet requires LHBase,Version,Diffculty,Challange
 
 endlibrary
 
+
+#endif

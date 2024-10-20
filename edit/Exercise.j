@@ -1,3 +1,6 @@
+#ifndef ExerciseIncluded
+#define ExerciseIncluded
+
 #include  "edit/LHBase.j"
 library_once Exercise initializer InitExercise requires LHBase
 
@@ -355,4 +358,5 @@ library_once Exercise initializer InitExercise requires LHBase
 endlibrary
 
 
+#endif
 

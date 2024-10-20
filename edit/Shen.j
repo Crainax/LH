@@ -1,3 +1,6 @@
+#ifndef ShenIncluded
+#define ShenIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Attr.j"
 
@@ -129,3 +132,5 @@ library_once Shen requires LHBase,Attr
 
 
 endlibrary
+
+#endif

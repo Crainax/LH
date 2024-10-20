@@ -1,3 +1,6 @@
+#ifndef TaiyaIncluded
+#define TaiyaIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Spin.j"
 
@@ -47,3 +50,5 @@ library_once Taiya requires LHBase,Spin,Version
     	call TriggerRegisterUnitEvent( gg_trg_____________86, taiya, EVENT_UNIT_DAMAGED )
 	endfunction
 endlibrary
+
+#endif

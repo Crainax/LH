@@ -1,8 +1,11 @@
+#ifndef SheyanIncluded
+#define SheyanIncluded
+
 //!import "LHBase.j"
 //!import "Spin.j"
 
 library_once Sheyan  requires LHBase,Spin
-	
+
 
 	globals
 		boolean BSheyanBUG = FALSE
@@ -51,3 +54,4 @@ library_once Sheyan  requires LHBase,Spin
 
 endlibrary
 
+#endif

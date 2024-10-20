@@ -1,3 +1,6 @@
+#ifndef HundunIncluded
+#define HundunIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/SpellBase.j"
 #include  "edit/Diffculty.j"
@@ -482,3 +485,5 @@ library_once Hundun initializer InitHundunInner requires LHBase,SpellBase,Diffcu
 		call DisableTrigger(THundunSpellDamage)
 	endfunction
 endlibrary
+
+#endif

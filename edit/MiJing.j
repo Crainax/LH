@@ -1,3 +1,6 @@
+#ifndef MiJingIncluded
+#define MiJingIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/Diffculty.j"
 #include  "edit/SpellBase.j"
@@ -716,3 +719,4 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
 endlibrary
 
 
+#endif
