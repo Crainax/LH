@@ -1,3 +1,6 @@
+#ifndef SameItemIncluded
+#define SameItemIncluded
+
 #include  "edit/LHBase.j"
 #include  "edit/item.j"
 
@@ -165,3 +168,5 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 		set t = null
 	endfunction
 endlibrary
+
+#endif

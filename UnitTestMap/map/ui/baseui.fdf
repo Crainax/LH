@@ -1,0 +1,443 @@
+IncludeFile "UI\FrameDef\Glue\StandardTemplates.fdf",
+IncludeFile "UI\FrameDef\UI\EscMenuTemplates.fdf",
+
+Frame "SPRITE" "SpriteTemplate" {
+    UseActiveContext,
+}
+
+// 按钮
+Frame "BUTTON" "BT" { //默认按钮
+    ControlStyle "AUTOTRACK|HIGHLIGHTONMOUSEOVER|DONTSAVENAME",
+
+    ControlMouseOverHighlight "BO",
+    Frame "HIGHLIGHT" "BO" INHERITS "StandardButtonMouseOverHighlightTemplate" {
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "UI\Widgets\BattleNet\bnet-button01-highlight-mouse.blp",
+        HighlightAlphaMode "ADD",
+    }
+
+}
+
+Frame "GLUEBUTTON" "TBT" { //文字按钮(用于右键菜单)
+    ControlStyle "AUTOTRACK|HIGHLIGHTONMOUSEOVER|DONTSAVENAME",
+
+    ControlMouseOverHighlight "TextButtonMouseOverHighlightTemplate",
+    Frame "HIGHLIGHT" "TextButtonMouseOverHighlightTemplate" INHERITS "StandardButtonMouseOverHighlightTemplate" {
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "ui\image\textbutton_highlight.blp",
+        HighlightAlphaMode "ADD",
+    }
+
+}
+
+Frame "SCROLLBAR" "SB1V"{ //竖滑条(异度风格)
+    Width 0.012,
+    Height 0.139,
+    SliderLayoutVertical,
+
+    ControlBackdrop "SB1VCB",
+    Frame "BACKDROP" "SB1VCB" {
+        BackdropBlendAll,
+        BackdropBackground  "ui\slider\slider_background.blp",
+    }
+
+    SliderThumbButtonFrame "SB1VCBT",
+    Frame "BUTTON" "SB1VCBT"{ //滑条的滑块
+        Width 0.0055,
+        Height 0.0145,
+        ControlBackdrop "SB1VCBTB",
+        Frame "BACKDROP" "SB1VCBTB" {
+            BackdropBlendAll,
+            BackdropBackground  "ui\slider\slider_handle.blp",
+        }
+
+    }
+}
+
+Frame "SCROLLBAR" "SB1H"{ //横滑条(异度风格)
+    Width 0.26,
+    Height 0.007,
+    SliderLayoutHorizontal,
+
+    ControlBackdrop "SB1HCB",
+    Frame "BACKDROP" "SB1HCB" {
+        BackdropBlendAll,
+        BackdropBackground  "ui\slider\nandu_slider_bg.blp",
+    }
+
+    SliderThumbButtonFrame "SB1HBT",
+    Frame "BUTTON" "SB1HBT"{ //滑条的滑块
+        Width 0.01,
+        Height 0.015,
+        ControlBackdrop "SB1HBTB",
+        Frame "BACKDROP" "SB1HBTB" {
+            BackdropBlendAll,
+            BackdropBackground  "ui\slider\nandu_slider_button.blp",
+        }
+
+    }
+}
+
+Frame "SCROLLBAR" "Base1SB1V" { //魔兽原生风格滑动条
+    Width 0.012,
+    Height 0.139,
+    SliderLayoutVertical,
+
+    //滑动条背景
+    ControlBackdrop "Base1SB1VI",
+    Frame "BACKDROP" "Base1SB1VI" {
+        BackdropTileBackground,
+        BackdropBackground  "UI\Widgets\EscMenu\Human\slider-background.blp",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize  0.006,
+        BackdropBackgroundSize  0.012,
+        BackdropBackgroundInsets 0.004 0.004 0.004 0.004,
+        BackdropEdgeFile  "UI\Widgets\EscMenu\Human\slider-border.blp",
+        BackdropBlendAll,
+    }
+
+    //滑块按钮
+    SliderThumbButtonFrame "Base1SB1STB",
+    Frame "BUTTON" "Base1SB1STB" {
+        Width 0.016,
+        Height 0.016,
+        ControlBackdrop "Base1SB1STBB",
+        Frame "BACKDROP" "Base1SB1STBB" {
+            BackdropBlendAll,
+            BackdropBackground  "UI\Widgets\EscMenu\Human\slider-knob.blp",
+        }
+    }
+
+}
+
+Frame "SCROLLBAR" "Base1SB1H" { //魔兽原生风格滑动条
+    Width 0.139,
+    Height 0.012,
+    SliderLayoutHorizontal,
+
+    //滑动条背景
+    ControlBackdrop "Base1SB1HI",
+    Frame "BACKDROP" "Base1SB1HI" {
+        BackdropTileBackground,
+        BackdropBackground  "UI\Widgets\EscMenu\Human\slider-background.blp",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize  0.006,
+        BackdropBackgroundSize  0.012,
+        BackdropBackgroundInsets 0.004 0.004 0.004 0.004,
+        BackdropEdgeFile  "UI\Widgets\EscMenu\Human\slider-border.blp",
+        BackdropBlendAll,
+    }
+
+    //滑块按钮
+    SliderThumbButtonFrame "Base1SB1STBH",
+    Frame "BUTTON" "Base1SB1STBH" {
+        Width 0.016,
+        Height 0.016,
+        ControlBackdrop "Base1SB1STBHB",
+        Frame "BACKDROP" "Base1SB1STBHB" {
+            BackdropBlendAll,
+            BackdropBackground  "UI\Widgets\EscMenu\Human\slider-knob.blp",
+        }
+    }
+
+}
+
+Frame "TEXT" "T1" {
+    DecorateFileNames, //允许使用装饰文件名(比如颜色|c,换行|n)
+    FrameFont "fonts\zt.ttf", 0.01, "", //字体,字体大小,字体文件
+    // FrameFont "MasterFont", 0.01, "", //字体,字体大小,字体文件
+    Text "",
+    LayerStyle "IGNORETRACKEVENTS|DONTSAVENAME", //忽略鼠标事件,不保存名称(减少内存占用)
+}
+
+Frame "TEXT" "T2" {
+    DecorateFileNames, //允许使用装饰文件名(比如颜色|c,换行|n)
+    FrameFont "fonts\zt.ttf", 0.01, "", //字体,字体大小,字体文件
+    // FrameFont "MasterFont", 0.01, "", //字体,字体大小,字体文件
+    Text "",
+    LayerStyle "DONTSAVENAME", //不保存名称(减少内存占用),允许鼠标事件
+}
+
+
+Frame "BACKDROP" "ToolTipsTemplate" {
+    BackdropTileBackground,
+    BackdropBackground  "UI\Widgets\ToolTips\Human\human-tooltip-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.01,
+    BackdropEdgeFile  "UI\Widgets\ToolTips\Human\human-tooltip-border.blp",
+    BackdropBlendAll,
+    BackdropBackgroundInsets 0.003 0.003 0.003 0.003,
+}
+
+Frame "BACKDROP" "ToolTipsTemplate2" {
+    BackdropTileBackground,
+    BackdropBackground  "UI\widgets\BattleNet\bnet-tooltip-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.01,
+    BackdropEdgeFile  "UI\widgets\BattleNet\bnet-tooltip-border.blp",
+    BackdropBlendAll,
+    BackdropBackgroundInsets 0.003 0.003 0.003 0.003,
+}
+
+Frame "BACKDROP" "CornerBorder" {
+    BackdropTileBackground,
+    BackdropBackground  "UI\Widgets\ToolTips\Human\human-tooltip-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.005,
+    BackdropEdgeFile  "UI\Widgets\ToolTips\Human\human-tooltip-border.blp",
+    BackdropBlendAll,
+    BackdropBackgroundInsets 0.0015 0.0015 0.0015 0.0015,
+}
+
+
+Frame "BACKDROP" "IT" { //默认的图片模板
+    LayerStyle "IGNORETRACKEVENTS|DONTSAVENAME",
+    BackdropBlendAll,
+    BackdropBackground "UI\Widgets\EscMenu\Human\blank-background.blp",
+}
+
+Frame "BUTTON" "BB" { //空响应的按钮
+    LayerStyle "DONTSAVENAME",
+    ControlStyle "AUTOTRACK",  // 只保留自动追踪事件
+}
+
+Frame "CHECKBOX" "CBTemplate" {  // CheckBox -> CB
+    Width 0.024,
+    Height 0.024,
+
+    ControlBackdrop "CBBack",  // Background -> Back
+    Frame "BACKDROP" "CBBack" {
+        BackdropBlendAll,
+        BackdropBackground  "UI\Widgets\Glues\GlueScreen-Checkbox-Background.blp",
+    }
+
+    ControlPushedBackdrop "CBPush",  // Pushed -> Push
+    Frame "BACKDROP" "CBPush" {
+        BackdropBlendAll,
+        BackdropBackground  "UI\Widgets\Glues\GlueScreen-Checkbox-BackgroundPressed.blp",
+    }
+
+    ControlDisabledBackdrop "CBDis",  // Disabled -> Dis
+    Frame "BACKDROP" "CBDis" {
+        BackdropBlendAll,
+        BackdropBackground  "UI\Widgets\Glues\GlueScreen-Checkbox-BackgroundDisabled.blp",
+    }
+
+    CheckBoxCheckHighlight "CBCheck",  // Highlight -> Check
+    Frame "HIGHLIGHT" "CBCheck" {
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "UI\Widgets\Glues\GlueScreen-Checkbox-Check.blp",
+        HighlightAlphaMode "BLEND",
+    }
+
+    CheckBoxDisabledCheckHighlight "CBDisCheck",  // DisabledCheck -> DisCheck
+    Frame "HIGHLIGHT" "CBDisCheck" {
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "UI\Widgets\Glues\GlueScreen-Checkbox-CheckDisabled.blp",
+        HighlightAlphaMode "BLEND",
+    }
+}
+
+Frame "CHECKBOX" "RBTemplate" {  // RadioButton -> RB
+    Width 0.024,
+    Height 0.024,
+
+    ControlBackdrop "RBBack",
+    Frame "BACKDROP" "RBBack" {
+        BackdropBlendAll,
+        BackdropBackground  "UI\Widgets\Glues\GlueScreen-RadioButton-Background.blp",
+    }
+
+    ControlPushedBackdrop "RBPush",
+    Frame "BACKDROP" "RBPush" {
+        BackdropBlendAll,
+        BackdropBackground  "UI\Widgets\Glues\GlueScreen-RadioButton-BackgroundPressed.blp",
+    }
+
+    ControlDisabledBackdrop "RBDis",
+    Frame "BACKDROP" "RBDis" {
+        BackdropBlendAll,
+        BackdropBackground  "UI\Widgets\Glues\GlueScreen-Checkbox-BackgroundDisabled.blp",
+    }
+
+    CheckBoxCheckHighlight "RBCheck",
+    Frame "HIGHLIGHT" "RBCheck" {
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "UI\Widgets\Glues\GlueScreen-RadioButton-Button.blp",
+        HighlightAlphaMode "BLEND",
+    }
+
+    CheckBoxDisabledCheckHighlight "RBDisCheck",
+    Frame "HIGHLIGHT" "RBDisCheck" {
+        HighlightType "FILETEXTURE",
+        HighlightAlphaFile "UI\Widgets\Glues\GlueScreen-RadioButton-ButtonDisabled.blp",
+        HighlightAlphaMode "BLEND",
+    }
+}
+
+Frame "EDITBOX" "EB" {
+    Height 0.04,
+    EditBorderSize 0.009,
+    EditCursorColor 1.0 1.0 1.0,
+
+    ControlBackdrop "EBB",
+    Frame "BACKDROP" "EBB"{
+        DecorateFileNames,
+        BackdropTileBackground,
+        BackdropBackground  "EscMenuEditBoxBackground",
+        BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+        BackdropCornerSize  0.0125,
+        BackdropBackgroundSize  0.256,
+        BackdropBackgroundInsets 0.005 0.005 0.005 0.005,
+        BackdropEdgeFile  "EscMenuEditBoxBorder",
+        BackdropBlendAll,
+    }
+}
+
+
+// 边框(类型1,透明背景)
+Frame "BACKDROP" "Border1"{
+    BackdropTileBackground,
+    BackdropBackground  "UI\Widgets\EscMenu\Human\blank-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.0125,
+    BackdropBackgroundSize  0.256,
+    BackdropBackgroundInsets 0.005 0.005 0.005 0.005,
+    BackdropEdgeFile  "UI\Widgets\EscMenu\Human\editbox-border.blp",
+    BackdropBlendAll,
+}
+
+
+// 边框(类型2:按钮系)
+Frame "BACKDROP" "Border2"{
+    BackdropTileBackground,
+    BackdropBackground  "UI\Widgets\Glues\GlueScreen-Button1-BackdropBackground.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.016,
+    BackdropBackgroundSize  0.032,
+    BackdropBackgroundInsets 0.004 0.004 0.004 0.004,
+    BackdropEdgeFile  "UI\Widgets\Glues\GlueScreen-Button1-BorderedBackdropBorder.blp",
+    BackdropBlendAll,
+}
+
+
+// 边框(类型3,大对话框系)
+Frame "BACKDROP" "Border3"{
+    BackdropTileBackground,
+    BackdropBackground  "UI\Widgets\BattleNet\bnet-dialoguebox-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.032,
+    BackdropBackgroundSize  0.064,
+    BackdropBackgroundInsets 0.01 0.01 0.01 0.01,
+    BackdropEdgeFile  "UI\Widgets\BattleNet\bnet-dialoguebox-border.blp",
+    BackdropBlendAll,
+}
+
+// 对话框系(黎明前线版大对话框)
+Frame "BACKDROP" "Border4" {
+    BackdropTileBackground,
+    BackdropBackground  "UI\Widgets\BattleNet\bnet-dialoguebox-background.blp",
+    BackdropCornerFlags "UL|UR|BL|BR|T|L|B|R",
+    BackdropCornerSize  0.032,
+    BackdropBackgroundSize  0.064,
+    BackdropBackgroundInsets 0.01 0.01 0.01 0.01,
+    BackdropEdgeFile  "UI\Widgets\ToolTips\Human\human-tooltip-border2.blp",
+    BackdropBlendAll,
+}
+
+
+String "标题文字" {
+    FontColor 0.99 0.827 0.0705 1.0,
+	FontShadowColor 0.0 0.0 0.0 0.9,
+    FontShadowOffset 0.001 -0.001,
+	Font "InfoPanelTextFont",0.009,
+}
+String "数值文字" {
+    FontJustificationH JUSTIFYLEFT,
+    FontJustificationV JUSTIFYTOP,
+    FontColor 1.0 1.0 1.0 1.0,
+	FontShadowColor 0.0 0.0 0.0 0.9,
+    FontShadowOffset 0.001 -0.001,
+	Font "InfoPanelTextFont",0.0085,
+}
+
+//攻击图标框架UI，无响应。
+Frame "SIMPLEFRAME" "框架" {
+    DecorateFileNames,
+
+    Texture "攻击图标" {
+    }
+
+    Texture "护甲图标" {
+    }
+
+    String "攻击" INHERITS "标题文字" {
+    }
+
+    String "护甲" INHERITS "标题文字" {
+    }
+
+    String "攻击数值" INHERITS "数值文字" {
+    }
+
+    String "护甲数值" INHERITS "数值文字" {
+    }
+
+}
+
+//攻击图标框架UI，无响应。
+Frame "SIMPLEFRAME" "单位面板框架" {
+    DecorateFileNames,
+
+    Texture "单位面板图标" {
+    }
+
+    String "单位面板属性名" INHERITS "标题文字" {
+    }
+
+    String "单位面板数值" INHERITS "数值文字" {
+    }
+
+}
+
+//英雄三围
+Frame "SIMPLEFRAME" "英雄三围框架" {
+    DecorateFileNames,
+
+    Texture "英雄三围图标" {
+    }
+
+    String "英雄力量名" INHERITS "标题文字" {
+    }
+
+    String "英雄力量值" INHERITS "数值文字" {
+    }
+
+    String "英雄敏捷名" INHERITS "标题文字" {
+    }
+
+    String "英雄敏捷值" INHERITS "数值文字" {
+    }
+
+    String "英雄智力名" INHERITS "标题文字" {
+    }
+
+    String "英雄智力值" INHERITS "数值文字" {
+    }
+
+}
+
+//文字模板
+Frame "SIMPLEFRAME" "简单文字" {
+    DecorateFileNames,
+    String "简单文字内容" INHERITS "标题文字" {
+    }
+}
+
+//图片模板
+Frame "SIMPLEFRAME" "简单图片" {
+    DecorateFileNames,
+    Texture "简单图片内容" {
+    }
+}
+

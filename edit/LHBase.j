@@ -128,20 +128,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         return u == lichi
     endfunction
 //---------------------------------------------------------------------------------------------------
-    /*
-        获取一个字符串的几段循环
-    */
-    function GetCycleHash takes string s,integer times returns integer
-        local string result = s
-        local integer i = 1
-        loop
-            exitwhen i > times
-            set result = I2S(StringHash(result))
-            set i = i +1
-        endloop
-        return S2I(result)
-    endfunction
-//---------------------------------------------------------------------------------------------------
 
     /*
         仙器使用技能进行禁止丢弃判断
@@ -165,13 +151,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         return GetUnitTypeId(u) == 'nlv3' or GetUnitTypeId(u) == 'hwat' or GetUnitTypeId(u) == 'nbal' or GetUnitTypeId(u) == 'nvde' or GetUnitTypeId(u) == 'ehpr' or GetUnitTypeId(u) == 'nsll' or GetUnitTypeId(u) == 'nadr' or GetUnitTypeId(u) == 'nitp' or GetUnitTypeId(u) == 'nsgg' or GetUnitTypeId(u) == 'nehy' or GetUnitTypeId(u) == 'nbzd'
     endfunction
 
-//---------------------------------------------------------------------------------------------------
-    /*
-        友军过滤器
-    */
-    function IsAlly takes unit u,unit caster returns boolean
-        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitAliveBJ(u) and IsUnitAlly(u, GetOwningPlayer(caster))
-    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         禁止复制的装备
@@ -459,10 +438,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyMP(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 
-   function IsEnemy takes unit u, unit caster returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyM(u,caster) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
-    endfunction
-
 //---------------------------------------------------------------------------------------------------
 
     /*
@@ -543,30 +518,10 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
-        矩形区域内的随机坐标
-    */
-    function GetRectRandomX takes rect r returns real
-        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r))
-    endfunction
-
-    function GetRectRandomY takes rect r returns real
-        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
         4个坐标的角度,前面是人的位置，后面是点的位置
     */
     function GetFacingBetweenXY takes real x1,real y1,real x2,real y2 returns real
         return Atan2BJ(y2-y1,x2-x1)
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        4个坐标的距离
-    */
-    function GetDistance takes real x1,real y1,real x2,real y2 returns real
-        local real dx = x2-x1
-        local real dy = y2-y1
-        return SquareRoot(dx*dx+dy*dy)
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -673,27 +628,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
 //---------------------------------------------------------------------------------------------------
 
     /*
-        伤害一个区域
-    */
-    function DamageArea takes unit attacker,real x,real y,real radius,real damage returns nothing
-        local group l_group = CreateGroup()
-        local unit l_unit
-        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
-        loop
-            set l_unit = FirstOfGroup(l_group)
-            exitwhen l_unit == null
-            call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,attacker)) then
-                call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-            endif
-        endloop
-        call DestroyGroup(l_group)
-        set l_group = null
-        set l_unit =null
-    endfunction
-//---------------------------------------------------------------------------------------------------
-
-    /*
         伤害一个区域，附带特效(Mirror)
     */
     function DamageAreaEffMirror takes unit attacker,real x,real y,real radius,real damage,string eff returns nothing
@@ -734,29 +668,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         call DestroyGroup(l_group)
         set l_group = null
         set l_unit =null
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        一个区域的敌方单位组
-    */
-    function GetEnemyGroup takes player p,real x,real y,real radius returns group
-        local group l_group = CreateGroup()
-        local unit l_unit
-        local group l_group2 = CreateGroup()
-        call GroupEnumUnitsInRange(l_group, x, y, radius, null)
-        call GroupAddGroup(l_group,l_group2)
-        loop
-            set l_unit = FirstOfGroup(l_group2)
-            exitwhen l_unit == null
-            call GroupRemoveUnit(l_group2, l_unit)
-            if not(IsEnemyMP(l_unit,p)) then
-                call GroupRemoveUnit(l_group,l_unit)
-            endif
-        endloop
-        set l_unit = null
-        call DestroyGroup(l_group2)
-        set l_group2 = null
-        return l_group
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*

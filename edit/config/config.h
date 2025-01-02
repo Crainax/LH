@@ -1,0 +1,6 @@
+#define VERSION "3.5.0"
+#define MAX_PLAYER_COUNT 6
+
+// 原生UI的大小
+#define SIZE_ORIGIN_UI_SPELL 0.038
+#define SIZE_ORIGIN_UI_ITEM 0.032

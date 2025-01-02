@@ -1,120 +1,65 @@
+#define CRNL <?='\n'?>
 
-#include "edit/LHBase.j"
-#include "edit/NetVersion.j"
-#include "edit/BaseVersion.j"
-#include "edit/Box.j"
+#define VERSION_ALPHA     1 //内测版
+#define VERSION_BETA      2 //公测版
+#define VERSION_RELEASE   3 //正式版
+#define VERSION_UNITTEST  4 //单元测试
+#define VERSION_MODELTEST 5 //模型测试
 
-#include "edit/item.j"
-#include "edit/Arena.j"
-#include "edit/Boss.j"
-#include "edit/Revive.j"
-#include "edit/Purgatory.j"
-#include "edit/UseItem.j"
-#include "edit/Juexing.j"
+#define PLATFORM_DZ 1 //网易平台渠道
+#define PLATFORM_11 2 //11平台渠道
 
-// 基础
-#include "edit/LHOther.j"
+// 当前构建版本
+#define CURRENT_BUILD_VERSION VERSION_RELEASE
+// 当前的平台分包
+#define CURRENT_BUILD_PLATFORM PLATFORM_DZ
 
-// 高难系数
-#include "edit/Diffculty.j"
+#if (CURRENT_BUILD_VERSION == VERSION_ALPHA)
+    // 内测版
+    #define TestMode
+    #define GongceMode
+    #define LOG_PRINT_LEVEL 6
+    // lua_print: 内测版本
+#elif (CURRENT_BUILD_VERSION == VERSION_BETA)
+    // 公测版
+    #undef TestMode
+    #define GongceMode
+    #define LOG_PRINT_LEVEL 4
+    // lua_print: 公测版本
+#elif (CURRENT_BUILD_VERSION == VERSION_UNITTEST)
+    // 单元测试
+    #define TestMode
+    #undef GongceMode
+    #define LOG_PRINT_LEVEL 6
+    // lua_print: 单元测试
+#elif (CURRENT_BUILD_VERSION == VERSION_MODELTEST)
+    // 模型测试
+    #define TestMode
+    #undef GongceMode
+    #define LOG_PRINT_LEVEL 6
+    // lua_print: 模型测试
+#else
+    // 正式版
+    #undef TestMode
+    #undef GongceMode
+    #define LOG_PRINT_LEVEL 2
+    // lua_print: 正式版本
+#endif
 
-// 装备属性初始化
-#include "edit/ItemAttr.j"
-// VIP
-#include "edit/PIV.j"
-// 多面板
-#include "edit/Multiboard.j"
-// 转生
-#include "edit/Mirror.j"
-// 黑店
-#include "edit/TouristTrap.j"
-// 宠物有关
-#include "edit/Pet.j"
-// 合成装备
-#include "edit/Combine.j"
-#include "edit/Hundun.j"
-// 宝石升级
-#include "edit/Diamond.j"
-// 属性加成
-#include "edit/Attr.j"
-// 导入基地有关
-#include "edit/CenterBase.j"
-// 物品技能
-#include "edit/ItemSpell.j"
-// 翅膀
-#include "edit/Wing.j"
-// 戒指
-#include "edit/Ring.j"
+#include "Crainax/config/Log.h" // 输出日志配置
+#include "Crainax/config/SharedMethod.h" // 结构体共用方法
+#include "config/config.h" // 配置
+// #define StructMode // todo:结构体数量查看模式:用条件编译直接全部搞定
 
-// 皮肤
-#include "edit/Spin.j"
-// 导入英雄
-#include "edit/HeiYan.j"
-#include "edit/Yanmie.j"
-#include "edit/Kaisa.j"
-#include "edit/Lingxue.j"
-#include "edit/Seyu.j"
-#include "edit/Moqi.j"
-#include "edit/Sheyan.j"
-#include "edit/Hanshang.j"
-#include "edit/Huanyi.j"
-#include "edit/Chenji.j"
-#include "edit/Mengji.j"
-#include "edit/CangLing.j"
-#include "edit/Xiaoyue.j"
-#include "edit/Sichen.j"
-#include "edit/Xuanxue.j"
-#include "edit/Taiya.j"
-#include "edit/Xinglong.j"
-#include "edit/Xiaoting.j"
-#include "edit/Bajue.j"
-#include "edit/Lichi.j"
+//函数入口
+#if (CURRENT_BUILD_VERSION == VERSION_UNITTEST) // 单元测试
+    #include "config/UnitTest.h"
+#elif (CURRENT_BUILD_VERSION == VERSION_MODELTEST) // 模型测试
+    #include "config/ModelTest.h"
+#else // 地图项目
+    #include "config/Main.h"
+#endif
 
-// 战斗调整
-#include "edit/Battle.j"
-// 野区
-#include "edit/Jungle.j"
-// 秘境
-#include "edit/MiJing.j"
-// 传承试练
-#include "edit/Shilian.j"
-
-// 马甲模拟
-#include "edit/Simulate.j"
-
-// 导入指令
-#include "edit/ChatCommand.j"
-
-// 学习技能
-#include "edit/HeroSpellBase.j"
-
-// 金币系统
-#include "edit/GoldSystem.j"
-
-// 怪物技能
-#include "edit/MonsterSpell.j"
-
-// 魔兽技能
-#include "edit/Beast.j"
-
-// 练级场
-#include "edit/Exercise.j"
-#include "edit/CenterCredit.j"
-
-// 迷你游戏
-#include "edit/MiniGame.j"
-// 随机英雄
-#include "edit/RandomHero.j"
-
-// 狂欢活动
-#include "edit/Kuanghuan.j"
-
-// 连续登录
-#include "edit/Continous.j"
-
-// 测试文件
-/// #include "edit/Debug.j"
-/// #include "edit/NotPublic.j"
-/// #include "edit/DebugNet.j"
-
-
+#if defined(TestMode) && ((CURRENT_BUILD_VERSION == VERSION_BETA) || (CURRENT_BUILD_VERSION == VERSION_RELEASE))
+    // lua_print: 有测试指令!
+#endif

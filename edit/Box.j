@@ -191,7 +191,8 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 		elseif (i == 6) then
 			return IsHasCangku(p,i) or DzAPI_Map_GetMapLevel(p) >= 18 or GetBit(Greward[GetConvertedPlayerId(p)],4) > 0
 		elseif (i == 7) then
-			return IsHasCangku(p,i) or (DzAPI_Map_GetGuildName(p) == "Crainax" or DzAPI_Map_GetGuildName(p) == "大佬娱乐会所" or DzAPI_Map_GetGuildName(p) == "万劫封帝" or DzAPI_Map_GetGuildName(p) == "万劫录") or GetBit(Greward[GetConvertedPlayerId(p)],7) > 0
+			return IsHasCangku(p,i) or GetBit(Greward[GetConvertedPlayerId(p)],7) > 0
+			// return IsHasCangku(p,i) or (DzAPI_Map_GetGuildName(p) == "Crainax" or DzAPI_Map_GetGuildName(p) == "大佬娱乐会所" or DzAPI_Map_GetGuildName(p) == "万劫封帝" or DzAPI_Map_GetGuildName(p) == "万劫录") or GetBit(Greward[GetConvertedPlayerId(p)],7) > 0 todo: 网易删除了这个API
 		elseif (i == 8) then
 			return IsHasCangku(p,i) or IsPIV(p) or GetBit(Greward[GetConvertedPlayerId(p)],8) > 0
 		elseif (i >= 9) then
