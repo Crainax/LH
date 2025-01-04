@@ -122,7 +122,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,attacker)) then
+            if (IsEnemyUnit(l_unit,attacker)) then
                 call UnitDamageTarget( attacker, l_unit, GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*percent, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
             endif
         endloop
@@ -398,7 +398,7 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	*/
 	function Mochanhuanyu takes unit u returns nothing
 		local string effs = S3(GetUnitAbilityLevel(u,'A0MT')==1,"Objects\\Spawnmodels\\Undead\\UDeathSmall\\UDeathSmall.mdl","war3mapImported\\DarkNova.mdx")
-		call DamageArea(u,GetUnitX(u),GetUnitY(u),400,GetDamageBase(u) * 0.3 * GetUnitAbilityLevel(u,'A0MT'))
+		call DamageAreaMagic(u,GetUnitX(u),GetUnitY(u),400,GetDamageBase(u) * 0.3 * GetUnitAbilityLevel(u,'A0MT'),null)
 		call DestroyEffect(AddSpecialEffect(effs, GetUnitX(u),GetUnitY(u) ))
 	endfunction
 //---------------------------------------------------------------------------------------------------

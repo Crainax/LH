@@ -27,7 +27,7 @@ library_once Kuanghuan initializer InitKuanghuan requires LHBase,SpellBase,Shili
 			if not(BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(GetAttacker()))]) then
 				set u = GetAttacker()
 				call DestroyEffect(AddSpecialEffect("war3mapImported\\FireNova2.mdl", GetUnitX(GetAttackedUnitBJ()),GetUnitY(GetAttackedUnitBJ()) ))
-				call DamageArea(u,GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()),600,GetDamageBase(u) * 2	)
+				call DamageAreaMagic(u,GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()),600,GetDamageBase(u) * 2,null)
 	    		call CreateSpellTextTag("红色泪殇——炎",u,100,0,0,4)
 				set BKuanghuanRed[GetConvertedPlayerId(GetOwningPlayer(u))] = true
 				call PolledWait(3.0)

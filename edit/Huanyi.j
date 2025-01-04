@@ -180,7 +180,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	function SimulateDeathHuanyi takes unit u returns nothing
 
 		if (GetUnitTypeId(u) == 'hhh7') then
-			call DamageArea(Huanyi,GetUnitX(u),GetUnitY(u),300,RDamageHuanyi*1.5)
+			call DamageAreaMagic(Huanyi,GetUnitX(u),GetUnitY(u),300,RDamageHuanyi*1.5,null)
 	    	call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u), GetUnitY(u) ))
 		endif
 	endfunction
@@ -250,7 +250,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 	        	call CreateUnitEffect(GetOwningPlayer(Huanyi),'hhh1',x + 400 * CosBJ(i*60),y+ 400 * SinBJ(i*60),0)
 				set i = i +1
 			endloop
-			call DamageArea(Huanyi,x,y,600,damage)
+			call DamageAreaMagic(Huanyi,x,y,600,damage,null)
 			exitwhen times <= 0
 			call PolledWait(0.5)
 		endloop
@@ -357,7 +357,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			endloop
 			set i = i +1
 		endloop
-		call DamageArea(Huanyi,x,y,range,damage)
+		call DamageAreaMagic(Huanyi,x,y,range,damage,null)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -410,7 +410,7 @@ library_once Huanyi requires SpellBase,Printer,Attr,Diffculty,Aura,Diamond,Spin
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if (IsAlly(l_unit,Huanyi) and IsUnitAliveBJ(l_unit)) then
+			    if (IsAllyUnit(l_unit,Huanyi) and IsUnitAliveBJ(l_unit)) then
 			    	call RecoverUnitHP(l_unit,0.3)
 			    	call RecoverUnitMP(l_unit,20)
 			    	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Items\\AIma\\AImaTarget.mdl", GetUnitX(l_unit), GetUnitY(l_unit) ))

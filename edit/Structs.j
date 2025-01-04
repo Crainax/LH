@@ -136,7 +136,7 @@ library_once Structs requires LHBase
 			local thistype this = LoadInteger(LHTable,GetHandleId(GetExpiredTimer()),1)
 			local group g = null
 			if (IsUnitAliveBJ(.u)) then
-				set g = GetEnemyGroup(Player(10),GetUnitX(.u),GetUnitY(.u),900)
+				set g = GetEnemyGroup(.u,GetUnitX(.u),GetUnitY(.u),900)
 				if (GetUnitAbilityLevel(.u,'Avul') < 1 and CountUnitsInGroup(g) == 0) then
 					call UnitAddAbility(.u,'Avul')
 					call PauseUnit(.u,true)

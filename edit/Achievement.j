@@ -213,7 +213,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 		if (CType != 0) then
 			return
 		endif
-		if (GetBit(judge,index) < 1) then
+		if (GetDigitAt(judge,index) < 1) then
 			if (page == 1) then
 				set spin[GetConvertedPlayerId(p)] = spin[GetConvertedPlayerId(p)] + R2I(Pow(10,index-1))
 			elseif (page == 2) then
@@ -260,7 +260,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    瑟雨皮肤条件
 	*/
 	function GetSeyu1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],2)>0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],2)>0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -274,7 +274,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    晓月皮肤条件
 	*/
 	function GetXiaoyue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],3) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],3) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -288,7 +288,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    湮灭皮肤条件
 	*/
 	function GetYanmie1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],4) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],4) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -302,7 +302,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    巫妖皮肤条件
 	*/
 	function GetXuanxue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],5) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],5) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -316,7 +316,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    白虎皮肤条件
 	*/
 	function GetTaiya1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],6) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],6) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -331,7 +331,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    辰寂皮肤条件
 	*/
 	function GetChenji1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],7) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],7) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -346,7 +346,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    寒殇皮肤条件
 	*/
 	function GetHanshang1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],8) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],8) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -361,7 +361,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    凌雪皮肤条件
 	*/
 	function GetLingxue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],9) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],9) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -376,7 +376,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    辰寂皮肤条件
 	*/
 	function GetChenji2Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)],10) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)],10) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -391,7 +391,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    莫琪皮肤条件
 	*/
 	function GetMoqiSpin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],1) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],1) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -406,7 +406,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    凯撒皮肤条件
 	*/
 	function GetKaisaSpin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],2) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],2) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -421,7 +421,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    玄雪皮肤条件
 	*/
 	function GetXuanxue2Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],3) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],3) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -436,7 +436,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    摄焱皮肤条件
 	*/
 	function GetSheyan1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],4) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],4) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -451,7 +451,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    霸绝皮肤条件
 	*/
 	function GetBajue1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],5) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],5) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -466,7 +466,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    幻逸皮肤条件
 	*/
 	function GetHuanyi1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],6) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],6) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -481,7 +481,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    司宸皮肤条件
 	*/
 	function GetSichen1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],7) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],7) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -496,7 +496,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    苍凌皮肤条件
 	*/
 	function GetCangling1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],8) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],8) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -511,7 +511,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    黑阎皮肤条件
 	*/
 	function GetHeiyan1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],9) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],9) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -526,7 +526,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    离魑皮肤条件
 	*/
 	function GetLichi1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)],10) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)],10) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -541,7 +541,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    寒殇皮肤条件
 	*/
 	function GetHanshang2Spin takes player p returns boolean
-		return GetBit(spin3[GetConvertedPlayerId(p)],1) > 0
+		return GetDigitAt(spin3[GetConvertedPlayerId(p)],1) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -556,7 +556,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    星胧皮肤条件
 	*/
 	function GetXinglong1Spin takes player p returns boolean
-		return GetBit(spin3[GetConvertedPlayerId(p)],2) > 0
+		return GetDigitAt(spin3[GetConvertedPlayerId(p)],2) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -578,7 +578,7 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return GetLowerHeroCount(p,99,HERO_COUNT)
 		endif
 		if (page == 1) then
-			return (GetBit(achieve[id],target) > 0)
+			return (GetDigitAt(achieve[id],target) > 0)
 		elseif (page == 2) then
 			return (GetIntegerBit(achieve2[id],target) >0)
 		elseif (page == 3) then
@@ -876,21 +876,21 @@ library_once Achievement requires LHBase,ChallangerDZ
 			set i = 2
 			loop
 				exitwhen i > 10
-				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,1) + S3(GetBit(spin[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,1) + S3(GetDigitAt(spin[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 				set i = i +1
 			endloop
 		elseif (page == 2) then
 			set i = 1
 			loop
 				exitwhen i > 10
-				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,2) + S3(GetBit(spin2[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,2) + S3(GetDigitAt(spin2[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 				set i = i +1
 			endloop
 		elseif (page == 3) then
 			set i = 1
 			loop
 				exitwhen i > 2
-				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,3) + S3(GetBit(spin3[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
+				call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetHeroChallenageName(i,3) + S3(GetDigitAt(spin3[GetConvertedPlayerId(p)],i)>0,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
 				set i = i +1
 			endloop
 		endif

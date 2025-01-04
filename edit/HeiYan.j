@@ -236,7 +236,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	    黑阎技能1:千鬼邪
 	*/
 	private function HeiyanFilter takes nothing returns boolean
-		return (IsEnemy(GetFilterUnit(),Heiyan) or IsUnitInGroup(GetFilterUnit(),GSacri))
+		return (IsEnemyUnit(GetFilterUnit(),Heiyan) or IsUnitInGroup(GetFilterUnit(),GSacri))
 	endfunction
 
 	private function QianGuiXie takes unit speller,unit target,real damageRate,integer abilityID returns nothing
@@ -385,7 +385,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 					call DestroyEffect(AddSpecialEffect("war3mapImported\\GhostStrike.mdx", x + CosBJ( ii*60 ) * GetRandomInt(100,500), y + SinBJ( ii*60 ) * GetRandomInt(100,500)))
 				set ii = ii +1
 			endloop
-			call DamageArea(Heiyan,x,y,600,GetDamageStr(Heiyan))
+			call DamageAreaMagic(Heiyan,x,y,600,GetDamageStr(Heiyan),null)
 		else
 			call RemoveUnit(UZangJiuTian)
 			call PauseTimer(t)

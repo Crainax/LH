@@ -43,7 +43,7 @@ library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBas
 		call SetUnitY(GetTriggerUnit(),GetOrderPointY())
 
 		if (BX1) then
-			call DamageArea(GetTriggerUnit(),GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()),600,GetDamageBase(GetTriggerUnit())*0.8)
+			call DamageAreaMagic(GetTriggerUnit(),GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()),600,GetDamageBase(GetTriggerUnit())*0.8,null)
 		endif
 
 	endfunction

@@ -617,7 +617,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,attacker) and (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == attacker) ) then
+            if (IsEnemyUnit(l_unit,attacker) and (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == attacker) ) then
                 call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
             endif
         endloop
@@ -638,7 +638,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,attacker) and (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == attacker)) then
+            if (IsEnemyUnit(l_unit,attacker) and (udg_U_Zhuansheng_Dantiao[2] != l_unit or  udg_U_Zhuansheng_Dantiao[1] == attacker)) then
                 call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
                 call DestroyEffect(AddSpecialEffect(eff, GetUnitX(l_unit), GetUnitY(l_unit) ))
             endif
@@ -660,7 +660,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,attacker)) then
+            if (IsEnemyUnit(l_unit,attacker)) then
                 call UnitDamageTarget( attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
                 call DestroyEffect(AddSpecialEffect(eff, GetUnitX(l_unit), GetUnitY(l_unit) ))
             endif

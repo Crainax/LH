@@ -353,7 +353,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 	private function ZiLeiHuTi takes nothing returns nothing
 		if (UCangFeng != null) then
 			if (IsUnitAliveBJ(UCangFeng)) then
-	    		call DamageArea(cangling,GetUnitX(UCangFeng),GetUnitY(UCangFeng),450,GetDamageAgi(cangling) * 0.2)
+	    		call DamageAreaMagic(cangling,GetUnitX(UCangFeng),GetUnitY(UCangFeng),450,GetDamageAgi(cangling) * 0.2,null)
 			endif
 		else
 		    call PauseTimer(GetExpiredTimer())

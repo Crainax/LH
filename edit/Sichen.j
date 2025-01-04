@@ -325,7 +325,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 				if (GetUnitUserData(GetEventDamageSource()) >= 10) then
 	    			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()) ))
 	    			call CreateSpellTextTag("一灭",GetTriggerUnit(),0,100,0,3)
-	    			call DamageArea(sichen,GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()),400,SichenDamage * 5)
+	    			call DamageAreaMagic(sichen,GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()),400,SichenDamage * 5,null)
 					call SetUnitUserData(GetEventDamageSource(),0)
 
 	    		else

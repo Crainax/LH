@@ -30,7 +30,7 @@ library_once ChallangerDZ requires LHBase
 	function GetAndSaveCangku takes player p,integer i returns nothing
 		local integer index = GetConvertedPlayerId(p)
 		local string temp = null
-		//if (GetBit(Greward[index],i) < 1 and i < 9) then
+		//if (GetDigitAt(Greward[index],i) < 1 and i < 9) then
 		//	set Greward[index] = Greward[index] + R2I(Pow(10,i-1))
 		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
 		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")

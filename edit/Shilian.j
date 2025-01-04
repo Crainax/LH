@@ -138,7 +138,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (IsEnemy(l_unit,u)) then
+		    if (IsEnemyUnit(l_unit,u)) then
 			    if (GetUnitState(l_unit,UNIT_STATE_LIFE) > GetUnitState(temp,UNIT_STATE_LIFE)) then
 			    	set temp = l_unit
 			    endif
@@ -197,7 +197,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (IsEnemy(l_unit,udg_H[GetConvertedPlayerId(p)])) then
+		    if (IsEnemyUnit(l_unit,udg_H[GetConvertedPlayerId(p)])) then
 		    	set count = count + 1
 		    endif
 		endloop
@@ -215,7 +215,7 @@ library_once Shilian initializer InitShilian requires LHBase,SpellBase,Structs,A
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if (IsEnemy(l_unit,udg_H[GetConvertedPlayerId(p)])) then
+		    if (IsEnemyUnit(l_unit,udg_H[GetConvertedPlayerId(p)])) then
 		    	if (IsUnitType(l_unit,UNIT_TYPE_HERO)) then
 		    		call UnitDamageTarget( udg_H[GetConvertedPlayerId(p)], l_unit, RMinBJ(damage,GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*0.2), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 		    	else

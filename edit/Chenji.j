@@ -38,7 +38,7 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
             set i = i +1
         endloop
         call PrintSpell(GetOwningPlayer(GetTriggerUnit()),"|cFFCCFF66吞天妖刺|r",GetDamageChenji(GetTriggerUnit())*3)
-        call DamageArea(chenji,GetUnitX(chenji), GetUnitY(chenji),1800,GetDamageChenji(GetTriggerUnit())*3)
+        call DamageAreaMagic(chenji,GetUnitX(chenji), GetUnitY(chenji),1800,GetDamageChenji(GetTriggerUnit())*3,null)
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -121,7 +121,7 @@ library_once Chenji requires SpellBase,Printer,Version,Attr,Spin
         local unit u = null
         if (times <= 10) then
             call SaveInteger(spellTable,GetHandleId(t),1,times + 1)
-            call DamageArea(chenji,x,y,600,GetDamageChenji(chenji)*8)
+            call DamageAreaMagic(chenji,x,y,600,GetDamageChenji(chenji)*8,null)
             call CreateUnitEffect(GetOwningPlayer(chenji),'h014',x,y,0)
             loop
                 exitwhen i > random

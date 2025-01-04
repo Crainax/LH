@@ -78,7 +78,7 @@ library_once Xinglong requires SpellBase,Printer,Attr,Aura,Spin
 	*/
 	function SimulateDeathXinglong takes unit u returns nothing
 		if (GetUnitTypeId(u) == 'h01L') then
-			call DamageArea(xinglong,GetUnitX(u),GetUnitY(u),600,XinglongDamage*R3(IsLong(),1.5,1)/10*GetUnitUserData(u))
+			call DamageAreaMagic(xinglong,GetUnitX(u),GetUnitY(u),600,XinglongDamage*R3(IsLong(),1.5,1)/10*GetUnitUserData(u),null)
  			call DestroyEffect(AddSpecialEffect("war3mapImported\\IceStomp.mdx", GetUnitX(u),GetUnitY(u) ))
 		endif
 		if (GetUnitTypeId(u) == 'h01J') then

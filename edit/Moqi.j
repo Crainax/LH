@@ -42,7 +42,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 		elseif (GetUnitTypeId(u) == 'h001') then
 			//星雨
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(u),GetUnitY(u) ))
-			call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)*0.35)
+			call DamageAreaMagic(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)*0.35,null)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 			call SetUnitY(u,YDWECoordinateY(GetUnitY(u)+ SinBJ(facing) * 75.))
 		else
 			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", GetUnitX(u),GetUnitY(u) ))
-	    	call DamageArea(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)* 0.7)
+	    	call DamageAreaMagic(moqi,GetUnitX(u),GetUnitY(u),450,GetDamageAgi(moqi)* 0.7,null)
 			call KillUnit(u)
 			call PauseTimer(t)
 			call FlushChildHashtable(spellTable,id)
@@ -225,7 +225,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    local real x = LoadReal(spellTable,GetHandleId(t),1)
 	    local real y = LoadReal(spellTable,GetHandleId(t),2)
 	    local real rate = LoadReal(spellTable,GetHandleId(t),3)
-	    call DamageArea(moqi,x,y,900,GetDamageAgi(moqi)*rate)
+	    call DamageAreaMagic(moqi,x,y,900,GetDamageAgi(moqi)*rate,null)
 	    call PauseTimer(t)
 	    call FlushChildHashtable(spellTable,id)
 	    call DestroyTimer(t)

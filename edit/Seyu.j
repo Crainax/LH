@@ -178,7 +178,7 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 	    敌方单位
 	*/
 	private function EnemyFilterSeyu takes nothing returns boolean
-		return IsEnemy(GetFilterUnit(),seyu) == true
+		return IsEnemyUnit(GetFilterUnit(),seyu) == true
 	endfunction
 
     /*
@@ -398,12 +398,12 @@ library_once Seyu requires SpellBase,Printer,Attr,Spin,Version,Aura
 			call SaveInteger(spellTable,id,kAnShaCount,value + 1)
 			//特效
 	        call CreateUnitEffect(GetOwningPlayer(seyu),'h00E',GetUnitX(seyu),GetUnitY(seyu),0)
-    		call DamageArea(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage)
+    		call DamageAreaMagic(seyu,GetUnitX(seyu),GetUnitY(seyu),600,damage,null)
 			loop
 				exitwhen i > 8
 				if (chongdongs[i] != null) then
 	       			call CreateUnitEffect(GetOwningPlayer(seyu),'h00E',GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),0)
-	    			call DamageArea(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage)
+	    			call DamageAreaMagic(seyu,GetUnitX(chongdongs[i]),GetUnitY(chongdongs[i]),600,damage,null)
 				endif
 				set i = i +1
 			endloop

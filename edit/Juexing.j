@@ -330,13 +330,13 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 		if (IsUnitAliveBJ(u) or index <= 80) then
 			call SaveInteger(spellTable,GetHandleId(t),3,index + 1)
 			if (ModuloInteger(index,10) == 0) then
-				call DamageArea(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 2)
+				call DamageAreaMagic(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 2,null)
 			endif
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81- index) * 25 * CosBJ(index * 45)),YDWECoordinateY(GetUnitY(u) + (81- index) * 25 * SinBJ(index * 45)) ))
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81- index) * 25 * CosBJ(index * (-45) + 180)),YDWECoordinateY(GetUnitY(u) * 25 + (81- index) * SinBJ(index * (-45) + 180)) ))
 		else
 			call CreateEffect12Yanyanhuo(GetUnitX(u), GetUnitY(u))
-			call DamageArea(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 5)
+			call DamageAreaMagic(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 5,null)
 			call RemoveUnit(u)
 			call PauseTimer(t)
 			call FlushChildHashtable(spellTable,id)

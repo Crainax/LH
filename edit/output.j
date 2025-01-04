@@ -1452,7 +1452,7 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 
-    function GetBit takes integer num,integer bit returns integer
+    function GetDigitAt takes integer num,integer bit returns integer
         local string s= I2S(num)
         local integer length= StringLength(s)
         if ( length < bit ) then
@@ -4077,7 +4077,7 @@ endfunction
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyMP(u , p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 
-   function IsEnemy takes unit u,unit caster returns boolean
+   function IsEnemyUnit takes unit u,unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and (IsEnemyMP((u ) , GetOwningPlayer(( caster)))) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false // INLINED!!
     endfunction
 
@@ -4240,7 +4240,7 @@ endfunction
             set l_unit=FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if ( IsEnemy(l_unit , attacker) and ( udg_U_Zhuansheng_Dantiao[2] != l_unit or udg_U_Zhuansheng_Dantiao[1] == attacker ) ) then
+            if ( IsEnemyUnit(l_unit , attacker) and ( udg_U_Zhuansheng_Dantiao[2] != l_unit or udg_U_Zhuansheng_Dantiao[1] == attacker ) ) then
                 call UnitDamageTarget(attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
             endif
         endloop
@@ -4259,7 +4259,7 @@ endfunction
             set l_unit=FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if ( IsEnemy(l_unit , attacker) ) then
+            if ( IsEnemyUnit(l_unit , attacker) ) then
                 call UnitDamageTarget(attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
             endif
         endloop
@@ -4278,7 +4278,7 @@ endfunction
             set l_unit=FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if ( IsEnemy(l_unit , attacker) ) then
+            if ( IsEnemyUnit(l_unit , attacker) ) then
                 call UnitDamageTarget(attacker, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
                 call DestroyEffect(AddSpecialEffect(eff, GetUnitX(l_unit), GetUnitY(l_unit)))
             endif
@@ -4787,7 +4787,7 @@ endfunction
  function GetAndSaveCangku takes player p,integer i returns nothing
   local integer index= GetConvertedPlayerId(p)
   local string temp= null
-		//if (GetBit(Greward[index],i) < 1 and i < 9) then
+		//if (GetDigitAt(Greward[index],i) < 1 and i < 9) then
 		//	set Greward[index] = Greward[index] + R2I(Pow(10,i-1))
 		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
 		//	call DisplayTextToPlayer(p, 0., 0., "//|cff3366ff【消息】恭喜你成功新的仓库模型！|r")
@@ -6375,7 +6375,7 @@ endfunction
 		if ( CType != 0 ) then
 			return
 		endif
-		if ( GetBit(judge , index) < 1 ) then
+		if ( GetDigitAt(judge , index) < 1 ) then
 			if ( page == 1 ) then
 				set spin[GetConvertedPlayerId(p)]=spin[GetConvertedPlayerId(p)] + R2I(Pow(10, index - 1))
 			elseif ( page == 2 ) then
@@ -6418,7 +6418,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetSeyu1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 2) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 2) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -6428,7 +6428,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetXiaoyue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 3) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 3) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -6438,7 +6438,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetYanmie1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 4) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 4) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -6448,7 +6448,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetXuanxue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 5) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 5) > 0
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -6458,7 +6458,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetTaiya1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 6) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 6) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6469,7 +6469,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetChenji1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 7) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 7) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6480,7 +6480,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetHanshang1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 8) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 8) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6491,7 +6491,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetLingxue1Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 9) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 9) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6502,7 +6502,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetChenji2Spin takes player p returns boolean
-		return GetBit(spin[GetConvertedPlayerId(p)] , 10) > 0
+		return GetDigitAt(spin[GetConvertedPlayerId(p)] , 10) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6513,7 +6513,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetMoqiSpin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 1) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 1) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6524,7 +6524,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetKaisaSpin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 2) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 2) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6535,7 +6535,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetXuanxue2Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 3) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 3) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6546,7 +6546,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetSheyan1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 4) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 4) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6557,7 +6557,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetBajue1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 5) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 5) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6568,7 +6568,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetHuanyi1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 6) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 6) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6579,7 +6579,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetSichen1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 7) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 7) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6590,7 +6590,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetCangling1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 8) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 8) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6601,7 +6601,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetHeiyan1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 9) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 9) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6612,7 +6612,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetLichi1Spin takes player p returns boolean
-		return GetBit(spin2[GetConvertedPlayerId(p)] , 10) > 0
+		return GetDigitAt(spin2[GetConvertedPlayerId(p)] , 10) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6623,7 +6623,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetHanshang2Spin takes player p returns boolean
-		return GetBit(spin3[GetConvertedPlayerId(p)] , 1) > 0
+		return GetDigitAt(spin3[GetConvertedPlayerId(p)] , 1) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6634,7 +6634,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function GetXinglong1Spin takes player p returns boolean
-		return GetBit(spin3[GetConvertedPlayerId(p)] , 2) > 0
+		return GetDigitAt(spin3[GetConvertedPlayerId(p)] , 2) > 0
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -6652,7 +6652,7 @@ endfunction
 			return GetLowerHeroCount(p , 99 , HERO_COUNT)
 		endif
 		if ( page == 1 ) then
-			return ( GetBit(achieve[id] , target) > 0 )
+			return ( GetDigitAt(achieve[id] , target) > 0 )
 		elseif ( page == 2 ) then
 			return ( GetIntegerBit(achieve2[id] , target) > 0 )
 		elseif ( page == 3 ) then
@@ -6916,21 +6916,21 @@ endfunction
 			set i=2
 			loop
 				exitwhen i > 10
-				call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetHeroChallenageName(i , 1) + S3(GetBit(spin[GetConvertedPlayerId(p)] , i) > 0 , "|cffff9900(已完成)|r" , "|cff33cccc(未完成)|r")))
+				call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetHeroChallenageName(i , 1) + S3(GetDigitAt(spin[GetConvertedPlayerId(p)] , i) > 0 , "|cffff9900(已完成)|r" , "|cff33cccc(未完成)|r")))
 				set i=i + 1
 			endloop
 		elseif ( page == 2 ) then
 			set i=1
 			loop
 				exitwhen i > 10
-				call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetHeroChallenageName(i , 2) + S3(GetBit(spin2[GetConvertedPlayerId(p)] , i) > 0 , "|cffff9900(已完成)|r" , "|cff33cccc(未完成)|r")))
+				call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetHeroChallenageName(i , 2) + S3(GetDigitAt(spin2[GetConvertedPlayerId(p)] , i) > 0 , "|cffff9900(已完成)|r" , "|cff33cccc(未完成)|r")))
 				set i=i + 1
 			endloop
 		elseif ( page == 3 ) then
 			set i=1
 			loop
 				exitwhen i > 2
-				call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetHeroChallenageName(i , 3) + S3(GetBit(spin3[GetConvertedPlayerId(p)] , i) > 0 , "|cffff9900(已完成)|r" , "|cff33cccc(未完成)|r")))
+				call SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetHeroChallenageName(i , 3) + S3(GetDigitAt(spin3[GetConvertedPlayerId(p)] , i) > 0 , "|cffff9900(已完成)|r" , "|cff33cccc(未完成)|r")))
 				set i=i + 1
 			endloop
 		endif
@@ -9529,7 +9529,7 @@ endfunction
   local integer i= 9
 		loop
 			exitwhen i < nan
-			if ( GetBit(achieve[GetConvertedPlayerId(p)] , i) > 0 ) then
+			if ( GetDigitAt(achieve[GetConvertedPlayerId(p)] , i) > 0 ) then
 				return true
 			endif
 			set i=i - 1
@@ -9574,7 +9574,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsColorSpin takes player p returns boolean
-		return ( GetBit(spin[GetConvertedPlayerId(p)] , 1) > 0 )
+		return ( GetDigitAt(spin[GetConvertedPlayerId(p)] , 1) > 0 )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
@@ -9675,23 +9675,23 @@ endfunction
 
  function InitOldAchievement takes integer id returns nothing
 
-		if ( GetBit(achieve[id] , 9) > 0 ) then
+		if ( GetDigitAt(achieve[id] , 9) > 0 ) then
 			set achiPage[id]=19
-		elseif ( GetBit(achieve[id] , 8) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 8) > 0 ) then
 			set achiPage[id]=18
-		elseif ( GetBit(achieve[id] , 7) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 7) > 0 ) then
 			set achiPage[id]=17
-		elseif ( GetBit(achieve[id] , 6) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 6) > 0 ) then
 			set achiPage[id]=16
-		elseif ( GetBit(achieve[id] , 5) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 5) > 0 ) then
 			set achiPage[id]=15
-		elseif ( GetBit(achieve[id] , 4) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 4) > 0 ) then
 			set achiPage[id]=14
-		elseif ( GetBit(achieve[id] , 3) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 3) > 0 ) then
 			set achiPage[id]=13
-		elseif ( GetBit(achieve[id] , 2) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 2) > 0 ) then
 			set achiPage[id]=12
-		elseif ( GetBit(achieve[id] , 1) > 0 ) then
+		elseif ( GetDigitAt(achieve[id] , 1) > 0 ) then
 			set achiPage[id]=11
 		endif
 	endfunction
@@ -10453,134 +10453,134 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsSeyuSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsXiaoyueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 3) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 3) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsYanmieSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 4) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 4) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsXuanxueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 5) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 5) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsTaiyaSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 6) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 6) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsHanshangSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 8) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 8) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsChenjiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 7) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 7) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsChenjiSpin2 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 10) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 10) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsLingxueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin[GetConvertedPlayerId((p))] , 9) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin[GetConvertedPlayerId((p))] , 9) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsMoqiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 1) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 1) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsKaisaSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsXuanxueSpin2 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 3) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 3) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsBajueSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 5) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 5) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsSheyanSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 4) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 4) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsHuanyiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 6) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 6) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsSichenSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 7) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 7) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsCanglingSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 8) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 8) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsHeiyanSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 9) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 9) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsHanshangSpin2 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin3[GetConvertedPlayerId((p))] , 1) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin3[GetConvertedPlayerId((p))] , 1) > 0) ) // INLINED!!
 		//return true
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
  function IsLichiSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin2[GetConvertedPlayerId((p))] , 10) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin2[GetConvertedPlayerId((p))] , 10) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
  function IsXinglongSpin1 takes player p returns boolean
-		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetBit(spin3[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
+		return ( not ( BCancelSpin[GetConvertedPlayerId(p)] ) ) and ( (GetDigitAt(spin3[GetConvertedPlayerId((p))] , 2) > 0) ) // INLINED!!
 		//return true
 	endfunction
 
@@ -11050,7 +11050,7 @@ endfunction
 			return
 		endif
 
-		if ( (GetBit(spin3[GetConvertedPlayerId((GetOwningPlayer(hanshang)))] , 1) > 0) ) then // INLINED!!
+		if ( (GetDigitAt(spin3[GetConvertedPlayerId((GetOwningPlayer(hanshang)))] , 1) > 0) ) then // INLINED!!
 			return
 		endif
 		set i=1

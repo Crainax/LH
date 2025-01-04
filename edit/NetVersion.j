@@ -141,7 +141,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer i = 9
 		loop
 			exitwhen i < nan
-			if (GetBit(achieve[GetConvertedPlayerId(p)],i) > 0) then
+			if (GetDigitAt(achieve[GetConvertedPlayerId(p)],i) > 0) then
 				return true
 			endif
 			set i = i - 1
@@ -202,7 +202,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	    彩名皮肤
 	*/
 	function IsColorSpin takes player p returns boolean
-		return (GetBit(spin[GetConvertedPlayerId(p)],1) > 0)
+		return (GetDigitAt(spin[GetConvertedPlayerId(p)],1) > 0)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -335,23 +335,23 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	*/
 	function InitOldAchievement takes integer id returns nothing
 
-		if (GetBit(achieve[id],9) > 0) then
+		if (GetDigitAt(achieve[id],9) > 0) then
 			set achiPage[id] = 19
-		elseif (GetBit(achieve[id],8) > 0) then
+		elseif (GetDigitAt(achieve[id],8) > 0) then
 			set achiPage[id] = 18
-		elseif (GetBit(achieve[id],7) > 0) then
+		elseif (GetDigitAt(achieve[id],7) > 0) then
 			set achiPage[id] = 17
-		elseif (GetBit(achieve[id],6) > 0) then
+		elseif (GetDigitAt(achieve[id],6) > 0) then
 			set achiPage[id] = 16
-		elseif (GetBit(achieve[id],5) > 0) then
+		elseif (GetDigitAt(achieve[id],5) > 0) then
 			set achiPage[id] = 15
-		elseif (GetBit(achieve[id],4) > 0) then
+		elseif (GetDigitAt(achieve[id],4) > 0) then
 			set achiPage[id] = 14
-		elseif (GetBit(achieve[id],3) > 0) then
+		elseif (GetDigitAt(achieve[id],3) > 0) then
 			set achiPage[id] = 13
-		elseif (GetBit(achieve[id],2) > 0) then
+		elseif (GetDigitAt(achieve[id],2) > 0) then
 			set achiPage[id] = 12
-		elseif (GetBit(achieve[id],1) > 0) then
+		elseif (GetDigitAt(achieve[id],1) > 0) then
 			set achiPage[id] = 11
 		endif
 	endfunction

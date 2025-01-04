@@ -137,7 +137,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if (IsEnemy(GetEnumUnit(),challenager)) then
+			    if (IsEnemyUnit(GetEnumUnit(),challenager)) then
 					call SetUnitX(GetAttackedUnitBJ(),GetRectCenterX(gg_rct_Arena_1))
 					call SetUnitY(GetAttackedUnitBJ(),GetRectCenterY(gg_rct_Arena_1))
 			    endif
@@ -170,7 +170,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 	    	call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", GetUnitX(challenager) + SinBJ(i * 60) * 400, GetUnitY(challenager) + CosBJ(i * 60) * 400) )
 	    	set i = i +1
 	    endloop
-		call DamageArea(challenager,GetUnitX(challenager),GetUnitY(challenager),600,300000 + 15000 *currentLevel)
+		call DamageAreaMagic(challenager,GetUnitX(challenager),GetUnitY(challenager),600,300000 + 15000 *currentLevel,null)
 	    call CreateSpellTextTag("千煞破击！",challenager,100,0,0,2)
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -344,7 +344,7 @@ library_once Arena initializer InitArena requires LHBase,SpellBase,Diffculty,Bos
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if(IsEnemy(l_unit,challenager))then
+		    if(IsEnemyUnit(l_unit,challenager))then
 				call PauseUnitBJ(true,l_unit)
 				call GroupAddUnit(l_pausinggroup,l_unit)
 				call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Naga\\NagaDeath\\NagaDeath.mdl", GetUnitX(l_unit), GetUnitY(l_unit)))

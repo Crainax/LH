@@ -188,7 +188,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
 	endfunction
 
 	private function TSpellPetCon takes nothing returns boolean
-	    return (((GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1) or (GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1)) and (IsEnemy(GetAttackedUnitBJ(),GetAttacker()) == true) and GetUnitLevel(GetAttacker()) >= 50 and GetUnitLevel(GetAttacker()) >= GetUnitLevel(GetAttackedUnitBJ()))
+	    return (((GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1) or (GetUnitAbilityLevel(GetAttackedUnitBJ(),'A0P0') >= 1)) and (IsEnemyUnit(GetAttackedUnitBJ(),GetAttacker()) == true) and GetUnitLevel(GetAttacker()) >= 50 and GetUnitLevel(GetAttacker()) >= GetUnitLevel(GetAttackedUnitBJ()))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

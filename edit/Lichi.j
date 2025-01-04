@@ -86,7 +86,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	*/
 	function SimulateDeathLichi takes unit u returns nothing
 		if (GetUnitTypeId(u) == 'h02A') then
-			call DamageArea(lichi,GetUnitX(u),GetUnitY(u),350,LichiDamage * 0.25)
+			call DamageAreaMagic(lichi,GetUnitX(u),GetUnitY(u),350,LichiDamage * 0.25,null)
  			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Undead\\UndeadDissipate\\UndeadDissipate.mdl", GetUnitX(u),GetUnitY(u) ))
 		endif
 	endfunction
@@ -235,7 +235,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 			set i = i +1
 		endloop
 	    call PrintSpell(GetOwningPlayer(lichi),GetAbilityName('A0MP'),damage)
-		call DamageArea(lichi,x,y,1800,damage)
+		call DamageAreaMagic(lichi,x,y,1800,damage,null)
 		call SpinTongji()
 	endfunction
 
@@ -259,7 +259,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,lichi)) then
+            if (IsEnemyUnit(l_unit,lichi)) then
                 call UnitDamageTarget( lichi, l_unit, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
                 call GroupAddUnit(GShenyue[IShenyue],l_unit)
             endif
@@ -286,7 +286,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 	    if (IsFourthSpellOK(lichi) and GetUnitAbilityLevel(lichi,'A0MP') == 1 and abilityID != 'A0MN') then
 	    	call ShenyueyingCount(x,y,damage)
 	    else
-			call DamageArea(lichi,x,y,350 + RJ3(lichi,50,0) + R3(IsLichiSpin(),25,0),damage)
+			call DamageAreaMagic(lichi,x,y,350 + RJ3(lichi,50,0) + R3(IsLichiSpin(),25,0),damage,null)
 	    endif
 		loop
 			exitwhen i > IMaxHuanying
@@ -294,7 +294,7 @@ library_once Lichi requires SpellBase,Printer,Attr,Aura,Spin
 				set index = GetHuanyingIndex(i)
 				set nx = x + IAbsBJ(index) * 150 * CosBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
 				set ny = y + IAbsBJ(index) * 150 * SinBJ(GetUnitFacing(lichi)+R3(index > 0,90.,-90.))
-				call DamageArea(lichi,nx,ny,350 + RJ3(lichi,50,0) + R3(IsLichiSpin(),25,0),damage)
+				call DamageAreaMagic(lichi,nx,ny,350 + RJ3(lichi,50,0) + R3(IsLichiSpin(),25,0),damage,null)
 	    		call DestroyEffect(AddSpecialEffect("war3mapImported\\lichi1.mdx", nx,ny ))
     		    call SetUnitAnimation( UHuan[i], "Spell Throw" )
 			endif

@@ -443,7 +443,7 @@ library_once Hanshang requires SpellBase,Printer,Attr,Diffculty,Aura,Version,Spi
 
 	private function DuwumizhenTimer takes nothing returns nothing
 		if ((IsUnitAliveBJ(UDuwu)) and (GetUnitAbilityLevelSwapped('Avul', UDuwu) < 1) and (IsUnitAliveBJ(hanshang) == true)) then
-	    	call DamageArea(hanshang,GetUnitX(UDuwu),GetUnitY(UDuwu),400,GetDamageAgi(hanshang)* 0.6)
+	    	call DamageAreaMagic(hanshang,GetUnitX(UDuwu),GetUnitY(UDuwu),400,GetDamageAgi(hanshang)* 0.6,null)
 		else
 			call PauseTimer(TDuwu)
 			call DestroyTimer(TDuwu)

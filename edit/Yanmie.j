@@ -105,7 +105,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		local real x = GetUnitX(yanmie)
 		local real y = GetUnitY(yanmie)
 		call PrintSpell(GetOwningPlayer(yanmie),GetAbilityName('AEev'),damage)
-		call DamageArea(yanmie,GetUnitX(yanmie),GetUnitY(yanmie),1800, damage)
+		call DamageAreaMagic(yanmie,GetUnitX(yanmie),GetUnitY(yanmie),1800, damage,null)
 		call DisableTrigger(GetTriggeringTrigger())
 
 		loop
@@ -163,7 +163,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 
 			if (IYingyue >= 10 and UShijie != null) then
 				call CreateEffect1(GetUnitX(UShijie),GetUnitY(UShijie))
-				call DamageArea(yanmie,GetUnitX(UShijie), GetUnitY(UShijie),1800,GetDamageAgi(yanmie) * 2)
+				call DamageAreaMagic(yanmie,GetUnitX(UShijie), GetUnitY(UShijie),1800,GetDamageAgi(yanmie) * 2,null)
 				set IYingyue = 0
 			endif
 		endif
@@ -186,7 +186,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		endif
 		call DisableTrigger(GetTriggeringTrigger())
  		call PolledWait(time/1200)
-		call DamageArea(yanmie,x,y,600, GetDamageAgi(yanmie) * 0.2)
+		call DamageAreaMagic(yanmie,x,y,600, GetDamageAgi(yanmie) * 0.2,null)
 	    call PrintSpell(GetOwningPlayer(yanmie),GetAbilityName('A0NA'),GetDamageAgi(yanmie) * 0.2)
 		call PolledWait(2)
 		call EnableTrigger(GetTriggeringTrigger())
@@ -288,7 +288,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		local real x = YDWECoordinateX(RHongmingX + radius * CosBJ(degree))
 		local real y = YDWECoordinateX(RHongmingY + radius * SinBJ(degree))
 		if (IsUnitAliveBJ(yanmie)) then
-			call DamageArea(yanmie,x,y,450, GetDamageAgi(yanmie) * 0.4)
+			call DamageAreaMagic(yanmie,x,y,450, GetDamageAgi(yanmie) * 0.4,null)
 		    call CreateUnitEffect(GetOwningPlayer(yanmie),'h00C',x,y,0)
 			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", x, y ))
 		else

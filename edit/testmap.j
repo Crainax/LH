@@ -33,7 +33,7 @@ library_once Seyu requires SpellBase,Printer,Attr
 	    获取虫洞单位组
 	*/
 	private function EnemyFilterSeyu takes nothing returns boolean
-		return IsEnemy(GetFilterUnit(),seyu) == true
+		return IsEnemyUnit(GetFilterUnit(),seyu) == true
 	endfunction
 
 	function GetChongdongGroup takes real radius,integer count returns group

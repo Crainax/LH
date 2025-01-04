@@ -292,7 +292,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemy(l_unit,xiaoting) and not(IsUnitInGroup(l_unit,GArrow[index]))) then
+            if (IsEnemyUnit(l_unit,xiaoting) and not(IsUnitInGroup(l_unit,GArrow[index]))) then
             	call UnitDamageTarget( xiaoting, l_unit, RDamageXiaoting * R3(BShuaijian[index],0.2,1), false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
             	call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", GetUnitX(l_unit),GetUnitY(l_unit) ))
             	call GroupAddUnit(GArrow[index],l_unit)
@@ -449,7 +449,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
-				set temp = GetEnemyGroup(GetOwningPlayer(xiaoting),GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900)
+				set temp = GetEnemyGroup(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900)
 				call GroupAddGroup(temp,g)
 				call DestroyGroup(temp)
 				//call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.50 * (GetComboMulti() + 1))
@@ -717,7 +717,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if (IsAlly(l_unit,xiaoting)) then
+			    if (IsAllyUnit(l_unit,xiaoting)) then
 			    	call RecoverUnitHP(l_unit,0.3)
 			    	call RecoverUnitMP(l_unit,20)
 			    endif

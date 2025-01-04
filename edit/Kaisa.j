@@ -45,7 +45,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 		//小牛头的伤害
 		if (GetUnitTypeId(u) == 'h02R') then
 			call CreateEffect1(GetUnitX(u),GetUnitY(u))
-			call DamageArea(kaisa,GetUnitX(u),GetUnitY(u),600,GetDamageStr(kaisa)*0.4)
+			call DamageAreaMagic(kaisa,GetUnitX(u),GetUnitY(u),600,GetDamageStr(kaisa)*0.4,null)
 			if (GetRandomInt(1,7) == 1) then
 				call CreateSpellTextTag("地震",u,0,100,50,3)
 				call SimulateSpell(u,GetTriggerUnit(),'A0NP',1/*level*/,6/*time*/,"stomp",false/*point*/,true/*immediately*/,false/*unit*/)
@@ -93,7 +93,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	    		set RLiebianX = GetUnitX(kaisa)
 	    		set RLiebianY = GetUnitY(kaisa)
 	    		if (RDistanceLiebian >= 250.0) then
-	    			call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),450.0,GetDamageStr(kaisa)*0.01*I2R(ILiebian) * 0.25)
+	    			call DamageAreaMagic(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),450.0,GetDamageStr(kaisa)*0.01*I2R(ILiebian) * 0.25,null)
 	    			call DestroyEffect(AddSpecialEffect("war3mapImported\\longj2.mdl",GetUnitX(kaisa),GetUnitY(kaisa) ))
 	    			set RDistanceLiebian = 0.0
 	    		endif
@@ -133,7 +133,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	    //i是速度
 	    local integer i = LoadInteger(spellTable,id,1)
 		local real facing = LoadReal(spellTable,GetHandleId(t),2)
-		local group temp = GetEnemyGroup(GetOwningPlayer(kaisa),GetUnitX(kaisa),GetUnitY(kaisa),400)
+		local group temp = GetEnemyGroup(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),400)
 		local real xp = GetUnitX(kaisa)+ CosBJ(facing) * I2R(i)
 		local real yp = GetUnitY(kaisa)+ SinBJ(facing) * I2R(i)
 		//判断数量
@@ -145,7 +145,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 			call SetUnitY(kaisa,yp)
 	    else
 	    	//伤害：每2秒加100%？
-	    	call DamageArea(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(R2I(i)/30.0))
+	    	call DamageAreaMagic(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),600,GetDamageStr(kaisa)*(R2I(i)/30.0),null)
 	    	call CreateEffect2(GetUnitX(kaisa),GetUnitY(kaisa))
 	    	call PrintSpell(GetOwningPlayer(kaisa),GetAbilityName('A0NQ'),GetDamageStr(kaisa)*(R2I(i)/30.0))
 	    	call SimulateSpell(kaisa,kaisa,'A0NN',i/100/*level*/,6/*time*/,"stomp",false/*point*/,true/*immediately*/,false/*unit*/)

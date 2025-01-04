@@ -67,7 +67,7 @@ library_once Xuanxue  requires LHBase,Spin,ChallangerDZ
 	*/
 	function Wanguxuanshuang takes unit u returns nothing
 
-		if (IsEnemy(u,xuanxue) and (udg_U_Zhuansheng_Dantiao[2] != u or GetAttacker() == xuanxue) and GetUnitState(xuanxue,UNIT_STATE_MANA) >= 400) then
+		if (IsEnemyUnit(u,xuanxue) and (udg_U_Zhuansheng_Dantiao[2] != u or GetAttacker() == xuanxue) and GetUnitState(xuanxue,UNIT_STATE_MANA) >= 400) then
 			call UnitDamageTarget( xuanxue, u, GetDamageInt(xuanxue) * 0.1 , false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
 		endif
 
