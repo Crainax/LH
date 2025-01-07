@@ -1,5 +1,89 @@
 logs\currentmapscript.j
 pjass.exe
-Line 23379:  Cannot convert player to unit
-Line 26990:  Cannot convert player to unit
-2
+Line 7121:  Undeclared variable YDHASH_HANDLE
+Line 7121:  Undeclared variable unit
+Line 7121:  Undeclared function YDHashGet
+Line 7122:  Undeclared function YDHashClear
+Line 7125:  Undeclared variable YDHASH_HANDLE
+Line 7125:  Undeclared variable unit
+Line 7125:  Undeclared function YDHashSet
+Line 7129:  Undeclared variable YDHASH_HANDLE
+Line 7129:  Undeclared variable timer
+Line 7129:  Undeclared function YDHashGet
+Line 7130:  Undeclared function YDHashClear
+Line 7133:  Undeclared variable YDHASH_HANDLE
+Line 7133:  Undeclared variable timer
+Line 7133:  Undeclared function YDHashSet
+Line 7137:  Undeclared variable YDHASH_HANDLE
+Line 7137:  Undeclared variable item
+Line 7137:  Undeclared function YDHashGet
+Line 7138:  Undeclared function YDHashClear
+Line 7141:  Undeclared variable YDHASH_HANDLE
+Line 7141:  Undeclared variable item
+Line 7141:  Undeclared function YDHashSet
+Line 7145:  Undeclared variable YDHASH_HANDLE
+Line 7145:  Undeclared variable effect
+Line 7145:  Undeclared function YDHashGet
+Line 7146:  Undeclared function YDHashClear
+Line 7149:  Undeclared variable YDHASH_HANDLE
+Line 7149:  Undeclared variable effect
+Line 7149:  Undeclared function YDHashSet
+Line 7153:  Undeclared variable YDHASH_HANDLE
+Line 7153:  Undeclared variable lightning
+Line 7153:  Undeclared function YDHashGet
+Line 7154:  Undeclared function YDHashClear
+Line 7158:  Undeclared variable YDHASH_HANDLE
+Line 7158:  Undeclared variable lightning
+Line 7158:  Undeclared function YDHashSet
+Line 7162:  Undeclared variable YDHASH_HANDLE
+Line 7162:  Undeclared variable trigger
+Line 7162:  Undeclared function YDHashGet
+Line 7163:  Undeclared function YDHashClear
+Line 7166:  Undeclared variable YDHASH_HANDLE
+Line 7166:  Undeclared variable trigger
+Line 7166:  Undeclared function YDHashSet
+Line 7196:  Undeclared variable timer
+Line 7196:  Undeclared function YDHashAny2I
+Line 7222:  Undeclared variable timer
+Line 7222:  Undeclared function YDHashAny2I
+Line 7223:  Undeclared variable YDHASH_HANDLE
+Line 7223:  Undeclared variable trigger
+Line 7223:  Undeclared function YDHashGet
+Line 7224:  syntax error
+Line 7231:  Undeclared variable timer
+Line 7231:  Undeclared function YDHashAny2I
+Line 7232:  Undeclared variable YDHASH_HANDLE
+Line 7232:  Undeclared variable trigger
+Line 7232:  Undeclared function YDHashGet
+Line 7233:  syntax error
+Line 7234:  syntax error
+Line 7237:  Variable times is uninitialized
+Line 7240:  syntax error
+Line 7243:  Undeclared function YDHashClearTable
+Line 7255:  Undeclared variable timer. Maybe you meant times
+Line 7255:  Undeclared function YDHashAny2I
+Line 7258:  Undeclared variable YDHASH_HANDLE
+Line 7258:  Undeclared variable trigger
+Line 7258:  Undeclared function YDHashSet
+Line 7259:  syntax error
+Line 7260:  syntax error
+Line 7262:  syntax error
+Line 7263:  Undeclared function YDHashAny2I
+Line 7263:  Undeclared function YDHashSet
+Line 7265:  syntax error
+Line 7273:  Undeclared variable trigger
+Line 7273:  Undeclared function YDHashAny2I
+Line 7274:  Undeclared variable YDHASH_HANDLE
+Line 7274:  syntax error
+Line 7276:  Local declaration after first statement
+Line 7276:  Variable index is uninitialized
+Line 7278:  Undeclared variable timer
+Line 7277:  Variable index is uninitialized
+Line 7278:  Undeclared function YDHashGet
+Line 7280:  Undeclared function YDHashAny2I
+Line 7280:  Undeclared function YDHashClearTable
+Line 7280:  Variable index is uninitialized
+Line 7281:  Undeclared function YDHashClear
+Line 7281:  Variable index is uninitialized
+Line 7284:  syntax error
+86

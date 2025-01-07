@@ -1,8 +1,0 @@
-[CustomSkin]
-IdlePeon=ReplaceableTextures\CommandButtons\BTNMagicVault.blp
-LoadingMeleeBackground=war3mapImported\LoadingScreen.mdx
-[FrameDef]
-BONUS_MANA= - 每点不增加的魔法值
-BONUS_MANAREGEN=  - 每点不增加魔法恢复速度
-IDLE_PEON=仓库 (|Cfffed312F8|R)
-IDLE_PEON_DESC=点击可以立即跟踪仓库的位置.

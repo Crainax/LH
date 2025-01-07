@@ -24,3 +24,7 @@
 
 - [TODO列表](TODO.md)
 - [创意头脑风暴](BRAINSTORM.md)
+
+
+## 注意点:
+war3map.wts 这个文件在LNI化的时候会出错  记得把目录里的`war3map.wts` 粘贴回去

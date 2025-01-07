@@ -13,17 +13,6 @@
 //*  Global Variables
 //*
 //***************************************************************************
-library_once YDTriggerSaveLoadSystem initializer Init
-//#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
-globals
-        hashtable YDHT
-    hashtable YDLOC
-endglobals
-    private function Init takes nothing returns nothing
-            set YDHT = InitHashtable()
-        set YDLOC = InitHashtable()
-    endfunction
-endlibrary
 globals
     // User-defined
     unit array udg_H
@@ -1898,6 +1887,18 @@ endfunction
 // 当前的平台分包
     // 正式版
     // lua_print: 正式版本
+// 这两条是用到YDWE函数就要导入的,没用到就不用导入
+library_once YDTriggerSaveLoadSystem initializer Init
+//#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
+globals
+        hashtable YDHT
+    hashtable YDLOC
+endglobals
+    private function Init takes nothing returns nothing
+            set YDHT = InitHashtable()
+        set YDLOC = InitHashtable()
+    endfunction
+endlibrary
 // 结构体共用方法定义
 //共享打印方法
 // UI组件内部共享方法及成员

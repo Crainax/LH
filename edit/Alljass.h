@@ -46,6 +46,10 @@
     // lua_print: 正式版本
 #endif
 
+// 这两条是用到YDWE函数就要导入的,没用到就不用导入
+#include <YDTrigger/ImportSaveLoadSystem.h>
+#include <YDTrigger/Hash.h>
+
 #include "Crainax/config/Log.h" // 输出日志配置
 #include "Crainax/config/SharedMethod.h" // 结构体共用方法
 #include "config/config.h" // 配置
