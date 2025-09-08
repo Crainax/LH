@@ -33,7 +33,7 @@
 	test mijing 	秘境19
 	test bo29
 */
-library_once Debug initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCredit,Diamond
+library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCredit,Diamond
 
 	globals
 		boolean debug_show_damage = false

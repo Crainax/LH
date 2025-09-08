@@ -119,9 +119,11 @@
 #include "edit/Continous.j"
 
 // 测试文件
-/// #include "edit/Debug.j"
-/// #include "edit/NotPublic.j"
-/// #include "edit/DebugNet.j"
+#if (defined(VERSION_ALPHA) || defined(VERSION_BETA))
+    #include "edit/TestCommand.j"
+    #include "edit/NotPublic.j"
+    #include "edit/DebugNet.j"
+#endif
 
 #if defined(OriginMapUnitTestMode)
 

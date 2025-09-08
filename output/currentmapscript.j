@@ -17,6 +17,10 @@ constant boolean LIBRARY_JBase=true
 //globals from Music:
 constant boolean LIBRARY_Music=true
 //endglobals from Music
+//globals from NotPublic:
+constant boolean LIBRARY_NotPublic=true
+boolean IsTesting= false
+//endglobals from NotPublic
 //globals from NumberUtils:
 constant boolean LIBRARY_NumberUtils=true
 //endglobals from NumberUtils
@@ -34,9 +38,6 @@ string StringUtils___temp
 //globals from UnitFilter:
 constant boolean LIBRARY_UnitFilter=true
 //endglobals from UnitFilter
-//globals from YDLua:
-constant boolean LIBRARY_YDLua=true
-//endglobals from YDLua
 //globals from YDTriggerSaveLoadSystem:
 constant boolean LIBRARY_YDTriggerSaveLoadSystem=true
 hashtable YDHT
@@ -59,10 +60,10 @@ real yd_MapMaxX= 0
 real yd_MapMinX= 0
 real yd_MapMaxY= 0
 real yd_MapMinY= 0
-string array YDWEBase___yd_PlayerColor
-trigger array YDWEBase___AbilityCastingOverEventQueue
-integer array YDWEBase___AbilityCastingOverEventType
-integer YDWEBase___AbilityCastingOverEventNumber= 0
+string array YDWEBase__yd_PlayerColor
+trigger array YDWEBase__AbilityCastingOverEventQueue
+integer array YDWEBase__AbilityCastingOverEventType
+integer YDWEBase__AbilityCastingOverEventNumber= 0
 //endglobals from YDWEBase
 //globals from YDWEGetForceOfPlayerNull:
 constant boolean LIBRARY_YDWEGetForceOfPlayerNull=true
@@ -80,10 +81,10 @@ constant boolean LIBRARY_YDWEGetRandomSubGroupEnumNull=true
 //endglobals from YDWEGetRandomSubGroupEnumNull
 //globals from YDWEGetUnitsInRangeOfLocMatchingNull:
 constant boolean LIBRARY_YDWEGetUnitsInRangeOfLocMatchingNull=true
-group yd_NullTempGroup
 //endglobals from YDWEGetUnitsInRangeOfLocMatchingNull
 //globals from YDWEGetUnitsInRectMatchingNull:
 constant boolean LIBRARY_YDWEGetUnitsInRectMatchingNull=true
+group yd_NullTempGroup
 //endglobals from YDWEGetUnitsInRectMatchingNull
 //globals from YDWEGetUnitsInRectOfPlayerNull:
 constant boolean LIBRARY_YDWEGetUnitsInRectOfPlayerNull=true
@@ -106,22 +107,22 @@ constant boolean LIBRARY_YDWEPolledWaitNull=true
 //globals from YDWETriggerEvent:
 constant boolean LIBRARY_YDWETriggerEvent=true
 trigger yd_DamageEventTrigger= null
-constant integer YDWETriggerEvent___DAMAGE_EVENT_SWAP_TIMEOUT= 20
-constant boolean YDWETriggerEvent___DAMAGE_EVENT_SWAP_ENABLE= true
-trigger YDWETriggerEvent___yd_DamageEventTriggerToDestory= null
-trigger array YDWETriggerEvent___DamageEventQueue
-integer YDWETriggerEvent___DamageEventNumber= 0
+constant integer YDWETriggerEvent__DAMAGE_EVENT_SWAP_TIMEOUT= 20
+constant boolean YDWETriggerEvent__DAMAGE_EVENT_SWAP_ENABLE= true
+trigger YDWETriggerEvent__yd_DamageEventTriggerToDestory= null
+trigger array YDWETriggerEvent__DamageEventQueue
+integer YDWETriggerEvent__DamageEventNumber= 0
 item bj_lastMovedItemInItemSlot= null
-trigger YDWETriggerEvent___MoveItemEventTrigger= null
-trigger array YDWETriggerEvent___MoveItemEventQueue
-integer YDWETriggerEvent___MoveItemEventNumber= 0
+trigger YDWETriggerEvent__MoveItemEventTrigger= null
+trigger array YDWETriggerEvent__MoveItemEventQueue
+integer YDWETriggerEvent__MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from YDWETriggerRegisterEnterRectSimpleNull:
 constant boolean LIBRARY_YDWETriggerRegisterEnterRectSimpleNull=true
+region yd_NullTempRegion
 //endglobals from YDWETriggerRegisterEnterRectSimpleNull
 //globals from YDWETriggerRegisterLeaveRectSimpleNull:
 constant boolean LIBRARY_YDWETriggerRegisterLeaveRectSimpleNull=true
-region yd_NullTempRegion
 //endglobals from YDWETriggerRegisterLeaveRectSimpleNull
 //globals from YDWEUnitHasItemOfTypeBJNull:
 constant boolean LIBRARY_YDWEUnitHasItemOfTypeBJNull=true
@@ -151,13 +152,6 @@ constant boolean LIBRARY_GroupUtils=true
 group GroupUtils___tempG=null
 unit GroupUtils___tempU=null
 //endglobals from GroupUtils
-//globals from Logger:
-constant boolean LIBRARY_Logger=true
-integer logger_level=0
-string logger_msg=null
-player logger_p=null
-trigger logger_tr=null
-//endglobals from Logger
 //globals from YDWEAroundSystem:
 constant boolean LIBRARY_YDWEAroundSystem=true
 constant timer YDWEAroundSystem___AROUND_TIM= CreateTimer()
@@ -180,31 +174,31 @@ constant boolean LIBRARY_YDWESetGuard=true
 //endglobals from YDWESetGuard
 //globals from YDWETimerPattern:
 constant boolean LIBRARY_YDWETimerPattern=true
-boolexpr YDWETimerPattern___Bexpr= null
-rect YDWETimerPattern___Area= null
-integer YDWETimerPattern___tmp_data
-location YDWETimerPattern___yd_loc= Location(0.0, 0.0)
+boolexpr YDWETimerPattern__Bexpr= null
+rect YDWETimerPattern__Area= null
+integer YDWETimerPattern__tmp_data
+location YDWETimerPattern__yd_loc= Location(0.0, 0.0)
 //endglobals from YDWETimerPattern
 //globals from YDWETimerSystem:
 constant boolean LIBRARY_YDWETimerSystem=true
-integer YDWETimerSystem___CurrentTime
-integer YDWETimerSystem___CurrentIndex
-integer YDWETimerSystem___TaskListHead
-integer YDWETimerSystem___TaskListIdleHead
-integer YDWETimerSystem___TaskListIdleMax
-integer array YDWETimerSystem___TaskListIdle
-integer array YDWETimerSystem___TaskListNext
-integer array YDWETimerSystem___TaskListTime
-trigger array YDWETimerSystem___TaskListProc
-trigger YDWETimerSystem___fnRemoveUnit
-trigger YDWETimerSystem___fnDestroyTimer
-trigger YDWETimerSystem___fnRemoveItem
-trigger YDWETimerSystem___fnDestroyEffect
-trigger YDWETimerSystem___fnDestroyLightning
-trigger YDWETimerSystem___fnRunTrigger
-timer YDWETimerSystem___Timer
-integer YDWETimerSystem___TimerHandle
-integer YDWETimerSystem___TimerSystem_RunIndex= 0
+integer YDWETimerSystem__CurrentTime
+integer YDWETimerSystem__CurrentIndex
+integer YDWETimerSystem__TaskListHead
+integer YDWETimerSystem__TaskListIdleHead
+integer YDWETimerSystem__TaskListIdleMax
+integer array YDWETimerSystem__TaskListIdle
+integer array YDWETimerSystem__TaskListNext
+integer array YDWETimerSystem__TaskListTime
+trigger array YDWETimerSystem__TaskListProc
+trigger YDWETimerSystem__fnRemoveUnit
+trigger YDWETimerSystem__fnDestroyTimer
+trigger YDWETimerSystem__fnRemoveItem
+trigger YDWETimerSystem__fnDestroyEffect
+trigger YDWETimerSystem__fnDestroyLightning
+trigger YDWETimerSystem__fnRunTrigger
+timer YDWETimerSystem__Timer
+integer YDWETimerSystem__TimerHandle
+integer YDWETimerSystem__TimerSystem_RunIndex= 0
 //endglobals from YDWETimerSystem
 //globals from DamageUtils:
 constant boolean LIBRARY_DamageUtils=true
@@ -311,7 +305,7 @@ constant boolean LIBRARY_Printer=true
 //endglobals from Printer
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
-constant integer kUImmuteDamage=10
+constant integer kUImmuteDamage=6
 //endglobals from SpellBase
 //globals from Structs:
 constant boolean LIBRARY_Structs=true
@@ -326,13 +320,13 @@ constant boolean LIBRARY_UseItem=true
 //endglobals from UseItem
 //globals from Wing:
 constant boolean LIBRARY_Wing=true
-constant integer kWingDialog1=12
-constant integer kWingDialog2=14
-constant integer kWingDialog3=16
-constant integer kWingDialog4=18
-constant integer kWingDialog5=20
-constant integer kWingDialog6=22
-constant integer kWingUnit=24
+constant integer kWingDialog1=8
+constant integer kWingDialog2=10
+constant integer kWingDialog3=12
+constant integer kWingDialog4=14
+constant integer kWingDialog5=16
+constant integer kWingDialog6=18
+constant integer kWingUnit=20
 //endglobals from Wing
 //globals from Achievement:
 constant boolean LIBRARY_Achievement=true
@@ -438,14 +432,14 @@ constant boolean LIBRARY_LHOther=true
 //globals from Beast:
 constant boolean LIBRARY_Beast=true
 		
-constant integer Beast__kU=26
-constant integer Beast__kr=28
-constant integer Beast__kg=30
-constant integer Beast__kb=32
-constant integer Beast__ksr=34
-constant integer Beast__ksg=36
-constant integer Beast__ksb=38
-constant integer Beast__kBeastItem=40
+constant integer Beast__kU=22
+constant integer Beast__kr=24
+constant integer Beast__kg=26
+constant integer Beast__kb=28
+constant integer Beast__ksr=30
+constant integer Beast__ksg=32
+constant integer Beast__ksb=34
+constant integer Beast__kBeastItem=36
 		
 unit array Unit_Beast
 constant integer DAMAGE_BEAST_00= 30000
@@ -492,7 +486,7 @@ integer array passTimes
 		
 integer array petTimes
 		
-constant integer kSaveHeroTimes=42
+constant integer kSaveHeroTimes=38
 		
 		
 		
@@ -652,8 +646,8 @@ trigger Hanshang___TSpellHanshang4= null
 		
 real Hanshang___RLianjin= 0
 real Hanshang___RLianjin2= 0
-constant integer kLianhuanBoomX=44
-constant integer kLianhuanBoomY=46
+constant integer kLianhuanBoomX=40
+constant integer kLianhuanBoomY=42
 		
 timer Hanshang___TDuwu= null
 unit Hanshang___UDuwu= null
@@ -681,7 +675,7 @@ trigger Heiyan___TSpellHeiyan41= null
 boolean Heiyan___BIsMojie= true
 		
 		
-constant integer kUYanluo=48
+constant integer kUYanluo=44
 		
 unit Heiyan___UZangJiuTian= null
 boolean Heiyan___IsDouble= false
@@ -709,14 +703,14 @@ integer ICurrentSpell= 0
 		
 integer Huanyi___IMoneng= 0
 		
-constant integer kNoneIntTimes=50
+constant integer kNoneIntTimes=46
 		
-constant integer kUHuanyiQuan=52
+constant integer kUHuanyiQuan=48
 		
-constant integer kIGuCan=54
+constant integer kIGuCan=50
 timer TGuCan= null
 		
-constant integer kHuanyuTimes=56
+constant integer kHuanyuTimes=52
 		
 texttag Huanyi___TTMoneng
 effect Huanyi___ELowMoneng= null
@@ -816,7 +810,7 @@ trigger Seyu___TSpellSeyu2= null
 trigger Seyu___TSpellSeyu3= null
 trigger Seyu___TSpellSeyuUpdate= null
 trigger Seyu___TSpellChongdong= null
-constant integer kAnShaCount=58
+constant integer kAnShaCount=54
 		
 integer Seyu___ItempPower= 0
 texttag array Seyu___TTCD
@@ -1062,14 +1056,17 @@ trigger TDeathGhostAngle= null
 timer TGhostShiye2= null
 integer IKongshen= 0
 //endglobals from Boss
+//globals from DebugNet:
+constant boolean LIBRARY_DebugNet=true
+//endglobals from DebugNet
 //globals from PIV:
 constant boolean LIBRARY_PIV=true
 boolean PIV___isFirst= true
 hashtable PIV___PIVTable= InitHashtable()
-constant integer kPIV=60
-constant integer kPIVStr=62
-constant integer kPIVPlayer=64
-constant integer kPIVPointer=66
+constant integer kPIV=56
+constant integer kPIVStr=58
+constant integer kPIVPlayer=60
+constant integer kPIVPointer=62
 trigger T17Wan= null
 	    //信哲
 boolean BX1= false
@@ -1152,6 +1149,12 @@ constant boolean LIBRARY_Combine=true
 constant boolean LIBRARY_ItemSpell=true
 boolean array BYaoShuxing
 //endglobals from ItemSpell
+//globals from TestCommand:
+constant boolean LIBRARY_TestCommand=true
+boolean debug_show_damage= false
+boolean debug_show_attr= false
+unit testDyingUnit= null
+//endglobals from TestCommand
 //globals from ChatCommand:
 constant boolean LIBRARY_ChatCommand=true
 item array ChatCommand__IBox
@@ -1842,49 +1845,49 @@ real array s__YDWEAroundSystem___Data_rise
 real array s__YDWEAroundSystem___Data_angle
 real array s__YDWEAroundSystem___Data_radius
 real array s__YDWEAroundSystem___Data_height
-constant integer si__YDWETimerPattern___YDVector3=4
-integer si__YDWETimerPattern___YDVector3_F=0
-integer si__YDWETimerPattern___YDVector3_I=0
-integer array si__YDWETimerPattern___YDVector3_V
-real array s__YDWETimerPattern___YDVector3_x
-real array s__YDWETimerPattern___YDVector3_y
-real array s__YDWETimerPattern___YDVector3_z
-constant integer si__YDWETimerPattern___Thread=5
-integer si__YDWETimerPattern___Thread_F=0
-integer si__YDWETimerPattern___Thread_I=0
-integer array si__YDWETimerPattern___Thread_V
-integer array s__YDWETimerPattern___Thread_des
-integer array s__YDWETimerPattern___Thread_pos
-integer array s__YDWETimerPattern___Thread_vel
-unit array s__YDWETimerPattern___Thread_caster
-unit array s__YDWETimerPattern___Thread_source
-unit array s__YDWETimerPattern___Thread_target
-unit array s__YDWETimerPattern___Thread_obj
-real array s__YDWETimerPattern___Thread_ac
-real array s__YDWETimerPattern___Thread_bc
-real array s__YDWETimerPattern___Thread_dist
-real array s__YDWETimerPattern___Thread_step
-real array s__YDWETimerPattern___Thread_amount
-real array s__YDWETimerPattern___Thread_radius
-integer array s__YDWETimerPattern___Thread_switch
-integer array s__YDWETimerPattern___Thread_follow
-integer array s__YDWETimerPattern___Thread_unitid
-integer array s__YDWETimerPattern___Thread_skills
-integer array s__YDWETimerPattern___Thread_order
-integer array s__YDWETimerPattern___Thread_level
-string array s__YDWETimerPattern___Thread_dsfx
-string array s__YDWETimerPattern___Thread_gsfx
-string array s__YDWETimerPattern___Thread_wsfx
-string array s__YDWETimerPattern___Thread_part
-boolean array s__YDWETimerPattern___Thread_recycle
-boolean array s__YDWETimerPattern___Thread_killdest
-boolean array s__YDWETimerPattern___Thread_volume
-group array s__YDWETimerPattern___Thread_g
-timer array s__YDWETimerPattern___Thread_t
-integer array s__YDWETimerPattern___Thread_afc
-constant integer si__YDWETimerPattern___Parabola=6
-constant integer si__YDWETimerPattern___Linear=7
-constant integer si__YDWETimerPattern___Deceleration=8
+constant integer si__YDWETimerPattern__YDVector3=4
+integer si__YDWETimerPattern__YDVector3_F=0
+integer si__YDWETimerPattern__YDVector3_I=0
+integer array si__YDWETimerPattern__YDVector3_V
+real array s__YDWETimerPattern__YDVector3_x
+real array s__YDWETimerPattern__YDVector3_y
+real array s__YDWETimerPattern__YDVector3_z
+constant integer si__YDWETimerPattern__Thread=5
+integer si__YDWETimerPattern__Thread_F=0
+integer si__YDWETimerPattern__Thread_I=0
+integer array si__YDWETimerPattern__Thread_V
+integer array s__YDWETimerPattern__Thread_des
+integer array s__YDWETimerPattern__Thread_pos
+integer array s__YDWETimerPattern__Thread_vel
+unit array s__YDWETimerPattern__Thread_caster
+unit array s__YDWETimerPattern__Thread_source
+unit array s__YDWETimerPattern__Thread_target
+unit array s__YDWETimerPattern__Thread_obj
+real array s__YDWETimerPattern__Thread_ac
+real array s__YDWETimerPattern__Thread_bc
+real array s__YDWETimerPattern__Thread_dist
+real array s__YDWETimerPattern__Thread_step
+real array s__YDWETimerPattern__Thread_amount
+real array s__YDWETimerPattern__Thread_radius
+integer array s__YDWETimerPattern__Thread_switch
+integer array s__YDWETimerPattern__Thread_follow
+integer array s__YDWETimerPattern__Thread_unitid
+integer array s__YDWETimerPattern__Thread_skills
+integer array s__YDWETimerPattern__Thread_order
+integer array s__YDWETimerPattern__Thread_level
+string array s__YDWETimerPattern__Thread_dsfx
+string array s__YDWETimerPattern__Thread_gsfx
+string array s__YDWETimerPattern__Thread_wsfx
+string array s__YDWETimerPattern__Thread_part
+boolean array s__YDWETimerPattern__Thread_recycle
+boolean array s__YDWETimerPattern__Thread_killdest
+boolean array s__YDWETimerPattern__Thread_volume
+group array s__YDWETimerPattern__Thread_g
+timer array s__YDWETimerPattern__Thread_t
+integer array s__YDWETimerPattern__Thread_afc
+constant integer si__YDWETimerPattern__Parabola=6
+constant integer si__YDWETimerPattern__Linear=7
+constant integer si__YDWETimerPattern__Deceleration=8
 constant integer si__DamageUtils___DmgP=9
 integer si__DamageUtils___DmgP_F=0
 integer si__DamageUtils___DmgP_I=0
@@ -2031,8 +2034,8 @@ integer array s__DamageTJ_RTongji
 trigger array s__DamageTJ_t
 unit array s__DamageTJ_monitor
 integer array s__s__DmgS_stack
-integer array si__YDWETimerPattern___Thread_type
-trigger array st__YDWETimerPattern___Thread_onDestroy
+integer array si__YDWETimerPattern__Thread_type
+trigger array st__YDWETimerPattern__Thread_onDestroy
 trigger st__OnlyAttackBase__staticgetindex
 trigger st__OnlyAttackBase_onDestroy
 trigger st__OnlyAttackBase_destroy
@@ -2069,7 +2072,7 @@ trigger st__TianfuForbidder_onDestroy
 trigger st__DamageTJ__staticgetindex
 trigger st__DamageTJ_onDestroy
 trigger st__DamageTJ_destroy
-trigger array st___prototype54
+trigger array st___prototype46
 trigger array st___prototype192
 trigger array st___prototype233
 trigger array st___prototype268
@@ -2956,125 +2959,125 @@ function s__YDWEAroundSystem___Data_deallocate takes integer this returns nothin
     set si__YDWEAroundSystem___Data_F=this
 endfunction
 
-//Generated allocator of YDWETimerPattern___YDVector3
-function s__YDWETimerPattern___YDVector3__allocate takes nothing returns integer
- local integer this=si__YDWETimerPattern___YDVector3_F
+//Generated allocator of YDWETimerPattern__YDVector3
+function s__YDWETimerPattern__YDVector3__allocate takes nothing returns integer
+ local integer this=si__YDWETimerPattern__YDVector3_F
     if (this!=0) then
-        set si__YDWETimerPattern___YDVector3_F=si__YDWETimerPattern___YDVector3_V[this]
+        set si__YDWETimerPattern__YDVector3_F=si__YDWETimerPattern__YDVector3_V[this]
     else
-        set si__YDWETimerPattern___YDVector3_I=si__YDWETimerPattern___YDVector3_I+1
-        set this=si__YDWETimerPattern___YDVector3_I
+        set si__YDWETimerPattern__YDVector3_I=si__YDWETimerPattern__YDVector3_I+1
+        set this=si__YDWETimerPattern__YDVector3_I
     endif
     if (this>8190) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: YDWETimerPattern___YDVector3")
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: YDWETimerPattern__YDVector3")
         return 0
     endif
 
-    set si__YDWETimerPattern___YDVector3_V[this]=-1
+    set si__YDWETimerPattern__YDVector3_V[this]=-1
  return this
 endfunction
 
-//Generated destructor of YDWETimerPattern___YDVector3
-function s__YDWETimerPattern___YDVector3_deallocate takes integer this returns nothing
+//Generated destructor of YDWETimerPattern__YDVector3
+function s__YDWETimerPattern__YDVector3_deallocate takes integer this returns nothing
     if this==null then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: YDWETimerPattern___YDVector3")
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: YDWETimerPattern__YDVector3")
         return
-    elseif (si__YDWETimerPattern___YDVector3_V[this]!=-1) then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: YDWETimerPattern___YDVector3")
+    elseif (si__YDWETimerPattern__YDVector3_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: YDWETimerPattern__YDVector3")
         return
     endif
-    set si__YDWETimerPattern___YDVector3_V[this]=si__YDWETimerPattern___YDVector3_F
-    set si__YDWETimerPattern___YDVector3_F=this
+    set si__YDWETimerPattern__YDVector3_V[this]=si__YDWETimerPattern__YDVector3_F
+    set si__YDWETimerPattern__YDVector3_F=this
 endfunction
 
-//Generated method caller for YDWETimerPattern___Thread.onDestroy
-function sc__YDWETimerPattern___Thread_onDestroy takes integer this returns nothing
+//Generated method caller for YDWETimerPattern__Thread.onDestroy
+function sc__YDWETimerPattern__Thread_onDestroy takes integer this returns nothing
     set f__arg_this=this
-    call TriggerEvaluate(st__YDWETimerPattern___Thread_onDestroy[5])
+    call TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[5])
 endfunction
 
-//Generated allocator of YDWETimerPattern___Thread
-function s__YDWETimerPattern___Thread__allocate takes nothing returns integer
- local integer this=si__YDWETimerPattern___Thread_F
+//Generated allocator of YDWETimerPattern__Thread
+function s__YDWETimerPattern__Thread__allocate takes nothing returns integer
+ local integer this=si__YDWETimerPattern__Thread_F
     if (this!=0) then
-        set si__YDWETimerPattern___Thread_F=si__YDWETimerPattern___Thread_V[this]
+        set si__YDWETimerPattern__Thread_F=si__YDWETimerPattern__Thread_V[this]
     else
-        set si__YDWETimerPattern___Thread_I=si__YDWETimerPattern___Thread_I+1
-        set this=si__YDWETimerPattern___Thread_I
+        set si__YDWETimerPattern__Thread_I=si__YDWETimerPattern__Thread_I+1
+        set this=si__YDWETimerPattern__Thread_I
     endif
     if (this>8190) then
-        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: YDWETimerPattern___Thread")
+        call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Unable to allocate id for an object of type: YDWETimerPattern__Thread")
         return 0
     endif
 
-    set si__YDWETimerPattern___Thread_type[this]=5
-    set si__YDWETimerPattern___Thread_V[this]=-1
+    set si__YDWETimerPattern__Thread_type[this]=5
+    set si__YDWETimerPattern__Thread_V[this]=-1
  return this
 endfunction
 
-//Generated destructor of YDWETimerPattern___Thread
-function sc__YDWETimerPattern___Thread_deallocate takes integer this returns nothing
+//Generated destructor of YDWETimerPattern__Thread
+function sc__YDWETimerPattern__Thread_deallocate takes integer this returns nothing
     if this==null then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: YDWETimerPattern___Thread")
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Attempt to destroy a null struct of type: YDWETimerPattern__Thread")
         return
-    elseif (si__YDWETimerPattern___Thread_V[this]!=-1) then
-            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: YDWETimerPattern___Thread")
+    elseif (si__YDWETimerPattern__Thread_V[this]!=-1) then
+            call DisplayTimedTextToPlayer(GetLocalPlayer(),0,0,1000.,"Double free of type: YDWETimerPattern__Thread")
         return
     endif
     set f__arg_this=this
-    call TriggerEvaluate(st__YDWETimerPattern___Thread_onDestroy[si__YDWETimerPattern___Thread_type[this]])
-    set si__YDWETimerPattern___Thread_V[this]=si__YDWETimerPattern___Thread_F
-    set si__YDWETimerPattern___Thread_F=this
+    call TriggerEvaluate(st__YDWETimerPattern__Thread_onDestroy[si__YDWETimerPattern__Thread_type[this]])
+    set si__YDWETimerPattern__Thread_V[this]=si__YDWETimerPattern__Thread_F
+    set si__YDWETimerPattern__Thread_F=this
 endfunction
 
-//Generated allocator of YDWETimerPattern___Deceleration
-function s__YDWETimerPattern___Deceleration__allocate takes nothing returns integer
- local integer this=s__YDWETimerPattern___Thread__allocate()
+//Generated allocator of YDWETimerPattern__Deceleration
+function s__YDWETimerPattern__Deceleration__allocate takes nothing returns integer
+ local integer this=s__YDWETimerPattern__Thread__allocate()
  local integer kthis
     if(this==0) then
         return 0
     endif
-    set si__YDWETimerPattern___Thread_type[this]=8
+    set si__YDWETimerPattern__Thread_type[this]=8
     set kthis=this
 
  return this
 endfunction
 
 
-//Generated allocator of YDWETimerPattern___Parabola
-function s__YDWETimerPattern___Parabola__allocate takes nothing returns integer
- local integer this=s__YDWETimerPattern___Thread__allocate()
+//Generated allocator of YDWETimerPattern__Parabola
+function s__YDWETimerPattern__Parabola__allocate takes nothing returns integer
+ local integer this=s__YDWETimerPattern__Thread__allocate()
  local integer kthis
     if(this==0) then
         return 0
     endif
-    set si__YDWETimerPattern___Thread_type[this]=6
+    set si__YDWETimerPattern__Thread_type[this]=6
     set kthis=this
 
  return this
 endfunction
 
 
-//Generated allocator of YDWETimerPattern___Linear
-function s__YDWETimerPattern___Linear__allocate takes nothing returns integer
- local integer this=s__YDWETimerPattern___Thread__allocate()
+//Generated allocator of YDWETimerPattern__Linear
+function s__YDWETimerPattern__Linear__allocate takes nothing returns integer
+ local integer this=s__YDWETimerPattern__Thread__allocate()
  local integer kthis
     if(this==0) then
         return 0
     endif
-    set si__YDWETimerPattern___Thread_type[this]=7
+    set si__YDWETimerPattern__Thread_type[this]=7
     set kthis=this
 
  return this
 endfunction
 
-function sc___prototype54_execute takes integer i returns nothing
+function sc___prototype46_execute takes integer i returns nothing
 
-    call TriggerExecute(st___prototype54[i])
+    call TriggerExecute(st___prototype46[i])
 endfunction
-function sc___prototype54_evaluate takes integer i returns nothing
+function sc___prototype46_evaluate takes integer i returns nothing
 
-    call TriggerEvaluate(st___prototype54[i])
+    call TriggerEvaluate(st___prototype46[i])
 
 endfunction
 function sc___prototype192_execute takes integer i,unit a1 returns nothing
@@ -4004,6 +4007,41 @@ endfunction
         endfunction
 
 //library Music ends
+//library NotPublic:
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function TSixtySecondCon takes nothing returns boolean
+	    return IsTesting == false
+	endfunction
+ function TSixtySecondAct1 takes nothing returns nothing
+	    call CustomDefeatBJ(GetEnumPlayer(), "该版本处于测试版,尚未公开.!")
+	endfunction
+ function TSixtySecondAct takes nothing returns nothing
+	    call ForForce(bj_FORCE_ALL_PLAYERS, function TSixtySecondAct1)
+	endfunction
+//---------------------------------------------------------------------------------------------------
+ function NotPublic__VerifyTesting takes nothing returns nothing
+		set IsTesting=true
+	endfunction
+//---------------------------------------------------------------------------------------------------
+  function NotPublic__InitNotPublic takes nothing returns nothing
+     local trigger t= CreateTrigger()
+	    call TriggerRegisterTimerEvent(t, 60.00, false)
+	    call TriggerAddCondition(t, Condition(function TSixtySecondCon))
+	    call TriggerAddAction(t, function TSixtySecondAct)
+	    set t=CreateTrigger()
+	    call TriggerRegisterPlayerChatEvent(t, Player(0), "loopinghelltest", true)
+		call TriggerRegisterPlayerChatEvent(t, Player(1), "loopinghelltest", true)
+		call TriggerRegisterPlayerChatEvent(t, Player(2), "loopinghelltest", true)
+		call TriggerRegisterPlayerChatEvent(t, Player(3), "loopinghelltest", true)
+		call TriggerRegisterPlayerChatEvent(t, Player(4), "loopinghelltest", true)
+		call TriggerRegisterPlayerChatEvent(t, Player(5), "loopinghelltest", true)
+	    call TriggerAddAction(t, function NotPublic__VerifyTesting)
+	    set t=null
+	 endfunction
+
+//library NotPublic ends
 //library NumberUtils:
     function GetNumberRange takes integer value,integer bit1,integer bit2 returns integer
         if ( bit1 > bit2 ) then
@@ -4161,27 +4199,9 @@ endfunction
     endfunction
 
 //library UnitFilter ends
-//library YDLua:
-
-    function initializeLua takes nothing returns integer
-        call Cheat("exec-lua:plugin_main")
-        return 0
-    endfunction
-        function YDLua___anon__0 takes nothing returns nothing
-            call BJDebugMsg("调用了YDLua引擎")
-            call DestroyTrigger(GetTriggeringTrigger())
-        endfunction
-    function YDLua___onInit takes nothing returns nothing
-        local trigger tr=CreateTrigger()
-        call TriggerRegisterTimerEvent(tr, 0.0, false)
-        call TriggerAddCondition(tr, Condition(function YDLua___anon__0))
-        set tr=null
-    endfunction
-
-//library YDLua ends
 //library YDTriggerSaveLoadSystem:
 //#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
-    function YDTriggerSaveLoadSystem___Init takes nothing returns nothing
+    function YDTriggerSaveLoadSystem__Init takes nothing returns nothing
             set YDHT=InitHashtable()
         set YDLOC=InitHashtable()
     endfunction
@@ -4786,11 +4806,11 @@ endfunction
 function YDWESyStemAbilityCastingOverTriggerAction takes unit u_hero,integer index returns nothing
  local integer i= 0
     loop
-        exitwhen i >= YDWEBase___AbilityCastingOverEventNumber
-        if YDWEBase___AbilityCastingOverEventType[i] == index then
+        exitwhen i >= YDWEBase__AbilityCastingOverEventNumber
+        if YDWEBase__AbilityCastingOverEventType[i] == index then
             set bj_lastAbilityCastingUnit=u_hero
-			if YDWEBase___AbilityCastingOverEventQueue[i] != null and TriggerEvaluate(YDWEBase___AbilityCastingOverEventQueue[i]) and IsTriggerEnabled(YDWEBase___AbilityCastingOverEventQueue[i]) then
-				call TriggerExecute(YDWEBase___AbilityCastingOverEventQueue[i])
+			if YDWEBase__AbilityCastingOverEventQueue[i] != null and TriggerEvaluate(YDWEBase__AbilityCastingOverEventQueue[i]) and IsTriggerEnabled(YDWEBase__AbilityCastingOverEventQueue[i]) then
+				call TriggerExecute(YDWEBase__AbilityCastingOverEventQueue[i])
 			endif
 		endif
         set i=i + 1
@@ -4800,9 +4820,9 @@ endfunction
 //YDWE技能捕捉事件
 //===========================================================================
 function YDWESyStemAbilityCastingOverRegistTrigger takes trigger trg,integer index returns nothing
-	set YDWEBase___AbilityCastingOverEventQueue[YDWEBase___AbilityCastingOverEventNumber]=trg
-	set YDWEBase___AbilityCastingOverEventType[YDWEBase___AbilityCastingOverEventNumber]=index
-	set YDWEBase___AbilityCastingOverEventNumber=YDWEBase___AbilityCastingOverEventNumber + 1
+	set YDWEBase__AbilityCastingOverEventQueue[YDWEBase__AbilityCastingOverEventNumber]=trg
+	set YDWEBase__AbilityCastingOverEventType[YDWEBase__AbilityCastingOverEventNumber]=index
+	set YDWEBase__AbilityCastingOverEventNumber=YDWEBase__AbilityCastingOverEventNumber + 1
 endfunction
 //===========================================================================
 //系统函数完善
@@ -4839,7 +4859,7 @@ endfunction
 //unitpool bj_lastCreatedPool=null
 //unit bj_lastPoolAbstractedUnit=null
 function YDWEGetPlayerColorString takes player p,string s returns string
-    return YDWEBase___yd_PlayerColor[GetHandleId(GetPlayerColor(p))] + s + "|r"
+    return YDWEBase__yd_PlayerColor[GetHandleId(GetPlayerColor(p))] + s + "|r"
 endfunction
 //===========================================================================
 //===========================================================================
@@ -4884,22 +4904,22 @@ function InitializeYD takes nothing returns nothing
 	set yd_MapMinY=GetCameraBoundMinY() - GetCameraMargin(CAMERA_MARGIN_BOTTOM)
 	set yd_MapMaxX=GetCameraBoundMaxX() + GetCameraMargin(CAMERA_MARGIN_RIGHT)
 	set yd_MapMaxY=GetCameraBoundMaxY() + GetCameraMargin(CAMERA_MARGIN_TOP)
-    set YDWEBase___yd_PlayerColor[0]="|cFFFF0303"
-    set YDWEBase___yd_PlayerColor[1]="|cFF0042FF"
-    set YDWEBase___yd_PlayerColor[2]="|cFF1CE6B9"
-    set YDWEBase___yd_PlayerColor[3]="|cFF540081"
-    set YDWEBase___yd_PlayerColor[4]="|cFFFFFC01"
-    set YDWEBase___yd_PlayerColor[5]="|cFFFE8A0E"
-    set YDWEBase___yd_PlayerColor[6]="|cFF20C000"
-    set YDWEBase___yd_PlayerColor[7]="|cFFE55BB0"
-    set YDWEBase___yd_PlayerColor[8]="|cFF959697"
-    set YDWEBase___yd_PlayerColor[9]="|cFF7EBFF1"
-    set YDWEBase___yd_PlayerColor[10]="|cFF106246"
-    set YDWEBase___yd_PlayerColor[11]="|cFF4E2A04"
-    set YDWEBase___yd_PlayerColor[12]="|cFF282828"
-    set YDWEBase___yd_PlayerColor[13]="|cFF282828"
-    set YDWEBase___yd_PlayerColor[14]="|cFF282828"
-    set YDWEBase___yd_PlayerColor[15]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[0]="|cFFFF0303"
+    set YDWEBase__yd_PlayerColor[1]="|cFF0042FF"
+    set YDWEBase__yd_PlayerColor[2]="|cFF1CE6B9"
+    set YDWEBase__yd_PlayerColor[3]="|cFF540081"
+    set YDWEBase__yd_PlayerColor[4]="|cFFFFFC01"
+    set YDWEBase__yd_PlayerColor[5]="|cFFFE8A0E"
+    set YDWEBase__yd_PlayerColor[6]="|cFF20C000"
+    set YDWEBase__yd_PlayerColor[7]="|cFFE55BB0"
+    set YDWEBase__yd_PlayerColor[8]="|cFF959697"
+    set YDWEBase__yd_PlayerColor[9]="|cFF7EBFF1"
+    set YDWEBase__yd_PlayerColor[10]="|cFF106246"
+    set YDWEBase__yd_PlayerColor[11]="|cFF4E2A04"
+    set YDWEBase__yd_PlayerColor[12]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[13]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[14]="|cFF282828"
+    set YDWEBase__yd_PlayerColor[15]="|cFF282828"
     //=================显示版本=====================
     call YDWEVersion_Init()
 endfunction
@@ -5104,9 +5124,9 @@ endfunction
 function YDWEAnyUnitDamagedTriggerAction takes nothing returns nothing
     local integer i= 0
     loop
-        exitwhen i >= YDWETriggerEvent___DamageEventNumber
-        if YDWETriggerEvent___DamageEventQueue[i] != null and IsTriggerEnabled(YDWETriggerEvent___DamageEventQueue[i]) and TriggerEvaluate(YDWETriggerEvent___DamageEventQueue[i]) then
-            call TriggerExecute(YDWETriggerEvent___DamageEventQueue[i])
+        exitwhen i >= YDWETriggerEvent__DamageEventNumber
+        if YDWETriggerEvent__DamageEventQueue[i] != null and IsTriggerEnabled(YDWETriggerEvent__DamageEventQueue[i]) and TriggerEvaluate(YDWETriggerEvent__DamageEventQueue[i]) then
+            call TriggerExecute(YDWETriggerEvent__DamageEventQueue[i])
         endif
         set i=i + 1
     endloop
@@ -5143,10 +5163,10 @@ endfunction
 function YDWESyStemAnyUnitDamagedSwap takes nothing returns nothing
     local boolean isEnabled= IsTriggerEnabled(yd_DamageEventTrigger)
     call DisableTrigger(yd_DamageEventTrigger)
-    if YDWETriggerEvent___yd_DamageEventTriggerToDestory != null then
-        call DestroyTrigger(YDWETriggerEvent___yd_DamageEventTriggerToDestory)
+    if YDWETriggerEvent__yd_DamageEventTriggerToDestory != null then
+        call DestroyTrigger(YDWETriggerEvent__yd_DamageEventTriggerToDestory)
     endif
-    set YDWETriggerEvent___yd_DamageEventTriggerToDestory=yd_DamageEventTrigger
+    set YDWETriggerEvent__yd_DamageEventTriggerToDestory=yd_DamageEventTrigger
     set yd_DamageEventTrigger=CreateTrigger()
     if not isEnabled then
         call DisableTrigger(yd_DamageEventTrigger)
@@ -5158,18 +5178,18 @@ function YDWESyStemAnyUnitDamagedRegistTrigger takes trigger trg returns nothing
     if trg == null then
         return
     endif
-    if YDWETriggerEvent___DamageEventNumber == 0 then
+    if YDWETriggerEvent__DamageEventNumber == 0 then
         set yd_DamageEventTrigger=CreateTrigger()
         call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
         call YDWEAnyUnitDamagedEnumUnit()
         call YDWEAnyUnitDamagedRegistTriggerUnitEnter()
-        if YDWETriggerEvent___DAMAGE_EVENT_SWAP_ENABLE then
+        if YDWETriggerEvent__DAMAGE_EVENT_SWAP_ENABLE then
             // 每隔 DAMAGE_EVENT_SWAP_TIMEOUT 秒, 将正在使用的 yd_DamageEventTrigger 移入销毁队列
-            call TimerStart(CreateTimer(), YDWETriggerEvent___DAMAGE_EVENT_SWAP_TIMEOUT, true, function YDWESyStemAnyUnitDamagedSwap)
+            call TimerStart(CreateTimer(), YDWETriggerEvent__DAMAGE_EVENT_SWAP_TIMEOUT, true, function YDWESyStemAnyUnitDamagedSwap)
         endif
     endif
-    set YDWETriggerEvent___DamageEventQueue[YDWETriggerEvent___DamageEventNumber]=trg
-    set YDWETriggerEvent___DamageEventNumber=YDWETriggerEvent___DamageEventNumber + 1
+    set YDWETriggerEvent__DamageEventQueue[YDWETriggerEvent__DamageEventNumber]=trg
+    set YDWETriggerEvent__DamageEventNumber=YDWETriggerEvent__DamageEventNumber + 1
 endfunction
 //===========================================================================
 //移动物品事件
@@ -5179,9 +5199,9 @@ function YDWESyStemItemUnmovableTriggerAction takes nothing returns nothing
     if GetIssuedOrderId() >= 852002 and GetIssuedOrderId() <= 852007 then
 		set bj_lastMovedItemInItemSlot=GetOrderTargetItem()
     	loop
-        	exitwhen i >= YDWETriggerEvent___MoveItemEventNumber
-        	if YDWETriggerEvent___MoveItemEventQueue[i] != null and IsTriggerEnabled(YDWETriggerEvent___MoveItemEventQueue[i]) and TriggerEvaluate(YDWETriggerEvent___MoveItemEventQueue[i]) then
-        	    call TriggerExecute(YDWETriggerEvent___MoveItemEventQueue[i])
+        	exitwhen i >= YDWETriggerEvent__MoveItemEventNumber
+        	if YDWETriggerEvent__MoveItemEventQueue[i] != null and IsTriggerEnabled(YDWETriggerEvent__MoveItemEventQueue[i]) and TriggerEvaluate(YDWETriggerEvent__MoveItemEventQueue[i]) then
+        	    call TriggerExecute(YDWETriggerEvent__MoveItemEventQueue[i])
         	endif
         	set i=i + 1
     	endloop
@@ -5191,13 +5211,13 @@ function YDWESyStemItemUnmovableRegistTrigger takes trigger trg returns nothing
     if trg == null then
         return
     endif
-    if YDWETriggerEvent___MoveItemEventNumber == 0 then
-        set YDWETriggerEvent___MoveItemEventTrigger=CreateTrigger()
-        call TriggerAddAction(YDWETriggerEvent___MoveItemEventTrigger, function YDWESyStemItemUnmovableTriggerAction)
-        call TriggerRegisterAnyUnitEventBJ(YDWETriggerEvent___MoveItemEventTrigger, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
+    if YDWETriggerEvent__MoveItemEventNumber == 0 then
+        set YDWETriggerEvent__MoveItemEventTrigger=CreateTrigger()
+        call TriggerAddAction(YDWETriggerEvent__MoveItemEventTrigger, function YDWESyStemItemUnmovableTriggerAction)
+        call TriggerRegisterAnyUnitEventBJ(YDWETriggerEvent__MoveItemEventTrigger, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
     endif
-    set YDWETriggerEvent___MoveItemEventQueue[YDWETriggerEvent___MoveItemEventNumber]=trg
-    set YDWETriggerEvent___MoveItemEventNumber=YDWETriggerEvent___MoveItemEventNumber + 1
+    set YDWETriggerEvent__MoveItemEventQueue[YDWETriggerEvent__MoveItemEventNumber]=trg
+    set YDWETriggerEvent__MoveItemEventNumber=YDWETriggerEvent__MoveItemEventNumber + 1
 endfunction
 function GetLastMovedItemInItemSlot takes nothing returns item
     return bj_lastMovedItemInItemSlot
@@ -6365,73 +6385,6 @@ endfunction
     endfunction
 
 //library GroupUtils ends
-//library Logger:
-
-    function Trace takes string msg returns nothing
-        set logger_msg=msg
-        set logger_level=0
-        set logger_p=GetLocalPlayer()
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 调试级别日志(绿色),用于输出变量值等调试信息
-    function Debug takes string msg returns nothing
-        set logger_msg=msg
-        set logger_level=1
-        set logger_p=GetLocalPlayer()
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 信息级别日志(白色),用于输出普通提示信息
-    function Info takes string msg returns nothing
-        set logger_msg=msg
-        set logger_level=2
-        set logger_p=GetLocalPlayer()
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 警告级别日志(黄色),用于输出警告信息
-    function Warn takes string msg returns nothing
-        set logger_msg=msg
-        set logger_level=3
-        set logger_p=GetLocalPlayer()
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 错误级别日志(红色),用于输出错误信息
-    function Error takes string msg returns nothing
-        set logger_msg=msg
-        set logger_level=4
-        set logger_p=GetLocalPlayer()
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 向指定玩家输出追踪日志(灰色)
-    function TraceToPlayer takes player p,string msg returns nothing
-        set logger_msg=msg
-        set logger_level=0
-        set logger_p=p
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 向指定玩家输出调试日志(绿色)
-    function DebugToPlayer takes player p,string msg returns nothing
-        set logger_msg=msg
-        set logger_level=1
-        set logger_p=p
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 向指定玩家输出信息日志(白色)
-    function InfoToPlayer takes player p,string msg returns nothing
-        set logger_msg=msg
-        set logger_level=2
-        set logger_p=p
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 向指定玩家输出警告日志(黄色)
-    function WarnToPlayer takes player p,string msg returns nothing
-        set logger_msg=msg
-        set logger_level=3
-        set logger_p=p
-        call TriggerEvaluate(logger_tr)
-    endfunction  // 向指定玩家输出错误日志(红色)
-    function ErrorToPlayer takes player p,string msg returns nothing
-        set logger_msg=msg
-        set logger_level=4
-        set logger_p=p
-        call TriggerEvaluate(logger_tr)
-    endfunction
-    function Logger___onInit takes nothing returns nothing
-        call Cheat("exec-lua:depends.debug.logger")
-    endfunction
-
-//library Logger ends
 //library YDWEAroundSystem:
 //library TP1 requires YDWEBase
     function YDWEAroundSystem___spin takes nothing returns nothing
@@ -6504,7 +6457,7 @@ endfunction
 //===========================================================================
 //环绕技能模板 
 //===========================================================================
-function YDWECreateEwsp___Loop takes nothing returns nothing
+function YDWECreateEwsp__Loop takes nothing returns nothing
     local timer t= GetExpiredTimer()
  local string h= I2S(YDWEH2I(t))
     local unit tempUnit
@@ -6573,7 +6526,7 @@ function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,
         call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
         set bj_lastCreatedUnit=tempUnit
     endloop
-    call TimerStart(t, interval, true, function YDWECreateEwsp___Loop)
+    call TimerStart(t, interval, true, function YDWECreateEwsp__Loop)
     set t=null
     set tempUnit=null
 endfunction
@@ -6605,7 +6558,7 @@ endfunction
 
 //library YDWEGetUnitsOfPlayerAllNull ends
 //library YDWESetGuard:
-function YDWESetGuard___IsUnitIdle takes unit u returns boolean
+function YDWESetGuard__IsUnitIdle takes unit u returns boolean
     return OrderId2String(GetUnitCurrentOrder(u)) == null
 endfunction
 function YDWERemoveGuard takes unit pet returns nothing
@@ -6629,7 +6582,7 @@ function SetGuardTimer takes nothing returns nothing
   set v=YDWEGetRealByString(I2S(YDWEH2I(tm)) , "GuardRanger")
   if GetUnitState(pet, UNIT_STATE_LIFE) > 0 and GetUnitState(captain, UNIT_STATE_LIFE) > 0 then
       if d < v * v then
-         if YDWESetGuard___IsUnitIdle(pet) and GetRandomInt(0, 100) < p then
+         if YDWESetGuard__IsUnitIdle(pet) and GetRandomInt(0, 100) < p then
            set x=GetUnitX(captain)
            set y=GetUnitY(captain)
            set d=GetRandomReal(0, v)
@@ -6639,7 +6592,7 @@ function SetGuardTimer takes nothing returns nothing
       else
         set v=YDWEGetRealByString(I2S(YDWEH2I(tm)) , "ReturnRanger")
         if d < v * v then
-          if YDWESetGuard___IsUnitIdle(pet) then
+          if YDWESetGuard__IsUnitIdle(pet) then
             call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
           endif
         else
@@ -6682,11 +6635,11 @@ endfunction
 //*--------------------
 //* 作者：Warft_TigerCN  代码优化：Fetrix_sai
 //***************************************************
-//processed:     function interface AfterCollied takes YDWETimerPattern___Thread t,real nx,real ny returns nothing
+//processed:     function interface AfterCollied takes YDWETimerPattern__Thread t,real nx,real ny returns nothing
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                       Timer Pattern Union                                              //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    function YDWETimerPattern___SingleMagic takes unit sour,unit targ,real x,real y,real h,integer uid,integer aid,integer lv,integer order returns nothing
+    function YDWETimerPattern__SingleMagic takes unit sour,unit targ,real x,real y,real h,integer uid,integer aid,integer lv,integer order returns nothing
         local unit dummy= CreateUnit(GetOwningPlayer(sour), uid, x, y, GetUnitFacing(sour))
         call UnitApplyTimedLife(dummy, 'BHwe', 1.0)
         call UnitAddAbility(dummy, aid)
@@ -6696,46 +6649,46 @@ endfunction
         //debug call BJDebugMsg("Target order")
         set dummy=null
     endfunction
-    function YDWETimerPattern___GetUnitZ takes unit u returns real
-        call MoveLocation(YDWETimerPattern___yd_loc, GetUnitX(u), GetUnitY(u))
-        return GetUnitFlyHeight(u) + GetLocationZ(YDWETimerPattern___yd_loc)
+    function YDWETimerPattern__GetUnitZ takes unit u returns real
+        call MoveLocation(YDWETimerPattern__yd_loc, GetUnitX(u), GetUnitY(u))
+        return GetUnitFlyHeight(u) + GetLocationZ(YDWETimerPattern__yd_loc)
     endfunction
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                            Filter Funcs                                                //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    function YDWETimerPattern___EnemyFilter takes unit u,unit caster returns boolean
+    function YDWETimerPattern__EnemyFilter takes unit u,unit caster returns boolean
         return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsUnitType(u, UNIT_TYPE_RESISTANT) == false and IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitIllusion(u) == false and IsUnitHidden(u) == false and IsUnitEnemy(u, GetOwningPlayer(caster)) and IsUnitVisible(u, GetOwningPlayer(caster))
     endfunction
-    function YDWETimerPattern___TreeFilter takes nothing returns boolean
+    function YDWETimerPattern__TreeFilter takes nothing returns boolean
         local integer id= GetDestructableTypeId(GetFilterDestructable())
         return id == 'LTlt' or id == 'ATtr' or id == 'BTtw' or id == 'KTtw' or id == 'YTft' or id == 'JTct' or id == 'YTst' or id == 'YTct' or id == 'YTwt' or id == 'JTtw' or id == 'DTsh' or id == 'FTtw' or id == 'CTtr' or id == 'ITtw' or id == 'NTtw' or id == 'OTtw' or id == 'ZTtw' or id == 'WTst' or id == 'GTsh' or id == 'VTlt' or id == 'WTtw' or id == 'ATtc' or id == 'BTtc' or id == 'CTtc' or id == 'ITtc' or id == 'NTtc' or id == 'ZTtc'
     endfunction
-    function YDWETimerPattern___DamageFilter takes nothing returns boolean
+    function YDWETimerPattern__DamageFilter takes nothing returns boolean
         local unit u= GetFilterUnit()
-        local integer d= YDWETimerPattern___tmp_data
+        local integer d= YDWETimerPattern__tmp_data
         //call BJDebugMsg("outer:"+I2S(CountUnitsInGroup(d.g)))
-        if not ( IsUnitInGroup(u, s__YDWETimerPattern___Thread_g[d]) ) and s__YDWETimerPattern___Thread_switch[d] != 0 and YDWETimerPattern___EnemyFilter(u , s__YDWETimerPattern___Thread_caster[d]) then
-            call GroupAddUnit(s__YDWETimerPattern___Thread_g[d], u)
+        if not ( IsUnitInGroup(u, s__YDWETimerPattern__Thread_g[d]) ) and s__YDWETimerPattern__Thread_switch[d] != 0 and YDWETimerPattern__EnemyFilter(u , s__YDWETimerPattern__Thread_caster[d]) then
+            call GroupAddUnit(s__YDWETimerPattern__Thread_g[d], u)
             call BJDebugMsg(I2S(YDWEH2I(u)))
-            call UnitDamageTarget(s__YDWETimerPattern___Thread_caster[d], u, s__YDWETimerPattern___Thread_amount[d], true, true, bj_lastSetAttackType, bj_lastSetDamageType, bj_lastSetWeaponType)
+            call UnitDamageTarget(s__YDWETimerPattern__Thread_caster[d], u, s__YDWETimerPattern__Thread_amount[d], true, true, bj_lastSetAttackType, bj_lastSetDamageType, bj_lastSetWeaponType)
             //call DestroyEffect(AddSpecialEffectTarget(d.dsfx, u, d.part))
-            call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern___Thread_dsfx[d], GetUnitX(u), GetUnitY(u)))
+            call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern__Thread_dsfx[d], GetUnitX(u), GetUnitY(u)))
            // call BJDebugMsg(":" + d.dsfx)
-            if s__YDWETimerPattern___Thread_skills[d] > '0000' and s__YDWETimerPattern___Thread_skills[d] != null and s__YDWETimerPattern___Thread_order[d] > 0 and s__YDWETimerPattern___Thread_order[d] != null then
-                call YDWETimerPattern___SingleMagic(s__YDWETimerPattern___Thread_caster[d] , u , s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[d]] , s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[d]] , GetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[d]) , s__YDWETimerPattern___Thread_unitid[d] , s__YDWETimerPattern___Thread_skills[d] , s__YDWETimerPattern___Thread_level[d] , s__YDWETimerPattern___Thread_order[d])
+            if s__YDWETimerPattern__Thread_skills[d] > '0000' and s__YDWETimerPattern__Thread_skills[d] != null and s__YDWETimerPattern__Thread_order[d] > 0 and s__YDWETimerPattern__Thread_order[d] != null then
+                call YDWETimerPattern__SingleMagic(s__YDWETimerPattern__Thread_caster[d] , u , s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[d]] , s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[d]] , GetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[d]) , s__YDWETimerPattern__Thread_unitid[d] , s__YDWETimerPattern__Thread_skills[d] , s__YDWETimerPattern__Thread_level[d] , s__YDWETimerPattern__Thread_order[d])
             endif
-            if not ( s__YDWETimerPattern___Thread_recycle[d] ) then
+            if not ( s__YDWETimerPattern__Thread_recycle[d] ) then
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r A one-time.")
-                set s__YDWETimerPattern___Thread_switch[d]=0
+                set s__YDWETimerPattern__Thread_switch[d]=0
             endif
-            set s__YDWETimerPattern___Thread_target[d]=u
+            set s__YDWETimerPattern__Thread_target[d]=u
             set u=null
             return true
         endif
         set u=null
         return false
     endfunction
-    function YDWETimerPattern___TreeKill takes nothing returns nothing
+    function YDWETimerPattern__TreeKill takes nothing returns nothing
         local destructable d= GetEnumDestructable()
         if GetWidgetLife(d) > 0.405 then
             call KillDestructable(d)
@@ -6745,276 +6698,276 @@ endfunction
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     //                                         Major Structure Code                                           //
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-        function s__YDWETimerPattern___Thread__staticgetindex takes handle h returns integer
+        function s__YDWETimerPattern__Thread__staticgetindex takes handle h returns integer
             return YDWEGetIntegerByString("YDWETimerPattern." , I2S(YDWEH2I(h)))
         endfunction
-        function s__YDWETimerPattern___Thread__staticsetindex takes handle h,integer value returns nothing
+        function s__YDWETimerPattern__Thread__staticsetindex takes handle h,integer value returns nothing
             call YDWESaveIntegerByString("YDWETimerPattern." , I2S(YDWEH2I(h)) , value)
         endfunction
-        function s__YDWETimerPattern___Thread_flush takes handle h returns nothing
+        function s__YDWETimerPattern__Thread_flush takes handle h returns nothing
             call YDWEFlushStoredIntegerByString("YDWETimerPattern." , I2S(YDWEH2I(h)))
         endfunction
-        function s__YDWETimerPattern___Thread__set_x takes integer this,real value returns nothing
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=value
-            call SetUnitX(s__YDWETimerPattern___Thread_obj[this], value)
+        function s__YDWETimerPattern__Thread__set_x takes integer this,real value returns nothing
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=value
+            call SetUnitX(s__YDWETimerPattern__Thread_obj[this], value)
         endfunction
-        function s__YDWETimerPattern___Thread__set_y takes integer this,real value returns nothing
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=value
-            call SetUnitY(s__YDWETimerPattern___Thread_obj[this], value)
+        function s__YDWETimerPattern__Thread__set_y takes integer this,real value returns nothing
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=value
+            call SetUnitY(s__YDWETimerPattern__Thread_obj[this], value)
         endfunction
-        function s__YDWETimerPattern___Thread__set_z takes integer this,real value returns nothing
-            set s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]]=value
-            call MoveLocation(YDWETimerPattern___yd_loc, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]])
-            call SetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this], value - GetLocationZ(YDWETimerPattern___yd_loc), 0)
+        function s__YDWETimerPattern__Thread__set_z takes integer this,real value returns nothing
+            set s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]]=value
+            call MoveLocation(YDWETimerPattern__yd_loc, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])
+            call SetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this], value - GetLocationZ(YDWETimerPattern__yd_loc), 0)
         endfunction
-        function s__YDWETimerPattern___Thread_onDestroy takes integer this returns nothing
+        function s__YDWETimerPattern__Thread_onDestroy takes integer this returns nothing
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r Knockback stopped!")
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_obj[this])
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_t[this])
-            call GroupClear(s__YDWETimerPattern___Thread_g[this])
-            call DestroyGroup(s__YDWETimerPattern___Thread_g[this])
-            call PauseTimer(s__YDWETimerPattern___Thread_t[this])
-            call DestroyTimer(s__YDWETimerPattern___Thread_t[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_des[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_pos[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_vel[this])
-            set s__YDWETimerPattern___Thread_caster[this]=null
-            set s__YDWETimerPattern___Thread_target[this]=null
-            set s__YDWETimerPattern___Thread_obj[this]=null
-            set s__YDWETimerPattern___Thread_g[this]=null
-            set s__YDWETimerPattern___Thread_t[this]=null
-            set s__YDWETimerPattern___Thread_amount[this]=0
-            set s__YDWETimerPattern___Thread_skills[this]=0
-            set s__YDWETimerPattern___Thread_order[this]=0
-            set s__YDWETimerPattern___Thread_afc[this]=0
-            set s__YDWETimerPattern___Thread_dsfx[this]=""
-            set s__YDWETimerPattern___Thread_gsfx[this]=""
-            set s__YDWETimerPattern___Thread_wsfx[this]=""
-            set s__YDWETimerPattern___Thread_part[this]=""
+            call s__YDWETimerPattern__Thread_flush(s__YDWETimerPattern__Thread_obj[this])
+            call s__YDWETimerPattern__Thread_flush(s__YDWETimerPattern__Thread_t[this])
+            call GroupClear(s__YDWETimerPattern__Thread_g[this])
+            call DestroyGroup(s__YDWETimerPattern__Thread_g[this])
+            call PauseTimer(s__YDWETimerPattern__Thread_t[this])
+            call DestroyTimer(s__YDWETimerPattern__Thread_t[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_des[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_pos[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_vel[this])
+            set s__YDWETimerPattern__Thread_caster[this]=null
+            set s__YDWETimerPattern__Thread_target[this]=null
+            set s__YDWETimerPattern__Thread_obj[this]=null
+            set s__YDWETimerPattern__Thread_g[this]=null
+            set s__YDWETimerPattern__Thread_t[this]=null
+            set s__YDWETimerPattern__Thread_amount[this]=0
+            set s__YDWETimerPattern__Thread_skills[this]=0
+            set s__YDWETimerPattern__Thread_order[this]=0
+            set s__YDWETimerPattern__Thread_afc[this]=0
+            set s__YDWETimerPattern__Thread_dsfx[this]=""
+            set s__YDWETimerPattern__Thread_gsfx[this]=""
+            set s__YDWETimerPattern__Thread_wsfx[this]=""
+            set s__YDWETimerPattern__Thread_part[this]=""
         endfunction
-        function s__YDWETimerPattern___Parabola_move takes nothing returns nothing
-            local integer this= s__YDWETimerPattern___Thread__staticgetindex(GetExpiredTimer())
+        function s__YDWETimerPattern__Parabola_move takes nothing returns nothing
+            local integer this= s__YDWETimerPattern__Thread__staticgetindex(GetExpiredTimer())
             //local real vx = .des.x - .pos.x
             //local real vy = .des.y - .pos.y
             //local real vz = .des.z - .pos.z
             //if vx * vx + vy * vy + vz * vz > 900.0 then
-                call s__YDWETimerPattern___Thread__set_x(this,GetUnitX(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]) //.pos.x + .vel.x
-call s__YDWETimerPattern___Thread__set_y(this,GetUnitY(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]) //.pos.y + .vel.y
-call s__YDWETimerPattern___Thread__set_z(this,YDWETimerPattern___GetUnitZ(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___Thread_ac[this] * s__YDWETimerPattern___Thread_step[this] * 2 + s__YDWETimerPattern___Thread_ac[this] * s__YDWETimerPattern___Thread_dist[this] + s__YDWETimerPattern___Thread_bc[this]) //.pos.z + .ac * .step * 2 + .ac * .dist + .bc
-set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[this] + s__YDWETimerPattern___Thread_dist[this]
+                call s__YDWETimerPattern__Thread__set_x(this,GetUnitX(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]) //.pos.x + .vel.x
+call s__YDWETimerPattern__Thread__set_y(this,GetUnitY(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]) //.pos.y + .vel.y
+call s__YDWETimerPattern__Thread__set_z(this,YDWETimerPattern__GetUnitZ(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__Thread_ac[this] * s__YDWETimerPattern__Thread_step[this] * 2 + s__YDWETimerPattern__Thread_ac[this] * s__YDWETimerPattern__Thread_dist[this] + s__YDWETimerPattern__Thread_bc[this]) //.pos.z + .ac * .step * 2 + .ac * .dist + .bc
+set s__YDWETimerPattern__Thread_step[this]=s__YDWETimerPattern__Thread_step[this] + s__YDWETimerPattern__Thread_dist[this]
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r high = ." + R2S(GetLocationZ(yd_loc)))
-                if YDWECoordinateX(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] or s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] <= GetLocationZ(YDWETimerPattern___yd_loc) then
-                    set s__YDWETimerPattern___Thread_switch[this]=0
+                if YDWECoordinateX(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]) != s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]) != s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] or s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] <= GetLocationZ(YDWETimerPattern__yd_loc) then
+                    set s__YDWETimerPattern__Thread_switch[this]=0
                 endif
-                if s__YDWETimerPattern___Thread_amount[this] > 0.0 then
+                if s__YDWETimerPattern__Thread_amount[this] > 0.0 then
                     //call this.damage(.caster, .pos.x + .vel.x, .pos.y + .vel.y, GetUnitZ(.obj), false, false)
-                    set YDWETimerPattern___tmp_data=(this)
-                    call GroupEnumUnitsInRange(s__YDWETimerPattern___Thread_g[this], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]], 120.0, Condition(function YDWETimerPattern___DamageFilter))
+                    set YDWETimerPattern__tmp_data=(this)
+                    call GroupEnumUnitsInRange(s__YDWETimerPattern__Thread_g[this], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]], 120.0, Condition(function YDWETimerPattern__DamageFilter))
                     //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r Area damage.")
                 endif
             //else
                 //set .switch = 0
             //endif
-            if s__YDWETimerPattern___Thread_switch[this] == 0 then
-                call SetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern___Thread_obj[this]), 200.0)
-                call SetUnitTimeScale(s__YDWETimerPattern___Thread_obj[this], 1)
+            if s__YDWETimerPattern__Thread_switch[this] == 0 then
+                call SetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern__Thread_obj[this]), 200.0)
+                call SetUnitTimeScale(s__YDWETimerPattern__Thread_obj[this], 1)
                 //YDWETriggerEvent
-                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_obj[this] , 7)
-                call sc__YDWETimerPattern___Thread_deallocate(this)
+                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_obj[this] , 7)
+                call sc__YDWETimerPattern__Thread_deallocate(this)
             endif
         endfunction
-        function s__YDWETimerPattern___Parabola_create takes unit source,unit object,real angle,real distance,real time,real interval,real high,real damage,string attach,string deff returns integer
-            local integer this= s__YDWETimerPattern___Parabola__allocate()
+        function s__YDWETimerPattern__Parabola_create takes unit source,unit object,real angle,real distance,real time,real interval,real high,real damage,string attach,string deff returns integer
+            local integer this= s__YDWETimerPattern__Parabola__allocate()
             local real vx= 0.0
             local real vy= 0.0
             local real vz= 0.0
-            set s__YDWETimerPattern___Thread_des[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_pos[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_vel[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=GetUnitX(object)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=GetUnitY(object)
-            set s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]]=YDWETimerPattern___GetUnitZ(object)
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_des[this]]=s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] + distance * Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_des[this]]=s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] + distance * Sin(angle)
-            call MoveLocation(YDWETimerPattern___yd_loc, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_des[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_des[this]])
-            set s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]]=GetLocationZ(YDWETimerPattern___yd_loc)
-            if s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] > s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]] then
-                set high=high + s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]]
+            set s__YDWETimerPattern__Thread_des[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_pos[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_vel[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=GetUnitX(object)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=GetUnitY(object)
+            set s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]]=YDWETimerPattern__GetUnitZ(object)
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_des[this]]=s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] + distance * Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_des[this]]=s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] + distance * Sin(angle)
+            call MoveLocation(YDWETimerPattern__yd_loc, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_des[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_des[this]])
+            set s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]]=GetLocationZ(YDWETimerPattern__yd_loc)
+            if s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] > s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]] then
+                set high=high + s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]]
             else
-                set high=high + s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]]
+                set high=high + s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]]
             endif
-            set s__YDWETimerPattern___Thread_ac[this]=( 2 * ( s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]] ) - 4 * high ) / ( distance * distance )
-            set s__YDWETimerPattern___Thread_bc[this]=( s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_des[this]] - s__YDWETimerPattern___YDVector3_z[s__YDWETimerPattern___Thread_pos[this]] - s__YDWETimerPattern___Thread_ac[this] * distance * distance ) / distance
-            set s__YDWETimerPattern___Thread_dist[this]=distance * interval / time
-            set s__YDWETimerPattern___Thread_ac[this]=s__YDWETimerPattern___Thread_ac[this] * s__YDWETimerPattern___Thread_dist[this]
-            set s__YDWETimerPattern___Thread_bc[this]=s__YDWETimerPattern___Thread_bc[this] * s__YDWETimerPattern___Thread_dist[this]
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Sin(angle)
-            set s__YDWETimerPattern___Thread_step[this]=0.0
-            set s__YDWETimerPattern___Thread_caster[this]=source
-            set s__YDWETimerPattern___Thread_obj[this]=object
-            set s__YDWETimerPattern___Thread_amount[this]=damage
-            set s__YDWETimerPattern___Thread_dsfx[this]=deff
-            set s__YDWETimerPattern___Thread_part[this]=attach
-            set s__YDWETimerPattern___Thread_switch[this]=1
-            set s__YDWETimerPattern___Thread_recycle[this]=true
-            set s__YDWETimerPattern___Thread_t[this]=CreateTimer()
-            set s__YDWETimerPattern___Thread_g[this]=CreateGroup()
-            call UnitAddAbility(s__YDWETimerPattern___Thread_obj[this], 'Amrf')
-            call UnitRemoveAbility(s__YDWETimerPattern___Thread_obj[this], 'Amrf')
-            call TimerStart(s__YDWETimerPattern___Thread_t[this], interval, true, function s__YDWETimerPattern___Parabola_move)
-            call GroupAddUnit(s__YDWETimerPattern___Thread_g[this], object)
-            call s__YDWETimerPattern___Thread__staticsetindex(object, (this))
-            call s__YDWETimerPattern___Thread__staticsetindex(s__YDWETimerPattern___Thread_t[this], (this))
+            set s__YDWETimerPattern__Thread_ac[this]=( 2 * ( s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]] ) - 4 * high ) / ( distance * distance )
+            set s__YDWETimerPattern__Thread_bc[this]=( s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_des[this]] - s__YDWETimerPattern__YDVector3_z[s__YDWETimerPattern__Thread_pos[this]] - s__YDWETimerPattern__Thread_ac[this] * distance * distance ) / distance
+            set s__YDWETimerPattern__Thread_dist[this]=distance * interval / time
+            set s__YDWETimerPattern__Thread_ac[this]=s__YDWETimerPattern__Thread_ac[this] * s__YDWETimerPattern__Thread_dist[this]
+            set s__YDWETimerPattern__Thread_bc[this]=s__YDWETimerPattern__Thread_bc[this] * s__YDWETimerPattern__Thread_dist[this]
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Sin(angle)
+            set s__YDWETimerPattern__Thread_step[this]=0.0
+            set s__YDWETimerPattern__Thread_caster[this]=source
+            set s__YDWETimerPattern__Thread_obj[this]=object
+            set s__YDWETimerPattern__Thread_amount[this]=damage
+            set s__YDWETimerPattern__Thread_dsfx[this]=deff
+            set s__YDWETimerPattern__Thread_part[this]=attach
+            set s__YDWETimerPattern__Thread_switch[this]=1
+            set s__YDWETimerPattern__Thread_recycle[this]=true
+            set s__YDWETimerPattern__Thread_t[this]=CreateTimer()
+            set s__YDWETimerPattern__Thread_g[this]=CreateGroup()
+            call UnitAddAbility(s__YDWETimerPattern__Thread_obj[this], 'Amrf')
+            call UnitRemoveAbility(s__YDWETimerPattern__Thread_obj[this], 'Amrf')
+            call TimerStart(s__YDWETimerPattern__Thread_t[this], interval, true, function s__YDWETimerPattern__Parabola_move)
+            call GroupAddUnit(s__YDWETimerPattern__Thread_g[this], object)
+            call s__YDWETimerPattern__Thread__staticsetindex(object, (this))
+            call s__YDWETimerPattern__Thread__staticsetindex(s__YDWETimerPattern__Thread_t[this], (this))
             return this
         endfunction
     // uniform speed
-        function s__YDWETimerPattern___Linear_move takes nothing returns nothing
-            local integer this= s__YDWETimerPattern___Thread__staticgetindex(GetExpiredTimer())
-            if s__YDWETimerPattern___Thread_step[this] > s__YDWETimerPattern___Thread_dist[this] then
-                call s__YDWETimerPattern___Thread__set_x(this,GetUnitX(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]) //.pos.x + .vel.x
-call s__YDWETimerPattern___Thread__set_y(this,GetUnitY(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]) //.pos.y + .vel.y
+        function s__YDWETimerPattern__Linear_move takes nothing returns nothing
+            local integer this= s__YDWETimerPattern__Thread__staticgetindex(GetExpiredTimer())
+            if s__YDWETimerPattern__Thread_step[this] > s__YDWETimerPattern__Thread_dist[this] then
+                call s__YDWETimerPattern__Thread__set_x(this,GetUnitX(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]) //.pos.x + .vel.x
+call s__YDWETimerPattern__Thread__set_y(this,GetUnitY(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]) //.pos.y + .vel.y
 //set .pos.z = GetUnitZ(.obj)
-set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[this] - s__YDWETimerPattern___Thread_dist[this]
+set s__YDWETimerPattern__Thread_step[this]=s__YDWETimerPattern__Thread_step[this] - s__YDWETimerPattern__Thread_dist[this]
                 //call this.damage(.caster, .pos.x, .pos.y, .pos.z, true, true)
-                set YDWETimerPattern___tmp_data=(this)
-                call GroupEnumUnitsInRange(s__YDWETimerPattern___Thread_g[this], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] + s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]], 120.0, Condition(function YDWETimerPattern___DamageFilter))
-                if YDWECoordinateX(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] then
-                    set s__YDWETimerPattern___Thread_switch[this]=0
+                set YDWETimerPattern__tmp_data=(this)
+                call GroupEnumUnitsInRange(s__YDWETimerPattern__Thread_g[this], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] + s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]], 120.0, Condition(function YDWETimerPattern__DamageFilter))
+                if YDWECoordinateX(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]) != s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]) != s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] then
+                    set s__YDWETimerPattern__Thread_switch[this]=0
                 endif
             else
-                set s__YDWETimerPattern___Thread_switch[this]=0
+                set s__YDWETimerPattern__Thread_switch[this]=0
             endif
-            if s__YDWETimerPattern___Thread_switch[this] == 0 then
+            if s__YDWETimerPattern__Thread_switch[this] == 0 then
                 // YDWETriggerEvent
-                if s__YDWETimerPattern___Thread_target[this] != null then
+                if s__YDWETimerPattern__Thread_target[this] != null then
                     //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r  |cffff0000" + GetUnitName(.target) + "|r was hit!!!")
                     //call YDWESaveUnitByString(I2S(YDWEH2I(.caster)), "MoonPriestessArrow", .target)
-                    set bj_lastAbilityTargetUnit=s__YDWETimerPattern___Thread_target[this]
-                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_caster[this] , 8)
+                    set bj_lastAbilityTargetUnit=s__YDWETimerPattern__Thread_target[this]
+                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_caster[this] , 8)
                 else
-                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_caster[this] , 9)
+                    call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_caster[this] , 9)
                 endif
                 //call KillUnit(.obj)
-                call RemoveUnit(s__YDWETimerPattern___Thread_obj[this])
-                call sc__YDWETimerPattern___Thread_deallocate(this)
+                call RemoveUnit(s__YDWETimerPattern__Thread_obj[this])
+                call sc__YDWETimerPattern__Thread_deallocate(this)
             endif
         endfunction
-        function s__YDWETimerPattern___Linear_create takes unit source,unit object,real angle,real distance,real time,real interval,integer uid,integer aid,integer lv,integer orderid,string attach,string sfx returns integer
-            local integer this= s__YDWETimerPattern___Linear__allocate()
-            set s__YDWETimerPattern___Thread_des[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_pos[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_vel[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_step[this]=distance
-            set s__YDWETimerPattern___Thread_dist[this]=distance * interval / time
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]=s__YDWETimerPattern___Thread_dist[this] * Sin(angle)
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=GetUnitX(object)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=GetUnitY(object)
-            set s__YDWETimerPattern___Thread_caster[this]=source
-            set s__YDWETimerPattern___Thread_obj[this]=object
-            set s__YDWETimerPattern___Thread_unitid[this]=uid
-            set s__YDWETimerPattern___Thread_skills[this]=aid
-            set s__YDWETimerPattern___Thread_level[this]=lv
-            set s__YDWETimerPattern___Thread_order[this]=orderid
-            set s__YDWETimerPattern___Thread_part[this]=attach
-            set s__YDWETimerPattern___Thread_gsfx[this]=sfx
-            set s__YDWETimerPattern___Thread_switch[this]=1
-            set s__YDWETimerPattern___Thread_recycle[this]=false
-            set s__YDWETimerPattern___Thread_t[this]=CreateTimer()
-            set s__YDWETimerPattern___Thread_g[this]=CreateGroup()
-            call TimerStart(s__YDWETimerPattern___Thread_t[this], interval, true, function s__YDWETimerPattern___Linear_move)
-            call s__YDWETimerPattern___Thread__staticsetindex(s__YDWETimerPattern___Thread_t[this], (this))
+        function s__YDWETimerPattern__Linear_create takes unit source,unit object,real angle,real distance,real time,real interval,integer uid,integer aid,integer lv,integer orderid,string attach,string sfx returns integer
+            local integer this= s__YDWETimerPattern__Linear__allocate()
+            set s__YDWETimerPattern__Thread_des[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_pos[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_vel[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_step[this]=distance
+            set s__YDWETimerPattern__Thread_dist[this]=distance * interval / time
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]=s__YDWETimerPattern__Thread_dist[this] * Sin(angle)
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=GetUnitX(object)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=GetUnitY(object)
+            set s__YDWETimerPattern__Thread_caster[this]=source
+            set s__YDWETimerPattern__Thread_obj[this]=object
+            set s__YDWETimerPattern__Thread_unitid[this]=uid
+            set s__YDWETimerPattern__Thread_skills[this]=aid
+            set s__YDWETimerPattern__Thread_level[this]=lv
+            set s__YDWETimerPattern__Thread_order[this]=orderid
+            set s__YDWETimerPattern__Thread_part[this]=attach
+            set s__YDWETimerPattern__Thread_gsfx[this]=sfx
+            set s__YDWETimerPattern__Thread_switch[this]=1
+            set s__YDWETimerPattern__Thread_recycle[this]=false
+            set s__YDWETimerPattern__Thread_t[this]=CreateTimer()
+            set s__YDWETimerPattern__Thread_g[this]=CreateGroup()
+            call TimerStart(s__YDWETimerPattern__Thread_t[this], interval, true, function s__YDWETimerPattern__Linear_move)
+            call s__YDWETimerPattern__Thread__staticsetindex(s__YDWETimerPattern__Thread_t[this], (this))
             return this
         endfunction
     // Uniform deceleration
-        function s__YDWETimerPattern___Deceleration_move takes nothing returns nothing
-            local integer this= s__YDWETimerPattern___Thread__staticgetindex(GetExpiredTimer())
-            local real xp= GetUnitX(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___Thread_dist[this] * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]
-            local real yp= GetUnitY(s__YDWETimerPattern___Thread_obj[this]) + s__YDWETimerPattern___Thread_dist[this] * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]
+        function s__YDWETimerPattern__Deceleration_move takes nothing returns nothing
+            local integer this= s__YDWETimerPattern__Thread__staticgetindex(GetExpiredTimer())
+            local real xp= GetUnitX(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__Thread_dist[this] * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]
+            local real yp= GetUnitY(s__YDWETimerPattern__Thread_obj[this]) + s__YDWETimerPattern__Thread_dist[this] * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]
             local group ge= CreateGroup()
-            if s__YDWETimerPattern___Thread_volume[this] == false then
+            if s__YDWETimerPattern__Thread_volume[this] == false then
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |rPathable without terrain.")
                 if IsTerrainPathable(xp, yp, PATHING_TYPE_WALKABILITY) then
-                    if ( s__YDWETimerPattern___Thread_afc[this] != 0 ) then
-                        call sc___prototype233_execute(s__YDWETimerPattern___Thread_afc[this],this , xp , yp)
+                    if ( s__YDWETimerPattern__Thread_afc[this] != 0 ) then
+                        call sc___prototype233_execute(s__YDWETimerPattern__Thread_afc[this],this , xp , yp)
                     else
-                        set s__YDWETimerPattern___Thread_switch[this]=0
+                        set s__YDWETimerPattern__Thread_switch[this]=0
                     endif
                 else
-                    call s__YDWETimerPattern___Thread__set_x(this,xp)
-                    call s__YDWETimerPattern___Thread__set_y(this,yp)
+                    call s__YDWETimerPattern__Thread__set_x(this,xp)
+                    call s__YDWETimerPattern__Thread__set_y(this,yp)
                 endif
             else
-                call s__YDWETimerPattern___Thread__set_x(this,xp)
-                call s__YDWETimerPattern___Thread__set_y(this,yp)
+                call s__YDWETimerPattern__Thread__set_x(this,xp)
+                call s__YDWETimerPattern__Thread__set_y(this,yp)
             endif
-            if s__YDWETimerPattern___Thread_follow[this] == 0 then
-                if GetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this]) < 5. then
-                        call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern___Thread_gsfx[this], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]))
+            if s__YDWETimerPattern__Thread_follow[this] == 0 then
+                if GetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this]) < 5. then
+                        call DestroyEffect(AddSpecialEffect(s__YDWETimerPattern__Thread_gsfx[this], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]))
                 endif
             endif
-            set s__YDWETimerPattern___Thread_follow[this]=s__YDWETimerPattern___Thread_follow[this] + 1
-            if s__YDWETimerPattern___Thread_follow[this] == 2 then
-                set s__YDWETimerPattern___Thread_follow[this]=0
+            set s__YDWETimerPattern__Thread_follow[this]=s__YDWETimerPattern__Thread_follow[this] + 1
+            if s__YDWETimerPattern__Thread_follow[this] == 2 then
+                set s__YDWETimerPattern__Thread_follow[this]=0
             endif
-            if s__YDWETimerPattern___Thread_killdest[this] then
-                call MoveRectTo(YDWETimerPattern___Area, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]])
-                call EnumDestructablesInRect(YDWETimerPattern___Area, YDWETimerPattern___Bexpr, function YDWETimerPattern___TreeKill)
+            if s__YDWETimerPattern__Thread_killdest[this] then
+                call MoveRectTo(YDWETimerPattern__Area, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]])
+                call EnumDestructablesInRect(YDWETimerPattern__Area, YDWETimerPattern__Bexpr, function YDWETimerPattern__TreeKill)
             endif
-            if s__YDWETimerPattern___Thread_amount[this] > 0.0 then
+            if s__YDWETimerPattern__Thread_amount[this] > 0.0 then
                 //call this.damage(.caster, .pos.x, .pos.y, 0.0, false, .recycle)
-                set YDWETimerPattern___tmp_data=(this)
-                call GroupEnumUnitsInRange(ge, s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]], s__YDWETimerPattern___Thread_radius[this], Condition(function YDWETimerPattern___DamageFilter))
+                set YDWETimerPattern__tmp_data=(this)
+                call GroupEnumUnitsInRange(ge, s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]], s__YDWETimerPattern__Thread_radius[this], Condition(function YDWETimerPattern__DamageFilter))
             endif
-            set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[this] - 1.
-            if s__YDWETimerPattern___Thread_step[this] <= 0.0 or YDWECoordinateX(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]) != s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]] then
-                set s__YDWETimerPattern___Thread_switch[this]=0
+            set s__YDWETimerPattern__Thread_step[this]=s__YDWETimerPattern__Thread_step[this] - 1.
+            if s__YDWETimerPattern__Thread_step[this] <= 0.0 or YDWECoordinateX(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]) != s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]] or YDWECoordinateY(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]) != s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]] then
+                set s__YDWETimerPattern__Thread_switch[this]=0
             endif
             call DestroyGroup(ge)
             set ge=null
-            if not ( ( GetUnitState(s__YDWETimerPattern___Thread_obj[this], UNIT_STATE_LIFE) > 0 ) ) then
-                set s__YDWETimerPattern___Thread_switch[this]=0
+            if not ( ( GetUnitState(s__YDWETimerPattern__Thread_obj[this], UNIT_STATE_LIFE) > 0 ) ) then
+                set s__YDWETimerPattern__Thread_switch[this]=0
             endif
-            if s__YDWETimerPattern___Thread_switch[this] == 0 then
-                call SetUnitFlyHeight(s__YDWETimerPattern___Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern___Thread_obj[this]), 200.0)
-                call SetUnitTimeScale(s__YDWETimerPattern___Thread_obj[this], 1)
+            if s__YDWETimerPattern__Thread_switch[this] == 0 then
+                call SetUnitFlyHeight(s__YDWETimerPattern__Thread_obj[this], GetUnitDefaultFlyHeight(s__YDWETimerPattern__Thread_obj[this]), 200.0)
+                call SetUnitTimeScale(s__YDWETimerPattern__Thread_obj[this], 1)
                 // YDWETriggerEvent
-                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern___Thread_obj[this] , 6)
-                call sc__YDWETimerPattern___Thread_deallocate(this)
+                call YDWESyStemAbilityCastingOverTriggerAction(s__YDWETimerPattern__Thread_obj[this] , 6)
+                call sc__YDWETimerPattern__Thread_deallocate(this)
             endif
         endfunction
-        function s__YDWETimerPattern___Deceleration_create takes unit source,unit object,real angle,real distance,real time,real interval,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string geff,string weff,integer f returns integer
-            local integer this= s__YDWETimerPattern___Deceleration__allocate()
+        function s__YDWETimerPattern__Deceleration_create takes unit source,unit object,real angle,real distance,real time,real interval,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string geff,string weff,integer f returns integer
+            local integer this= s__YDWETimerPattern__Deceleration__allocate()
 local real vx= 0.0
             local real vy= 0.0
             local real l= 0.0
-            set s__YDWETimerPattern___Thread_des[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_pos[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___Thread_vel[this]=s__YDWETimerPattern___YDVector3__allocate()
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[this]]=Cos(angle)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[this]]=Sin(angle)
-            set s__YDWETimerPattern___Thread_dist[this]=distance * interval / time
+            set s__YDWETimerPattern__Thread_des[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_pos[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__Thread_vel[this]=s__YDWETimerPattern__YDVector3__allocate()
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[this]]=Cos(angle)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[this]]=Sin(angle)
+            set s__YDWETimerPattern__Thread_dist[this]=distance * interval / time
             //step改成了匀速运动
-            set s__YDWETimerPattern___Thread_step[this]=time / interval
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[this]]=GetUnitX(object)
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[this]]=GetUnitY(object)
-            set s__YDWETimerPattern___Thread_caster[this]=source
-            set s__YDWETimerPattern___Thread_obj[this]=object
-            set s__YDWETimerPattern___Thread_radius[this]=radius
-            set s__YDWETimerPattern___Thread_amount[this]=damage
-            set s__YDWETimerPattern___Thread_killdest[this]=killtrees
-            set s__YDWETimerPattern___Thread_recycle[this]=cycle
-            set s__YDWETimerPattern___Thread_volume[this]=path
-            set s__YDWETimerPattern___Thread_gsfx[this]=geff
-            set s__YDWETimerPattern___Thread_dsfx[this]=weff
-            set s__YDWETimerPattern___Thread_switch[this]=1
-            set s__YDWETimerPattern___Thread_follow[this]=0
-            set s__YDWETimerPattern___Thread_afc[this]=f
-            set s__YDWETimerPattern___Thread_g[this]=CreateGroup()
-            set s__YDWETimerPattern___Thread_t[this]=CreateTimer()
-            call TimerStart(s__YDWETimerPattern___Thread_t[this], interval, true, function s__YDWETimerPattern___Deceleration_move)
-            call s__YDWETimerPattern___Thread__staticsetindex(s__YDWETimerPattern___Thread_t[this], (this))
+            set s__YDWETimerPattern__Thread_step[this]=time / interval
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[this]]=GetUnitX(object)
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[this]]=GetUnitY(object)
+            set s__YDWETimerPattern__Thread_caster[this]=source
+            set s__YDWETimerPattern__Thread_obj[this]=object
+            set s__YDWETimerPattern__Thread_radius[this]=radius
+            set s__YDWETimerPattern__Thread_amount[this]=damage
+            set s__YDWETimerPattern__Thread_killdest[this]=killtrees
+            set s__YDWETimerPattern__Thread_recycle[this]=cycle
+            set s__YDWETimerPattern__Thread_volume[this]=path
+            set s__YDWETimerPattern__Thread_gsfx[this]=geff
+            set s__YDWETimerPattern__Thread_dsfx[this]=weff
+            set s__YDWETimerPattern__Thread_switch[this]=1
+            set s__YDWETimerPattern__Thread_follow[this]=0
+            set s__YDWETimerPattern__Thread_afc[this]=f
+            set s__YDWETimerPattern__Thread_g[this]=CreateGroup()
+            set s__YDWETimerPattern__Thread_t[this]=CreateTimer()
+            call TimerStart(s__YDWETimerPattern__Thread_t[this], interval, true, function s__YDWETimerPattern__Deceleration_move)
+            call s__YDWETimerPattern__Thread__staticsetindex(s__YDWETimerPattern__Thread_t[this], (this))
             return this
         endfunction
     // Jump Attack PUI
@@ -7023,7 +6976,7 @@ local real vx= 0.0
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r No object!")
             return
         endif
-        call s__YDWETimerPattern___Parabola_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , high , damage , part , dsfx)
+        call s__YDWETimerPattern__Parabola_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , high , damage , part , dsfx)
     endfunction
     // Moon Priestess Arrow PUI
     function YDWETimerPatternMoonPriestessArrow takes unit u,real face,real dis,real lasttime,real timeout,integer lv,integer aid,integer uid,string order,string part,string dsfx returns nothing
@@ -7036,7 +6989,7 @@ local real vx= 0.0
         if sour == null then
             set sour=u
         endif
-        call s__YDWETimerPattern___Linear_create(sour , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , uid , aid , IMaxBJ(lv, 1) , OrderId(order) , part , dsfx)
+        call s__YDWETimerPattern__Linear_create(sour , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , uid , aid , IMaxBJ(lv, 1) , OrderId(order) , part , dsfx)
         //call YDWEFlushMissionByString(I2S(YDWEH2I(u)))
         set sour=null
     endfunction
@@ -7046,64 +6999,64 @@ local real vx= 0.0
             //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |r No object!")
             return
         endif
-        call s__YDWETimerPattern___Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , 0)
+        call s__YDWETimerPattern__Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , 0)
     endfunction
-    function YDWETimerPattern___Rebound takes integer t,real nx,real ny returns nothing
-        if not ( IsTerrainPathable(nx, s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-        elseif not ( IsTerrainPathable(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+    function YDWETimerPattern__Rebound takes integer t,real nx,real ny returns nothing
+        if not ( IsTerrainPathable(nx, s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+        elseif not ( IsTerrainPathable(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         else
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         endif
-        call GroupClear(s__YDWETimerPattern___Thread_g[t])
-        call SetUnitFacing(s__YDWETimerPattern___Thread_obj[t], ( Atan2(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]) * 57.2958 ))
+        call GroupClear(s__YDWETimerPattern__Thread_g[t])
+        call SetUnitFacing(s__YDWETimerPattern__Thread_obj[t], ( Atan2(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]) * 57.2958 ))
     endfunction
     
     function DIYRushSlide takes unit u,real face,real dis,real lasttime,real timeout,real damage,real radius,boolean killtrees,boolean cycle,boolean path,string part,string gsfx,string wsfx returns nothing
          local integer rebound= (1)
-         call s__YDWETimerPattern___Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , (1))
+         call s__YDWETimerPattern__Deceleration_create(u , u , Deg2Rad(face) , RMaxBJ(dis, 0) , RMaxBJ(lasttime, 0) , RMaxBJ(timeout, 0) , damage , RMaxBJ(radius, 0) , killtrees , cycle , path , part , gsfx , wsfx , (1))
     endfunction
-    function YDWETimerPattern___Init takes nothing returns nothing
-        set YDWETimerPattern___Area=Rect(- 120.0, - 120.0, 120.0, 120.0)
-        set YDWETimerPattern___Bexpr=Filter(function YDWETimerPattern___TreeFilter)
+    function YDWETimerPattern__Init takes nothing returns nothing
+        set YDWETimerPattern__Area=Rect(- 120.0, - 120.0, 120.0, 120.0)
+        set YDWETimerPattern__Bexpr=Filter(function YDWETimerPattern__TreeFilter)
     endfunction
 
 //library YDWETimerPattern ends
 //library YDWETimerSystem:
-function YDWETimerSystem___NewTaskIndex takes nothing returns integer
- local integer h= YDWETimerSystem___TaskListIdleHead
-	if YDWETimerSystem___TaskListIdleHead < 0 then
-		if YDWETimerSystem___TaskListIdleMax >= 8000 then
+function YDWETimerSystem__NewTaskIndex takes nothing returns integer
+ local integer h= YDWETimerSystem__TaskListIdleHead
+	if YDWETimerSystem__TaskListIdleHead < 0 then
+		if YDWETimerSystem__TaskListIdleMax >= 8000 then
     call BJDebugMsg("中心计时器任务队列溢出！")
 			return 8100
 		else
-			set YDWETimerSystem___TaskListIdleMax=YDWETimerSystem___TaskListIdleMax + 1
-			return YDWETimerSystem___TaskListIdleMax
+			set YDWETimerSystem__TaskListIdleMax=YDWETimerSystem__TaskListIdleMax + 1
+			return YDWETimerSystem__TaskListIdleMax
 		endif
 	endif
-	set YDWETimerSystem___TaskListIdleHead=YDWETimerSystem___TaskListIdle[h]
+	set YDWETimerSystem__TaskListIdleHead=YDWETimerSystem__TaskListIdle[h]
 	return h
 endfunction
-function YDWETimerSystem___DeleteTaskIndex takes integer index returns nothing
-	set YDWETimerSystem___TaskListIdle[index]=YDWETimerSystem___TaskListIdleHead
-	set YDWETimerSystem___TaskListIdleHead=index
+function YDWETimerSystem__DeleteTaskIndex takes integer index returns nothing
+	set YDWETimerSystem__TaskListIdle[index]=YDWETimerSystem__TaskListIdleHead
+	set YDWETimerSystem__TaskListIdleHead=index
 endfunction
 //该函数序列处理
-function YDWETimerSystem___NewTask takes real time,trigger proc returns integer
- local integer index= YDWETimerSystem___NewTaskIndex()
- local integer h= YDWETimerSystem___TaskListHead
- local integer t= R2I(100. * time) + YDWETimerSystem___CurrentTime
+function YDWETimerSystem__NewTask takes real time,trigger proc returns integer
+ local integer index= YDWETimerSystem__NewTaskIndex()
+ local integer h= YDWETimerSystem__TaskListHead
+ local integer t= R2I(100. * time) + YDWETimerSystem__CurrentTime
  local integer p
-	set YDWETimerSystem___TaskListProc[index]=proc
-	set YDWETimerSystem___TaskListTime[index]=t
+	set YDWETimerSystem__TaskListProc[index]=proc
+	set YDWETimerSystem__TaskListTime[index]=t
 	loop
-		set p=YDWETimerSystem___TaskListNext[h]
-		if p < 0 or YDWETimerSystem___TaskListTime[p] >= t then
+		set p=YDWETimerSystem__TaskListNext[h]
+		if p < 0 or YDWETimerSystem__TaskListTime[p] >= t then
 		//	call BJDebugMsg("NewTask:"+I2S(index))
-			set YDWETimerSystem___TaskListNext[h]=index
-			set YDWETimerSystem___TaskListNext[index]=p
+			set YDWETimerSystem__TaskListNext[h]=index
+			set YDWETimerSystem__TaskListNext[index]=p
 			return index
 		endif
 		set h=p
@@ -7111,59 +7064,59 @@ function YDWETimerSystem___NewTask takes real time,trigger proc returns integer
 	return index
 endfunction
 function YDWETimerSystemNewTask takes real time,trigger proc returns integer
-	return YDWETimerSystem___NewTask(time , proc)
+	return YDWETimerSystem__NewTask(time , proc)
 endfunction
 function YDWETimerSystemGetCurrentTask takes nothing returns integer
-	return YDWETimerSystem___CurrentIndex
+	return YDWETimerSystem__CurrentIndex
 endfunction
 //删除单位
-function YDWETimerSystem___RemoveUnit_CallBack takes nothing returns nothing
-    call RemoveUnit(YDHashGet(YDHASH_HANDLE , unit , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex))
-    call YDHashClear(YDHASH_HANDLE , unit , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex)
+function YDWETimerSystem__RemoveUnit_CallBack takes nothing returns nothing
+    call RemoveUnit(LoadUnitHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex))
+    call RemoveSavedHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex)
 endfunction
 function YDWETimerRemoveUnit takes real time,unit u returns nothing
-    call YDHashSet(YDHASH_HANDLE , unit , YDWETimerSystem___TimerHandle , YDWETimerSystem___NewTask(time , YDWETimerSystem___fnRemoveUnit) , u)
+    call SaveUnitHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__NewTask(time , YDWETimerSystem__fnRemoveUnit), u)
 endfunction
 //摧毁计时器
-function YDWETimerSystem___DestroyTimer_CallBack takes nothing returns nothing
-    call DestroyTimer(YDHashGet(YDHASH_HANDLE , timer , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex))
-    call YDHashClear(YDHASH_HANDLE , timer , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex)
+function YDWETimerSystem__DestroyTimer_CallBack takes nothing returns nothing
+    call DestroyTimer(LoadTimerHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex))
+    call RemoveSavedHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex)
 endfunction
 function YDWETimerDestroyTimer takes real time,timer t returns nothing
-    call YDHashSet(YDHASH_HANDLE , timer , YDWETimerSystem___TimerHandle , YDWETimerSystem___NewTask(time , YDWETimerSystem___fnDestroyTimer) , t)
+    call SaveTimerHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__NewTask(time , YDWETimerSystem__fnDestroyTimer), t)
 endfunction
 //删除物品
-function YDWETimerSystem___RemoveItem_CallBack takes nothing returns nothing
-    call RemoveItem(YDHashGet(YDHASH_HANDLE , item , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex))
-    call YDHashClear(YDHASH_HANDLE , item , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex)
+function YDWETimerSystem__RemoveItem_CallBack takes nothing returns nothing
+    call RemoveItem(LoadItemHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex))
+    call RemoveSavedHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex)
 endfunction
 function YDWETimerRemoveItem takes real time,item it returns nothing
-    call YDHashSet(YDHASH_HANDLE , item , YDWETimerSystem___TimerHandle , YDWETimerSystem___NewTask(time , YDWETimerSystem___fnRemoveItem) , it)
+    call SaveItemHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__NewTask(time , YDWETimerSystem__fnRemoveItem), it)
 endfunction
 //删除特效
-function YDWETimerSystem___DestroyEffect_CallBack takes nothing returns nothing
-    call DestroyEffect(YDHashGet(YDHASH_HANDLE , effect , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex))
-    call YDHashClear(YDHASH_HANDLE , effect , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex)
+function YDWETimerSystem__DestroyEffect_CallBack takes nothing returns nothing
+    call DestroyEffect(LoadEffectHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex))
+    call RemoveSavedHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex)
 endfunction
 function YDWETimerDestroyEffect takes real time,effect e returns nothing
-    call YDHashSet(YDHASH_HANDLE , effect , YDWETimerSystem___TimerHandle , YDWETimerSystem___NewTask(time , YDWETimerSystem___fnDestroyEffect) , e)
+    call SaveEffectHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__NewTask(time , YDWETimerSystem__fnDestroyEffect), e)
 endfunction
 //删除闪电特效
-function YDWETimerSystem___DestroyLightning_CallBack takes nothing returns nothing
-    call DestroyLightning(YDHashGet(YDHASH_HANDLE , lightning , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex))
-    call YDHashClear(YDHASH_HANDLE , lightning , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex)
+function YDWETimerSystem__DestroyLightning_CallBack takes nothing returns nothing
+    call DestroyLightning(LoadLightningHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex))
+    call RemoveSavedHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex)
 endfunction
 function YDWETimerDestroyLightning takes real time,lightning lt returns nothing
- local integer i= YDWETimerSystem___NewTask(time , YDWETimerSystem___fnDestroyLightning)
-    call YDHashSet(YDHASH_HANDLE , lightning , YDWETimerSystem___TimerHandle , i , lt)
+ local integer i= YDWETimerSystem__NewTask(time , YDWETimerSystem__fnDestroyLightning)
+    call SaveLightningHandle(YDHT, YDWETimerSystem__TimerHandle, i, lt)
 endfunction
 //运行触发器
-function YDWETimerSystem___RunTrigger_CallBack takes nothing returns nothing
-    call TriggerExecute(YDHashGet(YDHASH_HANDLE , trigger , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex))
-    call YDHashClear(YDHASH_HANDLE , trigger , YDWETimerSystem___TimerHandle , YDWETimerSystem___CurrentIndex)
+function YDWETimerSystem__RunTrigger_CallBack takes nothing returns nothing
+    call TriggerExecute(LoadTriggerHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex))
+    call RemoveSavedHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__CurrentIndex)
 endfunction
 function YDWETimerRunTrigger takes real time,trigger trg returns nothing
-    call YDHashSet(YDHASH_HANDLE , trigger , YDWETimerSystem___TimerHandle , YDWETimerSystem___NewTask(time , YDWETimerSystem___fnRunTrigger) , trg)
+    call SaveTriggerHandle(YDHT, YDWETimerSystem__TimerHandle, YDWETimerSystem__NewTask(time , YDWETimerSystem__fnRunTrigger), trg)
 endfunction
 //删除漂浮文字
 function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
@@ -7177,70 +7130,70 @@ function YDWETimerDestroyTextTag takes real time,texttag tt returns nothing
     call SetTextTagFadepoint(tt, time)
 endfunction
 //中心计时器主函数
-function YDWETimerSystem___Main takes nothing returns nothing
- local integer h= YDWETimerSystem___TaskListHead
+function YDWETimerSystem__Main takes nothing returns nothing
+ local integer h= YDWETimerSystem__TaskListHead
  local integer p
 	loop
-		set YDWETimerSystem___CurrentIndex=YDWETimerSystem___TaskListNext[h]
-		exitwhen YDWETimerSystem___CurrentIndex < 0 or YDWETimerSystem___CurrentTime < YDWETimerSystem___TaskListTime[YDWETimerSystem___CurrentIndex]
+		set YDWETimerSystem__CurrentIndex=YDWETimerSystem__TaskListNext[h]
+		exitwhen YDWETimerSystem__CurrentIndex < 0 or YDWETimerSystem__CurrentTime < YDWETimerSystem__TaskListTime[YDWETimerSystem__CurrentIndex]
 		//call BJDebugMsg("Task:"+I2S(CurrentIndex))
-		call TriggerEvaluate(YDWETimerSystem___TaskListProc[YDWETimerSystem___CurrentIndex])
-		call YDWETimerSystem___DeleteTaskIndex(YDWETimerSystem___CurrentIndex)
-		set YDWETimerSystem___TaskListNext[h]=YDWETimerSystem___TaskListNext[YDWETimerSystem___CurrentIndex]
+		call TriggerEvaluate(YDWETimerSystem__TaskListProc[YDWETimerSystem__CurrentIndex])
+		call YDWETimerSystem__DeleteTaskIndex(YDWETimerSystem__CurrentIndex)
+		set YDWETimerSystem__TaskListNext[h]=YDWETimerSystem__TaskListNext[YDWETimerSystem__CurrentIndex]
 	endloop
-	set YDWETimerSystem___CurrentTime=YDWETimerSystem___CurrentTime + 1
+	set YDWETimerSystem__CurrentTime=YDWETimerSystem__CurrentTime + 1
 endfunction
 //初始化函数
-function YDWETimerSystem___Init takes nothing returns nothing
-    set YDWETimerSystem___Timer=CreateTimer()
-	set YDWETimerSystem___TimerHandle=YDHashAny2I(timer , YDWETimerSystem___Timer)
-	set YDWETimerSystem___CurrentTime=0
-	set YDWETimerSystem___TaskListHead=0
-	set YDWETimerSystem___TaskListNext[0]=- 1
-	set YDWETimerSystem___TaskListIdleHead=1
-	set YDWETimerSystem___TaskListIdleMax=1
-	set YDWETimerSystem___TaskListIdle[1]=- 1
-	set YDWETimerSystem___fnRemoveUnit=CreateTrigger()
-	set YDWETimerSystem___fnDestroyTimer=CreateTrigger()
-	set YDWETimerSystem___fnRemoveItem=CreateTrigger()
-	set YDWETimerSystem___fnDestroyEffect=CreateTrigger()
-	set YDWETimerSystem___fnDestroyLightning=CreateTrigger()
-	set YDWETimerSystem___fnRunTrigger=CreateTrigger()
-	call TriggerAddCondition(YDWETimerSystem___fnRemoveUnit, Condition(function YDWETimerSystem___RemoveUnit_CallBack))
-	call TriggerAddCondition(YDWETimerSystem___fnDestroyTimer, Condition(function YDWETimerSystem___DestroyTimer_CallBack))
-	call TriggerAddCondition(YDWETimerSystem___fnRemoveItem, Condition(function YDWETimerSystem___RemoveItem_CallBack))
-	call TriggerAddCondition(YDWETimerSystem___fnDestroyEffect, Condition(function YDWETimerSystem___DestroyEffect_CallBack))
-	call TriggerAddCondition(YDWETimerSystem___fnDestroyLightning, Condition(function YDWETimerSystem___DestroyLightning_CallBack))
-	call TriggerAddCondition(YDWETimerSystem___fnRunTrigger, Condition(function YDWETimerSystem___RunTrigger_CallBack))
-    call TimerStart(YDWETimerSystem___Timer, 0.01, true, function YDWETimerSystem___Main)
+function YDWETimerSystem__Init takes nothing returns nothing
+    set YDWETimerSystem__Timer=CreateTimer()
+	set YDWETimerSystem__TimerHandle=GetHandleId(YDWETimerSystem__Timer)
+	set YDWETimerSystem__CurrentTime=0
+	set YDWETimerSystem__TaskListHead=0
+	set YDWETimerSystem__TaskListNext[0]=- 1
+	set YDWETimerSystem__TaskListIdleHead=1
+	set YDWETimerSystem__TaskListIdleMax=1
+	set YDWETimerSystem__TaskListIdle[1]=- 1
+	set YDWETimerSystem__fnRemoveUnit=CreateTrigger()
+	set YDWETimerSystem__fnDestroyTimer=CreateTrigger()
+	set YDWETimerSystem__fnRemoveItem=CreateTrigger()
+	set YDWETimerSystem__fnDestroyEffect=CreateTrigger()
+	set YDWETimerSystem__fnDestroyLightning=CreateTrigger()
+	set YDWETimerSystem__fnRunTrigger=CreateTrigger()
+	call TriggerAddCondition(YDWETimerSystem__fnRemoveUnit, Condition(function YDWETimerSystem__RemoveUnit_CallBack))
+	call TriggerAddCondition(YDWETimerSystem__fnDestroyTimer, Condition(function YDWETimerSystem__DestroyTimer_CallBack))
+	call TriggerAddCondition(YDWETimerSystem__fnRemoveItem, Condition(function YDWETimerSystem__RemoveItem_CallBack))
+	call TriggerAddCondition(YDWETimerSystem__fnDestroyEffect, Condition(function YDWETimerSystem__DestroyEffect_CallBack))
+	call TriggerAddCondition(YDWETimerSystem__fnDestroyLightning, Condition(function YDWETimerSystem__DestroyLightning_CallBack))
+	call TriggerAddCondition(YDWETimerSystem__fnRunTrigger, Condition(function YDWETimerSystem__RunTrigger_CallBack))
+    call TimerStart(YDWETimerSystem__Timer, 0.01, true, function YDWETimerSystem__Main)
 endfunction
 //循环类仍用独立计时器
 function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return YDWETimerSystem___TimerSystem_RunIndex
+    return YDWETimerSystem__TimerSystem_RunIndex
 endfunction
-function YDWETimerSystem___RunPeriodicTriggerFunction takes nothing returns nothing
-    local integer tid= YDHashAny2I(timer , GetExpiredTimer())
-    local trigger trg= YDHashGet(YDHASH_HANDLE , trigger , tid , $D0001)
-	call YDHashSetByString(YDHASH_HANDLE , integer , I2S(YDHashAny2I(trigger , trg)) , "RunIndex" , YDHashGet(YDHASH_HANDLE , integer , tid , $D0002))
+function YDWETimerSystem__RunPeriodicTriggerFunction takes nothing returns nothing
+    local integer tid= GetHandleId(GetExpiredTimer())
+    local trigger trg= LoadTriggerHandle(YDHT, tid, $D0001)
+	call SaveInteger(YDHT, StringHash(I2S(GetHandleId(trg))), StringHash("RunIndex"), LoadInteger(YDHT, tid, $D0002))
     if TriggerEvaluate(trg) then
         call TriggerExecute(trg)
     endif
     set trg=null
 endfunction
-function YDWETimerSystem___RunPeriodicTriggerFunctionByTimes takes nothing returns nothing
-    local integer tid= YDHashAny2I(timer , GetExpiredTimer())
-    local trigger trg= YDHashGet(YDHASH_HANDLE , trigger , tid , $D0001)
-    local integer times= YDHashGet(YDHASH_HANDLE , integer , tid , $D0003)
-	call YDHashSetByString(YDHASH_HANDLE , integer , I2S(YDHashAny2I(trigger , trg)) , "RunIndex" , YDHashGet(YDHASH_HANDLE , integer , tid , $D0002))
+function YDWETimerSystem__RunPeriodicTriggerFunctionByTimes takes nothing returns nothing
+    local integer tid= GetHandleId(GetExpiredTimer())
+    local trigger trg= LoadTriggerHandle(YDHT, tid, $D0001)
+    local integer times= LoadInteger(YDHT, tid, $D0003)
+	call SaveInteger(YDHT, StringHash(I2S(GetHandleId(trg))), StringHash("RunIndex"), LoadInteger(YDHT, tid, $D0002))
     if TriggerEvaluate(trg) then
         call TriggerExecute(trg)
     endif
     set times=times - 1
     if times > 0 then
-		call YDHashSet(YDHASH_HANDLE , integer , tid , $D0003 , times)
+		call SaveInteger(YDHT, tid, $D0003, times)
       else
         call DestroyTimer(GetExpiredTimer())
-        call YDHashClearTable(YDHASH_HANDLE , tid)
+        call FlushChildHashtable(YDHT, tid)
     endif
     set trg=null
 endfunction
@@ -7252,36 +7205,36 @@ function YDWETimerRunPeriodicTrigger takes real timeout,trigger trg,boolean b,in
         return
       else
         set t=CreateTimer()
-		set tid=YDHashAny2I(timer , t)
+		set tid=GetHandleId(t)
     endif
-    set YDWETimerSystem___TimerSystem_RunIndex=YDWETimerSystem___TimerSystem_RunIndex + 1
-	call YDHashSet(YDHASH_HANDLE , trigger , tid , $D0001 , trg)
-	call YDHashSet(YDHASH_HANDLE , integer , tid , $D0002 , YDWETimerSystem___TimerSystem_RunIndex)
-	set index=YDHashGet(YDHASH_HANDLE , integer , YDHashAny2I(trigger , trg) , 'YDTS' + data)
+    set YDWETimerSystem__TimerSystem_RunIndex=YDWETimerSystem__TimerSystem_RunIndex + 1
+	call SaveTriggerHandle(YDHT, tid, $D0001, trg)
+	call SaveInteger(YDHT, tid, $D0002, YDWETimerSystem__TimerSystem_RunIndex)
+	set index=LoadInteger(YDHT, GetHandleId(trg), 'YDTS' + data)
     set index=index + 1
-	call YDHashSet(YDHASH_HANDLE , integer , YDHashAny2I(trigger , trg) , 'YDTS' + data , index)
-	call YDHashSet(YDHASH_HANDLE , timer , YDHashAny2I(trigger , trg) , ( 'YDTS' + data ) * index , t)
+	call SaveInteger(YDHT, GetHandleId(trg), 'YDTS' + data, index)
+	call SaveTimerHandle(YDHT, GetHandleId(trg), ( 'YDTS' + data ) * index, t)
     if b == false then
-		call YDHashSet(YDHASH_HANDLE , integer , tid , $D0003 , times)
-        call TimerStart(t, timeout, true, function YDWETimerSystem___RunPeriodicTriggerFunctionByTimes)
+		call SaveInteger(YDHT, tid, $D0003, times)
+        call TimerStart(t, timeout, true, function YDWETimerSystem__RunPeriodicTriggerFunctionByTimes)
       else
-        call TimerStart(t, timeout, true, function YDWETimerSystem___RunPeriodicTriggerFunction)
+        call TimerStart(t, timeout, true, function YDWETimerSystem__RunPeriodicTriggerFunction)
     endif
     set t=null
 endfunction
 function YDWETimerRunPeriodicTriggerOver takes trigger trg,integer data returns nothing
- local integer trgid= YDHashAny2I(trigger , trg)
-    local integer index= YDHashGet(YDHASH_HANDLE , integer , trgid , 'YDTS' + data)
+ local integer trgid= GetHandleId(trg)
+    local integer index= LoadInteger(YDHT, trgid, 'YDTS' + data)
     local timer t
     loop
         exitwhen index <= 0
-        set t=YDHashGet(YDHASH_HANDLE , timer , trgid , ( 'YDTS' + data ) * index)
+        set t=LoadTimerHandle(YDHT, trgid, ( 'YDTS' + data ) * index)
         call DestroyTimer(t)
-        call YDHashClearTable(YDHASH_HANDLE , YDHashAny2I(timer , t))
-		call YDHashClear(YDHASH_HANDLE , timer , trgid , ( 'YDTS' + data ) * index)
+        call FlushChildHashtable(YDHT, GetHandleId(t))
+		call RemoveSavedHandle(YDHT, trgid, ( 'YDTS' + data ) * index)
         set index=index - 1
     endloop
-    call YDHashClear(YDHASH_HANDLE , integer , trgid , 'YDTS' + data)
+    call RemoveSavedInteger(YDHT, trgid, 'YDTS' + data)
     set t=null
 endfunction
 
@@ -7425,8 +7378,8 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function IsXianSpell takes integer spell returns boolean
-        return ( spell == 'Acht' ) or ( spell == 'A03A' ) or ( spell == 'A0BM' ) or ( spell == 'A07Z' ) or ( spell == 'A07T' ) or ( spell == 'A05Z' ) or ( spell == 'ACro' ) or ( spell == 'Acht' ) or ( spell == 'A07X' ) or ( spell == 'A05Y' ) or ( spell == 'AChv' ) or ( spell == 'A07V' ) or ( spell == 'Awrg' ) or ( spell == 'A05X' ) or ( spell == 'A07C' ) or ( spell == 'A07D' ) or ( spell == 'Awrh' ) or ( spell == 'A075' ) or ( spell == 'A06W' ) or ( spell == 'A06Y' ) or ( spell == 'A06Q' ) or ( spell == 'A07R' ) or ( spell == 'ACcl' ) or ( spell == 'AOhw' ) or ( spell == 'AIin' ) or ( spell == 'AIil' ) or ( spell == 'A07S' ) or ( spell == 'AChx' )
+    function IsXianSpell takes integer spellID returns boolean
+        return ( spellID == 'Acht' ) or ( spellID == 'A03A' ) or ( spellID == 'A0BM' ) or ( spellID == 'A07Z' ) or ( spellID == 'A07T' ) or ( spellID == 'A05Z' ) or ( spellID == 'ACro' ) or ( spellID == 'Acht' ) or ( spellID == 'A07X' ) or ( spellID == 'A05Y' ) or ( spellID == 'AChv' ) or ( spellID == 'A07V' ) or ( spellID == 'Awrg' ) or ( spellID == 'A05X' ) or ( spellID == 'A07C' ) or ( spellID == 'A07D' ) or ( spellID == 'Awrh' ) or ( spellID == 'A075' ) or ( spellID == 'A06W' ) or ( spellID == 'A06Y' ) or ( spellID == 'A06Q' ) or ( spellID == 'A07R' ) or ( spellID == 'ACcl' ) or ( spellID == 'AOhw' ) or ( spellID == 'AIin' ) or ( spellID == 'AIil' ) or ( spellID == 'A07S' ) or ( spellID == 'AChx' )
     endfunction
 //---------------------------------------------------------------------------------------------------
     
@@ -9938,7 +9891,7 @@ endfunction
         	call PlaySoundBJ(gg_snd_GoodJob)
         	call BJDebugMsg("|cFFFF66CC【消息】|r问题回答正确,BOSS失去10%的生命.")
         	if ( s__Questions_as[this] != 0 ) then
-                call sc___prototype54_execute(s__Questions_as[this])
+                call sc___prototype46_execute(s__Questions_as[this])
         	endif
 			call sc__Questions_deallocate(this)
   endfunction
@@ -13774,7 +13727,7 @@ endfunction
         	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.")
     	endif
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2) ) then
-    		call sc___prototype54_execute(1)
+    		call sc___prototype46_execute(1)
         	call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战类型.")
     	endif
         call FlushChildHashtable(LHTable, GetHandleId(d))
@@ -13814,7 +13767,7 @@ endfunction
 	    	set i=i + 1
 	    endloop
         if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 10) ) then
-    		call sc___prototype54_execute(2)
+    		call sc___prototype46_execute(2)
     		call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战难度.")
     	endif
         call FlushChildHashtable(LHTable, GetHandleId(d))
@@ -30037,6 +29990,43 @@ endfunction
 	endfunction
 
 //library Boss ends
+//library DebugNet:
+ function TestAchievement takes nothing returns nothing
+  local string s= GetEventPlayerChatString()
+  local integer i= S2I(SubString(s, ( 2 ) - 1, StringLength(s)))
+		set IConDays[1]=i
+		call BJDebugMsg("|cFFFF66CC【消息】|r连续签到" + I2S(i))
+		//set time_simulate = i
+		//call BJDebugMsg("当前时间为:"+I2S(time_simulate))
+		set s=null
+	endfunction
+ function DebugNet__Showxiao1 takes nothing returns nothing
+		//call SetPlayerName(Player(0),"无心使者")
+		//set playerName[1] = "无心使者"
+		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
+		call IncreaseXinglongSpin()
+	endfunction
+ function DebugNet__TestCangku takes nothing returns nothing
+		call SetKuanghuanOK(Player(0))
+	endfunction
+	
+	
+//---------------------------------------------------------------------------------------------------
+	
+ function DebugNet__InitDebugNet takes nothing returns nothing
+  local trigger t= CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t, Player(0), "a", false)
+		call TriggerAddAction(t, function TestAchievement)
+		set t=CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t, Player(0), "b", true)
+		call TriggerAddAction(t, function DebugNet__Showxiao1)
+		set t=CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t, Player(0), "c", true)
+		call TriggerAddAction(t, function DebugNet__TestCangku)
+		set t=null
+	endfunction
+
+//library DebugNet ends
 //library PIV:
 //---------------------------------------------------------------------------------------------------
 	
@@ -32729,6 +32719,401 @@ endfunction
 	endfunction
 
 //library ItemSpell ends
+//library TestCommand:
+ function TestCommand__sadfsadfs takes nothing returns nothing
+	call SetPlayerTechResearchedSwap('R00C', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer())
+    call SetPlayerTechResearchedSwap('R00E', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer())
+	endfunction
+	
+ function TestCommand__addHeroAttr takes integer attr,integer level returns nothing
+		call SetHeroInt(udg_H[1], attr, false)
+		call SetHeroAgi(udg_H[1], attr, false)
+		call SetHeroStr(udg_H[1], attr, false)
+		call SetHeroLevel(udg_H[1], level, true)
+	endfunction
+	
+ function TestCommand__debugDamage takes nothing returns nothing
+		if ( debug_show_damage ) then
+			call BJDebugMsg(GetUnitName(GetEventDamageSource()) + "对" + GetUnitName(GetTriggerUnit()) + "造成了" + R2S(GetEventDamage()) + "伤害.")
+		endif
+	endfunction
+ function TestCommand__ShowMajiaCount takes nothing returns integer
+  local group l_group= YDWEGetUnitsInRectAllNull(bj_mapInitialPlayableArea)
+  local unit l_unit
+  local integer count= 0
+		call GroupEnumUnitsInRange(l_group, 0, 0, 99999, null)
+		loop
+		    set l_unit=FirstOfGroup(l_group)
+		    exitwhen l_unit == null
+		    call GroupRemoveUnit(l_group, l_unit)
+		    if ( GetUnitPointValue(l_unit) == 123 or GetUnitPointValue(l_unit) == 0 ) then
+		    	set count=count + 1
+		    endif
+		endloop
+		call DestroyGroup(l_group)
+		set l_group=null
+		set l_unit=null
+		return count
+	endfunction
+	
+ function TestCommand__debugChat takes nothing returns nothing
+		//关闭伤害显示
+  local string chat= GetEventPlayerChatString()
+  local integer bo
+  local unit u
+		if ( chat == "test damage" ) then
+			set debug_show_damage=not ( debug_show_damage )
+			call BJDebugMsg("成功关闭伤害显示")
+			return
+		endif
+		if ( chat == "test tech" ) then
+			call SetPlayerTechResearchedSwap('R007', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R00A', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R00B', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R008', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R009', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R006', 1, Player(0))
+			call SetPlayerTechResearchedSwap('R00D', 1, Player(0))
+			call BJDebugMsg("科技研究完成")
+			return
+		endif
+		if ( chat == "test part1" ) then
+			call TestCommand__addHeroAttr(20000 , 80)
+			//鬼3
+			call UnitAddItemByIdSwapped('lgdh', udg_H[1])
+			//星3
+			call UnitAddItemByIdSwapped('ram1', udg_H[1])
+			//冰封翅膀
+			call UnitAddItemByIdSwapped('I041', udg_H[1])
+			//法魂3
+			call UnitAddItemByIdSwapped('phea', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人3
+			call UnitAddItemByIdSwapped('oven', udg_H[1])
+			call BJDebugMsg("测试阶段1")
+			return
+		endif
+		if ( chat == "test part0" ) then
+			call TestCommand__addHeroAttr(10000 , 60)
+			//鬼1
+			call UnitAddItemByIdSwapped('rat9', udg_H[1])
+			//星0
+			call UnitAddItemByIdSwapped('I03Y', udg_H[1])
+			//五彩翅膀
+			call UnitAddItemByIdSwapped('I045', udg_H[1])
+			//法魂2
+			call UnitAddItemByIdSwapped('rin1', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人0
+			call UnitAddItemByIdSwapped('rej4', udg_H[1])
+			call BJDebugMsg("测试阶段0")
+			return
+		endif
+		if ( chat == "test part2" ) then
+			call TestCommand__addHeroAttr(40000 , 120)
+			//鬼5
+			call UnitAddItemByIdSwapped('bgst', udg_H[1])
+			//星MAX
+			call UnitAddItemByIdSwapped('olig', udg_H[1])
+			//妖皇翅膀
+			call UnitAddItemByIdSwapped('I04R', udg_H[1])
+			//法魂5
+			call UnitAddItemByIdSwapped('shas', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人6
+			call UnitAddItemByIdSwapped('oli2', udg_H[1])
+			call BJDebugMsg("测试阶段2")
+			return
+		endif
+		if ( chat == "test part3" ) then
+			call TestCommand__addHeroAttr(80000 , 140)
+			//鬼8
+			call UnitAddItemByIdSwapped('rag1', udg_H[1])
+			//雷星
+			call UnitAddItemByIdSwapped('ccmd', udg_H[1])
+			//5翅膀
+			call UnitAddItemByIdSwapped('I05B', udg_H[1])
+			//法魂5
+			call UnitAddItemByIdSwapped('shas', udg_H[1])
+			//项链
+			call UnitAddItemByIdSwapped('rde3', udg_H[1])
+			//人7
+			call UnitAddItemByIdSwapped('shdt', udg_H[1])
+			call BJDebugMsg("测试阶段3")
+			return
+		endif
+		if ( chat == "test part4" ) then
+			call TestCommand__addHeroAttr(150000 , 170)
+			//超鬼
+			call UnitAddItemByIdSwapped('lhst', udg_H[1])
+			//超神
+			call UnitAddItemByIdSwapped('tlum', udg_H[1])
+			//超妖
+			call UnitAddItemByIdSwapped('I05F', udg_H[1])
+			//超仙
+			call UnitAddItemByIdSwapped('rst1', udg_H[1])
+			//超圣
+			call UnitAddItemByIdSwapped('ssil', udg_H[1])
+			//超人
+			call UnitAddItemByIdSwapped('tfar', udg_H[1])
+			call BJDebugMsg("测试阶段4,神装")
+			return
+		endif
+		if ( chat == "test part5" ) then
+			call TestCommand__addHeroAttr(1300000 , 280)
+			//超鬼
+			call UnitAddItemByIdSwapped('ICS1', udg_H[1])
+			//超神
+			call UnitAddItemByIdSwapped('I05Y', udg_H[1])
+			//超妖
+			call UnitAddItemByIdSwapped('I04Y', udg_H[1])
+			//超仙
+			call UnitAddItemByIdSwapped('ICX1', udg_H[1])
+			//超圣
+			call UnitAddItemByIdSwapped('I05V', udg_H[1])
+			//超人
+			call UnitAddItemByIdSwapped('IB0A', udg_H[1])
+			call UnitAddItemByIdSwapped('ILIK', udg_H[1])
+			call UnitAddItemByIdSwapped('ICY1', udg_H[1])
+			call BJDebugMsg("测试阶段5,混沌")
+			return
+		endif
+		if ( chat == "test daddy" ) then
+			call AddDamagePercent(1 , 100.)
+			call BJDebugMsg("测试爆炸伤害")
+			return
+		endif
+		if ( chat == "test daddy2" ) then
+			call AddDamagePercent(1 , - 100.)
+			call BJDebugMsg("测试爆炸伤害取消")
+			return
+		endif
+		if ( chat == "test fangka" ) then
+			set u=CreateUnit(Player(0), 'hpea', 5790.6, 4445.8, 0)
+			call StartFangKa(u)
+			set u=null
+			return
+		endif
+		if ( chat == "test credit" ) then
+			set udg_Paihangbang[1]=50000
+			call BJDebugMsg("增加了积分~!")
+			return
+		endif
+		if ( chat == "test Scredit" ) then
+			set centerCredit[1]=50000
+			call BJDebugMsg("增加了守城积分~!")
+			return
+		endif
+		if ( chat == "test majia" ) then
+			call BJDebugMsg("马甲数量:" + I2S(TestCommand__ShowMajiaCount()))
+			return
+		endif
+		if ( chat == "test VIP" ) then
+			set sPIV[1]=true
+			call BJDebugMsg("测试VIP!")
+			return
+		endif
+		//对自己造成伤害
+		if ( chat == "test kill" ) then
+		//gg_unit_Otch_0001   gg_unit_nubr_0093
+			call UnitDamageTarget(CreateUnit(Player(0), 'hpea', 0., 0., 0.), udg_H[1], ( 1.00 * 10000000.00 ), true, false, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
+			return
+		endif
+		//关闭选中显示属性
+		if ( chat == "test select" ) then
+			set debug_show_attr=not ( debug_show_attr )
+			return
+		endif
+		//基地无敌
+		if ( chat == "test invu" ) then
+			call SetUnitInvulnerable(gg_unit_haro_0030, true)
+			return
+		endif
+		//基地不无敌
+		if ( chat == "test vu" ) then
+			call SetUnitInvulnerable(gg_unit_haro_0030, false)
+			return
+		endif
+		//等级400
+		if ( chat == "test level" ) then
+			call SetHeroLevel(udg_H[1], 400, true)
+			return
+		endif
+		if ( chat == "test renshu" ) then
+			set udg_RENSHU=2
+			call BJDebugMsg("人数为2")
+			return
+		endif
+		if ( chat == "test lianyu1" ) then
+			set udg_I_Lianyu[1]=14
+			call BJDebugMsg("炼狱14层")
+			return
+		endif
+		if ( chat == "test zhuansheng19" ) then
+			set udg_Z[1]=19
+			call BJDebugMsg("转生19")
+			return
+		endif
+		if ( chat == "test zhuansheng39" ) then
+			set udg_Z[1]=39
+			call BJDebugMsg("转生39")
+			return
+		endif
+		if ( chat == "test zhuansheng59" ) then
+			set udg_Z[1]=59
+			call BJDebugMsg("转生59")
+			return
+		endif
+		if ( chat == "test zhuansheng79" ) then
+			set udg_Z[1]=79
+			call BJDebugMsg("转生79")
+			return
+		endif
+		if ( chat == "test zhuansheng99" ) then
+			set udg_Z[1]=99
+			call BJDebugMsg("转生99")
+			return
+		endif
+		if ( chat == "test zhuansheng119" ) then
+			set udg_Z[1]=119
+			call BJDebugMsg("转生119")
+			return
+		endif
+		if ( chat == "test zhuansheng149" ) then
+			set udg_Z[1]=149
+			call BJDebugMsg("转生149")
+			return
+		endif
+		if ( chat == "test lianyu2" ) then
+			set udg_I_Lianyu[1]=69
+			call BJDebugMsg("炼狱69层")
+			return
+		endif
+		if ( chat == "test lianyu3" ) then
+			set udg_I_Lianyu[1]=59
+			call BJDebugMsg("炼狱59层")
+			return
+		endif
+		if ( chat == "test lianyu4" ) then
+			set udg_I_Lianyu[1]=89
+			call BJDebugMsg("炼狱89层")
+			return
+		endif
+		if ( chat == "test lianyu5" ) then
+			set udg_I_Lianyu[1]=105
+			call BJDebugMsg("炼狱105层")
+			return
+		endif
+		if ( chat == "test darenshu" ) then
+		    call ForForce(bj_FORCE_ALL_PLAYERS, function TestCommand__sadfsadfs)
+			set udg_RENSHU=6
+			set renshu=6
+			call BJDebugMsg("人数调成6")
+			return
+		endif
+		if ( chat == "test renkou" ) then
+			call SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP) + 100 ))
+			call BJDebugMsg("人口调成100")
+			return
+		endif
+		if ( chat == "test baoshi" ) then
+			call BJDebugMsg("IAtleast1:" + I2S(IAtleast1))
+			call BJDebugMsg("IAtleast2:" + I2S(IAtleast2))
+			return
+		endif
+		if ( chat == "test unitState" ) then
+			call BJDebugMsg(GetUnitName(testDyingUnit) + "的血量为:" + R2S(GetUnitState(testDyingUnit, UNIT_STATE_LIFE)))
+			if ( ( GetUnitState(testDyingUnit, UNIT_STATE_LIFE) > 0 ) ) then
+				call BJDebugMsg("活着的")
+			else
+				call BJDebugMsg("死了的")
+			endif
+			return
+		endif
+		//魔王拆家速度
+		if ( chat == "test mowang" ) then
+       		call SetPlayerTechResearchedSwap('R00O', 100, Player(6))
+			call CreateUnit(Player(11), 'Uwar', GetUnitX(gg_unit_haro_0030), GetUnitY(gg_unit_haro_0030), 0)
+			return
+		endif
+		//冥王拆家速度
+		if ( chat == "test mingwang" ) then
+            call UnitAddAbility(gg_unit_haro_0030, 'A0EG')
+			call CreateUnit(Player(11), 'Nkjx', GetUnitX(gg_unit_haro_0030), GetUnitY(gg_unit_haro_0030), 0)
+			return
+		endif
+		//直接后面直接来
+		if ( chat == "test renyao" ) then
+			call PauseTimer(udg_Time_Start[1])
+			call DestroyTimer(udg_Time_Start[1])
+			call KillUnit(gg_unit_Uear_0242)
+			call KillUnit(gg_unit_Nkjx_0241)
+			call KillUnit(gg_unit_Npld_0253)
+			return
+		endif
+		//测试鬼仙
+		if ( chat == "test guixian" ) then
+			call PauseTimer(udg_Time_Start[1])
+			call DestroyTimer(udg_Time_Start[1])
+			call StartGhostAngleTimer()
+		endif
+		//直接后面直接来
+		if ( chat == "test mijing" ) then
+			set IDeng=19
+			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
+			return
+		endif
+		//测试生命共享
+		if ( chat == "test gongxiang" ) then
+			call StartLifeConnect()
+			return
+		endif
+		//调整当前波数
+		set bo=S2I(SubString(chat, ( StringLength(chat) - 1 ) - 1, StringLength(chat)))
+		if ( bo < 30 ) then
+			set udg_Bo=bo
+			call BJDebugMsg("当前波数:" + "=" + I2S(udg_Bo))
+			return
+		endif
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function SetTestUnit takes unit u returns nothing
+		set testDyingUnit=u
+	endfunction
+//---------------------------------------------------------------------------------------------------
+	
+ function TestCommand__peekAttr takes nothing returns nothing
+		if ( debug_show_attr ) then
+			call BJDebugMsg("选中单位生命:" + R2S(GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE)))
+			call BJDebugMsg("选中单位移动速度:" + R2S(GetUnitMoveSpeed(GetTriggerUnit())))
+		endif
+	endfunction
+ function TestCommand__initDebugTri takes nothing returns nothing
+		//显示伤害值
+  local trigger t= CreateTrigger()
+		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
+		call TriggerAddAction(t, function TestCommand__debugDamage)
+		//聊天打开开关进行测试
+		set t=CreateTrigger()
+		call TriggerRegisterPlayerChatEvent(t, Player(0), "test", false)
+		call TriggerAddAction(t, function TestCommand__debugChat)
+		//选择人物看数据
+		set t=CreateTrigger()
+		call TriggerRegisterPlayerSelectionEventBJ(t, Player(0), true)
+		call TriggerAddAction(t, function TestCommand__peekAttr)
+		set t=null
+		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_GOLD, 300000)
+		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_LUMBER, 1000000)
+	endfunction
+ function TestCommand__Initdebug takes nothing returns nothing
+		call TestCommand__initDebugTri()
+	endfunction
+
+//library TestCommand ends
 //library ChatCommand:
 //---------------------------------------------------------------------------------------------------
 	
@@ -33312,6 +33697,7 @@ endfunction
 //#  define TriggerRegisterPlayerEventLeave(trig, player)                    TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_LEAVE)
 //#  define TriggerRegisterPlayerEventAllianceChanged(trig, player)          TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_ALLIANCE_CHANGED)
 //#  define TriggerRegisterPlayerEventEndCinematic(trig, player)             TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_END_CINEMATIC)
+// 原生UI的大小
 //===========================================================================
 //===========================================================================
 //自定义事件
@@ -33320,12 +33706,10 @@ endfunction
 //===========================================================================
 //系统-TimerSystem
 //===========================================================================
-//===========================================================================  
-//万能环绕模板 
-//===========================================================================
 //===========================================================================
 //佣兵系统 
 //===========================================================================
+
 
 //魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
 //-----------模拟聊天------------------
@@ -33418,7 +33802,9 @@ endfunction
 //攻击2 溅出半径
 //攻击2 武器类型
 //装甲类型
-
+//===========================================================================  
+//万能环绕模板 
+//===========================================================================
 //===========================================================================
 //
 // 轮回之狱 - v3.421正式版
@@ -34654,6 +35040,7 @@ endfunction
     // 正式版
     // lua_print: 正式版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
+// redeclaration of library YDTriggerSaveLoadSystem skipped
 // 结构体共用方法定义
 //共享打印方法
 // UI组件内部共享方法及成员
@@ -34762,9 +35149,10 @@ endfunction
 // 狂欢活动
 // 连续登录
 // 测试文件
-/// #include "edit/Debug.j"
-/// #include "edit/NotPublic.j"
-/// #include "edit/DebugNet.j"
+///#include  "edit/Diamond.j"
+///#include  "edit/CenterCredit.j"
+
+
 // lua_print: 正式地图
 //***************************************************************************
 //*
@@ -56893,8 +57281,7 @@ endfunction
 //***************************************************************************
 //===========================================================================
 function main takes nothing returns nothing
-    call initializeLua()
- call SetCameraBounds(- 16384.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), - 15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), - 16384.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), - 15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+    call SetCameraBounds(- 16384.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), - 15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), - 16384.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 15360.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 15616.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), - 15872.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
     call SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
     call NewSoundEnvironment("Default")
     call SetAmbientDaySound("NorthrendDay")
@@ -56906,14 +57293,13 @@ function main takes nothing returns nothing
     call CreateAllUnits()
     call InitBlizzard()
 
-call ExecuteFunc("jasshelper__initstructs23204109")
-call ExecuteFunc("YDLua___onInit")
-call ExecuteFunc("YDTriggerSaveLoadSystem___Init")
+call ExecuteFunc("jasshelper__initstructs384818875")
+call ExecuteFunc("NotPublic__InitNotPublic")
+call ExecuteFunc("YDTriggerSaveLoadSystem__Init")
 call ExecuteFunc("InitializeYD")
 call ExecuteFunc("Constant___InitConstant")
-call ExecuteFunc("Logger___onInit")
-call ExecuteFunc("YDWETimerPattern___Init")
-call ExecuteFunc("YDWETimerSystem___Init")
+call ExecuteFunc("YDWETimerPattern__Init")
+call ExecuteFunc("YDWETimerSystem__Init")
 call ExecuteFunc("LHBase___InitLHBase")
 call ExecuteFunc("Attr___InitAttr")
 call ExecuteFunc("Exercise__InitExercise")
@@ -56943,6 +57329,7 @@ call ExecuteFunc("Juexing___InitJuexing")
 call ExecuteFunc("Kuanghuan___InitKuanghuan")
 call ExecuteFunc("Revive___InitRevive")
 call ExecuteFunc("Boss___InitBoss")
+call ExecuteFunc("DebugNet__InitDebugNet")
 call ExecuteFunc("PIV___InitPIV")
 call ExecuteFunc("Arena___InitArena")
 call ExecuteFunc("CenterCredit__InitCenterCredit")
@@ -56950,6 +57337,7 @@ call ExecuteFunc("InitHundunInner")
 call ExecuteFunc("BaseVersion___InitBaseVersion")
 call ExecuteFunc("Combine___InitCombine")
 call ExecuteFunc("ItemSpell___InitItemSpell")
+call ExecuteFunc("TestCommand__Initdebug")
 call ExecuteFunc("ChatCommand__InitChatCommand")
 call ExecuteFunc("Simulate__InitSimulate")
 
@@ -57228,47 +57616,47 @@ local integer this=f__arg_this
 			set s__OnlyAttackBase_t[this]=null
    return true
 endfunction
-function sa__YDWETimerPattern___Thread_onDestroy takes nothing returns boolean
+function sa__YDWETimerPattern__Thread_onDestroy takes nothing returns boolean
 local integer this=f__arg_this
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_obj[this])
-            call s__YDWETimerPattern___Thread_flush(s__YDWETimerPattern___Thread_t[this])
-            call GroupClear(s__YDWETimerPattern___Thread_g[this])
-            call DestroyGroup(s__YDWETimerPattern___Thread_g[this])
-            call PauseTimer(s__YDWETimerPattern___Thread_t[this])
-            call DestroyTimer(s__YDWETimerPattern___Thread_t[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_des[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_pos[this])
-            call s__YDWETimerPattern___YDVector3_deallocate(s__YDWETimerPattern___Thread_vel[this])
-            set s__YDWETimerPattern___Thread_caster[this]=null
-            set s__YDWETimerPattern___Thread_target[this]=null
-            set s__YDWETimerPattern___Thread_obj[this]=null
-            set s__YDWETimerPattern___Thread_g[this]=null
-            set s__YDWETimerPattern___Thread_t[this]=null
-            set s__YDWETimerPattern___Thread_amount[this]=0
-            set s__YDWETimerPattern___Thread_skills[this]=0
-            set s__YDWETimerPattern___Thread_order[this]=0
-            set s__YDWETimerPattern___Thread_afc[this]=0
-            set s__YDWETimerPattern___Thread_dsfx[this]=""
-            set s__YDWETimerPattern___Thread_gsfx[this]=""
-            set s__YDWETimerPattern___Thread_wsfx[this]=""
-            set s__YDWETimerPattern___Thread_part[this]=""
+            call s__YDWETimerPattern__Thread_flush(s__YDWETimerPattern__Thread_obj[this])
+            call s__YDWETimerPattern__Thread_flush(s__YDWETimerPattern__Thread_t[this])
+            call GroupClear(s__YDWETimerPattern__Thread_g[this])
+            call DestroyGroup(s__YDWETimerPattern__Thread_g[this])
+            call PauseTimer(s__YDWETimerPattern__Thread_t[this])
+            call DestroyTimer(s__YDWETimerPattern__Thread_t[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_des[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_pos[this])
+            call s__YDWETimerPattern__YDVector3_deallocate(s__YDWETimerPattern__Thread_vel[this])
+            set s__YDWETimerPattern__Thread_caster[this]=null
+            set s__YDWETimerPattern__Thread_target[this]=null
+            set s__YDWETimerPattern__Thread_obj[this]=null
+            set s__YDWETimerPattern__Thread_g[this]=null
+            set s__YDWETimerPattern__Thread_t[this]=null
+            set s__YDWETimerPattern__Thread_amount[this]=0
+            set s__YDWETimerPattern__Thread_skills[this]=0
+            set s__YDWETimerPattern__Thread_order[this]=0
+            set s__YDWETimerPattern__Thread_afc[this]=0
+            set s__YDWETimerPattern__Thread_dsfx[this]=""
+            set s__YDWETimerPattern__Thread_gsfx[this]=""
+            set s__YDWETimerPattern__Thread_wsfx[this]=""
+            set s__YDWETimerPattern__Thread_part[this]=""
    return true
 endfunction
-function sa___prototype233_YDWETimerPattern___Rebound takes nothing returns boolean
+function sa___prototype233_YDWETimerPattern__Rebound takes nothing returns boolean
  local integer t=f__arg_integer1
  local real nx=f__arg_real1
  local real ny=f__arg_real2
 
-        if not ( IsTerrainPathable(nx, s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-        elseif not ( IsTerrainPathable(s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+        if not ( IsTerrainPathable(nx, s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_pos[t]], PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+        elseif not ( IsTerrainPathable(s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_pos[t]], ny, PATHING_TYPE_WALKABILITY) ) then
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         else
-            set s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]]
-            set s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]=- 1 * s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]]
+            set s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]=- 1 * s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]
         endif
-        call GroupClear(s__YDWETimerPattern___Thread_g[t])
-        call SetUnitFacing(s__YDWETimerPattern___Thread_obj[t], ( Atan2(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]) * 57.2958 ))
+        call GroupClear(s__YDWETimerPattern__Thread_g[t])
+        call SetUnitFacing(s__YDWETimerPattern__Thread_obj[t], ( Atan2(s__YDWETimerPattern__YDVector3_y[s__YDWETimerPattern__Thread_vel[t]], s__YDWETimerPattern__YDVector3_x[s__YDWETimerPattern__Thread_vel[t]]) * 57.2958 ))
     return true
 endfunction
 function sa___prototype268_Jizi___AfterMoneyBuffTime takes nothing returns boolean
@@ -57292,7 +57680,7 @@ function sa___prototype268_Jizi___AfterReviveBuffTime takes nothing returns bool
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r月饼给你提供的3秒复活时间到了.")
     return true
 endfunction
-function sa___prototype54_CreateCDialog2 takes nothing returns boolean
+function sa___prototype46_CreateCDialog2 takes nothing returns boolean
 
      local trigger t= CreateTrigger()
      local dialog d= DialogCreate()
@@ -57318,7 +57706,7 @@ function sa___prototype54_CreateCDialog2 takes nothing returns boolean
 	    set t=null
     return true
 endfunction
-function sa___prototype54_CreateCDialog1 takes nothing returns boolean
+function sa___prototype46_CreateCDialog1 takes nothing returns boolean
 
      local trigger t= CreateTrigger()
      local dialog d= DialogCreate()
@@ -57339,7 +57727,7 @@ function sa___prototype54_CreateCDialog1 takes nothing returns boolean
 	    set t=null
     return true
 endfunction
-function sa___prototype54_Boss___AfterQuestionSucceed takes nothing returns boolean
+function sa___prototype46_Boss___AfterQuestionSucceed takes nothing returns boolean
 
 		if ( ( GetUnitState(UGhost, UNIT_STATE_LIFE) > 0 ) ) then
 	    	call RecoverUnitHP(UGhost , - 0.1)
@@ -57364,7 +57752,7 @@ function sa___prototype192_Hundun___Hundun2SetLifeLess takes nothing returns boo
     return true
 endfunction
 
-function jasshelper__initstructs23204109 takes nothing returns nothing
+function jasshelper__initstructs384818875 takes nothing returns nothing
     set st__DamageTJ__staticgetindex=CreateTrigger()
     call TriggerAddCondition(st__DamageTJ__staticgetindex,Condition( function sa__DamageTJ__staticgetindex))
     set st__DamageTJ_onDestroy=CreateTrigger()
@@ -57417,14 +57805,14 @@ function jasshelper__initstructs23204109 takes nothing returns nothing
     call TriggerAddCondition(st__OnlyAttackBase__staticgetindex,Condition( function sa__OnlyAttackBase__staticgetindex))
     set st__OnlyAttackBase_onDestroy=CreateTrigger()
     call TriggerAddCondition(st__OnlyAttackBase_onDestroy,Condition( function sa__OnlyAttackBase_onDestroy))
-    set st__YDWETimerPattern___Thread_onDestroy[5]=CreateTrigger()
-    set st__YDWETimerPattern___Thread_onDestroy[6]=st__YDWETimerPattern___Thread_onDestroy[5]
-    set st__YDWETimerPattern___Thread_onDestroy[7]=st__YDWETimerPattern___Thread_onDestroy[5]
-    set st__YDWETimerPattern___Thread_onDestroy[8]=st__YDWETimerPattern___Thread_onDestroy[5]
-    call TriggerAddCondition(st__YDWETimerPattern___Thread_onDestroy[5],Condition( function sa__YDWETimerPattern___Thread_onDestroy))
+    set st__YDWETimerPattern__Thread_onDestroy[5]=CreateTrigger()
+    set st__YDWETimerPattern__Thread_onDestroy[6]=st__YDWETimerPattern__Thread_onDestroy[5]
+    set st__YDWETimerPattern__Thread_onDestroy[7]=st__YDWETimerPattern__Thread_onDestroy[5]
+    set st__YDWETimerPattern__Thread_onDestroy[8]=st__YDWETimerPattern__Thread_onDestroy[5]
+    call TriggerAddCondition(st__YDWETimerPattern__Thread_onDestroy[5],Condition( function sa__YDWETimerPattern__Thread_onDestroy))
     set st___prototype233[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype233[1],function sa___prototype233_YDWETimerPattern___Rebound)
-    call TriggerAddCondition(st___prototype233[1],Condition(function sa___prototype233_YDWETimerPattern___Rebound))
+    call TriggerAddAction(st___prototype233[1],function sa___prototype233_YDWETimerPattern__Rebound)
+    call TriggerAddCondition(st___prototype233[1],Condition(function sa___prototype233_YDWETimerPattern__Rebound))
     set st___prototype268[1]=CreateTrigger()
     call TriggerAddAction(st___prototype268[1],function sa___prototype268_Jizi___AfterMoneyBuffTime)
     call TriggerAddCondition(st___prototype268[1],Condition(function sa___prototype268_Jizi___AfterMoneyBuffTime))
@@ -57434,15 +57822,15 @@ function jasshelper__initstructs23204109 takes nothing returns nothing
     set st___prototype268[3]=CreateTrigger()
     call TriggerAddAction(st___prototype268[3],function sa___prototype268_Jizi___AfterReviveBuffTime)
     call TriggerAddCondition(st___prototype268[3],Condition(function sa___prototype268_Jizi___AfterReviveBuffTime))
-    set st___prototype54[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype54[1],function sa___prototype54_CreateCDialog2)
-    call TriggerAddCondition(st___prototype54[1],Condition(function sa___prototype54_CreateCDialog2))
-    set st___prototype54[2]=CreateTrigger()
-    call TriggerAddAction(st___prototype54[2],function sa___prototype54_CreateCDialog1)
-    call TriggerAddCondition(st___prototype54[2],Condition(function sa___prototype54_CreateCDialog1))
-    set st___prototype54[3]=CreateTrigger()
-    call TriggerAddAction(st___prototype54[3],function sa___prototype54_Boss___AfterQuestionSucceed)
-    call TriggerAddCondition(st___prototype54[3],Condition(function sa___prototype54_Boss___AfterQuestionSucceed))
+    set st___prototype46[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype46[1],function sa___prototype46_CreateCDialog2)
+    call TriggerAddCondition(st___prototype46[1],Condition(function sa___prototype46_CreateCDialog2))
+    set st___prototype46[2]=CreateTrigger()
+    call TriggerAddAction(st___prototype46[2],function sa___prototype46_CreateCDialog1)
+    call TriggerAddCondition(st___prototype46[2],Condition(function sa___prototype46_CreateCDialog1))
+    set st___prototype46[3]=CreateTrigger()
+    call TriggerAddAction(st___prototype46[3],function sa___prototype46_Boss___AfterQuestionSucceed)
+    call TriggerAddCondition(st___prototype46[3],Condition(function sa___prototype46_Boss___AfterQuestionSucceed))
     set st___prototype192[1]=CreateTrigger()
     call TriggerAddAction(st___prototype192[1],function sa___prototype192_Boss___AfterBossLessLife)
     call TriggerAddCondition(st___prototype192[1],Condition(function sa___prototype192_Boss___AfterBossLessLife))
