@@ -1,5 +1,4 @@
 logs\currentmapscript.j
 pjass.exe
-Line 31433:  Undeclared variable pid. Maybe you meant ii
-Line 32234:  Bad types for binary operator
-2
+Line 17317:  Undeclared function InitAllPIV
+1

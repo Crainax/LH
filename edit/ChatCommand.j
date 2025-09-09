@@ -137,17 +137,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	private function ClearDiamond takes nothing returns nothing
    		call EnumItemsInRectBJ( GetPlayableMapRect(), function ClearDiamondFunc )
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    调视角
-	*/
-	function FixView takes boolean higher returns nothing
-		if (higher) then
-			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 400.00 ), 0 )
-		else
-			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 400.00 ), 0 )
-		endif
-	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -185,8 +174,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		debug 	call Jiance2(u)
 		debug elseif (str == "-hs3") then
 		debug 	call Jiance3(u)
-		elseif (str == "-+") then
-			call FixView(true)
 		elseif (str == "-chenji" and u == chenji) then
 			call ChenjiJiance()
 		elseif (str == "-qxpf") then
@@ -195,8 +182,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-dm") then
 			call MultiboardDisplayBJ( true, udg_D )
 			call BJDebugMsg("|cFFFF66CC【消息】|r开启显示多面板.")
-		elseif (str == "--") then
-			call FixView(false)
 		debug elseif (str == "-ck") then
 		debug 	if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetTriggerPlayer())]) != 'nmgv') then
 				debug set BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] = true
@@ -424,7 +409,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 56) then
 			set s = "秘境中的明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要灯被摧毁，则挑战失败。"
 		elseif(i == 57) then
-			set s = "你可以输入-+来提高视角。"
+			set s = "你可以通过滚轮滚动来提高视角。"
 		elseif(i == 58) then
 			set s = "如果你想让魔兽自动施法，你可以输入-ms来令魔兽进入不可选定状态。"
 		elseif(i == 59) then

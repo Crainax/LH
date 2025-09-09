@@ -20,6 +20,7 @@
 	test leval 等级上400
 	test mowang 测试基地爆炸
 	test mingwang 测试基地爆炸
+	test box 解锁所有box
 	test vip      测试VIP
 	test renshu      测试人数2
 	test darenshu      测试人数6
@@ -85,6 +86,15 @@ library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,Cen
 		set l_group = null
 		set l_unit =null
 		return count
+	endfunction
+
+	private function UnlockAllBox takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 9
+			call GetAndSaveCangku(Player(0),i)
+			set i = i + 1
+		endloop
 	endfunction
 
 	/*
@@ -404,6 +414,12 @@ library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,Cen
 			set udg_RENSHU = 6
 			set renshu = 6
 			call BJDebugMsg("人数调成6")
+			return
+		endif
+
+		if (chat == "test box") then
+			call BJDebugMsg("解锁所有box")
+			call UnlockAllBox()
 			return
 		endif
 

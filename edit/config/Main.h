@@ -19,9 +19,6 @@
 // 基础
 #include "edit/LHOther.j"
 
-// 高难系数
-#include "edit/Diffculty.j"
-
 // 装备属性初始化
 #include "edit/ItemAttr.j"
 // VIP
@@ -114,6 +111,13 @@
 
 // 选择英雄
 #include "edit/Hero/HeroSelect.j"
+
+// 高难系数
+#include "edit/Diffculty.j"
+#include "edit/ChooseDifficulty.j"
+
+// 地图0秒事件初始化
+#include "edit/Init.j"
 
 // 狂欢活动
 #include "edit/Kuanghuan.j"

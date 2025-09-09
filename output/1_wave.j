@@ -4074,6 +4074,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             endif
             set i = i +1
         endloop
+        call cameraControl.openWheel() //激活滚轮控制视角
+
         // set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14394.0, - 15446.0, 270.000)
         // call SaveInteger(LHTable,GetHandleId(t),1,0)
         // call TimerStart(t,2,true,function StartWanjieTimer)
@@ -10908,7 +10910,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			call DisplayTextToPlayer(p, 0., 0., result)
 		endif
 		set result = null
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想调节视角高度,请输入-+")
+		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想调节视角高度,请用鼠标滚轮")
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想隐藏技能伤害,请输入-sh(不推荐新手输入)")
 		//call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r如果你想取消彩色皮肤,请输入-qc")
 	endfunction
@@ -20080,7 +20082,6 @@ library_once LHOther initializer InitLHOther requires LHBase,Diffculty
 	    set t = null
 	endfunction
 endlibrary
-// 高难系数
 // 装备属性初始化
 /*
     物品类型的属性初始化
@@ -29207,17 +29208,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    调视角
-	*/
-	function FixView takes boolean higher returns nothing
-		if (higher) then
-			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() + 400.00 ), 0 )
-		else
-			call SetCameraFieldForPlayer( GetTriggerPlayer(), CAMERA_FIELD_ZOFFSET, ( GetCameraTargetPositionZ() - 400.00 ), 0 )
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    隐藏面板
 	*/
 	private function YincangBroad takes nothing returns nothing
@@ -29251,8 +29241,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		debug call Jiance2(u)
 		debug elseif (str == "-hs3") then
 		debug call Jiance3(u)
-		elseif (str == "-+") then
-			call FixView(true)
 		elseif (str == "-chenji" and u == chenji) then
 			call ChenjiJiance()
 		elseif (str == "-qxpf") then
@@ -29261,8 +29249,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif (str == "-dm") then
 			call MultiboardDisplayBJ( true, udg_D )
 			call BJDebugMsg("|cFFFF66CC【消息】|r开启显示多面板.")
-		elseif (str == "--") then
-			call FixView(false)
 		debug elseif (str == "-ck") then
 		debug if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetTriggerPlayer())]) != 'nmgv') then
 				debug set BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] = true
@@ -29489,7 +29475,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 56) then
 			set s = "秘境中的明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要灯被摧毁，则挑战失败。"
 		elseif(i == 57) then
-			set s = "你可以输入-+来提高视角。"
+			set s = "你可以通过滚轮滚动来提高视角。"
 		elseif(i == 58) then
 			set s = "如果你想让魔兽自动施法，你可以输入-ms来令魔兽进入不可选定状态。"
 		elseif(i == 59) then
@@ -31055,6 +31041,230 @@ InitMoqi(u);
     }
 }
 //! endzinc
+// 高难系数
+//! zinc
+/*
+选择难度
+*/
+library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
+    function onInit () {
+        trigger tr;
+        tr = CreateTrigger();
+        TriggerRegisterDialogEvent(tr, udg_X_Nandu);
+        TriggerAddAction(tr, function () {
+            integer i;
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[1]) {
+                udg_Nandu = 1;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_004");
+                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+                });
+                udg_Nandu_JJJ = 1;
+                diffculty = "天国";
+                udg_IWang = 2;
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[2]) {
+                udg_Nandu = 2;
+                udg_Nandu_JJJ = 2;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_005");
+                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+                });
+                udg_IWang = 4;
+                diffculty = "太平";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[3]) {
+                udg_Nandu = 4;
+                udg_Nandu_JJJ = 3;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_006");
+                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+                });
+                udg_IWang = 7;
+                diffculty = "和谐";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[4]) {
+                udg_Nandu = 6;
+                udg_Nandu_JJJ = 4;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_007");
+                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+                });
+                udg_IWang = 8;
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.80;
+                }
+                diffculty = "战争";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[5]) {
+                udg_Nandu = 8;
+                udg_Nandu_JJJ = 5;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_008");
+                });
+                udg_IWang = 10;
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.70;
+                }
+                diffculty = "炼狱";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[6]) {
+                udg_Nandu = 10;
+                udg_Nandu_JJJ = 6;
+                NanDiff = 1;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_009");
+                });
+                udg_IWang = 12;
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.60;
+                }
+                diffculty = "地狱";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[7]) {
+                udg_Nandu = 20;
+                udg_Nandu_JJJ = 7;
+                udg_Nandu_JJJ = 7;
+                NanDiff = 2;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_010");
+                });
+                udg_IWang = 16;
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.50;
+                }
+                diffculty = "|cFFFF0000末日|r";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[8]) {
+                udg_Nandu = 40;
+                udg_Nandu_JJJ = 7;
+                udg_IWang = 32;
+                NanDiff = 3;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_011");
+                });
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.50;
+                }
+                diffculty = "|cffff00ff轮回|r";
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[9]) {
+                udg_Nandu = 40;
+                udg_Nandu_JJJ = 8;
+                udg_IWang = 32;
+                NanDiff = 3;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_012");
+                });
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.50;
+                }
+                diffculty = "|cff008000万劫|r";
+                InitWanjie();
+            }
+            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[10]) {
+                udg_Nandu = 40;
+                udg_Nandu_JJJ = 8;
+                udg_IWang = 32;
+                NanDiff = 3;
+                IsTianyan = true;
+                ForForce(GetPlayersAll(), function () {
+                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "TRIGSTR_013");
+                });
+                for (1 <= i <= 6) {
+                    udg_I_Jinqianhuodelv[i] = 0.00;
+                }
+                diffculty = "|cff993366天魇|r";
+                InitWanjie();
+                InitTianyan();
+            }
+            CinematicModeBJ(false, GetPlayersAll());
+            PrintDifficulty();
+            InitAllPIV();
+            if (IsTianyan) {
+                ForForce(YDWEGetPlayersByMapControlNull(MAP_CONTROL_COMPUTER), function () {
+                    SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
+                });
+            } else {
+                ForForce(GetPlayersAll(), function () {
+                    SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
+                    SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
+                });
+            }
+            ForForce(GetPlayersAll(), function () {
+                playerName[GetConvertedPlayerId(GetEnumPlayer())] = GetPlayerName(GetEnumPlayer());
+                debug PrintCurrentPlatformLevel(GetEnumPlayer());
+            });
+            TriggerExecute(gg_trg_D4);
+            StartTimerBJ(udg_Time_Start[1], false, 60.00);
+            CreateTimerDialogBJ(udg_Time_Start[1], "TRIGSTR_014");
+            udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
+            TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
+            InitJungle();
+            CameraSetSmoothingFactor(2.00);
+        });
+        tr = null;
+    }
+}
+//! endzinc
+// 地图0秒事件初始化
+//! zinc
+/*
+地图初始化
+*/
+library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
+    function onInit () {
+        //在游戏开始0.0秒后再调用
+        trigger tr = CreateTrigger();
+        TriggerRegisterTimerEventSingle(tr,0.0);
+        TriggerAddAction(tr,function (){
+            group ydl_group;
+            unit ydl_unit;
+            CameraSetSmoothingFactor(2.00);
+            InitAllAchievement();
+            InitMiJing();
+            CinematicModeBJ(true, YDWEGetPlayersByMapControlNull(MAP_CONTROL_USER));
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r等待玩家1选择难度");
+                SetPlayerStateBJ(GetEnumPlayer(), PLAYER_STATE_RESOURCE_GOLD, 2000);
+                SetCameraFieldForPlayer(GetEnumPlayer(), CAMERA_FIELD_ZOFFSET, GetCameraTargetPositionZ() + 400.00, 0);
+            });
+            TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 5.00, true);
+            TriggerSleepAction(2.00);
+            CinematicModeBJ(false, bj_FORCE_PLAYER[0]);
+            ChooseGameMode();
+            udg_Group = YDWEGetUnitsInRectAllNull(gg_rct_______c1);
+            ForGroupBJ(udg_Group, function () {
+                if (Get11() && IsUnitIsSpin(GetEnumUnit())) {
+                    RemoveUnit(GetEnumUnit());
+                } else {
+                    SetUnitInvulnerable(GetEnumUnit(), true);
+                }
+            });
+            DestroyGroup(udg_Group);
+            debug JudgeCundang();
+            ShowUnitHide(gg_unit_H01W_0207);
+            ydl_group = null;
+            ydl_unit = null;
+            DestroyTrigger(GetTriggeringTrigger());
+        });
+        tr = null;
+    }
+}
+//! endzinc
 // 狂欢活动
 // 连续登录
 // 右键双击转移装备
@@ -31086,7 +31296,6 @@ integer i;
                     SaveInteger(spellTable,GetHandleId(t),1,pos);
                     SaveItemHandle(spellTable,GetHandleId(t),2,GetOrderTargetItem());
                     SaveUnitHandle(spellTable,GetHandleId(t),3,GetTriggerUnit());
-                    BJDebugMsg("转移物品: " + GetUnitName(GetTriggerUnit()) + " -> " + GetUnitName(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
                     TimerStart(t,0.0,false,function (){
                         timer t = GetExpiredTimer();
                         integer id = GetHandleId(t);
@@ -31099,11 +31308,10 @@ integer i;
 if (UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
                                 else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,英雄背包已满.|r" );
                             } else if (u == udg_H[index]) { //英雄里双击
-if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
+if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到仓库上." );
                                 else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,仓库背包已满.|r" );
                             }
                         }
-                        BJDebugMsg("转移物品: " + GetUnitName(u) + " -> " + GetUnitName(UDepot[index]));
                         PauseTimer(t);
                         FlushChildHashtable(spellTable,id);
                         DestroyTimer(t);
@@ -31136,6 +31344,7 @@ if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0
 	test leval 等级上400
 	test mowang 测试基地爆炸
 	test mingwang 测试基地爆炸
+	test box 解锁所有box
 	test vip      测试VIP
 	test renshu      测试人数2
 	test darenshu      测试人数6
@@ -31195,6 +31404,14 @@ library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,Cen
 		set l_group = null
 		set l_unit =null
 		return count
+	endfunction
+	private function UnlockAllBox takes nothing returns nothing
+		local integer i = 1
+		loop
+			exitwhen i > 9
+			call GetAndSaveCangku(Player(0),i)
+			set i = i + 1
+		endloop
 	endfunction
 	/*
 	    聊天DEBUG
@@ -31455,6 +31672,11 @@ library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,Cen
 			set udg_RENSHU = 6
 			set renshu = 6
 			call BJDebugMsg("人数调成6")
+			return
+		endif
+		if (chat == "test box") then
+			call BJDebugMsg("解锁所有box")
+			call UnlockAllBox()
 			return
 		endif
 		if (chat == "test renkou") then

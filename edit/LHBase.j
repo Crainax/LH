@@ -873,7 +873,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             set i = i +1
         endloop
 
-
+        call cameraControl.openWheel() //激活滚轮控制视角
 
         // set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14394.0, - 15446.0, 270.000)
 
