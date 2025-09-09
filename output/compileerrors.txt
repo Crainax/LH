@@ -1,4 +1,37 @@
 logs\currentmapscript.j
 pjass.exe
-Line 17317:  Undeclared function InitAllPIV
-1
+Line 14364:  Undeclared variable IsTianyan
+Line 16413:  Undeclared variable IsTianyan
+Line 18674:  Undeclared variable IsTianyan
+Line 19255:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 19481:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 19572:  Undeclared variable IsTianyan
+Line 19977:  Undeclared variable IsTianyan
+Line 24414:  Undeclared variable IsTianyan
+Line 29279:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 29290:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 29481:  Undeclared variable IsTianyan
+Line 29563:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 29575:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 31688:  Undeclared variable UWanjieGuanghuan
+Line 31689:  Undeclared variable IsTianyan
+Line 31763:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 31773:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 31839:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 31899:  Undeclared variable IsTianyan
+Line 32099:  Undeclared variable IsTianyan
+Line 32112:  Undeclared variable IsTianyan
+Line 38825:  Undeclared variable IsTianyan
+Line 39029:  Undeclared variable IsTianyan
+Line 40088:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 40196:  Undeclared variable IsTianyan
+Line 40418:  Undeclared variable IsTianyan
+Line 40418:  Comparing two variables of different primitive types (except real and integer) is not allowed
+Line 40456:  Undeclared variable IsTianyan
+Line 40456:  Comparing two variables of different primitive types (except real and integer) is not allowed
+Line 44171:  Undeclared variable NanDiff. Maybe you meant CDiff
+Line 46380:  Undeclared variable IsTianyan
+Line 53063:  Undeclared variable IsTianyan
+Line 54398:  Undeclared variable IsTianyan
+Line 54400:  Undeclared variable UWanjieGuanghuan
+34

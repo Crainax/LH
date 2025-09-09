@@ -156,6 +156,7 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	    游戏难度的选取
 	*/
 	function ChooseDifficulty takes integer i returns nothing
+		set udg_X_Nandu = DialogCreate()
 		call DialogSetMessage( udg_X_Nandu, "选择难度" )
 	    if (i < 2) then
 		    call DialogAddButtonBJ( udg_X_Nandu, "天国（24波）")
@@ -204,6 +205,8 @@ library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
 	    endif
 
 	    call DialogDisplay( GetFirstPlayer(), udg_X_Nandu, true )
+
+		call registerDifficultyDialog.execute(udg_X_Nandu)
 
 	    if (CType != 0 and CType != -1) then
 	    	call InitChallanger()

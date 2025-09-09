@@ -18,72 +18,6 @@ hg 回城
 -qc 取消七彩皮肤
 }
 
-STRING 2
-{
-|cffff00ff首任六界王|r
-}
-
-STRING 3
-{
-寰宇之争，混沌初开。昔日神魔之争，如今冥界侵蚀。圣光宝石是五界之核心，我们要势必要阻止觊觎圣光宝石的魔与冥的侵略。
-请认准轮回之狱唯一官方群413359254,谨防上当受骗.
-}
-
-STRING 4
-{
-|cFF99FF00【消息】|r当前难度为天国。
-}
-
-STRING 5
-{
-|cFF99FF00【消息】|r当前难度为太平。
-}
-
-STRING 6
-{
-|cFF99FF00【消息】|r当前难度为和谐。
-}
-
-STRING 7
-{
-|cFF99FF00【消息】|r当前难度为战争，金钱获得率为80%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 8
-{
-|cFF99FF00【消息】|r当前难度为炼狱，金钱获得率为70%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 9
-{
-|cFF99FF00【消息】|r当前难度为地狱，金钱获得率为60%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 10
-{
-|cFF99FF00【消息】|r当前难度为|cFFFF0000末日|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 11
-{
-|cFF99FF00【消息】|r当前难度为|cffff00ff轮回|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 12
-{
-|cFF99FF00【消息】|r当前难度为|cff008000万劫|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 13
-{
-|cFF99FF00【消息】|r当前难度为|cff993366天魇|r，金钱获得率为20%，每多一名玩家获得率+10%，上限100%。
-}
-
-STRING 14
-{
-准备时间
-}
-
 STRING 15
 {
 |cFFFF9900【消息】|r木头不够。
@@ -34411,27 +34345,9 @@ STRING 5836
 }
 
 STRING 5837
-// 技能: A0GT (给物品英雄), Hotkey (热键 - 普通[ahky])
+// 技能: A0FZ (|cFFFF8080箭雨|r), Hotkey (热键 - 普通[ahky])
 {
 Q
-}
-
-STRING 5838
-// 技能: A0GT (给物品英雄), Name (名字[anam])
-{
-给物品英雄
-}
-
-STRING 5839
-// 技能: A0GT (给物品英雄), Tip (提示工具 - 普通[atp1])
-{
-给物品英雄(|cffffcc00Q|r)
-}
-
-STRING 5840
-// 技能: A0GT (给物品英雄), Ubertip (提示工具 - 普通 - 扩展[aub1])
-{
-将一件物品转移到英雄身上.
 }
 
 STRING 5841
@@ -34945,7 +34861,7 @@ STRING 5925
 }
 
 STRING 5926
-// 技能: A0FZ (|cFFFF8080箭雨|r), Hotkey (热键 - 普通[ahky])
+// 技能: A0FZ (|cFFFF8080箭雨|r), Researchhotkey (热键 - 学习[arhk])
 {
 Q
 }
@@ -34957,7 +34873,7 @@ STRING 5927
 }
 
 STRING 5928
-// 技能: A0FZ (|cFFFF8080箭雨|r), Researchhotkey (热键 - 学习[arhk])
+// 技能: A0C7 (|cff808000千鬼邪|r), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -37981,7 +37897,7 @@ STRING 6429
 }
 
 STRING 6430
-// 技能: A0C7 (|cff808000千鬼邪|r), Hotkey (热键 - 普通[ahky])
+// 技能: A0C7 (|cff808000千鬼邪|r), Researchhotkey (热键 - 学习[arhk])
 {
 Q
 }
@@ -37993,7 +37909,7 @@ STRING 6431
 }
 
 STRING 6432
-// 技能: A0C7 (|cff808000千鬼邪|r), Researchhotkey (热键 - 学习[arhk])
+// 技能: A075 (地狱火3), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -41779,7 +41695,7 @@ STRING 7062
 }
 
 STRING 7063
-// 技能: A075 (地狱火3), Hotkey (热键 - 普通[ahky])
+// 技能: A06Q (地狱火2), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -42001,7 +41917,7 @@ STRING 7099
 }
 
 STRING 7100
-// 技能: A06Q (地狱火2), Hotkey (热键 - 普通[ahky])
+// 技能: A060 (地狱火7), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -42445,7 +42361,7 @@ STRING 7173
 }
 
 STRING 7174
-// 技能: A060 (地狱火7), Hotkey (热键 - 普通[ahky])
+// 技能: A05Z (地狱火6), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -42469,7 +42385,7 @@ STRING 7177
 }
 
 STRING 7178
-// 技能: A05Z (地狱火6), Hotkey (热键 - 普通[ahky])
+// 技能: A05Y (地狱火5), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -42493,7 +42409,7 @@ STRING 7181
 }
 
 STRING 7182
-// 技能: A05Y (地狱火5), Hotkey (热键 - 普通[ahky])
+// 技能: A05X (地狱火4), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -42517,7 +42433,7 @@ STRING 7185
 }
 
 STRING 7186
-// 技能: A05X (地狱火4), Hotkey (热键 - 普通[ahky])
+// 技能: A04H (|cFFFF66CC元轮天斩|r), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -45727,7 +45643,7 @@ STRING 7720
 }
 
 STRING 7721
-// 技能: A04H (|cFFFF66CC元轮天斩|r), Hotkey (热键 - 普通[ahky])
+// 技能: A04H (|cFFFF66CC元轮天斩|r), Researchhotkey (热键 - 学习[arhk])
 {
 Q
 }
@@ -45739,7 +45655,7 @@ STRING 7722
 }
 
 STRING 7723
-// 技能: A04H (|cFFFF66CC元轮天斩|r), Researchhotkey (热键 - 学习[arhk])
+// 技能: A03A (|cff99ccff黑炎地狱火|r), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -46801,7 +46717,7 @@ HP
 }
 
 STRING 7900
-// 技能: A03A (|cff99ccff黑炎地狱火|r), Hotkey (热键 - 普通[ahky])
+// 技能: A000 (|cFFFF00FF幻灵冰魄|r), Hotkey (热键 - 普通[ahky])
 {
 Q
 }
@@ -48463,7 +48379,7 @@ STRING 8176
 }
 
 STRING 8177
-// 技能: A000 (|cFFFF00FF幻灵冰魄|r), Hotkey (热键 - 普通[ahky])
+// 技能: A000 (|cFFFF00FF幻灵冰魄|r), Researchhotkey (热键 - 学习[arhk])
 {
 Q
 }
@@ -48472,12 +48388,6 @@ STRING 8178
 // 技能: A000 (|cFFFF00FF幻灵冰魄|r), Name (名字[anam])
 {
 |cFFFF00FF幻灵冰魄|r
-}
-
-STRING 8179
-// 技能: A000 (|cFFFF00FF幻灵冰魄|r), Researchhotkey (热键 - 学习[arhk])
-{
-Q
 }
 
 STRING 8180
@@ -50786,9 +50696,9 @@ STRING 8564
 点击可以立即跟踪仓库的位置.
 }
 
-STRING 8565
+STRING 8566
 // 技能: A0KZ (取走英雄物品), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
-将英雄身上一件物品转移到仓库.|n|cffff6600右键双击装备也能实现物品的转移.|r
+将英雄身上一件物品转移到仓库.|n|cffff6600右键双击装备能将物品转移给英雄.|r
 }
 

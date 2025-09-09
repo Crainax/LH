@@ -1,5 +1,5 @@
-#ifndef ChooseIncluded
-#define ChooseIncluded
+#ifndef ChooseDifficultyIncluded
+#define ChooseDifficultyIncluded
 
 #include "edit/LHBase.j"
 #include "edit/NetVersion.j"
@@ -10,13 +10,63 @@
 */
 library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
 
-    function onInit ()  {
+    // 初始化万劫难度
+	function InitWanjie() {
+		//光环（加防和回血）
+		UWanjieGuanghuan = CreateUnit(Player(10),'h00U',0,0,0);
+		if (IsTianyan) {
+			SetUnitAbilityLevel(UWanjieGuanghuan,'A0HD',2);
+			UnitAddAbility(UWanjieGuanghuan,'A0JJ');
+		}
+		ShowUnitHide(UWanjieGuanghuan);
+
+		//前三野与前30层科技 3倍生命
+		SetPlayerTechResearchedSwap('R00X', 1, Player(10));
+		SetPlayerTechResearchedSwap('R00X', 1, Player(11));
+		//11-24波怪物，10倍生命
+		SetPlayerTechResearchedSwap('R00Y', 1, Player(10));
+		SetPlayerTechResearchedSwap('R00Y', 1, Player(11));
+		//加宝石射程
+		SetPlayerTechResearchedSwap('R010', 1, Player(10));
+		SetPlayerTechResearchedSwap('R010', 1, Player(11));
+		SetPlayerTechResearchedSwap('R011', 1, Player(10));
+		SetPlayerTechResearchedSwap('R011', 1, Player(11));
+		//冥刹30000E
+		SetPlayerTechResearchedSwap('R013', 1, Player(10));
+		SetPlayerTechResearchedSwap('R013', 1, Player(11));
+	}
+
+    // 地狱难度的数据提示
+	function PrintDifficulty() {
+		integer d = GetDiffculty();
+		if (d == 6) {
+			BJDebugMsg("|cFFFF66CC【消息】|r地狱难度下，会额外提高以下怪物的难度：");
+			BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高100%,生命提高66%.");
+		} else if (d == 7) {
+			BJDebugMsg("|cFFFF66CC【消息】|r|cffff0000末日|r难度下，会额外提高以下怪物的难度：");
+			BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高200%,生命提高133%.");
+		} else if (d == 8) {
+			BJDebugMsg("|cFFFF66CC【消息】|r|cffff00ff轮回|r难度下，会额外提高以下怪物的难度：");
+			BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高300%,有几率无视闪避,生命提高200%.");
+		} else if (d == 9) {
+			BJDebugMsg("|cFFFF66CC【消息】|r|cff008000万劫|r难度下，会额外提高以下怪物的难度：");
+			BJDebugMsg("|cFFFF66CC【消息】|r炼狱30+层、宝石区怪物和翅膀区伤害提高300%,有几率无视闪避,生命提高200%.");
+			BJDebugMsg("|cFFFF66CC【消息】|r炼狱前30层与天庭均会增强同上属性.");
+			BJDebugMsg("|cFFFF66CC【消息】|r所有单位增加50%基础防御,所有非英雄单位增加2%生命回复速度.");
+			BJDebugMsg("|cFFFF66CC【消息】|r野怪每次升级会升3级.");
+			BJDebugMsg("|cFFFF66CC【消息】|r进攻怪获得技能\"闪烁\",10波以后怪物提高20倍生命与20倍攻击.");
+			BJDebugMsg("|cFFFF66CC【消息】|r熊猫与大法BOSS提高50倍生命与20倍生命.");
+			BJDebugMsg("|cFFFF66CC【消息】|r英雄获得经验减少25%.");
+			BJDebugMsg("|cFFFF66CC【消息】|r通关该难度可以加轮回之狱主群把你名字永久保存在|cff99cc00封帝万劫录|r中哦!");
+		}
+	}
+
+    public function registerDifficultyDialog ( dialog d)  {
         trigger tr;
         tr = CreateTrigger();
-        TriggerRegisterDialogEvent(tr, udg_X_Nandu);
+        TriggerRegisterDialogEvent(tr, d);
         TriggerAddAction(tr, function () {
             integer i;
-
             if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[1]) {
                 udg_Nandu = 1;
                 ForForce(GetPlayersAll(), function () {

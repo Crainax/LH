@@ -132,7 +132,6 @@
 // 测试文件
 #if ((CURRENT_BUILD_VERSION == VERSION_ALPHA) || (CURRENT_BUILD_VERSION == VERSION_BETA))
     #include "edit/TestCommand.j"
-    #include "edit/NotPublic.j"
     #include "edit/DebugNet.j"
 #endif
 
