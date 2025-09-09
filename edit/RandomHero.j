@@ -64,7 +64,7 @@ library_once RandomHero  requires LHBase,Version,PIV
 			endloop
 		endif
 
-		call GroupRemoveUnit(g,gg_unit_H02B_0293)
+		// call GroupRemoveUnit(g,gg_unit_H02B_0293)
 		set BSuiji[GetConvertedPlayerId(p)] = true
 		set u = GetRandomUnitInGroup(g)
 		call DestroyGroup(g)

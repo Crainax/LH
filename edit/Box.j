@@ -204,6 +204,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 		endloop
 		call RemoveUnit(UDepot[GetConvertedPlayerId(p)])
 		set UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, GetBoxType(i), x, y, 270.000)
+		call InitItemTransport(UDepot[GetConvertedPlayerId(p)])
 		if (GetDiffculty() <= 8 or i >= 9) then
 			call UnitAddAbility(UDepot[GetConvertedPlayerId(p)],GetBoxAbility(i))
 		endif

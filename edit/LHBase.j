@@ -872,15 +872,8 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
             endif
             set i = i +1
         endloop
-        /*
-            仓库初始化
-        */
-        set UDepot[1] = CreateUnit(Player(0), 'nmgv', 10175.0, - 691.0, 270.000)
-        set UDepot[2] = CreateUnit(Player(1), 'nmgv', 10307.0, - 691.0, 270.000)
-        set UDepot[3] = CreateUnit(Player(2), 'nmgv', 10431.0, - 691.0, 270.000)
-        set UDepot[4] = CreateUnit(Player(3), 'nmgv', 10175.0, - 60.6, 270.000)
-        set UDepot[5] = CreateUnit(Player(4), 'nmgv', 10307.0, - 60.6, 270.000)
-        set UDepot[6] = CreateUnit(Player(5), 'nmgv', 10431.0, - 60.6, 270.000)
+
+
 
         // set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14394.0, - 15446.0, 270.000)
 

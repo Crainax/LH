@@ -2,11 +2,15 @@
 #define HeroSelectIncluded
 
 #include "edit/LHBase.j"
+#include "edit/Achievement.j"
+#include "edit/PIV.j"
+#include "edit/RandomHero.j"
 //! zinc
 /*
 英雄选择
 */
-library HeroSelect requires LHBase {
+library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
+
 
     function onInit ()  {
         trigger t = CreateTrigger();
@@ -15,8 +19,8 @@ library HeroSelect requires LHBase {
             TriggerRegisterPlayerSelectionEventBJ(t, Player(i), true);
             i = i + 1;
         }
-        TriggerAddCondition(t, Condition(function (){
-            return ((u == UChengjiu) || ((GetOwningPlayer(u) == Player(PLAYER_NEUTRAL_PASSIVE)) && IsUnitType(u, UNIT_TYPE_HERO) && (udg_T1[pid] == false)));
+        TriggerAddCondition(t, Condition(function () -> boolean {
+            return ((GetTriggerUnit() == UChengjiu) || ((GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE)) && IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) && (udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] == false)));
         }));
         TriggerAddAction(t, function () {
             integer i;
@@ -52,7 +56,7 @@ library HeroSelect requires LHBase {
                     return;
                 }
 
-                if (u == gg_unit_H02B_0293) {  //选择随机英雄
+                if (GetUnitTypeId(u) == 'H02B') {  //选择随机英雄
                     udg_T2[pid] = false;
                     RandomPick(p);
                     ydl_timer = null;
@@ -74,10 +78,14 @@ library HeroSelect requires LHBase {
                 RemoveLocation(udg_Point);
                 udg_RENSHU = (udg_RENSHU + 1);
                 udg_H[pid] = u;
+                InitItemTransport(u);
                 SetPlayerStateBJ(p, PLAYER_STATE_RESOURCE_FOOD_CAP, 1);
                 MultiboardSetItemValueBJ(udg_D, 1, (pid + 1), GetUnitName(u));
                 MultiboardSetItemValueBJ(udg_D, 7, (pid + 1), "存活");
                 MultiboardSetItemValueBJ(udg_D, 6, (pid + 1), "1");
+
+                UDepot[pid] = CreateUnit(p, 'nmgv', 10175.0 + ModuloInteger(pid - 1, 3) * 132.0, (- 691.0 + R3(pid > 3,1,0) * 630.4), 270.000);
+                InitItemTransport(UDepot[pid]);
 
                 if (udg_I_Jinqianhuodelv[pid] < 1.00) {
                     ydul_g = 1;

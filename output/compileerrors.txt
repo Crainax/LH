@@ -1,9 +1,5 @@
 logs\currentmapscript.j
 pjass.exe
-Line 39952:  Cannot convert unit to player
-Line 46138:  Cannot convert unit to player
-Line 46197:  Cannot convert unit to player
-Line 47561:  Cannot convert unit to player
-Line 48900:  Cannot convert unit to player
-Line 52322:  Cannot convert unit to player
-6
+Line 31433:  Undeclared variable pid. Maybe you meant ii
+Line 32234:  Bad types for binary operator
+2

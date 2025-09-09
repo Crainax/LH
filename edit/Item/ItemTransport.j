@@ -8,11 +8,9 @@
 */
 library ItemTransport requires LHBase {
 
-    //给主英雄和宠物加上了操作物品的接口
-    public function InitItemTransport (player p) {
-        integer index = GetConvertedPlayerId(p);
-        TriggerRegisterUnitEvent(TrDbClick,udg_H[index],EVENT_UNIT_ISSUED_TARGET_ORDER);
-        TriggerRegisterUnitEvent(TrDbClick,UDepot[index],EVENT_UNIT_ISSUED_TARGET_ORDER);
+    //操作物品的接口
+    public function InitItemTransport (unit u) {
+        TriggerRegisterUnitEvent(TrDbClick,u,EVENT_UNIT_ISSUED_TARGET_ORDER);
     }
 
     trigger TrDbClick = null;
@@ -34,7 +32,6 @@ library ItemTransport requires LHBase {
                     SaveInteger(spellTable,GetHandleId(t),1,pos);
                     SaveItemHandle(spellTable,GetHandleId(t),2,GetOrderTargetItem());
                     SaveUnitHandle(spellTable,GetHandleId(t),3,GetTriggerUnit());
-                    BJDebugMsg("转移物品: " + GetUnitName(GetTriggerUnit()) + " -> " + GetUnitName(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
                     TimerStart(t,0.0,false,function (){
                         timer t = GetExpiredTimer();
                         integer id = GetHandleId(t);
@@ -47,11 +44,10 @@ library ItemTransport requires LHBase {
                                 if (UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
                                 else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,英雄背包已满.|r" );
                             } else if (u == udg_H[index]) { //英雄里双击
-                                if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
+                                if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到仓库上." );
                                 else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,仓库背包已满.|r" );
                             }
                         }
-                        BJDebugMsg("转移物品: " + GetUnitName(u) + " -> " + GetUnitName(UDepot[index]));
                         PauseTimer(t);
                         FlushChildHashtable(spellTable,id);
                         DestroyTimer(t);
