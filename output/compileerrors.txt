@@ -1,4 +1,9 @@
 logs\currentmapscript.j
 pjass.exe
-Line 30010:  Undeclared function SetKuanghuanOK. Maybe you meant SetFanzhuanOK
-1
+Line 39952:  Cannot convert unit to player
+Line 46138:  Cannot convert unit to player
+Line 46197:  Cannot convert unit to player
+Line 47561:  Cannot convert unit to player
+Line 48900:  Cannot convert unit to player
+Line 52322:  Cannot convert unit to player
+6

@@ -860,37 +860,9 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         endloop
     endfunction
 //---------------------------------------------------------------------------------------------------
-    /*
-        开始定时刷万劫录
-    */
-    private function StartWanjieTimer takes nothing returns nothing
-        local timer t = GetExpiredTimer()
-        local integer id = GetHandleId(t)
-        local integer value = LoadInteger(LHTable,id,1)
-        local texttag tt = null
-        local location point = null
-        if (value <= 200) then
-            call SaveInteger(LHTable,GetHandleId(t),1,value + 1)
-            set point = Location(GetUnitX(Uwanjie) - 100, GetUnitY(Uwanjie) )
-            set tt = CreateTextTagLocBJ( "|cffFFD700【万劫录】"+GetWanjieluName(), point, 50.00, 12, 100, 100, 100, 0 )
-            call SetTextTagVelocityBJ( tt, 64, 90.00 )
-            call SetTextTagPermanent(tt,false)
-            call SetTextTagLifespan(tt,5)
-            call SetTextTagFadepoint(tt,5)
-            call RemoveLocation(point)
-            set point = null
-            set tt = null
-        else
-            call PauseTimer(t)
-            call FlushChildHashtable(LHTable,id)
-            call DestroyTimer(t)
-        endif
-        set t = null
-    endfunction
-//---------------------------------------------------------------------------------------------------
     private function InitLHBase takes nothing returns nothing
 
-        local timer t = CreateTimer()
+        // local timer t = CreateTimer()
         local integer i = 1
 
         loop
@@ -910,13 +882,13 @@ library_once LHBase initializer InitLHBase requires Constant,JBase,PIVInterface/
         set UDepot[5] = CreateUnit(Player(4), 'nmgv', 10307.0, - 60.6, 270.000)
         set UDepot[6] = CreateUnit(Player(5), 'nmgv', 10431.0, - 60.6, 270.000)
 
-        set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14394.0, - 15446.0, 270.000)
+        // set Uwanjie = CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01F', - 14394.0, - 15446.0, 270.000)
 
-        call SaveInteger(LHTable,GetHandleId(t),1,0)
-        call TimerStart(t,2,true,function StartWanjieTimer)
+        // call SaveInteger(LHTable,GetHandleId(t),1,0)
+        // call TimerStart(t,2,true,function StartWanjieTimer)
 
 
-        set t = null
+        // set t = null
     endfunction
 endlibrary
 #endif

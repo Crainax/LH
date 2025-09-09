@@ -215,7 +215,6 @@ library_once Continous initializer InitContinous requires  LHBase,ItemBase,Achie
 		//活动还没开始，或者说是首次
 		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) then
 			call BJDebugMsg("|cFFFF66CC【消息】|r ")
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r嘉年华时间未开始.")
 			return
 		endif
 

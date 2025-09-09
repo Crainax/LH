@@ -44,7 +44,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	constant function GetVersion takes nothing returns string
-		return "3.421B"
+		return "3.43"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -1434,30 +1434,6 @@ library_once Constant initializer InitConstant requires JBase
 			获得成就名"+GetAchievementName(420)+"。
 			如果你同时完成了"+GetAchievementName(418)+",那么你将可以在许愿时获得额外的奖励.
 			"
-		endif
-		return ""
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    万劫录
-	*/
-	function GetWanjieluName takes nothing returns string
-		set WPointer = WPointer - 1
-		if (WPointer <= 0) then
-			set WPointer = COUNT_WANJIE
-		endif
-		if (WPointer == 1) then
-			return "话唠。"
-		elseif (WPointer == 2) then
-			return "与你童在"
-		elseif (WPointer == 3) then
-			return "丶念少。"
-		elseif (WPointer == 4) then
-			return "祭轮回丶"
-		elseif (WPointer == 5) then
-			return "嚣张城"
-		elseif (WPointer == 6) then
-			return "神天羽"
 		endif
 		return ""
 	endfunction

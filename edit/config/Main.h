@@ -112,14 +112,21 @@
 // 随机英雄
 #include "edit/RandomHero.j"
 
+// 选择英雄
+#include "edit/Hero/HeroSelect.j"
+
 // 狂欢活动
 #include "edit/Kuanghuan.j"
 
 // 连续登录
 #include "edit/Continous.j"
 
+// 右键双击转移装备
+#include "edit/Item/ItemTransport.j"
+
+
 // 测试文件
-#if (defined(VERSION_ALPHA) || defined(VERSION_BETA))
+#if ((CURRENT_BUILD_VERSION == VERSION_ALPHA) || (CURRENT_BUILD_VERSION == VERSION_BETA))
     #include "edit/TestCommand.j"
     #include "edit/NotPublic.j"
     #include "edit/DebugNet.j"

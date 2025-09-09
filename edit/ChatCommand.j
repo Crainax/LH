@@ -189,8 +189,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call FixView(true)
 		elseif (str == "-chenji" and u == chenji) then
 			call ChenjiJiance()
-		elseif (str == "-ph") then
-			call CameraSetSmoothingFactor( 0. )
 		elseif (str == "-qxpf") then
 			set BCancelSpin[GetConvertedPlayerId(GetTriggerPlayer())] = true
 			call BJDebugMsg("|cFFFF66CC【消息】|r成功取消皮肤效果.")
@@ -412,7 +410,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 49) then
 			set s = "每个英雄都拥有对全地图队友增益的光环效果,人多力量更大!"
 		elseif(i == 50) then
-			set s = "轮回之狱主群欢迎你的加入:1群:148199145(满)/2群:413359254。"
+			set s = "轮回之狱主群欢迎你的加入:群号413359254。"
 		elseif(i == 51) then
 			set s = "输入-cj可以更换你的成就哦,还可以查询你拥有的所有成就,也可以查询所有成就的获取条件."
 		elseif(i == 52) then
@@ -436,26 +434,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		call BJDebugMsg("|cFFFF66CC【小提示】|r"+s)
 		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    永久赞助的任务
-	*/
-	function ShowZanzhuHint takes nothing returns nothing
-	    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "永久赞助", "做图不易,你的如果你喜欢本图,也愿意赞助本图,那么你将获得以下功能:
-
-	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"星胧\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r、|cff00ccff\"苍凌\"|r、|cff00ccff\"宵霆\"|r|cffff6600。|r|cffff6800|n2.英雄直接解锁湮灭/凯撒/莫琪的黑化功能.|n3.英雄将获得七彩皮肤效果|n4.开局金币10000(不与平台等级叠加)|n5.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n6.选择所有难度(包括前4个)均能体验24+5+1波进攻，并解锁混沌区域.|n7.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n8.可以雇佣第5第6号雇佣兵.|n9.基地将获得3次防护罩效果.|n10.解锁仓库-熔炎火炮.
-
-	    	|r|cffffff00赞助后续版本永久有效,永久赞助请加QQ群413359254获取,"+S3(DEBUG_MODE,"","或者百度搜索\"17玩吧\"进入轮回之狱专区获取,")+"还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
-
-	endfunction
-
-	function ShowZanzhuHint2 takes nothing returns nothing
-	    call PlaySoundBJ( gg_snd_Renwu )
-	    call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
-	    call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00永久赞助|r
-|cFFFF9900点击左上角“任务”查看。|r" )
-	    call DestroyTimer( GetExpiredTimer() )
-	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
@@ -472,9 +450,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 
 	    //小提示
 	    call TimerStart(CreateTimer(),120,true,function ShowHint)
-
-	    //永久赞助的任务
-	    call TimerStart(CreateTimer(),1400,true,function ShowZanzhuHint2)
 
 	    set t = null
 	endfunction

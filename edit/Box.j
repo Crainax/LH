@@ -14,17 +14,6 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
-	    目前可以加3字的人
-	*/
-	private function Is3Size takes player p returns boolean
-		if (playerName[GetConvertedPlayerId(p)] == "samwinn" or playerName[GetConvertedPlayerId(p)] == "司宸" or playerName[GetConvertedPlayerId(p)] == "雪落无痕Diana" or playerName[GetConvertedPlayerId(p)] == "天子脚下一堆坑") then
-			return true
-		endif
-
-		return false
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    创建并绑定文字
 	*/
 	private function InitBoxWord takes player p returns nothing
@@ -39,8 +28,8 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	*/
 	function SetDIYBoxName takes player p,string s returns nothing
 		if (ModuloInteger(StringLength(s),3) == 0) then
-			if ((StringLength(s) > (((DzAPI_Map_GetMapLevel(p)/10) + 2 + I3(Is3Size(p),3,0))*3))) then
-				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你地图等级当前为"+I2S(DzAPI_Map_GetMapLevel(p))+"级,最多可自定义"+I2S(((DzAPI_Map_GetMapLevel(p)/10) + 2 + I3(Is3Size(p),3,0)))+"个字.")
+			if ((StringLength(s) > (((DzAPI_Map_GetMapLevel(p)/10) + 2 )*3))) then
+				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你地图等级当前为"+I2S(DzAPI_Map_GetMapLevel(p))+"级,最多可自定义"+I2S(((DzAPI_Map_GetMapLevel(p)/10) + 2 ))+"个字.")
 				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r每10级可以额外获得1个字.")
 				return
 			endif
@@ -122,7 +111,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 		elseif (i == 6) then
 			return "|cff33cccc(地图等级大于18级解锁)|r"
 		elseif (i == 7) then
-			return "|cff33cccc(加入指定公会[点击查看]解锁)|r"
+			return "|cff33cccc(地图等级大于24级解锁)|r"
 		elseif (i == 8) then
 			return "|cff33cccc(获取赞助权限解锁)|r"
 		elseif (i == 9) then
@@ -191,8 +180,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 		elseif (i == 6) then
 			return IsHasCangku(p,i) or DzAPI_Map_GetMapLevel(p) >= 18 or GetDigitAt(Greward[GetConvertedPlayerId(p)],4) > 0
 		elseif (i == 7) then
-			return IsHasCangku(p,i) or GetDigitAt(Greward[GetConvertedPlayerId(p)],7) > 0
-			// return IsHasCangku(p,i) or (DzAPI_Map_GetGuildName(p) == "Crainax" or DzAPI_Map_GetGuildName(p) == "大佬娱乐会所" or DzAPI_Map_GetGuildName(p) == "万劫封帝" or DzAPI_Map_GetGuildName(p) == "万劫录") or GetDigitAt(Greward[GetConvertedPlayerId(p)],7) > 0 todo: 网易删除了这个API
+			return IsHasCangku(p,i) or DzAPI_Map_GetMapLevel(p) >= 24 or GetDigitAt(Greward[GetConvertedPlayerId(p)],7) > 0
 		elseif (i == 8) then
 			return IsHasCangku(p,i) or IsPIV(p) or GetDigitAt(Greward[GetConvertedPlayerId(p)],8) > 0
 		elseif (i >= 9) then
@@ -229,10 +217,6 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	    loop
 	    	exitwhen i > 9
 	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
-				if (i == 7) then
-					call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r加入以下这4个公会之一即可:<小可爱>Crainax/<逆苍天>大佬娱乐会所/<万劫>万劫封帝/<六界王＞万劫录。")
-					call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【备注】|r<轮回>六界联盟公会会长已经被不法手段窃取,故该公会已不属于认证轮回公会!")
-				endif
 	        	if (IsBoxAccess(p,i)) then
 	    			call CreateNewBox(p,i)
 	    			call InitBoxWord(p)

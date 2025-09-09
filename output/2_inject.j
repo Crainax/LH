@@ -4,79 +4,6 @@
 #include <YDTrigger/YDTrigger.h>
 #include "config/config.h"
 
-#ifndef GroupUtilsIncluded
-#define GroupUtilsIncluded
-
-//! zinc
-/*
-单位组有关
-伤害有关
-// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
-用GroupPickRandomUnit(g);好一些
-*/
-library GroupUtils requires UnitFilter {
-
-    group tempG = null;
-    unit tempU = null;
-
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
-        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
-        DestroyBoolExpr(filter);
-    }
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
-        GroupEnumUnitsInRect(whichGroup, r, filter);
-        DestroyBoolExpr(filter);
-    }
-
-    //获取单位组:[敌方]
-    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
-        tempG = CreateGroup();
-        tempU = u;
-        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
-            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
-                return true;
-            }
-            return false;
-        }));
-        tempU = null;
-        return tempG;
-    }
-
-    //获取圆形随机单位
-    public function GetRandomEnemy (unit u,real x,real y,real radius)  -> unit {
-        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
-    }
-
-}
-
-//! endzinc
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsInRectAllNullIncluded
-#define YDWEGetUnitsInRectAllNullIncluded
-
-#include "AntiBJLeak/detail/GetUnitsInRectMatching.j"
-
-library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
-
-function YDWEGetUnitsInRectAllNull takes rect r returns group
-    return YDWEGetUnitsInRectMatchingNull(r, null)
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
 #ifndef MusicIncluded
 #define MusicIncluded
 
@@ -217,50 +144,54 @@ library Music {
 
 #endif
 
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetPlayersByMapControlNullIncluded
-#define YDWEGetPlayersByMapControlNullIncluded
+#ifndef GroupUtilsIncluded
+#define GroupUtilsIncluded
 
+//! zinc
+/*
+单位组有关
+伤害有关
+// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
+用GroupPickRandomUnit(g);好一些
+*/
+library GroupUtils requires UnitFilter {
 
-library YDWEGetPlayersByMapControlNull
+    group tempG = null;
+    unit tempU = null;
 
-globals
-#ifndef YDWE_NNULLTEMPFORCE_DEFVAR
-#define YDWE_NNULLTEMPFORCE_DEFVAR
-    force yd_NullTempForce
-#endif
-endglobals
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
+        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
+        DestroyBoolExpr(filter);
+    }
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
+        GroupEnumUnitsInRect(whichGroup, r, filter);
+        DestroyBoolExpr(filter);
+    }
 
-function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
-    local force f = CreateForce()
-    local integer playerIndex
-    local player  indexPlayer
+    //获取单位组:[敌方]
+    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
+        tempG = CreateGroup();
+        tempU = u;
+        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
+            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
+                return true;
+            }
+            return false;
+        }));
+        tempU = null;
+        return tempG;
+    }
 
-    set playerIndex = 0
-    loop
-        set indexPlayer = Player(playerIndex)
-        if GetPlayerController(indexPlayer) == whichControl then
-            call ForceAddPlayer(f, indexPlayer)
-        endif
+    //获取圆形随机单位
+    public function GetRandomEnemy (unit u,real x,real y,real radius)  -> unit {
+        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
+    }
 
-        set playerIndex = playerIndex + 1
-        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
-    endloop
-    set indexPlayer = null
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
-endfunction
+}
 
-endlibrary
-
-#endif
+//! endzinc
 #endif
 
 #if 0
@@ -302,6 +233,18 @@ endlibrary
 #endif
 #endif
 
+#ifndef YDWEBaseIncluded
+#define YDWEBaseIncluded
+
+library_once YDWEBase initializer InitializeYD
+
+#include "Base/YDWEBase_hashtable.j"
+#include "Base/YDWEBase_common.j"
+
+endlibrary
+
+#endif // YDWEBaseIncluded
+
 #if 0
 //--------------------------------------------//
 //         本文件为自动生成，请勿编辑         //
@@ -309,11 +252,11 @@ endlibrary
 //--------------------------------------------//
 #endif
 #ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsInRectOfPlayerNullIncluded
-#define YDWEGetUnitsInRectOfPlayerNullIncluded
+#ifndef YDWEGetUnitsInRectMatchingNullIncluded
+#define YDWEGetUnitsInRectMatchingNullIncluded
 
 
-library YDWEGetUnitsInRectOfPlayerNull
+library YDWEGetUnitsInRectMatchingNull
 
 globals
 #ifndef YDWE_NNULLTEMPGROUP_DEFVAR
@@ -322,10 +265,10 @@ globals
 #endif
 endglobals
 
-function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
+function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns group
     local group g = CreateGroup()
-    set bj_groupEnumOwningPlayer = whichPlayer
-    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
+    call GroupEnumUnitsInRect(g, r, filter)
+    call DestroyBoolExpr(filter)
     set yd_NullTempGroup = g
     set g = null
     return yd_NullTempGroup
@@ -334,449 +277,6 @@ endfunction
 endlibrary
 
 #endif
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEMultiboardSetItemValueBJNullIncluded
-#define YDWEMultiboardSetItemValueBJNullIncluded
-
-
-library YDWEMultiboardSetItemValueBJNull
-
-function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, integer row, string val returns nothing
-    local integer curRow = 0
-    local integer curCol = 0
-    local integer numRows = MultiboardGetRowCount(mb)
-    local integer numCols = MultiboardGetColumnCount(mb)
-    local multiboarditem mbitem = null
-
-    // Loop over rows, using 1-based index
-    loop
-        set curRow = curRow + 1
-        exitwhen curRow > numRows
-
-        // Apply setting to the requested row, or all rows (if row is 0)
-        if (row == 0 or row == curRow) then
-            // Loop over columns, using 1-based index
-            set curCol = 0
-            loop
-                set curCol = curCol + 1
-                exitwhen curCol > numCols
-
-                // Apply setting to the requested column, or all columns (if col is 0)
-                if (col == 0 or col == curCol) then
-                    set mbitem = MultiboardGetItem(mb, curRow - 1, curCol - 1)
-                    call MultiboardSetItemValue(mbitem, val)
-                    call MultiboardReleaseItem(mbitem)
-                endif
-            endloop
-        endif
-    endloop
-    set mbitem = null
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#ifndef ConversionUtilsIncluded
-#define ConversionUtilsIncluded
-
-//! zinc
-/*
-转换工具
-*/
-library ConversionUtils {
-
-    //补充函数
-    public function B2S(boolean b) -> string {
-        if (b) {return "true";}
-        else {return "false";}
-    }
-
-    //三目运算符
-    public function S3 (boolean b,string s1,string s2)  -> string {
-        if (b) {return s1;}
-        else {return s2;}
-    }
-    //三目运算符
-    public function U3 (boolean b,unit u1,unit u2)  -> unit {
-        if (b) {return u1;}
-        else {return u2;}
-    }
-    //三目运算符
-    public function I3 (boolean b,integer i1,integer i2)  -> integer  {
-        if (b) {return i1;}
-        else {return i2;}
-    }
-    //三目运算符
-    public function R3 (boolean b,real r1,real r2)  -> real  {
-        if (b) {return r1;}
-        else {return r2;}
-    }
-    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
-    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
-    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
-    public function GetIDSymbol ( integer pos ) -> integer {
-        integer bit = pos/36;
-        pos = ModuloInteger(pos,36);
-        if (pos < 10) {return pos + bit * 256;}
-        else {return '000a' - '0000' + pos - 10 + bit * 256;}
-    }
-    // 将魔兽的四字符ID转换回对应数字
-    // s为输入的四字符ID,将其还原为原始数字
-    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
-    public function GetSymbolID ( integer s ) -> integer {
-        integer i1 = s/256;
-        integer i2 = ModuloInteger(s,256);
-        if (i2 < 10) {return i1 * 36 + i2;}
-        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
-    }
-
-}
-
-//! endzinc
-#endif
-
-#ifndef DamageUtilsIncluded
-#define DamageUtilsIncluded
-
-#include "Crainax/core/constant/JapiConstant.j"
-
-//! zinc
-/*
-伤害工具
-*/
-library DamageUtils requires UnitFilter,GroupUtils {
-
-    //旧名替换:DamageSingle
-    //单体伤害:物理
-    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-
-    //单体伤害:魔法
-    public function ApplyMagicDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:真实
-    public function ApplyPureDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
-    }
-
-    //模拟普攻(最后一个参数代表额外的终伤,0)
-    public function SimulateBasicAttack (unit u,unit target,real fd) {
-        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(UNIT_STATE_ATTACK1_DAMAGE_BASE))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-
-    //伤害参数结构体
-    private struct DmgP {
-        unit    source;  //伤害来源
-        string  eft;     //特效
-        real    damage;  //伤害值
-
-        method destroy() {
-            this.source = null;
-            this.eft = null;
-        }
-    }
-
-    //伤害参数栈
-    public struct DmgS [] {
-        private static DmgP stack[100];
-        private static integer top = -1;
-
-        public static method push(DmgP params) {
-            thistype.top += 1;
-            thistype.stack[thistype.top] = params;
-        }
-
-        public static method pop() -> DmgP {
-            DmgP params = thistype.stack[thistype.top];
-            thistype.stack[thistype.top] = 0;
-            thistype.top -= 1;
-            return params;
-        }
-
-        public static method getTop() -> integer {
-            return thistype.top;
-        }
-
-        public static method current() -> DmgP {
-            return thistype.stack[thistype.top];
-        }
-    }
-
-    //范围普通伤害
-    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-
-        DmgS.push(params);
-
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-
-    //范围魔法伤害
-    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-
-        DmgS.push(params);
-
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-
-    //范围真实伤害
-    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-
-        DmgS.push(params);
-
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-
-}
-
-//! endzinc
-#endif
-
-#ifndef YDWEAroundSystemIncluded
-#define YDWEAroundSystemIncluded
-
-#include "YDWEBase.j"
-
-//===========================================================================  
-//万能环绕模板 
-//===========================================================================
-library YDWEAroundSystem requires YDWEBase
-//library TP1 requires YDWEBase
-    globals
-        private constant timer AROUND_TIM   = CreateTimer()
-        private constant real  AROUND_INTER = 0.01
-    endglobals
-
-    private struct Data
-        static thistype array Structs
-        static integer Total = 0
-        unit caster = null
-        unit obj    = null        
-        real dur   = 0.
-        real inter = 0.
-        real each  = 0.        
-        real rate = 0.
-        real dis  = 0.
-        real rise = 0.        
-        real angle  = 0.
-        real radius = 0.
-        real height = 0
-    endstruct
-
-    private function spin takes nothing returns nothing
-        local Data d = 0
-        local real x = 0.
-        local real y = 0.
-        local integer inst = 0
-        
-        loop
-            exitwhen (inst == Data.Total)
-            set d = Data.Structs[inst]
-            if ( d.dur > 0 ) and (GetUnitState(d.caster, UNIT_STATE_LIFE)>0) and (GetUnitState(d.obj, UNIT_STATE_LIFE)>0) then
-                set d.each = d.each + AROUND_INTER
-                if ( d.each >= d.inter ) then
-                    set d.angle  = d.angle  + d.rate
-                    set d.radius = d.radius + d.dis
-                    set d.height = d.height + d.rise
-                    set x = GetUnitX(d.caster) + d.radius*Cos(d.angle)
-                    set y = GetUnitY(d.caster) + d.radius*Sin(d.angle)
-                    set x = YDWECoordinateX(x)
-                    set y = YDWECoordinateY(y)
-                    call SetUnitX(d.obj, x)
-                    call SetUnitY(d.obj, y)
-                    call SetUnitFlyHeight(d.obj, d.height, 0.)
-                    set d.each = 0.
-                endif
-                set d.dur = d.dur - AROUND_INTER
-            else                                                      
-                set bj_lastAbilityTargetUnit=d.caster
-                call YDWESyStemAbilityCastingOverTriggerAction(d.obj,10)   
-                set d.caster = null
-                set d.obj = null
-                call d.destroy()
-                set Data.Total = Data.Total - 1
-                set Data.Structs[inst] = Data.Structs[Data.Total]
-                set inst = inst - 1
-            endif
-            set inst = inst + 1
-        endloop
-        if ( Data.Total == 0 ) then
-            call PauseTimer(AROUND_TIM)
-        endif
-    endfunction
-
-    function YDWEAroundSystem takes unit satellite, unit star, real angleRate, real displacement, real riseRate,real timeout, real interval returns nothing
-        local Data d = Data.create()
-        local real x1 = GetUnitX(star)
-        local real y1 = GetUnitY(star)
-        local real x2 = GetUnitX(satellite)
-        local real y2 = GetUnitY(satellite)
-        set d.caster = star
-        set d.obj    = satellite
-        set d.dur    = timeout
-        set d.inter  = interval
-        set d.rate   = angleRate*(3.14159/180.)
-        set d.dis    = displacement
-        set d.rise   = riseRate
-        set d.angle  = Atan2(y2-y1,x2-x1)
-        set d.radius = SquareRoot((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
-        set d.height = GetUnitFlyHeight(d.obj)        
-        set Data.Structs[Data.Total] = integer(d)
-        set Data.Total = Data.Total + 1           
-        if ( Data.Total - 1 == 0 ) then
-            call TimerStart(AROUND_TIM, AROUND_INTER, true, function spin)
-        endif
-    endfunction
-    
-endlibrary 
-
-
-#endif /// YDWEAroundSystemIncluded
-
-#ifndef StringUtilsIncluded
-#define StringUtilsIncluded
-
-//! zinc
-/*
-字符串工具
-*/
-library StringUtils {
-
-    string temp;
-    //重复某一个字符串N次,并可以按照指定间隔添加空格和换行
-    //参数 s: 要重复的字符串
-    //参数 times: 重复的次数
-    //参数 gap1: 每隔多少个字符串添加一个空格,如gap1=3则每3个字符串后加空格
-    //参数 gap2: 每隔多少个字符串添加一个换行,如gap2=5则每5个字符串后换行
-    //返回: 处理后的完整字符串
-    //示例: RepeatString("A",6,2,3) 会返回 "AA AA A\nA"
-    public function RepeatString (string s,integer times,integer gap1,integer gap2)  -> string {
-        integer i;
-        temp = "";
-        for (1 <= i <= times) {
-            temp += s;
-            if (ModuloInteger(i,gap1) == 0) temp += " ";
-            if (ModuloInteger(i,gap2) == 0) temp += "\n";
-        }
-        return temp;
-    }
-
-    //判断一个字符串是否有东西
-    public function IsNotEmpty (string s)  -> boolean {return (s != null && s != "");}
-
-    // 数字转字符串,首位自动填充0
-    // 不支持负数
-    // 比如12,3   -> 012
-    public function I2SM ( integer num,integer bit ) -> string {
-        integer i , count;
-        string s;
-        if (num < 0) {return I2S(num);}
-
-        s = I2S(num);
-        count = bit - StringLength(s);
-        for (1 <= i <= count) {s = "0" + s;}
-        return s;
-    }
-
-
-    //赞助系统：循环Hash
-    public function GetCycleHash ( string s,integer times ) -> integer {
-        string result = s;
-        integer i;
-        for (1 <= i <= times) {
-            result = I2S(StringHash(result));
-        }
-        return S2I(result);
-    }
-
-    //拼接式存放数据的API
-    //自动将整数补至10位长度的字符串(会自动取绝对值)
-    public function IMendS ( integer num,integer bit ) -> string {
-        integer abs = IAbsBJ(num);
-        string result = I2S(abs);
-        integer i , length = StringLength(result);
-        for (1 <= i <= bit - length) {result = "0" + result;}
-        return result;
-    }
-
-
-}
-
-//! endzinc
 #endif
 
 #ifndef YDWETimerSystemIncluded
@@ -1068,18 +568,6 @@ endlibrary
 
 #endif /// YDWETimerSystemIncluded
 
-#ifndef YDWEBaseIncluded
-#define YDWEBaseIncluded
-
-library_once YDWEBase initializer InitializeYD
-
-#include "Base/YDWEBase_hashtable.j"
-#include "Base/YDWEBase_common.j"
-
-endlibrary
-
-#endif // YDWEBaseIncluded
-
 #if 0
 //--------------------------------------------//
 //         本文件为自动生成，请勿编辑         //
@@ -1087,32 +575,118 @@ endlibrary
 //--------------------------------------------//
 #endif
 #ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEUnitHasItemOfTypeBJNullIncluded
-#define YDWEUnitHasItemOfTypeBJNullIncluded
+#ifndef YDWEGetUnitsInRectOfPlayerNullIncluded
+#define YDWEGetUnitsInRectOfPlayerNullIncluded
 
 
-library YDWEUnitHasItemOfTypeBJNull
+library YDWEGetUnitsInRectOfPlayerNull
 
-function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
-    local integer index = 0
+globals
+#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
+#define YDWE_NNULLTEMPGROUP_DEFVAR
+    group yd_NullTempGroup
+#endif
+endglobals
 
-	if itemId != 0 then
-		loop
-			if GetItemTypeId(UnitItemInSlot(whichUnit, index)) == itemId then
-				return true
-			endif
-
-			set index = index + 1
-			exitwhen index >= bj_MAX_INVENTORY
-		endloop
-	endif
-    return false
+function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
+    local group g = CreateGroup()
+    set bj_groupEnumOwningPlayer = whichPlayer
+    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
 endfunction
 
 endlibrary
 
 #endif
 #endif
+
+#ifndef YDWESetGuardIncluded
+#define YDWESetGuardIncluded
+
+#include "YDWEBase.j"
+
+//===========================================================================
+//佣兵系统 
+//===========================================================================
+library YDWESetGuard requires YDWEBase
+private function IsUnitIdle takes unit u returns boolean
+    return OrderId2String(GetUnitCurrentOrder(u)) == null
+endfunction
+
+function YDWERemoveGuard takes unit pet returns nothing
+    local integer tm = YDWEGetIntegerByString( I2S(YDWEH2I(pet)), "Timer")
+    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
+    call YDWEFlushMissionByString(I2S(tm))
+    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)), "Timer"))
+endfunction
+
+function SetGuardTimer takes nothing returns nothing
+  local timer tm = GetExpiredTimer()
+  local unit pet = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Pet"))
+  local unit captain = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Captain"))
+  local real x = GetUnitX(captain) - GetUnitX(pet)
+  local real y = GetUnitY(captain) - GetUnitY(pet)
+  local real d = x*x + y*y
+  local real v
+  local real a
+  local effect e=null
+  local real life = YDWEGetRealByString( I2S(YDWEH2I(tm)), "Life")
+  local integer p = YDWEGetIntegerByString(I2S(YDWEH2I(tm)), "Percent")
+  set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "GuardRanger")      
+  if GetUnitState(pet, UNIT_STATE_LIFE)>0 and GetUnitState(captain, UNIT_STATE_LIFE)> 0 then   
+      if d<v*v then
+         if IsUnitIdle(pet) and GetRandomInt(0,100)<p then
+           set x = GetUnitX(captain)
+           set y = GetUnitY(captain)
+           set d = GetRandomReal(0,v)
+           set a = GetRandomReal(0,360)
+           call IssuePointOrder(pet, "patrol", x+d*CosBJ(a), y+d*SinBJ(a))
+         endif
+      else
+        set v = YDWEGetRealByString( I2S(YDWEH2I(tm)), "ReturnRanger")
+        if d<v*v then
+          if IsUnitIdle(pet) then
+            call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
+          endif
+        else
+          set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "OutRanger")
+            if d!=0 and d>v*v then
+              call SetUnitPosition(pet,GetUnitX(captain),GetUnitY(captain))
+              set e =AddSpecialEffectTarget("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl" ,captain,"chest")
+              call DestroyEffect(e)
+            else
+              call IssuePointOrder(pet, "move", GetUnitX(captain), GetUnitY(captain))
+            endif
+          endif
+       endif
+     else
+       call IssuePointOrder(pet, "attack", GetUnitX(captain), GetUnitY(captain))
+       call YDWERemoveGuard(pet)   
+  endif
+  set tm = null
+  set pet = null
+  set captain = null
+  set e=null
+endfunction
+
+
+function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRanger, real returnRanger, real outRanger,integer percent returns nothing
+    local timer tm = CreateTimer()  
+    call YDWESaveTimerByString(I2S(YDWEH2I(pet)), "Timer", tm)
+    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "pet", pet)
+    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "Captain", captain)
+    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)), "Percent", percent)   
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "GuardRanger", guardRanger)    
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "ReturnRanger", returnRanger)   
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "OutRanger", outRanger)
+    call TimerStart(tm, timeout, true, function SetGuardTimer)
+    set tm = null
+endfunction
+endlibrary 
+
+#endif /// YDWESetGuardIncluded
 
 #if 0
 //--------------------------------------------//
@@ -1161,47 +735,6 @@ endlibrary
 #endif
 #endif
 
-#ifndef NumberUtilsIncluded
-#define NumberUtilsIncluded
-
-//! zinc
-/*
-数字工具
-*/
-library NumberUtils  {
-
-    // 老版本叫GetIntegerBit(替换)
-    // 获取一个整数中指定范围的数字(按十进制位数)
-    // @param value - 要处理的整数,如1483
-    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
-    // @param bit2 - 结束位置,如3表示百位
-    // @return - 返回指定范围的数字,如1483取1-3位返回483
-    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
-        if (bit1 > bit2) {return 0;}
-        if (bit1 <= 0 || bit2 <= 0) {return 0;}
-        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
-    }
-    // 老版本叫GetBit(替换)
-    // 获取一个整数中指定位置的单个数字(按十进制位数)
-    // @param num - 要处理的整数,如1483
-    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
-    // @return - 返回指定位置的数字,如1483取第2位返回8
-    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
-    public function GetDigitAt (integer num,integer bit) -> integer {
-        integer bit1 = R2I(Pow(10,bit-1));     //举例,1483取位2 ->这个是10;
-        integer bit2 = R2I(Pow(10,bit));       //举例,1483取位2 ->这个是100;
-        num = IAbsBJ(num);                     //取绝对值
-        if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
-        if (bit1 > num) {return 0;}            //取了不该取的位
-        bit1 = IMaxBJ(1,bit1);
-        //先取余100,再除10 ->
-        return ModuloInteger(num,bit2) / bit1;
-    }
-}
-
-//! endzinc
-#endif
-
 #if 0
 //--------------------------------------------//
 //         本文件为自动生成，请勿编辑         //
@@ -1209,45 +742,11 @@ library NumberUtils  {
 //--------------------------------------------//
 #endif
 #ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsInRectMatchingNullIncluded
-#define YDWEGetUnitsInRectMatchingNullIncluded
+#ifndef YDWETriggerRegisterEnterRectSimpleNullIncluded
+#define YDWETriggerRegisterEnterRectSimpleNullIncluded
 
 
-library YDWEGetUnitsInRectMatchingNull
-
-globals
-#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
-#define YDWE_NNULLTEMPGROUP_DEFVAR
-    group yd_NullTempGroup
-#endif
-endglobals
-
-function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsInRect(g, r, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWETriggerRegisterLeaveRectSimpleNullIncluded
-#define YDWETriggerRegisterLeaveRectSimpleNullIncluded
-
-
-library YDWETriggerRegisterLeaveRectSimpleNull
+library YDWETriggerRegisterEnterRectSimpleNull
 
 globals
 #ifndef YDWE_NNULLTEMPREGION_DEFVAR
@@ -1256,18 +755,152 @@ globals
 #endif
 endglobals
 
-function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r returns event
+function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
     local region rectRegion = CreateRegion()
     call RegionAddRect(rectRegion, r)
     set yd_NullTempRegion = rectRegion
     set rectRegion = null
-    return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
+    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
 endfunction
 
 endlibrary
 
 #endif
 #endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetUnitsInRectAllNullIncluded
+#define YDWEGetUnitsInRectAllNullIncluded
+
+#include "AntiBJLeak/detail/GetUnitsInRectMatching.j"
+
+library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
+
+function YDWEGetUnitsInRectAllNull takes rect r returns group
+    return YDWEGetUnitsInRectMatchingNull(r, null)
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetUnitsOfPlayerAllNullIncluded
+#define YDWEGetUnitsOfPlayerAllNullIncluded
+
+#include "AntiBJLeak/detail/GetUnitsOfPlayerMatching.j"
+
+library YDWEGetUnitsOfPlayerAllNull requires YDWEGetUnitsOfPlayerMatchingNull
+
+function YDWEGetUnitsOfPlayerAllNull takes player whichPlayer returns group
+    return YDWEGetUnitsOfPlayerMatchingNull(whichPlayer, null)
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#ifndef YDWECreateEwspIncluded
+#define YDWECreateEwspIncluded
+
+#include "YDWEBase.j"
+
+library YDWECreateEwsp requires YDWEBase
+//===========================================================================
+//环绕技能模板 
+//===========================================================================
+private function Loop takes nothing returns nothing
+    local timer t = GetExpiredTimer()
+	local string h = I2S(YDWEH2I(t))
+    local unit tempUnit 
+    local real angle 
+    local integer i
+    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit")     
+    local real UnitLocX = GetUnitX(orderUnit)
+    local real UnitLocY = GetUnitY(orderUnit) 
+    local real radius = YDWEGetRealByString(h,"radius")    
+    local real speed = YDWEGetRealByString(h,"speed") 
+    local integer number = YDWEGetIntegerByString(h,"number") 
+    local integer steps = YDWEGetIntegerByString(h,"steps") 
+    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then     
+        set steps=steps-1
+        call  YDWESaveIntegerByString(h,"steps",steps)  
+        set i = 0                
+        loop
+            set i = i + 1
+            exitwhen i > number
+            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
+            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
+            set angle=angle+speed
+            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
+            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
+        endloop
+    else 
+        set i = 0
+        loop
+            set i = i + 1 
+            exitwhen i > number            
+            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i)))                     
+        endloop 
+        call YDWEFlushMissionByString(h)
+        call DestroyTimer(t)    
+        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1)    
+    endif
+    set tempUnit=null  
+    set orderUnit=null
+    set t=null
+endfunction
+
+function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
+    local timer t = CreateTimer()
+	local string h = I2S(YDWEH2I(t))
+	local real UnitLocX = GetUnitX(Hero)
+    local real UnitLocY = GetUnitY(Hero)  
+    local unit tempUnit  
+    local player Masterplayer = GetOwningPlayer(Hero)
+    local real angle 
+    local integer i = 0
+    local integer steps = R2I(lasttime/interval)
+    call YDWESaveUnitByString(h,"orderUnit",Hero) 
+    call YDWESaveIntegerByString(h,"steps",steps)      
+    call YDWESaveIntegerByString(h,"number",number) 
+    call YDWESaveRealByString(h,"radius",radius)
+    call YDWESaveRealByString(h,"speed", speed*bj_DEGTORAD)
+    call GroupClear(bj_lastCreatedGroup)
+    loop
+        set i = i + 1
+        exitwhen i > number
+        set angle = 2*i*bj_PI/number
+        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*bj_RADTODEG)
+        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
+        call UnitIgnoreAlarm(tempUnit, true)
+        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
+        set bj_lastCreatedUnit = tempUnit
+    endloop 
+    call TimerStart(t,interval,true,function Loop)
+    set t=null
+    set tempUnit=null
+endfunction
+
+endlibrary
+
+#endif /// YDWECreateEwspIncluded
 
 #ifndef YDWETimerPatternIncluded
 #define YDWETimerPatternIncluded
@@ -1786,126 +1419,24 @@ endlibrary
 //--------------------------------------------//
 #endif
 #ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsInRangeOfLocMatchingNullIncluded
-#define YDWEGetUnitsInRangeOfLocMatchingNullIncluded
+#ifndef YDWEGetRandomSubGroupNullIncluded
+#define YDWEGetRandomSubGroupNullIncluded
 
+#include "AntiBJLeak/detail/GetRandomSubGroupEnum.j"
 
-library YDWEGetUnitsInRangeOfLocMatchingNull
+library YDWEGetRandomSubGroupNull requires YDWEGetRandomSubGroupEnumNull
 
-globals
-#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
-#define YDWE_NNULLTEMPGROUP_DEFVAR
-    group yd_NullTempGroup
-#endif
-endglobals
+function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup returns group
+    set bj_randomSubGroupGroup = CreateGroup()
+    set bj_randomSubGroupWant  = count
+    set bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
 
-function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsOfPlayerAndTypeIdNullIncluded
-#define YDWEGetUnitsOfPlayerAndTypeIdNullIncluded
-
-
-library YDWEGetUnitsOfPlayerAndTypeIdNull
-
-globals
-#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
-#define YDWE_NNULLTEMPGROUP_DEFVAR
-    group yd_NullTempGroup
-#endif
-endglobals
-
-function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer unitid returns group
-    local group g = CreateGroup()
-    set bj_groupEnumTypeId = unitid
-    call GroupEnumUnitsOfPlayer(g, whichPlayer, filterGetUnitsOfPlayerAndTypeId)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsOfPlayerAllNullIncluded
-#define YDWEGetUnitsOfPlayerAllNullIncluded
-
-#include "AntiBJLeak/detail/GetUnitsOfPlayerMatching.j"
-
-library YDWEGetUnitsOfPlayerAllNull requires YDWEGetUnitsOfPlayerMatchingNull
-
-function YDWEGetUnitsOfPlayerAllNull takes player whichPlayer returns group
-    return YDWEGetUnitsOfPlayerMatchingNull(whichPlayer, null)
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEPolledWaitNullIncluded
-#define YDWEPolledWaitNullIncluded
-
-
-library YDWEPolledWaitNull
-
-function YDWEPolledWaitNull takes real duration returns nothing
-    local timer t
-    local real  timeRemaining
-
-    if (duration > 0) then
-        set t = CreateTimer()
-        call TimerStart(t, duration, false, null)
-        loop
-            set timeRemaining = TimerGetRemaining(t)
-            exitwhen timeRemaining <= 0
-
-            // If we have a bit of time left, skip past 10% of the remaining
-            // duration instead of checking every interval, to minimize the
-            // polling on long waits.
-            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
-                call TriggerSleepAction(0.1 * timeRemaining)
-            else
-                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
-            endif
-        endloop
-        call DestroyTimer(t)
+    if (bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0) then
+        return bj_randomSubGroupGroup
     endif
-    set t = null
+
+    call ForGroup(sourceGroup, function YDWEGetRandomSubGroupEnumNull)
+    return bj_randomSubGroupGroup
 endfunction
 
 endlibrary
@@ -2614,6 +2145,907 @@ endlibrary
 
 #endif
 
+#ifndef UnitFilterIncluded
+#define UnitFilterIncluded
+
+//! zinc
+/*
+单位有关
+*/
+library UnitFilter {
+
+    //判断是否是敌方(不带无敌)
+    public function IsEnemy (player p,unit u)  -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
+    }
+    //旧名：IsEnemy2
+    //判断是否是敌方(能匹配到无敌单位)
+    public function IsEnemyIncludeInvul (player p,unit u)  -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
+    }
+    //判断是否是友方
+    public function IsAlly (player p,unit u)  -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
+    }
+
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsEnemyUnit(unit source, unit target) -> boolean {
+        return IsEnemy(GetOwningPlayer(source),target);
+    }
+
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsAllyUnit(unit source, unit target) -> boolean {
+        return IsAlly(GetOwningPlayer(source),target);
+    }
+
+}
+
+//! endzinc
+#endif
+
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetForceOfPlayerNullIncluded
+#define YDWEGetForceOfPlayerNullIncluded
+
+
+library YDWEGetForceOfPlayerNull
+
+globals
+#ifndef YDWE_NNULLTEMPFORCE_DEFVAR
+#define YDWE_NNULLTEMPFORCE_DEFVAR
+    force yd_NullTempForce
+#endif
+endglobals
+
+function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
+    local force f = CreateForce()
+    call ForceAddPlayer(f, whichPlayer)
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#ifndef StringUtilsIncluded
+#define StringUtilsIncluded
+
+//! zinc
+/*
+字符串工具
+*/
+library StringUtils {
+
+    string temp;
+    //重复某一个字符串N次,并可以按照指定间隔添加空格和换行
+    //参数 s: 要重复的字符串
+    //参数 times: 重复的次数
+    //参数 gap1: 每隔多少个字符串添加一个空格,如gap1=3则每3个字符串后加空格
+    //参数 gap2: 每隔多少个字符串添加一个换行,如gap2=5则每5个字符串后换行
+    //返回: 处理后的完整字符串
+    //示例: RepeatString("A",6,2,3) 会返回 "AA AA A\nA"
+    public function RepeatString (string s,integer times,integer gap1,integer gap2)  -> string {
+        integer i;
+        temp = "";
+        for (1 <= i <= times) {
+            temp += s;
+            if (ModuloInteger(i,gap1) == 0) temp += " ";
+            if (ModuloInteger(i,gap2) == 0) temp += "\n";
+        }
+        return temp;
+    }
+
+    //判断一个字符串是否有东西
+    public function IsNotEmpty (string s)  -> boolean {return (s != null && s != "");}
+
+    // 数字转字符串,首位自动填充0
+    // 不支持负数
+    // 比如12,3   -> 012
+    public function I2SM ( integer num,integer bit ) -> string {
+        integer i , count;
+        string s;
+        if (num < 0) {return I2S(num);}
+
+        s = I2S(num);
+        count = bit - StringLength(s);
+        for (1 <= i <= count) {s = "0" + s;}
+        return s;
+    }
+
+
+    //赞助系统：循环Hash
+    public function GetCycleHash ( string s,integer times ) -> integer {
+        string result = s;
+        integer i;
+        for (1 <= i <= times) {
+            result = I2S(StringHash(result));
+        }
+        return S2I(result);
+    }
+
+    //拼接式存放数据的API
+    //自动将整数补至10位长度的字符串(会自动取绝对值)
+    public function IMendS ( integer num,integer bit ) -> string {
+        integer abs = IAbsBJ(num);
+        string result = I2S(abs);
+        integer i , length = StringLength(result);
+        for (1 <= i <= bit - length) {result = "0" + result;}
+        return result;
+    }
+
+
+}
+
+//! endzinc
+#endif
+
+#ifndef NumberUtilsIncluded
+#define NumberUtilsIncluded
+
+//! zinc
+/*
+数字工具
+*/
+library NumberUtils  {
+
+    // 老版本叫GetIntegerBit(替换)
+    // 获取一个整数中指定范围的数字(按十进制位数)
+    // @param value - 要处理的整数,如1483
+    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
+    // @param bit2 - 结束位置,如3表示百位
+    // @return - 返回指定范围的数字,如1483取1-3位返回483
+    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
+        if (bit1 > bit2) {return 0;}
+        if (bit1 <= 0 || bit2 <= 0) {return 0;}
+        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
+    }
+    // 老版本叫GetBit(替换)
+    // 获取一个整数中指定位置的单个数字(按十进制位数)
+    // @param num - 要处理的整数,如1483
+    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
+    // @return - 返回指定位置的数字,如1483取第2位返回8
+    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
+    public function GetDigitAt (integer num,integer bit) -> integer {
+        integer bit1 = R2I(Pow(10,bit-1));     //举例,1483取位2 ->这个是10;
+        integer bit2 = R2I(Pow(10,bit));       //举例,1483取位2 ->这个是100;
+        num = IAbsBJ(num);                     //取绝对值
+        if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
+        if (bit1 > num) {return 0;}            //取了不该取的位
+        bit1 = IMaxBJ(1,bit1);
+        //先取余100,再除10 ->
+        return ModuloInteger(num,bit2) / bit1;
+    }
+}
+
+//! endzinc
+#endif
+
+#ifndef GeometryIncluded
+#define GeometryIncluded
+
+//! zinc
+/*
+几何工具
+todo:直接用宏定义修改试试
+*/
+library Geometry {
+
+    // 4个坐标的距离
+    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1;
+        return SquareRoot(dx*dx+dy*dy);
+    }
+    // 6个坐标的距离
+    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
+        return SquareRoot(dx*dx+dy*dy+dz*dz);
+    }
+    // 4个坐标的角度,前面是人的位置，后面是点的位置
+    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
+        return Atan2BJ(y2-y1,x2-x1);
+    }
+
+}
+
+//! endzinc
+#endif
+
+#ifndef DamageUtilsIncluded
+#define DamageUtilsIncluded
+
+#include "Crainax/core/constant/JapiConstant.j"
+
+//! zinc
+/*
+伤害工具
+*/
+library DamageUtils requires UnitFilter,GroupUtils {
+
+    //旧名替换:DamageSingle
+    //单体伤害:物理
+    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+
+    //单体伤害:魔法
+    public function ApplyMagicDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:真实
+    public function ApplyPureDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
+    }
+
+    //模拟普攻(最后一个参数代表额外的终伤,0)
+    public function SimulateBasicAttack (unit u,unit target,real fd) {
+        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(UNIT_STATE_ATTACK1_DAMAGE_BASE))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+
+    //伤害参数结构体
+    private struct DmgP {
+        unit    source;  //伤害来源
+        string  eft;     //特效
+        real    damage;  //伤害值
+
+        method destroy() {
+            this.source = null;
+            this.eft = null;
+        }
+    }
+
+    //伤害参数栈
+    public struct DmgS [] {
+        private static DmgP stack[100];
+        private static integer top = -1;
+
+        public static method push(DmgP params) {
+            thistype.top += 1;
+            thistype.stack[thistype.top] = params;
+        }
+
+        public static method pop() -> DmgP {
+            DmgP params = thistype.stack[thistype.top];
+            thistype.stack[thistype.top] = 0;
+            thistype.top -= 1;
+            return params;
+        }
+
+        public static method getTop() -> integer {
+            return thistype.top;
+        }
+
+        public static method current() -> DmgP {
+            return thistype.stack[thistype.top];
+        }
+    }
+
+    //范围普通伤害
+    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+
+        DmgS.push(params);
+
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+
+    //范围魔法伤害
+    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+
+        DmgS.push(params);
+
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+
+    //范围真实伤害
+    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+
+        DmgS.push(params);
+
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+
+}
+
+//! endzinc
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEPolledWaitNullIncluded
+#define YDWEPolledWaitNullIncluded
+
+
+library YDWEPolledWaitNull
+
+function YDWEPolledWaitNull takes real duration returns nothing
+    local timer t
+    local real  timeRemaining
+
+    if (duration > 0) then
+        set t = CreateTimer()
+        call TimerStart(t, duration, false, null)
+        loop
+            set timeRemaining = TimerGetRemaining(t)
+            exitwhen timeRemaining <= 0
+
+            // If we have a bit of time left, skip past 10% of the remaining
+            // duration instead of checking every interval, to minimize the
+            // polling on long waits.
+            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
+                call TriggerSleepAction(0.1 * timeRemaining)
+            else
+                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
+            endif
+        endloop
+        call DestroyTimer(t)
+    endif
+    set t = null
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#ifndef YDWEAroundSystemIncluded
+#define YDWEAroundSystemIncluded
+
+#include "YDWEBase.j"
+
+//===========================================================================  
+//万能环绕模板 
+//===========================================================================
+library YDWEAroundSystem requires YDWEBase
+//library TP1 requires YDWEBase
+    globals
+        private constant timer AROUND_TIM   = CreateTimer()
+        private constant real  AROUND_INTER = 0.01
+    endglobals
+
+    private struct Data
+        static thistype array Structs
+        static integer Total = 0
+        unit caster = null
+        unit obj    = null        
+        real dur   = 0.
+        real inter = 0.
+        real each  = 0.        
+        real rate = 0.
+        real dis  = 0.
+        real rise = 0.        
+        real angle  = 0.
+        real radius = 0.
+        real height = 0
+    endstruct
+
+    private function spin takes nothing returns nothing
+        local Data d = 0
+        local real x = 0.
+        local real y = 0.
+        local integer inst = 0
+        
+        loop
+            exitwhen (inst == Data.Total)
+            set d = Data.Structs[inst]
+            if ( d.dur > 0 ) and (GetUnitState(d.caster, UNIT_STATE_LIFE)>0) and (GetUnitState(d.obj, UNIT_STATE_LIFE)>0) then
+                set d.each = d.each + AROUND_INTER
+                if ( d.each >= d.inter ) then
+                    set d.angle  = d.angle  + d.rate
+                    set d.radius = d.radius + d.dis
+                    set d.height = d.height + d.rise
+                    set x = GetUnitX(d.caster) + d.radius*Cos(d.angle)
+                    set y = GetUnitY(d.caster) + d.radius*Sin(d.angle)
+                    set x = YDWECoordinateX(x)
+                    set y = YDWECoordinateY(y)
+                    call SetUnitX(d.obj, x)
+                    call SetUnitY(d.obj, y)
+                    call SetUnitFlyHeight(d.obj, d.height, 0.)
+                    set d.each = 0.
+                endif
+                set d.dur = d.dur - AROUND_INTER
+            else                                                      
+                set bj_lastAbilityTargetUnit=d.caster
+                call YDWESyStemAbilityCastingOverTriggerAction(d.obj,10)   
+                set d.caster = null
+                set d.obj = null
+                call d.destroy()
+                set Data.Total = Data.Total - 1
+                set Data.Structs[inst] = Data.Structs[Data.Total]
+                set inst = inst - 1
+            endif
+            set inst = inst + 1
+        endloop
+        if ( Data.Total == 0 ) then
+            call PauseTimer(AROUND_TIM)
+        endif
+    endfunction
+
+    function YDWEAroundSystem takes unit satellite, unit star, real angleRate, real displacement, real riseRate,real timeout, real interval returns nothing
+        local Data d = Data.create()
+        local real x1 = GetUnitX(star)
+        local real y1 = GetUnitY(star)
+        local real x2 = GetUnitX(satellite)
+        local real y2 = GetUnitY(satellite)
+        set d.caster = star
+        set d.obj    = satellite
+        set d.dur    = timeout
+        set d.inter  = interval
+        set d.rate   = angleRate*(3.14159/180.)
+        set d.dis    = displacement
+        set d.rise   = riseRate
+        set d.angle  = Atan2(y2-y1,x2-x1)
+        set d.radius = SquareRoot((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
+        set d.height = GetUnitFlyHeight(d.obj)        
+        set Data.Structs[Data.Total] = integer(d)
+        set Data.Total = Data.Total + 1           
+        if ( Data.Total - 1 == 0 ) then
+            call TimerStart(AROUND_TIM, AROUND_INTER, true, function spin)
+        endif
+    endfunction
+    
+endlibrary 
+
+
+#endif /// YDWEAroundSystemIncluded
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEUnitHasItemOfTypeBJNullIncluded
+#define YDWEUnitHasItemOfTypeBJNullIncluded
+
+
+library YDWEUnitHasItemOfTypeBJNull
+
+function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
+    local integer index = 0
+
+	if itemId != 0 then
+		loop
+			if GetItemTypeId(UnitItemInSlot(whichUnit, index)) == itemId then
+				return true
+			endif
+
+			set index = index + 1
+			exitwhen index >= bj_MAX_INVENTORY
+		endloop
+	endif
+    return false
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#ifndef ConversionUtilsIncluded
+#define ConversionUtilsIncluded
+
+//! zinc
+/*
+转换工具
+*/
+library ConversionUtils {
+
+    //补充函数
+    public function B2S(boolean b) -> string {
+        if (b) {return "true";}
+        else {return "false";}
+    }
+
+    //三目运算符
+    public function S3 (boolean b,string s1,string s2)  -> string {
+        if (b) {return s1;}
+        else {return s2;}
+    }
+    //三目运算符
+    public function U3 (boolean b,unit u1,unit u2)  -> unit {
+        if (b) {return u1;}
+        else {return u2;}
+    }
+    //三目运算符
+    public function I3 (boolean b,integer i1,integer i2)  -> integer  {
+        if (b) {return i1;}
+        else {return i2;}
+    }
+    //三目运算符
+    public function R3 (boolean b,real r1,real r2)  -> real  {
+        if (b) {return r1;}
+        else {return r2;}
+    }
+    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
+    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
+    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
+    public function GetIDSymbol ( integer pos ) -> integer {
+        integer bit = pos/36;
+        pos = ModuloInteger(pos,36);
+        if (pos < 10) {return pos + bit * 256;}
+        else {return '000a' - '0000' + pos - 10 + bit * 256;}
+    }
+    // 将魔兽的四字符ID转换回对应数字
+    // s为输入的四字符ID,将其还原为原始数字
+    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
+    public function GetSymbolID ( integer s ) -> integer {
+        integer i1 = s/256;
+        integer i2 = ModuloInteger(s,256);
+        if (i2 < 10) {return i1 * 36 + i2;}
+        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
+    }
+
+}
+
+//! endzinc
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWETriggerRegisterLeaveRectSimpleNullIncluded
+#define YDWETriggerRegisterLeaveRectSimpleNullIncluded
+
+
+library YDWETriggerRegisterLeaveRectSimpleNull
+
+globals
+#ifndef YDWE_NNULLTEMPREGION_DEFVAR
+#define YDWE_NNULLTEMPREGION_DEFVAR
+    region yd_NullTempRegion
+#endif
+endglobals
+
+function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r returns event
+    local region rectRegion = CreateRegion()
+    call RegionAddRect(rectRegion, r)
+    set yd_NullTempRegion = rectRegion
+    set rectRegion = null
+    return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#ifndef RandomUtilsIncluded
+#define RandomUtilsIncluded
+
+//! zinc
+/*
+区域采样工具
+*/
+library RegionUtils {
+
+    public struct triangleXY [] {
+
+        static real x = 0.0 , y = 0.0;
+
+        // 在给定三角形区域内随机生成一个点
+        // 参数说明:
+        // @param ax,ay - 三角形顶点A的坐标
+        // @param bx,by - 三角形顶点B的坐标
+        // @param cx,cy - 三角形顶点C的坐标
+        // 返回值:
+        // 通过静态变量x,y返回随机生成的点坐标
+        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
+            real rA  = GetRandomReal(0,1.0);
+            real rB  = GetRandomReal(0,1.0);
+            real abx = bx-ax, aby = by-ay;
+            real acx = cx-ax, acy = cy-ay;
+
+            if (rA + rB > 1.0) {
+                rA = 1.0 - rA;
+                rB = 1.0 - rB;
+            }
+            x = ax + rA * abx + rB * acx;
+            y = ay + rA * aby + rB * acy;
+        }
+    }
+
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
+    }
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomX ( rect r ) -> real {
+        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomY ( rect r ) -> real {
+        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
+    }
+
+}
+
+//! endzinc
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetUnitsOfPlayerMatchingNullIncluded
+#define YDWEGetUnitsOfPlayerMatchingNullIncluded
+
+
+library YDWEGetUnitsOfPlayerMatchingNull
+
+globals
+#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
+#define YDWE_NNULLTEMPGROUP_DEFVAR
+    group yd_NullTempGroup
+#endif
+endglobals
+
+function YDWEGetUnitsOfPlayerMatchingNull takes player whichPlayer, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsOfPlayer(g, whichPlayer, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetUnitsOfPlayerAndTypeIdNullIncluded
+#define YDWEGetUnitsOfPlayerAndTypeIdNullIncluded
+
+
+library YDWEGetUnitsOfPlayerAndTypeIdNull
+
+globals
+#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
+#define YDWE_NNULLTEMPGROUP_DEFVAR
+    group yd_NullTempGroup
+#endif
+endglobals
+
+function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer unitid returns group
+    local group g = CreateGroup()
+    set bj_groupEnumTypeId = unitid
+    call GroupEnumUnitsOfPlayer(g, whichPlayer, filterGetUnitsOfPlayerAndTypeId)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetPlayersByMapControlNullIncluded
+#define YDWEGetPlayersByMapControlNullIncluded
+
+
+library YDWEGetPlayersByMapControlNull
+
+globals
+#ifndef YDWE_NNULLTEMPFORCE_DEFVAR
+#define YDWE_NNULLTEMPFORCE_DEFVAR
+    force yd_NullTempForce
+#endif
+endglobals
+
+function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
+    local force f = CreateForce()
+    local integer playerIndex
+    local player  indexPlayer
+
+    set playerIndex = 0
+    loop
+        set indexPlayer = Player(playerIndex)
+        if GetPlayerController(indexPlayer) == whichControl then
+            call ForceAddPlayer(f, indexPlayer)
+        endif
+
+        set playerIndex = playerIndex + 1
+        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
+    endloop
+    set indexPlayer = null
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEGetUnitsInRangeOfLocMatchingNullIncluded
+#define YDWEGetUnitsInRangeOfLocMatchingNullIncluded
+
+
+library YDWEGetUnitsInRangeOfLocMatchingNull
+
+globals
+#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
+#define YDWE_NNULLTEMPGROUP_DEFVAR
+    group yd_NullTempGroup
+#endif
+endglobals
+
+function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
+#if 0
+//--------------------------------------------//
+//         本文件为自动生成，请勿编辑         //
+//             thanks to 最萌小汐             //
+//--------------------------------------------//
+#endif
+#ifdef USE_BJ_ANTI_LEAK
+#ifndef YDWEMultiboardSetItemValueBJNullIncluded
+#define YDWEMultiboardSetItemValueBJNullIncluded
+
+
+library YDWEMultiboardSetItemValueBJNull
+
+function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, integer row, string val returns nothing
+    local integer curRow = 0
+    local integer curCol = 0
+    local integer numRows = MultiboardGetRowCount(mb)
+    local integer numCols = MultiboardGetColumnCount(mb)
+    local multiboarditem mbitem = null
+
+    // Loop over rows, using 1-based index
+    loop
+        set curRow = curRow + 1
+        exitwhen curRow > numRows
+
+        // Apply setting to the requested row, or all rows (if row is 0)
+        if (row == 0 or row == curRow) then
+            // Loop over columns, using 1-based index
+            set curCol = 0
+            loop
+                set curCol = curCol + 1
+                exitwhen curCol > numCols
+
+                // Apply setting to the requested column, or all columns (if col is 0)
+                if (col == 0 or col == curCol) then
+                    set mbitem = MultiboardGetItem(mb, curRow - 1, curCol - 1)
+                    call MultiboardSetItemValue(mbitem, val)
+                    call MultiboardReleaseItem(mbitem)
+                endif
+            endloop
+        endif
+    endloop
+    set mbitem = null
+endfunction
+
+endlibrary
+
+#endif
+#endif
+
 #ifndef YDWETriggerEventIncluded
 #define YDWETriggerEventIncluded
 
@@ -2770,453 +3202,32 @@ endlibrary
 
 #endif /// YDWETriggerEventIncluded
 
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWETriggerRegisterEnterRectSimpleNullIncluded
-#define YDWETriggerRegisterEnterRectSimpleNullIncluded
-
-
-library YDWETriggerRegisterEnterRectSimpleNull
-
-globals
-#ifndef YDWE_NNULLTEMPREGION_DEFVAR
-#define YDWE_NNULLTEMPREGION_DEFVAR
-    region yd_NullTempRegion
-#endif
-endglobals
-
-function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
-    local region rectRegion = CreateRegion()
-    call RegionAddRect(rectRegion, r)
-    set yd_NullTempRegion = rectRegion
-    set rectRegion = null
-    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#ifndef RandomUtilsIncluded
-#define RandomUtilsIncluded
-
-//! zinc
-/*
-区域采样工具
-*/
-library RegionUtils {
-
-    public struct triangleXY [] {
-
-        static real x = 0.0 , y = 0.0;
-
-        // 在给定三角形区域内随机生成一个点
-        // 参数说明:
-        // @param ax,ay - 三角形顶点A的坐标
-        // @param bx,by - 三角形顶点B的坐标
-        // @param cx,cy - 三角形顶点C的坐标
-        // 返回值:
-        // 通过静态变量x,y返回随机生成的点坐标
-        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
-            real rA  = GetRandomReal(0,1.0);
-            real rB  = GetRandomReal(0,1.0);
-            real abx = bx-ax, aby = by-ay;
-            real acx = cx-ax, acy = cy-ay;
-
-            if (rA + rB > 1.0) {
-                rA = 1.0 - rA;
-                rB = 1.0 - rB;
-            }
-            x = ax + rA * abx + rB * acx;
-            y = ay + rA * aby + rB * acy;
-        }
-    }
-
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomX ( rect r ) -> real {
-        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomY ( rect r ) -> real {
-        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
-    }
-
-}
-
-//! endzinc
-#endif
-
-#ifndef GeometryIncluded
-#define GeometryIncluded
-
-//! zinc
-/*
-几何工具
-todo:直接用宏定义修改试试
-*/
-library Geometry {
-
-    // 4个坐标的距离
-    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1;
-        return SquareRoot(dx*dx+dy*dy);
-    }
-    // 6个坐标的距离
-    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
-        return SquareRoot(dx*dx+dy*dy+dz*dz);
-    }
-    // 4个坐标的角度,前面是人的位置，后面是点的位置
-    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
-        return Atan2BJ(y2-y1,x2-x1);
-    }
-
-}
-
-//! endzinc
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetForceOfPlayerNullIncluded
-#define YDWEGetForceOfPlayerNullIncluded
-
-
-library YDWEGetForceOfPlayerNull
-
-globals
-#ifndef YDWE_NNULLTEMPFORCE_DEFVAR
-#define YDWE_NNULLTEMPFORCE_DEFVAR
-    force yd_NullTempForce
-#endif
-endglobals
-
-function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
-    local force f = CreateForce()
-    call ForceAddPlayer(f, whichPlayer)
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetRandomSubGroupNullIncluded
-#define YDWEGetRandomSubGroupNullIncluded
-
-#include "AntiBJLeak/detail/GetRandomSubGroupEnum.j"
-
-library YDWEGetRandomSubGroupNull requires YDWEGetRandomSubGroupEnumNull
-
-function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup returns group
-    set bj_randomSubGroupGroup = CreateGroup()
-    set bj_randomSubGroupWant  = count
-    set bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
-
-    if (bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0) then
-        return bj_randomSubGroupGroup
-    endif
-
-    call ForGroup(sourceGroup, function YDWEGetRandomSubGroupEnumNull)
-    return bj_randomSubGroupGroup
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#ifndef YDWESetGuardIncluded
-#define YDWESetGuardIncluded
-
-#include "YDWEBase.j"
-
 //===========================================================================
-//佣兵系统 
-//===========================================================================
-library YDWESetGuard requires YDWEBase
-private function IsUnitIdle takes unit u returns boolean
-    return OrderId2String(GetUnitCurrentOrder(u)) == null
-endfunction
-
-function YDWERemoveGuard takes unit pet returns nothing
-    local integer tm = YDWEGetIntegerByString( I2S(YDWEH2I(pet)), "Timer")
-    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
-    call YDWEFlushMissionByString(I2S(tm))
-    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)), "Timer"))
-endfunction
-
-function SetGuardTimer takes nothing returns nothing
-  local timer tm = GetExpiredTimer()
-  local unit pet = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Pet"))
-  local unit captain = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Captain"))
-  local real x = GetUnitX(captain) - GetUnitX(pet)
-  local real y = GetUnitY(captain) - GetUnitY(pet)
-  local real d = x*x + y*y
-  local real v
-  local real a
-  local effect e=null
-  local real life = YDWEGetRealByString( I2S(YDWEH2I(tm)), "Life")
-  local integer p = YDWEGetIntegerByString(I2S(YDWEH2I(tm)), "Percent")
-  set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "GuardRanger")      
-  if GetUnitState(pet, UNIT_STATE_LIFE)>0 and GetUnitState(captain, UNIT_STATE_LIFE)> 0 then   
-      if d<v*v then
-         if IsUnitIdle(pet) and GetRandomInt(0,100)<p then
-           set x = GetUnitX(captain)
-           set y = GetUnitY(captain)
-           set d = GetRandomReal(0,v)
-           set a = GetRandomReal(0,360)
-           call IssuePointOrder(pet, "patrol", x+d*CosBJ(a), y+d*SinBJ(a))
-         endif
-      else
-        set v = YDWEGetRealByString( I2S(YDWEH2I(tm)), "ReturnRanger")
-        if d<v*v then
-          if IsUnitIdle(pet) then
-            call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
-          endif
-        else
-          set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "OutRanger")
-            if d!=0 and d>v*v then
-              call SetUnitPosition(pet,GetUnitX(captain),GetUnitY(captain))
-              set e =AddSpecialEffectTarget("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl" ,captain,"chest")
-              call DestroyEffect(e)
-            else
-              call IssuePointOrder(pet, "move", GetUnitX(captain), GetUnitY(captain))
-            endif
-          endif
-       endif
-     else
-       call IssuePointOrder(pet, "attack", GetUnitX(captain), GetUnitY(captain))
-       call YDWERemoveGuard(pet)   
-  endif
-  set tm = null
-  set pet = null
-  set captain = null
-  set e=null
-endfunction
-
-
-function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRanger, real returnRanger, real outRanger,integer percent returns nothing
-    local timer tm = CreateTimer()  
-    call YDWESaveTimerByString(I2S(YDWEH2I(pet)), "Timer", tm)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "pet", pet)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "Captain", captain)
-    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)), "Percent", percent)   
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "GuardRanger", guardRanger)    
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "ReturnRanger", returnRanger)   
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "OutRanger", outRanger)
-    call TimerStart(tm, timeout, true, function SetGuardTimer)
-    set tm = null
-endfunction
-endlibrary 
-
-#endif /// YDWESetGuardIncluded
-
-#if 0
-//--------------------------------------------//
-//         本文件为自动生成，请勿编辑         //
-//             thanks to 最萌小汐             //
-//--------------------------------------------//
-#endif
-#ifdef USE_BJ_ANTI_LEAK
-#ifndef YDWEGetUnitsOfPlayerMatchingNullIncluded
-#define YDWEGetUnitsOfPlayerMatchingNullIncluded
-
-
-library YDWEGetUnitsOfPlayerMatchingNull
-
-globals
-#ifndef YDWE_NNULLTEMPGROUP_DEFVAR
-#define YDWE_NNULLTEMPGROUP_DEFVAR
-    group yd_NullTempGroup
-#endif
-endglobals
-
-function YDWEGetUnitsOfPlayerMatchingNull takes player whichPlayer, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsOfPlayer(g, whichPlayer, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-
-endlibrary
-
-#endif
-#endif
-
-#ifndef YDWECreateEwspIncluded
-#define YDWECreateEwspIncluded
-
-#include "YDWEBase.j"
-
-library YDWECreateEwsp requires YDWEBase
-//===========================================================================
-//环绕技能模板 
-//===========================================================================
-private function Loop takes nothing returns nothing
-    local timer t = GetExpiredTimer()
-	local string h = I2S(YDWEH2I(t))
-    local unit tempUnit 
-    local real angle 
-    local integer i
-    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit")     
-    local real UnitLocX = GetUnitX(orderUnit)
-    local real UnitLocY = GetUnitY(orderUnit) 
-    local real radius = YDWEGetRealByString(h,"radius")    
-    local real speed = YDWEGetRealByString(h,"speed") 
-    local integer number = YDWEGetIntegerByString(h,"number") 
-    local integer steps = YDWEGetIntegerByString(h,"steps") 
-    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then     
-        set steps=steps-1
-        call  YDWESaveIntegerByString(h,"steps",steps)  
-        set i = 0                
-        loop
-            set i = i + 1
-            exitwhen i > number
-            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
-            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
-            set angle=angle+speed
-            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
-            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
-        endloop
-    else 
-        set i = 0
-        loop
-            set i = i + 1 
-            exitwhen i > number            
-            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i)))                     
-        endloop 
-        call YDWEFlushMissionByString(h)
-        call DestroyTimer(t)    
-        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1)    
-    endif
-    set tempUnit=null  
-    set orderUnit=null
-    set t=null
-endfunction
-
-function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
-    local timer t = CreateTimer()
-	local string h = I2S(YDWEH2I(t))
-	local real UnitLocX = GetUnitX(Hero)
-    local real UnitLocY = GetUnitY(Hero)  
-    local unit tempUnit  
-    local player Masterplayer = GetOwningPlayer(Hero)
-    local real angle 
-    local integer i = 0
-    local integer steps = R2I(lasttime/interval)
-    call YDWESaveUnitByString(h,"orderUnit",Hero) 
-    call YDWESaveIntegerByString(h,"steps",steps)      
-    call YDWESaveIntegerByString(h,"number",number) 
-    call YDWESaveRealByString(h,"radius",radius)
-    call YDWESaveRealByString(h,"speed", speed*bj_DEGTORAD)
-    call GroupClear(bj_lastCreatedGroup)
-    loop
-        set i = i + 1
-        exitwhen i > number
-        set angle = 2*i*bj_PI/number
-        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*bj_RADTODEG)
-        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
-        call UnitIgnoreAlarm(tempUnit, true)
-        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
-        set bj_lastCreatedUnit = tempUnit
-    endloop 
-    call TimerStart(t,interval,true,function Loop)
-    set t=null
-    set tempUnit=null
-endfunction
-
-endlibrary
-
-#endif /// YDWECreateEwspIncluded
-
-#ifndef UnitFilterIncluded
-#define UnitFilterIncluded
-
-//! zinc
-/*
-单位有关
-*/
-library UnitFilter {
-
-    //判断是否是敌方(不带无敌)
-    public function IsEnemy (player p,unit u)  -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
-    }
-    //旧名：IsEnemy2
-    //判断是否是敌方(能匹配到无敌单位)
-    public function IsEnemyIncludeInvul (player p,unit u)  -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
-    }
-    //判断是否是友方
-    public function IsAlly (player p,unit u)  -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
-    }
-
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsEnemyUnit(unit source, unit target) -> boolean {
-        return IsEnemy(GetOwningPlayer(source),target);
-    }
-
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsAllyUnit(unit source, unit target) -> boolean {
-        return IsAlly(GetOwningPlayer(source),target);
-    }
-
-}
-
-//! endzinc
-#endif
-
-
-//===========================================================================
-//
-// 轮回之狱 - v3.421正式版
-//
+// 
+// 轮回之狱
+// 
 //   Warcraft III map script
 //   Generated by the Warcraft III World Editor
-//   Date: Wed Jan 01 22:57:52 2025
+//   Date: Mon Sep 08 15:29:40 2025
 //   Map Author: Crainax(旧名Laser)
-//
+// 
 //===========================================================================
 //***************************************************************************
 //*
 //*  Global Variables
 //*
 //***************************************************************************
+library_once YDTriggerSaveLoadSystem initializer Init
+//#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
+globals
+        hashtable YDHT
+    hashtable YDLOC
+endglobals
+    private function Init takes nothing returns nothing
+            set YDHT = InitHashtable()
+        set YDLOC = InitHashtable()
+    endfunction
+endlibrary
 globals
     // User-defined
     unit array udg_H
@@ -4391,8 +4402,6 @@ function CreateBuildingsForPlayer6 takes nothing returns nothing
     set u = CreateUnit( p, 'n01A', 14016.0, 3328.0, 270.000 )
     set u = CreateUnit( p, 'n01A', 13952.0, -3904.0, 270.000 )
     set u = CreateUnit( p, 'n01A', 12032.0, -3904.0, 270.000 )
-    set u = CreateUnit( p, 'n01B', 10560.0, -128.0, 270.000 )
-    call SetUnitColor( u, ConvertPlayerColor(0) )
     set u = CreateUnit( p, 'ndro', 8192.0, -2240.0, 270.000 )
     set gg_unit_n01S_0258 = CreateUnit( p, 'n01S', 8192.0, -704.0, 270.000 )
     set u = CreateUnit( p, 'n01A', 4224.0, -3840.0, 270.000 )
@@ -5092,17 +5101,6 @@ endfunction
     // 正式版
     // lua_print: 正式版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
-library_once YDTriggerSaveLoadSystem initializer Init
-//#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
-globals
-        hashtable YDHT
-    hashtable YDLOC
-endglobals
-    private function Init takes nothing returns nothing
-            set YDHT = InitHashtable()
-        set YDLOC = InitHashtable()
-    endfunction
-endlibrary
 // 结构体共用方法定义
 //共享打印方法
 // UI组件内部共享方法及成员
@@ -5158,7 +5156,7 @@ library_once Constant initializer InitConstant requires JBase
 	    获取当前版本
 	*/
 	constant function GetVersion takes nothing returns string
-		return "3.421B"
+		return "3.43"
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -13065,7 +13063,6 @@ library_once Continous initializer InitContinous requires LHBase,ItemBase,Achiev
 		//活动还没开始，或者说是首次
 		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) then
 			call BJDebugMsg("|cFFFF66CC【消息】|r ")
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r嘉年华时间未开始.")
 			return
 		endif
 		if (ILastTime[GetConvertedPlayerId(p)] < TIMESTAMP_START) then
@@ -32761,7 +32758,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		elseif(i == 49) then
 			set s = "每个英雄都拥有对全地图队友增益的光环效果,人多力量更大!"
 		elseif(i == 50) then
-			set s = "轮回之狱主群欢迎你的加入:1群:148199145(满)/2群:413359254。"
+			set s = "轮回之狱主群欢迎你的加入:群号413359254。"
 		elseif(i == 51) then
 			set s = "输入-cj可以更换你的成就哦,还可以查询你拥有的所有成就,也可以查询所有成就的获取条件."
 		elseif(i == 52) then
@@ -32786,22 +32783,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
 	endfunction
 //---------------------------------------------------------------------------------------------------
-	/*
-	    永久赞助的任务
-	*/
-	function ShowZanzhuHint takes nothing returns nothing
-	    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "永久赞助", "做图不易,你的如果你喜欢本图,也愿意赞助本图,那么你将获得以下功能:
-	    	|cffff68001.可以直接选取英雄|r|cff00ccff\"星胧\"|r|cffff6800、|r|cff00ccff\"幻逸\"|r|cffff6600、|r|cff00ccff\"梦霁\"|r、|cff00ccff\"苍凌\"|r、|cff00ccff\"宵霆\"|r|cffff6600。|r|cffff6800|n2.英雄直接解锁湮灭/凯撒/莫琪的黑化功能.|n3.英雄将获得七彩皮肤效果|n4.开局金币10000(不与平台等级叠加)|n5.开局立即获得\"|r|cffff00ff琉璃璞玉|r|cffff6800\",任意宝石升级装备成功率100%|n6.选择所有难度(包括前4个)均能体验24+5+1波进攻，并解锁混沌区域.|n7.专属指令(-hc)可以把地面上的宝箱一键合成高级宝箱|r|cffff00ff.|r|cffff6800|n8.可以雇佣第5第6号雇佣兵.|n9.基地将获得3次防护罩效果.|n10.解锁仓库-熔炎火炮.
-	    	|r|cffffff00赞助后续版本永久有效,永久赞助请加QQ群413359254获取,"+S3(DEBUG_MODE,"","或者百度搜索\"17玩吧\"进入轮回之狱专区获取,")+"还可以添加作者微信号\"a19f12\"获取.|r", "ReplaceableTextures\\CommandButtons\\BTNMGExchange.blp" )
-	endfunction
-	function ShowZanzhuHint2 takes nothing returns nothing
-	    call PlaySoundBJ( gg_snd_Renwu )
-	    call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
-	    call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00永久赞助|r
-|cFFFF9900点击左上角“任务”查看。|r" )
-	    call DestroyTimer( GetExpiredTimer() )
-	endfunction
-//---------------------------------------------------------------------------------------------------
 	private function InitChatCommand takes nothing returns nothing
 	    local trigger t = CreateTrigger()
 		call TriggerRegisterPlayerChatEvent( t, Player(0), "-", false )
@@ -32813,8 +32794,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	    call TriggerAddAction(t, function ChatCommandAct)
 	    //小提示
 	    call TimerStart(CreateTimer(),120,true,function ShowHint)
-	    //永久赞助的任务
-	    call TimerStart(CreateTimer(),1400,true,function ShowZanzhuHint2)
 	    set t = null
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -34078,552 +34057,6 @@ endlibrary
 // 狂欢活动
 // 连续登录
 // 测试文件
-///#include  "edit/Diamond.j"
-///#include  "edit/CenterCredit.j"
-/*
-    测试指令:
-	test damage 关闭/开启伤害显示
-	test part1 测试阶段1
-	test tech 科技全满
-	test12 测试第几波,比如12
-	test kill 杀死自己
-	test select 显示生命
-	test credit 增加积分
-	test Scredit 增加守城积分
-	test invu 基地无敌
-	test vu 基地不无敌
-	test leval 等级上400
-	test mowang 测试基地爆炸
-	test mingwang 测试基地爆炸
-	test vip      测试VIP
-	test renshu      测试人数2
-	test darenshu      测试人数6
-	test lianyu1	炼狱14层
-	test lianyu2	炼狱69层
-	test lianyu4	炼狱89层
-	test renkou		100个人口
-	test Scredit    守家积分
-	test zhuanshengxx	 转生测试
-	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
-	test mijing 	秘境19
-	test bo29
-*/
-library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCredit,Diamond
-	globals
-		boolean debug_show_damage = false
-		boolean debug_show_attr = false
-		unit testDyingUnit = null
-	endglobals
-	private function sadfsadfs takes nothing returns nothing
-	call SetPlayerTechResearchedSwap( 'R00C', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
-    call SetPlayerTechResearchedSwap( 'R00E', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
-	endfunction
-	/*
-		增加英雄属性
-	*/
-	private function addHeroAttr takes integer attr,integer level returns nothing
-		call SetHeroInt(udg_H[1],attr,false)
-		call SetHeroAgi(udg_H[1],attr,false)
-		call SetHeroStr(udg_H[1],attr,false)
-		call SetHeroLevel(udg_H[1],level,true)
-	endfunction
-	/*
-	    显示伤害值的T
-	*/
-	private function debugDamage takes nothing returns nothing
-		if (debug_show_damage) then
-			call BJDebugMsg(GetUnitName(GetEventDamageSource())+"对"+ /*
-				*/GetUnitName(GetTriggerUnit())+"造成了"/*
-				*/+R2S(GetEventDamage())+"伤害.")
-		endif
-	endfunction
-	private function ShowMajiaCount takes nothing returns integer
-		local group l_group = YDWEGetUnitsInRectAllNull(GetPlayableMapRect())
-		local unit l_unit
-		local integer count = 0
-		call GroupEnumUnitsInRange(l_group, 0, 0, 99999, null)
-		loop
-		    set l_unit = FirstOfGroup(l_group)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(l_group, l_unit)
-		    if (GetUnitPointValue(l_unit) == 123 or GetUnitPointValue(l_unit) == 0) then
-		    	set count = count + 1
-		    endif
-		endloop
-		call DestroyGroup(l_group)
-		set l_group = null
-		set l_unit =null
-		return count
-	endfunction
-	/*
-	    聊天DEBUG
-	*/
-	private function debugChat takes nothing returns nothing
-		//关闭伤害显示
-		local string chat = GetEventPlayerChatString()
-		local integer bo
-		local unit u
-		if(chat == "test damage") then
-			set debug_show_damage = not(debug_show_damage)
-			call BJDebugMsg("成功关闭伤害显示")
-			return
-		endif
-		if (chat == "test tech") then
-			call SetPlayerTechResearchedSwap('R007',1,Player(0))
-			call SetPlayerTechResearchedSwap('R00A',1,Player(0))
-			call SetPlayerTechResearchedSwap('R00B',1,Player(0))
-			call SetPlayerTechResearchedSwap('R008',1,Player(0))
-			call SetPlayerTechResearchedSwap('R009',1,Player(0))
-			call SetPlayerTechResearchedSwap('R006',1,Player(0))
-			call SetPlayerTechResearchedSwap('R00D',1,Player(0))
-			call BJDebugMsg("科技研究完成")
-			return
-		endif
-		if (chat == "test part1") then
-			call addHeroAttr(20000,80)
-			//鬼3
-			call UnitAddItemByIdSwapped('lgdh',udg_H[1])
-			//星3
-			call UnitAddItemByIdSwapped('ram1',udg_H[1])
-			//冰封翅膀
-			call UnitAddItemByIdSwapped('I041',udg_H[1])
-			//法魂3
-			call UnitAddItemByIdSwapped('phea',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人3
-			call UnitAddItemByIdSwapped('oven',udg_H[1])
-			call BJDebugMsg("测试阶段1")
-			return
-		endif
-		if (chat == "test part0") then
-			call addHeroAttr(10000,60)
-			//鬼1
-			call UnitAddItemByIdSwapped('rat9',udg_H[1])
-			//星0
-			call UnitAddItemByIdSwapped('I03Y',udg_H[1])
-			//五彩翅膀
-			call UnitAddItemByIdSwapped('I045',udg_H[1])
-			//法魂2
-			call UnitAddItemByIdSwapped('rin1',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人0
-			call UnitAddItemByIdSwapped('rej4',udg_H[1])
-			call BJDebugMsg("测试阶段0")
-			return
-		endif
-		if (chat == "test part2") then
-			call addHeroAttr(40000,120)
-			//鬼5
-			call UnitAddItemByIdSwapped('bgst',udg_H[1])
-			//星MAX
-			call UnitAddItemByIdSwapped('olig',udg_H[1])
-			//妖皇翅膀
-			call UnitAddItemByIdSwapped('I04R',udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人6
-			call UnitAddItemByIdSwapped('oli2',udg_H[1])
-			call BJDebugMsg("测试阶段2")
-			return
-		endif
-		if (chat == "test part3") then
-			call addHeroAttr(80000,140)
-			//鬼8
-			call UnitAddItemByIdSwapped('rag1',udg_H[1])
-			//雷星
-			call UnitAddItemByIdSwapped('ccmd',udg_H[1])
-			//5翅膀
-			call UnitAddItemByIdSwapped('I05B',udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人7
-			call UnitAddItemByIdSwapped('shdt',udg_H[1])
-			call BJDebugMsg("测试阶段3")
-			return
-		endif
-		if (chat == "test part4") then
-			call addHeroAttr(150000,170)
-			//超鬼
-			call UnitAddItemByIdSwapped('lhst',udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('tlum',udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I05F',udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('rst1',udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('ssil',udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('tfar',udg_H[1])
-			call BJDebugMsg("测试阶段4,神装")
-			return
-		endif
-		if (chat == "test part5") then
-			call addHeroAttr(1300000,280)
-			//超鬼
-			call UnitAddItemByIdSwapped('ICS1',udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('I05Y',udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I04Y',udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('ICX1',udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('I05V',udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('IB0A',udg_H[1])
-			call UnitAddItemByIdSwapped('ILIK',udg_H[1])
-			call UnitAddItemByIdSwapped('ICY1',udg_H[1])
-			call BJDebugMsg("测试阶段5,混沌")
-			return
-		endif
-		if (chat == "test daddy") then
-			call AddDamagePercent(1,100.)
-			call BJDebugMsg("测试爆炸伤害")
-			return
-		endif
-		if (chat == "test daddy2") then
-			call AddDamagePercent(1,-100.)
-			call BJDebugMsg("测试爆炸伤害取消")
-			return
-		endif
-		if(chat == "test fangka") then
-			set u = CreateUnit(Player(0),'hpea',5790.6,4445.8,0)
-			call StartFangKa(u)
-			set u = null
-			return
-		endif
-		if (chat == "test credit") then
-			set udg_Paihangbang[1] = 50000
-			call BJDebugMsg("增加了积分~!")
-			return
-		endif
-		if (chat == "test Scredit") then
-			set centerCredit[1] = 50000
-			call BJDebugMsg("增加了守城积分~!")
-			return
-		endif
-		if (chat == "test majia") then
-			call BJDebugMsg("马甲数量:"+I2S(ShowMajiaCount()))
-			return
-		endif
-		if (chat == "test VIP") then
-			set sPIV[1] = true
-			call BJDebugMsg("测试VIP!")
-			return
-		endif
-		//对自己造成伤害
-		if (chat == "test kill") then
-		//gg_unit_Otch_0001   gg_unit_nubr_0093
-			call UnitDamageTargetBJ( CreateUnit(Player(0),'hpea',0.,0.,0.), udg_H[1], ( 1.00 * 10000000.00 ), ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC )
-			return
-		endif
-		//关闭选中显示属性
-		if (chat == "test select") then
-			set debug_show_attr = not (debug_show_attr)
-			return
-		endif
-		//基地无敌
-		if (chat == "test invu") then
-			call SetUnitInvulnerable(gg_unit_haro_0030,true)
-			return
-		endif
-		//基地不无敌
-		if (chat == "test vu") then
-			call SetUnitInvulnerable(gg_unit_haro_0030,false)
-			return
-		endif
-		//等级400
-		if (chat == "test level") then
-			call SetHeroLevel(udg_H[1],400,true)
-			return
-		endif
-		if (chat == "test renshu") then
-			set udg_RENSHU = 2
-			call BJDebugMsg("人数为2")
-			return
-		endif
-		if (chat == "test lianyu1") then
-			set udg_I_Lianyu[1] = 14
-			call BJDebugMsg("炼狱14层")
-			return
-		endif
-		if (chat == "test zhuansheng19") then
-			set udg_Z[1] = 19
-			call BJDebugMsg("转生19")
-			return
-		endif
-		if (chat == "test zhuansheng39") then
-			set udg_Z[1] = 39
-			call BJDebugMsg("转生39")
-			return
-		endif
-		if (chat == "test zhuansheng59") then
-			set udg_Z[1] = 59
-			call BJDebugMsg("转生59")
-			return
-		endif
-		if (chat == "test zhuansheng79") then
-			set udg_Z[1] = 79
-			call BJDebugMsg("转生79")
-			return
-		endif
-		if (chat == "test zhuansheng99") then
-			set udg_Z[1] = 99
-			call BJDebugMsg("转生99")
-			return
-		endif
-		if (chat == "test zhuansheng119") then
-			set udg_Z[1] = 119
-			call BJDebugMsg("转生119")
-			return
-		endif
-		if (chat == "test zhuansheng149") then
-			set udg_Z[1] = 149
-			call BJDebugMsg("转生149")
-			return
-		endif
-		if (chat == "test lianyu2") then
-			set udg_I_Lianyu[1] = 69
-			call BJDebugMsg("炼狱69层")
-			return
-		endif
-		if (chat == "test lianyu3") then
-			set udg_I_Lianyu[1] = 59
-			call BJDebugMsg("炼狱59层")
-			return
-		endif
-		if (chat == "test lianyu4") then
-			set udg_I_Lianyu[1] = 89
-			call BJDebugMsg("炼狱89层")
-			return
-		endif
-		if (chat == "test lianyu5") then
-			set udg_I_Lianyu[1] = 105
-			call BJDebugMsg("炼狱105层")
-			return
-		endif
-		if (chat == "test darenshu") then
-		    call ForForce( GetPlayersAll(), function sadfsadfs )
-			set udg_RENSHU = 6
-			set renshu = 6
-			call BJDebugMsg("人数调成6")
-			return
-		endif
-		if (chat == "test renkou") then
-			call SetPlayerStateBJ( Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP) + 100 ) )
-			call BJDebugMsg("人口调成100")
-			return
-		endif
-		if (chat == "test baoshi") then
-			call BJDebugMsg("IAtleast1:"+I2S(IAtleast1))
-			call BJDebugMsg("IAtleast2:"+I2S(IAtleast2))
-			return
-		endif
-		if (chat == "test unitState") then
-			call BJDebugMsg(GetUnitName(testDyingUnit) + "的血量为:" + R2S(GetUnitState(testDyingUnit,UNIT_STATE_LIFE)))
-			if (IsUnitAliveBJ(testDyingUnit)) then
-				call BJDebugMsg("活着的")
-			else
-				call BJDebugMsg("死了的")
-			endif
-			return
-		endif
-		//魔王拆家速度
-		if (chat == "test mowang") then
-       		call SetPlayerTechResearchedSwap( 'R00O', 100, Player(6) )
-			call CreateUnit(Player(11),'Uwar',GetUnitX(gg_unit_haro_0030),GetUnitY(gg_unit_haro_0030),0)
-			return
-		endif
-		//冥王拆家速度
-		if (chat == "test mingwang") then
-            call UnitAddAbilityBJ( 'A0EG', gg_unit_haro_0030 )
-			call CreateUnit(Player(11),'Nkjx',GetUnitX(gg_unit_haro_0030),GetUnitY(gg_unit_haro_0030),0)
-			return
-		endif
-		//直接后面直接来
-		if (chat == "test renyao") then
-			call PauseTimer(udg_Time_Start[1])
-			call DestroyTimer(udg_Time_Start[1])
-			call KillUnit(gg_unit_Uear_0242)
-			call KillUnit(gg_unit_Nkjx_0241)
-			call KillUnit(gg_unit_Npld_0253)
-			return
-		endif
-		//测试鬼仙
-		if (chat == "test guixian") then
-			call PauseTimer(udg_Time_Start[1])
-			call DestroyTimer(udg_Time_Start[1])
-			call StartGhostAngleTimer()
-		endif
-		//直接后面直接来
-		if (chat == "test mijing") then
-			set IDeng = 19
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
-			return
-		endif
-		//测试生命共享
-		if (chat == "test gongxiang") then
-			call StartLifeConnect()
-			return
-		endif
-		//调整当前波数
-		set bo = S2I(SubStringBJ(chat,StringLength(chat)-1,StringLength(chat)))
-		if (bo < 30) then
-			set udg_Bo = bo
-			call BJDebugMsg("当前波数:"+"="+I2S(udg_Bo))
-			return
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    设置测试单位
-	*/
-	function SetTestUnit takes unit u returns nothing
-		set testDyingUnit = u
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    查看选中单位的属性
-	*/
-	private function peekAttr takes nothing returns nothing
-		if (debug_show_attr) then
-			call BJDebugMsg("选中单位生命:" + R2S(GetUnitStateSwap(UNIT_STATE_LIFE,GetTriggerUnit())))
-			call BJDebugMsg("选中单位移动速度:" + R2S(GetUnitMoveSpeed(GetTriggerUnit())))
-		endif
-	endfunction
-	private function initDebugTri takes nothing returns nothing
-		//显示伤害值
-		local trigger t = CreateTrigger()
-		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
-		call TriggerAddAction(t,function debugDamage)
-		//聊天打开开关进行测试
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"test",false)
-		call TriggerAddAction(t,function debugChat)
-		//选择人物看数据
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerSelectionEventBJ(t,Player(0),true)
-		call TriggerAddAction(t,function peekAttr)
-		set t = null
-		call SetPlayerState(Player(0),PLAYER_STATE_RESOURCE_GOLD,300000)
-		call SetPlayerState(Player(0),PLAYER_STATE_RESOURCE_LUMBER,1000000)
-	endfunction
-	private function Initdebug takes nothing returns nothing
-		call initDebugTri()
-	endfunction
-endlibrary
-/*
-    没公布
-*/
-library_once NotPublic initializer InitNotPublic 
-	
-	globals
-		boolean IsTesting = false
-	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    未公开不能开始游戏
-	*/
-	function TSixtySecondCon takes nothing returns boolean
-	    return IsTesting == false
-	endfunction
-	function TSixtySecondAct1 takes nothing returns nothing
-	    call CustomDefeatBJ( GetEnumPlayer(), "该版本处于测试版,尚未公开.!" )
-	endfunction
-	function TSixtySecondAct takes nothing returns nothing
-	    call ForForce( GetPlayersAll(), function TSixtySecondAct1 )
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	private function VerifyTesting takes nothing returns nothing
-		set IsTesting = true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	 private function InitNotPublic takes nothing returns nothing
-	    local trigger t = CreateTrigger()
-	    call TriggerRegisterTimerEventSingle( t, 60.00 )
-	    call TriggerAddCondition(t, Condition(function TSixtySecondCon))
-	    call TriggerAddAction(t, function TSixtySecondAct)
-	    set t = CreateTrigger()
-	    call TriggerRegisterPlayerChatEvent( t, Player(0), "loopinghelltest", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(1), "loopinghelltest", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(2), "loopinghelltest", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(3), "loopinghelltest", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(4), "loopinghelltest", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(5), "loopinghelltest", true )
-	    call TriggerAddAction(t, function VerifyTesting)
-	    set t = null
-	 endfunction
-endlibrary
-library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous,Kuanghuan
-	function TestAchievement takes nothing returns nothing
-		local string s = GetEventPlayerChatString()
-		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
-		set IConDays[1] = i
-		call BJDebugMsg("|cFFFF66CC【消息】|r连续签到"+I2S(i))
-		//set time_simulate = i
-		//call BJDebugMsg("当前时间为:"+I2S(time_simulate))
-		set s = null
-	endfunction
-	private function Showxiao1 takes nothing returns nothing
-		//call SetPlayerName(Player(0),"无心使者")
-		//set playerName[1] = "无心使者"
-		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
-		call IncreaseXinglongSpin()
-	endfunction
-	private function TestCangku takes nothing returns nothing
-		// call SetKuanghuanOK(Player(0))
-	endfunction
-	/*private function Showxiao2 takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 16
-			call BJDebugMsg("|cFFFF66CC【消息】|r"+I2S(i)+":"+I2S(IComboHistory[i]))
-			set i = i +1
-		endloop
-	endfunction*/
-	/*function TestTime takes nothing returns nothing
-
-		call SetDenglu(Player(0))
-	endfunction
-
-	function ShowTime takes nothing returns nothing
-		call BJDebugMsg("IConDays[1]"+"="+I2S(IConDays[1]))
-		call BJDebugMsg("ILastTime[1]"+"="+I2S(ILastTime[1]))
-		call BJDebugMsg("GetContinousDay(1)"+"="+I2S(GetContinousDay(Player(0))))
-	endfunction
-
-	function ShowDialog takes nothing returns nothing
-		call CreateLoginDialog(Player(0))
-	endfunction
-
-	function SetHanxin takes nothing returns nothing
-		set Greward[1] = 1
-		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r寒心")
-	endfunction*/
-//---------------------------------------------------------------------------------------------------
-	/*
-	    初始化
-	*/
-	private function InitDebugNet takes nothing returns nothing
-		local trigger t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
-		call TriggerAddAction(t,function TestAchievement)
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"b",true)
-		call TriggerAddAction(t,function Showxiao1)
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"c",true)
-		call TriggerAddAction(t,function TestCangku)
-		set t = null
-	endfunction
-endlibrary
 // lua_print: 正式地图
 //***************************************************************************
 //*
@@ -37812,7 +37245,7 @@ endfunction
 //===========================================================================
 // Trigger: 未命名触发器 055
 //===========================================================================
-function Trig____________________055Func009T takes nothing returns nothing
+function Trig____________________055Func008T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_230", "TRIGSTR_231", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_232" )
@@ -37822,7 +37255,7 @@ function Trig____________________055Func009T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func010T takes nothing returns nothing
+function Trig____________________055Func009T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_233", "TRIGSTR_234", "ReplaceableTextures\\CommandButtons\\BTNMetamorphosis.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_235" )
@@ -37830,7 +37263,7 @@ function Trig____________________055Func010T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func011T takes nothing returns nothing
+function Trig____________________055Func010T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_236", "TRIGSTR_237", "ReplaceableTextures\\CommandButtons\\BTNUnsummonBuilding.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_238" )
@@ -37838,7 +37271,7 @@ function Trig____________________055Func011T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func012T takes nothing returns nothing
+function Trig____________________055Func011T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_239", "TRIGSTR_240", "ReplaceableTextures\\CommandButtons\\BTNyumao1.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_241" )
@@ -37846,7 +37279,7 @@ function Trig____________________055Func012T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func013T takes nothing returns nothing
+function Trig____________________055Func012T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_242", "TRIGSTR_243", "ReplaceableTextures\\CommandButtons\\BTNyumao1.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_244" )
@@ -37854,7 +37287,7 @@ function Trig____________________055Func013T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func014T takes nothing returns nothing
+function Trig____________________055Func013T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_245", "TRIGSTR_246", "ReplaceableTextures\\CommandButtons\\BTNAltarOfKings.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_247" )
@@ -37862,7 +37295,7 @@ function Trig____________________055Func014T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func015T takes nothing returns nothing
+function Trig____________________055Func014T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_248", "TRIGSTR_249", "ReplaceableTextures\\CommandButtons\\BTNUnsummonBuilding.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_250" )
@@ -37870,7 +37303,7 @@ function Trig____________________055Func015T takes nothing returns nothing
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
-function Trig____________________055Func016T takes nothing returns nothing
+function Trig____________________055Func015T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_251", "TRIGSTR_252", "ReplaceableTextures\\CommandButtons\\BTNSoulGem.blp" )
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_253" )
@@ -37886,23 +37319,22 @@ function Trig____________________055Actions takes nothing returns nothing
     call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
     call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_228", "TRIGSTR_229", "ReplaceableTextures\\CommandButtons\\BTNTransmute.blp" )
     call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
-    call ShowZanzhuHint()
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 300.00, false, function Trig____________________055Func009T)
+    call TimerStart(ydl_timer, 300.00, false, function Trig____________________055Func008T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 600.00, false, function Trig____________________055Func010T)
+    call TimerStart(ydl_timer, 600.00, false, function Trig____________________055Func009T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 900.00, false, function Trig____________________055Func011T)
+    call TimerStart(ydl_timer, 900.00, false, function Trig____________________055Func010T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 1200.00, false, function Trig____________________055Func012T)
+    call TimerStart(ydl_timer, 1200.00, false, function Trig____________________055Func011T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 1500.00, false, function Trig____________________055Func013T)
+    call TimerStart(ydl_timer, 1500.00, false, function Trig____________________055Func012T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 1800.00, false, function Trig____________________055Func014T)
+    call TimerStart(ydl_timer, 1800.00, false, function Trig____________________055Func013T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 2400.00, false, function Trig____________________055Func015T)
+    call TimerStart(ydl_timer, 2400.00, false, function Trig____________________055Func014T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 3600.00, false, function Trig____________________055Func016T)
+    call TimerStart(ydl_timer, 3600.00, false, function Trig____________________055Func015T)
     set ydl_timer = null
 endfunction
 //===========================================================================
@@ -39860,7 +39292,7 @@ function Trig____________________001________2_______uConditions takes nothing re
     return ((GetUnitTypeId(GetAttacker()) == 'Hamg') and (IsUnitIllusionBJ(GetAttacker()) != true) and (GetRandomInt(1, 10) == 1))
 endfunction
 function Trig____________________001________2_______uFunc004002003 takes nothing returns boolean
-    return ( (IsEnemyUnit(GetEnumUnit(),GetAttacker()) == true))
+    return ( (IsEnemy(GetEnumUnit(),GetAttacker()) == true))
 endfunction
 function Trig____________________001________2_______uFunc005A takes nothing returns nothing
     call DestroyEffect( AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", GetUnitX(GetEnumUnit()), GetUnitY(GetEnumUnit())) )
@@ -42922,7 +42354,7 @@ function InitTrig____________________061________________________________________
     call TriggerAddAction(gg_trg____________________061_______________________________________________________________u, function Trig____________________061_______________________________________________________________uActions)
 endfunction
 //===========================================================================
-// Trigger: 未命名触发器 061 复制 复制 复制 复制 复制 复制 复制 复制 复� 复制
+// Trigger: 未命名触发器 061 复制 复制 复制 复制 复制 复制 复制 复制 复� 复制
 //===========================================================================
 function Trig____________________061____________________________________________________________________uConditions takes nothing returns boolean
     return ((GetItemTypeId(GetSoldItem()) == 'I02R') and (BuyerFilter(GetBuyingUnit())))
@@ -45885,7 +45317,7 @@ function Trig_______18Conditions takes nothing returns boolean
     return ((GetSpellAbilityId() == 'A0FZ'))
 endfunction
 function Trig_______18Func006Func001Func003002003 takes nothing returns boolean
-    return ( ( IsEnemyUnit(moqi,GetFilterUnit()) and GetUnitAbilityLevel(GetFilterUnit(),'Avul') < 1))
+    return ( ( IsEnemy(moqi,GetFilterUnit()) and GetUnitAbilityLevel(GetFilterUnit(),'Avul') < 1))
 endfunction
 function Trig_______18Func006T takes nothing returns nothing
     if ((LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "n")?>) <= 8+IJ1(moqi,8,0) + IJ2(moqi,8,0)+ I3(IsMoqiSpin(),2,0))) then
@@ -45941,7 +45373,7 @@ function Trig_______19Conditions takes nothing returns boolean
     return ((IsUnitAlly(GetAttackedUnitBJ(), GetOwningPlayer(GetAttacker())) != true) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetPlayerTechCountSimple('R006', GetOwningPlayer(gg_unit_Hvwd_0016)) == 1) and (GetUnitAbilityLevelSwapped('Amim', GetAttacker()) != 1) and (GetRandomInt(1, 20) == 1))
 endfunction
 function Trig_______19Func002Func007Func001Func003002003 takes nothing returns boolean
-    return ( ( IsEnemyUnit(moqi,GetFilterUnit()) and GetUnitAbilityLevel(GetFilterUnit(),'Avul') < 1))
+    return ( ( IsEnemy(moqi,GetFilterUnit()) and GetUnitAbilityLevel(GetFilterUnit(),'Avul') < 1))
 endfunction
 function Trig_______19Func002Func007T takes nothing returns nothing
     if ((LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "n")?>) <= 2+IJ1(moqi,2,0) +IJ2(moqi,2,0))) then
@@ -47253,7 +46685,7 @@ function Trig_____________81Conditions takes nothing returns boolean
     return ((GetSpellAbilityId() == 'ACbc'))
 endfunction
 function Trig_____________81Func016Func001Func006002003 takes nothing returns boolean
-    return ( (IsEnemyUnit(GetFilterUnit(),taiya)))
+    return ( (IsEnemy(GetFilterUnit(),taiya)))
 endfunction
 function Trig_____________81Func016Func001Func007A takes nothing returns nothing
     if ((IsUnitInGroup(GetEnumUnit(), LoadGroupHandle(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "group")?>)) == false)) then
@@ -48544,7 +47976,7 @@ endfunction
 // Trigger: 弹射冰晶113
 //===========================================================================
 function Trig_____________113Conditions takes nothing returns boolean
-    return (((GetAttacker() == gg_unit_Othr_0256) or (GetUnitTypeId(GetAttacker()) == 'O000') or (GetUnitTypeId(GetAttacker()) == 'O001')) and (GetPlayerTechCountSimple('R006', GetOwningPlayer(gg_unit_Othr_0256)) == 1) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, gg_unit_Othr_0256) > 100.00) and (IsEnemyUnit(GetAttacker(),GetAttackedUnitBJ())) and ((udg_I_Tan[17] != 1) or (udg_I_Tan[18] != 1) or (udg_I_Tan[19] != 1)))
+    return (((GetAttacker() == gg_unit_Othr_0256) or (GetUnitTypeId(GetAttacker()) == 'O000') or (GetUnitTypeId(GetAttacker()) == 'O001')) and (GetPlayerTechCountSimple('R006', GetOwningPlayer(gg_unit_Othr_0256)) == 1) and (GetRandomInt(1, 20) == 1) and (GetUnitStateSwap(UNIT_STATE_MANA, gg_unit_Othr_0256) > 100.00) and (IsEnemy(GetAttacker(),GetAttackedUnitBJ())) and ((udg_I_Tan[17] != 1) or (udg_I_Tan[18] != 1) or (udg_I_Tan[19] != 1)))
 endfunction
 function Trig_____________113Actions takes nothing returns nothing
     local integer ydul_k
@@ -51881,7 +51313,7 @@ endfunction
 // Trigger: papa14玉帝技能
 //===========================================================================
 function Trig_papa14____________uFunc003Func005002003 takes nothing returns boolean
-    return ( (IsEnemyUnit(GetEnumUnit(),GetAttacker()) == true))
+    return ( (IsEnemy(GetEnumUnit(),GetAttacker()) == true))
 endfunction
 function Trig_papa14____________uFunc003Func006A takes nothing returns nothing
     call UnitDamageTarget( GetAttacker(), GetEnumUnit(), ( 0.40 * GetUnitStateSwap(UNIT_STATE_MAX_LIFE, GetEnumUnit()) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
@@ -56132,7 +55564,7 @@ function InitCustomPlayerSlots takes nothing returns nothing
     call SetPlayerController( Player(11), MAP_CONTROL_COMPUTER )
 endfunction
 function InitCustomTeams takes nothing returns nothing
-    // Force: TRIGSTR_640
+    // Force: TRIGSTR_644
     call SetPlayerTeam( Player(0), 0 )
     call SetPlayerTeam( Player(1), 0 )
     call SetPlayerTeam( Player(2), 0 )
@@ -56226,7 +55658,7 @@ function InitCustomTeams takes nothing returns nothing
     call SetPlayerAllianceStateVisionBJ( Player(6), Player(3), true )
     call SetPlayerAllianceStateVisionBJ( Player(6), Player(4), true )
     call SetPlayerAllianceStateVisionBJ( Player(6), Player(5), true )
-    // Force: TRIGSTR_642
+    // Force: TRIGSTR_646
     call SetPlayerTeam( Player(10), 1 )
     call SetPlayerTeam( Player(11), 1 )
     //   Allied
@@ -56302,8 +55734,8 @@ endfunction
 //*
 //***************************************************************************
 function config takes nothing returns nothing
-    call SetMapName( "轮回之狱 - v3.421正式版" )
-    call SetMapDescription( "魔界滋生了六界之外的力量,而人神妖鬼仙界察觉了这种力量，而决定联手起来将魔界歼灭。寻找战友、提交BUG、寻找攻略请加官方地图QQ群148199145。\n该地图需要在1.24的魔兽版本上运行。" )
+    call SetMapName( "TRIGSTR_634" )
+    call SetMapDescription( "TRIGSTR_636" )
     call SetPlayers( 9 )
     call SetTeams( 9 )
     call SetGamePlacement( MAP_PLACEMENT_TEAMS_TOGETHER )

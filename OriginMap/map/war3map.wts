@@ -3460,7 +3460,7 @@ STRING 670
 STRING 671
 // 单位: ntav (|cffff00ff六|r|cffff1fe0界|r|cffff3fc0幽|r|cffff5fa0魂|r|cffff7f80 |r|cffff), Name (名字[unam])
 {
-|cffff00ff六|r|cffff1fe0界|r|cffff3fc0幽|r|cffff5fa0魂|r|cffff7f80 |r|cffff9f60-|r|cffffbf40 |r|cffffdf20稞|r|cffffff00宿|r|n六界沉浮，万族林立。诸圣争霸，执掌战器。|n叱风咤雨，乱天动地。主六界轮回！ 
+|cffff00ff六|r|cffff1fe0界|r|cffff3fc0幽|r|cffff5fa0魂|r|cffff7f80 |r|cffff9f60-|r|cffffbf40 |r|cffffdf20稞|r|cffffff00宿|r|n六界沉浮，万族林立。诸圣争霸，执掌战器。|n叱风咤雨，乱天动地。主六界轮回！
 }
 
 STRING 672
@@ -20602,7 +20602,7 @@ STRING 3527
 STRING 3528
 // 技能: Awrg (战争践踏), EditorSuffix (编辑器后缀[ansf])
 {
- (2) 
+ (2)
 }
 
 STRING 3529
@@ -20842,7 +20842,7 @@ STRING 3567
 STRING 3568
 // 技能: Aroa ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 3569
@@ -21436,7 +21436,7 @@ STRING 3666
 STRING 3667
 // 技能: Acht (闪电链), Tip (提示工具 - 普通[atp1])
 {
-闪电链(|cffffcc00Q|r) 
+闪电链(|cffffcc00Q|r)
 }
 
 STRING 3668
@@ -21796,7 +21796,7 @@ STRING 3726
 STRING 3727
 // 技能: APsa ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 3728
@@ -22654,7 +22654,7 @@ STRING 3869
 STRING 3870
 // 技能: ANdh ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 3871
@@ -25876,25 +25876,25 @@ STRING 4406
 STRING 4407
 // 技能: ACbc (|cffff00ff月神之箭|r), Tip (提示工具 - 普通[atp1])
 {
-|cffff00ff月神之箭|r|cffc0c0c0[未觉醒]|r(|cffffcc00D|r) 
+|cffff00ff月神之箭|r|cffc0c0c0[未觉醒]|r(|cffffcc00D|r)
 }
 
 STRING 4408
 // 技能: ACbc (|cffff00ff月神之箭|r), Tip (提示工具 - 普通[atp1])
 {
-|cffff00ff月神之箭|r|cffcc99ff[一阶觉醒]|r(|cffffcc00D|r) 
+|cffff00ff月神之箭|r|cffcc99ff[一阶觉醒]|r(|cffffcc00D|r)
 }
 
 STRING 4409
 // 技能: ACbc (|cffff00ff月神之箭|r), Tip (提示工具 - 普通[atp1])
 {
-|cffff00ff月神之箭|r|cff0000ff[二阶觉醒]|r(|cffffcc00D|r) 
+|cffff00ff月神之箭|r|cff0000ff[二阶觉醒]|r(|cffffcc00D|r)
 }
 
 STRING 4410
 // 技能: ACbc (|cffff00ff月神之箭|r), Tip (提示工具 - 普通[atp1])
 {
-|cffff00ff月神之箭[三阶觉醒]|r(|cffffcc00D|r) 
+|cffff00ff月神之箭[三阶觉醒]|r(|cffffcc00D|r)
 }
 
 STRING 4411
@@ -28894,19 +28894,19 @@ F
 STRING 4910
 // 技能: A0NF ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 4911
 // 技能: A0NF ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 4912
 // 技能: A0NF ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 4913
@@ -29122,7 +29122,7 @@ HP回复速度(800000)
 STRING 4948
 // 技能: A0N3 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 4949
@@ -29308,19 +29308,19 @@ F
 STRING 4979
 // 技能: A0MU ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 4980
 // 技能: A0MU ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 4981
 // 技能: A0MU ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 4982
@@ -29872,19 +29872,19 @@ F
 STRING 5073
 // 技能: A0MF ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5074
 // 技能: A0MF ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5075
 // 技能: A0MF ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5076
@@ -29998,19 +29998,19 @@ F
 STRING 5094
 // 技能: A0MA ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5095
 // 技能: A0MA ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5096
 // 技能: A0MA ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5097
@@ -31108,19 +31108,19 @@ F
 STRING 5279
 // 技能: A0LG ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5280
 // 技能: A0LG ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5281
 // 技能: A0LG ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5282
@@ -31138,19 +31138,19 @@ F
 STRING 5284
 // 技能: A0LF ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5285
 // 技能: A0LF ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5286
 // 技能: A0LF ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5287
@@ -31168,19 +31168,19 @@ F
 STRING 5289
 // 技能: A0LE ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5290
 // 技能: A0LE ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5291
 // 技能: A0LE ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5292
@@ -31216,19 +31216,19 @@ F
 STRING 5297
 // 技能: A0LC ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5298
 // 技能: A0LC ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5299
 // 技能: A0LC ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5300
@@ -31504,19 +31504,19 @@ F
 STRING 5345
 // 技能: A0KR ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5346
 // 技能: A0KR ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5347
 // 技能: A0KR ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5348
@@ -33652,19 +33652,19 @@ F
 STRING 5703
 // 技能: A0HX ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5704
 // 技能: A0HX ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5705
 // 技能: A0HX ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5706
@@ -34138,7 +34138,7 @@ STRING 5783
 STRING 5784
 // 技能: A0HB (海妖之毒), EditorSuffix (编辑器后缀[ansf])
 {
-  
+
 }
 
 STRING 5785
@@ -34408,19 +34408,19 @@ F
 STRING 5829
 // 技能: A0GV ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5830
 // 技能: A0GV ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5831
 // 技能: A0GV ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5832
@@ -34714,7 +34714,7 @@ STRING 5879
 STRING 5880
 // 技能: A0GD ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5881
@@ -34864,19 +34864,19 @@ F
 STRING 5905
 // 技能: A0G4 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5906
 // 技能: A0G4 ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5907
 // 技能: A0G4 ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5908
@@ -35194,19 +35194,19 @@ F
 STRING 5960
 // 技能: A0FU ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5961
 // 技能: A0FU ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5962
 // 技能: A0FU ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5963
@@ -35284,19 +35284,19 @@ F
 STRING 5975
 // 技能: A0FQ ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5976
 // 技能: A0FQ ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5977
 // 技能: A0FQ ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5978
@@ -35314,19 +35314,19 @@ F
 STRING 5980
 // 技能: A0FP ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5981
 // 技能: A0FP ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5982
 // 技能: A0FP ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5983
@@ -35344,19 +35344,19 @@ F
 STRING 5985
 // 技能: A0FO ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5986
 // 技能: A0FO ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5987
 // 技能: A0FO ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5988
@@ -35374,19 +35374,19 @@ F
 STRING 5990
 // 技能: A0FN ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5991
 // 技能: A0FN ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5992
 // 技能: A0FN ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5993
@@ -35404,19 +35404,19 @@ F
 STRING 5995
 // 技能: A0FM ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 5996
 // 技能: A0FM ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 5997
 // 技能: A0FM ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 5998
@@ -35434,19 +35434,19 @@ F
 STRING 6000
 // 技能: A0FL ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6001
 // 技能: A0FL ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 6002
 // 技能: A0FL ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 6003
@@ -35464,19 +35464,19 @@ F
 STRING 6005
 // 技能: A0FK ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6006
 // 技能: A0FK ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 6007
 // 技能: A0FK ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 6008
@@ -35494,19 +35494,19 @@ F
 STRING 6010
 // 技能: A0FJ ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6011
 // 技能: A0FJ ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 6012
 // 技能: A0FJ ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 6013
@@ -35524,19 +35524,19 @@ F
 STRING 6015
 // 技能: A0FI ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6016
 // 技能: A0FI ( ), Tip (提示工具 - 普通[atp1])
 {
- 
+
 }
 
 STRING 6017
 // 技能: A0FI ( ), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
- 
+
 }
 
 STRING 6018
@@ -36346,7 +36346,7 @@ HP回复速度(500000)
 STRING 6150
 // 技能: A0EI ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6151
@@ -37570,7 +37570,7 @@ HP回复速度(400000)
 STRING 6354
 // 技能: A0D1 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6355
@@ -37882,7 +37882,7 @@ HP回复速度(250000)
 STRING 6406
 // 技能: A0CE ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6407
@@ -37894,7 +37894,7 @@ HP回复速度(200000)
 STRING 6408
 // 技能: A0CD ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6409
@@ -37906,7 +37906,7 @@ HP回复速度(150000)
 STRING 6410
 // 技能: A0CC ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6411
@@ -38500,7 +38500,7 @@ HP回复速度(120000)
 STRING 6509
 // 技能: A0BG ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6510
@@ -38686,7 +38686,7 @@ HP回复速度(75000)
 STRING 6540
 // 技能: A0B5 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6541
@@ -40168,7 +40168,7 @@ R
 STRING 6787
 // 技能: A0AH (|cffff00ff灵魂囚笼|r), Researchtip (提示工具 - 学习[aret])
 {
-学习|cffff00ff灵魂囚笼|r(|cffffcc00R|r) 
+学习|cffff00ff灵魂囚笼|r(|cffffcc00R|r)
 }
 
 STRING 6788
@@ -40180,7 +40180,7 @@ STRING 6788
 STRING 6789
 // 技能: A0AH (|cffff00ff灵魂囚笼|r), Tip (提示工具 - 普通[atp1])
 {
-|cffff00ff灵魂囚笼|r(|cffffcc00R|r) 
+|cffff00ff灵魂囚笼|r(|cffffcc00R|r)
 }
 
 STRING 6790
@@ -40720,7 +40720,7 @@ HP回复速度(40000)
 STRING 6879
 // 技能: A09P ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6880
@@ -40732,7 +40732,7 @@ HP回复速度(50000)
 STRING 6881
 // 技能: A09O ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6882
@@ -40864,7 +40864,7 @@ HP回复速度(20000)
 STRING 6903
 // 技能: A09K ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6904
@@ -40894,7 +40894,7 @@ HP回复速度(30000)
 STRING 6908
 // 技能: A09I ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6909
@@ -41380,7 +41380,7 @@ HP回复速度(60000)
 STRING 6989
 // 技能: A085 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 6990
@@ -41470,7 +41470,7 @@ STRING 7003
 STRING 7004
 // 技能: A07X (战争践踏), EditorSuffix (编辑器后缀[ansf])
 {
- (Max) 
+ (Max)
 }
 
 STRING 7005
@@ -41902,7 +41902,7 @@ HP回复速度(180000)
 STRING 7076
 // 技能: A071 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 7077
@@ -42094,7 +42094,7 @@ HP回复速度(13000)
 STRING 7108
 // 技能: A06M ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 7109
@@ -42358,7 +42358,7 @@ HP回复速度(400)
 STRING 7152
 // 技能: A06B ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 7153
@@ -42400,7 +42400,7 @@ HP回复速度(95000)
 STRING 7159
 // 技能: A068 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 7160
@@ -42658,7 +42658,7 @@ STRING 7201
 STRING 7202
 // 技能: A05S ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 7203
@@ -42820,7 +42820,7 @@ STRING 7228
 STRING 7229
 // 技能: A05I (灵魂爆震), Ubertip (提示工具 - 普通 - 扩展[aub1])
 {
-攻击敌人若自己有MP，对敌人额外造成MP x 100 x 等级点魔法伤害。|n被敌人攻击的时候，若自己有MP，对敌人造成MP x 10 x等级 点魔法伤害。 
+攻击敌人若自己有MP，对敌人额外造成MP x 100 x 等级点魔法伤害。|n被敌人攻击的时候，若自己有MP，对敌人造成MP x 10 x等级 点魔法伤害。
 }
 
 STRING 7230
@@ -46468,7 +46468,7 @@ STRING 7836
 STRING 7837
 // 技能: A03X (战争践踏), EditorSuffix (编辑器后缀[ansf])
 {
- (BOSS) 
+ (BOSS)
 }
 
 STRING 7838
@@ -46966,7 +46966,7 @@ STRING 7919
 STRING 7920
 // 技能: A02Z ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 7921
@@ -47548,7 +47548,7 @@ HP回复速度(24000)
 STRING 8017
 // 技能: A01N ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8018
@@ -47560,7 +47560,7 @@ HP回复速度(18400)
 STRING 8019
 // 技能: A01M ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8020
@@ -47632,7 +47632,7 @@ HP回复速度(14800)
 STRING 8031
 // 技能: A01G ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8032
@@ -47644,7 +47644,7 @@ HP回复速度(11600)
 STRING 8033
 // 技能: A01F ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8034
@@ -47656,7 +47656,7 @@ HP回复速度(8800)
 STRING 8035
 // 技能: A01E ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8036
@@ -47668,7 +47668,7 @@ HP回复速度(6400)
 STRING 8037
 // 技能: A01D ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8038
@@ -47680,7 +47680,7 @@ HP回复速度(4400)
 STRING 8039
 // 技能: A01C ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8040
@@ -47692,7 +47692,7 @@ HP回复速度(2800)
 STRING 8041
 // 技能: A01B ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8042
@@ -47704,7 +47704,7 @@ HP回复速度(1600)
 STRING 8043
 // 技能: A01A ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8044
@@ -47734,7 +47734,7 @@ HP回复速度(800)
 STRING 8048
 // 技能: A018 ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8049
@@ -47854,7 +47854,7 @@ STRING 8067
 STRING 8068
 // 技能: A014 ( 剑圣之毒武器), EditorSuffix (编辑器后缀[ansf])
 {
-  
+
 }
 
 STRING 8069
@@ -47974,7 +47974,7 @@ STRING 8087
 STRING 8088
 // 技能: A00U ( ), Name (名字[anam])
 {
- 
+
 }
 
 STRING 8089
