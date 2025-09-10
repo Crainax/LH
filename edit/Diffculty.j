@@ -334,27 +334,27 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 		击败六界傀儡|cffffff00穆晴|r与白浅.");
 	}
 
-	timer TiAutoDiff = null; //自动选择难度
-	timerdialog TdAutoDiff = null; //自动选择难度
-	dialog DialogCurrent = null;
+	public timer TiAutoDiff = null; //自动选择难度
+	public timerdialog TdAutoDiff = null; //自动选择难度
 
 	// 选择游戏模式
 	public function ChooseGameMode() {
 		trigger t;
+		dialog d;
 
 		t = CreateTrigger();
-		DialogCurrent = DialogCreate();
+		d = DialogCreate();
 
-		DialogSetMessage(DialogCurrent, "请选择游戏模式");
+		DialogSetMessage(d, "请选择游戏模式");
 		if (IsKuanghuanTime()) {
-			SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 5, DialogAddButtonBJ(DialogCurrent, "狂欢模式(活动)"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
 		}
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 1, DialogAddButtonBJ(DialogCurrent, "经典模式"));
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 3, DialogAddButtonBJ(DialogCurrent, "挑战模式"));
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 2, DialogAddButtonBJ(DialogCurrent, "加速模式(速通)"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
 
-		DialogDisplay(GetFirstPlayer(), DialogCurrent, true);
-		TriggerRegisterDialogEvent(t, DialogCurrent);
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
 		TriggerAddAction(t, function (){
 			dialog d;
 			button clickedButton;
@@ -396,7 +396,6 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 
 			d = null;
 			clickedButton = null;
-			DialogCurrent = null;
 			DestroyTrigger(GetTriggeringTrigger());
 		});
 
@@ -413,6 +412,7 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 			mode = 1; //经典模式
 			SgameMode = "经典";
 			SetDifficulty.execute(1);
+			BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.");
 			PauseTimer(t);
 			DestroyTimer(t);
 			DestroyTimerDialog(TdAutoDiff);

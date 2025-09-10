@@ -183,7 +183,7 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
         }
 
         // 执行难度设置后的公共逻辑
-        CinematicModeBJ(false, GetPlayersAll());
+        CinematicModeBJ(false, GetPlayersAll()); //好东西啊   直接关掉现在的对话框
         PrintDifficulty();
         InitAllPIV();
 
@@ -224,6 +224,13 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
         udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
         TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
         InitJungle();
+
+        if (TiAutoDiff != null) {
+			DestroyTimer(TiAutoDiff);
+		}
+		if (TdAutoDiff != null) {
+			DestroyTimerDialog(TdAutoDiff);
+		}
     }
 
     public function registerDifficultyDialog(dialog d) {

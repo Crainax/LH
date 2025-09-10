@@ -18,6 +18,1217 @@ endlibrary
 //#  define TriggerRegisterPlayerEventAllianceChanged(trig, player)          TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_ALLIANCE_CHANGED)
 //#  define TriggerRegisterPlayerEventEndCinematic(trig, player)             TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_END_CINEMATIC)
 // 原生UI的大小
+//===========================================================================
+//系统-TimerSystem
+//===========================================================================
+library YDWETimerSystem initializer Init requires YDTriggerSaveLoadSystem
+globals
+	private integer CurrentTime
+	private integer CurrentIndex
+    private integer TaskListHead
+    private integer TaskListIdleHead
+    private integer TaskListIdleMax
+    private integer array TaskListIdle
+    private integer array TaskListNext
+    private integer array TaskListTime
+    private trigger array TaskListProc //函数组
+private trigger fnRemoveUnit //移除单位函数
+private trigger fnDestroyTimer //摧毁计时器
+private trigger fnRemoveItem //移除物品
+private trigger fnDestroyEffect //删除特效
+private trigger fnDestroyLightning //删除删掉特效
+private trigger fnRunTrigger //运行触发器
+private timer Timer //最小时间计时器  系统计时器  用于一些需要精确计时的功能
+private integer TimerHandle
+	private integer TimerSystem_RunIndex = 0
+endglobals
+private function NewTaskIndex takes nothing returns integer
+	local integer h = TaskListIdleHead
+	if TaskListIdleHead < 0 then
+		if TaskListIdleMax >= 8000 then
+			debug call BJDebugMsg("中心计时器任务队列溢出！")
+			return 8100
+		else
+			set TaskListIdleMax = TaskListIdleMax + 1
+			return TaskListIdleMax
+		endif
+	endif
+	set TaskListIdleHead = TaskListIdle[h]
+	return h
+endfunction
+private function DeleteTaskIndex takes integer index returns nothing
+	set TaskListIdle[index] = TaskListIdleHead
+	set TaskListIdleHead = index
+endfunction
+//该函数序列处理
+private function NewTask takes real time, trigger proc returns integer
+	local integer index = NewTaskIndex()
+	local integer h = TaskListHead
+	local integer t = R2I(100.*time) + CurrentTime
+	local integer p
+	set TaskListProc[index] = proc
+	set TaskListTime[index] = t
+	loop
+		set p = TaskListNext[h]
+		if p < 0 or TaskListTime[p] >= t then
+		//	call BJDebugMsg("NewTask:"+I2S(index))
+			set TaskListNext[h] = index
+			set TaskListNext[index] = p
+			return index
+		endif
+		set h = p
+	endloop
+	return index
+endfunction
+function YDWETimerSystemNewTask takes real time, trigger proc returns integer
+	return NewTask(time, proc)
+endfunction
+function YDWETimerSystemGetCurrentTask takes nothing returns integer
+	return CurrentIndex
+endfunction
+//删除单位
+private function RemoveUnit_CallBack takes nothing returns nothing
+    call RemoveUnit(LoadUnitHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerRemoveUnit takes real time, unit u returns nothing
+    call SaveUnitHandle(YDHT, TimerHandle, NewTask(time, fnRemoveUnit), u)
+endfunction
+//摧毁计时器
+private function DestroyTimer_CallBack takes nothing returns nothing
+    call DestroyTimer(LoadTimerHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerDestroyTimer takes real time, timer t returns nothing
+    call SaveTimerHandle(YDHT, TimerHandle, NewTask(time, fnDestroyTimer), t)
+endfunction
+//删除物品
+private function RemoveItem_CallBack takes nothing returns nothing
+    call RemoveItem(LoadItemHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerRemoveItem takes real time, item it returns nothing
+    call SaveItemHandle(YDHT, TimerHandle, NewTask(time, fnRemoveItem), it)
+endfunction
+//删除特效
+private function DestroyEffect_CallBack takes nothing returns nothing
+    call DestroyEffect(LoadEffectHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerDestroyEffect takes real time, effect e returns nothing
+    call SaveEffectHandle(YDHT, TimerHandle, NewTask(time, fnDestroyEffect), e)
+endfunction
+//删除闪电特效
+private function DestroyLightning_CallBack takes nothing returns nothing
+    call DestroyLightning(LoadLightningHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerDestroyLightning takes real time, lightning lt returns nothing
+	local integer i = NewTask(time, fnDestroyLightning)
+    call SaveLightningHandle(YDHT, TimerHandle, i, lt)
+endfunction
+//运行触发器
+private function RunTrigger_CallBack takes nothing returns nothing
+    call TriggerExecute(LoadTriggerHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerRunTrigger takes real time, trigger trg returns nothing
+    call SaveTriggerHandle(YDHT, TimerHandle, NewTask(time, fnRunTrigger), trg)
+endfunction
+//删除漂浮文字
+function YDWETimerDestroyTextTag takes real time, texttag tt returns nothing
+    local integer N=0
+    local integer i=0
+    if time <= 0 then
+        set time = 0.01
+    endif
+    call SetTextTagPermanent(tt,false)
+    call SetTextTagLifespan(tt,time)
+    call SetTextTagFadepoint(tt,time)
+endfunction
+//中心计时器主函数
+private function Main takes nothing returns nothing
+	local integer h = TaskListHead
+	local integer p
+	loop
+		set CurrentIndex = TaskListNext[h]
+		exitwhen CurrentIndex < 0 or CurrentTime < TaskListTime[CurrentIndex]
+		//call BJDebugMsg("Task:"+I2S(CurrentIndex))
+		call TriggerEvaluate(TaskListProc[CurrentIndex])
+		call DeleteTaskIndex(CurrentIndex)
+		set TaskListNext[h] = TaskListNext[CurrentIndex]
+	endloop
+	set CurrentTime = CurrentTime + 1
+endfunction
+//初始化函数
+private function Init takes nothing returns nothing
+    set Timer = CreateTimer()
+	set TimerHandle	= GetHandleId( Timer)
+	set CurrentTime = 0
+	set TaskListHead = 0
+	set TaskListNext[0] = -1
+	set TaskListIdleHead = 1
+	set TaskListIdleMax = 1
+	set TaskListIdle[1] = -1
+	set fnRemoveUnit = CreateTrigger()
+	set fnDestroyTimer = CreateTrigger()
+	set fnRemoveItem = CreateTrigger()
+	set fnDestroyEffect = CreateTrigger()
+	set fnDestroyLightning = CreateTrigger()
+	set fnRunTrigger = CreateTrigger()
+	call TriggerAddCondition(fnRemoveUnit, Condition(function RemoveUnit_CallBack))
+	call TriggerAddCondition(fnDestroyTimer, Condition(function DestroyTimer_CallBack))
+	call TriggerAddCondition(fnRemoveItem, Condition(function RemoveItem_CallBack))
+	call TriggerAddCondition(fnDestroyEffect, Condition(function DestroyEffect_CallBack))
+	call TriggerAddCondition(fnDestroyLightning, Condition(function DestroyLightning_CallBack))
+	call TriggerAddCondition(fnRunTrigger, Condition(function RunTrigger_CallBack))
+    call TimerStart(Timer, 0.01, true, function Main)
+endfunction
+//循环类仍用独立计时器
+function YDWETimerSystemGetRunIndex takes nothing returns integer
+    return TimerSystem_RunIndex
+endfunction
+private function RunPeriodicTriggerFunction takes nothing returns nothing
+    local integer tid = GetHandleId( GetExpiredTimer())
+    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
+	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
+    if TriggerEvaluate(trg) then
+        call TriggerExecute(trg)
+    endif
+    set trg = null
+endfunction
+private function RunPeriodicTriggerFunctionByTimes takes nothing returns nothing
+    local integer tid = GetHandleId( GetExpiredTimer())
+    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
+    local integer times = LoadInteger(YDHT, tid, $D0003)
+	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
+    if TriggerEvaluate(trg) then
+        call TriggerExecute(trg)
+    endif
+    set times = times - 1
+    if times > 0 then
+		call SaveInteger(YDHT, tid, $D0003, times)
+      else
+        call DestroyTimer(GetExpiredTimer())
+        call FlushChildHashtable(YDHT, tid)
+    endif
+    set trg = null
+endfunction
+function YDWETimerRunPeriodicTrigger takes real timeout, trigger trg, boolean b, integer times, integer data returns nothing
+    local timer t
+    local integer tid
+    local integer index = 0
+    if timeout < 0 then
+        return
+      else
+        set t = CreateTimer()
+		set tid = GetHandleId( t)
+    endif
+    set TimerSystem_RunIndex = TimerSystem_RunIndex + 1
+	call SaveTriggerHandle(YDHT, tid, $D0001, trg)
+	call SaveInteger(YDHT, tid, $D0002, TimerSystem_RunIndex)
+	set index = LoadInteger(YDHT, GetHandleId( trg), 'YDTS'+data)
+    set index = index + 1
+	call SaveInteger(YDHT, GetHandleId( trg), 'YDTS'+data, index)
+	call SaveTimerHandle(YDHT, GetHandleId( trg), ('YDTS'+data)*index, t)
+    if b == false then
+		call SaveInteger(YDHT, tid, $D0003, times)
+        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunctionByTimes)
+      else
+        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunction)
+    endif
+    set t = null
+endfunction
+function YDWETimerRunPeriodicTriggerOver takes trigger trg, integer data returns nothing
+	local integer trgid = GetHandleId( trg)
+    local integer index = LoadInteger(YDHT, trgid, 'YDTS'+data)
+    local timer t
+    loop
+        exitwhen index <= 0
+        set t = LoadTimerHandle(YDHT, trgid, ('YDTS'+data)*index)
+        call DestroyTimer(t)
+        call FlushChildHashtable(YDHT, GetHandleId( t))
+		call RemoveSavedHandle(YDHT, trgid, ('YDTS'+data)*index)
+        set index = index - 1
+    endloop
+    call RemoveSavedInteger(YDHT, trgid, 'YDTS'+data)
+    set t = null
+endfunction
+endlibrary
+//! zinc
+/*
+区域采样工具
+*/
+library RegionUtils {
+    public struct triangleXY [] {
+        static real x = 0.0 , y = 0.0;
+        // 在给定三角形区域内随机生成一个点
+        // 参数说明:
+        // @param ax,ay - 三角形顶点A的坐标
+        // @param bx,by - 三角形顶点B的坐标
+        // @param cx,cy - 三角形顶点C的坐标
+        // 返回值:
+        // 通过静态变量x,y返回随机生成的点坐标
+        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
+            real rA = GetRandomReal(0,1.0);
+            real rB = GetRandomReal(0,1.0);
+            real abx = bx-ax, aby = by-ay;
+            real acx = cx-ax, acy = cy-ay;
+            if (rA + rB > 1.0) {
+                rA = 1.0 - rA;
+                rB = 1.0 - rB;
+            }
+            x = ax + rA * abx + rB * acx;
+            y = ay + rA * aby + rB * acy;
+        }
+    }
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
+    }
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomX ( rect r ) -> real {
+        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomY ( rect r ) -> real {
+        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
+    }
+}
+//! endzinc
+library YDWEUnitHasItemOfTypeBJNull
+function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
+    local integer index = 0
+	if itemId != 0 then
+		loop
+			if GetItemTypeId(UnitItemInSlot(whichUnit, index)) == itemId then
+				return true
+			endif
+			set index = index + 1
+			exitwhen index >= bj_MAX_INVENTORY
+		endloop
+	endif
+    return false
+endfunction
+endlibrary
+library YDWEGetUnitsOfPlayerMatchingNull
+globals
+    group yd_NullTempGroup
+endglobals
+function YDWEGetUnitsOfPlayerMatchingNull takes player whichPlayer, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsOfPlayer(g, whichPlayer, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+library YDWEGetUnitsOfPlayerAllNull requires YDWEGetUnitsOfPlayerMatchingNull
+function YDWEGetUnitsOfPlayerAllNull takes player whichPlayer returns group
+    return YDWEGetUnitsOfPlayerMatchingNull(whichPlayer, null)
+endfunction
+endlibrary
+library BzAPI
+    //hardware
+    native DzGetMouseTerrainX takes nothing returns real
+    native DzGetMouseTerrainY takes nothing returns real
+    native DzGetMouseTerrainZ takes nothing returns real
+    native DzIsMouseOverUI takes nothing returns boolean
+    native DzGetMouseX takes nothing returns integer
+    native DzGetMouseY takes nothing returns integer
+    native DzGetMouseXRelative takes nothing returns integer
+    native DzGetMouseYRelative takes nothing returns integer
+    native DzSetMousePos takes integer x, integer y returns nothing
+    native DzTriggerRegisterMouseEvent takes trigger trig, integer btn, integer status, boolean sync, string func returns nothing
+    native DzTriggerRegisterMouseEventByCode takes trigger trig, integer btn, integer status, boolean sync, code funcHandle returns nothing
+    native DzTriggerRegisterKeyEvent takes trigger trig, integer key, integer status, boolean sync, string func returns nothing
+    native DzTriggerRegisterKeyEventByCode takes trigger trig, integer key, integer status, boolean sync, code funcHandle returns nothing
+    native DzTriggerRegisterMouseWheelEvent takes trigger trig, boolean sync, string func returns nothing
+    native DzTriggerRegisterMouseWheelEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
+    native DzTriggerRegisterMouseMoveEvent takes trigger trig, boolean sync, string func returns nothing
+    native DzTriggerRegisterMouseMoveEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
+    native DzGetTriggerKey takes nothing returns integer
+    native DzGetWheelDelta takes nothing returns integer
+    native DzIsKeyDown takes integer iKey returns boolean
+    native DzGetTriggerKeyPlayer takes nothing returns player
+    native DzGetWindowWidth takes nothing returns integer
+    native DzGetWindowHeight takes nothing returns integer
+    native DzGetWindowX takes nothing returns integer
+    native DzGetWindowY takes nothing returns integer
+    native DzTriggerRegisterWindowResizeEvent takes trigger trig, boolean sync, string func returns nothing
+    native DzTriggerRegisterWindowResizeEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
+    native DzIsWindowActive takes nothing returns boolean
+    //plus
+    native DzDestructablePosition takes destructable d, real x, real y returns nothing
+    native DzSetUnitPosition takes unit whichUnit, real x, real y returns nothing
+    native DzExecuteFunc takes string funcName returns nothing
+    native DzGetUnitUnderMouse takes nothing returns unit
+    native DzSetUnitTexture takes unit whichUnit, string path, integer texId returns nothing
+    native DzSetMemory takes integer address, real value returns nothing
+    native DzSetUnitID takes unit whichUnit, integer id returns nothing
+    native DzSetUnitModel takes unit whichUnit, string path returns nothing
+    native DzSetWar3MapMap takes string map returns nothing
+    native DzGetLocale takes nothing returns string
+    native DzGetUnitNeededXP takes unit whichUnit, integer level returns integer
+    //sync
+    native DzTriggerRegisterSyncData takes trigger trig, string prefix, boolean server returns nothing
+    native DzSyncData takes string prefix, string data returns nothing
+    native DzGetTriggerSyncPrefix takes nothing returns string
+    native DzGetTriggerSyncData takes nothing returns string
+    native DzGetTriggerSyncPlayer takes nothing returns player
+    native DzSyncBuffer takes string prefix, string data, integer dataLen returns nothing
+    //native DzGetPushContext takes nothing returns string
+    native DzSyncDataImmediately takes string prefix, string data returns nothing 
+    //gui
+    native DzFrameHideInterface takes nothing returns nothing
+    native DzFrameEditBlackBorders takes real upperHeight, real bottomHeight returns nothing
+    native DzFrameGetPortrait takes nothing returns integer
+    native DzFrameGetMinimap takes nothing returns integer
+    native DzFrameGetCommandBarButton takes integer row, integer column returns integer
+    native DzFrameGetHeroBarButton takes integer buttonId returns integer
+    native DzFrameGetHeroHPBar takes integer buttonId returns integer
+    native DzFrameGetHeroManaBar takes integer buttonId returns integer
+    native DzFrameGetItemBarButton takes integer buttonId returns integer
+    native DzFrameGetMinimapButton takes integer buttonId returns integer
+    native DzFrameGetUpperButtonBarButton takes integer buttonId returns integer
+    native DzFrameGetTooltip takes nothing returns integer
+    native DzFrameGetChatMessage takes nothing returns integer
+    native DzFrameGetUnitMessage takes nothing returns integer
+    native DzFrameGetTopMessage takes nothing returns integer
+    native DzGetColor takes integer r, integer g, integer b, integer a returns integer
+    native DzFrameSetUpdateCallback takes string func returns nothing
+    native DzFrameSetUpdateCallbackByCode takes code funcHandle returns nothing
+    native DzFrameShow takes integer frame, boolean enable returns nothing
+    native DzCreateFrame takes string frame, integer parent, integer id returns integer
+    native DzCreateSimpleFrame takes string frame, integer parent, integer id returns integer
+    native DzDestroyFrame takes integer frame returns nothing
+    native DzLoadToc takes string fileName returns nothing
+    native DzFrameSetPoint takes integer frame, integer point, integer relativeFrame, integer relativePoint, real x, real y returns nothing
+    native DzFrameSetAbsolutePoint takes integer frame, integer point, real x, real y returns nothing
+    native DzFrameClearAllPoints takes integer frame returns nothing
+    native DzFrameSetEnable takes integer name, boolean enable returns nothing
+    native DzFrameSetScript takes integer frame, integer eventId, string func, boolean sync returns nothing
+    native DzFrameSetScriptByCode takes integer frame, integer eventId, code funcHandle, boolean sync returns nothing
+    native DzGetTriggerUIEventPlayer takes nothing returns player
+    native DzGetTriggerUIEventFrame takes nothing returns integer
+    native DzFrameFindByName takes string name, integer id returns integer
+    native DzSimpleFrameFindByName takes string name, integer id returns integer
+    native DzSimpleFontStringFindByName takes string name, integer id returns integer
+    native DzSimpleTextureFindByName takes string name, integer id returns integer
+    native DzGetGameUI takes nothing returns integer
+    native DzClickFrame takes integer frame returns nothing
+    native DzSetCustomFovFix takes real value returns nothing
+    native DzEnableWideScreen takes boolean enable returns nothing
+    native DzFrameSetText takes integer frame, string text returns nothing
+    native DzFrameGetText takes integer frame returns string
+    native DzFrameSetTextSizeLimit takes integer frame, integer size returns nothing
+    native DzFrameGetTextSizeLimit takes integer frame returns integer
+    native DzFrameSetTextColor takes integer frame, integer color returns nothing
+    native DzGetMouseFocus takes nothing returns integer
+    native DzFrameSetAllPoints takes integer frame, integer relativeFrame returns boolean
+    native DzFrameSetFocus takes integer frame, boolean enable returns boolean
+    native DzFrameSetModel takes integer frame, string modelFile, integer modelType, integer flag returns nothing
+    native DzFrameGetEnable takes integer frame returns boolean
+    native DzFrameSetAlpha takes integer frame, integer alpha returns nothing
+    native DzFrameGetAlpha takes integer frame returns integer
+    native DzFrameSetAnimate takes integer frame, integer animId, boolean autocast returns nothing
+    native DzFrameSetAnimateOffset takes integer frame, real offset returns nothing
+    native DzFrameSetTexture takes integer frame, string texture, integer flag returns nothing
+    native DzFrameSetScale takes integer frame, real scale returns nothing
+    native DzFrameSetTooltip takes integer frame, integer tooltip returns nothing
+    native DzFrameCageMouse takes integer frame, boolean enable returns nothing
+    native DzFrameGetValue takes integer frame returns real
+    native DzFrameSetMinMaxValue takes integer frame, real minValue, real maxValue returns nothing
+    native DzFrameSetStepValue takes integer frame, real step returns nothing
+    native DzFrameSetValue takes integer frame, real value returns nothing
+    native DzFrameSetSize takes integer frame, real w, real h returns nothing
+    native DzCreateFrameByTagName takes string frameType, string name, integer parent, string template, integer id returns integer
+    native DzFrameSetVertexColor takes integer frame, integer color returns nothing
+    native DzOriginalUIAutoResetPoint takes boolean enable returns nothing
+    native DzFrameSetPriority takes integer frame, integer priority returns nothing
+    native DzFrameSetParent takes integer frame, integer parent returns nothing
+    native DzFrameGetHeight takes integer frame returns real
+    native DzFrameSetFont takes integer frame, string fileName, real height, integer flag returns nothing
+    native DzFrameGetParent takes integer frame returns integer
+    native DzFrameSetTextAlignment takes integer frame, integer align returns nothing
+    native DzFrameGetName takes integer frame returns string
+    native DzGetClientWidth takes nothing returns integer
+    native DzGetClientHeight takes nothing returns integer
+    native DzFrameIsVisible takes integer frame returns boolean
+        //显示/隐藏SimpleFrame
+    //native DzSimpleFrameShow takes integer frame, boolean enable returns nothing
+    // 追加文字（支持TextArea）
+    native DzFrameAddText takes integer frame, string text returns nothing
+    // 沉默单位-禁用技能
+    native DzUnitSilence takes unit whichUnit, boolean disable returns nothing
+    // 禁用攻击
+    native DzUnitDisableAttack takes unit whichUnit, boolean disable returns nothing
+    // 禁用道具
+    native DzUnitDisableInventory takes unit whichUnit, boolean disable returns nothing
+    // 刷新小地图
+    native DzUpdateMinimap takes nothing returns nothing
+    // 修改单位alpha
+    native DzUnitChangeAlpha takes unit whichUnit, integer alpha, boolean forceUpdate returns nothing
+    // 设置单位是否可以选中
+    native DzUnitSetCanSelect takes unit whichUnit, boolean state returns nothing
+    // 修改单位是否可以被设置为目标
+    native DzUnitSetTargetable takes unit whichUnit, boolean state returns nothing
+    // 保存内存数据
+    native DzSaveMemoryCache takes string cache returns nothing
+    // 读取内存数据
+    native DzGetMemoryCache takes nothing returns string
+    // 设置加速倍率
+    native DzSetSpeed takes real ratio returns nothing
+    // 转换世界坐标为屏幕坐标-异步
+    native DzConvertWorldPosition takes real x, real y, real z, code callback returns boolean
+    // 转换世界坐标为屏幕坐标-获取转换后的X坐标
+    native DzGetConvertWorldPositionX takes nothing returns real
+    // 转换世界坐标为屏幕坐标-获取转换后的Y坐标
+    native DzGetConvertWorldPositionY takes nothing returns real
+    // 创建command button
+    native DzCreateCommandButton takes integer parent, string icon, string name, string desc returns integer
+    function DzTriggerRegisterMouseEventTrg takes trigger trg, integer status, integer btn returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterMouseEvent(trg, btn, status, true, null)
+    endfunction
+    function DzTriggerRegisterKeyEventTrg takes trigger trg, integer status, integer btn returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterKeyEvent(trg, btn, status, true, null)
+    endfunction
+    function DzTriggerRegisterMouseMoveEventTrg takes trigger trg returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterMouseMoveEvent(trg, true, null)
+    endfunction
+    function DzTriggerRegisterMouseWheelEventTrg takes trigger trg returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterMouseWheelEvent(trg, true, null)
+    endfunction
+    function DzTriggerRegisterWindowResizeEventTrg takes trigger trg returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterWindowResizeEvent(trg, true, null)
+    endfunction
+    function DzF2I takes integer i returns integer
+        return i
+    endfunction
+    function DzI2F takes integer i returns integer
+        return i
+    endfunction
+    function DzK2I takes integer i returns integer
+        return i
+    endfunction
+    function DzI2K takes integer i returns integer
+        return i
+    endfunction
+    function DzTriggerRegisterMallItemSyncData takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZMIA", true)
+    endfunction
+    //玩家消耗/使用商城道具事件
+    function DzTriggerRegisterMallItemConsumeEvent takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZMIC", true)
+    endfunction
+    //玩家删除商城道具事件
+    function DzTriggerRegisterMallItemRemoveEvent takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZMID", true)
+    endfunction
+    function DzGetTriggerMallItemPlayer takes nothing returns player
+        return DzGetTriggerSyncPlayer()
+    endfunction
+    function DzGetTriggerMallItem takes nothing returns string
+        return DzGetTriggerSyncData()
+    endfunction
+    
+endlibrary
+library DzAPI
+    native DzAPI_Map_HasMallItem takes player whichPlayer, string key returns boolean
+    native DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
+    // native DzAPI_Map_GetGuildName takes player whichPlayer returns string
+    native RequestExtraIntegerData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns integer
+    native RequestExtraBooleanData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns boolean
+    native RequestExtraStringData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns string
+    native RequestExtraRealData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns real
+    
+    // SaveServerValue,               //保存服务器存档
+    function DzAPI_Map_SaveServerValue takes player whichPlayer, string key, string value returns boolean
+        return RequestExtraBooleanData(4, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    // GetServerValue,                //读取服务器存档
+    function DzAPI_Map_GetServerValue takes player whichPlayer, string key returns string
+        return RequestExtraStringData(5, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetGameStartTime,              //取游戏开始时间
+    function DzAPI_Map_GetGameStartTime takes nothing returns integer
+        return RequestExtraIntegerData(11, null, null, null, false, 0, 0, 0)
+    endfunction
+    // IsRPGLadder,                   //判断当前是否rpg天梯
+    function DzAPI_Map_IsRPGLadder takes nothing returns boolean
+        return RequestExtraBooleanData(12, null, null, null, false, 0, 0, 0)
+    endfunction
+    // GetMatchType,                  //获取匹配类型
+    function DzAPI_Map_GetMatchType takes nothing returns integer
+        return RequestExtraIntegerData(13, null, null, null, false, 0, 0, 0)
+    endfunction
+        // SetStat,                       //统计-提交地图数据
+    function DzAPI_Map_Stat_SetStat takes player whichPlayer, string key, string value returns nothing
+        call RequestExtraIntegerData(7, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    // SetLadderStat,                 //天梯-统计数据
+    function DzAPI_Map_Ladder_SetStat takes player whichPlayer, string key, string value returns nothing
+        call RequestExtraIntegerData(8, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    // SetLadderPlayerStat,           //天梯-统计数据
+    function DzAPI_Map_Ladder_SetPlayerStat takes player whichPlayer, string key, string value returns nothing
+        call RequestExtraIntegerData(9, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+        // GetServerValueErrorCode,       //读取加载服务器存档时的错误码
+    function DzAPI_Map_GetServerValueErrorCode takes player whichPlayer returns integer
+        return RequestExtraIntegerData(6, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // GetLadderLevel,                //提供给地图的接口，用与取天梯等级
+    function DzAPI_Map_GetLadderLevel takes player whichPlayer returns integer
+        return RequestExtraIntegerData(14, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // PlayerIdentityType, // 获取玩家身份类型
+    function KKApiPlayerIdentityType takes player whichPlayer, integer id returns boolean
+        return RequestExtraBooleanData(92, whichPlayer, null, null, false, id, 0, 0)
+    endfunction
+    // IsRedVIP,                      //提供给地图的接口，用与判断是否红V
+    function DzAPI_Map_IsRedVIP takes player whichPlayer returns boolean
+        return KKApiPlayerIdentityType(whichPlayer, 4)
+    endfunction
+    // IsBlueVIP,                     //提供给地图的接口，用与判断是否蓝V
+    function DzAPI_Map_IsBlueVIP takes player whichPlayer returns boolean
+        return KKApiPlayerIdentityType(whichPlayer, 3)
+    endfunction
+    // GetLadderRank,                 //提供给地图的接口，用与取天梯排名
+    function DzAPI_Map_GetLadderRank takes player whichPlayer returns integer
+        return RequestExtraIntegerData(17, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // GetMapLevelRank,               //提供给地图的接口，用与取地图等级排名
+    function DzAPI_Map_GetMapLevelRank takes player whichPlayer returns integer
+        return RequestExtraIntegerData(18, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // GetGuildRole,                  //获取公会职责 Member=10 Admin=20 Leader=30
+    function DzAPI_Map_GetGuildRole takes player whichPlayer returns integer
+        return RequestExtraIntegerData(20, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // IsRPGLobby,                    //检查是否大厅地图
+    function DzAPI_Map_IsRPGLobby takes nothing returns boolean
+        return RequestExtraBooleanData(10, null, null, null, false, 0, 0, 0)
+    endfunction
+    
+    // MissionComplete,               //用作完成某个任务，发奖励
+    function DzAPI_Map_MissionComplete takes player whichPlayer, string key, string value returns nothing
+        call RequestExtraIntegerData(1, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    // GetActivityData,               //提供给地图的接口，用作取服务器上的活动数据
+    function DzAPI_Map_GetActivityData takes nothing returns string
+        return RequestExtraStringData(2, null, null, null, false, 0, 0, 0)
+    endfunction
+    // GetMapConfig,                  //获取地图配置
+    function DzAPI_Map_GetMapConfig takes string key returns string
+        return RequestExtraStringData(21, null, key, null, false, 0, 0, 0)
+    endfunction
+    // SavePublicArchive,             //保存服务器存档组
+    function DzAPI_Map_SavePublicArchive takes player whichPlayer, string key, string value returns boolean
+        return RequestExtraBooleanData(31, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    // GetPublicArchive,              //读取服务器存档组
+    function DzAPI_Map_GetPublicArchive takes player whichPlayer, string key returns string
+        return RequestExtraStringData(32, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_UseConsumablesItem takes player whichPlayer, string key returns nothing
+        call RequestExtraIntegerData(33, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // OrpgTrigger,                   //触发boss击杀
+    function DzAPI_Map_OrpgTrigger takes player whichPlayer, string key returns nothing
+        call RequestExtraIntegerData(28, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetServerArchiveDrop,          //读取服务器掉落数据
+    function DzAPI_Map_GetServerArchiveDrop takes player whichPlayer, string key returns string
+        return RequestExtraStringData(27, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetServerArchiveEquip,         //读取服务器装备数据
+    function DzAPI_Map_GetServerArchiveEquip takes player whichPlayer, string key returns integer
+        return RequestExtraIntegerData(26, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_GetPlatformVIP takes player whichPlayer returns integer
+        return RequestExtraIntegerData(30, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_IsPlatformVIP takes player whichPlayer returns boolean
+        return DzAPI_Map_GetPlatformVIP(whichPlayer) > 0
+    endfunction
+    function DzAPI_Map_Global_GetStoreString takes string key returns string
+        return RequestExtraStringData(36, GetLocalPlayer(), key, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_Global_StoreString takes string key, string value returns nothing
+        call RequestExtraBooleanData(37, GetLocalPlayer(), key, value, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_Global_ChangeMsg takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZGAU", true)
+    endfunction
+    function DzAPI_Map_ServerArchive takes player whichPlayer, string key returns string
+        return RequestExtraStringData(38, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_SaveServerArchive takes player whichPlayer, string key, string value returns nothing
+        call RequestExtraBooleanData(39, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_IsRPGQuickMatch takes nothing returns boolean
+        return RequestExtraBooleanData(40, null, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_GetMallItemCount takes player whichPlayer, string key returns integer
+        return RequestExtraIntegerData(41, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_ConsumeMallItem takes player whichPlayer, string key, integer count returns boolean
+        return RequestExtraBooleanData(42, whichPlayer, key, null, false, count, 0, 0)
+    endfunction
+    function DzAPI_Map_EnablePlatformSettings takes player whichPlayer, integer option, boolean enable returns boolean
+        return RequestExtraBooleanData(43, whichPlayer, null, null, enable, option, 0, 0)
+    endfunction
+    function GetPlayerServerValueSuccess takes player whichPlayer returns boolean
+        if(DzAPI_Map_GetServerValueErrorCode(whichPlayer)==0)then
+            return true
+        else
+            return false
+        endif
+    endfunction
+    function DzAPI_Map_StoreIntegerEX takes player whichPlayer, string key, integer value returns nothing
+        set key="I"+key
+        call RequestExtraBooleanData(39, whichPlayer, key, I2S(value), false, 0, 0, 0)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredIntegerEX takes player whichPlayer, string key returns integer
+        local integer value
+        set key="I"+key
+        set value=S2I(RequestExtraStringData(38, whichPlayer, key, null, false, 0, 0, 0))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreInteger takes player whichPlayer, string key, integer value returns nothing
+        set key="I"+key
+        call DzAPI_Map_SaveServerValue(whichPlayer,key,I2S(value))
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredInteger takes player whichPlayer, string key returns integer
+        local integer value
+        set key="I"+key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer,key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+        function DzAPI_Map_CommentTotalCount1 takes player whichPlayer, integer id returns integer
+            return RequestExtraIntegerData(52, whichPlayer, null, null, false, id, 0, 0)
+    endfunction
+    function DzAPI_Map_StoreReal takes player whichPlayer, string key, real value returns nothing
+        set key="R"+key
+        call DzAPI_Map_SaveServerValue(whichPlayer,key,R2S(value))
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredReal takes player whichPlayer, string key returns real
+        local real value
+        set key="R"+key
+        set value=S2R(DzAPI_Map_GetServerValue(whichPlayer,key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreBoolean takes player whichPlayer, string key, boolean value returns nothing
+        set key="B"+key
+        if(value)then
+            call DzAPI_Map_SaveServerValue(whichPlayer,key,"1")
+        else
+            call DzAPI_Map_SaveServerValue(whichPlayer,key,"0")
+        endif
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredBoolean takes player whichPlayer, string key returns boolean
+        local boolean value
+        set key="B"+key
+        set key=DzAPI_Map_GetServerValue(whichPlayer,key)
+        if(key=="1")then
+            set value=true
+        else
+            set value=false
+        endif
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_StoreString takes player whichPlayer, string key, string value returns nothing
+        set key="S"+key
+        call DzAPI_Map_SaveServerValue(whichPlayer,key,value)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredString takes player whichPlayer, string key returns string
+        return DzAPI_Map_GetServerValue(whichPlayer,"S"+key)
+    endfunction
+    function DzAPI_Map_StoreStringEX takes player whichPlayer, string key, string value returns nothing
+        set key="S"+key
+        call RequestExtraBooleanData(39, whichPlayer,key,value,false,0,0,0)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GetStoredStringEX takes player whichPlayer, string key returns string
+        return RequestExtraStringData(38, whichPlayer,"S"+key,null,false,0,0,0)
+    endfunction
+    function DzAPI_Map_GetStoredUnitType takes player whichPlayer, string key returns integer
+        local integer value
+        set key="I"+key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer,key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_GetStoredAbilityId takes player whichPlayer, string key returns integer
+        local integer value
+        set key="I"+key
+        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer,key))
+        set key=null
+        set whichPlayer=null
+        return value
+    endfunction
+    function DzAPI_Map_FlushStoredMission takes player whichPlayer, string key returns nothing
+        call DzAPI_Map_SaveServerValue(whichPlayer,key,null)
+        set key=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_Ladder_SubmitIntegerData takes player whichPlayer, string key, integer value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer,key,I2S(value))
+    endfunction
+    function DzAPI_Map_Stat_SubmitUnitIdData takes player whichPlayer, string key,integer value returns nothing
+        if(value==0)then
+            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,I2S(value))
+        endif
+    endfunction
+    function DzAPI_Map_Stat_SubmitUnitData takes player whichPlayer, string key,unit value returns nothing
+        call DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer,key,GetUnitTypeId(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitAblityIdData takes player whichPlayer, string key, integer value returns nothing
+        if(value==0)then
+            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,I2S(value))
+        endif
+    endfunction
+    function DzAPI_Map_Ladder_SubmitItemIdData takes player whichPlayer, string key, integer value returns nothing
+        local string S
+        if(value==0)then
+            set S="0"
+        else
+            set S=I2S(value)
+            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
+        endif
+        //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
+        set S=null
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_Ladder_SubmitItemData takes player whichPlayer, string key, item value returns nothing
+        call DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer,key,GetItemTypeId(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitBooleanData takes player whichPlayer, string key,boolean value returns nothing
+        if(value)then
+            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"1")
+        else
+            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
+        endif
+    endfunction
+    function DzAPI_Map_Ladder_SubmitTitle takes player whichPlayer, string value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer,value,"1")
+    endfunction
+    function DzAPI_Map_Ladder_SubmitPlayerRank takes player whichPlayer, integer value returns nothing
+        call DzAPI_Map_Ladder_SetPlayerStat(whichPlayer,"RankIndex",I2S(value))
+    endfunction
+    function DzAPI_Map_Ladder_SubmitPlayerExtraExp takes player whichPlayer, integer value returns nothing
+        call DzAPI_Map_Ladder_SetStat(whichPlayer,"ExtraExp",I2S(value))
+    endfunction
+    function DzAPI_Map_PlayedGames takes player whichPlayer returns integer
+        return RequestExtraIntegerData(45, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_CommentCount takes player whichPlayer returns integer
+        return RequestExtraIntegerData(46, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_FriendCount takes player whichPlayer returns integer
+        return RequestExtraIntegerData(47, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_IsConnoisseur takes player whichPlayer returns boolean
+        return RequestExtraBooleanData(48, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_IsAuthor takes player whichPlayer returns boolean
+        return RequestExtraBooleanData(50, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_CommentTotalCount takes nothing returns integer
+        return RequestExtraIntegerData(51, null, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_Statistics takes player whichPlayer, string eventKey, string eventType, integer value returns nothing
+        call RequestExtraBooleanData(34, whichPlayer, eventKey, eventType, false, value, 0, 0)
+    endfunction
+    function DzAPI_Map_Returns takes player whichPlayer, integer label returns boolean
+        return RequestExtraBooleanData(53, whichPlayer, null, null, false, label, 0, 0)
+    endfunction
+    function DzAPI_Map_ContinuousCount takes player whichPlayer, integer id returns integer
+        return RequestExtraIntegerData(54, whichPlayer, null, null, false, id, 0, 0)
+    endfunction
+    // IsPlayer,                      //是否为玩家
+    function DzAPI_Map_IsPlayer takes player whichPlayer returns boolean
+        return RequestExtraBooleanData(55, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // MapsTotalPlayed,               //所有地图的总游戏时长
+    function DzAPI_Map_MapsTotalPlayed takes player whichPlayer returns integer
+        return RequestExtraIntegerData(56, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // MapsLevel,                    //指定地图的地图等级
+    function DzAPI_Map_MapsLevel takes player whichPlayer, integer mapId returns integer
+        return RequestExtraIntegerData(57, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // MapsConsumeGold,              //所有地图的金币消耗
+    function DzAPI_Map_MapsConsumeGold takes player whichPlayer, integer mapId returns integer
+        return RequestExtraIntegerData(58, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // MapsConsumeLumber,            //所有地图的木材消耗
+    function DzAPI_Map_MapsConsumeLumber takes player whichPlayer, integer mapId returns integer
+        return RequestExtraIntegerData(59, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // MapsConsumeLv1,               //消费 1-199
+    function DzAPI_Map_MapsConsumeLv1 takes player whichPlayer, integer mapId returns boolean
+        return RequestExtraBooleanData(60, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // MapsConsumeLv2,               //消费 200-499
+    function DzAPI_Map_MapsConsumeLv2 takes player whichPlayer, integer mapId returns boolean
+        return RequestExtraBooleanData(61, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // MapsConsumeLv3,               //消费 500~999
+    function DzAPI_Map_MapsConsumeLv3 takes player whichPlayer, integer mapId returns boolean
+        return RequestExtraBooleanData(62, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // MapsConsumeLv4,               //消费 1000+
+    function DzAPI_Map_MapsConsumeLv4 takes player whichPlayer, integer mapId returns boolean
+        return RequestExtraBooleanData(63, whichPlayer, null, null, false, mapId, 0, 0)
+    endfunction
+    // IsPlayerUsingSkin,            //检查是否装备着皮肤（skinType：头像=1、边框=2、称号=3、底纹=4）
+    function DzAPI_Map_IsPlayerUsingSkin takes player whichPlayer, integer skinType, integer id returns boolean
+        return RequestExtraBooleanData(64,whichPlayer, null, null, false, skinType, id, 0)
+    endfunction
+    //获取论坛数据（0=累计获得赞数，1=精华帖数量，2=发表回复次数，3=收到的欢乐数，4=是否发过贴子，5=是否版主，6=主题数量）
+    function DzAPI_Map_GetForumData takes player whichPlayer, integer whichData returns integer
+        return RequestExtraIntegerData(65, whichPlayer, null, null, false, whichData, 0, 0)
+    endfunction
+    // PlayerFlags,                   //玩家标记 label（1=曾经是平台回流用户，2=当前是平台回流用户，4=曾经是地图回流用户，8=当前是地图回流用户，16=地图是否被玩家收藏）
+    function DzAPI_Map_PlayerFlags takes player whichPlayer, integer label returns boolean
+        return RequestExtraBooleanData(53, whichPlayer, null, null, false, label, 0, 0)
+    endfunction
+    // GetLotteryUsedCount, // 获取宝箱抽取次数
+    function DzAPI_Map_GetLotteryUsedCountEx takes player whichPlayer,integer index returns integer
+        return RequestExtraIntegerData(68, whichPlayer, null, null, false, index, 0, 0)
+    endfunction
+    function DzAPI_Map_GetLotteryUsedCount takes player whichPlayer returns integer
+        return DzAPI_Map_GetLotteryUsedCountEx(whichPlayer,0)+DzAPI_Map_GetLotteryUsedCountEx(whichPlayer,1)+DzAPI_Map_GetLotteryUsedCountEx(whichPlayer,2)
+    endfunction
+    function DzAPI_Map_OpenMall takes player whichPlayer,string whichkey returns boolean
+        return RequestExtraBooleanData(66, whichPlayer, whichkey, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_GameResult_CommitData takes player whichPlayer, string key, string value returns nothing
+        call RequestExtraIntegerData(69, whichPlayer, key, value, false, 0, 0, 0)
+    endfunction
+    //游戏结算
+    function DzAPI_Map_GameResult_CommitTitle takes player whichPlayer, string value returns nothing
+        call DzAPI_Map_GameResult_CommitData(whichPlayer,value,"1")
+        set whichPlayer=null
+        set value=null
+    endfunction
+    function DzAPI_Map_GameResult_CommitPlayerRank takes player whichPlayer, integer value returns nothing
+        call DzAPI_Map_GameResult_CommitData(whichPlayer,"RankIndex",I2S(value))
+        set whichPlayer=null
+        set value=0
+    endfunction
+    function DzAPI_Map_GameResult_CommitGameMode takes string value returns nothing
+        call DzAPI_Map_GameResult_CommitData(GetLocalPlayer(),"InnerGameMode",value)
+        set value=null
+    endfunction
+    function DzAPI_Map_GameResult_CommitGameResult takes player whichPlayer, integer value returns nothing
+        call DzAPI_Map_GameResult_CommitData(whichPlayer,"GameResult",I2S(value))
+        set whichPlayer=null
+    endfunction
+    function DzAPI_Map_GameResult_CommitGameResultNoEnd takes player whichPlayer, integer value returns nothing
+        call DzAPI_Map_GameResult_CommitData(whichPlayer,"GameResultNoEnd",I2S(value))
+        set whichPlayer=null
+    endfunction
+    // GetSinceLastPlayedSeconds, // 获取距最后一次游戏的秒数
+    function DzAPI_Map_GetSinceLastPlayedSeconds takes player whichPlayer returns integer
+        return RequestExtraIntegerData(70, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // QuickBuy, //游戏内快速购买
+    function DzAPI_Map_QuickBuy takes player whichPlayer, string key, integer count, integer seconds returns boolean
+        return RequestExtraBooleanData(72, whichPlayer, key, null, false, count, seconds, 0)
+    endfunction
+    // CancelQuickBuy, //取消快速购买
+    function DzAPI_Map_CancelQuickBuy takes player whichPlayer returns boolean
+        return RequestExtraBooleanData(73, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    //判断是加载成功某个玩家的道具
+    function DzAPI_Map_PlayerLoadedItems takes player whichPlayer returns boolean
+        return RequestExtraBooleanData(77, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function DzAPI_Map_CustomRankCount takes integer id returns integer
+        return RequestExtraIntegerData(78, null, null, null, false, id, 0, 0)
+    endfunction
+    // CustomRankPlayerName            // 获取排行榜上指定排名的用户名称
+    function DzAPI_Map_CustomRankPlayerName takes integer id, integer ranking returns string
+        return RequestExtraStringData(79, null, null, null, false, id, ranking, 0)
+    endfunction
+    // CustomRankPlayerValue           // 获取排行榜上指定排名的值
+    function DzAPI_Map_CustomRankValue takes integer id, integer ranking returns integer
+        return RequestExtraIntegerData(80, null, null, null, false, id, ranking, 0)
+    endfunction
+    //获取玩家在KK平台的完整昵称（基础昵称#编号）
+    function DzAPI_Map_GetPlayerUserName takes player whichPlayer returns string 
+        return RequestExtraStringData(81, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    // GetServerValueLimitLeft,   // 获取服务器存档限制余额
+    function KKApiGetServerValueLimitLeft takes player whichPlayer, string key returns integer
+        return RequestExtraIntegerData(82, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // RequestBackendLogic,       //请求后端逻辑生成 
+    function KKApiRequestBackendLogic takes player whichPlayer, string key, string groupkey returns boolean
+        return RequestExtraBooleanData(83, whichPlayer, key, groupkey, false, 0, 0, 0)
+    endfunction
+    // CheckBackendLogicExists,   // 获取后端逻辑生成结果 是否存在
+    function KKApiCheckBackendLogicExists takes player whichPlayer, string key returns boolean
+        return RequestExtraBooleanData(84, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetBackendLogicIntResult,  // 获取后端逻辑生成结果 整型
+    function KKApiGetBackendLogicIntResult takes player whichPlayer, string key returns integer
+        return RequestExtraIntegerData(85, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetBackendLogicStrResult,  // 获取后端逻辑生成结果 字符串
+    function KKApiGetBackendLogicStrResult takes player whichPlayer, string key returns string
+        return RequestExtraStringData(86, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetBackendLogicUpdateTime, // 获取后端逻辑生成时间
+    function KKApiGetBackendLogicUpdateTime takes player whichPlayer, string key returns integer
+        return RequestExtraIntegerData(87, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // GetBackendLogicGroup,      // 获取后端逻辑生成组
+    function KKApiGetBackendLogicGroup takes player whichPlayer, string key returns string
+        return RequestExtraStringData(88, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // RemoveBackendLogicResult,  // 删除后端逻辑生成结果
+    function KKApiRemoveBackendLogicResult takes player whichPlayer, string key returns boolean
+        return RequestExtraBooleanData(89, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+    // 获取随机存档剩余次数
+    function KKApiRandomSaveGameCount takes player whichPlayer, string groupkey returns integer
+        return RequestExtraIntegerData(101, whichPlayer, groupkey, null, false, 0, 0, 0)
+    endfunction
+    function KKApiTriggerRegisterBackendLogicUpdata takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZBLU", true)
+    endfunction
+    function KKApiTriggerRegisterBackendLogicDelete takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZBLD", true)
+    endfunction
+    function KKApiGetSyncBackendLogic takes nothing returns string
+        return DzGetTriggerSyncData()
+    endfunction
+    function KKApiIsGameMode takes nothing returns boolean
+        return RequestExtraBooleanData(90, null, null, null, false, 0, 0, 0)
+    endfunction
+    function KKApiInitializeGameKey takes player whichPlayer,integer setIndex, string k,string data returns boolean
+        return RequestExtraBooleanData(91, whichPlayer, "[{\"name\":\""+data+"\",\"key\":\""+k+"\"}]", null, false, setIndex, 0, 0)
+    endfunction
+    function KKApiPlayerGUID takes player whichPlayer returns string
+        return RequestExtraStringData(93, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    function KKApiIsTaskInProgress takes player whichPlayer,integer setIndex,integer taskstat returns boolean
+        return RequestExtraIntegerData(94, whichPlayer, null, null, false, setIndex, 0, 0)==taskstat
+    endfunction
+    function KKApiQueryTaskCurrentProgress takes player whichPlayer, integer setIndex returns integer
+        return RequestExtraIntegerData(95, whichPlayer, null, null, false, setIndex, 0, 0)
+    endfunction
+    function KKApiQueryTaskTotalProgress takes player whichPlayer, integer setIndex returns integer
+        return RequestExtraIntegerData(96, whichPlayer, null, null, false, setIndex, 0, 0)
+    endfunction
+    // IsAchievementCompleted,  // 获取玩家成就是否完成
+    function KKApiIsAchievementCompleted takes player whichPlayer, string id returns boolean
+        return RequestExtraBooleanData(98, whichPlayer, id, null, false, 0, 0, 0)
+    endfunction
+    // AchievementPoints,  // 获取玩家地图成就点数
+    function KKApiAchievementPoints takes player whichPlayer returns integer
+        return RequestExtraIntegerData(99, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    
+    // 判断游戏时长是否满足条件 minHours: 最小小时数，maxHours: 最大小时数，0表示不限制
+    function KKApiPlayedTime takes player whichPlayer, integer minHours, integer maxHours returns boolean
+        return RequestExtraBooleanData(100, whichPlayer, null, null, false, minHours, maxHours, 0)
+    endfunction
+    // BeginBatchSaveArchive,  // 开始批量保存存档
+    function KKApiBeginBatchSaveArchive takes player whichPlayer returns boolean
+        return RequestExtraBooleanData(102, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    
+    // AddBatchSaveArchive,    // 添加批量保存存档条目
+    function KKApiAddBatchSaveArchive takes player whichPlayer, string key, string value, boolean caseInsensitive returns boolean
+        return RequestExtraBooleanData(103, whichPlayer, key, value, caseInsensitive, 0, 0, 0)
+    endfunction
+    
+    // EndBatchSaveArchive,    // 结束批量保存存档
+    function KKApiEndBatchSaveArchive takes player whichPlayer, boolean abandon returns boolean
+        return RequestExtraBooleanData(104, whichPlayer, null, null, abandon, 0, 0, 0)
+    endfunction
+    //天梯投降
+    function KKApiTriggerRegisterLadderSurrender takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZSR", true)
+    endfunction
+    function KKApiGetLadderSurrenderTeamId takes nothing returns integer
+        return S2I(DzGetTriggerSyncData())
+    endfunction
+    // GetGuildLevel,          // 获取公会等级
+    function KKApiGetGuildLevel takes player whichPlayer returns integer
+        return RequestExtraIntegerData(106, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    //宠物探险次数
+    function KKApiMapExplorationNum takes player whichPlayer returns integer
+        return RequestExtraIntegerData(107, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    //宠物探险时间
+    function KKApiMapExplorationTime takes player whichPlayer returns integer
+        return RequestExtraIntegerData(108, whichPlayer, null, null, false, 0, 0, 0)
+    endfunction
+    
+    //测试大厅预约人数
+    function KKApiMapOrderNum takes nothing returns integer
+        return RequestExtraIntegerData(109, null, null, null, false, 0, 0, 0)
+    endfunction
+    // 发送云脚本数据
+    function KKApiMlScriptEvent takes player whichPlayer, string eventName, string payload returns boolean
+        return RequestExtraBooleanData(110, whichPlayer, eventName, payload, false, 0, 0, 0)
+    endfunction
+    // 获取商城道具最后变动的数量（新增/删除）
+    function KKApiGetMallItemUpdateCount takes player whichPlayer, string key returns integer
+        return RequestExtraIntegerData(110, whichPlayer, key, null, false, 0, 0, 0)
+    endfunction
+endlibrary
+library YDWEGetForceOfPlayerNull
+globals
+    force yd_NullTempForce
+endglobals
+function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
+    local force f = CreateForce()
+    call ForceAddPlayer(f, whichPlayer)
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+endlibrary
+library YDWEGetUnitsInRectOfPlayerNull
+globals
+endglobals
+function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
+    local group g = CreateGroup()
+    set bj_groupEnumOwningPlayer = whichPlayer
+    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+library YDWEGetUnitsInRectMatchingNull
+globals
+endglobals
+function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsInRect(g, r, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+/*
+声音的初始化
+及一些常用的声音API
+*/
+//! zinc
+library Music {
+	public struct music []{
+		private sound snd;
+		//只给某个玩家播放
+		method playFor (player p) {
+			if (GetLocalPlayer() == p) {
+				StartSound(snd);
+			}
+		}
+		//播放音效
+		method play () {
+			StartSound(snd);
+		}
+		static method onInit () {
+			sound snd = null;
+			snd = null;
+		}
+	}
+}
+//! endzinc
+//! zinc
+/*
+单位组有关
+伤害有关
+// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
+用GroupPickRandomUnit(g);好一些
+*/
+library GroupUtils requires UnitFilter {
+    group tempG = null;
+    unit tempU = null;
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
+        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
+        DestroyBoolExpr(filter);
+    }
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
+        GroupEnumUnitsInRect(whichGroup, r, filter);
+        DestroyBoolExpr(filter);
+    }
+    //获取单位组:[敌方]
+    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
+        tempG = CreateGroup();
+        tempU = u;
+        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
+            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
+                return true;
+            }
+            return false;
+        }));
+        tempU = null;
+        return tempG;
+    }
+    //获取圆形随机单位
+    public function GetRandomEnemy (unit u,real x,real y,real radius) -> unit {
+        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
+    }
+}
+//! endzinc
 library_once YDWEBase initializer InitializeYD
 //===========================================================================
 //HashTable
@@ -758,221 +1969,111 @@ function InitializeYD takes nothing returns nothing
     call YDWEVersion_Init()
 endfunction
 endlibrary
-library YDWECreateEwsp requires YDWEBase
-//===========================================================================
-//环绕技能模板 
-//===========================================================================
-private function Loop takes nothing returns nothing
-    local timer t = GetExpiredTimer()
-	local string h = I2S(YDWEH2I(t))
-    local unit tempUnit 
-    local real angle 
-    local integer i
-    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit") 
-    local real UnitLocX = GetUnitX(orderUnit)
-    local real UnitLocY = GetUnitY(orderUnit) 
-    local real radius = YDWEGetRealByString(h,"radius") 
-    local real speed = YDWEGetRealByString(h,"speed") 
-    local integer number = YDWEGetIntegerByString(h,"number") 
-    local integer steps = YDWEGetIntegerByString(h,"steps") 
-    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then 
-        set steps=steps-1
-        call YDWESaveIntegerByString(h,"steps",steps) 
-        set i = 0 
-        loop
-            set i = i + 1
-            exitwhen i > number
-            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
-            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
-            set angle=angle+speed
-            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
-            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
-        endloop
-    else 
-        set i = 0
-        loop
-            set i = i + 1 
-            exitwhen i > number 
-            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i))) 
-        endloop 
-        call YDWEFlushMissionByString(h)
-        call DestroyTimer(t) 
-        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1) 
-    endif
-    set tempUnit=null 
-    set orderUnit=null
-    set t=null
-endfunction
-function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
-    local timer t = CreateTimer()
-	local string h = I2S(YDWEH2I(t))
-	local real UnitLocX = GetUnitX(Hero)
-    local real UnitLocY = GetUnitY(Hero) 
-    local unit tempUnit 
-    local player Masterplayer = GetOwningPlayer(Hero)
-    local real angle 
-    local integer i = 0
-    local integer steps = R2I(lasttime/interval)
-    call YDWESaveUnitByString(h,"orderUnit",Hero) 
-    call YDWESaveIntegerByString(h,"steps",steps) 
-    call YDWESaveIntegerByString(h,"number",number) 
-    call YDWESaveRealByString(h,"radius",radius)
-    call YDWESaveRealByString(h,"speed", speed*0.0174538)
-    call GroupClear(bj_lastCreatedGroup)
-    loop
-        set i = i + 1
-        exitwhen i > number
-        set angle = 2*i*3.14159/number
-        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*57.2958)
-        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
-        call UnitIgnoreAlarm(tempUnit, true)
-        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
-        set bj_lastCreatedUnit = tempUnit
-    endloop 
-    call TimerStart(t,interval,true,function Loop)
-    set t=null
-    set tempUnit=null
-endfunction
-endlibrary
-library YDWEGetPlayersByMapControlNull
+library YDWEGetItemOfTypeFromUnitBJNull
 globals
-    force yd_NullTempForce
+    item yd_NullTempItem
 endglobals
-function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
-    local force f = CreateForce()
-    local integer playerIndex
-    local player indexPlayer
-    set playerIndex = 0
+function YDWEGetItemOfTypeFromUnitBJNull takes unit whichUnit, integer itemId returns item
+    local integer index = 0
     loop
-        set indexPlayer = Player(playerIndex)
-        if GetPlayerController(indexPlayer) == whichControl then
-            call ForceAddPlayer(f, indexPlayer)
+        set yd_NullTempItem = UnitItemInSlot(whichUnit, index)
+        if GetItemTypeId(yd_NullTempItem) == itemId then
+            return yd_NullTempItem
         endif
-        set playerIndex = playerIndex + 1
-        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
+        set index = index + 1
+        exitwhen index >= bj_MAX_INVENTORY
     endloop
-    set indexPlayer = null
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
+    return null
 endfunction
 endlibrary
-library YDWEGetUnitsInRectOfPlayerNull
+//! zinc
+/*
+鼠标滚轮控制视距
+一键切换宽屏模式
+made by 裂魂
+2018/10/19
+*/
+library CameraControl requires Hardware{
+    integer ViewLevel = 8; //初始视野等级
+boolean ResetCam = false; //开启重置镜头属性标识
+real WheelSpeed = 0.1; //镜头变化平滑度
+boolean WideScr = false; //是否是宽屏
+real X_ANGLE = 304; //默认X轴角度
+    public struct cameraControl {
+        // 打开滚轮控制镜头高度
+        public static method openWheel () {DoNothing();}
+    }
+    // 滚轮控制镜头
+    // 初始化就调用
+    function onInit () {
+        //注册滚轮事件
+        hardware.regWheelEvent(function (){
+            integer delta = DzGetWheelDelta(); //滚轮变化量
+if (!DzIsMouseOverUI()) {return;} //如果鼠标不在游戏内，就不响应鼠标滚轮
+ResetCam = true; //标记需要重置镜头属性
+if (delta < 0) { //滚轮下滑
+if (ViewLevel < 14) {ViewLevel = ViewLevel + 1;} //视野等级上限
+} else { //滚轮上滑
+if (ViewLevel > 3) {ViewLevel = ViewLevel - 1;} //视野等级下限
+}
+            X_ANGLE = Rad2Deg(GetCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK)); //记录滚动前的镜头角度
+});
+        //注册每帧渲染事件
+        hardware.regUpdateEvent(function (){
+            if (ResetCam) {//重设镜头角度和高度
+                SetCameraField( CAMERA_FIELD_ANGLE_OF_ATTACK, X_ANGLE, 0 );
+                SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, ViewLevel*200, WheelSpeed);
+                ResetCam = false;
+            }
+        });
+        //注册按下键码为145的按键(ScrollLock)事件
+        DzTriggerRegisterKeyEventByCode( null, 145, 1, false, function (){
+            WideScr = !WideScr;
+            DzEnableWideScreen(WideScr);
+        });
+    }
+}
+//! endzinc
+library YDWETriggerRegisterEnterRectSimpleNull
 globals
-    group yd_NullTempGroup
+    region yd_NullTempRegion
 endglobals
-function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
-    local group g = CreateGroup()
-    set bj_groupEnumOwningPlayer = whichPlayer
-    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
+function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
+    local region rectRegion = CreateRegion()
+    call RegionAddRect(rectRegion, r)
+    set yd_NullTempRegion = rectRegion
+    set rectRegion = null
+    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
 endfunction
 endlibrary
-//===========================================================================
-//佣兵系统 
-//===========================================================================
-library YDWESetGuard requires YDWEBase
-private function IsUnitIdle takes unit u returns boolean
-    return OrderId2String(GetUnitCurrentOrder(u)) == null
-endfunction
-function YDWERemoveGuard takes unit pet returns nothing
-    local integer tm = YDWEGetIntegerByString( I2S(YDWEH2I(pet)), "Timer")
-    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
-    call YDWEFlushMissionByString(I2S(tm))
-    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)), "Timer"))
-endfunction
-function SetGuardTimer takes nothing returns nothing
-  local timer tm = GetExpiredTimer()
-  local unit pet = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Pet"))
-  local unit captain = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Captain"))
-  local real x = GetUnitX(captain) - GetUnitX(pet)
-  local real y = GetUnitY(captain) - GetUnitY(pet)
-  local real d = x*x + y*y
-  local real v
-  local real a
-  local effect e=null
-  local real life = YDWEGetRealByString( I2S(YDWEH2I(tm)), "Life")
-  local integer p = YDWEGetIntegerByString(I2S(YDWEH2I(tm)), "Percent")
-  set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "GuardRanger") 
-  if GetUnitState(pet, UNIT_STATE_LIFE)>0 and GetUnitState(captain, UNIT_STATE_LIFE)> 0 then 
-      if d<v*v then
-         if IsUnitIdle(pet) and GetRandomInt(0,100)<p then
-           set x = GetUnitX(captain)
-           set y = GetUnitY(captain)
-           set d = GetRandomReal(0,v)
-           set a = GetRandomReal(0,360)
-           call IssuePointOrder(pet, "patrol", x+d*Cos((a)*0.0174538), y+d*Sin((a)*0.0174538))
-         endif
-      else
-        set v = YDWEGetRealByString( I2S(YDWEH2I(tm)), "ReturnRanger")
-        if d<v*v then
-          if IsUnitIdle(pet) then
-            call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
-          endif
-        else
-          set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "OutRanger")
-            if d!=0 and d>v*v then
-              call SetUnitPosition(pet,GetUnitX(captain),GetUnitY(captain))
-              set e =AddSpecialEffectTarget("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl" ,captain,"chest")
-              call DestroyEffect(e)
-            else
-              call IssuePointOrder(pet, "move", GetUnitX(captain), GetUnitY(captain))
-            endif
-          endif
-       endif
-     else
-       call IssuePointOrder(pet, "attack", GetUnitX(captain), GetUnitY(captain))
-       call YDWERemoveGuard(pet) 
-  endif
-  set tm = null
-  set pet = null
-  set captain = null
-  set e=null
-endfunction
-function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRanger, real returnRanger, real outRanger,integer percent returns nothing
-    local timer tm = CreateTimer() 
-    call YDWESaveTimerByString(I2S(YDWEH2I(pet)), "Timer", tm)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "pet", pet)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "Captain", captain)
-    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)), "Percent", percent) 
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "GuardRanger", guardRanger) 
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "ReturnRanger", returnRanger) 
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "OutRanger", outRanger)
-    call TimerStart(tm, timeout, true, function SetGuardTimer)
-    set tm = null
-endfunction
-endlibrary 
-library YDWEGetUnitsOfPlayerAndTypeIdNull
-globals
-endglobals
-function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer unitid returns group
-    local group g = CreateGroup()
-    set bj_groupEnumTypeId = unitid
-    call GroupEnumUnitsOfPlayer(g, whichPlayer, filterGetUnitsOfPlayerAndTypeId)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEGetUnitsOfPlayerMatchingNull
-globals
-endglobals
-function YDWEGetUnitsOfPlayerMatchingNull takes player whichPlayer, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsOfPlayer(g, whichPlayer, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEGetUnitsOfPlayerAllNull requires YDWEGetUnitsOfPlayerMatchingNull
-function YDWEGetUnitsOfPlayerAllNull takes player whichPlayer returns group
-    return YDWEGetUnitsOfPlayerMatchingNull(whichPlayer, null)
+library YDWEMultiboardSetItemValueBJNull
+function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, integer row, string val returns nothing
+    local integer curRow = 0
+    local integer curCol = 0
+    local integer numRows = MultiboardGetRowCount(mb)
+    local integer numCols = MultiboardGetColumnCount(mb)
+    local multiboarditem mbitem = null
+    // Loop over rows, using 1-based index
+    loop
+        set curRow = curRow + 1
+        exitwhen curRow > numRows
+        // Apply setting to the requested row, or all rows (if row is 0)
+        if (row == 0 or row == curRow) then
+            // Loop over columns, using 1-based index
+            set curCol = 0
+            loop
+                set curCol = curCol + 1
+                exitwhen curCol > numCols
+                // Apply setting to the requested column, or all columns (if col is 0)
+                if (col == 0 or col == curCol) then
+                    set mbitem = MultiboardGetItem(mb, curRow - 1, curCol - 1)
+                    call MultiboardSetItemValue(mbitem, val)
+                    call MultiboardReleaseItem(mbitem)
+                endif
+            endloop
+        endif
+    endloop
+    set mbitem = null
 endfunction
 endlibrary
 /*
@@ -1076,13 +2177,13 @@ library Hardware requires BzAPI {
 	}
 }
 //! endzinc
-library YDWEGetUnitsInRectMatchingNull
+library YDWEGetUnitsOfPlayerAndTypeIdNull
 globals
 endglobals
-function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns group
+function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer unitid returns group
     local group g = CreateGroup()
-    call GroupEnumUnitsInRect(g, r, filter)
-    call DestroyBoolExpr(filter)
+    set bj_groupEnumTypeId = unitid
+    call GroupEnumUnitsOfPlayer(g, whichPlayer, filterGetUnitsOfPlayerAndTypeId)
     set yd_NullTempGroup = g
     set g = null
     return yd_NullTempGroup
@@ -1091,6 +2192,734 @@ endlibrary
 library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
 function YDWEGetUnitsInRectAllNull takes rect r returns group
     return YDWEGetUnitsInRectMatchingNull(r, null)
+endfunction
+endlibrary
+//! zinc
+/*
+几何工具
+todo:直接用宏定义修改试试
+*/
+library Geometry {
+    // 4个坐标的距离
+    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1;
+        return SquareRoot(dx*dx+dy*dy);
+    }
+    // 6个坐标的距离
+    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
+        return SquareRoot(dx*dx+dy*dy+dz*dz);
+    }
+    // 4个坐标的角度,前面是人的位置，后面是点的位置
+    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
+        return (Atan2(y2-y1, x2-x1)*57.2958);
+    }
+}
+//! endzinc
+//! zinc
+/*
+数字工具
+*/
+library NumberUtils {
+    // 老版本叫GetIntegerBit(替换)
+    // 获取一个整数中指定范围的数字(按十进制位数)
+    // @param value - 要处理的整数,如1483
+    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
+    // @param bit2 - 结束位置,如3表示百位
+    // @return - 返回指定范围的数字,如1483取1-3位返回483
+    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
+        if (bit1 > bit2) {return 0;}
+        if (bit1 <= 0 || bit2 <= 0) {return 0;}
+        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
+    }
+    // 老版本叫GetBit(替换)
+    // 获取一个整数中指定位置的单个数字(按十进制位数)
+    // @param num - 要处理的整数,如1483
+    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
+    // @return - 返回指定位置的数字,如1483取第2位返回8
+    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
+    public function GetDigitAt (integer num,integer bit) -> integer {
+        integer bit1 = R2I(Pow(10,bit-1)); //举例,1483取位2 ->这个是10;
+integer bit2 = R2I(Pow(10,bit)); //举例,1483取位2 ->这个是100;
+num = IAbsBJ(num); //取绝对值
+if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
+if (bit1 > num) {return 0;} //取了不该取的位
+bit1 = IMaxBJ(1,bit1);
+        //先取余100,再除10 ->
+        return ModuloInteger(num,bit2) / bit1;
+    }
+}
+//! endzinc
+//===========================================================================
+//佣兵系统 
+//===========================================================================
+library YDWESetGuard requires YDWEBase
+private function IsUnitIdle takes unit u returns boolean
+    return OrderId2String(GetUnitCurrentOrder(u)) == null
+endfunction
+function YDWERemoveGuard takes unit pet returns nothing
+    local integer tm = YDWEGetIntegerByString( I2S(YDWEH2I(pet)), "Timer")
+    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
+    call YDWEFlushMissionByString(I2S(tm))
+    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)), "Timer"))
+endfunction
+function SetGuardTimer takes nothing returns nothing
+  local timer tm = GetExpiredTimer()
+  local unit pet = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Pet"))
+  local unit captain = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Captain"))
+  local real x = GetUnitX(captain) - GetUnitX(pet)
+  local real y = GetUnitY(captain) - GetUnitY(pet)
+  local real d = x*x + y*y
+  local real v
+  local real a
+  local effect e=null
+  local real life = YDWEGetRealByString( I2S(YDWEH2I(tm)), "Life")
+  local integer p = YDWEGetIntegerByString(I2S(YDWEH2I(tm)), "Percent")
+  set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "GuardRanger") 
+  if GetUnitState(pet, UNIT_STATE_LIFE)>0 and GetUnitState(captain, UNIT_STATE_LIFE)> 0 then 
+      if d<v*v then
+         if IsUnitIdle(pet) and GetRandomInt(0,100)<p then
+           set x = GetUnitX(captain)
+           set y = GetUnitY(captain)
+           set d = GetRandomReal(0,v)
+           set a = GetRandomReal(0,360)
+           call IssuePointOrder(pet, "patrol", x+d*Cos((a)*0.0174538), y+d*Sin((a)*0.0174538))
+         endif
+      else
+        set v = YDWEGetRealByString( I2S(YDWEH2I(tm)), "ReturnRanger")
+        if d<v*v then
+          if IsUnitIdle(pet) then
+            call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
+          endif
+        else
+          set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "OutRanger")
+            if d!=0 and d>v*v then
+              call SetUnitPosition(pet,GetUnitX(captain),GetUnitY(captain))
+              set e =AddSpecialEffectTarget("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl" ,captain,"chest")
+              call DestroyEffect(e)
+            else
+              call IssuePointOrder(pet, "move", GetUnitX(captain), GetUnitY(captain))
+            endif
+          endif
+       endif
+     else
+       call IssuePointOrder(pet, "attack", GetUnitX(captain), GetUnitY(captain))
+       call YDWERemoveGuard(pet) 
+  endif
+  set tm = null
+  set pet = null
+  set captain = null
+  set e=null
+endfunction
+function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRanger, real returnRanger, real outRanger,integer percent returns nothing
+    local timer tm = CreateTimer() 
+    call YDWESaveTimerByString(I2S(YDWEH2I(pet)), "Timer", tm)
+    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "pet", pet)
+    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "Captain", captain)
+    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)), "Percent", percent) 
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "GuardRanger", guardRanger) 
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "ReturnRanger", returnRanger) 
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "OutRanger", outRanger)
+    call TimerStart(tm, timeout, true, function SetGuardTimer)
+    set tm = null
+endfunction
+endlibrary 
+//! zinc
+/*
+单位有关
+*/
+library UnitFilter {
+    //判断是否是敌方(不带无敌)
+    public function IsEnemy (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
+    }
+    //旧名：IsEnemy2
+    //判断是否是敌方(能匹配到无敌单位)
+    public function IsEnemyIncludeInvul (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
+    }
+    //判断是否是友方
+    public function IsAlly (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
+    }
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsEnemyUnit(unit source, unit target) -> boolean {
+        return IsEnemy(GetOwningPlayer(source),target);
+    }
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsAllyUnit(unit source, unit target) -> boolean {
+        return IsAlly(GetOwningPlayer(source),target);
+    }
+}
+//! endzinc
+/*
+japi引用的常量库 由于wave宏定义 只对以下的代码有效
+请将常量库里所有内容复制到  自定义脚本代码区
+*/
+//魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
+//-----------模拟聊天------------------
+//---------技能数据类型---------------
+//冷却时间
+//目标允许
+//施放时间
+//持续时间
+//持续时间
+//魔法消耗
+//施放间隔
+//影响区域
+//施法距离
+//数据A
+//数据B
+//数据C
+//数据D
+//数据E
+//数据F
+//数据G
+//数据H
+//数据I
+//单位类型
+//热键
+//关闭热键
+//学习热键
+//名字
+//图标
+//目标效果
+//施法者效果
+//目标点效果
+//区域效果
+//投射物
+//特殊效果
+//闪电效果
+//buff提示
+//buff提示
+//学习提示
+//提示
+//关闭提示
+//学习提示
+//提示
+//关闭提示
+//----------物品数据类型----------------------
+//物品图标
+//物品提示
+//物品扩展提示
+//物品名字
+//物品说明
+//------------单位数据类型--------------
+//攻击1 伤害骰子数量
+//攻击1 伤害骰子面数
+//攻击1 基础伤害
+//攻击1 升级奖励
+//攻击1 最小伤害
+//攻击1 最大伤害
+//攻击1 全伤害范围
+//装甲
+// attack 1 attribute adds
+//攻击1 伤害衰减参数
+//攻击1 武器声音
+//攻击1 攻击类型
+//攻击1 最大目标数
+//攻击1 攻击间隔
+//攻击1 攻击延迟/summary>
+//攻击1 弹射弧度
+//攻击1 攻击范围缓冲
+//攻击1 目标允许
+//攻击1 溅出区域
+//攻击1 溅出半径
+//攻击1 武器类型
+// attack 2 attributes (sorted in a sequencial order based on memory address)
+//攻击2 伤害骰子数量
+//攻击2 伤害骰子面数
+//攻击2 基础伤害
+//攻击2 升级奖励
+//攻击2 伤害衰减参数
+//攻击2 武器声音
+//攻击2 攻击类型
+//攻击2 最大目标数
+//攻击2 攻击间隔
+//攻击2 攻击延迟
+//攻击2 攻击范围
+//攻击2 攻击缓冲
+//攻击2 最小伤害
+//攻击2 最大伤害
+//攻击2 弹射弧度
+//攻击2 目标允许类型
+//攻击2 溅出区域
+//攻击2 溅出半径
+//攻击2 武器类型
+//装甲类型
+//! zinc
+/*
+伤害工具
+*/
+library DamageUtils requires UnitFilter,GroupUtils {
+    //旧名替换:DamageSingle
+    //单体伤害:物理
+    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:魔法
+    public function ApplyMagicDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:真实
+    public function ApplyPureDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
+    }
+    //模拟普攻(最后一个参数代表额外的终伤,0)
+    public function SimulateBasicAttack (unit u,unit target,real fd) {
+        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(0x12))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+    //伤害参数结构体
+    private struct DmgP {
+        unit source; //伤害来源
+string eft; //特效
+real damage; //伤害值
+        method destroy() {
+            this.source = null;
+            this.eft = null;
+        }
+    }
+    //伤害参数栈
+    public struct DmgS [] {
+        private static DmgP stack[100];
+        private static integer top = -1;
+        public static method push(DmgP params) {
+            thistype.top += 1;
+            thistype.stack[thistype.top] = params;
+        }
+        public static method pop() -> DmgP {
+            DmgP params = thistype.stack[thistype.top];
+            thistype.stack[thistype.top] = 0;
+            thistype.top -= 1;
+            return params;
+        }
+        public static method getTop() -> integer {
+            return thistype.top;
+        }
+        public static method current() -> DmgP {
+            return thistype.stack[thistype.top];
+        }
+    }
+    //范围普通伤害
+    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+    //范围魔法伤害
+    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+    //范围真实伤害
+    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+}
+//! endzinc
+//===========================================================================  
+//万能环绕模板 
+//===========================================================================
+library YDWEAroundSystem requires YDWEBase
+//library TP1 requires YDWEBase
+    globals
+        private constant timer AROUND_TIM = CreateTimer()
+        private constant real AROUND_INTER = 0.01
+    endglobals
+    private struct Data
+        static thistype array Structs
+        static integer Total = 0
+        unit caster = null
+        unit obj = null 
+        real dur = 0.
+        real inter = 0.
+        real each = 0. 
+        real rate = 0.
+        real dis = 0.
+        real rise = 0. 
+        real angle = 0.
+        real radius = 0.
+        real height = 0
+    endstruct
+    private function spin takes nothing returns nothing
+        local Data d = 0
+        local real x = 0.
+        local real y = 0.
+        local integer inst = 0
+        
+        loop
+            exitwhen (inst == Data.Total)
+            set d = Data.Structs[inst]
+            if ( d.dur > 0 ) and (GetUnitState(d.caster, UNIT_STATE_LIFE)>0) and (GetUnitState(d.obj, UNIT_STATE_LIFE)>0) then
+                set d.each = d.each + AROUND_INTER
+                if ( d.each >= d.inter ) then
+                    set d.angle = d.angle + d.rate
+                    set d.radius = d.radius + d.dis
+                    set d.height = d.height + d.rise
+                    set x = GetUnitX(d.caster) + d.radius*Cos(d.angle)
+                    set y = GetUnitY(d.caster) + d.radius*Sin(d.angle)
+                    set x = YDWECoordinateX(x)
+                    set y = YDWECoordinateY(y)
+                    call SetUnitX(d.obj, x)
+                    call SetUnitY(d.obj, y)
+                    call SetUnitFlyHeight(d.obj, d.height, 0.)
+                    set d.each = 0.
+                endif
+                set d.dur = d.dur - AROUND_INTER
+            else 
+                set bj_lastAbilityTargetUnit=d.caster
+                call YDWESyStemAbilityCastingOverTriggerAction(d.obj,10) 
+                set d.caster = null
+                set d.obj = null
+                call d.destroy()
+                set Data.Total = Data.Total - 1
+                set Data.Structs[inst] = Data.Structs[Data.Total]
+                set inst = inst - 1
+            endif
+            set inst = inst + 1
+        endloop
+        if ( Data.Total == 0 ) then
+            call PauseTimer(AROUND_TIM)
+        endif
+    endfunction
+    function YDWEAroundSystem takes unit satellite, unit star, real angleRate, real displacement, real riseRate,real timeout, real interval returns nothing
+        local Data d = Data.create()
+        local real x1 = GetUnitX(star)
+        local real y1 = GetUnitY(star)
+        local real x2 = GetUnitX(satellite)
+        local real y2 = GetUnitY(satellite)
+        set d.caster = star
+        set d.obj = satellite
+        set d.dur = timeout
+        set d.inter = interval
+        set d.rate = angleRate*(3.14159/180.)
+        set d.dis = displacement
+        set d.rise = riseRate
+        set d.angle = Atan2(y2-y1,x2-x1)
+        set d.radius = SquareRoot((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
+        set d.height = GetUnitFlyHeight(d.obj) 
+        set Data.Structs[Data.Total] = integer(d)
+        set Data.Total = Data.Total + 1 
+        if ( Data.Total - 1 == 0 ) then
+            call TimerStart(AROUND_TIM, AROUND_INTER, true, function spin)
+        endif
+    endfunction
+    
+endlibrary 
+//! zinc
+/*
+转换工具
+*/
+library ConversionUtils {
+    //补充函数
+    public function B2S(boolean b) -> string {
+        if (b) {return "true";}
+        else {return "false";}
+    }
+    //三目运算符
+    public function S3 (boolean b,string s1,string s2) -> string {
+        if (b) {return s1;}
+        else {return s2;}
+    }
+    //三目运算符
+    public function U3 (boolean b,unit u1,unit u2) -> unit {
+        if (b) {return u1;}
+        else {return u2;}
+    }
+    //三目运算符
+    public function I3 (boolean b,integer i1,integer i2) -> integer {
+        if (b) {return i1;}
+        else {return i2;}
+    }
+    //三目运算符
+    public function R3 (boolean b,real r1,real r2) -> real {
+        if (b) {return r1;}
+        else {return r2;}
+    }
+    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
+    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
+    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
+    public function GetIDSymbol ( integer pos ) -> integer {
+        integer bit = pos/36;
+        pos = ModuloInteger(pos,36);
+        if (pos < 10) {return pos + bit * 256;}
+        else {return '000a' - '0000' + pos - 10 + bit * 256;}
+    }
+    // 将魔兽的四字符ID转换回对应数字
+    // s为输入的四字符ID,将其还原为原始数字
+    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
+    public function GetSymbolID ( integer s ) -> integer {
+        integer i1 = s/256;
+        integer i2 = ModuloInteger(s,256);
+        if (i2 < 10) {return i1 * 36 + i2;}
+        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
+    }
+}
+//! endzinc
+library YDWEPolledWaitNull
+function YDWEPolledWaitNull takes real duration returns nothing
+    local timer t
+    local real timeRemaining
+    if (duration > 0) then
+        set t = CreateTimer()
+        call TimerStart(t, duration, false, null)
+        loop
+            set timeRemaining = TimerGetRemaining(t)
+            exitwhen timeRemaining <= 0
+            // If we have a bit of time left, skip past 10% of the remaining
+            // duration instead of checking every interval, to minimize the
+            // polling on long waits.
+            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
+                call TriggerSleepAction(0.1 * timeRemaining)
+            else
+                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
+            endif
+        endloop
+        call DestroyTimer(t)
+    endif
+    set t = null
+endfunction
+endlibrary
+library YDWEGetRandomSubGroupEnumNull
+function YDWEGetRandomSubGroupEnumNull takes nothing returns nothing
+    if (bj_randomSubGroupWant > 0) then
+        if (bj_randomSubGroupWant >= bj_randomSubGroupTotal) or (GetRandomInt(1,bj_randomSubGroupTotal) <= bj_randomSubGroupWant) then
+            // We either need every remaining unit, or the unit passed its chance check.
+            call GroupAddUnit(bj_randomSubGroupGroup, GetEnumUnit())
+            set bj_randomSubGroupWant = bj_randomSubGroupWant - 1
+        endif
+    endif
+    set bj_randomSubGroupTotal = bj_randomSubGroupTotal - 1
+endfunction
+endlibrary
+library YDWEGetRandomSubGroupNull requires YDWEGetRandomSubGroupEnumNull
+function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup returns group
+    set bj_randomSubGroupGroup = CreateGroup()
+    set bj_randomSubGroupWant = count
+    set bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
+    if (bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0) then
+        return bj_randomSubGroupGroup
+    endif
+    call ForGroup(sourceGroup, function YDWEGetRandomSubGroupEnumNull)
+    return bj_randomSubGroupGroup
+endfunction
+endlibrary
+library YDWEGetUnitsInRangeOfLocMatchingNull
+globals
+endglobals
+function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+//! zinc
+/*
+字符串工具
+*/
+library StringUtils {
+    string temp;
+    //重复某一个字符串N次,并可以按照指定间隔添加空格和换行
+    //参数 s: 要重复的字符串
+    //参数 times: 重复的次数
+    //参数 gap1: 每隔多少个字符串添加一个空格,如gap1=3则每3个字符串后加空格
+    //参数 gap2: 每隔多少个字符串添加一个换行,如gap2=5则每5个字符串后换行
+    //返回: 处理后的完整字符串
+    //示例: RepeatString("A",6,2,3) 会返回 "AA AA A\nA"
+    public function RepeatString (string s,integer times,integer gap1,integer gap2) -> string {
+        integer i;
+        temp = "";
+        for (1 <= i <= times) {
+            temp += s;
+            if (ModuloInteger(i,gap1) == 0) temp += " ";
+            if (ModuloInteger(i,gap2) == 0) temp += "\n";
+        }
+        return temp;
+    }
+    //判断一个字符串是否有东西
+    public function IsNotEmpty (string s) -> boolean {return (s != null && s != "");}
+    // 数字转字符串,首位自动填充0
+    // 不支持负数
+    // 比如12,3   -> 012
+    public function I2SM ( integer num,integer bit ) -> string {
+        integer i , count;
+        string s;
+        if (num < 0) {return I2S(num);}
+        s = I2S(num);
+        count = bit - StringLength(s);
+        for (1 <= i <= count) {s = "0" + s;}
+        return s;
+    }
+    //赞助系统：循环Hash
+    public function GetCycleHash ( string s,integer times ) -> integer {
+        string result = s;
+        integer i;
+        for (1 <= i <= times) {
+            result = I2S(StringHash(result));
+        }
+        return S2I(result);
+    }
+    //拼接式存放数据的API
+    //自动将整数补至10位长度的字符串(会自动取绝对值)
+    public function IMendS ( integer num,integer bit ) -> string {
+        integer abs = IAbsBJ(num);
+        string result = I2S(abs);
+        integer i , length = StringLength(result);
+        for (1 <= i <= bit - length) {result = "0" + result;}
+        return result;
+    }
+}
+//! endzinc
+library YDWECreateEwsp requires YDWEBase
+//===========================================================================
+//环绕技能模板 
+//===========================================================================
+private function Loop takes nothing returns nothing
+    local timer t = GetExpiredTimer()
+	local string h = I2S(YDWEH2I(t))
+    local unit tempUnit 
+    local real angle 
+    local integer i
+    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit") 
+    local real UnitLocX = GetUnitX(orderUnit)
+    local real UnitLocY = GetUnitY(orderUnit) 
+    local real radius = YDWEGetRealByString(h,"radius") 
+    local real speed = YDWEGetRealByString(h,"speed") 
+    local integer number = YDWEGetIntegerByString(h,"number") 
+    local integer steps = YDWEGetIntegerByString(h,"steps") 
+    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then 
+        set steps=steps-1
+        call YDWESaveIntegerByString(h,"steps",steps) 
+        set i = 0 
+        loop
+            set i = i + 1
+            exitwhen i > number
+            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
+            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
+            set angle=angle+speed
+            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
+            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
+        endloop
+    else 
+        set i = 0
+        loop
+            set i = i + 1 
+            exitwhen i > number 
+            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i))) 
+        endloop 
+        call YDWEFlushMissionByString(h)
+        call DestroyTimer(t) 
+        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1) 
+    endif
+    set tempUnit=null 
+    set orderUnit=null
+    set t=null
+endfunction
+function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
+    local timer t = CreateTimer()
+	local string h = I2S(YDWEH2I(t))
+	local real UnitLocX = GetUnitX(Hero)
+    local real UnitLocY = GetUnitY(Hero) 
+    local unit tempUnit 
+    local player Masterplayer = GetOwningPlayer(Hero)
+    local real angle 
+    local integer i = 0
+    local integer steps = R2I(lasttime/interval)
+    call YDWESaveUnitByString(h,"orderUnit",Hero) 
+    call YDWESaveIntegerByString(h,"steps",steps) 
+    call YDWESaveIntegerByString(h,"number",number) 
+    call YDWESaveRealByString(h,"radius",radius)
+    call YDWESaveRealByString(h,"speed", speed*0.0174538)
+    call GroupClear(bj_lastCreatedGroup)
+    loop
+        set i = i + 1
+        exitwhen i > number
+        set angle = 2*i*3.14159/number
+        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*57.2958)
+        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
+        call UnitIgnoreAlarm(tempUnit, true)
+        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
+        set bj_lastCreatedUnit = tempUnit
+    endloop 
+    call TimerStart(t,interval,true,function Loop)
+    set t=null
+    set tempUnit=null
+endfunction
+endlibrary
+library YDWETriggerRegisterLeaveRectSimpleNull
+globals
+endglobals
+function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r returns event
+    local region rectRegion = CreateRegion()
+    call RegionAddRect(rectRegion, r)
+    set yd_NullTempRegion = rectRegion
+    set rectRegion = null
+    return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
 endfunction
 endlibrary
 //===========================================================================
@@ -1216,103 +3045,27 @@ function GetLastMovedItemInItemSlot takes nothing returns item
     return bj_lastMovedItemInItemSlot
 endfunction
 endlibrary
-library YDWEGetItemOfTypeFromUnitBJNull
+library YDWEGetUnitsOfTypeIdAllNull
 globals
-    item yd_NullTempItem
 endglobals
-function YDWEGetItemOfTypeFromUnitBJNull takes unit whichUnit, integer itemId returns item
-    local integer index = 0
+function YDWEGetUnitsOfTypeIdAllNull takes integer unitid returns group
+    local group result = CreateGroup()
+    local group g = CreateGroup()
+    local integer index
+    set index = 0
     loop
-        set yd_NullTempItem = UnitItemInSlot(whichUnit, index)
-        if GetItemTypeId(yd_NullTempItem) == itemId then
-            return yd_NullTempItem
-        endif
+        set bj_groupEnumTypeId = unitid
+        call GroupClear(g)
+        call GroupEnumUnitsOfPlayer(g, Player(index), filterGetUnitsOfTypeIdAll)
+        call GroupAddGroup(g, result)
         set index = index + 1
-        exitwhen index >= bj_MAX_INVENTORY
+        exitwhen index == bj_MAX_PLAYER_SLOTS
     endloop
-    return null
-endfunction
-endlibrary
-library YDWEUnitHasItemOfTypeBJNull
-function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
-    local integer index = 0
-	if itemId != 0 then
-		loop
-			if GetItemTypeId(UnitItemInSlot(whichUnit, index)) == itemId then
-				return true
-			endif
-			set index = index + 1
-			exitwhen index >= bj_MAX_INVENTORY
-		endloop
-	endif
-    return false
-endfunction
-endlibrary
-/*
-声音的初始化
-及一些常用的声音API
-*/
-//! zinc
-library Music {
-	public struct music []{
-		private sound snd;
-		//只给某个玩家播放
-		method playFor (player p) {
-			if (GetLocalPlayer() == p) {
-				StartSound(snd);
-			}
-		}
-		//播放音效
-		method play () {
-			StartSound(snd);
-		}
-		static method onInit () {
-			sound snd = null;
-			snd = null;
-		}
-	}
-}
-//! endzinc
-library YDWEMultiboardSetItemValueBJNull
-function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, integer row, string val returns nothing
-    local integer curRow = 0
-    local integer curCol = 0
-    local integer numRows = MultiboardGetRowCount(mb)
-    local integer numCols = MultiboardGetColumnCount(mb)
-    local multiboarditem mbitem = null
-    // Loop over rows, using 1-based index
-    loop
-        set curRow = curRow + 1
-        exitwhen curRow > numRows
-        // Apply setting to the requested row, or all rows (if row is 0)
-        if (row == 0 or row == curRow) then
-            // Loop over columns, using 1-based index
-            set curCol = 0
-            loop
-                set curCol = curCol + 1
-                exitwhen curCol > numCols
-                // Apply setting to the requested column, or all columns (if col is 0)
-                if (col == 0 or col == curCol) then
-                    set mbitem = MultiboardGetItem(mb, curRow - 1, curCol - 1)
-                    call MultiboardSetItemValue(mbitem, val)
-                    call MultiboardReleaseItem(mbitem)
-                endif
-            endloop
-        endif
-    endloop
-    set mbitem = null
-endfunction
-endlibrary
-library YDWETriggerRegisterEnterRectSimpleNull
-globals
-    region yd_NullTempRegion
-endglobals
-function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
-    local region rectRegion = CreateRegion()
-    call RegionAddRect(rectRegion, r)
-    set yd_NullTempRegion = rectRegion
-    set rectRegion = null
-    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
+    call DestroyGroup(g)
+    set g = null
+    set yd_NullTempGroup = result
+    set result = null
+    return yd_NullTempGroup
 endfunction
 endlibrary
 library_once YDWETimerPattern initializer Init requires YDWEBase
@@ -1770,1781 +3523,28 @@ local real vx = 0.0
         set Bexpr = Filter(function TreeFilter)
     endfunction
 endlibrary
-//! zinc
-/*
-单位组有关
-伤害有关
-// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
-用GroupPickRandomUnit(g);好一些
-*/
-library GroupUtils requires UnitFilter {
-    group tempG = null;
-    unit tempU = null;
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
-        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
-        DestroyBoolExpr(filter);
-    }
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
-        GroupEnumUnitsInRect(whichGroup, r, filter);
-        DestroyBoolExpr(filter);
-    }
-    //获取单位组:[敌方]
-    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
-        tempG = CreateGroup();
-        tempU = u;
-        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
-            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
-                return true;
-            }
-            return false;
-        }));
-        tempU = null;
-        return tempG;
-    }
-    //获取圆形随机单位
-    public function GetRandomEnemy (unit u,real x,real y,real radius) -> unit {
-        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
-    }
-}
-//! endzinc
-library YDWEGetForceOfPlayerNull
+library YDWEGetPlayersByMapControlNull
 globals
 endglobals
-function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
+function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
     local force f = CreateForce()
-    call ForceAddPlayer(f, whichPlayer)
+    local integer playerIndex
+    local player indexPlayer
+    set playerIndex = 0
+    loop
+        set indexPlayer = Player(playerIndex)
+        if GetPlayerController(indexPlayer) == whichControl then
+            call ForceAddPlayer(f, indexPlayer)
+        endif
+        set playerIndex = playerIndex + 1
+        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
+    endloop
+    set indexPlayer = null
     set yd_NullTempForce = f
     set f = null
     return yd_NullTempForce
 endfunction
 endlibrary
-library BzAPI
-    //hardware
-    native DzGetMouseTerrainX takes nothing returns real
-    native DzGetMouseTerrainY takes nothing returns real
-    native DzGetMouseTerrainZ takes nothing returns real
-    native DzIsMouseOverUI takes nothing returns boolean
-    native DzGetMouseX takes nothing returns integer
-    native DzGetMouseY takes nothing returns integer
-    native DzGetMouseXRelative takes nothing returns integer
-    native DzGetMouseYRelative takes nothing returns integer
-    native DzSetMousePos takes integer x, integer y returns nothing
-    native DzTriggerRegisterMouseEvent takes trigger trig, integer btn, integer status, boolean sync, string func returns nothing
-    native DzTriggerRegisterMouseEventByCode takes trigger trig, integer btn, integer status, boolean sync, code funcHandle returns nothing
-    native DzTriggerRegisterKeyEvent takes trigger trig, integer key, integer status, boolean sync, string func returns nothing
-    native DzTriggerRegisterKeyEventByCode takes trigger trig, integer key, integer status, boolean sync, code funcHandle returns nothing
-    native DzTriggerRegisterMouseWheelEvent takes trigger trig, boolean sync, string func returns nothing
-    native DzTriggerRegisterMouseWheelEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
-    native DzTriggerRegisterMouseMoveEvent takes trigger trig, boolean sync, string func returns nothing
-    native DzTriggerRegisterMouseMoveEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
-    native DzGetTriggerKey takes nothing returns integer
-    native DzGetWheelDelta takes nothing returns integer
-    native DzIsKeyDown takes integer iKey returns boolean
-    native DzGetTriggerKeyPlayer takes nothing returns player
-    native DzGetWindowWidth takes nothing returns integer
-    native DzGetWindowHeight takes nothing returns integer
-    native DzGetWindowX takes nothing returns integer
-    native DzGetWindowY takes nothing returns integer
-    native DzTriggerRegisterWindowResizeEvent takes trigger trig, boolean sync, string func returns nothing
-    native DzTriggerRegisterWindowResizeEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
-    native DzIsWindowActive takes nothing returns boolean
-    //plus
-    native DzDestructablePosition takes destructable d, real x, real y returns nothing
-    native DzSetUnitPosition takes unit whichUnit, real x, real y returns nothing
-    native DzExecuteFunc takes string funcName returns nothing
-    native DzGetUnitUnderMouse takes nothing returns unit
-    native DzSetUnitTexture takes unit whichUnit, string path, integer texId returns nothing
-    native DzSetMemory takes integer address, real value returns nothing
-    native DzSetUnitID takes unit whichUnit, integer id returns nothing
-    native DzSetUnitModel takes unit whichUnit, string path returns nothing
-    native DzSetWar3MapMap takes string map returns nothing
-    native DzGetLocale takes nothing returns string
-    native DzGetUnitNeededXP takes unit whichUnit, integer level returns integer
-    //sync
-    native DzTriggerRegisterSyncData takes trigger trig, string prefix, boolean server returns nothing
-    native DzSyncData takes string prefix, string data returns nothing
-    native DzGetTriggerSyncPrefix takes nothing returns string
-    native DzGetTriggerSyncData takes nothing returns string
-    native DzGetTriggerSyncPlayer takes nothing returns player
-    native DzSyncBuffer takes string prefix, string data, integer dataLen returns nothing
-    //native DzGetPushContext takes nothing returns string
-    native DzSyncDataImmediately takes string prefix, string data returns nothing 
-    //gui
-    native DzFrameHideInterface takes nothing returns nothing
-    native DzFrameEditBlackBorders takes real upperHeight, real bottomHeight returns nothing
-    native DzFrameGetPortrait takes nothing returns integer
-    native DzFrameGetMinimap takes nothing returns integer
-    native DzFrameGetCommandBarButton takes integer row, integer column returns integer
-    native DzFrameGetHeroBarButton takes integer buttonId returns integer
-    native DzFrameGetHeroHPBar takes integer buttonId returns integer
-    native DzFrameGetHeroManaBar takes integer buttonId returns integer
-    native DzFrameGetItemBarButton takes integer buttonId returns integer
-    native DzFrameGetMinimapButton takes integer buttonId returns integer
-    native DzFrameGetUpperButtonBarButton takes integer buttonId returns integer
-    native DzFrameGetTooltip takes nothing returns integer
-    native DzFrameGetChatMessage takes nothing returns integer
-    native DzFrameGetUnitMessage takes nothing returns integer
-    native DzFrameGetTopMessage takes nothing returns integer
-    native DzGetColor takes integer r, integer g, integer b, integer a returns integer
-    native DzFrameSetUpdateCallback takes string func returns nothing
-    native DzFrameSetUpdateCallbackByCode takes code funcHandle returns nothing
-    native DzFrameShow takes integer frame, boolean enable returns nothing
-    native DzCreateFrame takes string frame, integer parent, integer id returns integer
-    native DzCreateSimpleFrame takes string frame, integer parent, integer id returns integer
-    native DzDestroyFrame takes integer frame returns nothing
-    native DzLoadToc takes string fileName returns nothing
-    native DzFrameSetPoint takes integer frame, integer point, integer relativeFrame, integer relativePoint, real x, real y returns nothing
-    native DzFrameSetAbsolutePoint takes integer frame, integer point, real x, real y returns nothing
-    native DzFrameClearAllPoints takes integer frame returns nothing
-    native DzFrameSetEnable takes integer name, boolean enable returns nothing
-    native DzFrameSetScript takes integer frame, integer eventId, string func, boolean sync returns nothing
-    native DzFrameSetScriptByCode takes integer frame, integer eventId, code funcHandle, boolean sync returns nothing
-    native DzGetTriggerUIEventPlayer takes nothing returns player
-    native DzGetTriggerUIEventFrame takes nothing returns integer
-    native DzFrameFindByName takes string name, integer id returns integer
-    native DzSimpleFrameFindByName takes string name, integer id returns integer
-    native DzSimpleFontStringFindByName takes string name, integer id returns integer
-    native DzSimpleTextureFindByName takes string name, integer id returns integer
-    native DzGetGameUI takes nothing returns integer
-    native DzClickFrame takes integer frame returns nothing
-    native DzSetCustomFovFix takes real value returns nothing
-    native DzEnableWideScreen takes boolean enable returns nothing
-    native DzFrameSetText takes integer frame, string text returns nothing
-    native DzFrameGetText takes integer frame returns string
-    native DzFrameSetTextSizeLimit takes integer frame, integer size returns nothing
-    native DzFrameGetTextSizeLimit takes integer frame returns integer
-    native DzFrameSetTextColor takes integer frame, integer color returns nothing
-    native DzGetMouseFocus takes nothing returns integer
-    native DzFrameSetAllPoints takes integer frame, integer relativeFrame returns boolean
-    native DzFrameSetFocus takes integer frame, boolean enable returns boolean
-    native DzFrameSetModel takes integer frame, string modelFile, integer modelType, integer flag returns nothing
-    native DzFrameGetEnable takes integer frame returns boolean
-    native DzFrameSetAlpha takes integer frame, integer alpha returns nothing
-    native DzFrameGetAlpha takes integer frame returns integer
-    native DzFrameSetAnimate takes integer frame, integer animId, boolean autocast returns nothing
-    native DzFrameSetAnimateOffset takes integer frame, real offset returns nothing
-    native DzFrameSetTexture takes integer frame, string texture, integer flag returns nothing
-    native DzFrameSetScale takes integer frame, real scale returns nothing
-    native DzFrameSetTooltip takes integer frame, integer tooltip returns nothing
-    native DzFrameCageMouse takes integer frame, boolean enable returns nothing
-    native DzFrameGetValue takes integer frame returns real
-    native DzFrameSetMinMaxValue takes integer frame, real minValue, real maxValue returns nothing
-    native DzFrameSetStepValue takes integer frame, real step returns nothing
-    native DzFrameSetValue takes integer frame, real value returns nothing
-    native DzFrameSetSize takes integer frame, real w, real h returns nothing
-    native DzCreateFrameByTagName takes string frameType, string name, integer parent, string template, integer id returns integer
-    native DzFrameSetVertexColor takes integer frame, integer color returns nothing
-    native DzOriginalUIAutoResetPoint takes boolean enable returns nothing
-    native DzFrameSetPriority takes integer frame, integer priority returns nothing
-    native DzFrameSetParent takes integer frame, integer parent returns nothing
-    native DzFrameGetHeight takes integer frame returns real
-    native DzFrameSetFont takes integer frame, string fileName, real height, integer flag returns nothing
-    native DzFrameGetParent takes integer frame returns integer
-    native DzFrameSetTextAlignment takes integer frame, integer align returns nothing
-    native DzFrameGetName takes integer frame returns string
-    native DzGetClientWidth takes nothing returns integer
-    native DzGetClientHeight takes nothing returns integer
-    native DzFrameIsVisible takes integer frame returns boolean
-        //显示/隐藏SimpleFrame
-    //native DzSimpleFrameShow takes integer frame, boolean enable returns nothing
-    // 追加文字（支持TextArea）
-    native DzFrameAddText takes integer frame, string text returns nothing
-    // 沉默单位-禁用技能
-    native DzUnitSilence takes unit whichUnit, boolean disable returns nothing
-    // 禁用攻击
-    native DzUnitDisableAttack takes unit whichUnit, boolean disable returns nothing
-    // 禁用道具
-    native DzUnitDisableInventory takes unit whichUnit, boolean disable returns nothing
-    // 刷新小地图
-    native DzUpdateMinimap takes nothing returns nothing
-    // 修改单位alpha
-    native DzUnitChangeAlpha takes unit whichUnit, integer alpha, boolean forceUpdate returns nothing
-    // 设置单位是否可以选中
-    native DzUnitSetCanSelect takes unit whichUnit, boolean state returns nothing
-    // 修改单位是否可以被设置为目标
-    native DzUnitSetTargetable takes unit whichUnit, boolean state returns nothing
-    // 保存内存数据
-    native DzSaveMemoryCache takes string cache returns nothing
-    // 读取内存数据
-    native DzGetMemoryCache takes nothing returns string
-    // 设置加速倍率
-    native DzSetSpeed takes real ratio returns nothing
-    // 转换世界坐标为屏幕坐标-异步
-    native DzConvertWorldPosition takes real x, real y, real z, code callback returns boolean
-    // 转换世界坐标为屏幕坐标-获取转换后的X坐标
-    native DzGetConvertWorldPositionX takes nothing returns real
-    // 转换世界坐标为屏幕坐标-获取转换后的Y坐标
-    native DzGetConvertWorldPositionY takes nothing returns real
-    // 创建command button
-    native DzCreateCommandButton takes integer parent, string icon, string name, string desc returns integer
-    function DzTriggerRegisterMouseEventTrg takes trigger trg, integer status, integer btn returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterMouseEvent(trg, btn, status, true, null)
-    endfunction
-    function DzTriggerRegisterKeyEventTrg takes trigger trg, integer status, integer btn returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterKeyEvent(trg, btn, status, true, null)
-    endfunction
-    function DzTriggerRegisterMouseMoveEventTrg takes trigger trg returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterMouseMoveEvent(trg, true, null)
-    endfunction
-    function DzTriggerRegisterMouseWheelEventTrg takes trigger trg returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterMouseWheelEvent(trg, true, null)
-    endfunction
-    function DzTriggerRegisterWindowResizeEventTrg takes trigger trg returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterWindowResizeEvent(trg, true, null)
-    endfunction
-    function DzF2I takes integer i returns integer
-        return i
-    endfunction
-    function DzI2F takes integer i returns integer
-        return i
-    endfunction
-    function DzK2I takes integer i returns integer
-        return i
-    endfunction
-    function DzI2K takes integer i returns integer
-        return i
-    endfunction
-    function DzTriggerRegisterMallItemSyncData takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZMIA", true)
-    endfunction
-    //玩家消耗/使用商城道具事件
-    function DzTriggerRegisterMallItemConsumeEvent takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZMIC", true)
-    endfunction
-    //玩家删除商城道具事件
-    function DzTriggerRegisterMallItemRemoveEvent takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZMID", true)
-    endfunction
-    function DzGetTriggerMallItemPlayer takes nothing returns player
-        return DzGetTriggerSyncPlayer()
-    endfunction
-    function DzGetTriggerMallItem takes nothing returns string
-        return DzGetTriggerSyncData()
-    endfunction
-    
-endlibrary
-library YDWEGetUnitsOfTypeIdAllNull
-globals
-endglobals
-function YDWEGetUnitsOfTypeIdAllNull takes integer unitid returns group
-    local group result = CreateGroup()
-    local group g = CreateGroup()
-    local integer index
-    set index = 0
-    loop
-        set bj_groupEnumTypeId = unitid
-        call GroupClear(g)
-        call GroupEnumUnitsOfPlayer(g, Player(index), filterGetUnitsOfTypeIdAll)
-        call GroupAddGroup(g, result)
-        set index = index + 1
-        exitwhen index == bj_MAX_PLAYER_SLOTS
-    endloop
-    call DestroyGroup(g)
-    set g = null
-    set yd_NullTempGroup = result
-    set result = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEPolledWaitNull
-function YDWEPolledWaitNull takes real duration returns nothing
-    local timer t
-    local real timeRemaining
-    if (duration > 0) then
-        set t = CreateTimer()
-        call TimerStart(t, duration, false, null)
-        loop
-            set timeRemaining = TimerGetRemaining(t)
-            exitwhen timeRemaining <= 0
-            // If we have a bit of time left, skip past 10% of the remaining
-            // duration instead of checking every interval, to minimize the
-            // polling on long waits.
-            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
-                call TriggerSleepAction(0.1 * timeRemaining)
-            else
-                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
-            endif
-        endloop
-        call DestroyTimer(t)
-    endif
-    set t = null
-endfunction
-endlibrary
-//! zinc
-/*
-鼠标滚轮控制视距
-一键切换宽屏模式
-made by 裂魂
-2018/10/19
-*/
-library CameraControl requires Hardware{
-    integer ViewLevel = 8; //初始视野等级
-boolean ResetCam = false; //开启重置镜头属性标识
-real WheelSpeed = 0.1; //镜头变化平滑度
-boolean WideScr = false; //是否是宽屏
-real X_ANGLE = 304; //默认X轴角度
-    public struct cameraControl {
-        // 打开滚轮控制镜头高度
-        public static method openWheel () {DoNothing();}
-    }
-    // 滚轮控制镜头
-    // 初始化就调用
-    function onInit () {
-        //注册滚轮事件
-        hardware.regWheelEvent(function (){
-            integer delta = DzGetWheelDelta(); //滚轮变化量
-if (!DzIsMouseOverUI()) {return;} //如果鼠标不在游戏内，就不响应鼠标滚轮
-ResetCam = true; //标记需要重置镜头属性
-if (delta < 0) { //滚轮下滑
-if (ViewLevel < 14) {ViewLevel = ViewLevel + 1;} //视野等级上限
-} else { //滚轮上滑
-if (ViewLevel > 3) {ViewLevel = ViewLevel - 1;} //视野等级下限
-}
-            X_ANGLE = Rad2Deg(GetCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK)); //记录滚动前的镜头角度
-});
-        //注册每帧渲染事件
-        hardware.regUpdateEvent(function (){
-            if (ResetCam) {//重设镜头角度和高度
-                SetCameraField( CAMERA_FIELD_ANGLE_OF_ATTACK, X_ANGLE, 0 );
-                SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, ViewLevel*200, WheelSpeed);
-                ResetCam = false;
-            }
-        });
-        //注册按下键码为145的按键(ScrollLock)事件
-        DzTriggerRegisterKeyEventByCode( null, 145, 1, false, function (){
-            WideScr = !WideScr;
-            DzEnableWideScreen(WideScr);
-        });
-    }
-}
-//! endzinc
-library YDWEGetRandomSubGroupEnumNull
-function YDWEGetRandomSubGroupEnumNull takes nothing returns nothing
-    if (bj_randomSubGroupWant > 0) then
-        if (bj_randomSubGroupWant >= bj_randomSubGroupTotal) or (GetRandomInt(1,bj_randomSubGroupTotal) <= bj_randomSubGroupWant) then
-            // We either need every remaining unit, or the unit passed its chance check.
-            call GroupAddUnit(bj_randomSubGroupGroup, GetEnumUnit())
-            set bj_randomSubGroupWant = bj_randomSubGroupWant - 1
-        endif
-    endif
-    set bj_randomSubGroupTotal = bj_randomSubGroupTotal - 1
-endfunction
-endlibrary
-library YDWEGetRandomSubGroupNull requires YDWEGetRandomSubGroupEnumNull
-function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup returns group
-    set bj_randomSubGroupGroup = CreateGroup()
-    set bj_randomSubGroupWant = count
-    set bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
-    if (bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0) then
-        return bj_randomSubGroupGroup
-    endif
-    call ForGroup(sourceGroup, function YDWEGetRandomSubGroupEnumNull)
-    return bj_randomSubGroupGroup
-endfunction
-endlibrary
-//===========================================================================  
-//万能环绕模板 
-//===========================================================================
-library YDWEAroundSystem requires YDWEBase
-//library TP1 requires YDWEBase
-    globals
-        private constant timer AROUND_TIM = CreateTimer()
-        private constant real AROUND_INTER = 0.01
-    endglobals
-    private struct Data
-        static thistype array Structs
-        static integer Total = 0
-        unit caster = null
-        unit obj = null 
-        real dur = 0.
-        real inter = 0.
-        real each = 0. 
-        real rate = 0.
-        real dis = 0.
-        real rise = 0. 
-        real angle = 0.
-        real radius = 0.
-        real height = 0
-    endstruct
-    private function spin takes nothing returns nothing
-        local Data d = 0
-        local real x = 0.
-        local real y = 0.
-        local integer inst = 0
-        
-        loop
-            exitwhen (inst == Data.Total)
-            set d = Data.Structs[inst]
-            if ( d.dur > 0 ) and (GetUnitState(d.caster, UNIT_STATE_LIFE)>0) and (GetUnitState(d.obj, UNIT_STATE_LIFE)>0) then
-                set d.each = d.each + AROUND_INTER
-                if ( d.each >= d.inter ) then
-                    set d.angle = d.angle + d.rate
-                    set d.radius = d.radius + d.dis
-                    set d.height = d.height + d.rise
-                    set x = GetUnitX(d.caster) + d.radius*Cos(d.angle)
-                    set y = GetUnitY(d.caster) + d.radius*Sin(d.angle)
-                    set x = YDWECoordinateX(x)
-                    set y = YDWECoordinateY(y)
-                    call SetUnitX(d.obj, x)
-                    call SetUnitY(d.obj, y)
-                    call SetUnitFlyHeight(d.obj, d.height, 0.)
-                    set d.each = 0.
-                endif
-                set d.dur = d.dur - AROUND_INTER
-            else 
-                set bj_lastAbilityTargetUnit=d.caster
-                call YDWESyStemAbilityCastingOverTriggerAction(d.obj,10) 
-                set d.caster = null
-                set d.obj = null
-                call d.destroy()
-                set Data.Total = Data.Total - 1
-                set Data.Structs[inst] = Data.Structs[Data.Total]
-                set inst = inst - 1
-            endif
-            set inst = inst + 1
-        endloop
-        if ( Data.Total == 0 ) then
-            call PauseTimer(AROUND_TIM)
-        endif
-    endfunction
-    function YDWEAroundSystem takes unit satellite, unit star, real angleRate, real displacement, real riseRate,real timeout, real interval returns nothing
-        local Data d = Data.create()
-        local real x1 = GetUnitX(star)
-        local real y1 = GetUnitY(star)
-        local real x2 = GetUnitX(satellite)
-        local real y2 = GetUnitY(satellite)
-        set d.caster = star
-        set d.obj = satellite
-        set d.dur = timeout
-        set d.inter = interval
-        set d.rate = angleRate*(3.14159/180.)
-        set d.dis = displacement
-        set d.rise = riseRate
-        set d.angle = Atan2(y2-y1,x2-x1)
-        set d.radius = SquareRoot((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
-        set d.height = GetUnitFlyHeight(d.obj) 
-        set Data.Structs[Data.Total] = integer(d)
-        set Data.Total = Data.Total + 1 
-        if ( Data.Total - 1 == 0 ) then
-            call TimerStart(AROUND_TIM, AROUND_INTER, true, function spin)
-        endif
-    endfunction
-    
-endlibrary 
-library YDWEGetUnitsInRangeOfLocMatchingNull
-globals
-endglobals
-function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-/*
-japi引用的常量库 由于wave宏定义 只对以下的代码有效
-请将常量库里所有内容复制到  自定义脚本代码区
-*/
-//魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
-//-----------模拟聊天------------------
-//---------技能数据类型---------------
-//冷却时间
-//目标允许
-//施放时间
-//持续时间
-//持续时间
-//魔法消耗
-//施放间隔
-//影响区域
-//施法距离
-//数据A
-//数据B
-//数据C
-//数据D
-//数据E
-//数据F
-//数据G
-//数据H
-//数据I
-//单位类型
-//热键
-//关闭热键
-//学习热键
-//名字
-//图标
-//目标效果
-//施法者效果
-//目标点效果
-//区域效果
-//投射物
-//特殊效果
-//闪电效果
-//buff提示
-//buff提示
-//学习提示
-//提示
-//关闭提示
-//学习提示
-//提示
-//关闭提示
-//----------物品数据类型----------------------
-//物品图标
-//物品提示
-//物品扩展提示
-//物品名字
-//物品说明
-//------------单位数据类型--------------
-//攻击1 伤害骰子数量
-//攻击1 伤害骰子面数
-//攻击1 基础伤害
-//攻击1 升级奖励
-//攻击1 最小伤害
-//攻击1 最大伤害
-//攻击1 全伤害范围
-//装甲
-// attack 1 attribute adds
-//攻击1 伤害衰减参数
-//攻击1 武器声音
-//攻击1 攻击类型
-//攻击1 最大目标数
-//攻击1 攻击间隔
-//攻击1 攻击延迟/summary>
-//攻击1 弹射弧度
-//攻击1 攻击范围缓冲
-//攻击1 目标允许
-//攻击1 溅出区域
-//攻击1 溅出半径
-//攻击1 武器类型
-// attack 2 attributes (sorted in a sequencial order based on memory address)
-//攻击2 伤害骰子数量
-//攻击2 伤害骰子面数
-//攻击2 基础伤害
-//攻击2 升级奖励
-//攻击2 伤害衰减参数
-//攻击2 武器声音
-//攻击2 攻击类型
-//攻击2 最大目标数
-//攻击2 攻击间隔
-//攻击2 攻击延迟
-//攻击2 攻击范围
-//攻击2 攻击缓冲
-//攻击2 最小伤害
-//攻击2 最大伤害
-//攻击2 弹射弧度
-//攻击2 目标允许类型
-//攻击2 溅出区域
-//攻击2 溅出半径
-//攻击2 武器类型
-//装甲类型
-//! zinc
-/*
-伤害工具
-*/
-library DamageUtils requires UnitFilter,GroupUtils {
-    //旧名替换:DamageSingle
-    //单体伤害:物理
-    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:魔法
-    public function ApplyMagicDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:真实
-    public function ApplyPureDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
-    }
-    //模拟普攻(最后一个参数代表额外的终伤,0)
-    public function SimulateBasicAttack (unit u,unit target,real fd) {
-        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(0x12))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-    //伤害参数结构体
-    private struct DmgP {
-        unit source; //伤害来源
-string eft; //特效
-real damage; //伤害值
-        method destroy() {
-            this.source = null;
-            this.eft = null;
-        }
-    }
-    //伤害参数栈
-    public struct DmgS [] {
-        private static DmgP stack[100];
-        private static integer top = -1;
-        public static method push(DmgP params) {
-            thistype.top += 1;
-            thistype.stack[thistype.top] = params;
-        }
-        public static method pop() -> DmgP {
-            DmgP params = thistype.stack[thistype.top];
-            thistype.stack[thistype.top] = 0;
-            thistype.top -= 1;
-            return params;
-        }
-        public static method getTop() -> integer {
-            return thistype.top;
-        }
-        public static method current() -> DmgP {
-            return thistype.stack[thistype.top];
-        }
-    }
-    //范围普通伤害
-    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-    //范围魔法伤害
-    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-    //范围真实伤害
-    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-}
-//! endzinc
-//! zinc
-/*
-数字工具
-*/
-library NumberUtils {
-    // 老版本叫GetIntegerBit(替换)
-    // 获取一个整数中指定范围的数字(按十进制位数)
-    // @param value - 要处理的整数,如1483
-    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
-    // @param bit2 - 结束位置,如3表示百位
-    // @return - 返回指定范围的数字,如1483取1-3位返回483
-    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
-        if (bit1 > bit2) {return 0;}
-        if (bit1 <= 0 || bit2 <= 0) {return 0;}
-        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
-    }
-    // 老版本叫GetBit(替换)
-    // 获取一个整数中指定位置的单个数字(按十进制位数)
-    // @param num - 要处理的整数,如1483
-    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
-    // @return - 返回指定位置的数字,如1483取第2位返回8
-    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
-    public function GetDigitAt (integer num,integer bit) -> integer {
-        integer bit1 = R2I(Pow(10,bit-1)); //举例,1483取位2 ->这个是10;
-integer bit2 = R2I(Pow(10,bit)); //举例,1483取位2 ->这个是100;
-num = IAbsBJ(num); //取绝对值
-if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
-if (bit1 > num) {return 0;} //取了不该取的位
-bit1 = IMaxBJ(1,bit1);
-        //先取余100,再除10 ->
-        return ModuloInteger(num,bit2) / bit1;
-    }
-}
-//! endzinc
-//===========================================================================
-//系统-TimerSystem
-//===========================================================================
-library YDWETimerSystem initializer Init requires YDTriggerSaveLoadSystem
-globals
-	private integer CurrentTime
-	private integer CurrentIndex
-    private integer TaskListHead
-    private integer TaskListIdleHead
-    private integer TaskListIdleMax
-    private integer array TaskListIdle
-    private integer array TaskListNext
-    private integer array TaskListTime
-    private trigger array TaskListProc //函数组
-private trigger fnRemoveUnit //移除单位函数
-private trigger fnDestroyTimer //摧毁计时器
-private trigger fnRemoveItem //移除物品
-private trigger fnDestroyEffect //删除特效
-private trigger fnDestroyLightning //删除删掉特效
-private trigger fnRunTrigger //运行触发器
-private timer Timer //最小时间计时器  系统计时器  用于一些需要精确计时的功能
-private integer TimerHandle
-	private integer TimerSystem_RunIndex = 0
-endglobals
-private function NewTaskIndex takes nothing returns integer
-	local integer h = TaskListIdleHead
-	if TaskListIdleHead < 0 then
-		if TaskListIdleMax >= 8000 then
-			debug call BJDebugMsg("中心计时器任务队列溢出！")
-			return 8100
-		else
-			set TaskListIdleMax = TaskListIdleMax + 1
-			return TaskListIdleMax
-		endif
-	endif
-	set TaskListIdleHead = TaskListIdle[h]
-	return h
-endfunction
-private function DeleteTaskIndex takes integer index returns nothing
-	set TaskListIdle[index] = TaskListIdleHead
-	set TaskListIdleHead = index
-endfunction
-//该函数序列处理
-private function NewTask takes real time, trigger proc returns integer
-	local integer index = NewTaskIndex()
-	local integer h = TaskListHead
-	local integer t = R2I(100.*time) + CurrentTime
-	local integer p
-	set TaskListProc[index] = proc
-	set TaskListTime[index] = t
-	loop
-		set p = TaskListNext[h]
-		if p < 0 or TaskListTime[p] >= t then
-		//	call BJDebugMsg("NewTask:"+I2S(index))
-			set TaskListNext[h] = index
-			set TaskListNext[index] = p
-			return index
-		endif
-		set h = p
-	endloop
-	return index
-endfunction
-function YDWETimerSystemNewTask takes real time, trigger proc returns integer
-	return NewTask(time, proc)
-endfunction
-function YDWETimerSystemGetCurrentTask takes nothing returns integer
-	return CurrentIndex
-endfunction
-//删除单位
-private function RemoveUnit_CallBack takes nothing returns nothing
-    call RemoveUnit(LoadUnitHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerRemoveUnit takes real time, unit u returns nothing
-    call SaveUnitHandle(YDHT, TimerHandle, NewTask(time, fnRemoveUnit), u)
-endfunction
-//摧毁计时器
-private function DestroyTimer_CallBack takes nothing returns nothing
-    call DestroyTimer(LoadTimerHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerDestroyTimer takes real time, timer t returns nothing
-    call SaveTimerHandle(YDHT, TimerHandle, NewTask(time, fnDestroyTimer), t)
-endfunction
-//删除物品
-private function RemoveItem_CallBack takes nothing returns nothing
-    call RemoveItem(LoadItemHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerRemoveItem takes real time, item it returns nothing
-    call SaveItemHandle(YDHT, TimerHandle, NewTask(time, fnRemoveItem), it)
-endfunction
-//删除特效
-private function DestroyEffect_CallBack takes nothing returns nothing
-    call DestroyEffect(LoadEffectHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerDestroyEffect takes real time, effect e returns nothing
-    call SaveEffectHandle(YDHT, TimerHandle, NewTask(time, fnDestroyEffect), e)
-endfunction
-//删除闪电特效
-private function DestroyLightning_CallBack takes nothing returns nothing
-    call DestroyLightning(LoadLightningHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerDestroyLightning takes real time, lightning lt returns nothing
-	local integer i = NewTask(time, fnDestroyLightning)
-    call SaveLightningHandle(YDHT, TimerHandle, i, lt)
-endfunction
-//运行触发器
-private function RunTrigger_CallBack takes nothing returns nothing
-    call TriggerExecute(LoadTriggerHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerRunTrigger takes real time, trigger trg returns nothing
-    call SaveTriggerHandle(YDHT, TimerHandle, NewTask(time, fnRunTrigger), trg)
-endfunction
-//删除漂浮文字
-function YDWETimerDestroyTextTag takes real time, texttag tt returns nothing
-    local integer N=0
-    local integer i=0
-    if time <= 0 then
-        set time = 0.01
-    endif
-    call SetTextTagPermanent(tt,false)
-    call SetTextTagLifespan(tt,time)
-    call SetTextTagFadepoint(tt,time)
-endfunction
-//中心计时器主函数
-private function Main takes nothing returns nothing
-	local integer h = TaskListHead
-	local integer p
-	loop
-		set CurrentIndex = TaskListNext[h]
-		exitwhen CurrentIndex < 0 or CurrentTime < TaskListTime[CurrentIndex]
-		//call BJDebugMsg("Task:"+I2S(CurrentIndex))
-		call TriggerEvaluate(TaskListProc[CurrentIndex])
-		call DeleteTaskIndex(CurrentIndex)
-		set TaskListNext[h] = TaskListNext[CurrentIndex]
-	endloop
-	set CurrentTime = CurrentTime + 1
-endfunction
-//初始化函数
-private function Init takes nothing returns nothing
-    set Timer = CreateTimer()
-	set TimerHandle	= GetHandleId( Timer)
-	set CurrentTime = 0
-	set TaskListHead = 0
-	set TaskListNext[0] = -1
-	set TaskListIdleHead = 1
-	set TaskListIdleMax = 1
-	set TaskListIdle[1] = -1
-	set fnRemoveUnit = CreateTrigger()
-	set fnDestroyTimer = CreateTrigger()
-	set fnRemoveItem = CreateTrigger()
-	set fnDestroyEffect = CreateTrigger()
-	set fnDestroyLightning = CreateTrigger()
-	set fnRunTrigger = CreateTrigger()
-	call TriggerAddCondition(fnRemoveUnit, Condition(function RemoveUnit_CallBack))
-	call TriggerAddCondition(fnDestroyTimer, Condition(function DestroyTimer_CallBack))
-	call TriggerAddCondition(fnRemoveItem, Condition(function RemoveItem_CallBack))
-	call TriggerAddCondition(fnDestroyEffect, Condition(function DestroyEffect_CallBack))
-	call TriggerAddCondition(fnDestroyLightning, Condition(function DestroyLightning_CallBack))
-	call TriggerAddCondition(fnRunTrigger, Condition(function RunTrigger_CallBack))
-    call TimerStart(Timer, 0.01, true, function Main)
-endfunction
-//循环类仍用独立计时器
-function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return TimerSystem_RunIndex
-endfunction
-private function RunPeriodicTriggerFunction takes nothing returns nothing
-    local integer tid = GetHandleId( GetExpiredTimer())
-    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
-	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
-    if TriggerEvaluate(trg) then
-        call TriggerExecute(trg)
-    endif
-    set trg = null
-endfunction
-private function RunPeriodicTriggerFunctionByTimes takes nothing returns nothing
-    local integer tid = GetHandleId( GetExpiredTimer())
-    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
-    local integer times = LoadInteger(YDHT, tid, $D0003)
-	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
-    if TriggerEvaluate(trg) then
-        call TriggerExecute(trg)
-    endif
-    set times = times - 1
-    if times > 0 then
-		call SaveInteger(YDHT, tid, $D0003, times)
-      else
-        call DestroyTimer(GetExpiredTimer())
-        call FlushChildHashtable(YDHT, tid)
-    endif
-    set trg = null
-endfunction
-function YDWETimerRunPeriodicTrigger takes real timeout, trigger trg, boolean b, integer times, integer data returns nothing
-    local timer t
-    local integer tid
-    local integer index = 0
-    if timeout < 0 then
-        return
-      else
-        set t = CreateTimer()
-		set tid = GetHandleId( t)
-    endif
-    set TimerSystem_RunIndex = TimerSystem_RunIndex + 1
-	call SaveTriggerHandle(YDHT, tid, $D0001, trg)
-	call SaveInteger(YDHT, tid, $D0002, TimerSystem_RunIndex)
-	set index = LoadInteger(YDHT, GetHandleId( trg), 'YDTS'+data)
-    set index = index + 1
-	call SaveInteger(YDHT, GetHandleId( trg), 'YDTS'+data, index)
-	call SaveTimerHandle(YDHT, GetHandleId( trg), ('YDTS'+data)*index, t)
-    if b == false then
-		call SaveInteger(YDHT, tid, $D0003, times)
-        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunctionByTimes)
-      else
-        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunction)
-    endif
-    set t = null
-endfunction
-function YDWETimerRunPeriodicTriggerOver takes trigger trg, integer data returns nothing
-	local integer trgid = GetHandleId( trg)
-    local integer index = LoadInteger(YDHT, trgid, 'YDTS'+data)
-    local timer t
-    loop
-        exitwhen index <= 0
-        set t = LoadTimerHandle(YDHT, trgid, ('YDTS'+data)*index)
-        call DestroyTimer(t)
-        call FlushChildHashtable(YDHT, GetHandleId( t))
-		call RemoveSavedHandle(YDHT, trgid, ('YDTS'+data)*index)
-        set index = index - 1
-    endloop
-    call RemoveSavedInteger(YDHT, trgid, 'YDTS'+data)
-    set t = null
-endfunction
-endlibrary
-//! zinc
-/*
-几何工具
-todo:直接用宏定义修改试试
-*/
-library Geometry {
-    // 4个坐标的距离
-    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1;
-        return SquareRoot(dx*dx+dy*dy);
-    }
-    // 6个坐标的距离
-    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
-        return SquareRoot(dx*dx+dy*dy+dz*dz);
-    }
-    // 4个坐标的角度,前面是人的位置，后面是点的位置
-    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
-        return (Atan2(y2-y1, x2-x1)*57.2958);
-    }
-}
-//! endzinc
-//! zinc
-/*
-字符串工具
-*/
-library StringUtils {
-    string temp;
-    //重复某一个字符串N次,并可以按照指定间隔添加空格和换行
-    //参数 s: 要重复的字符串
-    //参数 times: 重复的次数
-    //参数 gap1: 每隔多少个字符串添加一个空格,如gap1=3则每3个字符串后加空格
-    //参数 gap2: 每隔多少个字符串添加一个换行,如gap2=5则每5个字符串后换行
-    //返回: 处理后的完整字符串
-    //示例: RepeatString("A",6,2,3) 会返回 "AA AA A\nA"
-    public function RepeatString (string s,integer times,integer gap1,integer gap2) -> string {
-        integer i;
-        temp = "";
-        for (1 <= i <= times) {
-            temp += s;
-            if (ModuloInteger(i,gap1) == 0) temp += " ";
-            if (ModuloInteger(i,gap2) == 0) temp += "\n";
-        }
-        return temp;
-    }
-    //判断一个字符串是否有东西
-    public function IsNotEmpty (string s) -> boolean {return (s != null && s != "");}
-    // 数字转字符串,首位自动填充0
-    // 不支持负数
-    // 比如12,3   -> 012
-    public function I2SM ( integer num,integer bit ) -> string {
-        integer i , count;
-        string s;
-        if (num < 0) {return I2S(num);}
-        s = I2S(num);
-        count = bit - StringLength(s);
-        for (1 <= i <= count) {s = "0" + s;}
-        return s;
-    }
-    //赞助系统：循环Hash
-    public function GetCycleHash ( string s,integer times ) -> integer {
-        string result = s;
-        integer i;
-        for (1 <= i <= times) {
-            result = I2S(StringHash(result));
-        }
-        return S2I(result);
-    }
-    //拼接式存放数据的API
-    //自动将整数补至10位长度的字符串(会自动取绝对值)
-    public function IMendS ( integer num,integer bit ) -> string {
-        integer abs = IAbsBJ(num);
-        string result = I2S(abs);
-        integer i , length = StringLength(result);
-        for (1 <= i <= bit - length) {result = "0" + result;}
-        return result;
-    }
-}
-//! endzinc
-library YDWETriggerRegisterLeaveRectSimpleNull
-globals
-endglobals
-function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r returns event
-    local region rectRegion = CreateRegion()
-    call RegionAddRect(rectRegion, r)
-    set yd_NullTempRegion = rectRegion
-    set rectRegion = null
-    return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
-endfunction
-endlibrary
-//! zinc
-/*
-区域采样工具
-*/
-library RegionUtils {
-    public struct triangleXY [] {
-        static real x = 0.0 , y = 0.0;
-        // 在给定三角形区域内随机生成一个点
-        // 参数说明:
-        // @param ax,ay - 三角形顶点A的坐标
-        // @param bx,by - 三角形顶点B的坐标
-        // @param cx,cy - 三角形顶点C的坐标
-        // 返回值:
-        // 通过静态变量x,y返回随机生成的点坐标
-        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
-            real rA = GetRandomReal(0,1.0);
-            real rB = GetRandomReal(0,1.0);
-            real abx = bx-ax, aby = by-ay;
-            real acx = cx-ax, acy = cy-ay;
-            if (rA + rB > 1.0) {
-                rA = 1.0 - rA;
-                rB = 1.0 - rB;
-            }
-            x = ax + rA * abx + rB * acx;
-            y = ay + rA * aby + rB * acy;
-        }
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomX ( rect r ) -> real {
-        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomY ( rect r ) -> real {
-        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
-    }
-}
-//! endzinc
-//! zinc
-/*
-转换工具
-*/
-library ConversionUtils {
-    //补充函数
-    public function B2S(boolean b) -> string {
-        if (b) {return "true";}
-        else {return "false";}
-    }
-    //三目运算符
-    public function S3 (boolean b,string s1,string s2) -> string {
-        if (b) {return s1;}
-        else {return s2;}
-    }
-    //三目运算符
-    public function U3 (boolean b,unit u1,unit u2) -> unit {
-        if (b) {return u1;}
-        else {return u2;}
-    }
-    //三目运算符
-    public function I3 (boolean b,integer i1,integer i2) -> integer {
-        if (b) {return i1;}
-        else {return i2;}
-    }
-    //三目运算符
-    public function R3 (boolean b,real r1,real r2) -> real {
-        if (b) {return r1;}
-        else {return r2;}
-    }
-    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
-    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
-    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
-    public function GetIDSymbol ( integer pos ) -> integer {
-        integer bit = pos/36;
-        pos = ModuloInteger(pos,36);
-        if (pos < 10) {return pos + bit * 256;}
-        else {return '000a' - '0000' + pos - 10 + bit * 256;}
-    }
-    // 将魔兽的四字符ID转换回对应数字
-    // s为输入的四字符ID,将其还原为原始数字
-    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
-    public function GetSymbolID ( integer s ) -> integer {
-        integer i1 = s/256;
-        integer i2 = ModuloInteger(s,256);
-        if (i2 < 10) {return i1 * 36 + i2;}
-        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
-    }
-}
-//! endzinc
-library DzAPI
-    native DzAPI_Map_HasMallItem takes player whichPlayer, string key returns boolean
-    native DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
-    // native DzAPI_Map_GetGuildName takes player whichPlayer returns string
-    native RequestExtraIntegerData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns integer
-    native RequestExtraBooleanData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns boolean
-    native RequestExtraStringData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns string
-    native RequestExtraRealData takes integer dataType, player whichPlayer, string param1, string param2, boolean param3, integer param4, integer param5, integer param6 returns real
-    
-    // SaveServerValue,               //保存服务器存档
-    function DzAPI_Map_SaveServerValue takes player whichPlayer, string key, string value returns boolean
-        return RequestExtraBooleanData(4, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    // GetServerValue,                //读取服务器存档
-    function DzAPI_Map_GetServerValue takes player whichPlayer, string key returns string
-        return RequestExtraStringData(5, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetGameStartTime,              //取游戏开始时间
-    function DzAPI_Map_GetGameStartTime takes nothing returns integer
-        return RequestExtraIntegerData(11, null, null, null, false, 0, 0, 0)
-    endfunction
-    // IsRPGLadder,                   //判断当前是否rpg天梯
-    function DzAPI_Map_IsRPGLadder takes nothing returns boolean
-        return RequestExtraBooleanData(12, null, null, null, false, 0, 0, 0)
-    endfunction
-    // GetMatchType,                  //获取匹配类型
-    function DzAPI_Map_GetMatchType takes nothing returns integer
-        return RequestExtraIntegerData(13, null, null, null, false, 0, 0, 0)
-    endfunction
-        // SetStat,                       //统计-提交地图数据
-    function DzAPI_Map_Stat_SetStat takes player whichPlayer, string key, string value returns nothing
-        call RequestExtraIntegerData(7, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    // SetLadderStat,                 //天梯-统计数据
-    function DzAPI_Map_Ladder_SetStat takes player whichPlayer, string key, string value returns nothing
-        call RequestExtraIntegerData(8, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    // SetLadderPlayerStat,           //天梯-统计数据
-    function DzAPI_Map_Ladder_SetPlayerStat takes player whichPlayer, string key, string value returns nothing
-        call RequestExtraIntegerData(9, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-        // GetServerValueErrorCode,       //读取加载服务器存档时的错误码
-    function DzAPI_Map_GetServerValueErrorCode takes player whichPlayer returns integer
-        return RequestExtraIntegerData(6, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // GetLadderLevel,                //提供给地图的接口，用与取天梯等级
-    function DzAPI_Map_GetLadderLevel takes player whichPlayer returns integer
-        return RequestExtraIntegerData(14, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // PlayerIdentityType, // 获取玩家身份类型
-    function KKApiPlayerIdentityType takes player whichPlayer, integer id returns boolean
-        return RequestExtraBooleanData(92, whichPlayer, null, null, false, id, 0, 0)
-    endfunction
-    // IsRedVIP,                      //提供给地图的接口，用与判断是否红V
-    function DzAPI_Map_IsRedVIP takes player whichPlayer returns boolean
-        return KKApiPlayerIdentityType(whichPlayer, 4)
-    endfunction
-    // IsBlueVIP,                     //提供给地图的接口，用与判断是否蓝V
-    function DzAPI_Map_IsBlueVIP takes player whichPlayer returns boolean
-        return KKApiPlayerIdentityType(whichPlayer, 3)
-    endfunction
-    // GetLadderRank,                 //提供给地图的接口，用与取天梯排名
-    function DzAPI_Map_GetLadderRank takes player whichPlayer returns integer
-        return RequestExtraIntegerData(17, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // GetMapLevelRank,               //提供给地图的接口，用与取地图等级排名
-    function DzAPI_Map_GetMapLevelRank takes player whichPlayer returns integer
-        return RequestExtraIntegerData(18, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // GetGuildRole,                  //获取公会职责 Member=10 Admin=20 Leader=30
-    function DzAPI_Map_GetGuildRole takes player whichPlayer returns integer
-        return RequestExtraIntegerData(20, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // IsRPGLobby,                    //检查是否大厅地图
-    function DzAPI_Map_IsRPGLobby takes nothing returns boolean
-        return RequestExtraBooleanData(10, null, null, null, false, 0, 0, 0)
-    endfunction
-    
-    // MissionComplete,               //用作完成某个任务，发奖励
-    function DzAPI_Map_MissionComplete takes player whichPlayer, string key, string value returns nothing
-        call RequestExtraIntegerData(1, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    // GetActivityData,               //提供给地图的接口，用作取服务器上的活动数据
-    function DzAPI_Map_GetActivityData takes nothing returns string
-        return RequestExtraStringData(2, null, null, null, false, 0, 0, 0)
-    endfunction
-    // GetMapConfig,                  //获取地图配置
-    function DzAPI_Map_GetMapConfig takes string key returns string
-        return RequestExtraStringData(21, null, key, null, false, 0, 0, 0)
-    endfunction
-    // SavePublicArchive,             //保存服务器存档组
-    function DzAPI_Map_SavePublicArchive takes player whichPlayer, string key, string value returns boolean
-        return RequestExtraBooleanData(31, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    // GetPublicArchive,              //读取服务器存档组
-    function DzAPI_Map_GetPublicArchive takes player whichPlayer, string key returns string
-        return RequestExtraStringData(32, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_UseConsumablesItem takes player whichPlayer, string key returns nothing
-        call RequestExtraIntegerData(33, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // OrpgTrigger,                   //触发boss击杀
-    function DzAPI_Map_OrpgTrigger takes player whichPlayer, string key returns nothing
-        call RequestExtraIntegerData(28, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetServerArchiveDrop,          //读取服务器掉落数据
-    function DzAPI_Map_GetServerArchiveDrop takes player whichPlayer, string key returns string
-        return RequestExtraStringData(27, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetServerArchiveEquip,         //读取服务器装备数据
-    function DzAPI_Map_GetServerArchiveEquip takes player whichPlayer, string key returns integer
-        return RequestExtraIntegerData(26, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_GetPlatformVIP takes player whichPlayer returns integer
-        return RequestExtraIntegerData(30, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_IsPlatformVIP takes player whichPlayer returns boolean
-        return DzAPI_Map_GetPlatformVIP(whichPlayer) > 0
-    endfunction
-    function DzAPI_Map_Global_GetStoreString takes string key returns string
-        return RequestExtraStringData(36, GetLocalPlayer(), key, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_Global_StoreString takes string key, string value returns nothing
-        call RequestExtraBooleanData(37, GetLocalPlayer(), key, value, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_Global_ChangeMsg takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZGAU", true)
-    endfunction
-    function DzAPI_Map_ServerArchive takes player whichPlayer, string key returns string
-        return RequestExtraStringData(38, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_SaveServerArchive takes player whichPlayer, string key, string value returns nothing
-        call RequestExtraBooleanData(39, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_IsRPGQuickMatch takes nothing returns boolean
-        return RequestExtraBooleanData(40, null, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_GetMallItemCount takes player whichPlayer, string key returns integer
-        return RequestExtraIntegerData(41, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_ConsumeMallItem takes player whichPlayer, string key, integer count returns boolean
-        return RequestExtraBooleanData(42, whichPlayer, key, null, false, count, 0, 0)
-    endfunction
-    function DzAPI_Map_EnablePlatformSettings takes player whichPlayer, integer option, boolean enable returns boolean
-        return RequestExtraBooleanData(43, whichPlayer, null, null, enable, option, 0, 0)
-    endfunction
-    function GetPlayerServerValueSuccess takes player whichPlayer returns boolean
-        if(DzAPI_Map_GetServerValueErrorCode(whichPlayer)==0)then
-            return true
-        else
-            return false
-        endif
-    endfunction
-    function DzAPI_Map_StoreIntegerEX takes player whichPlayer, string key, integer value returns nothing
-        set key="I"+key
-        call RequestExtraBooleanData(39, whichPlayer, key, I2S(value), false, 0, 0, 0)
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredIntegerEX takes player whichPlayer, string key returns integer
-        local integer value
-        set key="I"+key
-        set value=S2I(RequestExtraStringData(38, whichPlayer, key, null, false, 0, 0, 0))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_StoreInteger takes player whichPlayer, string key, integer value returns nothing
-        set key="I"+key
-        call DzAPI_Map_SaveServerValue(whichPlayer,key,I2S(value))
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredInteger takes player whichPlayer, string key returns integer
-        local integer value
-        set key="I"+key
-        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer,key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-        function DzAPI_Map_CommentTotalCount1 takes player whichPlayer, integer id returns integer
-            return RequestExtraIntegerData(52, whichPlayer, null, null, false, id, 0, 0)
-    endfunction
-    function DzAPI_Map_StoreReal takes player whichPlayer, string key, real value returns nothing
-        set key="R"+key
-        call DzAPI_Map_SaveServerValue(whichPlayer,key,R2S(value))
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredReal takes player whichPlayer, string key returns real
-        local real value
-        set key="R"+key
-        set value=S2R(DzAPI_Map_GetServerValue(whichPlayer,key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_StoreBoolean takes player whichPlayer, string key, boolean value returns nothing
-        set key="B"+key
-        if(value)then
-            call DzAPI_Map_SaveServerValue(whichPlayer,key,"1")
-        else
-            call DzAPI_Map_SaveServerValue(whichPlayer,key,"0")
-        endif
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredBoolean takes player whichPlayer, string key returns boolean
-        local boolean value
-        set key="B"+key
-        set key=DzAPI_Map_GetServerValue(whichPlayer,key)
-        if(key=="1")then
-            set value=true
-        else
-            set value=false
-        endif
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_StoreString takes player whichPlayer, string key, string value returns nothing
-        set key="S"+key
-        call DzAPI_Map_SaveServerValue(whichPlayer,key,value)
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredString takes player whichPlayer, string key returns string
-        return DzAPI_Map_GetServerValue(whichPlayer,"S"+key)
-    endfunction
-    function DzAPI_Map_StoreStringEX takes player whichPlayer, string key, string value returns nothing
-        set key="S"+key
-        call RequestExtraBooleanData(39, whichPlayer,key,value,false,0,0,0)
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GetStoredStringEX takes player whichPlayer, string key returns string
-        return RequestExtraStringData(38, whichPlayer,"S"+key,null,false,0,0,0)
-    endfunction
-    function DzAPI_Map_GetStoredUnitType takes player whichPlayer, string key returns integer
-        local integer value
-        set key="I"+key
-        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer,key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_GetStoredAbilityId takes player whichPlayer, string key returns integer
-        local integer value
-        set key="I"+key
-        set value=S2I(DzAPI_Map_GetServerValue(whichPlayer,key))
-        set key=null
-        set whichPlayer=null
-        return value
-    endfunction
-    function DzAPI_Map_FlushStoredMission takes player whichPlayer, string key returns nothing
-        call DzAPI_Map_SaveServerValue(whichPlayer,key,null)
-        set key=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_Ladder_SubmitIntegerData takes player whichPlayer, string key, integer value returns nothing
-        call DzAPI_Map_Ladder_SetStat(whichPlayer,key,I2S(value))
-    endfunction
-    function DzAPI_Map_Stat_SubmitUnitIdData takes player whichPlayer, string key,integer value returns nothing
-        if(value==0)then
-            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-        else
-            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,I2S(value))
-        endif
-    endfunction
-    function DzAPI_Map_Stat_SubmitUnitData takes player whichPlayer, string key,unit value returns nothing
-        call DzAPI_Map_Stat_SubmitUnitIdData(whichPlayer,key,GetUnitTypeId(value))
-    endfunction
-    function DzAPI_Map_Ladder_SubmitAblityIdData takes player whichPlayer, string key, integer value returns nothing
-        if(value==0)then
-            //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-        else
-            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,I2S(value))
-        endif
-    endfunction
-    function DzAPI_Map_Ladder_SubmitItemIdData takes player whichPlayer, string key, integer value returns nothing
-        local string S
-        if(value==0)then
-            set S="0"
-        else
-            set S=I2S(value)
-            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
-        endif
-        //call DzAPI_Map_Ladder_SetStat(whichPlayer,key,S)
-        set S=null
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_Ladder_SubmitItemData takes player whichPlayer, string key, item value returns nothing
-        call DzAPI_Map_Ladder_SubmitItemIdData(whichPlayer,key,GetItemTypeId(value))
-    endfunction
-    function DzAPI_Map_Ladder_SubmitBooleanData takes player whichPlayer, string key,boolean value returns nothing
-        if(value)then
-            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"1")
-        else
-            call DzAPI_Map_Ladder_SetStat(whichPlayer,key,"0")
-        endif
-    endfunction
-    function DzAPI_Map_Ladder_SubmitTitle takes player whichPlayer, string value returns nothing
-        call DzAPI_Map_Ladder_SetStat(whichPlayer,value,"1")
-    endfunction
-    function DzAPI_Map_Ladder_SubmitPlayerRank takes player whichPlayer, integer value returns nothing
-        call DzAPI_Map_Ladder_SetPlayerStat(whichPlayer,"RankIndex",I2S(value))
-    endfunction
-    function DzAPI_Map_Ladder_SubmitPlayerExtraExp takes player whichPlayer, integer value returns nothing
-        call DzAPI_Map_Ladder_SetStat(whichPlayer,"ExtraExp",I2S(value))
-    endfunction
-    function DzAPI_Map_PlayedGames takes player whichPlayer returns integer
-        return RequestExtraIntegerData(45, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_CommentCount takes player whichPlayer returns integer
-        return RequestExtraIntegerData(46, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_FriendCount takes player whichPlayer returns integer
-        return RequestExtraIntegerData(47, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_IsConnoisseur takes player whichPlayer returns boolean
-        return RequestExtraBooleanData(48, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_IsAuthor takes player whichPlayer returns boolean
-        return RequestExtraBooleanData(50, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_CommentTotalCount takes nothing returns integer
-        return RequestExtraIntegerData(51, null, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_Statistics takes player whichPlayer, string eventKey, string eventType, integer value returns nothing
-        call RequestExtraBooleanData(34, whichPlayer, eventKey, eventType, false, value, 0, 0)
-    endfunction
-    function DzAPI_Map_Returns takes player whichPlayer, integer label returns boolean
-        return RequestExtraBooleanData(53, whichPlayer, null, null, false, label, 0, 0)
-    endfunction
-    function DzAPI_Map_ContinuousCount takes player whichPlayer, integer id returns integer
-        return RequestExtraIntegerData(54, whichPlayer, null, null, false, id, 0, 0)
-    endfunction
-    // IsPlayer,                      //是否为玩家
-    function DzAPI_Map_IsPlayer takes player whichPlayer returns boolean
-        return RequestExtraBooleanData(55, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // MapsTotalPlayed,               //所有地图的总游戏时长
-    function DzAPI_Map_MapsTotalPlayed takes player whichPlayer returns integer
-        return RequestExtraIntegerData(56, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // MapsLevel,                    //指定地图的地图等级
-    function DzAPI_Map_MapsLevel takes player whichPlayer, integer mapId returns integer
-        return RequestExtraIntegerData(57, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // MapsConsumeGold,              //所有地图的金币消耗
-    function DzAPI_Map_MapsConsumeGold takes player whichPlayer, integer mapId returns integer
-        return RequestExtraIntegerData(58, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // MapsConsumeLumber,            //所有地图的木材消耗
-    function DzAPI_Map_MapsConsumeLumber takes player whichPlayer, integer mapId returns integer
-        return RequestExtraIntegerData(59, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // MapsConsumeLv1,               //消费 1-199
-    function DzAPI_Map_MapsConsumeLv1 takes player whichPlayer, integer mapId returns boolean
-        return RequestExtraBooleanData(60, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // MapsConsumeLv2,               //消费 200-499
-    function DzAPI_Map_MapsConsumeLv2 takes player whichPlayer, integer mapId returns boolean
-        return RequestExtraBooleanData(61, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // MapsConsumeLv3,               //消费 500~999
-    function DzAPI_Map_MapsConsumeLv3 takes player whichPlayer, integer mapId returns boolean
-        return RequestExtraBooleanData(62, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // MapsConsumeLv4,               //消费 1000+
-    function DzAPI_Map_MapsConsumeLv4 takes player whichPlayer, integer mapId returns boolean
-        return RequestExtraBooleanData(63, whichPlayer, null, null, false, mapId, 0, 0)
-    endfunction
-    // IsPlayerUsingSkin,            //检查是否装备着皮肤（skinType：头像=1、边框=2、称号=3、底纹=4）
-    function DzAPI_Map_IsPlayerUsingSkin takes player whichPlayer, integer skinType, integer id returns boolean
-        return RequestExtraBooleanData(64,whichPlayer, null, null, false, skinType, id, 0)
-    endfunction
-    //获取论坛数据（0=累计获得赞数，1=精华帖数量，2=发表回复次数，3=收到的欢乐数，4=是否发过贴子，5=是否版主，6=主题数量）
-    function DzAPI_Map_GetForumData takes player whichPlayer, integer whichData returns integer
-        return RequestExtraIntegerData(65, whichPlayer, null, null, false, whichData, 0, 0)
-    endfunction
-    // PlayerFlags,                   //玩家标记 label（1=曾经是平台回流用户，2=当前是平台回流用户，4=曾经是地图回流用户，8=当前是地图回流用户，16=地图是否被玩家收藏）
-    function DzAPI_Map_PlayerFlags takes player whichPlayer, integer label returns boolean
-        return RequestExtraBooleanData(53, whichPlayer, null, null, false, label, 0, 0)
-    endfunction
-    // GetLotteryUsedCount, // 获取宝箱抽取次数
-    function DzAPI_Map_GetLotteryUsedCountEx takes player whichPlayer,integer index returns integer
-        return RequestExtraIntegerData(68, whichPlayer, null, null, false, index, 0, 0)
-    endfunction
-    function DzAPI_Map_GetLotteryUsedCount takes player whichPlayer returns integer
-        return DzAPI_Map_GetLotteryUsedCountEx(whichPlayer,0)+DzAPI_Map_GetLotteryUsedCountEx(whichPlayer,1)+DzAPI_Map_GetLotteryUsedCountEx(whichPlayer,2)
-    endfunction
-    function DzAPI_Map_OpenMall takes player whichPlayer,string whichkey returns boolean
-        return RequestExtraBooleanData(66, whichPlayer, whichkey, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_GameResult_CommitData takes player whichPlayer, string key, string value returns nothing
-        call RequestExtraIntegerData(69, whichPlayer, key, value, false, 0, 0, 0)
-    endfunction
-    //游戏结算
-    function DzAPI_Map_GameResult_CommitTitle takes player whichPlayer, string value returns nothing
-        call DzAPI_Map_GameResult_CommitData(whichPlayer,value,"1")
-        set whichPlayer=null
-        set value=null
-    endfunction
-    function DzAPI_Map_GameResult_CommitPlayerRank takes player whichPlayer, integer value returns nothing
-        call DzAPI_Map_GameResult_CommitData(whichPlayer,"RankIndex",I2S(value))
-        set whichPlayer=null
-        set value=0
-    endfunction
-    function DzAPI_Map_GameResult_CommitGameMode takes string value returns nothing
-        call DzAPI_Map_GameResult_CommitData(GetLocalPlayer(),"InnerGameMode",value)
-        set value=null
-    endfunction
-    function DzAPI_Map_GameResult_CommitGameResult takes player whichPlayer, integer value returns nothing
-        call DzAPI_Map_GameResult_CommitData(whichPlayer,"GameResult",I2S(value))
-        set whichPlayer=null
-    endfunction
-    function DzAPI_Map_GameResult_CommitGameResultNoEnd takes player whichPlayer, integer value returns nothing
-        call DzAPI_Map_GameResult_CommitData(whichPlayer,"GameResultNoEnd",I2S(value))
-        set whichPlayer=null
-    endfunction
-    // GetSinceLastPlayedSeconds, // 获取距最后一次游戏的秒数
-    function DzAPI_Map_GetSinceLastPlayedSeconds takes player whichPlayer returns integer
-        return RequestExtraIntegerData(70, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // QuickBuy, //游戏内快速购买
-    function DzAPI_Map_QuickBuy takes player whichPlayer, string key, integer count, integer seconds returns boolean
-        return RequestExtraBooleanData(72, whichPlayer, key, null, false, count, seconds, 0)
-    endfunction
-    // CancelQuickBuy, //取消快速购买
-    function DzAPI_Map_CancelQuickBuy takes player whichPlayer returns boolean
-        return RequestExtraBooleanData(73, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    //判断是加载成功某个玩家的道具
-    function DzAPI_Map_PlayerLoadedItems takes player whichPlayer returns boolean
-        return RequestExtraBooleanData(77, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function DzAPI_Map_CustomRankCount takes integer id returns integer
-        return RequestExtraIntegerData(78, null, null, null, false, id, 0, 0)
-    endfunction
-    // CustomRankPlayerName            // 获取排行榜上指定排名的用户名称
-    function DzAPI_Map_CustomRankPlayerName takes integer id, integer ranking returns string
-        return RequestExtraStringData(79, null, null, null, false, id, ranking, 0)
-    endfunction
-    // CustomRankPlayerValue           // 获取排行榜上指定排名的值
-    function DzAPI_Map_CustomRankValue takes integer id, integer ranking returns integer
-        return RequestExtraIntegerData(80, null, null, null, false, id, ranking, 0)
-    endfunction
-    //获取玩家在KK平台的完整昵称（基础昵称#编号）
-    function DzAPI_Map_GetPlayerUserName takes player whichPlayer returns string 
-        return RequestExtraStringData(81, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    // GetServerValueLimitLeft,   // 获取服务器存档限制余额
-    function KKApiGetServerValueLimitLeft takes player whichPlayer, string key returns integer
-        return RequestExtraIntegerData(82, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // RequestBackendLogic,       //请求后端逻辑生成 
-    function KKApiRequestBackendLogic takes player whichPlayer, string key, string groupkey returns boolean
-        return RequestExtraBooleanData(83, whichPlayer, key, groupkey, false, 0, 0, 0)
-    endfunction
-    // CheckBackendLogicExists,   // 获取后端逻辑生成结果 是否存在
-    function KKApiCheckBackendLogicExists takes player whichPlayer, string key returns boolean
-        return RequestExtraBooleanData(84, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetBackendLogicIntResult,  // 获取后端逻辑生成结果 整型
-    function KKApiGetBackendLogicIntResult takes player whichPlayer, string key returns integer
-        return RequestExtraIntegerData(85, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetBackendLogicStrResult,  // 获取后端逻辑生成结果 字符串
-    function KKApiGetBackendLogicStrResult takes player whichPlayer, string key returns string
-        return RequestExtraStringData(86, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetBackendLogicUpdateTime, // 获取后端逻辑生成时间
-    function KKApiGetBackendLogicUpdateTime takes player whichPlayer, string key returns integer
-        return RequestExtraIntegerData(87, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // GetBackendLogicGroup,      // 获取后端逻辑生成组
-    function KKApiGetBackendLogicGroup takes player whichPlayer, string key returns string
-        return RequestExtraStringData(88, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // RemoveBackendLogicResult,  // 删除后端逻辑生成结果
-    function KKApiRemoveBackendLogicResult takes player whichPlayer, string key returns boolean
-        return RequestExtraBooleanData(89, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-    // 获取随机存档剩余次数
-    function KKApiRandomSaveGameCount takes player whichPlayer, string groupkey returns integer
-        return RequestExtraIntegerData(101, whichPlayer, groupkey, null, false, 0, 0, 0)
-    endfunction
-    function KKApiTriggerRegisterBackendLogicUpdata takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZBLU", true)
-    endfunction
-    function KKApiTriggerRegisterBackendLogicDelete takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZBLD", true)
-    endfunction
-    function KKApiGetSyncBackendLogic takes nothing returns string
-        return DzGetTriggerSyncData()
-    endfunction
-    function KKApiIsGameMode takes nothing returns boolean
-        return RequestExtraBooleanData(90, null, null, null, false, 0, 0, 0)
-    endfunction
-    function KKApiInitializeGameKey takes player whichPlayer,integer setIndex, string k,string data returns boolean
-        return RequestExtraBooleanData(91, whichPlayer, "[{\"name\":\""+data+"\",\"key\":\""+k+"\"}]", null, false, setIndex, 0, 0)
-    endfunction
-    function KKApiPlayerGUID takes player whichPlayer returns string
-        return RequestExtraStringData(93, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    function KKApiIsTaskInProgress takes player whichPlayer,integer setIndex,integer taskstat returns boolean
-        return RequestExtraIntegerData(94, whichPlayer, null, null, false, setIndex, 0, 0)==taskstat
-    endfunction
-    function KKApiQueryTaskCurrentProgress takes player whichPlayer, integer setIndex returns integer
-        return RequestExtraIntegerData(95, whichPlayer, null, null, false, setIndex, 0, 0)
-    endfunction
-    function KKApiQueryTaskTotalProgress takes player whichPlayer, integer setIndex returns integer
-        return RequestExtraIntegerData(96, whichPlayer, null, null, false, setIndex, 0, 0)
-    endfunction
-    // IsAchievementCompleted,  // 获取玩家成就是否完成
-    function KKApiIsAchievementCompleted takes player whichPlayer, string id returns boolean
-        return RequestExtraBooleanData(98, whichPlayer, id, null, false, 0, 0, 0)
-    endfunction
-    // AchievementPoints,  // 获取玩家地图成就点数
-    function KKApiAchievementPoints takes player whichPlayer returns integer
-        return RequestExtraIntegerData(99, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    
-    // 判断游戏时长是否满足条件 minHours: 最小小时数，maxHours: 最大小时数，0表示不限制
-    function KKApiPlayedTime takes player whichPlayer, integer minHours, integer maxHours returns boolean
-        return RequestExtraBooleanData(100, whichPlayer, null, null, false, minHours, maxHours, 0)
-    endfunction
-    // BeginBatchSaveArchive,  // 开始批量保存存档
-    function KKApiBeginBatchSaveArchive takes player whichPlayer returns boolean
-        return RequestExtraBooleanData(102, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    
-    // AddBatchSaveArchive,    // 添加批量保存存档条目
-    function KKApiAddBatchSaveArchive takes player whichPlayer, string key, string value, boolean caseInsensitive returns boolean
-        return RequestExtraBooleanData(103, whichPlayer, key, value, caseInsensitive, 0, 0, 0)
-    endfunction
-    
-    // EndBatchSaveArchive,    // 结束批量保存存档
-    function KKApiEndBatchSaveArchive takes player whichPlayer, boolean abandon returns boolean
-        return RequestExtraBooleanData(104, whichPlayer, null, null, abandon, 0, 0, 0)
-    endfunction
-    //天梯投降
-    function KKApiTriggerRegisterLadderSurrender takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZSR", true)
-    endfunction
-    function KKApiGetLadderSurrenderTeamId takes nothing returns integer
-        return S2I(DzGetTriggerSyncData())
-    endfunction
-    // GetGuildLevel,          // 获取公会等级
-    function KKApiGetGuildLevel takes player whichPlayer returns integer
-        return RequestExtraIntegerData(106, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    //宠物探险次数
-    function KKApiMapExplorationNum takes player whichPlayer returns integer
-        return RequestExtraIntegerData(107, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    //宠物探险时间
-    function KKApiMapExplorationTime takes player whichPlayer returns integer
-        return RequestExtraIntegerData(108, whichPlayer, null, null, false, 0, 0, 0)
-    endfunction
-    
-    //测试大厅预约人数
-    function KKApiMapOrderNum takes nothing returns integer
-        return RequestExtraIntegerData(109, null, null, null, false, 0, 0, 0)
-    endfunction
-    // 发送云脚本数据
-    function KKApiMlScriptEvent takes player whichPlayer, string eventName, string payload returns boolean
-        return RequestExtraBooleanData(110, whichPlayer, eventName, payload, false, 0, 0, 0)
-    endfunction
-    // 获取商城道具最后变动的数量（新增/删除）
-    function KKApiGetMallItemUpdateCount takes player whichPlayer, string key returns integer
-        return RequestExtraIntegerData(110, whichPlayer, key, null, false, 0, 0, 0)
-    endfunction
-endlibrary
-//! zinc
-/*
-单位有关
-*/
-library UnitFilter {
-    //判断是否是敌方(不带无敌)
-    public function IsEnemy (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
-    }
-    //旧名：IsEnemy2
-    //判断是否是敌方(能匹配到无敌单位)
-    public function IsEnemyIncludeInvul (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
-    }
-    //判断是否是友方
-    public function IsAlly (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
-    }
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsEnemyUnit(unit source, unit target) -> boolean {
-        return IsEnemy(GetOwningPlayer(source),target);
-    }
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsAllyUnit(unit source, unit target) -> boolean {
-        return IsAlly(GetOwningPlayer(source),target);
-    }
-}
-//! endzinc
 //===========================================================================
 // 
 // 轮回之狱
@@ -12491,23 +12491,23 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 	public function ShowKuileiDialog() {
 		ShowGameHintAll(" 		|cffff6800新任务:|r 		击败六界傀儡|cffffff00穆晴|r与白浅.");
 	}
-	timer TiAutoDiff = null; //自动选择难度
-timerdialog TdAutoDiff = null; //自动选择难度
-dialog DialogCurrent = null;
+	public timer TiAutoDiff = null; //自动选择难度
+public timerdialog TdAutoDiff = null; //自动选择难度
 	// 选择游戏模式
 	public function ChooseGameMode() {
 		trigger t;
+		dialog d;
 		t = CreateTrigger();
-		DialogCurrent = DialogCreate();
-		DialogSetMessage(DialogCurrent, "请选择游戏模式");
+		d = DialogCreate();
+		DialogSetMessage(d, "请选择游戏模式");
 		if (IsKuanghuanTime()) {
-			SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 5, DialogAddButtonBJ(DialogCurrent, "狂欢模式(活动)"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
 		}
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 1, DialogAddButtonBJ(DialogCurrent, "经典模式"));
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 3, DialogAddButtonBJ(DialogCurrent, "挑战模式"));
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 2, DialogAddButtonBJ(DialogCurrent, "加速模式(速通)"));
-		DialogDisplay(GetFirstPlayer(), DialogCurrent, true);
-		TriggerRegisterDialogEvent(t, DialogCurrent);
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
 		TriggerAddAction(t, function (){
 			dialog d;
 			button clickedButton;
@@ -12545,7 +12545,6 @@ dialog DialogCurrent = null;
 			DialogDestroy(d);
 			d = null;
 			clickedButton = null;
-			DialogCurrent = null;
 			DestroyTrigger(GetTriggeringTrigger());
 		});
 		t = null;
@@ -12554,7 +12553,7 @@ dialog DialogCurrent = null;
 		TimerDialogDisplay(TdAutoDiff,true);
 		TimerDialogSetTitle(TdAutoDiff,"自动选择难度");
 		TimerDialogSetSpeed(TdAutoDiff,1.0);
-		TimerStart(TiAutoDiff,120,true,function (){
+		TimerStart(TiAutoDiff,20,true,function (){
 			timer t = GetExpiredTimer();
 			integer id = GetHandleId(t);
 			mode = 1; //经典模式
@@ -34733,6 +34732,12 @@ udg_Nandu = 40;
         udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
         TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
         InitJungle();
+        if (TiAutoDiff != null) {
+			DestroyTimer(TiAutoDiff);
+		}
+		if (TdAutoDiff != null) {
+			DestroyTimerDialog(TdAutoDiff);
+		}
     }
     public function registerDifficultyDialog(dialog d) {
         trigger tr;

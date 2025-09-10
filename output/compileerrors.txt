@@ -1,4 +1,9 @@
 logs\currentmapscript.j
 pjass.exe
-Line 13944:  Undeclared function CreateCDialog1
-1
+Line 14024:  Undeclared variable DialogCurrent
+Line 31941:  Undeclared variable TiAutoDiff
+Line 31944:  Undeclared variable TdAutoDiff
+Line 57838:  Undeclared variable DialogCurrent
+Line 57992:  Undeclared variable TiAutoDiff
+Line 57995:  Undeclared variable TdAutoDiff
+6

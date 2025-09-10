@@ -8945,23 +8945,24 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 	public function ShowKuileiDialog() {
 		ShowGameHintAll(" 		|cffff6800新任务:|r 		击败六界傀儡|cffffff00穆晴|r与白浅.");
 	}
-	timer TiAutoDiff = null; //自动选择难度
-timerdialog TdAutoDiff = null; //自动选择难度
-dialog DialogCurrent = null;
+	public timer TiAutoDiff = null; //自动选择难度
+public timerdialog TdAutoDiff = null; //自动选择难度
+
 	// 选择游戏模式
 	public function ChooseGameMode() {
 		trigger t;
+		dialog d;
 		t = CreateTrigger();
-		DialogCurrent = DialogCreate();
-		DialogSetMessage(DialogCurrent, "请选择游戏模式");
+		d = DialogCreate();
+		DialogSetMessage(d, "请选择游戏模式");
 		if (IsKuanghuanTime()) {
-			SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 5, DialogAddButtonBJ(DialogCurrent, "狂欢模式(活动)"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
 		}
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 1, DialogAddButtonBJ(DialogCurrent, "经典模式"));
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 3, DialogAddButtonBJ(DialogCurrent, "挑战模式"));
-		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 2, DialogAddButtonBJ(DialogCurrent, "加速模式(速通)"));
-		DialogDisplay(GetFirstPlayer(), DialogCurrent, true);
-		TriggerRegisterDialogEvent(t, DialogCurrent);
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
 		TriggerAddAction(t, function (){
 			dialog d;
 			button clickedButton;
@@ -8999,7 +9000,6 @@ dialog DialogCurrent = null;
 			DialogDestroy(d);
 			d = null;
 			clickedButton = null;
-			DialogCurrent = null;
 			DestroyTrigger(GetTriggeringTrigger());
 		});
 		t = null;
@@ -9008,7 +9008,7 @@ dialog DialogCurrent = null;
 		TimerDialogDisplay(TdAutoDiff,true);
 		TimerDialogSetTitle(TdAutoDiff,"自动选择难度");
 		TimerDialogSetSpeed(TdAutoDiff,1.0);
-		TimerStart(TiAutoDiff,120,true,function (){
+		TimerStart(TiAutoDiff,20,true,function (){
 			timer t = GetExpiredTimer();
 			integer id = GetHandleId(t);
 			mode = 1; //经典模式
@@ -31181,6 +31181,12 @@ udg_Nandu = 40;
         udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
         TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
         InitJungle();
+        if (TiAutoDiff != null) {
+			DestroyTimer(TiAutoDiff);
+		}
+		if (TdAutoDiff != null) {
+			DestroyTimerDialog(TdAutoDiff);
+		}
     }
     public function registerDifficultyDialog(dialog d) {
         trigger tr;
