@@ -61,186 +61,203 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
 		}
 	}
 
-    public function registerDifficultyDialog ( dialog d)  {
+    // 设置难度函数，参数 difficultyIndex: 1-10 分别对应天国到天魇
+    public function SetDifficulty(integer difficultyIndex) {
+        integer i;
+
+        // 根据难度索引设置相应的游戏参数
+        if (difficultyIndex == 1) { // 天国
+            udg_Nandu = 1;
+            udg_Nandu_JJJ = 1;
+            udg_IWang = 2;
+            diffculty = "天国";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为天国。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+        } else if (difficultyIndex == 2) { // 太平
+            udg_Nandu = 2;
+            udg_Nandu_JJJ = 2;
+            udg_IWang = 4;
+            diffculty = "太平";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为太平。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+        } else if (difficultyIndex == 3) { // 和谐
+            udg_Nandu = 4;
+            udg_Nandu_JJJ = 3;
+            udg_IWang = 7;
+            diffculty = "和谐";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为和谐。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+        } else if (difficultyIndex == 4) { // 战争
+            udg_Nandu = 6;
+            udg_Nandu_JJJ = 4;
+            udg_IWang = 8;
+            diffculty = "战争";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为战争，金钱获得率为80%，每多一名玩家获得率+10%，上限100%。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.80;
+            }
+        } else if (difficultyIndex == 5) { // 炼狱
+            udg_Nandu = 8;
+            udg_Nandu_JJJ = 5;
+            udg_IWang = 10;
+            diffculty = "炼狱";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为炼狱，金钱获得率为70%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.70;
+            }
+        } else if (difficultyIndex == 6) { // 地狱
+            udg_Nandu = 10;
+            udg_Nandu_JJJ = 6;
+            udg_IWang = 12;
+            NanDiff = 1;
+            diffculty = "地狱";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为地狱，金钱获得率为60%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.60;
+            }
+        } else if (difficultyIndex == 7) { // 末日
+            udg_Nandu = 20;
+            udg_Nandu_JJJ = 7;
+            udg_IWang = 16;
+            NanDiff = 2;
+            diffculty = "|cFFFF0000末日|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cFFFF0000末日|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.50;
+            }
+        } else if (difficultyIndex == 8) { // 轮回
+            udg_Nandu = 40;
+            udg_Nandu_JJJ = 7;
+            udg_IWang = 32;
+            NanDiff = 3;
+            diffculty = "|cffff00ff轮回|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cffff00ff轮回|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.50;
+            }
+        } else if (difficultyIndex == 9) { // 万劫
+            udg_Nandu = 40;
+            udg_Nandu_JJJ = 8;
+            udg_IWang = 32;
+            NanDiff = 3;
+            diffculty = "|cff008000万劫|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff008000万劫|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.50;
+            }
+            InitWanjie();
+        } else if (difficultyIndex == 10) { // 天魇
+            udg_Nandu = 40;
+            udg_Nandu_JJJ = 8;
+            udg_IWang = 32;
+            NanDiff = 3;
+            IsTianyan = true;
+            diffculty = "|cff993366天魇|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff993366天魇|r，金钱获得率为20%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.00;
+            }
+            InitWanjie();
+            InitTianyan();
+        }
+
+        // 执行难度设置后的公共逻辑
+        CinematicModeBJ(false, GetPlayersAll());
+        PrintDifficulty();
+        InitAllPIV();
+
+        // 设置科技研究
+        if (IsTianyan) {
+            ForForce(GetPlayersByMapControl(MAP_CONTROL_COMPUTER), function () {
+                SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
+            });
+        } else {
+            ForForce(GetPlayersAll(), function () {
+                SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
+            });
+        }
+
+        // 保存玩家名称并执行后续初始化
+        ForForce(GetPlayersAll(), function () {
+            playerName[GetConvertedPlayerId(GetEnumPlayer())] = GetPlayerName(GetEnumPlayer());
+            debug PrintCurrentPlatformLevel(GetEnumPlayer());
+        });
+
+        TriggerExecute(gg_trg_D4);
+        StartTimerBJ(udg_Time_Start[1], false, 60.00);
+        CreateTimerDialogBJ(udg_Time_Start[1], "准备时间");
+        udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
+        TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
+        InitJungle();
+    }
+
+    public function registerDifficultyDialog(dialog d) {
         trigger tr;
         tr = CreateTrigger();
         TriggerRegisterDialogEvent(tr, d);
         TriggerAddAction(tr, function () {
-            integer i;
+            integer difficultyIndex;
+
+            // 根据点击的按钮确定难度索引
             if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[1]) {
-                udg_Nandu = 1;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为天国。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_Nandu_JJJ = 1;
-                diffculty = "天国";
-                udg_IWang = 2;
+                difficultyIndex = 1;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[2]) {
+                difficultyIndex = 2;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[3]) {
+                difficultyIndex = 3;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[4]) {
+                difficultyIndex = 4;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[5]) {
+                difficultyIndex = 5;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[6]) {
+                difficultyIndex = 6;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[7]) {
+                difficultyIndex = 7;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[8]) {
+                difficultyIndex = 8;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[9]) {
+                difficultyIndex = 9;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[10]) {
+                difficultyIndex = 10;
             }
 
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[2]) {
-                udg_Nandu = 2;
-                udg_Nandu_JJJ = 2;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为太平。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_IWang = 4;
-                diffculty = "太平";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[3]) {
-                udg_Nandu = 4;
-                udg_Nandu_JJJ = 3;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为和谐。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_IWang = 7;
-                diffculty = "和谐";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[4]) {
-                udg_Nandu = 6;
-                udg_Nandu_JJJ = 4;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为战争，金钱获得率为80%，每多一名玩家获得率+10%，上限100%。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_IWang = 8;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.80;
-                }
-                diffculty = "战争";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[5]) {
-                udg_Nandu = 8;
-                udg_Nandu_JJJ = 5;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为炼狱，金钱获得率为70%，每多一名玩家获得率+10%，上限100%。");
-                });
-                udg_IWang = 10;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.70;
-                }
-                diffculty = "炼狱";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[6]) {
-                udg_Nandu = 10;
-                udg_Nandu_JJJ = 6;
-                NanDiff = 1;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为地狱，金钱获得率为60%，每多一名玩家获得率+10%，上限100%。");
-                });
-                udg_IWang = 12;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.60;
-                }
-                diffculty = "地狱";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[7]) {
-                udg_Nandu = 20;
-                udg_Nandu_JJJ = 7;
-                udg_Nandu_JJJ = 7;
-                NanDiff = 2;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cFFFF0000末日|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
-                });
-                udg_IWang = 16;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.50;
-                }
-                diffculty = "|cFFFF0000末日|r";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[8]) {
-                udg_Nandu = 40;
-                udg_Nandu_JJJ = 7;
-                udg_IWang = 32;
-                NanDiff = 3;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cffff00ff轮回|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
-                });
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.50;
-                }
-                diffculty = "|cffff00ff轮回|r";
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[9]) {
-                udg_Nandu = 40;
-                udg_Nandu_JJJ = 8;
-                udg_IWang = 32;
-                NanDiff = 3;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff008000万劫|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
-                });
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.50;
-                }
-                diffculty = "|cff008000万劫|r";
-                InitWanjie();
-            }
-
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[10]) {
-                udg_Nandu = 40;
-                udg_Nandu_JJJ = 8;
-                udg_IWang = 32;
-                NanDiff = 3;
-                IsTianyan = true;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff993366天魇|r，金钱获得率为20%，每多一名玩家获得率+10%，上限100%。");
-                });
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.00;
-                }
-                diffculty = "|cff993366天魇|r";
-                InitWanjie();
-                InitTianyan();
-            }
-
-            CinematicModeBJ(false, GetPlayersAll());
-            PrintDifficulty();
-            InitAllPIV();
-
-            if (IsTianyan) {
-                ForForce(GetPlayersByMapControl(MAP_CONTROL_COMPUTER), function () {
-                    SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
-                });
-            } else {
-                ForForce(GetPlayersAll(), function () {
-                    SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
-                });
-            }
-
-            ForForce(GetPlayersAll(), function () {
-                playerName[GetConvertedPlayerId(GetEnumPlayer())] = GetPlayerName(GetEnumPlayer());
-                debug PrintCurrentPlatformLevel(GetEnumPlayer());
-            });
-
-            TriggerExecute(gg_trg_D4);
-            StartTimerBJ(udg_Time_Start[1], false, 60.00);
-            CreateTimerDialogBJ(udg_Time_Start[1], "准备时间");
-            udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
-            TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
-            InitJungle();
+            // 调用统一的难度设置函数
+            SetDifficulty(difficultyIndex);
         });
         tr = null;
     }

@@ -4895,388 +4895,361 @@ library_once Mirror requires LHBase ,Attr
         endif
     endfunction
 endlibrary
-library_once ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror
-	globals
-		integer EquipLoopingTime = 1
-		group GJingxiang = null
-	endglobals
-//---------------------------------------------------------------------------------------------------
-    /*
-        输出选英雄皮肤的提示
-    */
-    function ShowChallangerDialog takes player p returns nothing
-    	if (CType != 0) then
-        	call ShowGameHint(p,GetChallangerContent(CType))
-    	endif
-    endfunction
-//---------------------------------------------------------------------------------------------------
+//! zinc
+library ChallangerMode requires LHBase,ChallangerDZ,Huodong,Mirror {
+	public integer EquipLoopingTime = 1;
+	public group GJingxiang = null;
 	/*
-	    开始挑战3
+	输出选英雄皮肤的提示
 	*/
-	function StartTiaozhan1 takes nothing returns nothing
-		local integer i = 1
-    	local unit u = CreateUnit(Player(10),'h025',0,0,0)
-		loop
-			exitwhen i > 6
-			if (udg_H[i] != null) then
-				call UnitRemoveAbility(udg_H[i],'A0B9')
-			endif
-			set i = i +1
-		endloop
-    	call ShowUnitHide(u)
-		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战1,所有英雄失去攻击速度与100000%的移动速度.")
-		set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function ShowChallangerDialog(player p) {
+		if (CType != 0) {
+			ShowGameHint(p, GetChallangerContent(CType));
+		}
+	}
 	/*
-	    初始化乱斗
+	开始挑战3
 	*/
-	function InitKuanghuan takes nothing returns nothing
-		set CType = -1
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	function StartTiaozhan1() {
+		integer i; unit u;
+		i = 1;
+		u = CreateUnit(Player(10), 'h025', 0, 0, 0);
+		for (1 <= i <= 6) {
+			if (udg_H[i] != null) {
+				UnitRemoveAbility(udg_H[i], 'A0B9');
+			}
+		}
+		ShowUnitHide(u);
+		BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战1,所有英雄失去攻击速度与100000%的移动速度.");
+		u = null;
+	}
 	/*
-	    开始挑战4
+	初始化乱斗
 	*/
-	private function Tiaozhan2Timer takes nothing returns nothing
-		local integer i = 1
-		if (udg_Bo >= 13) then
-			loop
-				exitwhen i > 6
-				if (udg_H[i] != null) then
-    				call RecoverUnitHP(udg_H[i],-0.3)
-				endif
-				set i = i +1
-			endloop
-		else
-			loop
-				exitwhen i > 6
-				if (udg_H[i] != null) then
-    				call RecoverUnitHP(udg_H[i],-0.1)
-				endif
-				set i = i +1
-			endloop
-		endif
-	endfunction
-	function StartTiaozhan2 takes nothing returns nothing
-		call TimerStart(CreateTimer(),1,true,function Tiaozhan2Timer)
-		call BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战2,所有英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)")
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function InitKuanghuan() {
+		CType = -1;
+	}
 	/*
-	    挑战初始化
+	开始挑战4
 	*/
-	function InitChallanger takes nothing returns nothing
-		if (CT2()) then
-			set EquipLoopingTime = 6
-		elseif (CT3()) then
-			call StartTiaozhan1()
-		elseif (CT4()) then
-			call StartTiaozhan2()
-		elseif (CT5()) then
-			set GJingxiang = CreateGroup()
-		elseif (CT7()) then
-	    	call SetPlayerTechResearchedSwap( 'R01L', 1 , Player(10))
-	    	call SetPlayerTechResearchedSwap( 'R01L', 1 , Player(11))
-			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 5
-		endif
-		if (CType != 0) then
-			set SgameMode = S3(CDiff == 1,"简单",S3(CDiff == 2,"中等","困难")) + GetChallangerTitle(CType)
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	function Tiaozhan2Timer() {
+		integer i;
+		i = 1;
+		if (udg_Bo >= 13) {
+			for (1 <= i <= 6) {
+				if (udg_H[i] != null) {
+					RecoverUnitHP(udg_H[i], -0.3);
+				}
+			}
+		} else {
+			for (1 <= i <= 6) {
+				if (udg_H[i] != null) {
+					RecoverUnitHP(udg_H[i], -0.1);
+				}
+			}
+		}
+	}
+	function StartTiaozhan2() {
+		timer tm;
+		tm = CreateTimer();
+		TimerStart(tm, 1, true, function Tiaozhan2Timer);
+		BJDebugMsg("|cFFFF66CC【消息】|r你们开启了成就挑战2,所有英雄获得金钱为1%,英雄每秒减少10%的生命.(13波开始每秒减少30%的生命)");
+		tm = null;
+	}
 	/*
-	    第二个挑战英雄初始化
+	挑战初始化
 	*/
-	function InitChallanger2Hero takes unit u returns nothing
-		local integer i = 2
-		local item it = null
-		if not(CT2()) then
-			return
-		endif
-		loop
-			exitwhen i > 6
-			if (UnitItemInSlotBJ(u,i) != null) then
-    			call UnitRemoveItemSwapped( UnitItemInSlotBJ(u,i), u )
-			endif
-			call UnitAddItemByIdSwapped('I079', u)
-			set i = i +1
-		endloop
-		if (u == cangling) then
-			set i = 8
-			loop
-				exitwhen i > 12
-				set IBibo[i] = CreateItem('I079',0,0)
-				call SetItemVisible(IBibo[i],false)
-				set i = i +1
-			endloop
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	function InitChallanger() {
+		if (CT2()) {
+			EquipLoopingTime = 6;
+		} else if (CT3()) {
+			StartTiaozhan1();
+		} else if (CT4()) {
+			StartTiaozhan2();
+		} else if (CT5()) {
+			GJingxiang = CreateGroup();
+		} else if (CT7()) {
+			SetPlayerTechResearchedSwap('R01L', 1, Player(10));
+			SetPlayerTechResearchedSwap('R01L', 1, Player(11));
+			udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 5;
+		}
+		if (CType != 0) {
+			SgameMode = S3(CDiff == 1, "简单", S3(CDiff == 2, "中等", "困难")) + GetChallangerTitle(CType);
+		}
+	}
 	/*
-	    第一个挑战英雄初始化
+	第二个挑战英雄初始化
 	*/
-	function InitChallanger1Hero takes unit u returns nothing
-		local integer int = 0
-		local integer agi = 0
-		local integer str = 0
-		if not(CT1()) then
-			return
-		endif
-		set int = GetHeroInt(u,true)
-		set agi = GetHeroAgi(u,true)
-		set str = GetHeroStr(u,true)
-	    call SetHeroLevelBJ( u, 450, false )
-	    call SetHeroInt(u,int,true)
-	    call SetHeroAgi(u,agi,true)
-	    call SetHeroStr(u,str,true)
-	    call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)),-0.95)
-	    call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)),-0.95)
-	    call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)),-0.95)
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function InitChallanger2Hero(unit u) {
+		integer i; item it;
+		if (!CT2()) {
+			return;
+		}
+		i = 2;
+		it = null;
+		for (2 <= i <= 6) {
+			if (UnitItemInSlotBJ(u, i) != null) {
+				UnitRemoveItem( u, UnitItemInSlot(u, ( i)-1));
+			}
+			UnitAddItemByIdSwapped('I079', u);
+		}
+		if (u == cangling) {
+			for (8 <= i <= 12) {
+				IBibo[i] = CreateItem('I079', 0, 0);
+				SetItemVisible(IBibo[i], false);
+			}
+		}
+		it = null;
+	}
 	/*
-	    游戏难度的选取
+	第一个挑战英雄初始化
 	*/
-	function ChooseDifficulty takes integer i returns nothing
-		set udg_X_Nandu = DialogCreate()
-		call DialogSetMessage( udg_X_Nandu, "选择难度" )
-	    if (i < 2) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "天国（24波）")
-		    set udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ()
-	    endif
-	    if (i < 3) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "太平（24波）")
-		    set udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ()
-	    endif
-	    if (i < 4) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "和谐（24+5波）")
-		    set udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ()
-	    endif
-	    if (i < 5) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "战争（24+5波）" )
-		    set udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ()
-		endif
-	    if (i < 6) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "炼狱（24+5+2波）" )
-		    set udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ()
-		endif
-	    if (i < 7) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "地狱（24+5+2波）" )
-		    set udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ()
-		endif
-	    if (i < 8) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cFFFF0000末日|r（24+5+2波）" )
-		    set udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ()
-		endif
-	    if (i < 9) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cffff00ff轮回|r（24+5+2波）" )
-		    set udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ()
-		endif
-	    if (i < 10) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff008000万劫|r（24+5+2波）" )
-		    set udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ()
-		endif
-	    if (IsTianyanOK()) then
-		    call DialogAddButtonBJ( udg_X_Nandu, "|cff993366天魇|r（24+5+2波）" )
-		    set udg_X_Nandu_Chuangkou[10] = GetLastCreatedButtonBJ()
-	    endif
-	    call DialogDisplay( GetFirstPlayer(), udg_X_Nandu, true )
-		call registerDifficultyDialog.execute(udg_X_Nandu)
-	    if (CType != 0 and CType != -1) then
-	    	call InitChallanger()
-	    endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function InitChallanger1Hero(unit u) {
+		integer int, agi, str;
+		if (!CT1()) {
+			return;
+		}
+		int = GetHeroInt(u, true);
+		agi = GetHeroAgi(u, true);
+		str = GetHeroStr(u, true);
+		SetHeroLevelBJ(u, 450, false);
+		SetHeroInt(u, int, true);
+		SetHeroAgi(u, agi, true);
+		SetHeroStr(u, str, true);
+		AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)), -0.95);
+		AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)), -0.95);
+		AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(u)), -0.95);
+	}
 	/*
-	    选择速度后
+	游戏难度的选取
+	@ param i 最低出现什么难度
 	*/
-	private function ChooseSpeedClick takes nothing returns nothing
-	    local dialog d = GetClickedDialogBJ()
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	call BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为经典(常速).")
-			set mode = 1
-			set SgameMode = SgameMode + "C"
-    	endif
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
-        	call BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为加速(进阶).")
-			set mode = 2
-			set SgameMode = SgameMode + "S"
-    	endif
-    	call ChooseDifficulty(GetChallangerDifficulty())
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-    	call DialogDisplay( Player(0), d, false )
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        call DestroyTrigger(GetTriggeringTrigger())
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function ShowDifficutyDiglog(integer i) {
+		udg_X_Nandu = DialogCreate();
+		DialogSetMessage(udg_X_Nandu, "选择难度");
+		if (i < 2) {
+			DialogAddButtonBJ(udg_X_Nandu, "天国（24波）");
+			udg_X_Nandu_Chuangkou[1] = GetLastCreatedButtonBJ();
+		}
+		if (i < 3) {
+			DialogAddButtonBJ(udg_X_Nandu, "太平（24波）");
+			udg_X_Nandu_Chuangkou[2] = GetLastCreatedButtonBJ();
+		}
+		if (i < 4) {
+			DialogAddButtonBJ(udg_X_Nandu, "和谐（24+5波）");
+			udg_X_Nandu_Chuangkou[3] = GetLastCreatedButtonBJ();
+		}
+		if (i < 5) {
+			DialogAddButtonBJ(udg_X_Nandu, "战争（24+5波）");
+			udg_X_Nandu_Chuangkou[4] = GetLastCreatedButtonBJ();
+		}
+		if (i < 6) {
+			DialogAddButtonBJ(udg_X_Nandu, "炼狱（24+5+2波）");
+			udg_X_Nandu_Chuangkou[5] = GetLastCreatedButtonBJ();
+		}
+		if (i < 7) {
+			DialogAddButtonBJ(udg_X_Nandu, "地狱（24+5+2波）");
+			udg_X_Nandu_Chuangkou[6] = GetLastCreatedButtonBJ();
+		}
+		if (i < 8) {
+			DialogAddButtonBJ(udg_X_Nandu, "|cFFFF0000末日|r（24+5+2波）");
+			udg_X_Nandu_Chuangkou[7] = GetLastCreatedButtonBJ();
+		}
+		if (i < 9) {
+			DialogAddButtonBJ(udg_X_Nandu, "|cffff00ff轮回|r（24+5+2波）");
+			udg_X_Nandu_Chuangkou[8] = GetLastCreatedButtonBJ();
+		}
+		if (i < 10) {
+			DialogAddButtonBJ(udg_X_Nandu, "|cff008000万劫|r（24+5+2波）");
+			udg_X_Nandu_Chuangkou[9] = GetLastCreatedButtonBJ();
+		}
+		if (IsTianyanOK()) {
+			DialogAddButtonBJ(udg_X_Nandu, "|cff993366天魇|r（24+5+2波）");
+			udg_X_Nandu_Chuangkou[10] = GetLastCreatedButtonBJ();
+		}
+		DialogDisplay(GetFirstPlayer(), udg_X_Nandu, true);
+		registerDifficultyDialog.execute(udg_X_Nandu);
+		if (CType != 0 && CType != -1) {
+			InitChallanger();
+		}
+	}
 	/*
-	    选择加速与否
+	选择加速与否
 	*/
-	private function CreateCDialog4 takes nothing returns nothing
-	    local trigger t = CreateTrigger()
-	    local dialog d = DialogCreate()
-    	call DialogSetMessage( d, "经典(常速)还是加速?" )
-	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "经典(推荐)"))
-    	call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, "加速(进阶)",512))
-	    call DialogDisplay( GetFirstPlayer(), d, true )
-	    call TriggerRegisterDialogEvent( t, d )
-	    call TriggerAddAction(t, function ChooseSpeedClick)
-	    set d = null
-	    set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	function CreateCDialog4() {
+		trigger t; dialog d;
+		t = CreateTrigger();
+		d = DialogCreate();
+		DialogSetMessage(d, "经典(常速)还是加速?");
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典(推荐)"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButton(d, "加速(进阶)", 512));
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d;
+			d = GetClickedDialogBJ();
+			if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
+				BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为经典(常速).");
+				mode = 1;
+				SgameMode = SgameMode + "C";
+			}
+			if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
+				BJDebugMsg("|cFFFF66CC【消息】|r当前游戏速度为加速(进阶).");
+				mode = 2;
+				SgameMode = SgameMode + "S";
+			}
+			ShowDifficutyDiglog(GetChallangerDifficulty());
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(Player(0), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+		d = null;
+		t = null;
+	}
 	/*
-	    确认之后
+	确认之后
 	*/
-	private function ChooseComfirmClick takes nothing returns nothing
-	    local dialog d = GetClickedDialogBJ()
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	call CreateCDialog4()
-        	call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.")
-    	endif
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
-    		call CreateCDialog2.execute()
-        	call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战类型.")
-    	endif
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-    	call DialogDisplay( Player(0), d, false )
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        call DestroyTrigger(GetTriggeringTrigger())
-	endfunction
-//---------------------------------------------------------------------------------------------------
 	/*
-	    创建挑战标题对话框
+	创建挑战标题对话框
 	*/
-	private function CreateCDialog3 takes integer i returns nothing
-	    local trigger t = CreateTrigger()
-	    local dialog d = DialogCreate()
-    	call DialogSetMessage( d, GetChallangerContent(i) )
-    	//设置类型
-    	set CType = i
-	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "确认选择"))
-    	call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, "返回|cffff6800(Esc)|r",512))
-	    call DialogDisplay( GetFirstPlayer(), d, true )
-	    call TriggerRegisterDialogEvent( t, d )
-	    call TriggerAddAction(t, function ChooseComfirmClick)
-	    set d = null
-	    set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	function CreateCDialog3(integer i) {
+		trigger t; dialog d;
+		t = CreateTrigger();
+		d = DialogCreate();
+		DialogSetMessage(d, GetChallangerContent(i));
+		// 设置类型
+		CType = i;
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "确认选择"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButton(d, "返回|cffff6800(Esc)|r", 512));
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d;
+			d = GetClickedDialogBJ();
+			if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
+				CreateCDialog4();
+				BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.");
+			}
+			if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
+				CreateCDialog2.execute();
+				BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战类型.");
+			}
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(Player(0), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+		d = null;
+		t = null;
+	}
 	/*
-	    选择内容之后
+	创建挑战标题对话框
 	*/
-	private function ChooseChallangerClick takes nothing returns nothing
-	    local dialog d = GetClickedDialogBJ()
-	    local integer i = 1
-	    loop
-	    	exitwhen i > 9
-	        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
-        		call CreateCDialog3(i)
-        		call BJDebugMsg("|cFFFF66CC【消息】|r当前挑战为"+GetChallangerTitle(i)+".")
-	    	endif
-	    	set i = i +1
-	    endloop
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),10)) then
-    		call CreateCDialog1.execute()
-    		call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战难度.")
-    	endif
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-    	call DialogDisplay( Player(0), d, false )
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        call DestroyTrigger(GetTriggeringTrigger())
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function CreateCDialog2() {
+		trigger t; dialog d; integer i;
+		t = CreateTrigger();
+		d = DialogCreate();
+		i = 1;
+		if (CDiff == 1) {
+			DialogSetMessage(d, "选择挑战类别(简单)");
+		} else if (CDiff == 2) {
+			DialogSetMessage(d, "选择挑战类别(中等)");
+		} else if (CDiff == 3) {
+			DialogSetMessage(d, "选择挑战类别(困难)");
+		}
+		SaveButtonHandle(LHTable, GetHandleId(d), 7, DialogAddButtonBJ(d, GetChallangerTitle(7) + S3(IsChallangerComplete(GetFirstPlayer(), 7), "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r")));
+		for (1 <= i <= 6) {
+			SaveButtonHandle(LHTable, GetHandleId(d), i, DialogAddButtonBJ(d, GetChallangerTitle(i) + S3(IsChallangerComplete(GetFirstPlayer(), i), "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r")));
+		}
+		SaveButtonHandle(LHTable, GetHandleId(d), 10, DialogAddButton(d, "返回|cffff6800(Esc)|r", 512));
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d; integer i;
+			d = GetClickedDialogBJ();
+			i = 1;
+			for (1 <= i <= 9) {
+				if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i)) {
+					CreateCDialog3(i);
+					BJDebugMsg("|cFFFF66CC【消息】|r当前挑战为" + GetChallangerTitle(i) + ".");
+				}
+			}
+			if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 10)) {
+				CreateCDialog1.execute();
+				BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战难度.");
+			}
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(Player(0), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+		d = null;
+		t = null;
+	}
 	/*
-	    创建挑战标题对话框
+	选择难度之后
 	*/
-	function CreateCDialog2 takes nothing returns nothing
-	    local trigger t = CreateTrigger()
-	    local dialog d = DialogCreate()
-	    local integer i = 1
-	    if (CDiff == 1) then
-	    	call DialogSetMessage( d, "选择挑战类别(简单)" )
-	    elseif (CDiff == 2) then
-	    	call DialogSetMessage( d, "选择挑战类别(中等)" )
-	    elseif (CDiff == 3) then
-	    	call DialogSetMessage( d, "选择挑战类别(困难)" )
-	    endif
-	    call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButtonBJ( d, GetChallangerTitle(7) + S3(IsChallangerComplete(GetFirstPlayer(),7),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-	    loop
-	    	exitwhen i > 6
-		    call SaveButtonHandle(LHTable,GetHandleId(d),i,DialogAddButtonBJ( d, GetChallangerTitle(i) + S3(IsChallangerComplete(GetFirstPlayer(),i),"|cffff9900(已完成)|r","|cff33cccc(未完成)|r")))
-	    	set i = i +1
-	    endloop
-    	call SaveButtonHandle(LHTable,GetHandleId(d),10,DialogAddButton( d, "返回|cffff6800(Esc)|r",512))
-	    call DialogDisplay( GetFirstPlayer(), d, true )
-	    call TriggerRegisterDialogEvent( t, d )
-	    call TriggerAddAction(t,function ChooseChallangerClick)
-	    set d = null
-	    set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	function ChooseDifficultyClick() {
+		dialog d;
+		d = GetClickedDialogBJ();
+		if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
+			CDiff = 1;
+			CreateCDialog2();
+			BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为简单.");
+		} else if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
+			CDiff = 2;
+			CreateCDialog2();
+			BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为中等.");
+		} else if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
+			CDiff = 3;
+			CreateCDialog2();
+			BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为困难.");
+		}
+		FlushChildHashtable(LHTable, GetHandleId(d));
+		DialogDisplay(Player(0), d, false);
+		DialogClear(d);
+		DialogDestroy(d);
+		d = null;
+		DestroyTrigger(GetTriggeringTrigger());
+	}
 	/*
-	    选择难度之后
+	创建难度对话框
 	*/
-	private function ChooseDifficultyClick takes nothing returns nothing
-	    local dialog d = GetClickedDialogBJ()
-        if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),1)) then
-        	set CDiff = 1
-        	call CreateCDialog2()
-        	call BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为简单.")
-		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),2)) then
-        	set CDiff = 2
-        	call CreateCDialog2()
-        	call BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为中等.")
-		elseif (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),3)) then
-        	set CDiff = 3
-        	call CreateCDialog2()
-        	call BJDebugMsg("|cFFFF66CC【消息】|r当前的挑战模式难度为困难.")
-		endif
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-    	call DialogDisplay( Player(0), d, false )
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        call DestroyTrigger(GetTriggeringTrigger())
-	endfunction
-//---------------------------------------------------------------------------------------------------
+	public function CreateCDialog1() {
+		trigger t; dialog d;
+		t = CreateTrigger();
+		d = DialogCreate();
+		DialogSetMessage(d, "选择挑战难度");
+		if (DEBUG_MODE) {
+			SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) + "/" + I2S(COUNT_CHALLANGER) + ")"));
+		} else {
+			SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "简单"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "中等"));
+			SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "困难"));
+		}
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function ChooseDifficultyClick);
+		d = null;
+		t = null;
+	}
 	/*
-	    创建难度对话框
+	显示挑战对话框
 	*/
-	function CreateCDialog1 takes nothing returns nothing
-	    local trigger t = CreateTrigger()
-	    local dialog d = DialogCreate()
-	    call DialogSetMessage( d, "选择挑战难度" )
-	    if (DEBUG_MODE) then
-		    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单(" + I2S(GetEasyComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
-		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等(" + I2S(GetMiddleComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
-		    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难(" + I2S(GetHardComplete(GetFirstPlayer())) +"/"+I2S(COUNT_CHALLANGER)+")"))
-		else
-			call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButtonBJ( d, "简单"))
-		    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButtonBJ( d, "中等"))
-		    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButtonBJ( d, "困难"))
-	    endif
-	    call DialogDisplay( GetFirstPlayer(), d, true )
-	    call TriggerRegisterDialogEvent( t, d )
-	    call TriggerAddAction(t, function ChooseDifficultyClick)
-	    set d = null
-	    set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    显示挑战对话框
-	*/
-	function ShowTiaozhanDialog takes nothing returns nothing
-		call CreateCDialog1()
-	endfunction
-endlibrary
+	public function ShowTiaozhanDialog() {
+		CreateCDialog1();
+	}
+}
+//! endzinc
 library_once SpellBase requires LHBase
 	globals
 		key kUImmuteDamage
@@ -8669,377 +8642,384 @@ library_once Huodong requires LHBase,Achievement
 endlibrary
 //! zinc
 library Diffculty requires LHBase, Huodong, ChallangerMode {
-    /*
-        地狱1,末日2,轮回万劫3
-    */
-    public integer NanDiff = 0;
-    public unit UWanjieGuanghuan = null;
-    public boolean IsTianyan = false;
-    //---------------------------------------------------------------------------------------------------
-    /*
-        获取当前难度序号
-    */
-    public function GetDiffculty() -> integer {
-        if (udg_Nandu_JJJ > 7) {
-            return 9;
-        } else if (udg_Nandu > 20) {
-            return 8;
-        } else if (udg_Nandu > 10) {
-            return 7;
-        } else if (udg_Nandu > 8) {
-            return 6;
-        } else if (udg_Nandu > 6) {
-            return 5;
-        } else if (udg_Nandu > 4) {
-            return 4;
-        } else if (udg_Nandu > 2) {
-            return 3;
-        } else if (udg_Nandu > 1) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        创建镜像单位
-    */
-    public function CreateJingongguai(integer unitType, real facing) {
-        integer id;
-        if (CT5()) {
-            id = GetNextPlayerID();
-            CreateNUnitsAtLoc(1, GetUnitTypeId(udg_H[id]), Player(11), udg_Point, facing);
-            SetUnitMirror(GetLastCreatedUnit(), udg_H[id], I3(udg_Bo == 1, 1, udg_Bo * GetDiffculty()));
-            GroupAddUnit(GJingxiang, GetLastCreatedUnit());
-        } else {
-            CreateNUnitsAtLoc(1, unitType, Player(11), udg_Point, facing);
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        判断当前难度是否是万劫
-    */
-    public function IsWanjie() -> boolean {
-        return GetDiffculty() == 9;
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        加强攻击力
-    */
-    public function EnhanceDiffAttack(unit u) {
-        if (NanDiff <= 0) {
-            return;
-        }
-        if (IsTianyan) {
-            UnitAddAbility(u, 'A0G5');
-        }
-        //100倍攻击加强
-        if (GetUnitAbilityLevel(u, 'A09V') >= 1) {
-            SetUnitAbilityLevel(u, 'A09V', NanDiff + 1);
-            return;
-        }
-        UnitAddAbility(u, 'A0EY');
-        SetUnitAbilityLevel(u, 'A0EY', NanDiff);
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        天魇难度加强魔抗
-    */
-    public function AddTianyanmokang(unit u) {
-        if (IsTianyan) {
-             UnitAddAbility(u, 'A09G');
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        移除技能
-    */
-    public function RemoveDiffAttack(unit u) {
-        if (GetUnitAbilityLevel(u, 'A09V') >= 1) {
-            SetUnitAbilityLevel(u, 'A09V', 1);
-        }
-        UnitRemoveAbility(u, 'A0EY');
-        UnitRemoveAbility(u, 'A05O');
-        UnitRemoveAbility(u, 'A0G5');
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        万劫的加强攻击力
-    */
-    public function EnhanceWanjieAttack(unit u) {
-        if (IsWanjie()) {
-            EnhanceDiffAttack(u);
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        直接A基地
-    */
-    public function AttackBase(unit u) {
-        if (IsTianyan && GetUnitTypeId(u) == 'hrif') {
-            IssueTargetOrder(u, "attack", gg_unit_haro_0030);
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        获取巨能对应等级的科技
-    */
-    public function GetJunengTech() -> integer {
-        if (NanDiff == 1) {
-            return 'R00T';
-        } else if (NanDiff == 2) {
-            return 'R00U';
-        } else if (NanDiff == 3) {
-            return 'R00V';
-        } else {
-            return 'R00R';
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        获取混沌对应等级的科技
-    */
-    public function GetHundunTech() -> integer {
-        if (NanDiff == 1) {
-            return 'R01H';
-        } else if (NanDiff == 2) {
-            return 'R01I';
-        } else if (NanDiff == 3) {
-            return 'R01J';
-        } else {
-            return 'R01G';
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        获取混沌2对应等级的科技
-    */
-    public function GetHundun2Tech() -> integer {
-        if (NanDiff == 1) {
-            return 'R01M';
-        } else if (NanDiff == 2) {
-            return 'R01N';
-        } else if (NanDiff == 3) {
-            return 'R01O';
-        } else {
-            return 'R01P';
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        获取禁用技能的时间
-    */
-    public function GetForbidTianfuTime() -> real {
-        if (GetDiffculty() >= 9) {
-            return 9.5;
-        } else if (GetDiffculty() >= 8) {
-            return 7.5;
-        } else {
-            return 5.;
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        获取擂台升级的速度
-    */
-    public function GetArenaUpdateSpeed() -> real {
-        if (NanDiff == 1) {
-            return 4.;
-        } else if (NanDiff == 2) {
-            return 3.;
-        } else if (NanDiff == 3) {
-            return 2.;
-        } else {
-            return 5.;
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        万劫数据才value*rate
-    */
-    public function GetWanjieInt(integer value, real rate) -> integer {
-        if(IsWanjie()) {
-            return IMinBJ(2100000000, R2I(I2R(value) * rate));
-        }
-        return value;
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        万劫数据才value*rate，实数版
-    */
-    public function GetWanjieReal(real value, real rate) -> real {
-        if (IsWanjie()) {
-            return value * rate;
-        }
-        return value;
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        万劫数据才value + add
-    */
-    public function GetWanjieAddInt(integer value, integer add) -> integer {
-        if (IsWanjie()) {
-            return value + add;
-        }
-        return value;
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        万劫给怪物加闪烁技能，波数11波后60倍攻击
-    */
-    public function AddWanjieSpell(unit u) {
-        if (IsWanjie()) {
-            if (udg_Bo > 10) {
-                //60倍技能
-                UnitAddAbility(u, 'A0GL');
-            }
-            //闪烁技能
-            UnitAddAbility(u, 'ANbl');
-            UnitAddAbility(u, 'A0HE');
-        }
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        无限沉默
-    */
-    private function UnlimitSlienceTianyanTimer() {
-        timer t;
-        integer id;
-        unit u;
-        t = GetExpiredTimer();
-        id = GetHandleId(t);
-        u = LoadUnitHandle(spellTable, id, 1);
-        if (IsUnitAliveBJ(u)) {
-            SimulateSpell(u, u, 'A0JK', 1, 5, "silence", true, false, false);
-        } else {
-            PauseTimer(t);
-            FlushChildHashtable(spellTable, id);
-            DestroyTimer(t);
-        }
-        u = null;
-        t = null;
-    }
-    public function UnlimitSlienceTianyan(unit u) {
-        timer t;
-        t = CreateTimer();
-        SaveUnitHandle(spellTable, GetHandleId(t), 1, u);
-        TimerStart(t, 3.0, true, function UnlimitSlienceTianyanTimer);
-        t = null;
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        天魇
-    */
-    public function InitTianyan() {
-        unit l_unit;
-        group g;
-        g = YDWEGetUnitsOfTypeIdAllNull('uzg2');
-        l_unit = FirstOfGroup(g);
-        while (l_unit != null) {
-            GroupRemoveUnit(g, l_unit);
-            AddTianyanmokang(l_unit);
-            l_unit = FirstOfGroup(g);
-        }
-        SetPlayerTechResearchedSwap('R00Z', 1, Player(10));
-        SetPlayerTechResearchedSwap('R00Z', 1, Player(11));
-        SetPlayerTechResearchedSwap('R01F', 1, Player(10));
-        SetPlayerTechResearchedSwap('R01F', 1, Player(11));
-        DestroyGroup(g);
-        g = null;
-        l_unit = null;
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        显示对话框提示选更高难度
-    */
-    public function Show245Dialog() {
-        ShowGameHintAll(" 		感谢对本地图的支持！     	你选择的难度在这波就结束了.     	后续的关卡请选择\"和谐\"难度(难度3)或以上进行体验     	(前5个难度其实提升不大)");
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        显示对话框提示选更高难度
-    */
-    public function Show2451Dialog() {
-        ShowGameHintAll(" 			感谢对本地图的支持！ 	    	你选择的难度在这波就结束了. 	    	后续的关卡请选择\"炼狱\"难度(难度35)或以上进行体验 	    	(前5个难度其实提升不大)");
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        显示对话框提示冥界进攻
-    */
-    public function ShowMingjieDialog() {
-        ShowGameHintAll(" 			|cffff6800新任务:|r 			击败来自冥界的5波攻击并击败|cffff0000冥刹|r.");
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        显示对话框提示选更高难度
-    */
-    public function ShowKuileiDialog() {
-        ShowGameHintAll(" 			|cffff6800新任务:|r 			击败六界傀儡|cffffff00穆晴|r与白浅.");
-    }
-    //---------------------------------------------------------------------------------------------------
-    /*
-        选择游戏模式
-    */
-    private function GameModeClick() {
-	    dialog d;
-        button clickedButton;
-        d = GetClickedDialogBJ();
-        clickedButton = GetClickedButtonBJ();
-        if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
-			//经典模式
-			mode = 1;
-			BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".");
-			SgameMode = "经典";
-			ChooseDifficulty(1);
-		} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
-			//挑战模式
-			BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".");
-			SgameMode = "挑战";
-			mode = 1;
-			ShowTiaozhanDialog();
-		} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
-			//加速模式
-			mode = 2;
-			BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".");
-			SgameMode = "加速";
-			ChooseDifficulty(1);
-		} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
-			//狂欢模式
-			mode = 2;
-			BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".");
-			SgameMode = "狂欢";
-			InitKuanghuan();
-			ChooseDifficulty(4);
-		}
-        FlushChildHashtable(LHTable, GetHandleId(d));
-    	DialogDisplay(Player(0), d, false);
-        DialogClear(d);
-        DialogDestroy(d);
-        d = null;
-        clickedButton = null;
-        DestroyTrigger(GetTriggeringTrigger());
-	}
-    //---------------------------------------------------------------------------------------------------
-    /*
-	    选择游戏模式
+	/*
+	地狱1,末日2,轮回万劫3
 	*/
-    public function ChooseGameMode() {
-	    trigger t;
-	    dialog d;
-	    t = CreateTrigger();
-	    d = DialogCreate();
-	    DialogSetMessage(d, "请选择游戏模式");
-	    if (IsKuanghuanTime()) {
-	    	SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
-	    }
-	    SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
-	    SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
-	    SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
-	    DialogDisplay(GetFirstPlayer(), d, true);
-	    TriggerRegisterDialogEvent(t, d);
-	    TriggerAddAction(t, function GameModeClick);
-	    d = null;
-	    t = null;
+	public integer NanDiff = 0;
+	public unit UWanjieGuanghuan = null;
+	public boolean IsTianyan = false;
+	//---------------------------------------------------------------------------------------------------
+	/*
+	获取当前难度序号
+	*/
+	public function GetDiffculty() -> integer {
+		if (udg_Nandu_JJJ > 7) {
+			return 9;
+		} else if (udg_Nandu > 20) {
+			return 8;
+		} else if (udg_Nandu > 10) {
+			return 7;
+		} else if (udg_Nandu > 8) {
+			return 6;
+		} else if (udg_Nandu > 6) {
+			return 5;
+		} else if (udg_Nandu > 4) {
+			return 4;
+		} else if (udg_Nandu > 2) {
+			return 3;
+		} else if (udg_Nandu > 1) {
+			return 2;
+		} else {
+			return 1;
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	创建镜像单位
+	*/
+	public function CreateJingongguai(integer unitType, real facing) {
+		integer id;
+		if (CT5()) {
+			id = GetNextPlayerID();
+			CreateNUnitsAtLoc(1, GetUnitTypeId(udg_H[id]), Player(11), udg_Point, facing);
+			SetUnitMirror(GetLastCreatedUnit(), udg_H[id], I3(udg_Bo == 1, 1, udg_Bo * GetDiffculty()));
+			GroupAddUnit(GJingxiang, GetLastCreatedUnit());
+		} else {
+			CreateNUnitsAtLoc(1, unitType, Player(11), udg_Point, facing);
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	判断当前难度是否是万劫
+	*/
+	public function IsWanjie() -> boolean {
+		return GetDiffculty() == 9;
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	加强攻击力
+	*/
+	public function EnhanceDiffAttack(unit u) {
+		if (NanDiff <= 0) {
+			return;
+		}
+		if (IsTianyan) {
+			UnitAddAbility(u, 'A0G5');
+		}
+		//100倍攻击加强
+		if (GetUnitAbilityLevel(u, 'A09V') >= 1) {
+			SetUnitAbilityLevel(u, 'A09V', NanDiff + 1);
+			return;
+		}
+		UnitAddAbility(u, 'A0EY');
+		SetUnitAbilityLevel(u, 'A0EY', NanDiff);
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	天魇难度加强魔抗
+	*/
+	public function AddTianyanmokang(unit u) {
+		if (IsTianyan) {
+			UnitAddAbility(u, 'A09G');
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	移除技能
+	*/
+	public function RemoveDiffAttack(unit u) {
+		if (GetUnitAbilityLevel(u, 'A09V') >= 1) {
+			SetUnitAbilityLevel(u, 'A09V', 1);
+		}
+		UnitRemoveAbility(u, 'A0EY');
+		UnitRemoveAbility(u, 'A05O');
+		UnitRemoveAbility(u, 'A0G5');
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	万劫的加强攻击力
+	*/
+	public function EnhanceWanjieAttack(unit u) {
+		if (IsWanjie()) {
+			EnhanceDiffAttack(u);
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	直接A基地
+	*/
+	public function AttackBase(unit u) {
+		if (IsTianyan && GetUnitTypeId(u) == 'hrif') {
+			IssueTargetOrder(u, "attack", gg_unit_haro_0030);
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	获取巨能对应等级的科技
+	*/
+	public function GetJunengTech() -> integer {
+		if (NanDiff == 1) {
+			return 'R00T';
+		} else if (NanDiff == 2) {
+			return 'R00U';
+		} else if (NanDiff == 3) {
+			return 'R00V';
+		} else {
+			return 'R00R';
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	获取混沌对应等级的科技
+	*/
+	public function GetHundunTech() -> integer {
+		if (NanDiff == 1) {
+			return 'R01H';
+		} else if (NanDiff == 2) {
+			return 'R01I';
+		} else if (NanDiff == 3) {
+			return 'R01J';
+		} else {
+			return 'R01G';
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	获取混沌2对应等级的科技
+	*/
+	public function GetHundun2Tech() -> integer {
+		if (NanDiff == 1) {
+			return 'R01M';
+		} else if (NanDiff == 2) {
+			return 'R01N';
+		} else if (NanDiff == 3) {
+			return 'R01O';
+		} else {
+			return 'R01P';
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	获取禁用技能的时间
+	*/
+	public function GetForbidTianfuTime() -> real {
+		if (GetDiffculty() >= 9) {
+			return 9.5;
+		} else if (GetDiffculty() >= 8) {
+			return 7.5;
+		} else {
+			return 5.;
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	获取擂台升级的速度
+	*/
+	public function GetArenaUpdateSpeed() -> real {
+		if (NanDiff == 1) {
+			return 4.;
+		} else if (NanDiff == 2) {
+			return 3.;
+		} else if (NanDiff == 3) {
+			return 2.;
+		} else {
+			return 5.;
+		}
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	万劫数据才value*rate
+	*/
+	public function GetWanjieInt(integer value, real rate) -> integer {
+		if(IsWanjie()) {
+			return IMinBJ(2100000000, R2I(I2R(value) * rate));
+		}
+		return value;
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	万劫数据才value*rate，实数版
+	*/
+	public function GetWanjieReal(real value, real rate) -> real {
+		if (IsWanjie()) {
+			return value * rate;
+		}
+		return value;
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	万劫数据才value + add
+	*/
+	public function GetWanjieAddInt(integer value, integer add) -> integer {
+		if (IsWanjie()) {
+			return value + add;
+		}
+		return value;
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	万劫给怪物加闪烁技能，波数11波后60倍攻击
+	*/
+	public function AddWanjieSpell(unit u) {
+		if (IsWanjie()) {
+			if (udg_Bo > 10) {
+				//60倍技能
+				UnitAddAbility(u, 'A0GL');
+			}
+			//闪烁技能
+			UnitAddAbility(u, 'ANbl');
+			UnitAddAbility(u, 'A0HE');
+		}
+	}
+	// 无限沉默
+	public function UnlimitSlienceTianyan(unit u) {
+		timer t;
+		t = CreateTimer();
+		SaveUnitHandle(spellTable, GetHandleId(t), 1, u);
+		TimerStart(t, 3.0, true, function (){
+			timer t;
+			integer id;
+			unit u;
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			u = LoadUnitHandle(spellTable, id, 1);
+			if (IsUnitAliveBJ(u)) {
+				SimulateSpell(u, u, 'A0JK', 1, 5, "silence", true, false, false);
+			} else {
+				PauseTimer(t);
+				FlushChildHashtable(spellTable, id);
+				DestroyTimer(t);
+			}
+			u = null;
+			t = null;
+		});
+		t = null;
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	天魇
+	*/
+	public function InitTianyan() {
+		unit l_unit;
+		group g;
+		g = YDWEGetUnitsOfTypeIdAllNull('uzg2');
+		l_unit = FirstOfGroup(g);
+		while (l_unit != null) {
+			GroupRemoveUnit(g, l_unit);
+			AddTianyanmokang(l_unit);
+			l_unit = FirstOfGroup(g);
+		}
+		SetPlayerTechResearchedSwap('R00Z', 1, Player(10));
+		SetPlayerTechResearchedSwap('R00Z', 1, Player(11));
+		SetPlayerTechResearchedSwap('R01F', 1, Player(10));
+		SetPlayerTechResearchedSwap('R01F', 1, Player(11));
+		DestroyGroup(g);
+		g = null;
+		l_unit = null;
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	显示对话框提示选更高难度
+	*/
+	public function Show245Dialog() {
+		ShowGameHintAll(" 		感谢对本地图的支持！ 		你选择的难度在这波就结束了. 		后续的关卡请选择\"和谐\"难度(难度3)或以上进行体验 		(前5个难度其实提升不大)");
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	显示对话框提示选更高难度
+	*/
+	public function Show2451Dialog() {
+		ShowGameHintAll(" 		感谢对本地图的支持！ 		你选择的难度在这波就结束了. 		后续的关卡请选择\"炼狱\"难度(难度35)或以上进行体验 		(前5个难度其实提升不大)");
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	显示对话框提示冥界进攻
+	*/
+	public function ShowMingjieDialog() {
+		ShowGameHintAll(" 		|cffff6800新任务:|r 		击败来自冥界的5波攻击并击败|cffff0000冥刹|r.");
+	}
+	//---------------------------------------------------------------------------------------------------
+	/*
+	显示对话框提示选更高难度
+	*/
+	public function ShowKuileiDialog() {
+		ShowGameHintAll(" 		|cffff6800新任务:|r 		击败六界傀儡|cffffff00穆晴|r与白浅.");
+	}
+	timer TiAutoDiff = null; //自动选择难度
+timerdialog TdAutoDiff = null; //自动选择难度
+dialog DialogCurrent = null;
+	// 选择游戏模式
+	public function ChooseGameMode() {
+		trigger t;
+		t = CreateTrigger();
+		DialogCurrent = DialogCreate();
+		DialogSetMessage(DialogCurrent, "请选择游戏模式");
+		if (IsKuanghuanTime()) {
+			SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 5, DialogAddButtonBJ(DialogCurrent, "狂欢模式(活动)"));
+		}
+		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 1, DialogAddButtonBJ(DialogCurrent, "经典模式"));
+		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 3, DialogAddButtonBJ(DialogCurrent, "挑战模式"));
+		SaveButtonHandle(LHTable, GetHandleId(DialogCurrent), 2, DialogAddButtonBJ(DialogCurrent, "加速模式(速通)"));
+		DialogDisplay(GetFirstPlayer(), DialogCurrent, true);
+		TriggerRegisterDialogEvent(t, DialogCurrent);
+		TriggerAddAction(t, function (){
+			dialog d;
+			button clickedButton;
+			d = GetClickedDialogBJ();
+			clickedButton = GetClickedButtonBJ();
+			if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
+				//经典模式
+				mode = 1;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".");
+				SgameMode = "经典";
+				ShowDifficutyDiglog(1);
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
+				//挑战模式
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".");
+				SgameMode = "挑战";
+				mode = 1;
+				CreateCDialog1(); //挑战模式的对话框
+} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
+				//加速模式
+				mode = 2;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".");
+				SgameMode = "加速";
+				ShowDifficutyDiglog(1);
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
+				//狂欢模式
+				mode = 2;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".");
+				SgameMode = "狂欢";
+				InitKuanghuan();
+				ShowDifficutyDiglog(4);
+			}
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(Player(0), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			clickedButton = null;
+			DialogCurrent = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+		t = null;
+		TiAutoDiff = CreateTimer();
+		TdAutoDiff = CreateTimerDialog(TiAutoDiff);
+		TimerDialogDisplay(TdAutoDiff,true);
+		TimerDialogSetTitle(TdAutoDiff,"自动选择难度");
+		TimerDialogSetSpeed(TdAutoDiff,1.0);
+		TimerStart(TiAutoDiff,120,true,function (){
+			timer t = GetExpiredTimer();
+			integer id = GetHandleId(t);
+			mode = 1; //经典模式
+SgameMode = "经典";
+			SetDifficulty.execute(1);
+			PauseTimer(t);
+			DestroyTimer(t);
+			DestroyTimerDialog(TdAutoDiff);
+			TdAutoDiff = null;
+			t = null;
+		});
 	}
 }
 //! endzinc
@@ -31043,173 +31023,195 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
 			BJDebugMsg("|cFFFF66CC【消息】|r通关该难度可以加轮回之狱主群把你名字永久保存在|cff99cc00封帝万劫录|r中哦!");
 		}
 	}
-    public function registerDifficultyDialog ( dialog d) {
+    // 设置难度函数，参数 difficultyIndex: 1-10 分别对应天国到天魇
+    public function SetDifficulty(integer difficultyIndex) {
+        integer i;
+        // 根据难度索引设置相应的游戏参数
+        if (difficultyIndex == 1) { // 天国
+udg_Nandu = 1;
+            udg_Nandu_JJJ = 1;
+            udg_IWang = 2;
+            diffculty = "天国";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为天国。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+        } else if (difficultyIndex == 2) { // 太平
+udg_Nandu = 2;
+            udg_Nandu_JJJ = 2;
+            udg_IWang = 4;
+            diffculty = "太平";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为太平。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+        } else if (difficultyIndex == 3) { // 和谐
+udg_Nandu = 4;
+            udg_Nandu_JJJ = 3;
+            udg_IWang = 7;
+            diffculty = "和谐";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为和谐。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+        } else if (difficultyIndex == 4) { // 战争
+udg_Nandu = 6;
+            udg_Nandu_JJJ = 4;
+            udg_IWang = 8;
+            diffculty = "战争";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为战争，金钱获得率为80%，每多一名玩家获得率+10%，上限100%。");
+                SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.80;
+            }
+        } else if (difficultyIndex == 5) { // 炼狱
+udg_Nandu = 8;
+            udg_Nandu_JJJ = 5;
+            udg_IWang = 10;
+            diffculty = "炼狱";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为炼狱，金钱获得率为70%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.70;
+            }
+        } else if (difficultyIndex == 6) { // 地狱
+udg_Nandu = 10;
+            udg_Nandu_JJJ = 6;
+            udg_IWang = 12;
+            NanDiff = 1;
+            diffculty = "地狱";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为地狱，金钱获得率为60%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.60;
+            }
+        } else if (difficultyIndex == 7) { // 末日
+udg_Nandu = 20;
+            udg_Nandu_JJJ = 7;
+            udg_IWang = 16;
+            NanDiff = 2;
+            diffculty = "|cFFFF0000末日|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cFFFF0000末日|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.50;
+            }
+        } else if (difficultyIndex == 8) { // 轮回
+udg_Nandu = 40;
+            udg_Nandu_JJJ = 7;
+            udg_IWang = 32;
+            NanDiff = 3;
+            diffculty = "|cffff00ff轮回|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cffff00ff轮回|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.50;
+            }
+        } else if (difficultyIndex == 9) { // 万劫
+udg_Nandu = 40;
+            udg_Nandu_JJJ = 8;
+            udg_IWang = 32;
+            NanDiff = 3;
+            diffculty = "|cff008000万劫|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff008000万劫|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.50;
+            }
+            InitWanjie();
+        } else if (difficultyIndex == 10) { // 天魇
+udg_Nandu = 40;
+            udg_Nandu_JJJ = 8;
+            udg_IWang = 32;
+            NanDiff = 3;
+            IsTianyan = true;
+            diffculty = "|cff993366天魇|r";
+            ForForce(GetPlayersAll(), function () {
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff993366天魇|r，金钱获得率为20%，每多一名玩家获得率+10%，上限100%。");
+            });
+            for (1 <= i <= 6) {
+                udg_I_Jinqianhuodelv[i] = 0.00;
+            }
+            InitWanjie();
+            InitTianyan();
+        }
+        // 执行难度设置后的公共逻辑
+        CinematicModeBJ(false, GetPlayersAll());
+        PrintDifficulty();
+        InitAllPIV();
+        // 设置科技研究
+        if (IsTianyan) {
+            ForForce(YDWEGetPlayersByMapControlNull(MAP_CONTROL_COMPUTER), function () {
+                SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
+            });
+        } else {
+            ForForce(GetPlayersAll(), function () {
+                SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
+                SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
+            });
+        }
+        // 保存玩家名称并执行后续初始化
+        ForForce(GetPlayersAll(), function () {
+            playerName[GetConvertedPlayerId(GetEnumPlayer())] = GetPlayerName(GetEnumPlayer());
+            debug PrintCurrentPlatformLevel(GetEnumPlayer());
+        });
+        TriggerExecute(gg_trg_D4);
+        StartTimerBJ(udg_Time_Start[1], false, 60.00);
+        CreateTimerDialogBJ(udg_Time_Start[1], "准备时间");
+        udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
+        TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
+        InitJungle();
+    }
+    public function registerDifficultyDialog(dialog d) {
         trigger tr;
         tr = CreateTrigger();
         TriggerRegisterDialogEvent(tr, d);
         TriggerAddAction(tr, function () {
-            integer i;
+            integer difficultyIndex;
+            // 根据点击的按钮确定难度索引
             if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[1]) {
-                udg_Nandu = 1;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为天国。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_Nandu_JJJ = 1;
-                diffculty = "天国";
-                udg_IWang = 2;
+                difficultyIndex = 1;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[2]) {
+                difficultyIndex = 2;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[3]) {
+                difficultyIndex = 3;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[4]) {
+                difficultyIndex = 4;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[5]) {
+                difficultyIndex = 5;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[6]) {
+                difficultyIndex = 6;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[7]) {
+                difficultyIndex = 7;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[8]) {
+                difficultyIndex = 8;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[9]) {
+                difficultyIndex = 9;
+            } else if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[10]) {
+                difficultyIndex = 10;
             }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[2]) {
-                udg_Nandu = 2;
-                udg_Nandu_JJJ = 2;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为太平。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_IWang = 4;
-                diffculty = "太平";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[3]) {
-                udg_Nandu = 4;
-                udg_Nandu_JJJ = 3;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为和谐。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_IWang = 7;
-                diffculty = "和谐";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[4]) {
-                udg_Nandu = 6;
-                udg_Nandu_JJJ = 4;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为战争，金钱获得率为80%，每多一名玩家获得率+10%，上限100%。");
-                    SetPlayerTechResearchedSwap('R01K', 1, GetEnumPlayer());
-                });
-                udg_IWang = 8;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.80;
-                }
-                diffculty = "战争";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[5]) {
-                udg_Nandu = 8;
-                udg_Nandu_JJJ = 5;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为炼狱，金钱获得率为70%，每多一名玩家获得率+10%，上限100%。");
-                });
-                udg_IWang = 10;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.70;
-                }
-                diffculty = "炼狱";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[6]) {
-                udg_Nandu = 10;
-                udg_Nandu_JJJ = 6;
-                NanDiff = 1;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为地狱，金钱获得率为60%，每多一名玩家获得率+10%，上限100%。");
-                });
-                udg_IWang = 12;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.60;
-                }
-                diffculty = "地狱";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[7]) {
-                udg_Nandu = 20;
-                udg_Nandu_JJJ = 7;
-                udg_Nandu_JJJ = 7;
-                NanDiff = 2;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cFFFF0000末日|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
-                });
-                udg_IWang = 16;
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.50;
-                }
-                diffculty = "|cFFFF0000末日|r";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[8]) {
-                udg_Nandu = 40;
-                udg_Nandu_JJJ = 7;
-                udg_IWang = 32;
-                NanDiff = 3;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cffff00ff轮回|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
-                });
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.50;
-                }
-                diffculty = "|cffff00ff轮回|r";
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[9]) {
-                udg_Nandu = 40;
-                udg_Nandu_JJJ = 8;
-                udg_IWang = 32;
-                NanDiff = 3;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff008000万劫|r，金钱获得率为50%，每多一名玩家获得率+10%，上限100%。");
-                });
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.50;
-                }
-                diffculty = "|cff008000万劫|r";
-                InitWanjie();
-            }
-            if (GetClickedButtonBJ() == udg_X_Nandu_Chuangkou[10]) {
-                udg_Nandu = 40;
-                udg_Nandu_JJJ = 8;
-                udg_IWang = 32;
-                NanDiff = 3;
-                IsTianyan = true;
-                ForForce(GetPlayersAll(), function () {
-                    DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r当前难度为|cff993366天魇|r，金钱获得率为20%，每多一名玩家获得率+10%，上限100%。");
-                });
-                for (1 <= i <= 6) {
-                    udg_I_Jinqianhuodelv[i] = 0.00;
-                }
-                diffculty = "|cff993366天魇|r";
-                InitWanjie();
-                InitTianyan();
-            }
-            CinematicModeBJ(false, GetPlayersAll());
-            PrintDifficulty();
-            InitAllPIV();
-            if (IsTianyan) {
-                ForForce(YDWEGetPlayersByMapControlNull(MAP_CONTROL_COMPUTER), function () {
-                    SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
-                });
-            } else {
-                ForForce(GetPlayersAll(), function () {
-                    SetPlayerTechResearchedSwap('R00I', (NanDiff + 1), GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00S', NanDiff, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R001', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R005', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R00Q', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R004', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R003', udg_Nandu, GetEnumPlayer());
-                    SetPlayerTechResearchedSwap('R000', udg_Nandu, GetEnumPlayer());
-                });
-            }
-            ForForce(GetPlayersAll(), function () {
-                playerName[GetConvertedPlayerId(GetEnumPlayer())] = GetPlayerName(GetEnumPlayer());
-                debug PrintCurrentPlatformLevel(GetEnumPlayer());
-            });
-            TriggerExecute(gg_trg_D4);
-            StartTimerBJ(udg_Time_Start[1], false, 60.00);
-            CreateTimerDialogBJ(udg_Time_Start[1], "准备时间");
-            udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
-            TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
-            InitJungle();
+            // 调用统一的难度设置函数
+            SetDifficulty(difficultyIndex);
         });
         tr = null;
     }
@@ -31233,14 +31235,15 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
             InitMiJing();
             CinematicModeBJ(true, YDWEGetPlayersByMapControlNull(MAP_CONTROL_USER));
             ForForce(GetPlayersAll(), function () {
-                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r等待玩家1选择难度");
+                DisplayTimedTextToPlayer(GetEnumPlayer(), 0, 0, 5.00, "|cFF99FF00【消息】|r等待玩家1选择难度(120秒未选择会自动选择经典天国)");
                 SetPlayerStateBJ(GetEnumPlayer(), PLAYER_STATE_RESOURCE_GOLD, 2000);
                 SetCameraFieldForPlayer(GetEnumPlayer(), CAMERA_FIELD_ZOFFSET, GetCameraTargetPositionZ() + 400.00, 0);
             });
             TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 5.00, true);
             TriggerSleepAction(2.00);
             CinematicModeBJ(false, bj_FORCE_PLAYER[0]);
-            ChooseGameMode();
+            ChooseGameMode(); //选择难度
+
             udg_Group = YDWEGetUnitsInRectAllNull(gg_rct_______c1);
             ForGroupBJ(udg_Group, function () {
                 if (Get11() && IsUnitIsSpin(GetEnumUnit())) {

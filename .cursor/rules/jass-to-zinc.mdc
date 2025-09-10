@@ -1,8 +1,7 @@
 ---
-globs: *.j
 description: JASS 到 Zinc 转换规则（参考 edit/Hero/HeroSelect.j），用于 .j 文件
+alwaysApply: false
 ---
-
 ## JASS -> Zinc 转换规则（初始版）
 
 参考实现见：[edit/Hero/HeroSelect.j](mdc:edit/Hero/HeroSelect.j) 和 [edit/Diffculty.j](mdc:edit/Diffculty.j)
