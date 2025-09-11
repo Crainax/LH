@@ -11,6 +11,28 @@ library_once Spin requires LHBase,Version
 
 	endglobals
 
+			// debug call SetSeyuSpinOK(GetTriggerPlayer())
+			// debug call SetXiaoyueSpinOK(GetTriggerPlayer())
+			// debug call SetYanmieSpinOK(GetTriggerPlayer())
+			// debug call SetXuanxue1SpinOK(GetTriggerPlayer())
+			// debug call SetTaiyaSpinOK(GetTriggerPlayer())
+			// debug call SetChenji1SpinOK(GetTriggerPlayer())
+			// debug call SetHanshang1SpinOK(GetTriggerPlayer())
+			// debug call SetLingxueSpinOK(GetTriggerPlayer())
+			// debug call SetChenji2SpinOK(GetTriggerPlayer())
+			// debug call SetMoqiSpinOK(GetTriggerPlayer())
+			// debug call SetKaisaSpinOK(GetTriggerPlayer())
+			// debug call SetXuanxue2SpinOK(GetTriggerPlayer())
+			// debug call SetBajueSpinOK(GetTriggerPlayer())
+			// debug call SetSheyanSpinOK(GetTriggerPlayer())
+			// debug call SetHuanyiSpinOK(GetTriggerPlayer())
+			// debug call SetSichenSpinOK(GetTriggerPlayer())
+			// debug call SetLichiSpinOK(GetTriggerPlayer())
+			// debug call SetHeiyanSpinOK(GetTriggerPlayer())
+			// debug call SetCanglingSpinOK(GetTriggerPlayer())
+			// debug call SetHanshang2SpinOK(GetTriggerPlayer())
+			// debug call SetXinglong1SpinOK(GetTriggerPlayer())
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    反转物品

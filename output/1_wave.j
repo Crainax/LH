@@ -8606,40 +8606,28 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    set t = null
 	endfunction
 endlibrary
-library_once Huodong requires LHBase,Achievement
-	globals
-		integer IKuanghuan = 0
-	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    限时活动6:12-23
-	*/
-	function IsHuodong7 takes nothing returns boolean
-		//return true
-		return ((DzAPI_Map_GetGameStartTime()/10) > 149978880) and ((DzAPI_Map_GetGameStartTime()/10) < 150315840)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    嘉年华活动:
-	*/
-	function IsJianianhua takes nothing returns boolean
-		return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    狂欢模式活动:
-	*/
-	function IsKuanghuanTime takes nothing returns boolean
-		return IKuanghuan == 1
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    天魇难度的开启条件
-	*/
-	function IsTianyanOK takes nothing returns boolean
-		return IsAchieveOK(Player(0),325)
-	endfunction
-endlibrary
+//! zinc
+library Huodong requires LHBase,Achievement,PIVInterface {
+    public integer IKuanghuan = 0;
+    // 限时活动6:12-23
+    public function IsHuodong7() -> boolean {
+        //return true
+        return ((DzAPI_Map_GetGameStartTime()/10) > 149978880) && ((DzAPI_Map_GetGameStartTime()/10) < 150315840);
+    }
+    // 嘉年华活动:
+    public function IsJianianhua() -> boolean {
+        return true;
+    }
+    // 狂欢模式活动:
+    public function IsKuanghuanTime() -> boolean {
+        return IKuanghuan == 1 || hasPIV();
+    }
+    // 天魇难度的开启条件
+    public function IsTianyanOK() -> boolean {
+        return IsAchieveOK(Player(0), 325);
+    }
+}
+//! endzinc
 //! zinc
 library Diffculty requires LHBase, Huodong, ChallangerMode {
 	/*
@@ -9008,12 +8996,13 @@ public timerdialog TdAutoDiff = null; //自动选择难度
 		TimerDialogDisplay(TdAutoDiff,true);
 		TimerDialogSetTitle(TdAutoDiff,"自动选择难度");
 		TimerDialogSetSpeed(TdAutoDiff,1.0);
-		TimerStart(TiAutoDiff,20,true,function (){
+		TimerStart(TiAutoDiff,120,true,function (){
 			timer t = GetExpiredTimer();
 			integer id = GetHandleId(t);
 			mode = 1; //经典模式
 SgameMode = "经典";
 			SetDifficulty.execute(1);
+			BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.");
 			PauseTimer(t);
 			DestroyTimer(t);
 			DestroyTimerDialog(TdAutoDiff);
@@ -9537,255 +9526,213 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	endfunction
 endlibrary
 ///#include  "edit/Jizi.j"
-library_once Continous initializer InitContinous requires LHBase,ItemBase,Achievement,Huodong//,Jizi
-	globals
-		integer array IConDays
-		integer array ILastTime
-		constant integer TIMESTAMP_START = 1500998400
-		boolean array BWuxing
-		//integer DzAPI_Map_GetGameStartTime() = 0
-	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取签到的金币奖励
-	*/
-	private function GetGoldReward takes integer day returns integer
-		return I3(day == 1, 500 ,R2I((SquareRoot(day) + 2.) * 300.))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    给奖励
-	*/
-	function GiveJianianhuaGift takes player p returns nothing
-		local integer i = IConDays[GetConvertedPlayerId(p)]
-		local unit u = udg_H[GetConvertedPlayerId(p)]
-		call AdjustPlayerStateBJ( GetGoldReward(i), GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
-		if (i >= 2) then
-			call UnitAddItemByIdSwapped('ankh', u)
-		endif
-		if (i >= 4) then
-			call UnitAddItemByIdSwapped('k3m1', u)
-		endif
-		if (i >= 7) then
-			call UnitAddItemByIdSwapped('I07A', u)
-			set BWuxing[GetConvertedPlayerId(p)] = true
-		endif
-		if (i >= 12) then
-			call UnitAddItemByIdSwapped('I05O', u)
-			call SetItemPawnable(GetLastCreatedItem(),false)
-		endif
-		if (i >= 14) then
-			call SetLingxueSpinOK(p)
-		endif
-		if (i >= 20) then
-			call UnitAddItemByIdSwapped('hlst', u)
-		endif
-		if (i >= 40) then
-			call GetAchievementAndSave(p,47)
-		endif
-		set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    奖励物品
-	*/
-	function GetDailyReward takes integer days returns string
-		if (days == 2) then
-			return "天地庇佑 * 2"
-		elseif (days == 4) then
-			return "血精石 * 1"
-		elseif (days == 7) then
-			return "|cffffff00【妖】五行之杖|r * 1"
-		elseif (days == 12) then
-			return "聚宝·Lv0 * 1"
-		elseif (days == 14) then
-			return "|cFF339933沐雪无瑕|r皮肤"
-		elseif (days == 20) then
-			return "|cff808080【E】幸运宝箱|r"
-		elseif (days == 40) then
-			return GetAchievementName(47)+"成就"
-		endif
-		return null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取从保存的第一天开始的时间
-	*/
-	function GetContinousDay takes player p returns integer
-		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) then
-			return 0
-		endif
-		return (DzAPI_Map_GetGameStartTime() - ILastTime[GetConvertedPlayerId(p)])/86400
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    创建一个对话框
-	*/
-	function CreateLoginDialog takes player p returns nothing
-        local dialog d = DialogCreate()
-        local string s = "
-        	连续登录奖励
-        	你获得了第"+I2S(IConDays[GetConvertedPlayerId(p)])+"天对应的"+I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)]))+"金币!
-        	明天继续签到可以获得"+I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1))+"的金币!
-        	"
-        local integer i = 1
-        loop
-        	exitwhen i > 41
-        	if (GetDailyReward(i) != null) then
-        		set s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) +S3(IConDays[GetConvertedPlayerId(p)] >= i,"|cffff9900(已完成)|r","|cff33cccc(未完成)|r") + "
-        		"
-        	endif
-        	set i = i +1
-        endloop
-                		set s = s + "
-        你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦."
-        call DialogSetMessage( d, s )
-        call DialogAddButton( d, "10分钟之后当天才签到成功|cffff6800(Esc)|r",512)
-        call DialogDisplay( p, d, true )
-        //call DialogDestroy(d)
-        set d = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取当前时间的0点
-	*/
-	private function GetCurrentStartTime takes nothing returns integer
-		return TIMESTAMP_START + ((DzAPI_Map_GetGameStartTime() - TIMESTAMP_START)/86400)*86400
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取前n天的0点
-	*/
-	private function GetOldStartTime takes integer day returns integer
-		return GetCurrentStartTime() - ((day - 1) * 86400)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	     初始化你的登录时间
-	*/
-	function InitContinousData takes player p returns nothing
-		set IConDays[GetConvertedPlayerId(p)] = DzAPI_Map_GetStoredInteger(p, "IConDays")
-		set ILastTime[GetConvertedPlayerId(p)] = DzAPI_Map_GetStoredInteger(p, "ILastTime")
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    显示签到指数
-	*/
-	/*function ShowQiandao takes player p returns nothing
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的签到指数为"+I2S(IQiandao2[GetConvertedPlayerId(p)])+".")
-	endfunction*/
-//---------------------------------------------------------------------------------------------------
-	/*
-	    保存登录状态
-	*/
-	function SaveLoginState takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreInteger( p, "IConDays", IConDays[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p, "ILastTime", ILastTime[GetConvertedPlayerId(p)] )
-			//call DzAPI_Map_StoreInteger( p,  "IQiandao2", IQiandao2[GetConvertedPlayerId(p)] )
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
-			//call CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]),GetUnitY(udg_H[GetConvertedPlayerId(p)]),p)
-		else
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
-			call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r")
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-		等10分钟后上传到网易
-	*/
-	private function UploadToNetEaseTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local player p = LoadPlayerHandle(LHTable,id,1)
-		call SaveLoginState(p)
-		call PauseTimer(t)
-		call FlushChildHashtable(LHTable,id)
-		call DestroyTimer(t)
-		set p = null
-		set t = null
-	endfunction
-	function UploadToNetEase takes player p returns nothing
-		local timer t = CreateTimer()
-		call SavePlayerHandle(LHTable,GetHandleId(t),1,p)
-		call TimerStart(t,600,false,function UploadToNetEaseTimer)
-		set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    设置连续时间
-	*/
-	function SetDenglu takes player p returns nothing
-		//活动还没开始，或者说是首次
-		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) then
-			call BJDebugMsg("|cFFFF66CC【消息】|r ")
-			return
-		endif
-		if (ILastTime[GetConvertedPlayerId(p)] < TIMESTAMP_START) then
-			set ILastTime[GetConvertedPlayerId(p)] = TIMESTAMP_START
-			set IConDays[GetConvertedPlayerId(p)] = 0
-		endif
-		//断签啦重新存储
-		if (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)])	then
-			//首次连续登录的提示与奖励
-			set IConDays[GetConvertedPlayerId(p)] = GetContinousDay(p) + 1
-			//set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录"+I2S(IConDays[GetConvertedPlayerId(p)])+"天(注意今天的签到需要等10分钟才能保存).")
-		elseif (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)] - 1)then
-			//保持当天的奖励
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录"+I2S(IConDays[GetConvertedPlayerId(p)])+"天(今天的签到数据已经在前面游戏中保存了哦).")
-		else
-			set ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime()
-			set IConDays[GetConvertedPlayerId(p)] = 1
-			//set IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p)
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录"+I2S(IConDays[GetConvertedPlayerId(p)])+"天(注意今天的签到需要等10分钟才能保存).")
-		endif
-		call UploadToNetEase(p)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    补签
-	*/
-	function Buqian1 takes player p returns nothing
-		if not(BBuqian1) then
-			set BBuqian1 = true
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签1阶段.")
-		endif
-	endfunction
-	function Buqian2 takes player p,string s returns nothing
-		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)],25))) then
-			set BBuqian2 = true
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签2阶段.")
-		endif
-		set BBuqian1 = false
-	endfunction
-	function Buqian3 takes player p,string s returns nothing
-		local integer i = 1
-		local integer result = 0
-		loop
-			exitwhen i > 100
-			if (s == I2S(GetCycleHash(I2S(i),1))) then
-				set IConDays[GetConvertedPlayerId(p)] = i
-				set ILastTime[GetConvertedPlayerId(p)] = GetOldStartTime(i)
-				call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签为"+I2S(i)+"天.")
-				call SaveLoginState(p)
-				exitwhen true
-			endif
-			set i = i +1
-		endloop
-		set BBuqian2 = false
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	private function InitContinous takes nothing returns nothing
-	endfunction
-endlibrary
+//! zinc
+library Continous requires LHBase,ItemBase,Achievement,Huodong {
+	public{
+		integer IConDays[];
+		integer ILastTime[];
+		constant integer TIMESTAMP_START = 1500998400;
+		boolean BWuxing[];
+	}
+	//integer DzAPI_Map_GetGameStartTime() = 0
+	// 获取签到的金币奖励
+	function GetGoldReward(integer day) -> integer {
+		return I3(day == 1, 500, R2I((SquareRoot(day) + 2.) * 300.));
+	}
+	// 给奖励
+	public function GiveJianianhuaGift(player p) {
+		integer i; unit u;
+		i = IConDays[GetConvertedPlayerId(p)];
+		u = udg_H[GetConvertedPlayerId(p)];
+		AdjustPlayerStateBJ(GetGoldReward(i), GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
+		if (i >= 2) {
+			UnitAddItemByIdSwapped('ankh', u);
+		}
+		if (i >= 4) {
+			UnitAddItemByIdSwapped('k3m1', u);
+		}
+		if (i >= 7) {
+			UnitAddItemByIdSwapped('I07A', u);
+			BWuxing[GetConvertedPlayerId(p)] = true;
+		}
+		if (i >= 12) {
+			UnitAddItemByIdSwapped('I05O', u);
+			SetItemPawnable(GetLastCreatedItem(), false);
+		}
+		if (i >= 14) {
+			SetLingxueSpinOK(p);
+		}
+		if (i >= 20) {
+			UnitAddItemByIdSwapped('hlst', u);
+		}
+		if (i >= 40) {
+			GetAchievementAndSave(p, 47);
+		}
+		u = null;
+	}
+	// 奖励物品
+	public function GetDailyReward(integer days) -> string {
+		if (days == 2) {
+			return "天地庇佑 * 2";
+		} else if (days == 4) {
+			return "血精石 * 1";
+		} else if (days == 7) {
+			return "|cffffff00【妖】五行之杖|r * 1";
+		} else if (days == 12) {
+			return "聚宝·Lv0 * 1";
+		} else if (days == 14) {
+			return "|cFF339933沐雪无瑕|r皮肤";
+		} else if (days == 20) {
+			return "|cff808080【E】幸运宝箱|r";
+		} else if (days == 40) {
+			return GetAchievementName(47) + "成就";
+		}
+		return null;
+	}
+	// 获取从保存的第一天开始的时间
+	public function GetContinousDay(player p) -> integer {
+		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) {
+			return 0;
+		}
+		return (DzAPI_Map_GetGameStartTime() - ILastTime[GetConvertedPlayerId(p)]) / 86400;
+	}
+	// 创建一个对话框
+	public function CreateLoginDialog(player p) {
+		dialog d; string s; integer i;
+		d = DialogCreate();
+		s = " 		连续登录奖励 				你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! 		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! 						";
+		i = 1;
+		for (1 <= i <= 41) {
+			if (GetDailyReward(i) != null) {
+				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " 				";
+			}
+		}
+		s = s + " 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
+		DialogSetMessage(d, s);
+		DialogAddButton(d, "10分钟之后当天才签到成功|cffff6800(Esc)|r", 512);
+		DialogDisplay(p, d, true);
+		//DialogDestroy(d);
+		d = null;
+	}
+	// 获取当前时间的0点
+	function GetCurrentStartTime() -> integer {
+		return TIMESTAMP_START + ((DzAPI_Map_GetGameStartTime() - TIMESTAMP_START) / 86400) * 86400;
+	}
+	// 获取前n天的0点
+	function GetOldStartTime(integer day) -> integer {
+		return GetCurrentStartTime() - ((day - 1) * 86400);
+	}
+	// 初始化你的登录时间
+	public function InitContinousData(player p) {
+		IConDays[GetConvertedPlayerId(p)] = DzAPI_Map_GetStoredInteger(p, "IConDays");
+		ILastTime[GetConvertedPlayerId(p)] = DzAPI_Map_GetStoredInteger(p, "ILastTime");
+	}
+	// 显示签到指数
+	// function ShowQiandao(player p) {
+	//     DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的签到指数为" + I2S(IQiandao2[GetConvertedPlayerId(p)]) + ".");
+	// }
+	// 保存登录状态
+	public function SaveLoginState(player p) {
+		if (Bdudang[GetConvertedPlayerId(p)]) {
+			DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
+			DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
+			//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+			//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
+		} else {
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
+			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
+		}
+	}
+	// 等10分钟后上传到网易
+	function UploadToNetEaseTimer() {
+		timer t; integer id; player p;
+		t = GetExpiredTimer();
+		id = GetHandleId(t);
+		p = LoadPlayerHandle(LHTable, id, 1);
+		SaveLoginState(p);
+		PauseTimer(t);
+		FlushChildHashtable(LHTable, id);
+		DestroyTimer(t);
+		p = null;
+		t = null;
+	}
+	public function UploadToNetEase(player p) {
+		timer t;
+		t = CreateTimer();
+		SavePlayerHandle(LHTable, GetHandleId(t), 1, p);
+		TimerStart(t, 600, false, function UploadToNetEaseTimer);
+		t = null;
+	}
+	// 设置连续时间
+	public function SetDenglu(player p) {
+		// 活动还没开始，或者说是首次
+		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) {
+			BJDebugMsg("|cFFFF66CC【消息】|r ");
+			return;
+		}
+		if (ILastTime[GetConvertedPlayerId(p)] < TIMESTAMP_START) {
+			ILastTime[GetConvertedPlayerId(p)] = TIMESTAMP_START;
+			IConDays[GetConvertedPlayerId(p)] = 0;
+		}
+		// 断签啦重新存储
+		if (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)]) {
+			// 首次连续登录的提示与奖励
+			IConDays[GetConvertedPlayerId(p)] = GetContinousDay(p) + 1;
+			//IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p);
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(注意今天的签到需要等10分钟才能保存).");
+		} else if (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)] - 1) {
+			// 保持当天的奖励
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(今天的签到数据已经在前面游戏中保存了哦).");
+		} else {
+			ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime();
+			IConDays[GetConvertedPlayerId(p)] = 1;
+			//IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p);
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(注意今天的签到需要等10分钟才能保存).");
+		}
+		UploadToNetEase(p);
+	}
+	// 补签
+	public function Buqian1(player p) {
+		if (!BBuqian1) {
+			BBuqian1 = true;
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签1阶段.");
+		}
+	}
+	public function Buqian2(player p, string s) {
+		if (s == I2S(GetCycleHash(playerName[GetConvertedPlayerId(p)], 25))) {
+			BBuqian2 = true;
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签2阶段.");
+		}
+		BBuqian1 = false;
+	}
+	public function Buqian3(player p, string s) {
+		integer i, result;
+		i = 1;
+		result = 0;
+		for (1 <= i <= 100) {
+			if (s == I2S(GetCycleHash(I2S(i), 1))) {
+				IConDays[GetConvertedPlayerId(p)] = i;
+				ILastTime[GetConvertedPlayerId(p)] = GetOldStartTime(i);
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签为" + I2S(i) + "天.");
+				SaveLoginState(p);
+				break;
+			}
+		}
+		BBuqian2 = false;
+	}
+	function onInit() {
+		// 初始化代码
+	}
+}
+//! endzinc
 library_once Jizi requires LHBase,Achievement,ChallangerDZ,Attr,Structs
 	globals
 	endglobals
@@ -11315,6 +11262,27 @@ library_once Spin requires LHBase,Version
 	globals
 		boolean array BCancelSpin
 	endglobals
+			// debug call SetSeyuSpinOK(GetTriggerPlayer())
+			// debug call SetXiaoyueSpinOK(GetTriggerPlayer())
+			// debug call SetYanmieSpinOK(GetTriggerPlayer())
+			// debug call SetXuanxue1SpinOK(GetTriggerPlayer())
+			// debug call SetTaiyaSpinOK(GetTriggerPlayer())
+			// debug call SetChenji1SpinOK(GetTriggerPlayer())
+			// debug call SetHanshang1SpinOK(GetTriggerPlayer())
+			// debug call SetLingxueSpinOK(GetTriggerPlayer())
+			// debug call SetChenji2SpinOK(GetTriggerPlayer())
+			// debug call SetMoqiSpinOK(GetTriggerPlayer())
+			// debug call SetKaisaSpinOK(GetTriggerPlayer())
+			// debug call SetXuanxue2SpinOK(GetTriggerPlayer())
+			// debug call SetBajueSpinOK(GetTriggerPlayer())
+			// debug call SetSheyanSpinOK(GetTriggerPlayer())
+			// debug call SetHuanyiSpinOK(GetTriggerPlayer())
+			// debug call SetSichenSpinOK(GetTriggerPlayer())
+			// debug call SetLichiSpinOK(GetTriggerPlayer())
+			// debug call SetHeiyanSpinOK(GetTriggerPlayer())
+			// debug call SetCanglingSpinOK(GetTriggerPlayer())
+			// debug call SetHanshang2SpinOK(GetTriggerPlayer())
+			// debug call SetXinglong1SpinOK(GetTriggerPlayer())
 //---------------------------------------------------------------------------------------------------
 	/*
 	    反转物品
@@ -16813,613 +16781,414 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 endlibrary
 ///#include  "edit/Beast.j"
 ///#include  "edit/Netversion.j"
-library_once PIV initializer InitPIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing
-	globals
-		private boolean isFirst = true
-		private hashtable PIVTable = InitHashtable()
-		key kPIV
-	    key kPIVStr
-	    key kPIVPlayer
-	    key kPIVPointer
-	    trigger T17Wan = null
-	    //信哲
-	    boolean BX1 = false
-	    boolean BX2 = false
-	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    定制初始化
-	*/
-	private function XinzheCon takes nothing returns boolean
-		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"))
-	endfunction
-	private function XinzheAct takes nothing returns nothing
-		if (IsInForbitRegion(GetOrderPointX(),GetOrderPointY(),GetTriggerUnit())) then
-			call IssueImmediateOrder( GetTriggerUnit(), "stop" )
-	        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达." )
-	        return
-		endif
-		call SetUnitX(GetTriggerUnit(),GetOrderPointX())
-		call SetUnitY(GetTriggerUnit(),GetOrderPointY())
-		if (BX1) then
-			call DamageAreaMagic(GetTriggerUnit(),GetUnitX(GetTriggerUnit()),GetUnitY(GetTriggerUnit()),600,GetDamageBase(GetTriggerUnit())*0.8,null)
-		endif
-	endfunction
-	function InitXinzhe takes unit u returns nothing
-		local trigger t = CreateTrigger()
-    	call TriggerRegisterUnitEvent( t, u, EVENT_UNIT_ISSUED_POINT_ORDER )
-		call TriggerAddCondition(t, Condition(function XinzheCon))
-		call TriggerAddAction(t, function XinzheAct)
-		set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    京剧
-	*/
-	private function JingjuCondition takes nothing returns boolean
-		return GetUnitTypeId(GetFilterUnit()) == 'n006' or GetUnitTypeId(GetFilterUnit()) == 'n00Y'
-	endfunction
-	private function JingjuDiyuhuo takes nothing returns nothing
-		call RecoverUnitHP(GetEnumUnit(),0.3)
-	endfunction
-	private function JingjuTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local unit u = LoadUnitHandle(LHTable,id,1)
-		local group g = YDWEGetUnitsOfPlayerMatchingNull(GetOwningPlayer(u), Condition(function JingjuCondition))
-		call RecoverUnitHP(u,0.1)
-		call ForGroupBJ( g, function JingjuDiyuhuo )
-		set u = null
-		call DestroyGroup(g)
-		set t = null
-		set g = null
-	endfunction
-	function InitJingju takes unit u returns nothing
-		local timer t = CreateTimer()
-		call SaveUnitHandle(LHTable,GetHandleId(t),1,u)
-		call TimerStart(t,1,true,function JingjuTimer)
-		set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    列表是否含有名单
-	*/
-	private function TableHas takes integer i returns boolean
-		return HaveSavedBoolean(PIVTable,kPIV,i)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        获取激活码
-    */
-    private function GetPIVCode takes string s returns integer
-        local string result = s
-        local integer i = 1
-        loop
-            exitwhen i > 6
-            set result = I2S(StringHash(result))
-            set i = i +1
-        endloop
-        return S2I(SubStringBJ(result,2,StringLength(result)))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    初始化玩家
-	*/
-	private function InitPlayerPIV takes player p returns nothing
-		if (isFirst) then
-			set isFirst = false
-			set udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2
-			call BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+2波的特权.")
-			call BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.")
-		endif
-		set sPIV[GetConvertedPlayerId(p)] = true
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权，如果要关闭赞助功能,请输入-zz")
-		debug call SavePIV(p,GetPIVCode(GetPlayerName(p)))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    初始化英雄
-	*/
-	private function InitDingzhi takes unit u returns nothing
-		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
-			call UnitAddItemByIdSwapped('IXU1', u)
-	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-			call UnitAddItemByIdSwapped('IXU1', u)
-	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
-	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),5)
-	        call AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)),2.0)
-	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
-	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
-	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.7)
-    		call SetPlayerTechResearchedSwap( 'R01K', 1 , GetOwningPlayer(u))
-    		call SetPlayerTechResearchedSwap( 'R006', 1 , GetOwningPlayer(u))
-    		call SetPlayerTechResearchedSwap( 'R007', 1 , GetOwningPlayer(u))
-    		call SetPlayerTechResearchedSwap( 'R008', 1 , GetOwningPlayer(u))
-    		call SetPlayerTechResearchedSwap( 'R009', 1 , GetOwningPlayer(u))
-    		call SetPlayerTechResearchedSwap( 'R00A', 1 , GetOwningPlayer(u))
-    		call SetPlayerTechResearchedSwap( 'R00B', 1 , GetOwningPlayer(u))
-			call InitJingju(u)
-	    	set udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5
-			call SetPlayerStateBJ( GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10 ) )
-		elseif (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") then
-			set BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true
-	        call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
-	        call AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
-	        call AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
-	        call AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)),1.5)
-	        call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),4.)
-	        call UnitAddAbility(u,'A0MF')
-            call UnitMakeAbilityPermanent(u,true,'A0MF')
-            call UnitMakeAbilityPermanent(u,true,'A0MG')
-			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MF',false)
-			call InitXinzhe(u)
-		endif
-	endfunction
-	function InitPIVHero takes unit u returns nothing
-		debug call InitDingzhi(u)
-		if (IsPIV(GetOwningPlayer(u))) then
-			call UnitAddItemByIdSwapped('IXU1', u)
-	        call SaveInteger(YDHT,GetHandleId(GetLastCreatedItem()),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(u)))
-			call AdjustPlayerStateBJ( 8000, GetOwningPlayer(u) , PLAYER_STATE_RESOURCE_GOLD )
-			call Discolor(u)
-			return
-		endif
-		if ((not(IsPIV(GetOwningPlayer(u)))) and IsColorSpin(GetOwningPlayer(u))) then
-			call Discolor(u)
-		endif
-		debug call GetPlatformLevelGold(GetOwningPlayer(u))
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    VIP验证
-	*/
-	function CertificatePIV takes player p,string vCode returns nothing
-		if (vCode == null and TableHas(GetPIVCode(GetPlayerName(p)))) then
-			call InitPlayerPIV(p)
-			return
-		endif
-		if (I2S(GetPIVCode(GetPlayerName(p))) == vCode) then
-			call InitPlayerPIV(p)
-			return
-		endif
-		if (vCode != null) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！")
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    VIP验证
-	*/
-    function ChatPIV takes nothing returns nothing
-        local string chat = GetEventPlayerChatString()
-        local string vCode = SubStringBJ(chat,2,StringLength(chat))
-		call CertificatePIV(GetTriggerPlayer(),vCode)
-    endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    对话框输入验证码
-	*/
-	private function PIVDialogClick takes nothing returns nothing
-	    local dialog d = GetClickedDialogBJ()
-	    local integer i = 0
-	    local string s = LoadStr(PIVTable,GetHandleId(d),kPIVStr)
-	    local player p = LoadPlayerHandle(PIVTable,GetHandleId(d),kPIVPlayer)
-	    //验证
-	    if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable,GetHandleId(d),10)) then
-	        call CertificatePIV(p,s)
-	        call FlushChildHashtable(PIVTable,GetHandleId(d))
-        	call DialogDisplay( p, d, false )
-	        call DialogClear(d)
-	        call DialogDestroy(d)
-	        set d = null
-	        set s = null
-	        set p = null
-	        call DestroyTrigger(GetTriggeringTrigger())
-	        return
-	    endif
-	    //输入
-	    loop
-	        exitwhen i > 9
-	        if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable,GetHandleId(d),i)) then
-	            set s = s + I2S(i)
-	            call SaveStr(PIVTable,GetHandleId(d),kPIVStr,s)
-	            exitwhen true
-	        endif
-	        set i = i +1
-	    endloop
-	    call DialogSetMessage( d, "激活码:"+s )
-        call DialogDisplay( p, d, true )
-	    set d = null
-	    set s = null
-	    set p = null
-	endfunction
-	function CreatePIVDialog takes nothing returns nothing
-	    local trigger t
-	    local dialog d
-		if (IsPIV(GetTriggerPlayer())) then
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！")
-			return
-		endif
-		if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！")
-			return
-		endif
-	    set t = CreateTrigger()
-	    set d = DialogCreate()
-	    call DialogSetMessage( d, "请从第1位开始依次输入激活码" )
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),0,DialogAddButton( d, "0",'0'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),1,DialogAddButton( d, "1",'1'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),2,DialogAddButton( d, "2",'2'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),3,DialogAddButton( d, "3",'3'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),4,DialogAddButton( d, "4",'4'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),5,DialogAddButton( d, "5",'5'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),6,DialogAddButton( d, "6",'6'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),7,DialogAddButton( d, "7",'7'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),8,DialogAddButton( d, "8",'8'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),9,DialogAddButton( d, "9",'9'))
-	    call SaveButtonHandle(PIVTable,GetHandleId(d),10,DialogAddButton( d, "输入完毕|cffff6800(Esc)|r",512))
-	    call SaveStr(PIVTable,GetHandleId(d),kPIVStr,"")
-	    call SavePlayerHandle(PIVTable,GetHandleId(d),kPIVPlayer,GetTriggerPlayer())
-	    call SaveInteger(PIVTable,GetHandleId(d),kPIVPointer,1)
-	    call DialogDisplay( GetTriggerPlayer(), d, true )
-	    call TriggerRegisterDialogEvent( t, d )
-	    call TriggerAddAction(t, function PIVDialogClick)
-	    set d = null
-	    set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    17玩吧激活码
-	*/
-	function Qskc_GetL takes player l100,string str,integer l10O,integer l1O0 returns boolean
-		local integer OO11=0
-		local integer lI0O=0
-		local integer l0O1=0
-		local integer O011=0
-		local integer llO0=0
-		local integer ll0O= 0
-		local integer O01l= 0
-		local string OOll=SubStringBJ(str, 11, 9999)
-		local string OOl1=SubStringBJ(str, 1, 10)
-		local integer llOO=StringLength(OOll)-2
-		local integer O0l1=IAbsBJ(StringHash(GetPlayerName(l100)))
-		set ll0O=StringHash(OOll)
-		set ll0O=ll0O+StringHash(I2S(StringLength(OOll)))
-		loop
-		exitwhen llO0>=StringLength(OOll)
-		set ll0O=ll0O+StringHash(SubString(OOll,llO0,llO0+1))
-		set O01l=S2I(SubStringBJ(R2S(IAbsBJ(ll0O)),1,2))+S2I(SubStringBJ(R2S(IAbsBJ(ll0O)),3,4))
-		set llO0=llO0+1
-		endloop
-		if StringLength(str)<90 then
-		return false
-		endif
-		loop
-		exitwhen O011>=O01l
-		set O0l1 =IAbsBJ(StringHash(I2S(O0l1)))
-		set O011 = O011 + 1
-		endloop
-		if O0l1<$3B9ACA00 then
-		set O0l1=O0l1+$3B9ACA00
-		endif
-		loop
-		exitwhen OO11>llOO
-		set lI0O=lI0O+StringHash(SubString(OOll,OO11,OO11+2))+StringHash(I2S(l0O1))
-		set l0O1=l0O1+StringHash(I2S(lI0O))-StringHash(SubString(OOll,OO11,OO11+2))
-		set OO11=OO11+1
-		endloop
-		return lI0O==l10O and l0O1==l1O0 and I2S(O0l1)==OOl1
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    新密钥验证
-	*/
-	function Fgetc_GetL takes player l1000,string l1OOO,integer l10OO,integer l1O00 returns boolean
-		local integer OO111=0
-		local integer lI0OO=0
-		local integer l0O11=0
-		local integer O0111=0
-		local integer llO00=0
-		local integer ll0OO=0
-		local integer O01ll=0
-		local integer O10ll=0
-		local integer O1l0l=0
-		local integer llOOO=0
-		local string lllOO= ""
-		local string ll1OO= ""
-		local string array l1lOO
-		local integer O0l11=IAbsBJ(StringHash(GetPlayerName(l1000)))
-		local integer l11O0=IAbsBJ(StringHash(GetPlayerName(l1000)))
-		local string OOl11=SubStringBJ(l1OOO, 1, 10)
-		local string OOlll=SubStringBJ(l1OOO, 11, 9999)
-		set l1lOO[0] = SubStringBJ(OOlll,1,3)
-		set l1lOO[1] = SubStringBJ(OOlll,9,11)
-		set l1lOO[2] = SubStringBJ(OOlll,16,19)
-		set l1lOO[3] = SubStringBJ(OOlll,4,8)
-		set l1lOO[4] = SubStringBJ(OOlll,12,15)
-		set l1lOO[5] = SubStringBJ(OOlll,20,999)
-		set lllOO=l1lOO[0]+l1lOO[1]+l1lOO[2]
-		set ll1OO=l1lOO[3]+l1lOO[4]+l1lOO[5]
-		set llOOO=StringLength(ll1OO)-2
-		set ll0OO=StringHash(ll1OO)
-		set ll0OO=ll0OO+StringHash(I2S(StringLength(ll1OO)))
-		loop
-		exitwhen llO00>=StringLength(ll1OO)
-		set ll0OO=ll0OO+StringHash(SubString(ll1OO,llO00,llO00+1))
-		set O01ll=S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),1,2))+S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),3,4))
-		set O10ll=S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),4,5))+S2I(SubStringBJ(I2S(IAbsBJ(ll0OO)),6,7))
-		set llO00=llO00+1
-		endloop
-		loop
-		exitwhen O0111>=O01ll
-		set O0l11 =IAbsBJ(StringHash(I2S(O0l11))+$77359400)
-		set O0111 = O0111 + 1
-		endloop
-		loop
-		exitwhen O1l0l>=O10ll
-		set l11O0 =IAbsBJ(StringHash(I2S(l11O0))+$77359400)
-		set O1l0l = O1l0l + 1
-		endloop
-		if O0l11<$3B9ACA00 then
-		set O0l11=O0l11+$3B9ACA00
-		endif
-		if l11O0<$3B9ACA00 then
-		set l11O0=l11O0+$3B9ACA00
-		endif
-		loop
-		exitwhen OO111>llOOO
-		set lI0OO=lI0OO+StringHash(SubString(ll1OO,OO111,OO111+2))+StringHash(I2S(l0O11))
-		set l0O11=l0O11+StringHash(I2S(lI0OO))-StringHash(SubString(ll1OO,OO111,OO111+2))
-		set OO111=OO111+1
-		endloop
-		return lI0OO==l10OO and l0O11==l1O00 and I2S(O0l11)==OOl11 and I2S(l11O0)==lllOO
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    17玩吧验证
-	*/
-	private function Verify17Wanba takes nothing returns nothing
-	    if ((Qskc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-117135511,628755061)) or Fgetc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-1139053518,43777771)) then
-		    if (IsPIV(GetTriggerPlayer())) then
-				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！")
-				return
-			endif
-			if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
-				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！")
-				return
-			endif
-			call InitPlayerPIV(GetTriggerPlayer())
-		elseif ((Fgetc_GetL(GetTriggerPlayer(),GetEventPlayerChatString(),-767946655,-1650132445))) then
-			if not(DEBUG_MODE) then
-				call BJDebugMsg("|cFFFF66CC【消息】|r你已激活了所有皮肤使用权限！")
-				call ActivateAllSpin(GetTriggerPlayer())
-			else
-				call BJDebugMsg("|cFFFF66CC【消息】|rspin.")
-			endif
-			debug call SetSeyuSpinOK(GetTriggerPlayer())
-			debug call SetXiaoyueSpinOK(GetTriggerPlayer())
-			debug call SetYanmieSpinOK(GetTriggerPlayer())
-			debug call SetXuanxue1SpinOK(GetTriggerPlayer())
-			debug call SetTaiyaSpinOK(GetTriggerPlayer())
-			debug call SetChenji1SpinOK(GetTriggerPlayer())
-			debug call SetHanshang1SpinOK(GetTriggerPlayer())
-			debug call SetLingxueSpinOK(GetTriggerPlayer())
-			debug call SetChenji2SpinOK(GetTriggerPlayer())
-			debug call SetMoqiSpinOK(GetTriggerPlayer())
-			debug call SetKaisaSpinOK(GetTriggerPlayer())
-			debug call SetXuanxue2SpinOK(GetTriggerPlayer())
-			debug call SetBajueSpinOK(GetTriggerPlayer())
-			debug call SetSheyanSpinOK(GetTriggerPlayer())
-			debug call SetHuanyiSpinOK(GetTriggerPlayer())
-			debug call SetSichenSpinOK(GetTriggerPlayer())
-			debug call SetLichiSpinOK(GetTriggerPlayer())
-			debug call SetHeiyanSpinOK(GetTriggerPlayer())
-			debug call SetCanglingSpinOK(GetTriggerPlayer())
-			debug call SetHanshang2SpinOK(GetTriggerPlayer())
-			debug call SetXinglong1SpinOK(GetTriggerPlayer())
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    关掉赞助指令
-	*/
-	function CancelVIP takes player p returns nothing
-	    if not(IsPIV(p)) then
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.")
-			return
-		endif
-		if (udg_H[GetConvertedPlayerId(p)] != null) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.")
-			return
-		endif
-		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.")
-		set sPIV[GetConvertedPlayerId(p)] = false
-		if not(hasPIV()) then
-			set isFirst = true
-			set udg_I_Er_diansi[1] = 1
-			call BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.")
-			call BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.")
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    初始化
-	*/
-	function InitAllPIV takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 6
-			call CertificatePIV(ConvertedPlayer(i),null)
-			debug if (IsSavePIV(ConvertedPlayer(i),GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) then
-			debug call CertificatePIV(ConvertedPlayer(i),I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))))
-			debug endif
-			set i = i +1
-		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    300秒后关闭入口
-	*/
-	function ClosePIV takes nothing returns nothing
-		call FlushParentHashtable(PIVTable)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	private function InitPIV takes nothing returns nothing
-		local integer i = 1
-		local trigger t = CreateTrigger()
-		loop
-			exitwhen i > 6
-			set sPIV[i] = false
-			set i = i +1
-		endloop
-		call SaveBoolean(PIVTable,kPIV,560584534,true)
-		//call SaveBoolean(PIVTable,kPIV,805389327,true)
+//! zinc
+library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
+	boolean isFirst = true;
+	hashtable PIVTable = InitHashtable();
+	key kPIV;
+	key kPIVStr;
+	key kPIVPlayer;
+	key kPIVPointer;
+	// 信哲
+	public boolean BX1 = false;
+	public boolean BX2 = false;
+	// 定制初始化
+	function XinzheCon() -> boolean {
+		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"));
+	}
+	function XinzheAct() {
+		if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
+			IssueImmediateOrder(GetTriggerUnit(), "stop");
+			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
+			return;
+		}
+		SetUnitX(GetTriggerUnit(), GetOrderPointX());
+		SetUnitY(GetTriggerUnit(), GetOrderPointY());
+		if (BX1) {
+			DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
+		}
+	}
+	public function InitXinzhe(unit u) {
+		trigger t;
+		t = CreateTrigger();
+		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
+		TriggerAddCondition(t, Condition(function XinzheCon));
+		TriggerAddAction(t, function XinzheAct);
+		t = null;
+	}
+	// 京剧
+	function JingjuCondition() -> boolean {
+		return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y';
+	}
+	function JingjuDiyuhuo() {
+		RecoverUnitHP(GetEnumUnit(), 0.3);
+	}
+	function JingjuTimer() {
+		timer t; integer id; unit u; group g;
+		t = GetExpiredTimer();
+		id = GetHandleId(t);
+		u = LoadUnitHandle(LHTable, id, 1);
+		g = YDWEGetUnitsOfPlayerMatchingNull(GetOwningPlayer(u), Condition(function JingjuCondition));
+		RecoverUnitHP(u, 0.1);
+		ForGroupBJ(g, function JingjuDiyuhuo);
+		u = null;
+		DestroyGroup(g);
+		t = null;
+		g = null;
+	}
+	public function InitJingju(unit u) {
+		timer t;
+		t = CreateTimer();
+		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
+		TimerStart(t, 1, true, function JingjuTimer);
+		t = null;
+	}
+	// 列表是否含有名单
+	function TableHas(integer i) -> boolean {
+		return HaveSavedBoolean(PIVTable, kPIV, i);
+	}
+	// 获取激活码
+	function GetPIVCode(string s) -> integer {
+		string result; integer i;
+		result = s;
+		i = 1;
+		for (1 <= i <= 6) {
+			result = I2S(StringHash(result));
+		}
+		return S2I(SubStringBJ(result, 2, StringLength(result)));
+	}
+	// 初始化玩家
+	function InitPlayerPIV(player p) {
+		if (isFirst) {
+			isFirst = false;
+			udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2;
+			BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+2波的特权.");
+			BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.");
+		}
+		sPIV[GetConvertedPlayerId(p)] = true;
+		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权，如果要关闭赞助功能,请输入-zz");
+		debug SavePIV(p, GetPIVCode(GetPlayerName(p)));
+	}
+	// 初始化英雄
+	function InitDingzhi(unit u) {
+		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
+			InitJingju(u);
+			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
+			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
+		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
+			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
+			UnitAddAbility(u, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MG');
+			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
+			InitXinzhe(u);
+		}
+	}
+	public function InitPIVHero(unit u) {
+		debug InitDingzhi(u);
+		if (IsPIV(GetOwningPlayer(u))) {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
+			Discolor(u);
+			return;
+		}
+		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
+			Discolor(u);
+		}
+		debug GetPlatformLevelGold(GetOwningPlayer(u));
+	}
+	// VIP验证
+	public function CertificatePIV(player p, string vCode) {
+		if (vCode == null && TableHas(GetPIVCode(GetPlayerName(p)))) {
+			InitPlayerPIV(p);
+			return;
+		}
+		if (I2S(GetPIVCode(GetPlayerName(p))) == vCode) {
+			InitPlayerPIV(p);
+			return;
+		}
+		if (vCode != null) {
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！");
+		}
+	}
+	// VIP验证
+	public function ChatPIV() {
+		string chat, vCode;
+		chat = GetEventPlayerChatString();
+		vCode = SubStringBJ(chat, 2, StringLength(chat));
+		CertificatePIV(GetTriggerPlayer(), vCode);
+	}
+	// 对话框输入验证码
+	function PIVDialogClick() {
+		dialog d; integer i; string s; player p;
+		d = GetClickedDialogBJ();
+		i = 0;
+		s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
+		p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
+		// 验证
+		if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
+			CertificatePIV(p, s);
+			FlushChildHashtable(PIVTable, GetHandleId(d));
+			DialogDisplay(p, d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			s = null;
+			p = null;
+			DestroyTrigger(GetTriggeringTrigger());
+			return;
+		}
+		// 输入
+		for (0 <= i <= 9) {
+			if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
+				s = s + I2S(i);
+				SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
+				break;
+			}
+		}
+		DialogSetMessage(d, "激活码:" + s);
+		DialogDisplay(p, d, true);
+		d = null;
+		s = null;
+		p = null;
+	}
+	public function CreatePIVDialog() {
+		trigger t; dialog d;
+		if (IsPIV(GetTriggerPlayer())) {
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
+			return;
+		}
+		if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
+			return;
+		}
+		t = CreateTrigger();
+		d = DialogCreate();
+		DialogSetMessage(d, "请从第1位开始依次输入激活码");
+		SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
+		SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
+		SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
+		SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
+		SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
+		DialogDisplay(GetTriggerPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function PIVDialogClick);
+		d = null;
+		t = null;
+	}
+	// 关掉赞助指令
+	public function CancelVIP(player p) {
+		if (!IsPIV(p)) {
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
+			return;
+		}
+		if (udg_H[GetConvertedPlayerId(p)] != null) {
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
+			return;
+		}
+		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
+		sPIV[GetConvertedPlayerId(p)] = false;
+		if (!hasPIV()) {
+			isFirst = true;
+			udg_I_Er_diansi[1] = 1;
+			BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
+			BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
+		}
+	}
+	// 初始化
+	public function InitAllPIV() {
+		integer i;
+		i = 1;
+		for (1 <= i <= 6) {
+			CertificatePIV(ConvertedPlayer(i), null);
+			if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
+				CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
+			}
+		}
+	}
+	// 300秒后关闭入口
+	public function ClosePIV() {
+		FlushParentHashtable(PIVTable);
+	}
+	function onInit() {
+		integer i; trigger t;
+		i = 1;
+		t = CreateTrigger();
+		for (1 <= i <= 6) {
+			sPIV[i] = false;
+		}
+		SaveBoolean(PIVTable,kPIV,560584534,true);
+		// SaveBoolean(PIVTable,kPIV,805389327,true);
 		//2.64:
-		call SaveBoolean(PIVTable,kPIV,1386963254,true)
-		call SaveBoolean(PIVTable,kPIV,920323633,true)
-		call SaveBoolean(PIVTable,kPIV,2028760546,true)
-		call SaveBoolean(PIVTable,kPIV,76404545,true)
-		call SaveBoolean(PIVTable,kPIV,772953595,true)
-		call SaveBoolean(PIVTable,kPIV,122150585,true)
-		call SaveBoolean(PIVTable,kPIV,1866394937,true)
-		call SaveBoolean(PIVTable,kPIV,668865994,true)
-		call SaveBoolean(PIVTable,kPIV,11465124,true)
-		call SaveBoolean(PIVTable,kPIV,1483305270,true)
-		call SaveBoolean(PIVTable,kPIV,89160614,true)
-		call SaveBoolean(PIVTable,kPIV,416503868,true)
-		call SaveBoolean(PIVTable,kPIV,366425370,true)
-		call SaveBoolean(PIVTable,kPIV,24682425,true)
-		call SaveBoolean(PIVTable,kPIV,838476900,true)
-		call SaveBoolean(PIVTable,kPIV,21235704,true)
-		call SaveBoolean(PIVTable,kPIV,259338775,true)
-		call SaveBoolean(PIVTable,kPIV,1945313488,true)
-		call SaveBoolean(PIVTable,kPIV,185409653,true)
-		call SaveBoolean(PIVTable,kPIV,848895504,true)
-		call SaveBoolean(PIVTable,kPIV,970908405,true)
-		call SaveBoolean(PIVTable,kPIV,1406966725,true)
-		call SaveBoolean(PIVTable,kPIV,476387019,true)
-		call SaveBoolean(PIVTable,kPIV,1407806903,true)
-		call SaveBoolean(PIVTable,kPIV,39350822,true)
-		call SaveBoolean(PIVTable,kPIV,947015907,true)
-		call SaveBoolean(PIVTable,kPIV,1524326451,true)
-		call SaveBoolean(PIVTable,kPIV,1199483482,true)
-		call SaveBoolean(PIVTable,kPIV,85817056,true)
-		call SaveBoolean(PIVTable,kPIV,1884797690,true)
-		call SaveBoolean(PIVTable,kPIV,138245006,true)
-		call SaveBoolean(PIVTable,kPIV,55883798,true)
-		call SaveBoolean(PIVTable,kPIV,237209239,true)
-		call SaveBoolean(PIVTable,kPIV,208207478,true)
-		call SaveBoolean(PIVTable,kPIV,764958705,true)
-		call SaveBoolean(PIVTable,kPIV,1556955637,true)
-		call SaveBoolean(PIVTable,kPIV,769983234,true)
-		call SaveBoolean(PIVTable,kPIV,1018574645,true)
-		call SaveBoolean(PIVTable,kPIV,1602970119,true)
-		call SaveBoolean(PIVTable,kPIV,1968941945,true)
-		call SaveBoolean(PIVTable,kPIV,281722192,true)
-		call SaveBoolean(PIVTable,kPIV,55774054,true)
-		call SaveBoolean(PIVTable,kPIV,1794669457,true)
-		call SaveBoolean(PIVTable,kPIV,4775200,true)
-		call SaveBoolean(PIVTable,kPIV,5934560,true)
-		call SaveBoolean(PIVTable,kPIV,1556972891,true)
-		call SaveBoolean(PIVTable,kPIV,1308263866,true)
-		call SaveBoolean(PIVTable,kPIV,819949938,true)
-		call SaveBoolean(PIVTable,kPIV,935082247,true)
-		call SaveBoolean(PIVTable,kPIV,874526666,true)
-		call SaveBoolean(PIVTable,kPIV,274143214,true)
-		call SaveBoolean(PIVTable,kPIV,242646218,true)
-		call SaveBoolean(PIVTable,kPIV,42780764,true)
-		call SaveBoolean(PIVTable,kPIV,15784280,true)
-		call SaveBoolean(PIVTable,kPIV,1846898150,true)
-		call SaveBoolean(PIVTable,kPIV,162418494,true)
-		call SaveBoolean(PIVTable,kPIV,1028656343,true)
-		call SaveBoolean(PIVTable,kPIV,871412081,true)
-		call SaveBoolean(PIVTable,kPIV,724251537,true)
-		call SaveBoolean(PIVTable,kPIV,572061793,true)
-		call SaveBoolean(PIVTable,kPIV,1562039753,true)
-		call SaveBoolean(PIVTable,kPIV,27535638,true)
-		call SaveBoolean(PIVTable,kPIV,2856770,true)
-		call SaveBoolean(PIVTable,kPIV,29748027,true)
-		call SaveBoolean(PIVTable,kPIV,78547297,true)
-		call SaveBoolean(PIVTable,kPIV,1691009533,true)
-		call SaveBoolean(PIVTable,kPIV,108509507,true)
-		call SaveBoolean(PIVTable,kPIV,863575409,true)
-		call SaveBoolean(PIVTable,kPIV,47256210,true)
-		call SaveBoolean(PIVTable,kPIV,386002974,true)
-		call SaveBoolean(PIVTable,kPIV,253021838,true)
-		call SaveBoolean(PIVTable,kPIV,4943346,true)
-		call SaveBoolean(PIVTable,kPIV,655724335,true)
-		call SaveBoolean(PIVTable,kPIV,1300925723,true)
-		call SaveBoolean(PIVTable,kPIV,526128524,true)
-		call SaveBoolean(PIVTable,kPIV,527932086,true)
-		call SaveBoolean(PIVTable,kPIV,491536351,true)
-		call SaveBoolean(PIVTable,kPIV,765412438,true)
-		call SaveBoolean(PIVTable,kPIV,1807059619,true)
-		call SaveBoolean(PIVTable,kPIV,158219634,true)
-		call SaveBoolean(PIVTable,kPIV,812702019,true)
-		call SaveBoolean(PIVTable,kPIV,93444649,true)
-		call SaveBoolean(PIVTable,kPIV,1652902274,true)
-		call SaveBoolean(PIVTable,kPIV,42083283,true)
-		call SaveBoolean(PIVTable,kPIV,79706688,true)
-		call SaveBoolean(PIVTable,kPIV,81738293,true)
-		call SaveBoolean(PIVTable,kPIV,3334224,true)
-		call SaveBoolean(PIVTable,kPIV,705577564,true)
-		call SaveBoolean(PIVTable,kPIV,1834015365,true)
-		call SaveBoolean(PIVTable,kPIV,249745215,true)
-		call SaveBoolean(PIVTable,kPIV,936721376,true)
-		call SaveBoolean(PIVTable,kPIV,96122563,true)
-		call SaveBoolean(PIVTable,kPIV,242232349,true)
-		call SaveBoolean(PIVTable,kPIV,99200445,true)
-		call SaveBoolean(PIVTable,kPIV,17295550,true)
-		call SaveBoolean(PIVTable,kPIV,192227001,true)
-		call SaveBoolean(PIVTable,kPIV,500660555,true)
-		call SaveBoolean(PIVTable,kPIV,1321008731,true)
-		call SaveBoolean(PIVTable,kPIV,917107829,true)
-		call SaveBoolean(PIVTable,kPIV,1277254148,true)
-		call SaveBoolean(PIVTable,kPIV,556905161,true)
-		call SaveBoolean(PIVTable,kPIV,55162747,true)
-		call SaveBoolean(PIVTable,kPIV,395306233,true)
-		call SaveBoolean(PIVTable,kPIV,442043076,true)
-		call SaveBoolean(PIVTable,kPIV,987238722,true)
-		call SaveBoolean(PIVTable,kPIV,454437652,true)
-		call SaveBoolean(PIVTable,kPIV,50731632,true)
-		call SaveBoolean(PIVTable,kPIV,1088397663,true)
-		call SaveBoolean(PIVTable,kPIV,1193547207,true)
-		call SaveBoolean(PIVTable,kPIV,263166628,true)
-		call SaveBoolean(PIVTable,kPIV,991993981,true)
-		call SaveBoolean(PIVTable,kPIV,343567476,true)
-		call SaveBoolean(PIVTable,kPIV,41292785,true)
-		call SaveBoolean(PIVTable,kPIV,199066564,true)
-		call SaveBoolean(PIVTable,kPIV,58301014,true)
-		call SaveBoolean(PIVTable,kPIV,975300858,true)
-		call SaveBoolean(PIVTable,kPIV,24962383,true)
-		call SaveBoolean(PIVTable,kPIV,6484930,true)
-		call SaveBoolean(PIVTable,kPIV,922261063,true)
-		call SaveBoolean(PIVTable,kPIV,9423109,true)
-		call SaveBoolean(PIVTable,kPIV,388868057,true)
-		call SaveBoolean(PIVTable,kPIV,61444830,true)
-		call SaveBoolean(PIVTable,kPIV,89183810,true)
-		call SaveBoolean(PIVTable,kPIV,255054188,true)
-		call SaveBoolean(PIVTable,kPIV,589040132,true)
-		call SaveBoolean(PIVTable,kPIV,46380924,true)
-		call TriggerRegisterPlayerChatEvent( t, Player(0), "##", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(1), "##", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(2), "##", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(3), "##", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(4), "##", true )
-		call TriggerRegisterPlayerChatEvent( t, Player(5), "##", true )
-	    call TriggerAddAction(t, function CreatePIVDialog)
-	    set T17Wan = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent( T17Wan, Player(0), "", false )
-		call TriggerRegisterPlayerChatEvent( T17Wan, Player(1), "", false )
-		call TriggerRegisterPlayerChatEvent( T17Wan, Player(2), "", false )
-		call TriggerRegisterPlayerChatEvent( T17Wan, Player(3), "", false )
-		call TriggerRegisterPlayerChatEvent( T17Wan, Player(4), "", false )
-		call TriggerRegisterPlayerChatEvent( T17Wan, Player(5), "", false )
-	    call TriggerAddAction(T17Wan, function Verify17Wanba)
-	    set t = null
-	endfunction
-endlibrary
+		SaveBoolean(PIVTable,kPIV,1386963254,true);
+		SaveBoolean(PIVTable,kPIV,920323633,true);
+		SaveBoolean(PIVTable,kPIV,2028760546,true);
+		SaveBoolean(PIVTable,kPIV,76404545,true);
+		SaveBoolean(PIVTable,kPIV,772953595,true);
+		SaveBoolean(PIVTable,kPIV,122150585,true);
+		SaveBoolean(PIVTable,kPIV,1866394937,true);
+		SaveBoolean(PIVTable,kPIV,668865994,true);
+		SaveBoolean(PIVTable,kPIV,11465124,true);
+		SaveBoolean(PIVTable,kPIV,1483305270,true);
+		SaveBoolean(PIVTable,kPIV,89160614,true);
+		SaveBoolean(PIVTable,kPIV,416503868,true);
+		SaveBoolean(PIVTable,kPIV,366425370,true);
+		SaveBoolean(PIVTable,kPIV,24682425,true);
+		SaveBoolean(PIVTable,kPIV,838476900,true);
+		SaveBoolean(PIVTable,kPIV,21235704,true);
+		SaveBoolean(PIVTable,kPIV,259338775,true);
+		SaveBoolean(PIVTable,kPIV,1945313488,true);
+		SaveBoolean(PIVTable,kPIV,185409653,true);
+		SaveBoolean(PIVTable,kPIV,848895504,true);
+		SaveBoolean(PIVTable,kPIV,970908405,true);
+		SaveBoolean(PIVTable,kPIV,1406966725,true);
+		SaveBoolean(PIVTable,kPIV,476387019,true);
+		SaveBoolean(PIVTable,kPIV,1407806903,true);
+		SaveBoolean(PIVTable,kPIV,39350822,true);
+		SaveBoolean(PIVTable,kPIV,947015907,true);
+		SaveBoolean(PIVTable,kPIV,1524326451,true);
+		SaveBoolean(PIVTable,kPIV,1199483482,true);
+		SaveBoolean(PIVTable,kPIV,85817056,true);
+		SaveBoolean(PIVTable,kPIV,1884797690,true);
+		SaveBoolean(PIVTable,kPIV,138245006,true);
+		SaveBoolean(PIVTable,kPIV,55883798,true);
+		SaveBoolean(PIVTable,kPIV,237209239,true);
+		SaveBoolean(PIVTable,kPIV,208207478,true);
+		SaveBoolean(PIVTable,kPIV,764958705,true);
+		SaveBoolean(PIVTable,kPIV,1556955637,true);
+		SaveBoolean(PIVTable,kPIV,769983234,true);
+		SaveBoolean(PIVTable,kPIV,1018574645,true);
+		SaveBoolean(PIVTable,kPIV,1602970119,true);
+		SaveBoolean(PIVTable,kPIV,1968941945,true);
+		SaveBoolean(PIVTable,kPIV,281722192,true);
+		SaveBoolean(PIVTable,kPIV,55774054,true);
+		SaveBoolean(PIVTable,kPIV,1794669457,true);
+		SaveBoolean(PIVTable,kPIV,4775200,true);
+		SaveBoolean(PIVTable,kPIV,5934560,true);
+		SaveBoolean(PIVTable,kPIV,1556972891,true);
+		SaveBoolean(PIVTable,kPIV,1308263866,true);
+		SaveBoolean(PIVTable,kPIV,819949938,true);
+		SaveBoolean(PIVTable,kPIV,935082247,true);
+		SaveBoolean(PIVTable,kPIV,874526666,true);
+		SaveBoolean(PIVTable,kPIV,274143214,true);
+		SaveBoolean(PIVTable,kPIV,242646218,true);
+		SaveBoolean(PIVTable,kPIV,42780764,true);
+		SaveBoolean(PIVTable,kPIV,15784280,true);
+		SaveBoolean(PIVTable,kPIV,1846898150,true);
+		SaveBoolean(PIVTable,kPIV,162418494,true);
+		SaveBoolean(PIVTable,kPIV,1028656343,true);
+		SaveBoolean(PIVTable,kPIV,871412081,true);
+		SaveBoolean(PIVTable,kPIV,724251537,true);
+		SaveBoolean(PIVTable,kPIV,572061793,true);
+		SaveBoolean(PIVTable,kPIV,1562039753,true);
+		SaveBoolean(PIVTable,kPIV,27535638,true);
+		SaveBoolean(PIVTable,kPIV,2856770,true);
+		SaveBoolean(PIVTable,kPIV,29748027,true);
+		SaveBoolean(PIVTable,kPIV,78547297,true);
+		SaveBoolean(PIVTable,kPIV,1691009533,true);
+		SaveBoolean(PIVTable,kPIV,108509507,true);
+		SaveBoolean(PIVTable,kPIV,863575409,true);
+		SaveBoolean(PIVTable,kPIV,47256210,true);
+		SaveBoolean(PIVTable,kPIV,386002974,true);
+		SaveBoolean(PIVTable,kPIV,253021838,true);
+		SaveBoolean(PIVTable,kPIV,4943346,true);
+		SaveBoolean(PIVTable,kPIV,655724335,true);
+		SaveBoolean(PIVTable,kPIV,1300925723,true);
+		SaveBoolean(PIVTable,kPIV,526128524,true);
+		SaveBoolean(PIVTable,kPIV,527932086,true);
+		SaveBoolean(PIVTable,kPIV,491536351,true);
+		SaveBoolean(PIVTable,kPIV,765412438,true);
+		SaveBoolean(PIVTable,kPIV,1807059619,true);
+		SaveBoolean(PIVTable,kPIV,158219634,true);
+		SaveBoolean(PIVTable,kPIV,812702019,true);
+		SaveBoolean(PIVTable,kPIV,93444649,true);
+		SaveBoolean(PIVTable,kPIV,1652902274,true);
+		SaveBoolean(PIVTable,kPIV,42083283,true);
+		SaveBoolean(PIVTable,kPIV,79706688,true);
+		SaveBoolean(PIVTable,kPIV,81738293,true);
+		SaveBoolean(PIVTable,kPIV,3334224,true);
+		SaveBoolean(PIVTable,kPIV,705577564,true);
+		SaveBoolean(PIVTable,kPIV,1834015365,true);
+		SaveBoolean(PIVTable,kPIV,249745215,true);
+		SaveBoolean(PIVTable,kPIV,936721376,true);
+		SaveBoolean(PIVTable,kPIV,96122563,true);
+		SaveBoolean(PIVTable,kPIV,242232349,true);
+		SaveBoolean(PIVTable,kPIV,99200445,true);
+		SaveBoolean(PIVTable,kPIV,17295550,true);
+		SaveBoolean(PIVTable,kPIV,192227001,true);
+		SaveBoolean(PIVTable,kPIV,500660555,true);
+		SaveBoolean(PIVTable,kPIV,1321008731,true);
+		SaveBoolean(PIVTable,kPIV,917107829,true);
+		SaveBoolean(PIVTable,kPIV,1277254148,true);
+		SaveBoolean(PIVTable,kPIV,556905161,true);
+		SaveBoolean(PIVTable,kPIV,55162747,true);
+		SaveBoolean(PIVTable,kPIV,395306233,true);
+		SaveBoolean(PIVTable,kPIV,442043076,true);
+		SaveBoolean(PIVTable,kPIV,987238722,true);
+		SaveBoolean(PIVTable,kPIV,454437652,true);
+		SaveBoolean(PIVTable,kPIV,50731632,true);
+		SaveBoolean(PIVTable,kPIV,1088397663,true);
+		SaveBoolean(PIVTable,kPIV,1193547207,true);
+		SaveBoolean(PIVTable,kPIV,263166628,true);
+		SaveBoolean(PIVTable,kPIV,991993981,true);
+		SaveBoolean(PIVTable,kPIV,343567476,true);
+		SaveBoolean(PIVTable,kPIV,41292785,true);
+		SaveBoolean(PIVTable,kPIV,199066564,true);
+		SaveBoolean(PIVTable,kPIV,58301014,true);
+		SaveBoolean(PIVTable,kPIV,975300858,true);
+		SaveBoolean(PIVTable,kPIV,24962383,true);
+		SaveBoolean(PIVTable,kPIV,6484930,true);
+		SaveBoolean(PIVTable,kPIV,922261063,true);
+		SaveBoolean(PIVTable,kPIV,9423109,true);
+		SaveBoolean(PIVTable,kPIV,388868057,true);
+		SaveBoolean(PIVTable,kPIV,61444830,true);
+		SaveBoolean(PIVTable,kPIV,89183810,true);
+		SaveBoolean(PIVTable,kPIV,255054188,true);
+		SaveBoolean(PIVTable,kPIV,589040132,true);
+		SaveBoolean(PIVTable,kPIV,46380924,true);
+		TriggerRegisterPlayerChatEvent(t, Player(0), "##", true);
+		TriggerRegisterPlayerChatEvent(t, Player(1), "##", true);
+		TriggerRegisterPlayerChatEvent(t, Player(2), "##", true);
+		TriggerRegisterPlayerChatEvent(t, Player(3), "##", true);
+		TriggerRegisterPlayerChatEvent(t, Player(4), "##", true);
+		TriggerRegisterPlayerChatEvent(t, Player(5), "##", true);
+		TriggerAddAction(t, function CreatePIVDialog);
+		t = null;
+	}
+}
+//! endzinc
 library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 	globals
 		TextTagBind array TTBBox
@@ -31143,8 +30912,8 @@ udg_Nandu = 40;
             InitTianyan();
         }
         // 执行难度设置后的公共逻辑
-        CinematicModeBJ(false, GetPlayersAll());
-        PrintDifficulty();
+        CinematicModeBJ(false, GetPlayersAll()); //好东西啊   直接关掉现在的对话框
+PrintDifficulty();
         InitAllPIV();
         // 设置科技研究
         if (IsTianyan) {

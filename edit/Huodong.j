@@ -1,44 +1,35 @@
+
 #ifndef HuodongIncluded
 #define HuodongIncluded
 
-
 #include  "edit/LHBase.j"
 #include  "edit/Achievement.j"
-library_once Huodong requires LHBase,Achievement
 
-	globals
-		integer IKuanghuan = 0
-	endglobals
+//! zinc
+library Huodong requires LHBase,Achievement,PIVInterface {
 
-//---------------------------------------------------------------------------------------------------
-	/*
-	    限时活动6:12-23
-	*/
-	function IsHuodong7 takes nothing returns boolean
-		//return true
-		return ((DzAPI_Map_GetGameStartTime()/10) > 149978880) and ((DzAPI_Map_GetGameStartTime()/10) < 150315840)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    嘉年华活动:
-	*/
-	function IsJianianhua takes nothing returns boolean
-		return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    狂欢模式活动:
-	*/
-	function IsKuanghuanTime takes nothing returns boolean
-		return IKuanghuan == 1
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    天魇难度的开启条件
-	*/
-	function IsTianyanOK takes nothing returns boolean
-		return IsAchieveOK(Player(0),325)
-	endfunction
+    public integer IKuanghuan = 0;
 
-endlibrary
+    // 限时活动6:12-23
+    public function IsHuodong7() -> boolean {
+        //return true
+        return ((DzAPI_Map_GetGameStartTime()/10) > 149978880) && ((DzAPI_Map_GetGameStartTime()/10) < 150315840);
+    }
+
+    // 嘉年华活动:
+    public function IsJianianhua() -> boolean {
+        return true;
+    }
+
+    // 狂欢模式活动:
+    public function IsKuanghuanTime() -> boolean {
+        return IKuanghuan == 1 || hasPIV();
+    }
+
+    // 天魇难度的开启条件
+    public function IsTianyanOK() -> boolean {
+        return IsAchieveOK(Player(0), 325);
+    }
+}
+//! endzinc
 #endif

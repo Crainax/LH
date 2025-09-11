@@ -1,9 +1,6 @@
 logs\currentmapscript.j
 pjass.exe
-Line 14024:  Undeclared variable DialogCurrent
-Line 31941:  Undeclared variable TiAutoDiff
-Line 31944:  Undeclared variable TdAutoDiff
-Line 57838:  Undeclared variable DialogCurrent
-Line 57992:  Undeclared variable TiAutoDiff
-Line 57995:  Undeclared variable TdAutoDiff
-6
+Line 33763:  Undeclared variable BX1
+Line 33765:  Undeclared variable BX2
+Line 37626:  Undeclared variable BX2
+3

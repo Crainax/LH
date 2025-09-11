@@ -76,11 +76,14 @@ for (0 <= i <= 9) {
 ```
 
 - **访问修饰符转换**
-  - **重要**：JASS 中函数默认是 `public`，而 Zinc 中函数默认是 `private`
+  - **重要**：JASS 中函数和全局变量默认是 `public`，而 Zinc 中默认是 `private`
   - 转换时需要显式添加 `public` 修饰符以保持原有的可访问性：
 
 ```jass
-// JASS（原版，默认 public）
+// JASS（原版，函数和全局变量默认 public）
+integer NanDiff = 0
+unit UWanjieGuanghuan = null
+
 function GetDiffculty takes nothing returns integer
     // ...
 endfunction
@@ -89,9 +92,31 @@ endfunction
 ```jass
 //! zinc
 // Zinc（转换后，显式 public）
+public integer NanDiff = 0;
+public unit UWanjieGuanghuan = null;
+
 public function GetDiffculty() -> integer {
     // ...
 }
+//! endzinc
+```
+
+- **数组声明语法转换**
+  - JASS 的 `type array varname` 语法在 Zinc 中需要改为 `type varname[]`：
+
+```jass
+// JASS（原版）
+integer array IConDays
+real array PlayerGold
+unit array HeroUnits
+```
+
+```jass
+//! zinc
+// Zinc（转换后，[] 后缀语法）
+integer IConDays[];
+real PlayerGold[];
+unit HeroUnits[];
 //! endzinc
 ```
 
@@ -126,7 +151,8 @@ ShowGameHintAll(" \
 - 原本分散在多个具名回调中的简单逻辑，可直接收敛为 `TriggerAddAction(..., function () { ... })` 或 `TimerStart(..., function () { ... })`。
 - 原本的 `loop/endloop` 统一替换为 `for (start <= idx <= end)`，索引变量请在函数顶部声明，例如：`integer i;`。
 - 若匿名回调内需要访问外层数据，请用 `Save*`/`Load*` + `GetHandleId(GetExpiredTimer())` 或相关句柄 id 的方案传递。
-- **重要**：所有原本在 JASS 中可被外部调用的函数，转换为 Zinc 时必须添加 `public` 修饰符。
+- **重要**：所有原本在 JASS 中可被外部调用的函数和全局变量，转换为 Zinc 时必须添加 `public` 修饰符。
+- 数组声明从 `type array varname` 改为 `type varname[]` 语法。
 - 多行字符串使用 `\` 在行末进行连接，保持代码可读性。
 
 ### 快速核对清单
@@ -135,7 +161,8 @@ ShowGameHintAll(" \
 - 循环：是否将 `loop/endloop` 改为 `for`，并使用局部索引变量？
 - 局部变量：是否已在函数顶部声明齐全？
 - handler：是否已在作用域末尾释放并置 `null`？
-- **访问修饰符**：是否为需要外部访问的函数添加了 `public` 修饰符？
+- **访问修饰符**：是否为需要外部访问的函数和全局变量添加了 `public` 修饰符？
+- **数组语法**：是否将 `type array varname` 改为 `type varname[]`？
 - **多行字符串**：是否正确使用了 `\` 进行行连接？
 
 以上规则为初始版本，后续可根据项目实际迁移情况持续补充。
