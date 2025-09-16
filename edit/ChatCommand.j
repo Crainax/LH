@@ -67,7 +67,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,VIP,Version
 	//! runtextmacro CombineBox("A","sror","fgrg")
 
 	function CombineBox takes nothing returns nothing
-		if not(IsVIP(GetTriggerPlayer())) then
+		if not(vip.is(GetTriggerPlayer())) then
 			call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r需要成为永久赞助才能使用此指令!" )
 			return
 		endif

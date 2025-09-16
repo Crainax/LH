@@ -48,7 +48,7 @@ library_once RandomHero  requires LHBase,Version,VIP
 		local integer i = 1
 		local group g = GetUnitsOfPlayerMatching(Player(PLAYER_NEUTRAL_PASSIVE), Condition(function RandomPickCondition))
 		local unit u = null
-		if not(IsVIP(p)) then
+		if not(vip.is(p)) then
 			loop
 				exitwhen i > HERO_COUNT
 				if (i == 15 and not(GetHuanyiSelectedCon(p))) then

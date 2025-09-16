@@ -57,7 +57,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 		//! runtextmacro BuySoldier("uG04","4")
 
 		if (GetUnitTypeId(GetSoldUnit()) == 'uG05') then
-			if (IsVIP(GetOwningPlayer(GetBuyingUnit())) != true) then
+			if (vip.is(GetOwningPlayer(GetBuyingUnit())) != true) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -79,7 +79,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 		endif
 
 		if (GetUnitTypeId(GetSoldUnit()) == 'uG06') then
-			if (IsVIP(GetOwningPlayer(GetBuyingUnit())) != true) then
+			if (vip.is(GetOwningPlayer(GetBuyingUnit())) != true) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return

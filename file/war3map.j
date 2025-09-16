@@ -4100,7 +4100,7 @@ endfunction
 //library VIP:
 
 //---------------------------------------------------------------------------------------------------
- function IsVIP takes player p returns boolean
+ function vip.is takes player p returns boolean
 		return sVIP[GetConvertedPlayerId(p)]
 	endfunction
 
@@ -7354,7 +7354,7 @@ endfunction
 //end of: BuySoldier("uG04","4")
 
 		if ( GetUnitTypeId(GetSoldUnit()) == 'uG05' ) then
-			if ( IsVIP(GetOwningPlayer(GetBuyingUnit())) == true ) then
+			if ( vip.is(GetOwningPlayer(GetBuyingUnit())) == true ) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -7376,7 +7376,7 @@ endfunction
 		endif
 
 		if ( GetUnitTypeId(GetSoldUnit()) == 'uG06' ) then
-			if ( IsVIP(GetOwningPlayer(GetBuyingUnit())) == true ) then
+			if ( vip.is(GetOwningPlayer(GetBuyingUnit())) == true ) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return

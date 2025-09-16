@@ -2990,7 +2990,7 @@ endfunction
 function Trig______________________uActions takes nothing returns nothing
     local integer ydul_g
     local timer ydl_timer
-    if ((udg_T2[GetConvertedPlayerId(GetTriggerPlayer())] == true) and ((GetTriggerUnit() != gg_unit_Udea_0279) or (IsVIP(GetTriggerPlayer())) or (GetHeiyanSelectedCon(GetTriggerPlayer()))) and ((GetTriggerUnit() != gg_unit_Hant_0205) or (IsVIP(GetTriggerPlayer())) or (GetHuanyiSelectedCon(GetTriggerPlayer())))) then
+    if ((udg_T2[GetConvertedPlayerId(GetTriggerPlayer())] == true) and ((GetTriggerUnit() != gg_unit_Udea_0279) or (vip.is(GetTriggerPlayer())) or (GetHeiyanSelectedCon(GetTriggerPlayer()))) and ((GetTriggerUnit() != gg_unit_Hant_0205) or (vip.is(GetTriggerPlayer())) or (GetHuanyiSelectedCon(GetTriggerPlayer())))) then
         set udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] = true
         set udg_Point = GetRandomLocInRect(gg_rct________1)
         call SetUnitPositionLoc( GetTriggerUnit(), udg_Point )
@@ -23993,7 +23993,7 @@ function Trig____________________010Actions takes nothing returns nothing
         call PlaySoundBJ( gg_snd_BOSS )
         call TriggerExecute( gg_trg____________________032 )
     else
-        if ((udg_Nandu_JJJ == 1) and (udg_Bo == 12) and (hasVIP() == false)) then
+        if ((udg_Nandu_JJJ == 1) and (udg_Bo == 12) and (vip.has() == false)) then
             call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
             call ForGroupBJ( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func003A )
             call DestroyGroup( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7) )
@@ -24012,7 +24012,7 @@ function Trig____________________010Actions takes nothing returns nothing
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call ForForce( GetPlayersAll(), function Trig____________________010Func002Func001Func015A )
         else
-            if ((udg_Nandu_JJJ == 2) and (udg_Bo == 18) and (hasVIP() == false)) then
+            if ((udg_Nandu_JJJ == 2) and (udg_Bo == 18) and (vip.has() == false)) then
                 call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
                 call ForGroupBJ( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func003A )
                 call DestroyGroup( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7) )
@@ -25149,7 +25149,7 @@ function Trig_pandingActions takes nothing returns nothing
         call DestroyGroup( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7) )
         call ForGroupBJ( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7), function Trig_pandingFunc002Func015A )
         call CinematicModeBJ( true, GetPlayersAll() )
-        if ((udg_Nandu_JJJ == 3) and (hasVIP() == false)) then
+        if ((udg_Nandu_JJJ == 3) and (vip.has() == false)) then
             call TransmissionFromUnitWithNameBJ( GetPlayersAll(), gg_unit_Nkjx_0241, "|cffffff00冥刹|r", null, "感谢对本地图的支持！你选择的难度“和谐”在这波就结束了，若想体验更多，请选择更高的难度,或者永久赞助该地图后获得在该难度下体验24+5波的特权.", bj_TIMETYPE_ADD, 5.00, true )
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)

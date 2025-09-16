@@ -6,7 +6,7 @@
 #include  "edit/Achievement.j"
 
 //! zinc
-library Huodong requires LHBase,Achievement,VIPInterface {
+library Huodong requires LHBase,Achievement {
 
     public integer IKuanghuan = 0;
 
@@ -23,7 +23,7 @@ library Huodong requires LHBase,Achievement,VIPInterface {
 
     // 狂欢模式活动:
     public function IsKuanghuanTime() -> boolean {
-        return IKuanghuan == 1 || hasVIP();
+        return IKuanghuan == 1 || vip.has();
     }
 
     // 天魇难度的开启条件

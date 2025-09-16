@@ -418,7 +418,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 	    call TriggerRegisterUnitEvent(TSpellYanmie,yanmie,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellYanmie, function TSpellYanmieAct)
 
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 3 or IsVIP(GetOwningPlayer(yanmie))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 3 or vip.is(GetOwningPlayer(yanmie))) then
 	    	call CreateFanzhuanItem(yanmie)
 	    debug endif
 

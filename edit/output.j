@@ -1514,13 +1514,13 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 
- function IsVIP takes player p returns boolean
+ function vip.is takes player p returns boolean
 		return sVIP[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 
- function hasVIP takes nothing returns boolean
+ function vip.has takes nothing returns boolean
   local integer i= 1
 		loop
 			exitwhen i > 6

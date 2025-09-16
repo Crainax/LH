@@ -16,9 +16,9 @@ library_once Fanzhuan requires LHBase,Achievement
 	*/
 	function FanzhuanCondition takes player p,integer i returns boolean
 		if not(DEBUG_MODE) then
-			return IsVIP(p)
+			return vip.is(p)
 		else
-			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or GetSpecifyHeroTimes(p,i) >= 25 or IsVIP(p)
+			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)],i,i)) == 1 or GetSpecifyHeroTimes(p,i) >= 25 or vip.is(p)
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

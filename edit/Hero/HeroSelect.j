@@ -113,7 +113,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
 	public function InitVIPHero(unit u) {
 		debug InitDingzhi(u);
 
-		if (IsVIP(GetOwningPlayer(u))) {
+		if (vip.is(GetOwningPlayer(u))) {
 			UnitAddItemByIdSwapped('IXU1', u);
 			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
 			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
@@ -121,7 +121,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
 			return;
 		}
 
-		if ((!IsVIP(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
+		if ((!vip.is(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
 			Discolor(u);
 		}
 
@@ -154,11 +154,11 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
             }
 
             if ((udg_T2[pid] == true)
-            && ((u != gg_unit_Hapm_0255) || (IsVIP(p)) || (GetXinglongSelectedCon(p)))
-            && ((u != gg_unit_Hant_0205) || (IsVIP(p)) || (GetHuanyiSelectedCon(p)))
-            && ((u != gg_unit_Hkal_0208) || (IsVIP(p)) || (GetMengjiSelectedCon(p)) || (BSuiji[pid]))
-            && ((u != gg_unit_Nsjs_0209) || (IsVIP(p)) || (GetCanglingSelectedCon(p)))
-            && ((u != gg_unit_H01Y_0286) || (IsVIP(p)) || (GetXiaotingSelectedCon(p)))) {
+            && ((u != gg_unit_Hapm_0255) || (vip.is(p)) || (GetXinglongSelectedCon(p)))
+            && ((u != gg_unit_Hant_0205) || (vip.is(p)) || (GetHuanyiSelectedCon(p)))
+            && ((u != gg_unit_Hkal_0208) || (vip.is(p)) || (GetMengjiSelectedCon(p)) || (BSuiji[pid]))
+            && ((u != gg_unit_Nsjs_0209) || (vip.is(p)) || (GetCanglingSelectedCon(p)))
+            && ((u != gg_unit_H01Y_0286) || (vip.is(p)) || (GetXiaotingSelectedCon(p)))) {
 
                 if (IsUnitIsSpin(u)) {   //英雄皮肤
                     ChooseSpinHero(p, u);

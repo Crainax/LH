@@ -21,7 +21,6 @@
 	test mowang 测试基地爆炸
 	test mingwang 测试基地爆炸
 	test box 解锁所有box
-	test vip      测试VIP
 	test renshu      测试人数2
 	test darenshu      测试人数6
 	test lianyu1	炼狱14层
@@ -299,11 +298,6 @@ library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,VIP,Cen
 			return
 		endif
 
-		if (chat == "test VIP") then
-			set sVIP[1] = true
-			call BJDebugMsg("测试VIP!")
-			return
-		endif
 
 		//对自己造成伤害
 		if (chat == "test kill") then

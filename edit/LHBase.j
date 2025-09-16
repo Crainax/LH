@@ -5,9 +5,8 @@
 ///#include  "edit/Test.j"
 #include  "edit/Constant.j"
 #include  "edit/JBase.j"
-#include  "edit/VIPInterface.j"
 
-library_once LHBase initializer InitLHBase requires Constant,JBase,VIPInterface//,Test
+library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
 
     globals
         unit learnSkillHero = null
