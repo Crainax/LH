@@ -22,8 +22,6 @@ library_once Version initializer InitVersion requires LHBase,Huodong
 
 		boolean array BAllSpin
 
-		unit UChengjiu = null
-
 	endglobals
 
 //---------------------------------------------------------------------------------------------------

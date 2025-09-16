@@ -261,8 +261,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,VIP,Version
 			else
 				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽可以被点中，主动技能也能手动释放。")
 			endif
-		debug elseif (str == "-cj") then
-			debug call CreateAchievementDialog(GetTriggerPlayer())
 		endif
 		set str = null
 		set u = null

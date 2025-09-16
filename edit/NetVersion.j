@@ -23,8 +23,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		//集字
 		string array SJizi
 
-		unit UChengjiu = null
-
 		integer array vipCode
 		/*
 		    击败冥刹多少次
@@ -1082,8 +1080,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local trigger t = CreateTrigger()
 		local integer i = 1
 
-    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 9816.0, - 5968.0, 270.000)
-    	set UChengjiu = CreateUnit(Player(6), 'n01K', -14504.0, -14040.0, 270.000)
+    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 9816.0, - 5968.0, 270.000) //超级成就
 
 		loop
 			exitwhen i > 6

@@ -137,7 +137,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
             i = i + 1;
         }
         TriggerAddCondition(t, Condition(function () -> boolean {
-            return ((GetTriggerUnit() == UChengjiu) || ((GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE)) && IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) && (udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] == false)));
+            return (((GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE)) && IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) && (udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] == false)));
         }));
         TriggerAddAction(t, function () {
             integer i;
@@ -146,12 +146,6 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
             player p = GetTriggerPlayer();
             unit u = GetTriggerUnit();
             integer pid = GetConvertedPlayerId(p);
-
-            if (u == UChengjiu) {
-                CreateHeroChallenagerDialog(p);
-                ydl_timer = null;
-                return;
-            }
 
             if ((udg_T2[pid] == true)
             && ((u != gg_unit_Hapm_0255) || (vip.is(p)) || (GetXinglongSelectedCon(p)))

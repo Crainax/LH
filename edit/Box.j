@@ -258,6 +258,86 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 		d = null;
 		t = null;
 	}
+
+	// 获取英雄身上的物品
+	function GetHeroItem() {
+		trigger t; unit u; dialog d;
+
+		t = CreateTrigger();
+		u = udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))];
+		d = DialogCreate();
+
+		DialogSetMessage(d, "选择你要取走的装备");
+
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 1) != null, GetItemName(UnitItemInSlotBJ(u, 1)), "空") + "|cff00ccff(1)|r", '1'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 2) != null, GetItemName(UnitItemInSlotBJ(u, 2)), "空") + "|cff00ccff(2)|r", '2'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 3) != null, GetItemName(UnitItemInSlotBJ(u, 3)), "空") + "|cff00ccff(3)|r", '3'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 4, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 4) != null, GetItemName(UnitItemInSlotBJ(u, 4)), "空") + "|cff00ccff(4)|r", '4'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 5) != null, GetItemName(UnitItemInSlotBJ(u, 5)), "空") + "|cff00ccff(5)|r", '5'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 6, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 6) != null, GetItemName(UnitItemInSlotBJ(u, 6)), "空") + "|cff00ccff(6)|r", '6'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 7, DialogAddButton(d, "不传送|cff00ccff(Esc)|r", 512));
+
+		SaveUnitHandle(LHTable, GetHandleId(d), 8, u);
+		DialogDisplay(GetOwningPlayer(u), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d; unit u; integer i;
+
+			d = GetClickedDialogBJ();
+			u = LoadUnitHandle(LHTable, GetHandleId(d), 8);
+			i = 1;
+
+			for (1 <= i <= 6) {
+				if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i)) {
+					if (UnitItemInSlotBJ(u, i) != null) {
+						if ((!IsMinganItem(UnitItemInSlotBJ(u, i))) && (!IsZhanfahun(UnitItemInSlotBJ(u, i)) && (!IsItemPawnable(UnitItemInSlotBJ(u, i))))) {
+							UnitAddItem(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))], UnitItemInSlotBJ(u, i));
+						} else {
+							DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.");
+						}
+					}
+				}
+			}
+
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(GetOwningPlayer(u), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+
+			d = null;
+			u = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+
+		d = null;
+		t = null;
+		u = null;
+	}
+
+
+	function onInit () {
+		trigger t = CreateTrigger();
+		TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT);
+		TriggerAddCondition(t, Condition(function (){ //仓库用技能
+			if (GetSpellAbilityId() == 'A0L0') { //仓库回城
+				HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]);
+			} else if (GetSpellAbilityId() == 'A0L3') { //到英雄身边
+				DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
+				SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
+				SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
+				DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
+			} else if (GetSpellAbilityId() == 'A0KZ') { //拿装备
+				GetHeroItem();
+			} else if (GetSpellAbilityId() == 'A0MC') {
+				ChangeSpinDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			} else if (GetSpellAbilityId() == 'A0ME') {
+				CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			} else if (GetSpellAbilityId() == 'ABx1') {
+				CreateHeroChallenagerDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			}
+		}));
+		t = null;
+	}
 }
 //! endzinc
 #endif

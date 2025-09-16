@@ -1,0 +1,167 @@
+---
+description: Zinc 单元测试和断言测试规则 - 命名规范与宏定义使用
+globs: *.j
+---
+
+# Zinc 单元测试和断言测试规则
+
+## 命名规范限制
+
+### 1. 禁用下划线开头的标识符
+Zinc 语言**不支持**以下划线 `_` 开头的变量名和函数名：
+
+```jass
+// ❌ 错误 - 不支持下划线开头
+private static boolean _hasPassOverrideEnabled = false;
+private function _ContAssertTests(player p) { }
+
+// ✅ 正确 - 使用驼峰命名或其他前缀
+private static boolean contHasPassOverrideEnabled = false;
+private function ContAssertTests(player p) { }
+```
+
+### 2. 推荐命名约定
+- **测试函数**：使用 `模块名 + AssertTests` 或 `Test + 功能名`
+  ```jass
+  private function ContAssertTests(player p) { }
+  private function TestLoginLogic(player p) { }
+  ```
+
+- **测试变量**：使用 `模块名 + 描述` 或驼峰命名
+  ```jass
+  private boolean contHasPassOverrideEnabled = false;
+  private integer testCounter = 0;
+  ```
+
+- **测试注册函数**：使用 `模块名 + RegisterChat/RegisterTest`
+  ```jass
+  private function ContRegisterChat() { }
+  private function SpellRegisterTest() { }
+  ```
+
+## 测试代码宏定义分隔
+
+### 1. 必须使用版本宏保护
+所有测试相关代码必须用 `#if (CURRENT_BUILD_VERSION != VERSION_RELEASE)` 包围：
+
+```jass
+#if (CURRENT_BUILD_VERSION != VERSION_RELEASE)
+// 测试变量声明
+private boolean contHasPassOverrideEnabled = false;
+private boolean contHasPassOverrideValue = false;
+
+// 测试覆盖函数
+function HasPassOverride(player p) -> boolean {
+    if (contHasPassOverrideEnabled) {
+        return contHasPassOverrideValue;
+    }
+    return mallItem.hasByPlayer(p, "PASS1");
+}
+
+// 断言测试函数
+private function ContAssertTests(player p) {
+    // 测试逻辑...
+}
+
+// 聊天指令注册
+private function ContRegisterChat() {
+    UnitTestRegisterChatEvent(function () {
+        string str = GetEventPlayerChatString();
+        if (str == "qdt") {
+            ContAssertTests(GetTriggerPlayer());
+        }
+    });
+}
+#endif
+```
+
+### 2. onInit 中的测试初始化
+在 `onInit` 函数中调用测试注册也需要宏保护：
+
+```jass
+function onInit() {
+    // 正常初始化代码...
+    mallItem.init("PASS1");
+    mallItem.setTech("PASS1", 'RMI2');
+
+    #if (CURRENT_BUILD_VERSION != VERSION_RELEASE)
+    ContRegisterChat();
+    #endif
+}
+```
+
+### 3. 测试覆盖机制模式
+当需要在测试中覆盖某些函数行为时，使用以下模式：
+
+```jass
+// 统一的判断函数（生产环境调用实际逻辑）
+function HasSomeFeature(player p) -> boolean {
+    #if (CURRENT_BUILD_VERSION != VERSION_RELEASE)
+    if (testOverrideEnabled) {
+        return testOverrideValue;
+    }
+    #endif
+    return actualFeatureCheck(p);
+}
+```
+
+## 断言测试最佳实践
+
+### 1. 测试用例结构
+```jass
+private function ModuleAssertTests(player p) {
+    integer pid; boolean hasFeature;
+    integer expected; integer actual;
+
+    pid = GetConvertedPlayerId(p);
+    hasFeature = HasSomeFeature(p);
+
+    // 用例1：正常流程测试
+    // 设置初始状态
+    setupInitialState();
+
+    // 执行被测试函数
+    executeFunction(p);
+
+    // 验证结果
+    assert.Integer(actual, expected, "用例1失败：描述");
+
+    // 用例2：边界条件测试
+    // ...
+
+    // 用例3：特权/无特权分支测试
+    testOverrideEnabled = true;
+    testOverrideValue = false;
+    // 测试无特权分支...
+    testOverrideEnabled = false;
+}
+```
+
+### 2. 聊天指令约定
+- 使用简短的指令名：
+  - `qd`：打开对话框 (Quick Dialog)
+  - `qdt`：运行断言测试 (Quick Debug Test)
+  - `模块名t`：运行特定模块测试
+
+```jass
+private function ContRegisterChat() {
+    UnitTestRegisterChatEvent(function () {
+        string str = GetEventPlayerChatString();
+        if (str == "qd") {
+            CreateLoginDialog(GetTriggerPlayer());
+        } else if (str == "qdt") {
+            ContAssertTests(GetTriggerPlayer());
+            BJDebugMsg("[Continous] 断言测试完成");
+        }
+    });
+}
+```
+
+## 注意事项
+
+1. **性能影响**：宏保护确保测试代码不会包含在正式版本中
+2. **命名冲突**：避免测试函数名与生产代码冲突
+3. **清理测试状态**：测试完成后记得重置覆盖标志
+4. **错误处理**：断言失败时提供清晰的错误信息
+
+参考实现：[edit/Continous.j](mdc:edit/Continous.j) 中的测试代码部分

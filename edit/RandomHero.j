@@ -21,7 +21,7 @@ library_once RandomHero  requires LHBase,Version,VIP
 		local unit u = null
 		local integer i = 1
 		loop
-			exitwhen i > ModuloInteger(DzAPI_Map_GetGameStartTime(),19) + length +udg_Second[1] + udg_Nandu_JJJ
+			exitwhen i > GetRandomInt(1,19) + length +udg_Second[1] + udg_Nandu_JJJ
 			set pos = GetRandomInt(1,length)
 			set i = i + 1
 		endloop

@@ -9439,46 +9439,89 @@ library_once ItemBase initializer InitItemBase requires LHBase,Diffculty
 	endfunction
 endlibrary
 ///#include  "edit/Jizi.j"
+// 指令 qd：打开当前玩家的签到对话框，便于多次测试 UI。
+// 指令 qdt：运行断言测试 ContAssertTests，覆盖：
+// 连续签到 +1 不变基准
+// 当天二次登录不变
+// 非连续登录：无特权重置，有特权不重置按 +1 并重设基准
+// 有效天数计算：GetEffectiveDays(p) == IConDays + (hasPass ? 3 : 0)
 //! zinc
-library Continous requires LHBase,ItemBase,Achievement,Huodong {
+library Continous requires LHBase,ItemBase,Achievement,Huodong,MallItem {
 	public{
 		integer IConDays[];
 		integer ILastTime[];
-		constant integer TIMESTAMP_START = 1500998400;
 		boolean BWuxing[];
 	}
-	//integer DzAPI_Map_GetGameStartTime() = 0
 	// 获取签到的金币奖励
 	function GetGoldReward(integer day) -> integer {
 		return I3(day == 1, 500, R2I((SquareRoot(day) + 2.) * 300.));
 	}
+	private boolean Cont_hasPass_overrideEnabled = false;
+	private boolean Cont_hasPass_overrideValue = false;
+	private boolean Cont_timeOverrideEnabled = false;
+	private integer Cont_timeOverrideValue = 1759473386; // 默认测试时间戳
+
+	// 测试专用的时间获取函数
+	function ContGetGameTime() -> integer {
+		if (Cont_timeOverrideEnabled) {
+			return Cont_timeOverrideValue;
+		}
+		return Cont_timeOverrideValue;
+	}
+	// 测试专用的GetContinousDay
+	function ContGetContinousDay(player p) -> integer {
+		integer gameTime = ContGetGameTime();
+		return (gameTime - ILastTime[GetConvertedPlayerId(p)]) / 86400;
+	}
+	// 测试专用的GetCurrentStartTime
+	function ContGetCurrentStartTime() -> integer {
+		integer gameTime = ContGetGameTime();
+		return (gameTime / 86400) * 86400;
+	}
+	// 统一的 PASS1 判断（测试可覆盖）
+	function HasPass1(player p) -> boolean {
+		if (Cont_hasPass_overrideEnabled) {
+			return Cont_hasPass_overrideValue;
+		}
+		return mallItem.hasByPlayer(p, "PASS1");
+	}
+	// 获取显示用的签到天数（PASS1 特权：仅显示层 +3，不影响存档与奖励发放）
+	function GetConDays(player p) -> integer {
+		integer pid; boolean hasPass;
+		pid = GetConvertedPlayerId(p);
+		hasPass = HasPass1(p);
+		return IConDays[pid] + I3(hasPass, 3, 0);
+	}
 	// 给奖励
 	public function GiveJianianhuaGift(player p) {
-		integer i; unit u;
-		i = IConDays[GetConvertedPlayerId(p)];
-		u = udg_H[GetConvertedPlayerId(p)];
-		AdjustPlayerStateBJ(GetGoldReward(i), GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
-		if (i >= 2) {
+		integer i; integer eff; unit u; integer pid;
+		pid = GetConvertedPlayerId(p);
+		i = IConDays[pid];
+		eff = GetConDays(p);
+		u = udg_H[pid];
+		// 奖励按“有效天数”计算（拥有 PASS1 则等效+3 天）
+		AdjustPlayerStateBJ(GetGoldReward(eff), GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
+		if (eff >= 2) {
 			UnitAddItemByIdSwapped('ankh', u);
 		}
-		if (i >= 4) {
+		if (eff >= 4) {
 			UnitAddItemByIdSwapped('k3m1', u);
 		}
-		if (i >= 7) {
+		if (eff >= 7) {
 			UnitAddItemByIdSwapped('I07A', u);
-			BWuxing[GetConvertedPlayerId(p)] = true;
+			BWuxing[pid] = true;
 		}
-		if (i >= 12) {
+		if (eff >= 12) {
 			UnitAddItemByIdSwapped('I05O', u);
 			SetItemPawnable(GetLastCreatedItem(), false);
 		}
-		if (i >= 14) {
+		if (eff >= 14) {
 			SetLingxueSpinOK(p);
 		}
-		if (i >= 20) {
+		if (eff >= 20) {
 			UnitAddItemByIdSwapped('hlst', u);
 		}
-		if (i >= 40) {
+		if (eff >= 40) {
 			GetAchievementAndSave(p, 47);
 		}
 		u = null;
@@ -9504,34 +9547,41 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 	}
 	// 获取从保存的第一天开始的时间
 	public function GetContinousDay(player p) -> integer {
-		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) {
-			return 0;
-		}
-		return (DzAPI_Map_GetGameStartTime() - ILastTime[GetConvertedPlayerId(p)]) / 86400;
+		return (Cont_timeOverrideValue - ILastTime[GetConvertedPlayerId(p)]) / 86400;
 	}
 	// 创建一个对话框
 	public function CreateLoginDialog(player p) {
-		dialog d; string s; integer i;
+		dialog d; string s; integer i; integer shownDays; boolean hasPass; integer pid; integer eff; integer effNext;
 		d = DialogCreate();
-		s = " 		连续登录奖励 \n 		\n 		你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! \n 		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! \n 		\n 		\n 		";
+		pid = GetConvertedPlayerId(p);
+		hasPass = HasPass1(p);
+		shownDays = IConDays[pid] + I3(hasPass, 3, 0);
+		eff = GetConDays(p);
+		effNext = eff + 1;
+		s = " 		连续登录奖励 \n 		\n 		你获得了第" + I2S(shownDays) + "天对应的" + I2S(GetGoldReward(eff)) + "金币! \n 		明天继续签到可以获得" + I2S(GetGoldReward(effNext)) + "的金币! \n 		\n 		\n 		";
 		i = 1;
 		for (1 <= i <= 41) {
 			if (GetDailyReward(i) != null) {
-				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " \n 				";
+				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(eff >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " \n 				";
 			}
 		}
-		s = s + " \n 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
+		if (hasPass) {
+			s = s + " \n 			|cFF33CC99【特权】|r你拥有签到特权：\n 			- 奖励按 +3 天计算\n 			- 累计签到不再要求连续，进度将持续保留";
+		} else {
+			s = s + " \n 			你已经连续签到了" + I2S(shownDays) + "天,注意断签了会重新计算哦.";
+		}
 		DialogSetMessage(d, s);
 		DialogAddButton(d, "10分钟之后当天才签到成功|cffff6800(Esc)|r", 512);
 		DialogDisplay(p, d, true);
 		//DialogDestroy(d);
 		d = null;
 	}
-	// 获取当前时间的0点
+	// 获取当前北京时间的0点（东八区，UTC+8）
 	function GetCurrentStartTime() -> integer {
-		return TIMESTAMP_START + ((DzAPI_Map_GetGameStartTime() - TIMESTAMP_START) / 86400) * 86400;
+		integer t = Cont_timeOverrideValue + 28800; // 加8小时，28800秒
+return (t / 86400) * 86400 - 28800;
 	}
-	// 获取前n天的0点
+	// 获取前n天的北京时间0点
 	function GetOldStartTime(integer day) -> integer {
 		return GetCurrentStartTime() - ((day - 1) * 86400);
 	}
@@ -9540,10 +9590,6 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 		IConDays[GetConvertedPlayerId(p)] = DzAPI_Map_GetStoredInteger(p, "IConDays");
 		ILastTime[GetConvertedPlayerId(p)] = DzAPI_Map_GetStoredInteger(p, "ILastTime");
 	}
-	// 显示签到指数
-	// function ShowQiandao(player p) {
-	//     DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的签到指数为" + I2S(IQiandao2[GetConvertedPlayerId(p)]) + ".");
-	// }
 	// 保存登录状态
 	public function SaveLoginState(player p) {
 		DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
@@ -9557,50 +9603,72 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 		//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
 	}
 	// 等10分钟后上传到网易
-	function UploadToNetEaseTimer() {
-		timer t; integer id; player p;
-		t = GetExpiredTimer();
-		id = GetHandleId(t);
-		p = LoadPlayerHandle(LHTable, id, 1);
-		SaveLoginState(p);
-		PauseTimer(t);
-		FlushChildHashtable(LHTable, id);
-		DestroyTimer(t);
-		p = null;
-		t = null;
-	}
 	public function UploadToNetEase(player p) {
 		timer t;
+		integer i = 3;
 		t = CreateTimer();
 		SavePlayerHandle(LHTable, GetHandleId(t), 1, p);
-		TimerStart(t, 600, false, function UploadToNetEaseTimer);
+		TimerStart(t, i, false, function (){
+			timer t; integer id; player p;
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			p = LoadPlayerHandle(LHTable, id, 1);
+			SaveLoginState(p);
+			PauseTimer(t);
+			FlushChildHashtable(LHTable, id);
+			DestroyTimer(t);
+			p = null;
+			t = null;
+		});
 		t = null;
 	}
 	// 设置连续时间
 	public function SetDenglu(player p) {
-		// 活动还没开始，或者说是首次
-		if (DzAPI_Map_GetGameStartTime() < TIMESTAMP_START) {
-			BJDebugMsg("|cFFFF66CC【消息】|r ");
-			return;
+		integer pid; integer newDays; integer newBase; integer gameTime; integer contDay;
+		// 测试模式下使用测试时间
+		if (Cont_timeOverrideEnabled) {
+			gameTime = ContGetGameTime();
+			contDay = ContGetContinousDay(p);
+		} else {
+			gameTime = Cont_timeOverrideValue;
+			contDay = GetContinousDay(p);
 		}
-		if (ILastTime[GetConvertedPlayerId(p)] < TIMESTAMP_START) {
-			ILastTime[GetConvertedPlayerId(p)] = TIMESTAMP_START;
+		// 初始化检查
+		if (ILastTime[GetConvertedPlayerId(p)] == 0) {
+			ILastTime[GetConvertedPlayerId(p)] = gameTime;
 			IConDays[GetConvertedPlayerId(p)] = 0;
 		}
 		// 断签啦重新存储
-		if (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)]) {
+		if (contDay == IConDays[GetConvertedPlayerId(p)]) {
 			// 首次连续登录的提示与奖励
-			IConDays[GetConvertedPlayerId(p)] = GetContinousDay(p) + 1;
-			//IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p);
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(注意今天的签到需要等10分钟才能保存).");
-		} else if (GetContinousDay(p) == IConDays[GetConvertedPlayerId(p)] - 1) {
+			IConDays[GetConvertedPlayerId(p)] = contDay + 1;
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).");
+		} else if (contDay == IConDays[GetConvertedPlayerId(p)] - 1) {
 			// 保持当天的奖励
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(今天的签到数据已经在前面游戏中保存了哦).");
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(GetConDays(p)) + "天(今天的签到数据已经在前面游戏中保存了哦).");
 		} else {
-			ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime();
-			IConDays[GetConvertedPlayerId(p)] = 1;
-			//IQiandao2[GetConvertedPlayerId(p)] = IQiandao2[GetConvertedPlayerId(p)] + DzAPI_Map_GetGameStartTime() - GetCurrentStartTime(p);
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天(注意今天的签到需要等10分钟才能保存).");
+			// PASS1 特权：累计签到不再要求连续，进度不重置，仅在登录日 +1
+			if (HasPass1(p)) {
+				pid = GetConvertedPlayerId(p);
+				newDays = IConDays[pid] + 1;
+				// 调整基准，使得今天 contDay == newDays - 1
+				if (Cont_timeOverrideEnabled) {
+					newBase = ContGetCurrentStartTime() - (newDays - 1) * 86400;
+				} else {
+					newBase = GetCurrentStartTime() - (newDays - 1) * 86400;
+				}
+				ILastTime[pid] = newBase;
+				IConDays[pid] = newDays;
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).");
+			} else {
+				if (Cont_timeOverrideEnabled) {
+					ILastTime[GetConvertedPlayerId(p)] = ContGetCurrentStartTime();
+				} else {
+					ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime();
+				}
+				IConDays[GetConvertedPlayerId(p)] = 1;
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).");
+			}
 		}
 		UploadToNetEase(p);
 	}
@@ -9633,8 +9701,114 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 		}
 		BBuqian2 = false;
 	}
+	// 断言测试：签到逻辑
+	private function ContAssertTests(player p) {
+		integer pid; integer nowTs; integer cs; boolean hasPass;
+		integer origDays; integer expectDays; integer prevDays; integer expectBase;
+		// 启用测试时间覆盖
+		Cont_timeOverrideEnabled = true;
+		pid = GetConvertedPlayerId(p);
+		hasPass = mallItem.hasByPlayer(p, "PASS1");
+		nowTs = ContGetGameTime();
+		cs = ContGetCurrentStartTime();
+		// 用例1：连续签到 +1（构造满足 ContGetContinousDay(p) == IConDays 的前置）
+		IConDays[pid] = 5;
+		ILastTime[pid] = nowTs - IConDays[pid] * 86400;
+		SetDenglu(p);
+		assert.Integer(IConDays[pid], 6, "连续签到失败：IConDays 应为 6");
+		assert.Integer(ILastTime[pid], nowTs - 5 * 86400, "连续签到失败：ILastTime 不应变化");
+		// 用例2：当天重复登录不应变化
+		prevDays = IConDays[pid];
+		SetDenglu(p);
+		assert.Integer(IConDays[pid], prevDays, "重复登录失败：IConDays 不应变化");
+		assert.Integer(ILastTime[pid], nowTs - 5 * 86400, "重复登录失败：ILastTime 不应变化");
+		// 用例3：非连续登录
+		IConDays[pid] = 6;
+		ILastTime[pid] = nowTs - 12 * 86400; // 使 GetContinousDay 返回更大，模拟断签
+SetDenglu(p);
+		if (hasPass) {
+			// PASS1：不重置，只 +1，且重设基准
+			expectDays = 7;
+			expectBase = cs - (expectDays - 1) * 86400;
+			assert.Integer(IConDays[pid], expectDays, "PASS1 非连续失败：IConDays 应 +1");
+			assert.Integer(ILastTime[pid], expectBase, "PASS1 非连续失败：ILastTime 应重设");
+		} else {
+			// 非特权：重置为 1，基准为今天 0 点
+			expectDays = 1;
+			expectBase = cs;
+			assert.Integer(IConDays[pid], expectDays, "无特权非连续失败：IConDays 应重置为 1");
+			assert.Integer(ILastTime[pid], expectBase, "无特权非连续失败：ILastTime 应为今日 0 点");
+		}
+		// 用例4：有效天数（奖励/显示）
+		IConDays[pid] = 12;
+		assert.Integer(GetConDays(p), 12 + I3(hasPass, 3, 0), "有效天数计算错误");
+		// 用例5：强制 hasPass=false 再跑一遍全链路
+		Cont_hasPass_overrideEnabled = true;
+		Cont_hasPass_overrideValue = false;
+		hasPass = false;
+		// 连续 +1
+		IConDays[pid] = 3; ILastTime[pid] = nowTs - 3 * 86400; SetDenglu(p);
+		assert.Integer(IConDays[pid], 4, "[无特权] 连续签到失败：IConDays 应为 4");
+		assert.Integer(ILastTime[pid], nowTs - 3 * 86400, "[无特权] 连续签到失败：ILastTime 不应变化");
+		// 当天重复
+		prevDays = IConDays[pid]; SetDenglu(p);
+		assert.Integer(IConDays[pid], prevDays, "[无特权] 重复登录失败：IConDays 不应变化");
+		assert.Integer(ILastTime[pid], nowTs - 3 * 86400, "[无特权] 重复登录失败：ILastTime 不应变化");
+		// 非连续应重置
+		IConDays[pid] = 8; ILastTime[pid] = nowTs - 12 * 86400; SetDenglu(p);
+		assert.Integer(IConDays[pid], 1, "[无特权] 非连续失败：应重置为 1");
+		assert.Integer(ILastTime[pid], cs, "[无特权] 非连续失败：基准应为今日 0 点");
+		// 有效天数==真实
+		IConDays[pid] = 10; assert.Integer(GetConDays(p), 10, "[无特权] 有效天数应等于真实");
+		Cont_hasPass_overrideEnabled = false;
+		// 关闭时间覆盖
+		Cont_timeOverrideEnabled = false;
+	}
+	// 注册测试指令
+	private function ContRegisterChat() {
+		UnitTestRegisterChatEvent(function () {
+			string str = GetEventPlayerChatString();
+			integer spacePos; string cmd; string param; integer timeValue;
+			if (str == "qd") {
+				SetDenglu(GetTriggerPlayer());
+				CreateLoginDialog(GetTriggerPlayer());
+			} else if (str == "qdt") {
+				ContAssertTests(GetTriggerPlayer());
+				BJDebugMsg("[Continous] 断言测试完成");
+			} else if (StringLength(str) > 8 && SubString(str, 0, 8) == "faketime") {
+				// faketime xxx 指令解析
+				spacePos = 8; // "faketime" 长度
+if (spacePos < StringLength(str) && SubString(str, spacePos, spacePos + 1) == " ") {
+					param = SubString(str, spacePos + 1, StringLength(str));
+					timeValue = S2I(param);
+					if (timeValue > 0) {
+						Cont_timeOverrideEnabled = true;
+						Cont_timeOverrideValue = timeValue;
+						BJDebugMsg("[Continous] 已设置模拟时间: " + I2S(timeValue));
+						BJDebugMsg("[Continous] 模拟时间状态: 已启用");
+					} else {
+						BJDebugMsg("[Continous] 错误: 无效的时间戳，请输入正整数");
+					}
+				} else {
+					BJDebugMsg("[Continous] 用法: faketime <时间戳>");
+					BJDebugMsg("[Continous] 示例: faketime 1757992018");
+				}
+			} else if (str == "faketime off") {
+				Cont_timeOverrideEnabled = false;
+				BJDebugMsg("[Continous] 已关闭模拟时间，恢复使用真实时间");
+			} else if (str == "faketime status") {
+				if (Cont_timeOverrideEnabled) {
+					BJDebugMsg("[Continous] 模拟时间状态: 已启用，当前值: " + I2S(Cont_timeOverrideValue));
+				} else {
+					BJDebugMsg("[Continous] 模拟时间状态: 已关闭，使用真实时间");
+				}
+			}
+		});
+	}
 	function onInit() {
-		// 初始化代码
+		// mallItem.init("PASS1");
+		// mallItem.setTech("PASS1", 'RMI2');
+		ContRegisterChat();
 	}
 }
 //! endzinc
@@ -10063,7 +10237,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	globals
 		//集字
 		string array SJizi
-		unit UChengjiu = null
 		integer array vipCode
 		/*
 		    击败冥刹多少次
@@ -11041,8 +11214,8 @@ call GetAchievementAndSave(ConvertedPlayer(i),42)
 	function InitVersion takes nothing returns nothing
 		local trigger t = CreateTrigger()
 		local integer i = 1
-    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 9816.0, - 5968.0, 270.000)
-    	set UChengjiu = CreateUnit(Player(6), 'n01K', -14504.0, -14040.0, 270.000)
+    	call CreateUnit(Player(PLAYER_NEUTRAL_PASSIVE), 'n01L', - 9816.0, - 5968.0, 270.000) //超级成就
+
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
@@ -11137,7 +11310,7 @@ library_once Printer initializer InitPrinter requires LHBase
 endlibrary
 ///#include  "edit/NetVersion.j"
 //! zinc
-library Spin requires LHBase,Version {
+library Spin requires LHBase,Version,MallItem {
 	public boolean BCancelSpin [];
 	// 反转物品
 	public function CreateFanzhuanItem(unit u) { //创建一个60秒的反转物品
@@ -11269,7 +11442,7 @@ timer t;
 		mallItem.init("SKIN1");
 		mallItem.setTech("SKIN1", 'RMI4');
 		mallItem.onReady(function () -> boolean {
-			player p = Player(0);
+			player p;
 			integer index;
 			for (1 <= index <= 6) {
 				p = ConvertedPlayer(index);
@@ -16609,7 +16782,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 	endfunction
 endlibrary
 //! zinc
-library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
+library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing,MallItem {
 	public struct vip [] { //用结构体更舒服
 
 		public static boolean isFirst = true;
@@ -16646,8 +16819,10 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 				// BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+2波的特权.");
 				// BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.");
 			}
-			thistype[GetConvertedPlayerId(p)].v = true;
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+			if (!thistype[GetConvertedPlayerId(p)].v) {
+				thistype[GetConvertedPlayerId(p)].v = true;
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+			}
 			debug SaveVIP(p, vip.getCode(GetPlayerName(p)));
 		}
 		// VIP验证
@@ -16875,12 +17050,28 @@ timer ti = GetExpiredTimer();
 				d = null;
 				t = null;
 			});
+			mallItem.init("VIP1");
+			mallItem.setTech("VIP1", 'RMI3');
+			mallItem.onReady(function () -> boolean {
+				player p;
+				integer index;
+				for (1 <= index <= 6) {
+					p = ConvertedPlayer(index);
+					if (mallItem.hasByPlayer(p, "VIP1") && (GetPlayerSlotState(ConvertedPlayer(index)) == PLAYER_SLOT_STATE_PLAYING) && (GetPlayerController(ConvertedPlayer(index)) == MAP_CONTROL_USER)) {
+						if (!thistype[index].v) {
+							thistype[index].v = true;
+							DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+						}
+					}
+				}
+				p = null;
+				return true;
+			});
 			//在游戏开始1.0秒后再调用
 			t = CreateTrigger();
 			TriggerRegisterTimerEventSingle(t,1.0);
 			TriggerAddCondition(t,Condition(function (){ //1.0秒初始赞助内容
-
-				integer i;
+integer i;
 				i = 1;
 				for (1 <= i <= 6) {
 					certificate(ConvertedPlayer(i), null);
@@ -16918,7 +17109,6 @@ player p = GetTriggerPlayer();
 				}
 				p = null;
 			}));
-			t = null;
 			t = null;
 		}
 	}
@@ -17135,6 +17325,74 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 			DestroyTrigger(GetTriggeringTrigger());
 		});
 		d = null;
+		t = null;
+	}
+	// 获取英雄身上的物品
+	function GetHeroItem() {
+		trigger t; unit u; dialog d;
+		t = CreateTrigger();
+		u = udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))];
+		d = DialogCreate();
+		DialogSetMessage(d, "选择你要取走的装备");
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 1) != null, GetItemName(UnitItemInSlotBJ(u, 1)), "空") + "|cff00ccff(1)|r", '1'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 2) != null, GetItemName(UnitItemInSlotBJ(u, 2)), "空") + "|cff00ccff(2)|r", '2'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 3) != null, GetItemName(UnitItemInSlotBJ(u, 3)), "空") + "|cff00ccff(3)|r", '3'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 4, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 4) != null, GetItemName(UnitItemInSlotBJ(u, 4)), "空") + "|cff00ccff(4)|r", '4'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 5) != null, GetItemName(UnitItemInSlotBJ(u, 5)), "空") + "|cff00ccff(5)|r", '5'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 6, DialogAddButton(d, S3(UnitItemInSlotBJ(u, 6) != null, GetItemName(UnitItemInSlotBJ(u, 6)), "空") + "|cff00ccff(6)|r", '6'));
+		SaveButtonHandle(LHTable, GetHandleId(d), 7, DialogAddButton(d, "不传送|cff00ccff(Esc)|r", 512));
+		SaveUnitHandle(LHTable, GetHandleId(d), 8, u);
+		DialogDisplay(GetOwningPlayer(u), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d; unit u; integer i;
+			d = GetClickedDialogBJ();
+			u = LoadUnitHandle(LHTable, GetHandleId(d), 8);
+			i = 1;
+			for (1 <= i <= 6) {
+				if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i)) {
+					if (UnitItemInSlotBJ(u, i) != null) {
+						if ((!IsMinganItem(UnitItemInSlotBJ(u, i))) && (!IsZhanfahun(UnitItemInSlotBJ(u, i)) && (!IsItemPawnable(UnitItemInSlotBJ(u, i))))) {
+							UnitAddItem(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))], UnitItemInSlotBJ(u, i));
+						} else {
+							DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.");
+						}
+					}
+				}
+			}
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(GetOwningPlayer(u), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			u = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+		d = null;
+		t = null;
+		u = null;
+	}
+	function onInit () {
+		trigger t = CreateTrigger();
+		TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT);
+		TriggerAddCondition(t, Condition(function (){ //仓库用技能
+if (GetSpellAbilityId() == 'A0L0') { //仓库回城
+HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]);
+			} else if (GetSpellAbilityId() == 'A0L3') { //到英雄身边
+DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
+				SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
+				SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
+				DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
+			} else if (GetSpellAbilityId() == 'A0KZ') { //拿装备
+GetHeroItem();
+			} else if (GetSpellAbilityId() == 'A0MC') {
+				ChangeSpinDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			} else if (GetSpellAbilityId() == 'A0ME') {
+				CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			} else if (GetSpellAbilityId() == 'ABx1') {
+				CreateHeroChallenagerDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			}
+		}));
 		t = null;
 	}
 }
@@ -23626,62 +23884,6 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	endglobals
 //---------------------------------------------------------------------------------------------------
 	/*
-	    转移物品
-	*/
-	private function TransferItemAct takes nothing returns nothing
-		call UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))],GetSpellTargetItem())
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取物品
-	*/
-	private function GetHeroItemClick takes nothing returns nothing
-        local dialog d = GetClickedDialogBJ()
-        local unit u = LoadUnitHandle(LHTable,GetHandleId(d),8)
-        local integer i = 1
-        loop
-        	exitwhen i > 6
-        	if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
-        		if (UnitItemInSlotBJ(u,i)!= null) then
-        			if (not(IsMinganItem(UnitItemInSlotBJ(u,i))) and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
-						call UnitAddItem( UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],UnitItemInSlotBJ(u,i))
-        			else
-        				call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.")
-        			endif
-        		endif
-        	endif
-        	set i = i +1
-        endloop
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-        call DialogDisplay( GetOwningPlayer(u), d, false )
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        set u = null
-        call DestroyTrigger(GetTriggeringTrigger())
-	endfunction
-	private function GetHeroItemAct takes nothing returns nothing
-        local trigger t = CreateTrigger()
-        local unit u = udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]
-        local dialog d = DialogCreate()
-        call DialogSetMessage( d, "选择你要取走的装备" )
-	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButton( d, S3(UnitItemInSlotBJ(u,1)!= null,GetItemName(UnitItemInSlotBJ(u,1)),"空") + "|cff00ccff(1)|r",'1'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, S3(UnitItemInSlotBJ(u,2)!= null,GetItemName(UnitItemInSlotBJ(u,2)),"空") + "|cff00ccff(2)|r",'2'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButton( d, S3(UnitItemInSlotBJ(u,3)!= null,GetItemName(UnitItemInSlotBJ(u,3)),"空") + "|cff00ccff(3)|r",'3'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButton( d, S3(UnitItemInSlotBJ(u,4)!= null,GetItemName(UnitItemInSlotBJ(u,4)),"空") + "|cff00ccff(4)|r",'4'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButton( d, S3(UnitItemInSlotBJ(u,5)!= null,GetItemName(UnitItemInSlotBJ(u,5)),"空") + "|cff00ccff(5)|r",'5'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButton( d, S3(UnitItemInSlotBJ(u,6)!= null,GetItemName(UnitItemInSlotBJ(u,6)),"空") + "|cff00ccff(6)|r",'6'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButton( d, "不传送|cff00ccff(Esc)|r" , 512))
-        call SaveUnitHandle(LHTable,GetHandleId(d),8,u)
-        call DialogDisplay( GetOwningPlayer(u), d, true )
-        call TriggerRegisterDialogEvent( t, d )
-        call TriggerAddAction(t, function GetHeroItemClick)
-        set d = null
-        set t = null
-        set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    点金
 	*/
 	private function Dianjin takes nothing returns nothing
@@ -23776,21 +23978,8 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	    物品技能
 	*/
 	private function ItemSpellJudge takes nothing returns nothing
-		//转移物品
-		if ((GetSpellAbilityId() == 'A0GT') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])) then
-			call TransferItemAct()
-		//仓库回城
-		elseif ((GetSpellAbilityId() == 'A0L0')) then
-			call HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-		//到英雄身边
-		elseif ((GetSpellAbilityId() == 'A0L3') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])) then
-			call SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]))
-			call SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]))
-		//拿装备
-		elseif ((GetSpellAbilityId() == 'A0KZ') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])) then
-			call GetHeroItemAct()
 		//点金
-		elseif(GetSpellAbilityId() == 'A073') then
+		if(GetSpellAbilityId() == 'A073') then
 			call Dianjin()
 		elseif (GetSpellAbilityId() == 'A0KQ') then
 			//【地狱】琅玕绘蝉蜕
@@ -23805,10 +23994,6 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		debug call DuihuanMucai()
 		debug elseif (GetSpellAbilityId() == 'A0N0') then
 		debug call Wanwuqiyuan()
-		elseif (GetSpellAbilityId() == 'A0MC') then
-			call ChangeSpinDialog(GetOwningPlayer(GetTriggerUnit()))
-		elseif (GetSpellAbilityId() == 'A0ME') then
-			call CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit()))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -28738,8 +28923,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,VIP,Version
 			else
 				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽可以被点中，主动技能也能手动释放。")
 			endif
-		debug elseif (str == "-cj") then
-			debug call CreateAchievementDialog(GetTriggerPlayer())
 		endif
 		set str = null
 		set u = null
@@ -30075,7 +30258,7 @@ library_once RandomHero requires LHBase,Version,VIP
 		local unit u = null
 		local integer i = 1
 		loop
-			exitwhen i > ModuloInteger(DzAPI_Map_GetGameStartTime(),19) + length +udg_Second[1] + udg_Nandu_JJJ
+			exitwhen i > GetRandomInt(1,19) + length +udg_Second[1] + udg_Nandu_JJJ
 			set pos = GetRandomInt(1,length)
 			set i = i + 1
 		endloop
@@ -30239,7 +30422,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
             i = i + 1;
         }
         TriggerAddCondition(t, Condition(function () -> boolean {
-            return ((GetTriggerUnit() == UChengjiu) || ((GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE)) && IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) && (udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] == false)));
+            return (((GetOwningPlayer(GetTriggerUnit()) == Player(PLAYER_NEUTRAL_PASSIVE)) && IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) && (udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] == false)));
         }));
         TriggerAddAction(t, function () {
             integer i;
@@ -30248,11 +30431,6 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
             player p = GetTriggerPlayer();
             unit u = GetTriggerUnit();
             integer pid = GetConvertedPlayerId(p);
-            if (u == UChengjiu) {
-                CreateHeroChallenagerDialog(p);
-                ydl_timer = null;
-                return;
-            }
             if ((udg_T2[pid] == true)
             && ((u != gg_unit_Hapm_0255) || (vip.is(p)) || (GetXinglongSelectedCon(p)))
             && ((u != gg_unit_Hant_0205) || (vip.is(p)) || (GetHuanyiSelectedCon(p)))

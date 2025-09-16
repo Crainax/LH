@@ -26,68 +26,6 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 
 //---------------------------------------------------------------------------------------------------
 	/*
-	    转移物品
-	*/
-	private function TransferItemAct takes nothing returns nothing
-		call UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))],GetSpellTargetItem())
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取物品
-	*/
-	private function GetHeroItemClick takes nothing returns nothing
-        local dialog d = GetClickedDialogBJ()
-        local unit u = LoadUnitHandle(LHTable,GetHandleId(d),8)
-        local integer i = 1
-        loop
-        	exitwhen i > 6
-        	if (GetClickedButtonBJ() == LoadButtonHandle(LHTable,GetHandleId(d),i)) then
-        		if (UnitItemInSlotBJ(u,i)!= null) then
-        			if (not(IsMinganItem(UnitItemInSlotBJ(u,i))) and not(IsZhanfahun(UnitItemInSlotBJ(u,i)) and not(IsItemPawnable(UnitItemInSlotBJ(u,i))))) then
-						call UnitAddItem( UDepot[GetConvertedPlayerId(GetOwningPlayer(u))],UnitItemInSlotBJ(u,i))
-        			else
-        				call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.")
-        			endif
-        		endif
-        	endif
-        	set i = i +1
-        endloop
-
-        call FlushChildHashtable(LHTable,GetHandleId(d))
-        call DialogDisplay( GetOwningPlayer(u), d, false )
-        call DialogClear(d)
-        call DialogDestroy(d)
-        set d = null
-        set u = null
-        call DestroyTrigger(GetTriggeringTrigger())
-	endfunction
-
-	private function GetHeroItemAct takes nothing returns nothing
-        local trigger t  = CreateTrigger()
-        local unit u = udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]
-        local dialog d = DialogCreate()
-
-        call DialogSetMessage( d, "选择你要取走的装备" )
-
-	    call SaveButtonHandle(LHTable,GetHandleId(d),1,DialogAddButton( d, S3(UnitItemInSlotBJ(u,1)!= null,GetItemName(UnitItemInSlotBJ(u,1)),"空") + "|cff00ccff(1)|r",'1'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),2,DialogAddButton( d, S3(UnitItemInSlotBJ(u,2)!= null,GetItemName(UnitItemInSlotBJ(u,2)),"空") + "|cff00ccff(2)|r",'2'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),3,DialogAddButton( d, S3(UnitItemInSlotBJ(u,3)!= null,GetItemName(UnitItemInSlotBJ(u,3)),"空") + "|cff00ccff(3)|r",'3'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),4,DialogAddButton( d, S3(UnitItemInSlotBJ(u,4)!= null,GetItemName(UnitItemInSlotBJ(u,4)),"空") + "|cff00ccff(4)|r",'4'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),5,DialogAddButton( d, S3(UnitItemInSlotBJ(u,5)!= null,GetItemName(UnitItemInSlotBJ(u,5)),"空") + "|cff00ccff(5)|r",'5'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),6,DialogAddButton( d, S3(UnitItemInSlotBJ(u,6)!= null,GetItemName(UnitItemInSlotBJ(u,6)),"空") + "|cff00ccff(6)|r",'6'))
-	    call SaveButtonHandle(LHTable,GetHandleId(d),7,DialogAddButton( d, "不传送|cff00ccff(Esc)|r" , 512))
-
-        call SaveUnitHandle(LHTable,GetHandleId(d),8,u)
-        call DialogDisplay( GetOwningPlayer(u), d, true )
-        call TriggerRegisterDialogEvent( t, d )
-        call TriggerAddAction(t, function GetHeroItemClick)
-
-        set d = null
-        set t = null
-        set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    点金
 	*/
 	private function Dianjin takes nothing returns nothing
@@ -184,21 +122,8 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 	    物品技能
 	*/
 	private function ItemSpellJudge takes nothing returns nothing
-		//转移物品
-		if ((GetSpellAbilityId() == 'A0GT') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])) then
-			call TransferItemAct()
-		//仓库回城
-		elseif ((GetSpellAbilityId() == 'A0L0')) then
-			call HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))])
-		//到英雄身边
-		elseif ((GetSpellAbilityId() == 'A0L3') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])) then
-			call SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]))
-			call SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]))
-		//拿装备
-		elseif ((GetSpellAbilityId() == 'A0KZ') and (udg_H[GetConvertedPlayerId(GetOwningPlayer(GetSpellAbilityUnit()))] != udg_U_Zhuansheng_Dantiao[1])) then
-			call GetHeroItemAct()
 		//点金
-		elseif(GetSpellAbilityId() == 'A073') then
+		if(GetSpellAbilityId() == 'A073') then
 			call Dianjin()
 		elseif (GetSpellAbilityId() == 'A0KQ') then
 			//【地狱】琅玕绘蝉蜕
@@ -213,10 +138,6 @@ library_once ItemSpell initializer InitItemSpell requires LHBase,Attr,SpellBase,
 		debug 	call DuihuanMucai()
 		debug elseif (GetSpellAbilityId() == 'A0N0') then
 		debug 	call Wanwuqiyuan()
-		elseif (GetSpellAbilityId() == 'A0MC') then
-			call ChangeSpinDialog(GetOwningPlayer(GetTriggerUnit()))
-		elseif (GetSpellAbilityId() == 'A0ME') then
-			call CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit()))
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------

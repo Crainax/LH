@@ -6,7 +6,7 @@
 ///#include  "edit/NetVersion.j"
 
 //! zinc
-library Spin requires LHBase,Version {
+library Spin requires LHBase,Version,MallItem {
 
 	public boolean BCancelSpin [];
 
@@ -168,7 +168,7 @@ library Spin requires LHBase,Version {
 		mallItem.init("SKIN1");
 		mallItem.setTech("SKIN1", 'RMI4');
 		mallItem.onReady(function () -> boolean {
-			player p = Player(0);
+			player p;
 			integer index;
 			for (1 <= index <= MAX_PLAYER_COUNT) {
 				p = ConvertedPlayer(index);

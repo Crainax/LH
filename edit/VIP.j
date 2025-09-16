@@ -13,7 +13,7 @@
 #define kVIPPointer  164231728
 
 //! zinc
-library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
+library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing,MallItem {
 
 
 	public struct vip [] { //用结构体更舒服
@@ -59,8 +59,10 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 				// BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.");
 			}
 
-			thistype[GetConvertedPlayerId(p)].v = true;
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+			if (!thistype[GetConvertedPlayerId(p)].v) {
+				thistype[GetConvertedPlayerId(p)].v = true;
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+			}
 			debug SaveVIP(p, vip.getCode(GetPlayerName(p)));
 		}
 
@@ -310,14 +312,30 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 				t = null;
 			});
 
+			mallItem.init("VIP1");
+			mallItem.setTech("VIP1", 'RMI3');
+			mallItem.onReady(function () -> boolean {
+				player p;
+				integer index;
+				for (1 <= index <= MAX_PLAYER_COUNT) {
+					p = ConvertedPlayer(index);
+					if (mallItem.hasByPlayer(p, "VIP1") && (GetPlayerSlotState(ConvertedPlayer(index)) == PLAYER_SLOT_STATE_PLAYING) && (GetPlayerController(ConvertedPlayer(index)) == MAP_CONTROL_USER)) {
+						if (!thistype[index].v) {
+							thistype[index].v = true;
+							DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+						}
+					}
+				}
+				p = null;
+				return true;
+			});
+
 
 			//在游戏开始1.0秒后再调用
 			t = CreateTrigger();
 			TriggerRegisterTimerEventSingle(t,1.0);
 			TriggerAddCondition(t,Condition(function (){ //1.0秒初始赞助内容
-
 				integer i;
-
 				i = 1;
 				for (1 <= i <= 6) {
 					certificate(ConvertedPlayer(i), null);
@@ -325,7 +343,6 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 						certificate(ConvertedPlayer(i), I2S(vip.getCode(GetPlayerName(ConvertedPlayer(i)))));
 					}
 				}
-
 				DestroyTrigger(GetTriggeringTrigger());
 			}));
 			//mallItem
@@ -361,8 +378,6 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 
 				p = null;
 			}));
-			t = null;
-
 			t = null;
 		}
 	}

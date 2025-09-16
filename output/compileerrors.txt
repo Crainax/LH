@@ -1,4 +1,4 @@
 logs\currentmapscript.j
-JASSHelper - Step 2 (structs)
-Line 30151: Unexpected : "
+pjass.exe
+Line 32798:  Undeclared variable Cont_timeOverrideValue. Maybe you meant Yanmie__BYingyue, yd_NullTempGroup or Seyu__TSpellSeyu3
 1
