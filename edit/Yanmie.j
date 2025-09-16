@@ -2,7 +2,7 @@
 #define YanmieIncluded
 
 #include  "edit/SpellBase.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 #include  "edit/Aura.j"
 #include  "edit/Printer.j"
 /*

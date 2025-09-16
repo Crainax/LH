@@ -11,6 +11,123 @@
 */
 library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
 
+	// 信哲
+	public boolean BX1 = false;
+	public boolean BX2 = false;
+
+	// 定制初始化
+	public function InitXinzhe(unit u) {
+		trigger t;
+
+		t = CreateTrigger();
+		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
+		TriggerAddCondition(t, Condition(function () -> boolean{
+			return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"));
+		}));
+		TriggerAddAction(t, function (){
+			if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
+				IssueImmediateOrder(GetTriggerUnit(), "stop");
+				DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
+				return;
+			}
+
+			SetUnitX(GetTriggerUnit(), GetOrderPointX());
+			SetUnitY(GetTriggerUnit(), GetOrderPointY());
+
+			if (BX1) {
+				DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
+			}
+		});
+
+		t = null;
+	}
+
+	// 京剧
+	public function InitJingju(unit u) {
+		timer t;
+		t = CreateTimer();
+		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
+		TimerStart(t, 1, true, function (){
+			timer t; integer id; unit u; group g;
+
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			u = LoadUnitHandle(LHTable, id, 1);
+			g = GetUnitsOfPlayerMatching(GetOwningPlayer(u), Condition(function () -> boolean{
+				return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y';
+			}));
+
+			RecoverUnitHP(u, 0.1);
+			ForGroupBJ(g, function (){
+				RecoverUnitHP(GetEnumUnit(), 0.3);
+			});
+
+			u = null;
+			DestroyGroup(g);
+			t = null;
+			g = null;
+		});
+
+		t = null;
+	}
+
+	// 初始化英雄
+	function InitDingzhi(unit u) {
+		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
+			InitJingju(u);
+			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
+			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
+		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
+			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
+			UnitAddAbility(u, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MG');
+			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
+			InitXinzhe(u);
+		}
+	}
+
+	//选英雄时调用(赞助)
+	public function InitPIVHero(unit u) {
+		debug InitDingzhi(u);
+
+		if (IsPIV(GetOwningPlayer(u))) {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
+			Discolor(u);
+			return;
+		}
+
+		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
+			Discolor(u);
+		}
+
+		debug GetPlatformLevelGold(GetOwningPlayer(u));
+	}
+
 
     function onInit ()  {
         trigger t = CreateTrigger();

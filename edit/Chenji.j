@@ -3,7 +3,7 @@
 
 #include  "edit/Printer.j"
 #include  "edit/SpellBase.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 #include  "edit/Attr.j"
 
 library_once Chenji requires SpellBase,Printer,Version,Attr,Spin

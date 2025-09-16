@@ -101,23 +101,23 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 
 		d = DialogCreate();
 		s = " \
-		连续登录奖励 \
-		\
-		你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! \
-		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! \
-		\
-		\
+		连续登录奖励 \n \
+		\n \
+		你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! \n \
+		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! \n \
+		\n \
+		\n \
 		";
 
 		i = 1;
 		for (1 <= i <= 41) {
 			if (GetDailyReward(i) != null) {
-				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " \
+				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " \n \
 				";
 			}
 		}
 
-		s = s + " \
+		s = s + " \n \
 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
 
 		DialogSetMessage(d, s);
@@ -151,23 +151,15 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 
 	// 保存登录状态
 	public function SaveLoginState(player p) {
-		if (Bdudang[GetConvertedPlayerId(p)]) {
-			DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
-			DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
-			//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
-		} else {
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-		}
+		DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
+		DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
+		//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
 	}
 
 	// 等10分钟后上传到网易

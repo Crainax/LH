@@ -5,7 +5,7 @@
 #include  "edit/Printer.j"
 #include  "edit/Attr.j"
 #include  "edit/Aura.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 
 /*
     英雄离魑的技能

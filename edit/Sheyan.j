@@ -2,7 +2,7 @@
 #define SheyanIncluded
 
 //!import "LHBase.j"
-//!import "Spin.j"
+//!import "Skin.j"
 
 library_once Sheyan  requires LHBase,Spin
 

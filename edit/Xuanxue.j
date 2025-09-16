@@ -2,7 +2,7 @@
 #define XuanxueIncluded
 
 #include  "edit/LHBase.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 #include  "edit/ChallangerDZ.j"
 
 library_once Xuanxue  requires LHBase,Spin,ChallangerDZ

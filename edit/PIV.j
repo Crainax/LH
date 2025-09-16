@@ -19,82 +19,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 	key kPIVPlayer;
 	key kPIVPointer;
 
-	// 信哲
-	public boolean BX1 = false;
-	public boolean BX2 = false;
-
-	// 定制初始化
-	function XinzheCon() -> boolean {
-		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"));
-	}
-
-	function XinzheAct() {
-		if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
-			IssueImmediateOrder(GetTriggerUnit(), "stop");
-			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
-			return;
-		}
-
-		SetUnitX(GetTriggerUnit(), GetOrderPointX());
-		SetUnitY(GetTriggerUnit(), GetOrderPointY());
-
-		if (BX1) {
-			DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
-		}
-	}
-
-	public function InitXinzhe(unit u) {
-		trigger t;
-
-		t = CreateTrigger();
-		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
-		TriggerAddCondition(t, Condition(function XinzheCon));
-		TriggerAddAction(t, function XinzheAct);
-
-		t = null;
-	}
-
-	// 京剧
-	function JingjuCondition() -> boolean {
-		return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y';
-	}
-
-	function JingjuDiyuhuo() {
-		RecoverUnitHP(GetEnumUnit(), 0.3);
-	}
-
-	function JingjuTimer() {
-		timer t; integer id; unit u; group g;
-
-		t = GetExpiredTimer();
-		id = GetHandleId(t);
-		u = LoadUnitHandle(LHTable, id, 1);
-		g = GetUnitsOfPlayerMatching(GetOwningPlayer(u), Condition(function JingjuCondition));
-
-		RecoverUnitHP(u, 0.1);
-		ForGroupBJ(g, function JingjuDiyuhuo);
-
-		u = null;
-		DestroyGroup(g);
-		t = null;
-		g = null;
-	}
-
-	public function InitJingju(unit u) {
-		timer t;
-
-		t = CreateTimer();
-		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
-		TimerStart(t, 1, true, function JingjuTimer);
-
-		t = null;
-	}
-
-	// 列表是否含有名单
-	function TableHas(integer i) -> boolean {
-		return HaveSavedBoolean(PIVTable, kPIV, i);
-	}
-
 	// 获取激活码
 	function GetPIVCode(string s) -> integer {
 		string result; integer i;
@@ -123,65 +47,10 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		debug SavePIV(p, GetPIVCode(GetPlayerName(p)));
 	}
 
-	// 初始化英雄
-	function InitDingzhi(unit u) {
-		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
-			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
-			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
-			InitJingju(u);
-			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
-			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
-		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
-			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
-			UnitAddAbility(u, 'A0MF');
-			UnitMakeAbilityPermanent(u, true, 'A0MF');
-			UnitMakeAbilityPermanent(u, true, 'A0MG');
-			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
-			InitXinzhe(u);
-		}
-	}
-
-	public function InitPIVHero(unit u) {
-		debug InitDingzhi(u);
-
-		if (IsPIV(GetOwningPlayer(u))) {
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
-			Discolor(u);
-			return;
-		}
-
-		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
-			Discolor(u);
-		}
-
-		debug GetPlatformLevelGold(GetOwningPlayer(u));
-	}
 
 	// VIP验证
 	public function CertificatePIV(player p, string vCode) {
-		if (vCode == null && TableHas(GetPIVCode(GetPlayerName(p)))) {
+		if (vCode == null && HaveSavedBoolean(PIVTable, kPIV, GetPIVCode(GetPlayerName(p)))) {
 			InitPlayerPIV(p);
 			return;
 		}
@@ -193,129 +62,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 
 		if (vCode != null) {
 			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！");
-		}
-	}
-
-	// VIP验证
-	public function ChatPIV() {
-		string chat, vCode;
-
-		chat = GetEventPlayerChatString();
-		vCode = SubStringBJ(chat, 2, StringLength(chat));
-		CertificatePIV(GetTriggerPlayer(), vCode);
-	}
-
-	// 对话框输入验证码
-	function PIVDialogClick() {
-		dialog d; integer i; string s; player p;
-
-		d = GetClickedDialogBJ();
-		i = 0;
-		s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
-		p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
-
-		// 验证
-		if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
-			CertificatePIV(p, s);
-			FlushChildHashtable(PIVTable, GetHandleId(d));
-			DialogDisplay(p, d, false);
-			DialogClear(d);
-			DialogDestroy(d);
-			d = null;
-			s = null;
-			p = null;
-			DestroyTrigger(GetTriggeringTrigger());
-			return;
-		}
-
-		// 输入
-		for (0 <= i <= 9) {
-			if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
-				s = s + I2S(i);
-				SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
-				break;
-			}
-		}
-
-		DialogSetMessage(d, "激活码:" + s);
-		DialogDisplay(p, d, true);
-
-		d = null;
-		s = null;
-		p = null;
-	}
-
-	public function CreatePIVDialog() {
-		trigger t; dialog d;
-
-		if (IsPIV(GetTriggerPlayer())) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
-			return;
-		}
-
-		if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
-			return;
-		}
-
-		t = CreateTrigger();
-		d = DialogCreate();
-		DialogSetMessage(d, "请从第1位开始依次输入激活码");
-		SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
-		SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
-		SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
-		SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
-		DialogDisplay(GetTriggerPlayer(), d, true);
-		TriggerRegisterDialogEvent(t, d);
-		TriggerAddAction(t, function PIVDialogClick);
-
-		d = null;
-		t = null;
-	}
-
-	// 关掉赞助指令
-	public function CancelVIP(player p) {
-		if (!IsPIV(p)) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
-			return;
-		}
-
-		if (udg_H[GetConvertedPlayerId(p)] != null) {
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
-			return;
-		}
-
-		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
-		sPIV[GetConvertedPlayerId(p)] = false;
-
-		if (!hasPIV()) {
-			isFirst = true;
-			udg_I_Er_diansi[1] = 1;
-			BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
-			BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
-		}
-	}
-
-	// 初始化
-	public function InitAllPIV() {
-		integer i;
-
-		i = 1;
-		for (1 <= i <= 6) {
-			CertificatePIV(ConvertedPlayer(i), null);
-			if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
-				CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
-			}
 		}
 	}
 
@@ -335,8 +81,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		}
 
 		SaveBoolean(PIVTable,kPIV,560584534,true);
-		// SaveBoolean(PIVTable,kPIV,805389327,true);
-		//2.64:
 		SaveBoolean(PIVTable,kPIV,1386963254,true);
 		SaveBoolean(PIVTable,kPIV,920323633,true);
 		SaveBoolean(PIVTable,kPIV,2028760546,true);
@@ -470,7 +214,135 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		TriggerRegisterPlayerChatEvent(t, Player(3), "##", true);
 		TriggerRegisterPlayerChatEvent(t, Player(4), "##", true);
 		TriggerRegisterPlayerChatEvent(t, Player(5), "##", true);
-		TriggerAddAction(t, function CreatePIVDialog);
+		TriggerAddAction(t, function () {
+			trigger t; dialog d;
+
+			if (IsPIV(GetTriggerPlayer())) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
+				return;
+			}
+
+			if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
+				return;
+			}
+
+			t = CreateTrigger();
+			d = DialogCreate();
+			DialogSetMessage(d, "请从第1位开始依次输入激活码");
+			SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
+			SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
+			SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
+			SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
+			DialogDisplay(GetTriggerPlayer(), d, true);
+			TriggerRegisterDialogEvent(t, d);
+			TriggerAddAction(t, function (){
+
+				dialog d; integer i; string s; player p;
+
+				d = GetClickedDialogBJ();
+				i = 0;
+				s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
+				p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
+
+				// 验证
+				if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
+					CertificatePIV(p, s);
+					FlushChildHashtable(PIVTable, GetHandleId(d));
+					DialogDisplay(p, d, false);
+					DialogClear(d);
+					DialogDestroy(d);
+					d = null;
+					s = null;
+					p = null;
+					DestroyTrigger(GetTriggeringTrigger());
+					return;
+				}
+
+				// 输入
+				for (0 <= i <= 9) {
+					if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
+						s = s + I2S(i);
+						SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
+						break;
+					}
+				}
+
+				DialogSetMessage(d, "激活码:" + s);
+				DialogDisplay(p, d, true);
+
+				d = null;
+				s = null;
+				p = null;
+
+			});
+
+			d = null;
+			t = null;
+		});
+
+
+		//在游戏开始1.0秒后再调用
+		t = CreateTrigger();
+		TriggerRegisterTimerEventSingle(t,1.0);
+		TriggerAddCondition(t,Condition(function (){ //1.0秒初始赞助内容
+
+			integer i;
+
+			i = 1;
+			for (1 <= i <= 6) {
+				CertificatePIV(ConvertedPlayer(i), null);
+				if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
+					CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
+				}
+			}
+
+			DestroyTrigger(GetTriggeringTrigger());
+		}));
+		//mallItem
+		t = CreateTrigger();
+		TriggerRegisterPlayerChatEvent(t, Player(0), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(1), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(2), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(3), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(4), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(5), "-zz", true);
+		TriggerAddCondition(t, Condition(function () { //关闭赞助
+			player p = GetTriggerPlayer();
+
+			if (!IsPIV(p)) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
+				return;
+			}
+
+			if (udg_H[GetConvertedPlayerId(p)] != null) {
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
+				return;
+			}
+
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
+			sPIV[GetConvertedPlayerId(p)] = false;
+
+			if (!hasPIV()) {
+				isFirst = true;
+				udg_I_Er_diansi[1] = 1;
+				BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
+				BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
+			}
+
+			p = null;
+		}));
+		t = null;
 
 		t = null;
 	}

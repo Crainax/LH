@@ -17,6 +17,8 @@ endlibrary
 //#  define TriggerRegisterPlayerEventLeave(trig, player)                    TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_LEAVE)
 //#  define TriggerRegisterPlayerEventAllianceChanged(trig, player)          TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_ALLIANCE_CHANGED)
 //#  define TriggerRegisterPlayerEventEndCinematic(trig, player)             TriggerRegisterPlayerEvent(trig, player, EVENT_PLAYER_END_CINEMATIC)
+// 当前构建版本
+// 当前的平台分包
 // 原生UI的大小
 library YDWEGetUnitsOfPlayerMatchingNull
 globals
@@ -43,372 +45,6 @@ function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns gr
     local group g = CreateGroup()
     call GroupEnumUnitsInRect(g, r, filter)
     call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-//===========================================================================
-//===========================================================================
-//自定义事件
-//===========================================================================
-//===========================================================================
-library YDWETriggerEvent
-globals
-    trigger yd_DamageEventTrigger = null
-    private constant integer DAMAGE_EVENT_SWAP_TIMEOUT = 20 // 每隔这个时间(秒), yd_DamageEventTrigger 会被移入销毁队列
-private constant boolean DAMAGE_EVENT_SWAP_ENABLE = true // 若为 false 则不启用销毁机制
-private trigger yd_DamageEventTriggerToDestory = null
-    private trigger array DamageEventQueue
-    private integer DamageEventNumber = 0
-    item bj_lastMovedItemInItemSlot = null
-    private trigger MoveItemEventTrigger = null
-    private trigger array MoveItemEventQueue
-    private integer MoveItemEventNumber = 0
-endglobals
-//===========================================================================
-//任意单位伤害事件
-//===========================================================================
-function YDWEAnyUnitDamagedTriggerAction takes nothing returns nothing
-    local integer i = 0
-    loop
-        exitwhen i >= DamageEventNumber
-        if DamageEventQueue[i] != null and IsTriggerEnabled(DamageEventQueue[i]) and TriggerEvaluate(DamageEventQueue[i]) then
-            call TriggerExecute(DamageEventQueue[i])
-        endif
-        set i = i + 1
-    endloop
-endfunction
-function YDWEAnyUnitDamagedFilter takes nothing returns boolean
-    if GetUnitAbilityLevel(GetFilterUnit(), 'Aloc') <= 0 then
-        call TriggerRegisterUnitEvent(yd_DamageEventTrigger, GetFilterUnit(), EVENT_UNIT_DAMAGED)
-    endif
-    return false
-endfunction
-function YDWEAnyUnitDamagedEnumUnit takes nothing returns nothing
-    local group g = CreateGroup()
-    local integer i = 0
-    loop
-        call GroupEnumUnitsOfPlayer(g, Player(i), Condition(function YDWEAnyUnitDamagedFilter))
-        set i = i + 1
-        exitwhen i >= bj_MAX_PLAYER_SLOTS
-    endloop
-    call DestroyGroup(g)
-    set g = null
-endfunction
-function YDWEAnyUnitDamagedRegistTriggerUnitEnter takes nothing returns nothing
-    local trigger t = CreateTrigger()
-    local region r = CreateRegion()
-    local rect world = GetWorldBounds()
-    call RegionAddRect(r, world)
-    call TriggerRegisterEnterRegion(t, r, Condition(function YDWEAnyUnitDamagedFilter))
-    call RemoveRect(world)
-    set t = null
-    set r = null
-    set world = null
-endfunction
-// 将 yd_DamageEventTrigger 移入销毁队列, 从而排泄触发器事件
-function YDWESyStemAnyUnitDamagedSwap takes nothing returns nothing
-    local boolean isEnabled = IsTriggerEnabled(yd_DamageEventTrigger)
-    call DisableTrigger(yd_DamageEventTrigger)
-    if yd_DamageEventTriggerToDestory != null then
-        call DestroyTrigger(yd_DamageEventTriggerToDestory)
-    endif
-    set yd_DamageEventTriggerToDestory = yd_DamageEventTrigger
-    set yd_DamageEventTrigger = CreateTrigger()
-    if not isEnabled then
-        call DisableTrigger(yd_DamageEventTrigger)
-    endif
-    call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
-    call YDWEAnyUnitDamagedEnumUnit()
-endfunction
-function YDWESyStemAnyUnitDamagedRegistTrigger takes trigger trg returns nothing
-    if trg == null then
-        return
-    endif
-    if DamageEventNumber == 0 then
-        set yd_DamageEventTrigger = CreateTrigger()
-        call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
-        call YDWEAnyUnitDamagedEnumUnit()
-        call YDWEAnyUnitDamagedRegistTriggerUnitEnter()
-        if DAMAGE_EVENT_SWAP_ENABLE then
-            // 每隔 DAMAGE_EVENT_SWAP_TIMEOUT 秒, 将正在使用的 yd_DamageEventTrigger 移入销毁队列
-            call TimerStart(CreateTimer(), DAMAGE_EVENT_SWAP_TIMEOUT, true, function YDWESyStemAnyUnitDamagedSwap)
-        endif
-    endif
-    set DamageEventQueue[DamageEventNumber] = trg
-    set DamageEventNumber = DamageEventNumber + 1
-endfunction
-//===========================================================================
-//移动物品事件
-//===========================================================================
-function YDWESyStemItemUnmovableTriggerAction takes nothing returns nothing
-    local integer i = 0
-    if GetIssuedOrderId() >= 852002 and GetIssuedOrderId() <= 852007 then
-		set bj_lastMovedItemInItemSlot = GetOrderTargetItem()
-    	loop
-        	exitwhen i >= MoveItemEventNumber
-        	if MoveItemEventQueue[i] != null and IsTriggerEnabled(MoveItemEventQueue[i]) and TriggerEvaluate(MoveItemEventQueue[i]) then
-        	    call TriggerExecute(MoveItemEventQueue[i])
-        	endif
-        	set i = i + 1
-    	endloop
-	endif
-endfunction
-function YDWESyStemItemUnmovableRegistTrigger takes trigger trg returns nothing
-    if trg == null then
-        return
-    endif
-    if MoveItemEventNumber == 0 then
-        set MoveItemEventTrigger = CreateTrigger()
-        call TriggerAddAction(MoveItemEventTrigger, function YDWESyStemItemUnmovableTriggerAction)
-        call TriggerRegisterAnyUnitEventBJ(MoveItemEventTrigger, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-    endif
-    set MoveItemEventQueue[MoveItemEventNumber] = trg
-    set MoveItemEventNumber = MoveItemEventNumber + 1
-endfunction
-function GetLastMovedItemInItemSlot takes nothing returns item
-    return bj_lastMovedItemInItemSlot
-endfunction
-endlibrary
-//! zinc
-/*
-区域采样工具
-*/
-library RegionUtils {
-    public struct triangleXY [] {
-        static real x = 0.0 , y = 0.0;
-        // 在给定三角形区域内随机生成一个点
-        // 参数说明:
-        // @param ax,ay - 三角形顶点A的坐标
-        // @param bx,by - 三角形顶点B的坐标
-        // @param cx,cy - 三角形顶点C的坐标
-        // 返回值:
-        // 通过静态变量x,y返回随机生成的点坐标
-        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
-            real rA = GetRandomReal(0,1.0);
-            real rB = GetRandomReal(0,1.0);
-            real abx = bx-ax, aby = by-ay;
-            real acx = cx-ax, acy = cy-ay;
-            if (rA + rB > 1.0) {
-                rA = 1.0 - rA;
-                rB = 1.0 - rB;
-            }
-            x = ax + rA * abx + rB * acx;
-            y = ay + rA * aby + rB * acy;
-        }
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomX ( rect r ) -> real {
-        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomY ( rect r ) -> real {
-        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
-    }
-}
-//! endzinc
-library YDWEGetForceOfPlayerNull
-globals
-    force yd_NullTempForce
-endglobals
-function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
-    local force f = CreateForce()
-    call ForceAddPlayer(f, whichPlayer)
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
-endfunction
-endlibrary
-//! zinc
-/*
-单位组有关
-伤害有关
-// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
-用GroupPickRandomUnit(g);好一些
-*/
-library GroupUtils requires UnitFilter {
-    group tempG = null;
-    unit tempU = null;
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
-        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
-        DestroyBoolExpr(filter);
-    }
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
-        GroupEnumUnitsInRect(whichGroup, r, filter);
-        DestroyBoolExpr(filter);
-    }
-    //获取单位组:[敌方]
-    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
-        tempG = CreateGroup();
-        tempU = u;
-        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
-            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
-                return true;
-            }
-            return false;
-        }));
-        tempU = null;
-        return tempG;
-    }
-    //获取圆形随机单位
-    public function GetRandomEnemy (unit u,real x,real y,real radius) -> unit {
-        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
-    }
-}
-//! endzinc
-//! zinc
-/*
-数字工具
-*/
-library NumberUtils {
-    // 老版本叫GetIntegerBit(替换)
-    // 获取一个整数中指定范围的数字(按十进制位数)
-    // @param value - 要处理的整数,如1483
-    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
-    // @param bit2 - 结束位置,如3表示百位
-    // @return - 返回指定范围的数字,如1483取1-3位返回483
-    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
-        if (bit1 > bit2) {return 0;}
-        if (bit1 <= 0 || bit2 <= 0) {return 0;}
-        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
-    }
-    // 老版本叫GetBit(替换)
-    // 获取一个整数中指定位置的单个数字(按十进制位数)
-    // @param num - 要处理的整数,如1483
-    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
-    // @return - 返回指定位置的数字,如1483取第2位返回8
-    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
-    public function GetDigitAt (integer num,integer bit) -> integer {
-        integer bit1 = R2I(Pow(10,bit-1)); //举例,1483取位2 ->这个是10;
-integer bit2 = R2I(Pow(10,bit)); //举例,1483取位2 ->这个是100;
-num = IAbsBJ(num); //取绝对值
-if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
-if (bit1 > num) {return 0;} //取了不该取的位
-bit1 = IMaxBJ(1,bit1);
-        //先取余100,再除10 ->
-        return ModuloInteger(num,bit2) / bit1;
-    }
-}
-//! endzinc
-/*
-声音的初始化
-及一些常用的声音API
-*/
-//! zinc
-library Music {
-	public struct music []{
-		private sound snd;
-		//只给某个玩家播放
-		method playFor (player p) {
-			if (GetLocalPlayer() == p) {
-				StartSound(snd);
-			}
-		}
-		//播放音效
-		method play () {
-			StartSound(snd);
-		}
-		static method onInit () {
-			sound snd = null;
-			//# check: music[1001]
-			//# dependency:sound/sound/btn_down_01.wav
-			snd = CreateSound("sound\\btn_down_01.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 131);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1001].snd = snd;
-			//# endcheck
-			//# check: music[1002]
-			//# dependency:sound/sound/btn_over_01.wav
-			snd = CreateSound("sound\\btn_over_01.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 56);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1002].snd = snd;
-			//# endcheck
-			//# check: music[1003]
-			//# dependency:sound/sound/btn_over_02.wav
-			snd = CreateSound("sound\\btn_over_02.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 60);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1003].snd = snd;
-			//# endcheck
-			//# check: music[1004]
-			//# dependency:sound/sound/btn_up_01.wav
-			snd = CreateSound("sound\\btn_up_01.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 54);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1004].snd = snd;
-			//# endcheck
-			//# check: music[7]
-			snd = CreateSound("Sound\\Interface\\Warning\\Human\\KnightNoGold1.wav", false, false, false, 10, 10, "DefaultEAXON");
-			SetSoundDuration(snd, 1486);
-			thistype[7].snd = snd;
-			//# endcheck
-			//# check: music[8]
-			snd = CreateSound("Sound\\Interface\\Error.wav", false, false, false, 10, 10, "DefaultEAXON");
-			SetSoundDuration(snd, 614);
-			thistype[8].snd = snd;
-			//# endcheck
-			//# check: music[9]
-			snd = CreateSound("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false, false, false, 10, 10, "SpellsEAX");
-			SetSoundDuration(snd, 589);
-			thistype[9].snd = snd;
-			//# endcheck
-			//# check: music[10]
-			snd = CreateSound("Abilities\\Spells\\Items\\AIam\\Tomes.wav", false, false, false, 10, 10, "SpellsEAX");
-			SetSoundDuration(snd, 1770);
-			thistype[10].snd = snd;
-			//# endcheck
-			//# check: music[11]
-			snd = CreateSound("Sound\\Interface\\ItemReceived.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 1483);
-			thistype[11].snd = snd;
-			//# endcheck
-			//# check: music[12]
-			snd = CreateSound("Sound\\Interface\\MouseClick1.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 239);
-			thistype[12].snd = snd;
-			//# endcheck
-			//# check: music[13]
-			snd = CreateSound("Sound\\Interface\\SecretFound.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 2525);
-			thistype[13].snd = snd;
-			//# endcheck
-			snd = null;
-		}
-	}
-}
-//! endzinc
-library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
-function YDWEGetUnitsInRectAllNull takes rect r returns group
-    return YDWEGetUnitsInRectMatchingNull(r, null)
-endfunction
-endlibrary
-library YDWEGetUnitsInRectOfPlayerNull
-globals
-endglobals
-function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
-    local group g = CreateGroup()
-    set bj_groupEnumOwningPlayer = whichPlayer
-    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
     set yd_NullTempGroup = g
     set g = null
     return yd_NullTempGroup
@@ -648,6 +284,532 @@ function YDWETimerRunPeriodicTriggerOver takes trigger trg, integer data returns
         set index = index - 1
     endloop
     call RemoveSavedInteger(YDHT, trgid, 'YDTS'+data)
+    set t = null
+endfunction
+endlibrary
+//! zinc
+/*
+区域采样工具
+*/
+library RegionUtils {
+    public struct triangleXY [] {
+        static real x = 0.0 , y = 0.0;
+        // 在给定三角形区域内随机生成一个点
+        // 参数说明:
+        // @param ax,ay - 三角形顶点A的坐标
+        // @param bx,by - 三角形顶点B的坐标
+        // @param cx,cy - 三角形顶点C的坐标
+        // 返回值:
+        // 通过静态变量x,y返回随机生成的点坐标
+        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
+            real rA = GetRandomReal(0,1.0);
+            real rB = GetRandomReal(0,1.0);
+            real abx = bx-ax, aby = by-ay;
+            real acx = cx-ax, acy = cy-ay;
+            if (rA + rB > 1.0) {
+                rA = 1.0 - rA;
+                rB = 1.0 - rB;
+            }
+            x = ax + rA * abx + rB * acx;
+            y = ay + rA * aby + rB * acy;
+        }
+    }
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
+    }
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomX ( rect r ) -> real {
+        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomY ( rect r ) -> real {
+        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
+    }
+}
+//! endzinc
+library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
+function YDWEGetUnitsInRectAllNull takes rect r returns group
+    return YDWEGetUnitsInRectMatchingNull(r, null)
+endfunction
+endlibrary
+//===========================================================================
+//===========================================================================
+//自定义事件
+//===========================================================================
+//===========================================================================
+library YDWETriggerEvent
+globals
+    trigger yd_DamageEventTrigger = null
+    private constant integer DAMAGE_EVENT_SWAP_TIMEOUT = 20 // 每隔这个时间(秒), yd_DamageEventTrigger 会被移入销毁队列
+private constant boolean DAMAGE_EVENT_SWAP_ENABLE = true // 若为 false 则不启用销毁机制
+private trigger yd_DamageEventTriggerToDestory = null
+    private trigger array DamageEventQueue
+    private integer DamageEventNumber = 0
+    item bj_lastMovedItemInItemSlot = null
+    private trigger MoveItemEventTrigger = null
+    private trigger array MoveItemEventQueue
+    private integer MoveItemEventNumber = 0
+endglobals
+//===========================================================================
+//任意单位伤害事件
+//===========================================================================
+function YDWEAnyUnitDamagedTriggerAction takes nothing returns nothing
+    local integer i = 0
+    loop
+        exitwhen i >= DamageEventNumber
+        if DamageEventQueue[i] != null and IsTriggerEnabled(DamageEventQueue[i]) and TriggerEvaluate(DamageEventQueue[i]) then
+            call TriggerExecute(DamageEventQueue[i])
+        endif
+        set i = i + 1
+    endloop
+endfunction
+function YDWEAnyUnitDamagedFilter takes nothing returns boolean
+    if GetUnitAbilityLevel(GetFilterUnit(), 'Aloc') <= 0 then
+        call TriggerRegisterUnitEvent(yd_DamageEventTrigger, GetFilterUnit(), EVENT_UNIT_DAMAGED)
+    endif
+    return false
+endfunction
+function YDWEAnyUnitDamagedEnumUnit takes nothing returns nothing
+    local group g = CreateGroup()
+    local integer i = 0
+    loop
+        call GroupEnumUnitsOfPlayer(g, Player(i), Condition(function YDWEAnyUnitDamagedFilter))
+        set i = i + 1
+        exitwhen i >= bj_MAX_PLAYER_SLOTS
+    endloop
+    call DestroyGroup(g)
+    set g = null
+endfunction
+function YDWEAnyUnitDamagedRegistTriggerUnitEnter takes nothing returns nothing
+    local trigger t = CreateTrigger()
+    local region r = CreateRegion()
+    local rect world = GetWorldBounds()
+    call RegionAddRect(r, world)
+    call TriggerRegisterEnterRegion(t, r, Condition(function YDWEAnyUnitDamagedFilter))
+    call RemoveRect(world)
+    set t = null
+    set r = null
+    set world = null
+endfunction
+// 将 yd_DamageEventTrigger 移入销毁队列, 从而排泄触发器事件
+function YDWESyStemAnyUnitDamagedSwap takes nothing returns nothing
+    local boolean isEnabled = IsTriggerEnabled(yd_DamageEventTrigger)
+    call DisableTrigger(yd_DamageEventTrigger)
+    if yd_DamageEventTriggerToDestory != null then
+        call DestroyTrigger(yd_DamageEventTriggerToDestory)
+    endif
+    set yd_DamageEventTriggerToDestory = yd_DamageEventTrigger
+    set yd_DamageEventTrigger = CreateTrigger()
+    if not isEnabled then
+        call DisableTrigger(yd_DamageEventTrigger)
+    endif
+    call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
+    call YDWEAnyUnitDamagedEnumUnit()
+endfunction
+function YDWESyStemAnyUnitDamagedRegistTrigger takes trigger trg returns nothing
+    if trg == null then
+        return
+    endif
+    if DamageEventNumber == 0 then
+        set yd_DamageEventTrigger = CreateTrigger()
+        call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
+        call YDWEAnyUnitDamagedEnumUnit()
+        call YDWEAnyUnitDamagedRegistTriggerUnitEnter()
+        if DAMAGE_EVENT_SWAP_ENABLE then
+            // 每隔 DAMAGE_EVENT_SWAP_TIMEOUT 秒, 将正在使用的 yd_DamageEventTrigger 移入销毁队列
+            call TimerStart(CreateTimer(), DAMAGE_EVENT_SWAP_TIMEOUT, true, function YDWESyStemAnyUnitDamagedSwap)
+        endif
+    endif
+    set DamageEventQueue[DamageEventNumber] = trg
+    set DamageEventNumber = DamageEventNumber + 1
+endfunction
+//===========================================================================
+//移动物品事件
+//===========================================================================
+function YDWESyStemItemUnmovableTriggerAction takes nothing returns nothing
+    local integer i = 0
+    if GetIssuedOrderId() >= 852002 and GetIssuedOrderId() <= 852007 then
+		set bj_lastMovedItemInItemSlot = GetOrderTargetItem()
+    	loop
+        	exitwhen i >= MoveItemEventNumber
+        	if MoveItemEventQueue[i] != null and IsTriggerEnabled(MoveItemEventQueue[i]) and TriggerEvaluate(MoveItemEventQueue[i]) then
+        	    call TriggerExecute(MoveItemEventQueue[i])
+        	endif
+        	set i = i + 1
+    	endloop
+	endif
+endfunction
+function YDWESyStemItemUnmovableRegistTrigger takes trigger trg returns nothing
+    if trg == null then
+        return
+    endif
+    if MoveItemEventNumber == 0 then
+        set MoveItemEventTrigger = CreateTrigger()
+        call TriggerAddAction(MoveItemEventTrigger, function YDWESyStemItemUnmovableTriggerAction)
+        call TriggerRegisterAnyUnitEventBJ(MoveItemEventTrigger, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
+    endif
+    set MoveItemEventQueue[MoveItemEventNumber] = trg
+    set MoveItemEventNumber = MoveItemEventNumber + 1
+endfunction
+function GetLastMovedItemInItemSlot takes nothing returns item
+    return bj_lastMovedItemInItemSlot
+endfunction
+endlibrary
+/*
+UI哈希表定义
+*/
+// 0 - 1亿这里用
+// 锚点常量
+// 事件常量
+//鼠标点击事件
+//Index名:
+//默认原生图片路径
+//模板名
+//TEXT对齐常量:(uiText.setAlign)
+//! zinc
+/*
+结构体
+硬件事件(按/滑/帧事件)
+*/
+library Hardware requires BzAPI {
+	public struct hardware []{
+		// 注册一个左键抬起事件
+		static method regLeftUpEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,1,0,false,func);
+		}
+		// 注册一个左键按下事件
+		static method regLeftDownEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,1,1,false,func);
+		}
+		// 注册一个右键按下事件
+		static method regRightDownEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,2,1,false,func);
+		}
+		// 注册一个右键抬起事件
+		static method regRightUpEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,2,0,false,func);
+		}
+		// 注册一个滚轮事件,不能异步注册
+		static method regWheelEvent (code func) {
+			if (trWheel == null) {trWheel = CreateTrigger();}
+			TriggerAddCondition(trWheel, Condition(func));
+		}
+		// 注册一个绘制事件,不能异步注册
+		static method regUpdateEvent (code func) {
+			if (trUpdate == null) {trUpdate = CreateTrigger();}
+			TriggerAddCondition(trUpdate, Condition(func));
+		}
+		// 注册一个窗口变化事件,不能异步注册
+		static method regResizeEvent (code func) {
+			if (trResize == null) {trResize = CreateTrigger();}
+			TriggerAddCondition(trResize, Condition(func));
+		}
+		// 注册一个鼠标移动事件,不能异步注册
+		static method regMoveEvent (code func) {
+			BJDebugMsg("注册鼠标移动事件");
+			if (trMove == null) {trMove = CreateTrigger();}
+			TriggerAddCondition(trMove, Condition(func));
+		}
+		// 获取鼠标的实数坐标X(0-0.8)
+		static method getMouseX () -> real {
+			integer width = DzGetClientWidth();
+			if (width > 0) return DzGetMouseXRelative()* 0.8 / width;
+			else return 0.1;
+		}
+		// 获取鼠标的实数坐标Y(0-0.6)
+		static method getMouseY () -> real {
+			integer height = DzGetClientHeight();
+			if (height > 0) return 0.6 - DzGetMouseYRelative()* 0.6 / height;
+			else return 0.1; // 防止除以0
+}
+		private {
+			static trigger trWheel = null;
+			static trigger trUpdate = null;
+			static trigger trResize = null;
+			static trigger trMove = null;
+		}
+		static method onInit () {
+			//在游戏开始0.0秒后再调用
+			trigger tr = CreateTrigger();
+			TriggerRegisterTimerEvent(tr, 0.0, false);
+			TriggerAddCondition(tr,Condition(function (){
+				// 滚轮事件
+				DzTriggerRegisterMouseWheelEventByCode(null,false,function (){
+					TriggerEvaluate(trWheel);
+				});
+				// 帧绘制事件
+				DzFrameSetUpdateCallbackByCode(function (){
+					TriggerEvaluate(trUpdate);
+				});
+				// 窗口大小变化事件
+				DzTriggerRegisterWindowResizeEventByCode(null, false, function (){
+				 TriggerEvaluate(trResize);
+				});
+				// 鼠标移动事件
+				DzTriggerRegisterMouseMoveEventByCode(null, false, function (){
+				 TriggerEvaluate(trMove);
+				});
+				DestroyTrigger(GetTriggeringTrigger());
+			}));
+			tr = null;
+		}
+	}
+}
+//! endzinc
+/*
+
+japi引用的常量库 由于wave宏定义 只对以下的代码有效
+
+请将常量库里所有内容复制到  自定义脚本代码区
+*/
+//魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
+//-----------模拟聊天------------------
+//---------技能数据类型---------------
+//冷却时间
+//目标允许
+//施放时间
+//持续时间
+//持续时间
+//魔法消耗
+//施放间隔
+//影响区域
+//施法距离
+//数据A
+//数据B
+//数据C
+//数据D
+//数据E
+//数据F
+//数据G
+//数据H
+//数据I
+//单位类型
+//热键
+//关闭热键
+//学习热键
+//名字
+//图标
+//目标效果
+//施法者效果
+//目标点效果
+//区域效果
+//投射物
+//特殊效果
+//闪电效果
+//buff提示
+//buff提示
+//学习提示
+//提示
+//关闭提示
+//学习提示
+//提示
+//关闭提示
+//----------物品数据类型----------------------
+//物品图标
+//物品提示
+//物品扩展提示
+//物品名字
+//物品说明
+//------------单位数据类型--------------
+//攻击1 伤害骰子数量
+//攻击1 伤害骰子面数
+//攻击1 基础伤害
+//攻击1 升级奖励
+//攻击1 最小伤害
+//攻击1 最大伤害
+//攻击1 全伤害范围
+//装甲
+// attack 1 attribute adds
+//攻击1 伤害衰减参数
+//攻击1 武器声音
+//攻击1 攻击类型
+//攻击1 最大目标数
+//攻击1 攻击间隔
+//攻击1 攻击延迟/summary>
+//攻击1 弹射弧度
+//攻击1 攻击范围缓冲
+//攻击1 目标允许
+//攻击1 溅出区域
+//攻击1 溅出半径
+//攻击1 武器类型
+// attack 2 attributes (sorted in a sequencial order based on memory address)
+//攻击2 伤害骰子数量
+//攻击2 伤害骰子面数
+//攻击2 基础伤害
+//攻击2 升级奖励
+//攻击2 伤害衰减参数
+//攻击2 武器声音
+//攻击2 攻击类型
+//攻击2 最大目标数
+//攻击2 攻击间隔
+//攻击2 攻击延迟
+//攻击2 攻击范围
+//攻击2 攻击缓冲
+//攻击2 最小伤害
+//攻击2 最大伤害
+//攻击2 弹射弧度
+//攻击2 目标允许类型
+//攻击2 溅出区域
+//攻击2 溅出半径
+//攻击2 武器类型
+//装甲类型
+//! zinc
+/*
+伤害工具
+*/
+library DamageUtils requires UnitFilter,GroupUtils {
+    //旧名替换:DamageSingle
+    //单体伤害:物理
+    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:魔法
+    public function ApplyMagicDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:真实
+    public function ApplyPureDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
+    }
+    //模拟普攻(最后一个参数代表额外的终伤,0)
+    public function SimulateBasicAttack (unit u,unit target,real fd) {
+        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(0x12))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+    //伤害参数结构体
+    private struct DmgP {
+        unit source; //伤害来源
+string eft; //特效
+real damage; //伤害值
+
+        method destroy() {
+            this.source = null;
+            this.eft = null;
+        }
+    }
+    //伤害参数栈
+    public struct DmgS [] {
+        private static DmgP stack[100];
+        private static integer top = -1;
+        public static method push(DmgP params) {
+            thistype.top += 1;
+            thistype.stack[thistype.top] = params;
+        }
+        public static method pop() -> DmgP {
+            DmgP params = thistype.stack[thistype.top];
+            thistype.stack[thistype.top] = 0;
+            thistype.top -= 1;
+            return params;
+        }
+        public static method getTop() -> integer {
+            return thistype.top;
+        }
+        public static method current() -> DmgP {
+            return thistype.stack[thistype.top];
+        }
+    }
+    //范围普通伤害
+    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+    //范围魔法伤害
+    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+    //范围真实伤害
+    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+}
+//! endzinc
+library YDWEPolledWaitNull
+function YDWEPolledWaitNull takes real duration returns nothing
+    local timer t
+    local real timeRemaining
+    if (duration > 0) then
+        set t = CreateTimer()
+        call TimerStart(t, duration, false, null)
+        loop
+            set timeRemaining = TimerGetRemaining(t)
+            exitwhen timeRemaining <= 0
+            // If we have a bit of time left, skip past 10% of the remaining
+            // duration instead of checking every interval, to minimize the
+            // polling on long waits.
+            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
+                call TriggerSleepAction(0.1 * timeRemaining)
+            else
+                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
+            endif
+        endloop
+        call DestroyTimer(t)
+    endif
     set t = null
 endfunction
 endlibrary
@@ -1391,6 +1553,34 @@ function InitializeYD takes nothing returns nothing
     call YDWEVersion_Init()
 endfunction
 endlibrary
+//! zinc
+/*
+单位有关
+*/
+library UnitFilter {
+    //判断是否是敌方(不带无敌)
+    public function IsEnemy (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
+    }
+    //旧名：IsEnemy2
+    //判断是否是敌方(能匹配到无敌单位)
+    public function IsEnemyIncludeInvul (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
+    }
+    //判断是否是友方
+    public function IsAlly (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
+    }
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsEnemyUnit(unit source, unit target) -> boolean {
+        return IsEnemy(GetOwningPlayer(source),target);
+    }
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsAllyUnit(unit source, unit target) -> boolean {
+        return IsAlly(GetOwningPlayer(source),target);
+    }
+}
+//! endzinc
 //===========================================================================  
 //万能环绕模板 
 //===========================================================================
@@ -1508,6 +1698,485 @@ function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, inte
         endif
     endloop
     set mbitem = null
+endfunction
+endlibrary
+library YDWETriggerRegisterEnterRectSimpleNull
+globals
+    region yd_NullTempRegion
+endglobals
+function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
+    local region rectRegion = CreateRegion()
+    call RegionAddRect(rectRegion, r)
+    set yd_NullTempRegion = rectRegion
+    set rectRegion = null
+    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
+endfunction
+endlibrary
+library YDWETriggerRegisterLeaveRectSimpleNull
+globals
+endglobals
+function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r returns event
+    local region rectRegion = CreateRegion()
+    call RegionAddRect(rectRegion, r)
+    set yd_NullTempRegion = rectRegion
+    set rectRegion = null
+    return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
+endfunction
+endlibrary
+library YDWEGetItemOfTypeFromUnitBJNull
+globals
+    item yd_NullTempItem
+endglobals
+function YDWEGetItemOfTypeFromUnitBJNull takes unit whichUnit, integer itemId returns item
+    local integer index = 0
+    loop
+        set yd_NullTempItem = UnitItemInSlot(whichUnit, index)
+        if GetItemTypeId(yd_NullTempItem) == itemId then
+            return yd_NullTempItem
+        endif
+        set index = index + 1
+        exitwhen index >= bj_MAX_INVENTORY
+    endloop
+    return null
+endfunction
+endlibrary
+library YDWEGetUnitsOfPlayerAndTypeIdNull
+globals
+endglobals
+function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer unitid returns group
+    local group g = CreateGroup()
+    set bj_groupEnumTypeId = unitid
+    call GroupEnumUnitsOfPlayer(g, whichPlayer, filterGetUnitsOfPlayerAndTypeId)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+//! zinc
+/*
+数字工具
+*/
+library NumberUtils {
+    // 老版本叫GetIntegerBit(替换)
+    // 获取一个整数中指定范围的数字(按十进制位数)
+    // @param value - 要处理的整数,如1483
+    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
+    // @param bit2 - 结束位置,如3表示百位
+    // @return - 返回指定范围的数字,如1483取1-3位返回483
+    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
+        if (bit1 > bit2) {return 0;}
+        if (bit1 <= 0 || bit2 <= 0) {return 0;}
+        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
+    }
+    // 老版本叫GetBit(替换)
+    // 获取一个整数中指定位置的单个数字(按十进制位数)
+    // @param num - 要处理的整数,如1483
+    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
+    // @return - 返回指定位置的数字,如1483取第2位返回8
+    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
+    public function GetDigitAt (integer num,integer bit) -> integer {
+        integer bit1 = R2I(Pow(10,bit-1)); //举例,1483取位2 ->这个是10;
+integer bit2 = R2I(Pow(10,bit)); //举例,1483取位2 ->这个是100;
+num = IAbsBJ(num); //取绝对值
+if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
+if (bit1 > num) {return 0;} //取了不该取的位
+bit1 = IMaxBJ(1,bit1);
+        //先取余100,再除10 ->
+        return ModuloInteger(num,bit2) / bit1;
+    }
+}
+//! endzinc
+library YDWEGetRandomSubGroupEnumNull
+function YDWEGetRandomSubGroupEnumNull takes nothing returns nothing
+    if (bj_randomSubGroupWant > 0) then
+        if (bj_randomSubGroupWant >= bj_randomSubGroupTotal) or (GetRandomInt(1,bj_randomSubGroupTotal) <= bj_randomSubGroupWant) then
+            // We either need every remaining unit, or the unit passed its chance check.
+            call GroupAddUnit(bj_randomSubGroupGroup, GetEnumUnit())
+            set bj_randomSubGroupWant = bj_randomSubGroupWant - 1
+        endif
+    endif
+    set bj_randomSubGroupTotal = bj_randomSubGroupTotal - 1
+endfunction
+endlibrary
+library YDWEGetRandomSubGroupNull requires YDWEGetRandomSubGroupEnumNull
+function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup returns group
+    set bj_randomSubGroupGroup = CreateGroup()
+    set bj_randomSubGroupWant = count
+    set bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
+    if (bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0) then
+        return bj_randomSubGroupGroup
+    endif
+    call ForGroup(sourceGroup, function YDWEGetRandomSubGroupEnumNull)
+    return bj_randomSubGroupGroup
+endfunction
+endlibrary
+/*
+声音的初始化
+及一些常用的声音API
+*/
+//! zinc
+library Music {
+	public struct music []{
+		private sound snd;
+		//只给某个玩家播放
+		method playFor (player p) {
+			if (GetLocalPlayer() == p) {
+				StartSound(snd);
+			}
+		}
+		//播放音效
+		method play () {
+			StartSound(snd);
+		}
+		static method onInit () {
+			sound snd = null;
+			//# check: music[1001]
+			//# dependency:sound/sound/btn_down_01.wav
+			snd = CreateSound("sound\\btn_down_01.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 131);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1001].snd = snd;
+			//# endcheck
+			//# check: music[1002]
+			//# dependency:sound/sound/btn_over_01.wav
+			snd = CreateSound("sound\\btn_over_01.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 56);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1002].snd = snd;
+			//# endcheck
+			//# check: music[1003]
+			//# dependency:sound/sound/btn_over_02.wav
+			snd = CreateSound("sound\\btn_over_02.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 60);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1003].snd = snd;
+			//# endcheck
+			//# check: music[1004]
+			//# dependency:sound/sound/btn_up_01.wav
+			snd = CreateSound("sound\\btn_up_01.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 54);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1004].snd = snd;
+			//# endcheck
+			//# check: music[7]
+			snd = CreateSound("Sound\\Interface\\Warning\\Human\\KnightNoGold1.wav", false, false, false, 10, 10, "DefaultEAXON");
+			SetSoundDuration(snd, 1486);
+			thistype[7].snd = snd;
+			//# endcheck
+			//# check: music[8]
+			snd = CreateSound("Sound\\Interface\\Error.wav", false, false, false, 10, 10, "DefaultEAXON");
+			SetSoundDuration(snd, 614);
+			thistype[8].snd = snd;
+			//# endcheck
+			//# check: music[9]
+			snd = CreateSound("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false, false, false, 10, 10, "SpellsEAX");
+			SetSoundDuration(snd, 589);
+			thistype[9].snd = snd;
+			//# endcheck
+			//# check: music[10]
+			snd = CreateSound("Abilities\\Spells\\Items\\AIam\\Tomes.wav", false, false, false, 10, 10, "SpellsEAX");
+			SetSoundDuration(snd, 1770);
+			thistype[10].snd = snd;
+			//# endcheck
+			//# check: music[11]
+			snd = CreateSound("Sound\\Interface\\ItemReceived.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 1483);
+			thistype[11].snd = snd;
+			//# endcheck
+			//# check: music[12]
+			snd = CreateSound("Sound\\Interface\\MouseClick1.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 239);
+			thistype[12].snd = snd;
+			//# endcheck
+			//# check: music[13]
+			snd = CreateSound("Sound\\Interface\\SecretFound.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 2525);
+			thistype[13].snd = snd;
+			//# endcheck
+			snd = null;
+		}
+	}
+}
+//! endzinc
+//! zinc
+/*
+转换工具
+*/
+library ConversionUtils {
+    //补充函数
+    public function B2S(boolean b) -> string {
+        if (b) {return "true";}
+        else {return "false";}
+    }
+    //三目运算符
+    public function S3 (boolean b,string s1,string s2) -> string {
+        if (b) {return s1;}
+        else {return s2;}
+    }
+    //三目运算符
+    public function U3 (boolean b,unit u1,unit u2) -> unit {
+        if (b) {return u1;}
+        else {return u2;}
+    }
+    //三目运算符
+    public function I3 (boolean b,integer i1,integer i2) -> integer {
+        if (b) {return i1;}
+        else {return i2;}
+    }
+    //三目运算符
+    public function R3 (boolean b,real r1,real r2) -> real {
+        if (b) {return r1;}
+        else {return r2;}
+    }
+    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
+    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
+    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
+    public function GetIDSymbol ( integer pos ) -> integer {
+        integer bit = pos/36;
+        pos = ModuloInteger(pos,36);
+        if (pos < 10) {return pos + bit * 256;}
+        else {return '000a' - '0000' + pos - 10 + bit * 256;}
+    }
+    // 将魔兽的四字符ID转换回对应数字
+    // s为输入的四字符ID,将其还原为原始数字
+    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
+    public function GetSymbolID ( integer s ) -> integer {
+        integer i1 = s/256;
+        integer i2 = ModuloInteger(s,256);
+        if (i2 < 10) {return i1 * 36 + i2;}
+        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
+    }
+}
+//! endzinc
+//! zinc
+/*
+单位组有关
+伤害有关
+// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
+用GroupPickRandomUnit(g);好一些
+*/
+library GroupUtils requires UnitFilter {
+    group tempG = null;
+    unit tempU = null;
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
+        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
+        DestroyBoolExpr(filter);
+    }
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
+        GroupEnumUnitsInRect(whichGroup, r, filter);
+        DestroyBoolExpr(filter);
+    }
+    //获取单位组:[敌方]
+    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
+        tempG = CreateGroup();
+        tempU = u;
+        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
+            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
+                return true;
+            }
+            return false;
+        }));
+        tempU = null;
+        return tempG;
+    }
+    //获取圆形随机单位
+    public function GetRandomEnemy (unit u,real x,real y,real radius) -> unit {
+        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
+    }
+}
+//! endzinc
+library YDWEGetUnitsOfTypeIdAllNull
+globals
+endglobals
+function YDWEGetUnitsOfTypeIdAllNull takes integer unitid returns group
+    local group result = CreateGroup()
+    local group g = CreateGroup()
+    local integer index
+    set index = 0
+    loop
+        set bj_groupEnumTypeId = unitid
+        call GroupClear(g)
+        call GroupEnumUnitsOfPlayer(g, Player(index), filterGetUnitsOfTypeIdAll)
+        call GroupAddGroup(g, result)
+        set index = index + 1
+        exitwhen index == bj_MAX_PLAYER_SLOTS
+    endloop
+    call DestroyGroup(g)
+    set g = null
+    set yd_NullTempGroup = result
+    set result = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+//! zinc
+/*
+鼠标滚轮控制视距
+一键切换宽屏模式
+made by 裂魂
+2018/10/19
+*/
+library CameraControl requires Hardware{
+    integer ViewLevel = 8; //初始视野等级
+boolean ResetCam = false; //开启重置镜头属性标识
+real WheelSpeed = 0.1; //镜头变化平滑度
+boolean WideScr = false; //是否是宽屏
+real X_ANGLE = 304; //默认X轴角度
+
+    public struct cameraControl {
+        // 打开滚轮控制镜头高度
+        public static method openWheel () {DoNothing();}
+    }
+    // 滚轮控制镜头
+    // 初始化就调用
+    function onInit () {
+        //注册滚轮事件
+        hardware.regWheelEvent(function (){
+            integer delta = DzGetWheelDelta(); //滚轮变化量
+if (!DzIsMouseOverUI()) {return;} //如果鼠标不在游戏内，就不响应鼠标滚轮
+ResetCam = true; //标记需要重置镜头属性
+if (delta < 0) { //滚轮下滑
+if (ViewLevel < 14) {ViewLevel = ViewLevel + 1;} //视野等级上限
+} else { //滚轮上滑
+if (ViewLevel > 3) {ViewLevel = ViewLevel - 1;} //视野等级下限
+}
+            X_ANGLE = Rad2Deg(GetCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK)); //记录滚动前的镜头角度
+});
+        //注册每帧渲染事件
+        hardware.regUpdateEvent(function (){
+            if (ResetCam) {//重设镜头角度和高度
+                SetCameraField( CAMERA_FIELD_ANGLE_OF_ATTACK, X_ANGLE, 0 );
+                SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, ViewLevel*200, WheelSpeed);
+                ResetCam = false;
+            }
+        });
+        //注册按下键码为145的按键(ScrollLock)事件
+        DzTriggerRegisterKeyEventByCode( null, 145, 1, false, function (){
+            WideScr = !WideScr;
+            DzEnableWideScreen(WideScr);
+        });
+    }
+}
+//! endzinc
+library YDWEGetForceOfPlayerNull
+globals
+    force yd_NullTempForce
+endglobals
+function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
+    local force f = CreateForce()
+    call ForceAddPlayer(f, whichPlayer)
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+endlibrary
+library YDWEGetPlayersByMapControlNull
+globals
+endglobals
+function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
+    local force f = CreateForce()
+    local integer playerIndex
+    local player indexPlayer
+    set playerIndex = 0
+    loop
+        set indexPlayer = Player(playerIndex)
+        if GetPlayerController(indexPlayer) == whichControl then
+            call ForceAddPlayer(f, indexPlayer)
+        endif
+        set playerIndex = playerIndex + 1
+        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
+    endloop
+    set indexPlayer = null
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+endlibrary
+library YDWECreateEwsp requires YDWEBase
+//===========================================================================
+//环绕技能模板 
+//===========================================================================
+private function Loop takes nothing returns nothing
+    local timer t = GetExpiredTimer()
+	local string h = I2S(YDWEH2I(t))
+    local unit tempUnit 
+    local real angle 
+    local integer i
+    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit") 
+    local real UnitLocX = GetUnitX(orderUnit)
+    local real UnitLocY = GetUnitY(orderUnit) 
+    local real radius = YDWEGetRealByString(h,"radius") 
+    local real speed = YDWEGetRealByString(h,"speed") 
+    local integer number = YDWEGetIntegerByString(h,"number") 
+    local integer steps = YDWEGetIntegerByString(h,"steps") 
+    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then 
+        set steps=steps-1
+        call YDWESaveIntegerByString(h,"steps",steps) 
+        set i = 0 
+        loop
+            set i = i + 1
+            exitwhen i > number
+            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
+            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
+            set angle=angle+speed
+            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
+            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
+        endloop
+    else 
+        set i = 0
+        loop
+            set i = i + 1 
+            exitwhen i > number 
+            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i))) 
+        endloop 
+        call YDWEFlushMissionByString(h)
+        call DestroyTimer(t) 
+        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1) 
+    endif
+    set tempUnit=null 
+    set orderUnit=null
+    set t=null
+endfunction
+function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
+    local timer t = CreateTimer()
+	local string h = I2S(YDWEH2I(t))
+	local real UnitLocX = GetUnitX(Hero)
+    local real UnitLocY = GetUnitY(Hero) 
+    local unit tempUnit 
+    local player Masterplayer = GetOwningPlayer(Hero)
+    local real angle 
+    local integer i = 0
+    local integer steps = R2I(lasttime/interval)
+    call YDWESaveUnitByString(h,"orderUnit",Hero) 
+    call YDWESaveIntegerByString(h,"steps",steps) 
+    call YDWESaveIntegerByString(h,"number",number) 
+    call YDWESaveRealByString(h,"radius",radius)
+    call YDWESaveRealByString(h,"speed", speed*0.0174538)
+    call GroupClear(bj_lastCreatedGroup)
+    loop
+        set i = i + 1
+        exitwhen i > number
+        set angle = 2*i*3.14159/number
+        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*57.2958)
+        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
+        call UnitIgnoreAlarm(tempUnit, true)
+        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
+        set bj_lastCreatedUnit = tempUnit
+    endloop 
+    call TimerStart(t,interval,true,function Loop)
+    set t=null
+    set tempUnit=null
 endfunction
 endlibrary
 library BzAPI
@@ -2306,182 +2975,6 @@ library DzAPI
         return RequestExtraIntegerData(110, whichPlayer, key, null, false, 0, 0, 0)
     endfunction
 endlibrary
-library YDWECreateEwsp requires YDWEBase
-//===========================================================================
-//环绕技能模板 
-//===========================================================================
-private function Loop takes nothing returns nothing
-    local timer t = GetExpiredTimer()
-	local string h = I2S(YDWEH2I(t))
-    local unit tempUnit 
-    local real angle 
-    local integer i
-    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit") 
-    local real UnitLocX = GetUnitX(orderUnit)
-    local real UnitLocY = GetUnitY(orderUnit) 
-    local real radius = YDWEGetRealByString(h,"radius") 
-    local real speed = YDWEGetRealByString(h,"speed") 
-    local integer number = YDWEGetIntegerByString(h,"number") 
-    local integer steps = YDWEGetIntegerByString(h,"steps") 
-    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then 
-        set steps=steps-1
-        call YDWESaveIntegerByString(h,"steps",steps) 
-        set i = 0 
-        loop
-            set i = i + 1
-            exitwhen i > number
-            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
-            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
-            set angle=angle+speed
-            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
-            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
-        endloop
-    else 
-        set i = 0
-        loop
-            set i = i + 1 
-            exitwhen i > number 
-            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i))) 
-        endloop 
-        call YDWEFlushMissionByString(h)
-        call DestroyTimer(t) 
-        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1) 
-    endif
-    set tempUnit=null 
-    set orderUnit=null
-    set t=null
-endfunction
-function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
-    local timer t = CreateTimer()
-	local string h = I2S(YDWEH2I(t))
-	local real UnitLocX = GetUnitX(Hero)
-    local real UnitLocY = GetUnitY(Hero) 
-    local unit tempUnit 
-    local player Masterplayer = GetOwningPlayer(Hero)
-    local real angle 
-    local integer i = 0
-    local integer steps = R2I(lasttime/interval)
-    call YDWESaveUnitByString(h,"orderUnit",Hero) 
-    call YDWESaveIntegerByString(h,"steps",steps) 
-    call YDWESaveIntegerByString(h,"number",number) 
-    call YDWESaveRealByString(h,"radius",radius)
-    call YDWESaveRealByString(h,"speed", speed*0.0174538)
-    call GroupClear(bj_lastCreatedGroup)
-    loop
-        set i = i + 1
-        exitwhen i > number
-        set angle = 2*i*3.14159/number
-        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*57.2958)
-        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
-        call UnitIgnoreAlarm(tempUnit, true)
-        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
-        set bj_lastCreatedUnit = tempUnit
-    endloop 
-    call TimerStart(t,interval,true,function Loop)
-    set t=null
-    set tempUnit=null
-endfunction
-endlibrary
-library YDWEGetUnitsOfPlayerAndTypeIdNull
-globals
-endglobals
-function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer unitid returns group
-    local group g = CreateGroup()
-    set bj_groupEnumTypeId = unitid
-    call GroupEnumUnitsOfPlayer(g, whichPlayer, filterGetUnitsOfPlayerAndTypeId)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEPolledWaitNull
-function YDWEPolledWaitNull takes real duration returns nothing
-    local timer t
-    local real timeRemaining
-    if (duration > 0) then
-        set t = CreateTimer()
-        call TimerStart(t, duration, false, null)
-        loop
-            set timeRemaining = TimerGetRemaining(t)
-            exitwhen timeRemaining <= 0
-            // If we have a bit of time left, skip past 10% of the remaining
-            // duration instead of checking every interval, to minimize the
-            // polling on long waits.
-            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
-                call TriggerSleepAction(0.1 * timeRemaining)
-            else
-                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
-            endif
-        endloop
-        call DestroyTimer(t)
-    endif
-    set t = null
-endfunction
-endlibrary
-//! zinc
-/*
-转换工具
-*/
-library ConversionUtils {
-    //补充函数
-    public function B2S(boolean b) -> string {
-        if (b) {return "true";}
-        else {return "false";}
-    }
-    //三目运算符
-    public function S3 (boolean b,string s1,string s2) -> string {
-        if (b) {return s1;}
-        else {return s2;}
-    }
-    //三目运算符
-    public function U3 (boolean b,unit u1,unit u2) -> unit {
-        if (b) {return u1;}
-        else {return u2;}
-    }
-    //三目运算符
-    public function I3 (boolean b,integer i1,integer i2) -> integer {
-        if (b) {return i1;}
-        else {return i2;}
-    }
-    //三目运算符
-    public function R3 (boolean b,real r1,real r2) -> real {
-        if (b) {return r1;}
-        else {return r2;}
-    }
-    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
-    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
-    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
-    public function GetIDSymbol ( integer pos ) -> integer {
-        integer bit = pos/36;
-        pos = ModuloInteger(pos,36);
-        if (pos < 10) {return pos + bit * 256;}
-        else {return '000a' - '0000' + pos - 10 + bit * 256;}
-    }
-    // 将魔兽的四字符ID转换回对应数字
-    // s为输入的四字符ID,将其还原为原始数字
-    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
-    public function GetSymbolID ( integer s ) -> integer {
-        integer i1 = s/256;
-        integer i2 = ModuloInteger(s,256);
-        if (i2 < 10) {return i1 * 36 + i2;}
-        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
-    }
-}
-//! endzinc
-library YDWETriggerRegisterEnterRectSimpleNull
-globals
-    region yd_NullTempRegion
-endglobals
-function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
-    local region rectRegion = CreateRegion()
-    call RegionAddRect(rectRegion, r)
-    set yd_NullTempRegion = rectRegion
-    set rectRegion = null
-    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
-endfunction
-endlibrary
 library_once YDWETimerPattern initializer Init requires YDWEBase
 //***************************************************
 //* ∑ - Matrix 万能模板函数
@@ -2939,424 +3432,6 @@ local real vx = 0.0
 endlibrary
 //! zinc
 /*
-鼠标滚轮控制视距
-一键切换宽屏模式
-made by 裂魂
-2018/10/19
-*/
-library CameraControl requires Hardware{
-    integer ViewLevel = 8; //初始视野等级
-boolean ResetCam = false; //开启重置镜头属性标识
-real WheelSpeed = 0.1; //镜头变化平滑度
-boolean WideScr = false; //是否是宽屏
-real X_ANGLE = 304; //默认X轴角度
-
-    public struct cameraControl {
-        // 打开滚轮控制镜头高度
-        public static method openWheel () {DoNothing();}
-    }
-    // 滚轮控制镜头
-    // 初始化就调用
-    function onInit () {
-        //注册滚轮事件
-        hardware.regWheelEvent(function (){
-            integer delta = DzGetWheelDelta(); //滚轮变化量
-if (!DzIsMouseOverUI()) {return;} //如果鼠标不在游戏内，就不响应鼠标滚轮
-ResetCam = true; //标记需要重置镜头属性
-if (delta < 0) { //滚轮下滑
-if (ViewLevel < 14) {ViewLevel = ViewLevel + 1;} //视野等级上限
-} else { //滚轮上滑
-if (ViewLevel > 3) {ViewLevel = ViewLevel - 1;} //视野等级下限
-}
-            X_ANGLE = Rad2Deg(GetCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK)); //记录滚动前的镜头角度
-});
-        //注册每帧渲染事件
-        hardware.regUpdateEvent(function (){
-            if (ResetCam) {//重设镜头角度和高度
-                SetCameraField( CAMERA_FIELD_ANGLE_OF_ATTACK, X_ANGLE, 0 );
-                SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, ViewLevel*200, WheelSpeed);
-                ResetCam = false;
-            }
-        });
-        //注册按下键码为145的按键(ScrollLock)事件
-        DzTriggerRegisterKeyEventByCode( null, 145, 1, false, function (){
-            WideScr = !WideScr;
-            DzEnableWideScreen(WideScr);
-        });
-    }
-}
-//! endzinc
-library YDWEGetUnitsInRangeOfLocMatchingNull
-globals
-endglobals
-function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEGetItemOfTypeFromUnitBJNull
-globals
-    item yd_NullTempItem
-endglobals
-function YDWEGetItemOfTypeFromUnitBJNull takes unit whichUnit, integer itemId returns item
-    local integer index = 0
-    loop
-        set yd_NullTempItem = UnitItemInSlot(whichUnit, index)
-        if GetItemTypeId(yd_NullTempItem) == itemId then
-            return yd_NullTempItem
-        endif
-        set index = index + 1
-        exitwhen index >= bj_MAX_INVENTORY
-    endloop
-    return null
-endfunction
-endlibrary
-/*
-UI哈希表定义
-*/
-// 0 - 1亿这里用
-// 锚点常量
-// 事件常量
-//鼠标点击事件
-//Index名:
-//默认原生图片路径
-//模板名
-//TEXT对齐常量:(uiText.setAlign)
-//! zinc
-/*
-结构体
-硬件事件(按/滑/帧事件)
-*/
-library Hardware requires BzAPI {
-	public struct hardware []{
-		// 注册一个左键抬起事件
-		static method regLeftUpEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,1,0,false,func);
-		}
-		// 注册一个左键按下事件
-		static method regLeftDownEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,1,1,false,func);
-		}
-		// 注册一个右键按下事件
-		static method regRightDownEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,2,1,false,func);
-		}
-		// 注册一个右键抬起事件
-		static method regRightUpEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,2,0,false,func);
-		}
-		// 注册一个滚轮事件,不能异步注册
-		static method regWheelEvent (code func) {
-			if (trWheel == null) {trWheel = CreateTrigger();}
-			TriggerAddCondition(trWheel, Condition(func));
-		}
-		// 注册一个绘制事件,不能异步注册
-		static method regUpdateEvent (code func) {
-			if (trUpdate == null) {trUpdate = CreateTrigger();}
-			TriggerAddCondition(trUpdate, Condition(func));
-		}
-		// 注册一个窗口变化事件,不能异步注册
-		static method regResizeEvent (code func) {
-			if (trResize == null) {trResize = CreateTrigger();}
-			TriggerAddCondition(trResize, Condition(func));
-		}
-		// 注册一个鼠标移动事件,不能异步注册
-		static method regMoveEvent (code func) {
-			BJDebugMsg("注册鼠标移动事件");
-			if (trMove == null) {trMove = CreateTrigger();}
-			TriggerAddCondition(trMove, Condition(func));
-		}
-		// 获取鼠标的实数坐标X(0-0.8)
-		static method getMouseX () -> real {
-			integer width = DzGetClientWidth();
-			if (width > 0) return DzGetMouseXRelative()* 0.8 / width;
-			else return 0.1;
-		}
-		// 获取鼠标的实数坐标Y(0-0.6)
-		static method getMouseY () -> real {
-			integer height = DzGetClientHeight();
-			if (height > 0) return 0.6 - DzGetMouseYRelative()* 0.6 / height;
-			else return 0.1; // 防止除以0
-}
-		private {
-			static trigger trWheel = null;
-			static trigger trUpdate = null;
-			static trigger trResize = null;
-			static trigger trMove = null;
-		}
-		static method onInit () {
-			//在游戏开始0.0秒后再调用
-			trigger tr = CreateTrigger();
-			TriggerRegisterTimerEvent(tr, 0.0, false);
-			TriggerAddCondition(tr,Condition(function (){
-				// 滚轮事件
-				DzTriggerRegisterMouseWheelEventByCode(null,false,function (){
-					TriggerEvaluate(trWheel);
-				});
-				// 帧绘制事件
-				DzFrameSetUpdateCallbackByCode(function (){
-					TriggerEvaluate(trUpdate);
-				});
-				// 窗口大小变化事件
-				DzTriggerRegisterWindowResizeEventByCode(null, false, function (){
-				 TriggerEvaluate(trResize);
-				});
-				// 鼠标移动事件
-				DzTriggerRegisterMouseMoveEventByCode(null, false, function (){
-				 TriggerEvaluate(trMove);
-				});
-				DestroyTrigger(GetTriggeringTrigger());
-			}));
-			tr = null;
-		}
-	}
-}
-//! endzinc
-library YDWETriggerRegisterLeaveRectSimpleNull
-globals
-endglobals
-function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r returns event
-    local region rectRegion = CreateRegion()
-    call RegionAddRect(rectRegion, r)
-    set yd_NullTempRegion = rectRegion
-    set rectRegion = null
-    return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
-endfunction
-endlibrary
-/*
-
-japi引用的常量库 由于wave宏定义 只对以下的代码有效
-
-请将常量库里所有内容复制到  自定义脚本代码区
-*/
-//魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
-//-----------模拟聊天------------------
-//---------技能数据类型---------------
-//冷却时间
-//目标允许
-//施放时间
-//持续时间
-//持续时间
-//魔法消耗
-//施放间隔
-//影响区域
-//施法距离
-//数据A
-//数据B
-//数据C
-//数据D
-//数据E
-//数据F
-//数据G
-//数据H
-//数据I
-//单位类型
-//热键
-//关闭热键
-//学习热键
-//名字
-//图标
-//目标效果
-//施法者效果
-//目标点效果
-//区域效果
-//投射物
-//特殊效果
-//闪电效果
-//buff提示
-//buff提示
-//学习提示
-//提示
-//关闭提示
-//学习提示
-//提示
-//关闭提示
-//----------物品数据类型----------------------
-//物品图标
-//物品提示
-//物品扩展提示
-//物品名字
-//物品说明
-//------------单位数据类型--------------
-//攻击1 伤害骰子数量
-//攻击1 伤害骰子面数
-//攻击1 基础伤害
-//攻击1 升级奖励
-//攻击1 最小伤害
-//攻击1 最大伤害
-//攻击1 全伤害范围
-//装甲
-// attack 1 attribute adds
-//攻击1 伤害衰减参数
-//攻击1 武器声音
-//攻击1 攻击类型
-//攻击1 最大目标数
-//攻击1 攻击间隔
-//攻击1 攻击延迟/summary>
-//攻击1 弹射弧度
-//攻击1 攻击范围缓冲
-//攻击1 目标允许
-//攻击1 溅出区域
-//攻击1 溅出半径
-//攻击1 武器类型
-// attack 2 attributes (sorted in a sequencial order based on memory address)
-//攻击2 伤害骰子数量
-//攻击2 伤害骰子面数
-//攻击2 基础伤害
-//攻击2 升级奖励
-//攻击2 伤害衰减参数
-//攻击2 武器声音
-//攻击2 攻击类型
-//攻击2 最大目标数
-//攻击2 攻击间隔
-//攻击2 攻击延迟
-//攻击2 攻击范围
-//攻击2 攻击缓冲
-//攻击2 最小伤害
-//攻击2 最大伤害
-//攻击2 弹射弧度
-//攻击2 目标允许类型
-//攻击2 溅出区域
-//攻击2 溅出半径
-//攻击2 武器类型
-//装甲类型
-//! zinc
-/*
-伤害工具
-*/
-library DamageUtils requires UnitFilter,GroupUtils {
-    //旧名替换:DamageSingle
-    //单体伤害:物理
-    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:魔法
-    public function ApplyMagicDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:真实
-    public function ApplyPureDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
-    }
-    //模拟普攻(最后一个参数代表额外的终伤,0)
-    public function SimulateBasicAttack (unit u,unit target,real fd) {
-        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(0x12))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-    //伤害参数结构体
-    private struct DmgP {
-        unit source; //伤害来源
-string eft; //特效
-real damage; //伤害值
-
-        method destroy() {
-            this.source = null;
-            this.eft = null;
-        }
-    }
-    //伤害参数栈
-    public struct DmgS [] {
-        private static DmgP stack[100];
-        private static integer top = -1;
-        public static method push(DmgP params) {
-            thistype.top += 1;
-            thistype.stack[thistype.top] = params;
-        }
-        public static method pop() -> DmgP {
-            DmgP params = thistype.stack[thistype.top];
-            thistype.stack[thistype.top] = 0;
-            thistype.top -= 1;
-            return params;
-        }
-        public static method getTop() -> integer {
-            return thistype.top;
-        }
-        public static method current() -> DmgP {
-            return thistype.stack[thistype.top];
-        }
-    }
-    //范围普通伤害
-    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-    //范围魔法伤害
-    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-    //范围真实伤害
-    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-}
-//! endzinc
-//! zinc
-/*
 字符串工具
 */
 library StringUtils {
@@ -3412,6 +3487,411 @@ library StringUtils {
     }
 }
 //! endzinc
+//! zinc
+/*
+几何工具
+todo:直接用宏定义修改试试
+*/
+library Geometry {
+    // 4个坐标的距离
+    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1;
+        return SquareRoot(dx*dx+dy*dy);
+    }
+    // 6个坐标的距离
+    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
+        return SquareRoot(dx*dx+dy*dy+dz*dz);
+    }
+    // 4个坐标的角度,前面是人的位置，后面是点的位置
+    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
+        return (Atan2(y2-y1, x2-x1)*57.2958);
+    }
+}
+//! endzinc
+library YDWEUnitHasItemOfTypeBJNull
+function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
+    local integer index = 0
+	if itemId != 0 then
+		loop
+			if GetItemTypeId(UnitItemInSlot(whichUnit, index)) == itemId then
+				return true
+			endif
+			set index = index + 1
+			exitwhen index >= bj_MAX_INVENTORY
+		endloop
+	endif
+    return false
+endfunction
+endlibrary
+// 常量配置
+// 使用说明（MallItem 黑箱）
+// 1) 在地图启动阶段注册商品（每次注册一个 key）：
+//    mallItem.init("VIP1");
+//    mallItem.init("RhdeKey");
+//    mallItem.init("RopgKey");
+//
+// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
+//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
+//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
+//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
+//
+// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
+//    mallItem.onReady(function () -> boolean {
+//        // 示例：查询玩家0（0-based）的拥有权与次数
+//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
+//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
+//        }
+//        return true;
+//    });
+//
+// 4) 消费：
+//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
+//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
+//        player cbp = mallItem.getCallbackPlayer();
+//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
+//        return true;
+//    });
+//    // 局数型消费：无回调
+//    mallItem.consumeOnce(Player(0), "VIP1");
+//
+// 5) 其他：
+//    local integer n = mallItem.getItemCount();
+//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
+//
+//todo: 加入局内商品进包的回调
+//! zinc
+library MallItem requires DzAPI{
+    // 黑箱：商城商品拥有权初始化、缓存、查询与元信息
+    public struct mallItem []{
+        // 状态与事件
+        private static boolean initialized = false;
+        private static boolean ready = false;
+        private static trigger readyTrigger = null;
+        // 数据表
+        private static hashtable table = null; // key 映射与临时使用
+
+        // 商品列表与映射
+        private static integer itemCount = 0;
+        private static string itemKeys[]; // 0..itemCount-1
+// 拥有权缓存：owns[player * MALLITEM_MAX_ITEMS + itemIndex] player是从0开始
+private static boolean owns[];
+        // 使用次数缓存：uses[player * MALLITEM_MAX_ITEMS + itemIndex]
+        private static integer uses[];
+        // 元信息：按 itemIndex 对齐
+        private static string names[];
+        private static string icons[];
+        private static string descs[];
+        private static integer techs[]; // 科技 ID，如 'R015'（四位字符转换为整数）
+
+        // 回调参数传递（避免哈希表冲突）
+        public static player callbackPlayer = null;
+        // ========== 内部：解析与映射 =========
+        private static method getIndex(string key) ->integer {
+            integer stored; integer idx;
+            stored = LoadInteger(mallItem.table, 0, StringHash(key));
+            if (stored == 0) {
+                return -1;
+            }
+            idx = stored - 1; // 存储时 +1，读取时 -1
+if (idx < 0 || idx >= mallItem.itemCount) { return -1; }
+            return idx;
+        }
+        private static method setIndex(string key, integer index) {
+            SaveInteger(mallItem.table, 0, StringHash(key), index + 1);
+        }
+        private static method addKey(string key) {
+            integer idx; integer i; integer n; integer base;
+            if (key == null) { return; }
+            if (StringLength(key) == 0) { return; }
+            // 已存在则跳过
+            idx = mallItem.getIndex(key);
+            if (idx >= 0) { return; }
+            if (mallItem.itemCount >= 300) {
+                return; // 超上限忽略
+}
+            idx = mallItem.itemCount;
+            mallItem.itemKeys[idx] = key;
+            mallItem.setIndex(key, idx);
+            // 默认元信息
+            mallItem.names[idx] = "";
+            mallItem.icons[idx] = "";
+            mallItem.descs[idx] = "";
+            mallItem.techs[idx] = 0;
+            // 初始化拥有权为 false（所有玩家）
+            i = 0;
+            while (i < 6) {
+                base = i * 300;
+                mallItem.owns[base + idx] = false;
+                i = i + 1;
+            }
+            mallItem.itemCount = mallItem.itemCount + 1;
+        }
+        // （移除字符串拆分，改为单商品增量注册）
+        //公用方法
+        // 初始化底层（在 map 启动时自动调用）
+        static method onInit() {
+            // 先声明
+            // 无句柄局部变量
+            mallItem.initialized = false;
+            mallItem.ready = false;
+            mallItem.itemCount = 0;
+            mallItem.table = InitHashtable();
+            mallItem.readyTrigger = CreateTrigger();
+        }
+        // 外部初始化：每次只注册一个商品 key；首次调用时启动延迟扫描
+        static method init(string productKey) {
+            timer t;
+            // 注册商品（支持多次调用，去重在 addKey 内部完成）
+            mallItem.addKey(productKey);
+            // 首次调用时启动延迟扫描
+            if (!mallItem.initialized) {
+                mallItem.initialized = true;
+                // 延迟初始化玩家商品状态
+                t = CreateTimer();
+                TimerStart(t, 2.0, false, function () {
+                integer pid; integer idx; integer base; player p; string k; integer n;
+                n = mallItem.itemCount;
+                pid = 0;
+                while (pid < 6) {
+                    p = ConvertedPlayer(pid + 1);
+                    base = pid * 300;
+                    idx = 0;
+                    while (idx < n) {
+                        k = mallItem.itemKeys[idx];
+                        mallItem.owns[base + idx] = true;
+                        mallItem.uses[base + idx] = 999;
+                        // 直接在此处解锁科技（如果拥有商品且设置了科技）
+                        if (mallItem.owns[base + idx] && mallItem.techs[idx] != 0) {
+                            SetPlayerTechResearched(p, mallItem.techs[idx], 1);
+                        }
+                        idx = idx + 1;
+                    }
+                    p = null;
+                    pid = pid + 1;
+                }
+                mallItem.ready = true;
+                if (mallItem.readyTrigger != null) {
+                    // 使用 TriggerEvaluate 调用回调条件
+                    TriggerEvaluate(mallItem.readyTrigger);
+                }
+            });
+            // handler 置空
+            t = null;
+            }
+        }
+        // 是否已完成首次扫描
+        static method isReady() ->boolean {
+            return mallItem.ready;
+        }
+        // 注册 onReady 回调（使用 Condition 封装 code），若已就绪则立即 Evaluate
+        static method onReady(code cb) {
+            if (mallItem.readyTrigger == null) {
+                mallItem.readyTrigger = CreateTrigger();
+            }
+            TriggerAddCondition(mallItem.readyTrigger, Condition(cb));
+              if (mallItem.ready) {
+                TriggerEvaluate(mallItem.readyTrigger);
+            }
+        }
+        // 拥有权查询：通过玩家句柄
+        static method hasByPlayer(player whichPlayer, string itemKey) ->boolean {
+            integer pid; integer idx; integer base; boolean result;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) {
+                return false;
+            }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) {
+                return false;
+            }
+            base = pid * 300;
+            result = mallItem.owns[base + idx];
+            return result;
+        }
+        // 使用次数查询：通过玩家句柄
+        static method getUseCountByPlayer(player whichPlayer, string itemKey) ->integer {
+            integer pid; integer idx; integer base;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) { return 0; }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) { return 0; }
+            base = pid * 300;
+            return mallItem.uses[base + idx];
+        }
+        // 刷新某玩家的拥有权（对已登记商品）
+        static method refreshItemsForPlayer(integer playerId) {
+            integer i; integer base; player p; string k; integer n;
+            if (playerId < 0 || playerId >= 6) {
+                return;
+            }
+            p = ConvertedPlayer(playerId + 1);
+            base = playerId * 300;
+            n = mallItem.itemCount;
+            i = 0;
+            while (i < n) {
+                k = mallItem.itemKeys[i];
+                mallItem.owns[base + i] = true;
+                i = i + 1;
+            }
+            p = null;
+        }
+        // 消费次数型道具（带回调）：成功消费后调用回调并传入玩家参数
+        static method consumeTimes(player whichPlayer, string itemKey, integer count, code callback) ->boolean {
+            integer pid; integer idx; integer base; boolean ok; trigger tempTr;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) { return false; }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) { return false; }
+            // 执行消费
+            ok = true;
+            if (ok) {
+                base = pid * 300;
+                // 刷新该玩家该商品缓存
+                mallItem.owns[base + idx] = true;
+                mallItem.uses[base + idx] = 999;
+                // 如果使用次数小于等于0，则认为该玩家没有这个道具了
+                if (mallItem.uses[base + idx] <= 0) {
+                    mallItem.owns[base + idx] = false;
+                }
+                // 调用回调（传入玩家参数）
+                if (callback != null) {
+                    mallItem.callbackPlayer = whichPlayer;
+                    tempTr = CreateTrigger();
+                    TriggerAddCondition(tempTr, Condition(callback));
+                    TriggerEvaluate(tempTr);
+                    DestroyTrigger(tempTr);
+                    mallItem.callbackPlayer = null;
+                    tempTr = null;
+                }
+            }
+            return ok;
+        }
+        // 消费一次性道具（UseConsumablesItem）：无回调
+        static method consumeOnce(player whichPlayer, string itemKey) {
+            integer pid; integer idx; integer base;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) { return ; }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) { return ; }
+            // 执行消费(无回调)
+            DzAPI_Map_UseConsumablesItem(whichPlayer, itemKey);
+        }
+        // ========== 元信息写接口 ==========
+        static method setName(string key, string name) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.names[idx] = name;
+        }
+        static method setIcon(string key, string iconPath) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.icons[idx] = iconPath;
+        }
+        static method setDesc(string key, string desc) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.descs[idx] = desc;
+        }
+        static method setTech(string key, integer techId) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.techs[idx] = techId;
+        }
+        static method setMeta(string key, string name, string iconPath, string desc) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.names[idx] = name;
+            mallItem.icons[idx] = iconPath;
+            mallItem.descs[idx] = desc;
+        }
+        static method setMetaWithTech(string key, string name, string iconPath, string desc, integer techId) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.names[idx] = name;
+            mallItem.icons[idx] = iconPath;
+            mallItem.descs[idx] = desc;
+            mallItem.techs[idx] = techId;
+        }
+        // ========== 元信息读接口 ==========
+        static method getName(string key) ->string {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return ""; }
+            return mallItem.names[idx];
+        }
+        static method getIcon(string key) ->string {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return ""; }
+            return mallItem.icons[idx];
+        }
+        static method getDesc(string key) ->string {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return ""; }
+            return mallItem.descs[idx];
+        }
+        static method getTech(string key) ->integer {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return 0; }
+            return mallItem.techs[idx];
+        }
+        // 在 consumeTimes 回调中获取触发的玩家
+        static method getCallbackPlayer() ->player {
+            return mallItem.callbackPlayer;
+        }
+        static method hasItemKey(string key) ->boolean {
+            return mallItem.getIndex(key) >= 0;
+        }
+        static method getAllItemKeys() ->string {
+            integer i; string out; integer n;
+            n = mallItem.itemCount;
+            out = "";
+            i = 0;
+            while (i < n) {
+                if (i == 0) {
+                    out = mallItem.itemKeys[i];
+                } else {
+                    out = out + "," + mallItem.itemKeys[i];
+                }
+                i = i + 1;
+            }
+            return out;
+        }
+        // 根据索引获取商品 key（1-based 外部语义：1 表示第一个）
+        static method getItemKeyByIndex(integer oneBasedIndex) ->string {
+            integer idx;
+            idx = oneBasedIndex - 1;
+            if (idx < 0 || idx >= mallItem.itemCount) { return ""; }
+            return mallItem.itemKeys[idx];
+        }
+        // 获取已登记商品数量
+        static method getItemCount() ->integer {
+            return mallItem.itemCount;
+        }
+    }
+}
+//! endzinc
+library YDWEGetUnitsInRangeOfLocMatchingNull
+globals
+endglobals
+function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
 //===========================================================================
 //佣兵系统 
 //===========================================================================
@@ -3486,137 +3966,15 @@ function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRang
     set tm = null
 endfunction
 endlibrary 
-library YDWEGetRandomSubGroupEnumNull
-function YDWEGetRandomSubGroupEnumNull takes nothing returns nothing
-    if (bj_randomSubGroupWant > 0) then
-        if (bj_randomSubGroupWant >= bj_randomSubGroupTotal) or (GetRandomInt(1,bj_randomSubGroupTotal) <= bj_randomSubGroupWant) then
-            // We either need every remaining unit, or the unit passed its chance check.
-            call GroupAddUnit(bj_randomSubGroupGroup, GetEnumUnit())
-            set bj_randomSubGroupWant = bj_randomSubGroupWant - 1
-        endif
-    endif
-    set bj_randomSubGroupTotal = bj_randomSubGroupTotal - 1
-endfunction
-endlibrary
-library YDWEGetRandomSubGroupNull requires YDWEGetRandomSubGroupEnumNull
-function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup returns group
-    set bj_randomSubGroupGroup = CreateGroup()
-    set bj_randomSubGroupWant = count
-    set bj_randomSubGroupTotal = CountUnitsInGroup(sourceGroup)
-    if (bj_randomSubGroupWant <= 0 or bj_randomSubGroupTotal <= 0) then
-        return bj_randomSubGroupGroup
-    endif
-    call ForGroup(sourceGroup, function YDWEGetRandomSubGroupEnumNull)
-    return bj_randomSubGroupGroup
-endfunction
-endlibrary
-//! zinc
-/*
-几何工具
-todo:直接用宏定义修改试试
-*/
-library Geometry {
-    // 4个坐标的距离
-    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1;
-        return SquareRoot(dx*dx+dy*dy);
-    }
-    // 6个坐标的距离
-    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
-        return SquareRoot(dx*dx+dy*dy+dz*dz);
-    }
-    // 4个坐标的角度,前面是人的位置，后面是点的位置
-    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
-        return (Atan2(y2-y1, x2-x1)*57.2958);
-    }
-}
-//! endzinc
-library YDWEGetPlayersByMapControlNull
+library YDWEGetUnitsInRectOfPlayerNull
 globals
 endglobals
-function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
-    local force f = CreateForce()
-    local integer playerIndex
-    local player indexPlayer
-    set playerIndex = 0
-    loop
-        set indexPlayer = Player(playerIndex)
-        if GetPlayerController(indexPlayer) == whichControl then
-            call ForceAddPlayer(f, indexPlayer)
-        endif
-        set playerIndex = playerIndex + 1
-        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
-    endloop
-    set indexPlayer = null
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
-endfunction
-endlibrary
-//! zinc
-/*
-单位有关
-*/
-library UnitFilter {
-    //判断是否是敌方(不带无敌)
-    public function IsEnemy (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
-    }
-    //旧名：IsEnemy2
-    //判断是否是敌方(能匹配到无敌单位)
-    public function IsEnemyIncludeInvul (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
-    }
-    //判断是否是友方
-    public function IsAlly (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
-    }
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsEnemyUnit(unit source, unit target) -> boolean {
-        return IsEnemy(GetOwningPlayer(source),target);
-    }
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsAllyUnit(unit source, unit target) -> boolean {
-        return IsAlly(GetOwningPlayer(source),target);
-    }
-}
-//! endzinc
-library YDWEUnitHasItemOfTypeBJNull
-function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
-    local integer index = 0
-	if itemId != 0 then
-		loop
-			if GetItemTypeId(UnitItemInSlot(whichUnit, index)) == itemId then
-				return true
-			endif
-			set index = index + 1
-			exitwhen index >= bj_MAX_INVENTORY
-		endloop
-	endif
-    return false
-endfunction
-endlibrary
-library YDWEGetUnitsOfTypeIdAllNull
-globals
-endglobals
-function YDWEGetUnitsOfTypeIdAllNull takes integer unitid returns group
-    local group result = CreateGroup()
+function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
     local group g = CreateGroup()
-    local integer index
-    set index = 0
-    loop
-        set bj_groupEnumTypeId = unitid
-        call GroupClear(g)
-        call GroupEnumUnitsOfPlayer(g, Player(index), filterGetUnitsOfTypeIdAll)
-        call GroupAddGroup(g, result)
-        set index = index + 1
-        exitwhen index == bj_MAX_PLAYER_SLOTS
-    endloop
-    call DestroyGroup(g)
+    set bj_groupEnumOwningPlayer = whichPlayer
+    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
+    set yd_NullTempGroup = g
     set g = null
-    set yd_NullTempGroup = result
-    set result = null
     return yd_NullTempGroup
 endfunction
 endlibrary
@@ -5512,6 +5870,7 @@ endfunction
 //TESH.alwaysfold=0
 // 当前构建版本
 // 当前的平台分包
+// 原生UI的大小
     // 内测版
     // lua_print: 内测版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
@@ -5521,7 +5880,6 @@ endfunction
 // UI组件依赖库
 // UI组件创建时共享调用
 // UI组件销毁时共享调用
-// 原生UI的大小
 // #define StructMode // todo:结构体数量查看模式:用条件编译直接全部搞定
 //函数入口
 // 用原始地图测试
@@ -6326,8 +6684,7 @@ library_once Constant initializer InitConstant requires JBase
 		if (achieveID == 325) then
 			return "通关|cff008000\"万劫\"难度|r后可以自动获得该成就.
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
-			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
-			|r|cff99ccff若你通关了该难度可以加轮回之狱主群申请上|r|cff99cc00封帝万劫录|r|cff99ccff哦!|r"
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!"
 		elseif (achieveID == 18) then
 			return "通关|cffff00ff\"轮回\"难度|r后可以自动获得该成就.
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
@@ -6821,7 +7178,6 @@ library_once Constant initializer InitConstant requires JBase
 			完成该项挑战后你将可以使用-qm指令自定义你的成就名!"
 		elseif (i == 2) then
 			return "通关隐藏难度|cff993366天魇|r(通关|cff008000万劫|r难度解锁)
-			完成该项挑战后你的名字将在以后始终置顶于|cff008000\"封帝万劫录\"|r中!
 			并获得四字成就名"+GetAchievementName(42)+"。"
 		elseif (i == 3) then
 			return "在嘉年华活动版本中连续签到达20天.
@@ -7717,8 +8073,6 @@ library_once ChallangerDZ requires LHBase
 		integer CDiff = 0
 		//挑战类型
     	integer CType = 0
-		//判断是否读取成功
-		boolean array Bdudang
 		string array Greward2
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -7912,12 +8266,10 @@ library_once ChallangerDZ requires LHBase
 	    初始化数据与存档
 	*/
 	function InitChallangerData takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-	    	debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
-			debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
-			debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
-			debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
-		endif
+		debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
+		debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -11324,13 +11676,9 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    存档皮肤数据
 	*/
 	private function SaveSpinData takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreInteger( p, "spin", spin[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p, "spin2", spin2[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p, "spin3", spin3[GetConvertedPlayerId(p)] )
-		else
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏皮肤数据读取失败,请重新开始游戏.")
-		endif
+		call DzAPI_Map_StoreInteger( p, "spin", spin[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_StoreInteger( p, "spin2", spin2[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_StoreInteger( p, "spin3", spin3[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -11836,11 +12184,11 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return
 		endif
 		//两个仅有的挑战成就
-		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then
-			return
+		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then //挑战成就不能在其他模式获取
+return
 		endif
-		if (achieveID != 410 and achieveID != 411 and CType > 0) then
-			return
+		if (achieveID != 410 and achieveID != 411 and CType > 0) then //非挑战成就不能在正常模式获取
+return
 		endif
 		if (achieveID != 418 and achieveID != 420 and CType == -1) then
 			return
@@ -12599,7 +12947,7 @@ public timerdialog TdAutoDiff = null; //自动选择难度
 			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
 				//狂欢模式
 				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".");
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
 				SgameMode = "狂欢";
 				InitKuanghuan();
 				ShowDifficutyDiglog(4);
@@ -13222,14 +13570,14 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 	public function CreateLoginDialog(player p) {
 		dialog d; string s; integer i;
 		d = DialogCreate();
-		s = " 		连续登录奖励 				你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! 		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! 						";
+		s = " 		连续登录奖励 \n 		\n 		你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! \n 		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! \n 		\n 		\n 		";
 		i = 1;
 		for (1 <= i <= 41) {
 			if (GetDailyReward(i) != null) {
-				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " 				";
+				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " \n 				";
 			}
 		}
-		s = s + " 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
+		s = s + " \n 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
 		DialogSetMessage(d, s);
 		DialogAddButton(d, "10分钟之后当天才签到成功|cffff6800(Esc)|r", 512);
 		DialogDisplay(p, d, true);
@@ -13255,23 +13603,15 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 	// }
 	// 保存登录状态
 	public function SaveLoginState(player p) {
-		if (Bdudang[GetConvertedPlayerId(p)]) {
-			DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
-			DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
-			//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
-		} else {
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-		}
+		DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
+		DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
+		//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
 	}
 	// 等10分钟后上传到网易
 	function UploadToNetEaseTimer() {
@@ -14050,22 +14390,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    判断是否读档成功
-	*/
-	function JudgeCundang takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 6
-			if (GetPlayerServerValueSuccess(ConvertedPlayer(i))) then
-				set Bdudang[i] = true
-			else
-				set Bdudang[i] = false
-			endif
-			set i = i +1
-		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    隐藏密码的判定
 	*/
 	function TSpeakPassword takes nothing returns nothing
@@ -14151,12 +14475,15 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievement takes nothing returns nothing
 		local integer i = 1
 		local integer level = GetDiffculty()
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 				//通关称号
 				call GetAchievementAndSave(ConvertedPlayer(i),I3(level == 9,325,10 + level))
+				if (IsTianyan) then //天魇通关
+call GetAchievementAndSave(ConvertedPlayer(i),42)
+				endif
 				//单通称号
 				if (renshu == 1 and level != 9) then
 					call GetAchievementAndSave(ConvertedPlayer(i),I3(level < 8,217 - level,29))
@@ -14220,7 +14547,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievementKuilei1 takes nothing returns nothing
 		local integer i = 1
 		local integer level = GetDiffculty()
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
@@ -14238,7 +14565,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievementKuilei2 takes nothing returns nothing
 		local integer i = 1
 		local integer level = GetDiffculty()
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
@@ -14334,10 +14661,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		if (i<1 or i>31) then
 			return
 		endif
-		if not(Bdudang[index]) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏英雄次数数据读取失败,请重新开始游戏.")
-			return
-		endif
 		if (StringLength(heroCountString[index]) < 62) then
 			set heroCountString[index] = "00000000000000000000000000000000000000000000000000000000000000"
 		endif
@@ -14389,10 +14712,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function PrintAllHeroTimes takes player p returns nothing
 		local string result = ""
 		local integer i = 1
-		if not(Bdudang[GetConvertedPlayerId(p)]) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏英雄次数数据读取失败,请重新开始游戏.")
-			return
-		endif
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
 		loop
 			exitwhen i > HERO_COUNT
@@ -14667,14 +14986,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local player p = ConvertedPlayer(LoadInteger(LHTable,id,kSaveHeroTimes))
 		local integer i = GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))
 		call IncreaseHeroCount(p,i)
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
-	    	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
-	    else
-	    	call ShowGameHint(p,"
-	    		本局游戏数据读取失败,建议重新开始游戏.
-	    		(还是能正常游戏,但是不能获得成就与皮肤)")
-		endif
+		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
 		call PrintAllHeroTimes(p)
 		call SaveAchievement4(p)
 		call PauseTimer(t)
@@ -14880,222 +15193,173 @@ library_once Printer initializer InitPrinter requires LHBase
 	endfunction
 endlibrary
 ///#include  "edit/NetVersion.j"
-library_once Spin requires LHBase,Version
-	globals
-		boolean array BCancelSpin
-	endglobals
-			// debug call SetSeyuSpinOK(GetTriggerPlayer())
-			// debug call SetXiaoyueSpinOK(GetTriggerPlayer())
-			// debug call SetYanmieSpinOK(GetTriggerPlayer())
-			// debug call SetXuanxue1SpinOK(GetTriggerPlayer())
-			// debug call SetTaiyaSpinOK(GetTriggerPlayer())
-			// debug call SetChenji1SpinOK(GetTriggerPlayer())
-			// debug call SetHanshang1SpinOK(GetTriggerPlayer())
-			// debug call SetLingxueSpinOK(GetTriggerPlayer())
-			// debug call SetChenji2SpinOK(GetTriggerPlayer())
-			// debug call SetMoqiSpinOK(GetTriggerPlayer())
-			// debug call SetKaisaSpinOK(GetTriggerPlayer())
-			// debug call SetXuanxue2SpinOK(GetTriggerPlayer())
-			// debug call SetBajueSpinOK(GetTriggerPlayer())
-			// debug call SetSheyanSpinOK(GetTriggerPlayer())
-			// debug call SetHuanyiSpinOK(GetTriggerPlayer())
-			// debug call SetSichenSpinOK(GetTriggerPlayer())
-			// debug call SetLichiSpinOK(GetTriggerPlayer())
-			// debug call SetHeiyanSpinOK(GetTriggerPlayer())
-			// debug call SetCanglingSpinOK(GetTriggerPlayer())
-			// debug call SetHanshang2SpinOK(GetTriggerPlayer())
-			// debug call SetXinglong1SpinOK(GetTriggerPlayer())
-//---------------------------------------------------------------------------------------------------
-	/*
-	    反转物品
-	*/
-	private function CreateFanzhuanItemTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local item it = LoadItemHandle(LHTable,id,1)
-		if (it != null) then
-			call RemoveItem(it)
-		endif
-		call PauseTimer(t)
-		call FlushChildHashtable(LHTable,id)
-		call DestroyTimer(t)
-		set it = null
-		set t = null
-	endfunction
-	function CreateFanzhuanItem takes unit u returns nothing
-    	local timer t = CreateTimer()
-    	call SaveItemHandle(LHTable,GetHandleId(t),1,UnitAddItemByIdSwapped(GetFanzhuanItemType(u), u))
-    	call TimerStart(t,60,false,function CreateFanzhuanItemTimer)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    瑟雨的皮肤条件
-	*/
-	function IsSeyuSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSeyu1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    晓月的皮肤条件
-	*/
-	function IsXiaoyueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXiaoyue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    湮灭的皮肤条件
-	*/
-	function IsYanmieSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetYanmie1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    玄雪的皮肤条件
-	*/
-	function IsXuanxueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXuanxue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    泰雅的皮肤条件
-	*/
-	function IsTaiyaSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetTaiya1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    寒殇的皮肤条件
-	*/
-	function IsHanshangSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHanshang1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    辰寂的皮肤条件
-	*/
-	function IsChenjiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetChenji1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    辰寂的皮肤条件
-	*/
-	function IsChenjiSpin2 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetChenji2Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    凌雪的皮肤条件
-	*/
-	function IsLingxueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLingxue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    莫琪的皮肤条件
-	*/
-	function IsMoqiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetMoqiSpin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    凯撒的皮肤条件
-	*/
-	function IsKaisaSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetKaisaSpin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    玄雪的皮肤条件
-	*/
-	function IsXuanxueSpin2 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXuanxue2Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    霸绝的皮肤条件
-	*/
-	function IsBajueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetBajue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    摄焱的皮肤条件
-	*/
-	function IsSheyanSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSheyan1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    幻逸的皮肤条件
-	*/
-	function IsHuanyiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHuanyi1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    司宸的皮肤条件
-	*/
-	function IsSichenSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSichen1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    苍凌的皮肤条件
-	*/
-	function IsCanglingSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetCangling1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    司宸的皮肤条件
-	*/
-	function IsHeiyanSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHeiyan1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    炼金的皮肤条件
-	*/
-	function IsHanshangSpin2 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHanshang2Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    离魑的皮肤条件
-	*/
-	function IsLichiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLichi1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    星胧的皮肤条件
-	*/
-	function IsXinglongSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXinglong1Spin(p))
-		//return true
-	endfunction
-endlibrary
+//! zinc
+library Spin requires LHBase,Version {
+	public boolean BCancelSpin [];
+	// 反转物品
+	public function CreateFanzhuanItem(unit u) { //创建一个60秒的反转物品
+timer t;
+		t = CreateTimer();
+		SaveItemHandle(LHTable, GetHandleId(t), 1, UnitAddItemByIdSwapped(GetFanzhuanItemType(u), u));
+		TimerStart(t, 60, false, function (){
+			timer t; integer id; item it;
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			it = LoadItemHandle(LHTable, id, 1);
+			if (it != null) {
+				RemoveItem(it);
+			}
+			PauseTimer(t);
+			FlushChildHashtable(LHTable, id);
+			DestroyTimer(t);
+			it = null;
+			t = null;
+		});
+		t = null;
+	}
+	// 瑟雨的皮肤条件
+	public function IsSeyuSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetSeyu1Spin(p));
+		// return true
+	}
+	// 晓月的皮肤条件
+	public function IsXiaoyueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXiaoyue1Spin(p));
+		// return true
+	}
+	// 湮灭的皮肤条件
+	public function IsYanmieSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetYanmie1Spin(p));
+		// return true
+	}
+	// 玄雪的皮肤条件
+	public function IsXuanxueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXuanxue1Spin(p));
+		// return true
+	}
+	// 泰雅的皮肤条件
+	public function IsTaiyaSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetTaiya1Spin(p));
+		// return true
+	}
+	// 寒殇的皮肤条件
+	public function IsHanshangSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHanshang1Spin(p));
+		// return true
+	}
+	// 辰寂的皮肤条件
+	public function IsChenjiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetChenji1Spin(p));
+		// return true
+	}
+	// 辰寂的皮肤条件
+	public function IsChenjiSpin2(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetChenji2Spin(p));
+		// return true
+	}
+	// 凌雪的皮肤条件
+	public function IsLingxueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetLingxue1Spin(p));
+		// return true
+	}
+	// 莫琪的皮肤条件
+	public function IsMoqiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetMoqiSpin(p));
+		// return true
+	}
+	// 凯撒的皮肤条件
+	public function IsKaisaSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetKaisaSpin(p));
+		// return true
+	}
+	// 玄雪的皮肤条件
+	public function IsXuanxueSpin2(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXuanxue2Spin(p));
+		// return true
+	}
+	// 霸绝的皮肤条件
+	public function IsBajueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetBajue1Spin(p));
+		// return true
+	}
+	// 摄焱的皮肤条件
+	public function IsSheyanSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetSheyan1Spin(p));
+		// return true
+	}
+	// 幻逸的皮肤条件
+	public function IsHuanyiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHuanyi1Spin(p));
+		// return true
+	}
+	// 司宸的皮肤条件
+	public function IsSichenSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetSichen1Spin(p));
+		// return true
+	}
+	// 苍凌的皮肤条件
+	public function IsCanglingSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetCangling1Spin(p));
+		// return true
+	}
+	// 司宸的皮肤条件
+	public function IsHeiyanSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHeiyan1Spin(p));
+		// return true
+	}
+	// 炼金的皮肤条件
+	public function IsHanshangSpin2(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHanshang2Spin(p));
+		// return true
+	}
+	// 离魑的皮肤条件
+	public function IsLichiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetLichi1Spin(p));
+		// return true
+	}
+	// 星胧的皮肤条件
+	public function IsXinglongSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXinglong1Spin(p));
+		// return true
+	}
+	function onInit () {
+		mallItem.init("SKIN1");
+		mallItem.setTech("SKIN1", 'RMI4');
+		mallItem.onReady(function () -> boolean {
+			player p = Player(0);
+			integer index;
+			for (1 <= index <= 6) {
+				p = ConvertedPlayer(index);
+				if (mallItem.hasByPlayer(p, "SKIN1")) {
+					SetSeyuSpinOK(p);
+					SetXiaoyueSpinOK(p);
+					SetYanmieSpinOK(p);
+					SetXuanxue1SpinOK(p);
+					SetTaiyaSpinOK(p);
+					SetChenji1SpinOK(p);
+					SetHanshang1SpinOK(p);
+					SetLingxueSpinOK(p);
+					SetChenji2SpinOK(p);
+					SetMoqiSpinOK(p);
+					SetKaisaSpinOK(p);
+					SetXuanxue2SpinOK(p);
+					SetBajueSpinOK(p);
+					SetSheyanSpinOK(p);
+					SetHuanyiSpinOK(p);
+					SetSichenSpinOK(p);
+					SetLichiSpinOK(p);
+					SetHeiyanSpinOK(p);
+					SetCanglingSpinOK(p);
+					SetHanshang2SpinOK(p);
+					SetXinglong1SpinOK(p);
+				}
+			}
+			p = null;
+			return true;
+		});
+	}
+}
+//! endzinc
 library_once Moqi requires LHBase,Spin,Printer,SpellBase
 	globals
 		private group GMoqiXingxuan = null
@@ -20411,64 +20675,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 	key kPIVStr;
 	key kPIVPlayer;
 	key kPIVPointer;
-	// 信哲
-	public boolean BX1 = false;
-	public boolean BX2 = false;
-	// 定制初始化
-	function XinzheCon() -> boolean {
-		return (GetIssuedOrderId() == String2OrderIdBJ("smart"));
-	}
-	function XinzheAct() {
-		if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
-			IssueImmediateOrder(GetTriggerUnit(), "stop");
-			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
-			return;
-		}
-		SetUnitX(GetTriggerUnit(), GetOrderPointX());
-		SetUnitY(GetTriggerUnit(), GetOrderPointY());
-		if (BX1) {
-			DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
-		}
-	}
-	public function InitXinzhe(unit u) {
-		trigger t;
-		t = CreateTrigger();
-		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
-		TriggerAddCondition(t, Condition(function XinzheCon));
-		TriggerAddAction(t, function XinzheAct);
-		t = null;
-	}
-	// 京剧
-	function JingjuCondition() -> boolean {
-		return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y';
-	}
-	function JingjuDiyuhuo() {
-		RecoverUnitHP(GetEnumUnit(), 0.3);
-	}
-	function JingjuTimer() {
-		timer t; integer id; unit u; group g;
-		t = GetExpiredTimer();
-		id = GetHandleId(t);
-		u = LoadUnitHandle(LHTable, id, 1);
-		g = YDWEGetUnitsOfPlayerMatchingNull(GetOwningPlayer(u), Condition(function JingjuCondition));
-		RecoverUnitHP(u, 0.1);
-		ForGroupBJ(g, function JingjuDiyuhuo);
-		u = null;
-		DestroyGroup(g);
-		t = null;
-		g = null;
-	}
-	public function InitJingju(unit u) {
-		timer t;
-		t = CreateTimer();
-		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
-		TimerStart(t, 1, true, function JingjuTimer);
-		t = null;
-	}
-	// 列表是否含有名单
-	function TableHas(integer i) -> boolean {
-		return HaveSavedBoolean(PIVTable, kPIV, i);
-	}
 	// 获取激活码
 	function GetPIVCode(string s) -> integer {
 		string result; integer i;
@@ -20491,60 +20697,9 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权，如果要关闭赞助功能,请输入-zz");
 		debug SavePIV(p, GetPIVCode(GetPlayerName(p)));
 	}
-	// 初始化英雄
-	function InitDingzhi(unit u) {
-		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(bj_lastCreatedItem), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(bj_lastCreatedItem), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
-			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
-			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
-			InitJingju(u);
-			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
-			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
-		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
-			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
-			UnitAddAbility(u, 'A0MF');
-			UnitMakeAbilityPermanent(u, true, 'A0MF');
-			UnitMakeAbilityPermanent(u, true, 'A0MG');
-			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
-			InitXinzhe(u);
-		}
-	}
-	public function InitPIVHero(unit u) {
-		debug InitDingzhi(u);
-		if (IsPIV(GetOwningPlayer(u))) {
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(bj_lastCreatedItem), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
-			Discolor(u);
-			return;
-		}
-		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
-			Discolor(u);
-		}
-		debug GetPlatformLevelGold(GetOwningPlayer(u));
-	}
 	// VIP验证
 	public function CertificatePIV(player p, string vCode) {
-		if (vCode == null && TableHas(GetPIVCode(GetPlayerName(p)))) {
+		if (vCode == null && HaveSavedBoolean(PIVTable, kPIV, GetPIVCode(GetPlayerName(p)))) {
 			InitPlayerPIV(p);
 			return;
 		}
@@ -20554,110 +20709,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		}
 		if (vCode != null) {
 			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！");
-		}
-	}
-	// VIP验证
-	public function ChatPIV() {
-		string chat, vCode;
-		chat = GetEventPlayerChatString();
-		vCode = SubString(chat, ( 2)-1, StringLength(chat));
-		CertificatePIV(GetTriggerPlayer(), vCode);
-	}
-	// 对话框输入验证码
-	function PIVDialogClick() {
-		dialog d; integer i; string s; player p;
-		d = GetClickedDialogBJ();
-		i = 0;
-		s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
-		p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
-		// 验证
-		if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
-			CertificatePIV(p, s);
-			FlushChildHashtable(PIVTable, GetHandleId(d));
-			DialogDisplay(p, d, false);
-			DialogClear(d);
-			DialogDestroy(d);
-			d = null;
-			s = null;
-			p = null;
-			DestroyTrigger(GetTriggeringTrigger());
-			return;
-		}
-		// 输入
-		for (0 <= i <= 9) {
-			if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
-				s = s + I2S(i);
-				SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
-				break;
-			}
-		}
-		DialogSetMessage(d, "激活码:" + s);
-		DialogDisplay(p, d, true);
-		d = null;
-		s = null;
-		p = null;
-	}
-	public function CreatePIVDialog() {
-		trigger t; dialog d;
-		if (IsPIV(GetTriggerPlayer())) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
-			return;
-		}
-		if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
-			return;
-		}
-		t = CreateTrigger();
-		d = DialogCreate();
-		DialogSetMessage(d, "请从第1位开始依次输入激活码");
-		SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
-		SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
-		SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
-		SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
-		DialogDisplay(GetTriggerPlayer(), d, true);
-		TriggerRegisterDialogEvent(t, d);
-		TriggerAddAction(t, function PIVDialogClick);
-		d = null;
-		t = null;
-	}
-	// 关掉赞助指令
-	public function CancelVIP(player p) {
-		if (!IsPIV(p)) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
-			return;
-		}
-		if (udg_H[GetConvertedPlayerId(p)] != null) {
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
-			return;
-		}
-		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
-		sPIV[GetConvertedPlayerId(p)] = false;
-		if (!hasPIV()) {
-			isFirst = true;
-			udg_I_Er_diansi[1] = 1;
-			BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
-			BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
-		}
-	}
-	// 初始化
-	public function InitAllPIV() {
-		integer i;
-		i = 1;
-		for (1 <= i <= 6) {
-			CertificatePIV(ConvertedPlayer(i), null);
-			if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
-				CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
-			}
 		}
 	}
 	// 300秒后关闭入口
@@ -20672,8 +20723,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 			sPIV[i] = false;
 		}
 		SaveBoolean(PIVTable,kPIV,560584534,true);
-		// SaveBoolean(PIVTable,kPIV,805389327,true);
-		//2.64:
 		SaveBoolean(PIVTable,kPIV,1386963254,true);
 		SaveBoolean(PIVTable,kPIV,920323633,true);
 		SaveBoolean(PIVTable,kPIV,2028760546,true);
@@ -20806,7 +20855,115 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		TriggerRegisterPlayerChatEvent(t, Player(3), "##", true);
 		TriggerRegisterPlayerChatEvent(t, Player(4), "##", true);
 		TriggerRegisterPlayerChatEvent(t, Player(5), "##", true);
-		TriggerAddAction(t, function CreatePIVDialog);
+		TriggerAddAction(t, function () {
+			trigger t; dialog d;
+			if (IsPIV(GetTriggerPlayer())) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
+				return;
+			}
+			if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
+				return;
+			}
+			t = CreateTrigger();
+			d = DialogCreate();
+			DialogSetMessage(d, "请从第1位开始依次输入激活码");
+			SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
+			SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
+			SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
+			SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
+			DialogDisplay(GetTriggerPlayer(), d, true);
+			TriggerRegisterDialogEvent(t, d);
+			TriggerAddAction(t, function (){
+				dialog d; integer i; string s; player p;
+				d = GetClickedDialogBJ();
+				i = 0;
+				s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
+				p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
+				// 验证
+				if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
+					CertificatePIV(p, s);
+					FlushChildHashtable(PIVTable, GetHandleId(d));
+					DialogDisplay(p, d, false);
+					DialogClear(d);
+					DialogDestroy(d);
+					d = null;
+					s = null;
+					p = null;
+					DestroyTrigger(GetTriggeringTrigger());
+					return;
+				}
+				// 输入
+				for (0 <= i <= 9) {
+					if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
+						s = s + I2S(i);
+						SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
+						break;
+					}
+				}
+				DialogSetMessage(d, "激活码:" + s);
+				DialogDisplay(p, d, true);
+				d = null;
+				s = null;
+				p = null;
+			});
+			d = null;
+			t = null;
+		});
+		//在游戏开始1.0秒后再调用
+		t = CreateTrigger();
+		TriggerRegisterTimerEvent(t, 1.0, false);
+		TriggerAddCondition(t,Condition(function (){ //1.0秒初始赞助内容
+
+			integer i;
+			i = 1;
+			for (1 <= i <= 6) {
+				CertificatePIV(ConvertedPlayer(i), null);
+				if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
+					CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
+				}
+			}
+			DestroyTrigger(GetTriggeringTrigger());
+		}));
+		//mallItem
+		t = CreateTrigger();
+		TriggerRegisterPlayerChatEvent(t, Player(0), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(1), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(2), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(3), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(4), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(5), "-zz", true);
+		TriggerAddCondition(t, Condition(function () { //关闭赞助
+player p = GetTriggerPlayer();
+			if (!IsPIV(p)) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
+				return;
+			}
+			if (udg_H[GetConvertedPlayerId(p)] != null) {
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
+				return;
+			}
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
+			sPIV[GetConvertedPlayerId(p)] = false;
+			if (!hasPIV()) {
+				isFirst = true;
+				udg_I_Er_diansi[1] = 1;
+				BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
+				BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
+			}
+			p = null;
+		}));
+		t = null;
 		t = null;
 	}
 }
@@ -28981,7 +29138,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 endlibrary
 //!import "LHBase.j"
-//!import "Spin.j"
+//!import "Skin.j"
 library_once Sheyan requires LHBase,Spin
 	globals
 		boolean BSheyanBUG = FALSE
@@ -32600,8 +32757,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call InitHeroJuexing3(u)
 			set JJ4 = true
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r4")
-		debug elseif (str == "-我爱轮回之狱作者") then
-		debug call Buchang(GetTriggerPlayer())
 		//玄雪皮肤
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()
@@ -32622,29 +32777,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call YincangBroad()
 		debug elseif (str == "-bq" and renshu == 1) then
 		debug call Buqian1(GetTriggerPlayer())
-		debug elseif (str == "-ckhq" and renshu == 1 and not(BCangkuhuoqu)) then
-		debug set BCangkuhuoqu = true
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的仓库指令码")
-		debug elseif (str == "-sphq" and renshu == 1 and not(BSpinhuoqu)) then
-		debug set BSpinhuoqu = true
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的皮肤指令码")
-		debug elseif (str == "-ac1" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 1
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac2" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 2
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac3" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 3
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac4" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 4
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
 		elseif (str == "-sh") then
 			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")
-		elseif (str == "-zz") then
-			call CancelVIP(GetTriggerPlayer())
 		elseif (str == "-yxjs" and GetTriggerPlayer() == GetFirstPlayer() and BShengli) then
 		    call ForForce( bj_FORCE_ALL_PLAYERS, function ShengliAll )
 		debug elseif (str == "-qm") then
@@ -34082,6 +34217,105 @@ endlibrary
 英雄选择
 */
 library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
+	// 信哲
+	public boolean BX1 = false;
+	public boolean BX2 = false;
+	// 定制初始化
+	public function InitXinzhe(unit u) {
+		trigger t;
+		t = CreateTrigger();
+		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
+		TriggerAddCondition(t, Condition(function () -> boolean{
+			return (GetIssuedOrderId() == String2OrderIdBJ("smart"));
+		}));
+		TriggerAddAction(t, function (){
+			if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
+				IssueImmediateOrder(GetTriggerUnit(), "stop");
+				DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
+				return;
+			}
+			SetUnitX(GetTriggerUnit(), GetOrderPointX());
+			SetUnitY(GetTriggerUnit(), GetOrderPointY());
+			if (BX1) {
+				DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
+			}
+		});
+		t = null;
+	}
+	// 京剧
+	public function InitJingju(unit u) {
+		timer t;
+		t = CreateTimer();
+		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
+		TimerStart(t, 1, true, function (){
+			timer t; integer id; unit u; group g;
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			u = LoadUnitHandle(LHTable, id, 1);
+			g = YDWEGetUnitsOfPlayerMatchingNull(GetOwningPlayer(u), Condition(function () -> boolean{ return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y'; }));
+			RecoverUnitHP(u, 0.1);
+			ForGroupBJ(g, function (){
+				RecoverUnitHP(GetEnumUnit(), 0.3);
+			});
+			u = null;
+			DestroyGroup(g);
+			t = null;
+			g = null;
+		});
+		t = null;
+	}
+	// 初始化英雄
+	function InitDingzhi(unit u) {
+		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(bj_lastCreatedItem), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(bj_lastCreatedItem), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
+			InitJingju(u);
+			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
+			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
+		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
+			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
+			UnitAddAbility(u, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MG');
+			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
+			InitXinzhe(u);
+		}
+	}
+	//选英雄时调用(赞助)
+	public function InitPIVHero(unit u) {
+		debug InitDingzhi(u);
+		if (IsPIV(GetOwningPlayer(u))) {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(bj_lastCreatedItem), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
+			Discolor(u);
+			return;
+		}
+		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
+			Discolor(u);
+		}
+		debug GetPlatformLevelGold(GetOwningPlayer(u));
+	}
     function onInit () {
         trigger t = CreateTrigger();
         integer i = 0;
@@ -34536,7 +34770,6 @@ udg_Nandu = 40;
         // 执行难度设置后的公共逻辑
         CinematicModeBJ(false, bj_FORCE_ALL_PLAYERS); //好东西啊   直接关掉现在的对话框
 PrintDifficulty();
-        InitAllPIV();
         // 设置科技研究
         if (IsTianyan) {
             ForForce(YDWEGetPlayersByMapControlNull(MAP_CONTROL_COMPUTER), function () {
@@ -34620,6 +34853,15 @@ PrintDifficulty();
 地图初始化
 */
 library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
+    // 判断是否读档成功
+    function JudgeCundang (){
+        integer i;
+        for (1 <= i <= 6) {
+            if (!GetPlayerServerValueSuccess(ConvertedPlayer(i))) {
+                BJDebugMsg("本局游戏服务器数据读取失败，建议重新开始游戏");
+            }
+        }
+    }
     function onInit () {
         //在游戏开始0.0秒后再调用
         trigger tr = CreateTrigger();
@@ -34636,7 +34878,7 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
                 SetPlayerStateBJ(GetEnumPlayer(), PLAYER_STATE_RESOURCE_GOLD, 2000);
                 SetCameraFieldForPlayer(GetEnumPlayer(), CAMERA_FIELD_ZOFFSET, GetCameraTargetPositionZ() + 400.00, 0);
             });
-            TransmissionFromUnitWithNameBJ(bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 5.00, true);
+            TransmissionFromUnitWithNameBJ(bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 3.00, true);
             TriggerSleepAction(2.00);
             CinematicModeBJ(false, bj_FORCE_PLAYER[0]);
             ChooseGameMode(); //选择难度
@@ -34650,7 +34892,7 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
                 }
             });
             DestroyGroup(udg_Group);
-            debug JudgeCundang();
+            JudgeCundang();
             ShowUnit(gg_unit_H01W_0207, false);
             ydl_group = null;
             ydl_unit = null;

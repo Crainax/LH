@@ -8,6 +8,16 @@
 */
 library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
 
+    // 判断是否读档成功
+    function JudgeCundang (){
+        integer i;
+        for (1 <= i <= 6) {
+            if (!GetPlayerServerValueSuccess(ConvertedPlayer(i))) {
+                BJDebugMsg("|cFFFF0000【消息】|r本局游戏服务器数据读取失败，建议重新开始游戏!");
+            }
+        }
+    }
+
     function onInit ()  {
         //在游戏开始0.0秒后再调用
         trigger tr = CreateTrigger();
@@ -27,7 +37,7 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
                 SetCameraFieldForPlayer(GetEnumPlayer(), CAMERA_FIELD_ZOFFSET, GetCameraTargetPositionZ() + 400.00, 0);
             });
 
-            TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 5.00, true);
+            TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 3.00, true);
             TriggerSleepAction(2.00);
             CinematicModeBJ(false, bj_FORCE_PLAYER[0]);
             ChooseGameMode(); //选择难度
@@ -41,8 +51,8 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
                 }
             });
             DestroyGroup(udg_Group);
+            JudgeCundang();
 
-            debug JudgeCundang();
             ShowUnitHide(gg_unit_H01W_0207);
 
             ydl_group = null;

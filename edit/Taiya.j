@@ -2,7 +2,7 @@
 #define TaiyaIncluded
 
 #include  "edit/LHBase.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 
 library_once Taiya requires LHBase,Spin,Version
 

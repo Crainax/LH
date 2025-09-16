@@ -11255,7 +11255,7 @@ endfunction
 // IGNORE DOUBLE IMPORT OF Attr.j
 
 // END IMPORT OF Aura.j
-// BEGIN IMPORT OF Spin.j
+// BEGIN IMPORT OF Skin.j
 // IGNORE DOUBLE IMPORT OF LHBase.j
 // BEGIN IMPORT OF NetVersion.j
 
@@ -11308,7 +11308,7 @@ endfunction
 
 // END IMPORT OF NetVersion.j
 
-// END IMPORT OF Spin.j
+// END IMPORT OF Skin.j
 
 
 

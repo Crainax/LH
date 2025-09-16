@@ -214,8 +214,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call InitHeroJuexing3(u)
 			set JJ4 = true
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r4")
-		debug elseif (str == "-我爱轮回之狱作者") then
-		debug 	call Buchang(GetTriggerPlayer())
 		//玄雪皮肤
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()
@@ -236,29 +234,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call YincangBroad()
 		debug elseif (str == "-bq" and renshu == 1) then
 		debug 	call Buqian1(GetTriggerPlayer())
-		debug elseif (str == "-ckhq" and renshu == 1 and not(BCangkuhuoqu)) then
-		debug 	set BCangkuhuoqu = true
-		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的仓库指令码")
-		debug elseif (str == "-sphq" and renshu == 1 and not(BSpinhuoqu)) then
-		debug 	set BSpinhuoqu = true
-		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的皮肤指令码")
-		debug elseif (str == "-ac1" and renshu == 1 and ISpinachi == 0) then
-		debug 	set ISpinachi = 1
-		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac2" and renshu == 1 and ISpinachi == 0) then
-		debug 	set ISpinachi = 2
-		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac3" and renshu == 1 and ISpinachi == 0) then
-		debug 	set ISpinachi = 3
-		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac4" and renshu == 1 and ISpinachi == 0) then
-		debug 	set ISpinachi = 4
-		debug 	call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
 		elseif (str == "-sh") then
 			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")
-		elseif (str == "-zz") then
-			call CancelVIP(GetTriggerPlayer())
 		elseif (str == "-yxjs" and GetTriggerPlayer() == GetFirstPlayer() and BShengli) then
 		    call ForForce( GetPlayersAll(), function ShengliAll )
 		debug elseif (str == "-qm") then

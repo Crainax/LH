@@ -4,7 +4,7 @@
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
 #include  "edit/Attr.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 #include  "edit/Aura.j"
 /*
     英雄瑟雨的技能

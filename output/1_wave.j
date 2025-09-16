@@ -1890,6 +1890,7 @@ endfunction
 //TESH.alwaysfold=0
 // 当前构建版本
 // 当前的平台分包
+// 原生UI的大小
     // 内测版
     // lua_print: 内测版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
@@ -1899,7 +1900,6 @@ endfunction
 // UI组件依赖库
 // UI组件创建时共享调用
 // UI组件销毁时共享调用
-// 原生UI的大小
 // #define StructMode // todo:结构体数量查看模式:用条件编译直接全部搞定
 //函数入口
 // 用原始地图测试
@@ -2704,8 +2704,7 @@ library_once Constant initializer InitConstant requires JBase
 		if (achieveID == 325) then
 			return "通关|cff008000\"万劫\"难度|r后可以自动获得该成就.
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
-			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
-			|r|cff99ccff若你通关了该难度可以加轮回之狱主群申请上|r|cff99cc00封帝万劫录|r|cff99ccff哦!|r"
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!"
 		elseif (achieveID == 18) then
 			return "通关|cffff00ff\"轮回\"难度|r后可以自动获得该成就.
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
@@ -3199,7 +3198,6 @@ library_once Constant initializer InitConstant requires JBase
 			完成该项挑战后你将可以使用-qm指令自定义你的成就名!"
 		elseif (i == 2) then
 			return "通关隐藏难度|cff993366天魇|r(通关|cff008000万劫|r难度解锁)
-			完成该项挑战后你的名字将在以后始终置顶于|cff008000\"封帝万劫录\"|r中!
 			并获得四字成就名"+GetAchievementName(42)+"。"
 		elseif (i == 3) then
 			return "在嘉年华活动版本中连续签到达20天.
@@ -4095,8 +4093,6 @@ library_once ChallangerDZ requires LHBase
 		integer CDiff = 0
 		//挑战类型
     	integer CType = 0
-		//判断是否读取成功
-		boolean array Bdudang
 		string array Greward2
 	endglobals
 //---------------------------------------------------------------------------------------------------
@@ -4290,12 +4286,10 @@ library_once ChallangerDZ requires LHBase
 	    初始化数据与存档
 	*/
 	function InitChallangerData takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-	    	debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
-			debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
-			debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
-			debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
-		endif
+		debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
+		debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -7702,13 +7696,9 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    存档皮肤数据
 	*/
 	private function SaveSpinData takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreInteger( p, "spin", spin[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p, "spin2", spin2[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p, "spin3", spin3[GetConvertedPlayerId(p)] )
-		else
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏皮肤数据读取失败,请重新开始游戏.")
-		endif
+		call DzAPI_Map_StoreInteger( p, "spin", spin[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_StoreInteger( p, "spin2", spin2[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_StoreInteger( p, "spin3", spin3[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -8214,11 +8204,11 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return
 		endif
 		//两个仅有的挑战成就
-		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then
-			return
+		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then //挑战成就不能在其他模式获取
+return
 		endif
-		if (achieveID != 410 and achieveID != 411 and CType > 0) then
-			return
+		if (achieveID != 410 and achieveID != 411 and CType > 0) then //非挑战成就不能在正常模式获取
+return
 		endif
 		if (achieveID != 418 and achieveID != 420 and CType == -1) then
 			return
@@ -8977,7 +8967,7 @@ public timerdialog TdAutoDiff = null; //自动选择难度
 			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
 				//狂欢模式
 				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".");
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
 				SgameMode = "狂欢";
 				InitKuanghuan();
 				ShowDifficutyDiglog(4);
@@ -9600,14 +9590,14 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 	public function CreateLoginDialog(player p) {
 		dialog d; string s; integer i;
 		d = DialogCreate();
-		s = " 		连续登录奖励 				你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! 		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! 						";
+		s = " 		连续登录奖励 \n 		\n 		你获得了第" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天对应的" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)])) + "金币! \n 		明天继续签到可以获得" + I2S(GetGoldReward(IConDays[GetConvertedPlayerId(p)] + 1)) + "的金币! \n 		\n 		\n 		";
 		i = 1;
 		for (1 <= i <= 41) {
 			if (GetDailyReward(i) != null) {
-				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " 				";
+				s = s + "第" + I2S(i) + "天:" + GetDailyReward(i) + S3(IConDays[GetConvertedPlayerId(p)] >= i, "|cffff9900(已完成)|r", "|cff33cccc(未完成)|r") + " \n 				";
 			}
 		}
-		s = s + " 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
+		s = s + " \n 		你已经连续签到了" + I2S(IConDays[GetConvertedPlayerId(p)]) + "天,注意断签了会重新计算哦.";
 		DialogSetMessage(d, s);
 		DialogAddButton(d, "10分钟之后当天才签到成功|cffff6800(Esc)|r", 512);
 		DialogDisplay(p, d, true);
@@ -9633,23 +9623,15 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong {
 	// }
 	// 保存登录状态
 	public function SaveLoginState(player p) {
-		if (Bdudang[GetConvertedPlayerId(p)]) {
-			DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
-			DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
-			//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
-			//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
-		} else {
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-			DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存失败,请重启游戏!|r");
-		}
+		DzAPI_Map_StoreInteger(p, "IConDays", IConDays[GetConvertedPlayerId(p)]);
+		DzAPI_Map_StoreInteger(p, "ILastTime", ILastTime[GetConvertedPlayerId(p)]);
+		//DzAPI_Map_StoreInteger(p, "IQiandao2", IQiandao2[GetConvertedPlayerId(p)]);
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r");
+		//CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
 	}
 	// 等10分钟后上传到网易
 	function UploadToNetEaseTimer() {
@@ -10428,22 +10410,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-	    判断是否读档成功
-	*/
-	function JudgeCundang takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 6
-			if (GetPlayerServerValueSuccess(ConvertedPlayer(i))) then
-				set Bdudang[i] = true
-			else
-				set Bdudang[i] = false
-			endif
-			set i = i +1
-		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
 	    隐藏密码的判定
 	*/
 	function TSpeakPassword takes nothing returns nothing
@@ -10529,12 +10495,15 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievement takes nothing returns nothing
 		local integer i = 1
 		local integer level = GetDiffculty()
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 				//通关称号
 				call GetAchievementAndSave(ConvertedPlayer(i),I3(level == 9,325,10 + level))
+				if (IsTianyan) then //天魇通关
+call GetAchievementAndSave(ConvertedPlayer(i),42)
+				endif
 				//单通称号
 				if (renshu == 1 and level != 9) then
 					call GetAchievementAndSave(ConvertedPlayer(i),I3(level < 8,217 - level,29))
@@ -10598,7 +10567,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievementKuilei1 takes nothing returns nothing
 		local integer i = 1
 		local integer level = GetDiffculty()
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
@@ -10616,7 +10585,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function SaveAchievementKuilei2 takes nothing returns nothing
 		local integer i = 1
 		local integer level = GetDiffculty()
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
@@ -10712,10 +10681,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		if (i<1 or i>31) then
 			return
 		endif
-		if not(Bdudang[index]) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏英雄次数数据读取失败,请重新开始游戏.")
-			return
-		endif
 		if (StringLength(heroCountString[index]) < 62) then
 			set heroCountString[index] = "00000000000000000000000000000000000000000000000000000000000000"
 		endif
@@ -10767,10 +10732,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function PrintAllHeroTimes takes player p returns nothing
 		local string result = ""
 		local integer i = 1
-		if not(Bdudang[GetConvertedPlayerId(p)]) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏英雄次数数据读取失败,请重新开始游戏.")
-			return
-		endif
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
 		loop
 			exitwhen i > HERO_COUNT
@@ -11045,14 +11006,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local player p = ConvertedPlayer(LoadInteger(LHTable,id,kSaveHeroTimes))
 		local integer i = GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))
 		call IncreaseHeroCount(p,i)
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
-	    	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
-	    else
-	    	call ShowGameHint(p,"
-	    		本局游戏数据读取失败,建议重新开始游戏.
-	    		(还是能正常游戏,但是不能获得成就与皮肤)")
-		endif
+		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
 		call PrintAllHeroTimes(p)
 		call SaveAchievement4(p)
 		call PauseTimer(t)
@@ -11258,222 +11213,173 @@ library_once Printer initializer InitPrinter requires LHBase
 	endfunction
 endlibrary
 ///#include  "edit/NetVersion.j"
-library_once Spin requires LHBase,Version
-	globals
-		boolean array BCancelSpin
-	endglobals
-			// debug call SetSeyuSpinOK(GetTriggerPlayer())
-			// debug call SetXiaoyueSpinOK(GetTriggerPlayer())
-			// debug call SetYanmieSpinOK(GetTriggerPlayer())
-			// debug call SetXuanxue1SpinOK(GetTriggerPlayer())
-			// debug call SetTaiyaSpinOK(GetTriggerPlayer())
-			// debug call SetChenji1SpinOK(GetTriggerPlayer())
-			// debug call SetHanshang1SpinOK(GetTriggerPlayer())
-			// debug call SetLingxueSpinOK(GetTriggerPlayer())
-			// debug call SetChenji2SpinOK(GetTriggerPlayer())
-			// debug call SetMoqiSpinOK(GetTriggerPlayer())
-			// debug call SetKaisaSpinOK(GetTriggerPlayer())
-			// debug call SetXuanxue2SpinOK(GetTriggerPlayer())
-			// debug call SetBajueSpinOK(GetTriggerPlayer())
-			// debug call SetSheyanSpinOK(GetTriggerPlayer())
-			// debug call SetHuanyiSpinOK(GetTriggerPlayer())
-			// debug call SetSichenSpinOK(GetTriggerPlayer())
-			// debug call SetLichiSpinOK(GetTriggerPlayer())
-			// debug call SetHeiyanSpinOK(GetTriggerPlayer())
-			// debug call SetCanglingSpinOK(GetTriggerPlayer())
-			// debug call SetHanshang2SpinOK(GetTriggerPlayer())
-			// debug call SetXinglong1SpinOK(GetTriggerPlayer())
-//---------------------------------------------------------------------------------------------------
-	/*
-	    反转物品
-	*/
-	private function CreateFanzhuanItemTimer takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local item it = LoadItemHandle(LHTable,id,1)
-		if (it != null) then
-			call RemoveItem(it)
-		endif
-		call PauseTimer(t)
-		call FlushChildHashtable(LHTable,id)
-		call DestroyTimer(t)
-		set it = null
-		set t = null
-	endfunction
-	function CreateFanzhuanItem takes unit u returns nothing
-    	local timer t = CreateTimer()
-    	call SaveItemHandle(LHTable,GetHandleId(t),1,UnitAddItemByIdSwapped(GetFanzhuanItemType(u), u))
-    	call TimerStart(t,60,false,function CreateFanzhuanItemTimer)
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    瑟雨的皮肤条件
-	*/
-	function IsSeyuSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSeyu1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    晓月的皮肤条件
-	*/
-	function IsXiaoyueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXiaoyue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    湮灭的皮肤条件
-	*/
-	function IsYanmieSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetYanmie1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    玄雪的皮肤条件
-	*/
-	function IsXuanxueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXuanxue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    泰雅的皮肤条件
-	*/
-	function IsTaiyaSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetTaiya1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    寒殇的皮肤条件
-	*/
-	function IsHanshangSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHanshang1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    辰寂的皮肤条件
-	*/
-	function IsChenjiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetChenji1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    辰寂的皮肤条件
-	*/
-	function IsChenjiSpin2 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetChenji2Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    凌雪的皮肤条件
-	*/
-	function IsLingxueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLingxue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    莫琪的皮肤条件
-	*/
-	function IsMoqiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetMoqiSpin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    凯撒的皮肤条件
-	*/
-	function IsKaisaSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetKaisaSpin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    玄雪的皮肤条件
-	*/
-	function IsXuanxueSpin2 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXuanxue2Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    霸绝的皮肤条件
-	*/
-	function IsBajueSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetBajue1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    摄焱的皮肤条件
-	*/
-	function IsSheyanSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSheyan1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    幻逸的皮肤条件
-	*/
-	function IsHuanyiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHuanyi1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    司宸的皮肤条件
-	*/
-	function IsSichenSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetSichen1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    苍凌的皮肤条件
-	*/
-	function IsCanglingSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetCangling1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    司宸的皮肤条件
-	*/
-	function IsHeiyanSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHeiyan1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    炼金的皮肤条件
-	*/
-	function IsHanshangSpin2 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetHanshang2Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    离魑的皮肤条件
-	*/
-	function IsLichiSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetLichi1Spin(p))
-		//return true
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    星胧的皮肤条件
-	*/
-	function IsXinglongSpin1 takes player p returns boolean
-		return (not(BCancelSpin[GetConvertedPlayerId(p)])) and (GetXinglong1Spin(p))
-		//return true
-	endfunction
-endlibrary
+//! zinc
+library Spin requires LHBase,Version {
+	public boolean BCancelSpin [];
+	// 反转物品
+	public function CreateFanzhuanItem(unit u) { //创建一个60秒的反转物品
+timer t;
+		t = CreateTimer();
+		SaveItemHandle(LHTable, GetHandleId(t), 1, UnitAddItemByIdSwapped(GetFanzhuanItemType(u), u));
+		TimerStart(t, 60, false, function (){
+			timer t; integer id; item it;
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			it = LoadItemHandle(LHTable, id, 1);
+			if (it != null) {
+				RemoveItem(it);
+			}
+			PauseTimer(t);
+			FlushChildHashtable(LHTable, id);
+			DestroyTimer(t);
+			it = null;
+			t = null;
+		});
+		t = null;
+	}
+	// 瑟雨的皮肤条件
+	public function IsSeyuSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetSeyu1Spin(p));
+		// return true
+	}
+	// 晓月的皮肤条件
+	public function IsXiaoyueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXiaoyue1Spin(p));
+		// return true
+	}
+	// 湮灭的皮肤条件
+	public function IsYanmieSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetYanmie1Spin(p));
+		// return true
+	}
+	// 玄雪的皮肤条件
+	public function IsXuanxueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXuanxue1Spin(p));
+		// return true
+	}
+	// 泰雅的皮肤条件
+	public function IsTaiyaSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetTaiya1Spin(p));
+		// return true
+	}
+	// 寒殇的皮肤条件
+	public function IsHanshangSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHanshang1Spin(p));
+		// return true
+	}
+	// 辰寂的皮肤条件
+	public function IsChenjiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetChenji1Spin(p));
+		// return true
+	}
+	// 辰寂的皮肤条件
+	public function IsChenjiSpin2(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetChenji2Spin(p));
+		// return true
+	}
+	// 凌雪的皮肤条件
+	public function IsLingxueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetLingxue1Spin(p));
+		// return true
+	}
+	// 莫琪的皮肤条件
+	public function IsMoqiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetMoqiSpin(p));
+		// return true
+	}
+	// 凯撒的皮肤条件
+	public function IsKaisaSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetKaisaSpin(p));
+		// return true
+	}
+	// 玄雪的皮肤条件
+	public function IsXuanxueSpin2(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXuanxue2Spin(p));
+		// return true
+	}
+	// 霸绝的皮肤条件
+	public function IsBajueSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetBajue1Spin(p));
+		// return true
+	}
+	// 摄焱的皮肤条件
+	public function IsSheyanSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetSheyan1Spin(p));
+		// return true
+	}
+	// 幻逸的皮肤条件
+	public function IsHuanyiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHuanyi1Spin(p));
+		// return true
+	}
+	// 司宸的皮肤条件
+	public function IsSichenSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetSichen1Spin(p));
+		// return true
+	}
+	// 苍凌的皮肤条件
+	public function IsCanglingSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetCangling1Spin(p));
+		// return true
+	}
+	// 司宸的皮肤条件
+	public function IsHeiyanSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHeiyan1Spin(p));
+		// return true
+	}
+	// 炼金的皮肤条件
+	public function IsHanshangSpin2(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetHanshang2Spin(p));
+		// return true
+	}
+	// 离魑的皮肤条件
+	public function IsLichiSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetLichi1Spin(p));
+		// return true
+	}
+	// 星胧的皮肤条件
+	public function IsXinglongSpin1(player p) -> boolean {
+		return (!BCancelSpin[GetConvertedPlayerId(p)]) && (GetXinglong1Spin(p));
+		// return true
+	}
+	function onInit () {
+		mallItem.init("SKIN1");
+		mallItem.setTech("SKIN1", 'RMI4');
+		mallItem.onReady(function () -> boolean {
+			player p = Player(0);
+			integer index;
+			for (1 <= index <= 6) {
+				p = ConvertedPlayer(index);
+				if (mallItem.hasByPlayer(p, "SKIN1")) {
+					SetSeyuSpinOK(p);
+					SetXiaoyueSpinOK(p);
+					SetYanmieSpinOK(p);
+					SetXuanxue1SpinOK(p);
+					SetTaiyaSpinOK(p);
+					SetChenji1SpinOK(p);
+					SetHanshang1SpinOK(p);
+					SetLingxueSpinOK(p);
+					SetChenji2SpinOK(p);
+					SetMoqiSpinOK(p);
+					SetKaisaSpinOK(p);
+					SetXuanxue2SpinOK(p);
+					SetBajueSpinOK(p);
+					SetSheyanSpinOK(p);
+					SetHuanyiSpinOK(p);
+					SetSichenSpinOK(p);
+					SetLichiSpinOK(p);
+					SetHeiyanSpinOK(p);
+					SetCanglingSpinOK(p);
+					SetHanshang2SpinOK(p);
+					SetXinglong1SpinOK(p);
+				}
+			}
+			p = null;
+			return true;
+		});
+	}
+}
+//! endzinc
 library_once Moqi requires LHBase,Spin,Printer,SpellBase
 	globals
 		private group GMoqiXingxuan = null
@@ -16789,64 +16695,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 	key kPIVStr;
 	key kPIVPlayer;
 	key kPIVPointer;
-	// 信哲
-	public boolean BX1 = false;
-	public boolean BX2 = false;
-	// 定制初始化
-	function XinzheCon() -> boolean {
-		return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"));
-	}
-	function XinzheAct() {
-		if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
-			IssueImmediateOrder(GetTriggerUnit(), "stop");
-			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
-			return;
-		}
-		SetUnitX(GetTriggerUnit(), GetOrderPointX());
-		SetUnitY(GetTriggerUnit(), GetOrderPointY());
-		if (BX1) {
-			DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
-		}
-	}
-	public function InitXinzhe(unit u) {
-		trigger t;
-		t = CreateTrigger();
-		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
-		TriggerAddCondition(t, Condition(function XinzheCon));
-		TriggerAddAction(t, function XinzheAct);
-		t = null;
-	}
-	// 京剧
-	function JingjuCondition() -> boolean {
-		return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y';
-	}
-	function JingjuDiyuhuo() {
-		RecoverUnitHP(GetEnumUnit(), 0.3);
-	}
-	function JingjuTimer() {
-		timer t; integer id; unit u; group g;
-		t = GetExpiredTimer();
-		id = GetHandleId(t);
-		u = LoadUnitHandle(LHTable, id, 1);
-		g = YDWEGetUnitsOfPlayerMatchingNull(GetOwningPlayer(u), Condition(function JingjuCondition));
-		RecoverUnitHP(u, 0.1);
-		ForGroupBJ(g, function JingjuDiyuhuo);
-		u = null;
-		DestroyGroup(g);
-		t = null;
-		g = null;
-	}
-	public function InitJingju(unit u) {
-		timer t;
-		t = CreateTimer();
-		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
-		TimerStart(t, 1, true, function JingjuTimer);
-		t = null;
-	}
-	// 列表是否含有名单
-	function TableHas(integer i) -> boolean {
-		return HaveSavedBoolean(PIVTable, kPIV, i);
-	}
 	// 获取激活码
 	function GetPIVCode(string s) -> integer {
 		string result; integer i;
@@ -16869,60 +16717,9 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权，如果要关闭赞助功能,请输入-zz");
 		debug SavePIV(p, GetPIVCode(GetPlayerName(p)));
 	}
-	// 初始化英雄
-	function InitDingzhi(unit u) {
-		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
-			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
-			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
-			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
-			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
-			InitJingju(u);
-			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
-			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
-		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
-			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
-			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
-			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
-			UnitAddAbility(u, 'A0MF');
-			UnitMakeAbilityPermanent(u, true, 'A0MF');
-			UnitMakeAbilityPermanent(u, true, 'A0MG');
-			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
-			InitXinzhe(u);
-		}
-	}
-	public function InitPIVHero(unit u) {
-		debug InitDingzhi(u);
-		if (IsPIV(GetOwningPlayer(u))) {
-			UnitAddItemByIdSwapped('IXU1', u);
-			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
-			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
-			Discolor(u);
-			return;
-		}
-		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
-			Discolor(u);
-		}
-		debug GetPlatformLevelGold(GetOwningPlayer(u));
-	}
 	// VIP验证
 	public function CertificatePIV(player p, string vCode) {
-		if (vCode == null && TableHas(GetPIVCode(GetPlayerName(p)))) {
+		if (vCode == null && HaveSavedBoolean(PIVTable, kPIV, GetPIVCode(GetPlayerName(p)))) {
 			InitPlayerPIV(p);
 			return;
 		}
@@ -16932,110 +16729,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		}
 		if (vCode != null) {
 			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活码不正确！");
-		}
-	}
-	// VIP验证
-	public function ChatPIV() {
-		string chat, vCode;
-		chat = GetEventPlayerChatString();
-		vCode = SubStringBJ(chat, 2, StringLength(chat));
-		CertificatePIV(GetTriggerPlayer(), vCode);
-	}
-	// 对话框输入验证码
-	function PIVDialogClick() {
-		dialog d; integer i; string s; player p;
-		d = GetClickedDialogBJ();
-		i = 0;
-		s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
-		p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
-		// 验证
-		if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
-			CertificatePIV(p, s);
-			FlushChildHashtable(PIVTable, GetHandleId(d));
-			DialogDisplay(p, d, false);
-			DialogClear(d);
-			DialogDestroy(d);
-			d = null;
-			s = null;
-			p = null;
-			DestroyTrigger(GetTriggeringTrigger());
-			return;
-		}
-		// 输入
-		for (0 <= i <= 9) {
-			if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
-				s = s + I2S(i);
-				SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
-				break;
-			}
-		}
-		DialogSetMessage(d, "激活码:" + s);
-		DialogDisplay(p, d, true);
-		d = null;
-		s = null;
-		p = null;
-	}
-	public function CreatePIVDialog() {
-		trigger t; dialog d;
-		if (IsPIV(GetTriggerPlayer())) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
-			return;
-		}
-		if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
-			return;
-		}
-		t = CreateTrigger();
-		d = DialogCreate();
-		DialogSetMessage(d, "请从第1位开始依次输入激活码");
-		SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
-		SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
-		SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
-		SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
-		SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
-		DialogDisplay(GetTriggerPlayer(), d, true);
-		TriggerRegisterDialogEvent(t, d);
-		TriggerAddAction(t, function PIVDialogClick);
-		d = null;
-		t = null;
-	}
-	// 关掉赞助指令
-	public function CancelVIP(player p) {
-		if (!IsPIV(p)) {
-			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
-			return;
-		}
-		if (udg_H[GetConvertedPlayerId(p)] != null) {
-			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
-			return;
-		}
-		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
-		sPIV[GetConvertedPlayerId(p)] = false;
-		if (!hasPIV()) {
-			isFirst = true;
-			udg_I_Er_diansi[1] = 1;
-			BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
-			BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
-		}
-	}
-	// 初始化
-	public function InitAllPIV() {
-		integer i;
-		i = 1;
-		for (1 <= i <= 6) {
-			CertificatePIV(ConvertedPlayer(i), null);
-			if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
-				CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
-			}
 		}
 	}
 	// 300秒后关闭入口
@@ -17050,8 +16743,6 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 			sPIV[i] = false;
 		}
 		SaveBoolean(PIVTable,kPIV,560584534,true);
-		// SaveBoolean(PIVTable,kPIV,805389327,true);
-		//2.64:
 		SaveBoolean(PIVTable,kPIV,1386963254,true);
 		SaveBoolean(PIVTable,kPIV,920323633,true);
 		SaveBoolean(PIVTable,kPIV,2028760546,true);
@@ -17184,7 +16875,115 @@ library PIV requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		TriggerRegisterPlayerChatEvent(t, Player(3), "##", true);
 		TriggerRegisterPlayerChatEvent(t, Player(4), "##", true);
 		TriggerRegisterPlayerChatEvent(t, Player(5), "##", true);
-		TriggerAddAction(t, function CreatePIVDialog);
+		TriggerAddAction(t, function () {
+			trigger t; dialog d;
+			if (IsPIV(GetTriggerPlayer())) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！");
+				return;
+			}
+			if (udg_H[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r激活失败,请在选择英雄前激活！");
+				return;
+			}
+			t = CreateTrigger();
+			d = DialogCreate();
+			DialogSetMessage(d, "请从第1位开始依次输入激活码");
+			SaveButtonHandle(PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'));
+			SaveButtonHandle(PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512));
+			SaveStr(PIVTable, GetHandleId(d), kPIVStr, "");
+			SavePlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer());
+			SaveInteger(PIVTable, GetHandleId(d), kPIVPointer, 1);
+			DialogDisplay(GetTriggerPlayer(), d, true);
+			TriggerRegisterDialogEvent(t, d);
+			TriggerAddAction(t, function (){
+				dialog d; integer i; string s; player p;
+				d = GetClickedDialogBJ();
+				i = 0;
+				s = LoadStr(PIVTable, GetHandleId(d), kPIVStr);
+				p = LoadPlayerHandle(PIVTable, GetHandleId(d), kPIVPlayer);
+				// 验证
+				if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), 10)) {
+					CertificatePIV(p, s);
+					FlushChildHashtable(PIVTable, GetHandleId(d));
+					DialogDisplay(p, d, false);
+					DialogClear(d);
+					DialogDestroy(d);
+					d = null;
+					s = null;
+					p = null;
+					DestroyTrigger(GetTriggeringTrigger());
+					return;
+				}
+				// 输入
+				for (0 <= i <= 9) {
+					if (GetClickedButtonBJ() == LoadButtonHandle(PIVTable, GetHandleId(d), i)) {
+						s = s + I2S(i);
+						SaveStr(PIVTable, GetHandleId(d), kPIVStr, s);
+						break;
+					}
+				}
+				DialogSetMessage(d, "激活码:" + s);
+				DialogDisplay(p, d, true);
+				d = null;
+				s = null;
+				p = null;
+			});
+			d = null;
+			t = null;
+		});
+		//在游戏开始1.0秒后再调用
+		t = CreateTrigger();
+		TriggerRegisterTimerEventSingle(t,1.0);
+		TriggerAddCondition(t,Condition(function (){ //1.0秒初始赞助内容
+
+			integer i;
+			i = 1;
+			for (1 <= i <= 6) {
+				CertificatePIV(ConvertedPlayer(i), null);
+				if (IsSavePIV(ConvertedPlayer(i), GetPIVCode(GetPlayerName(ConvertedPlayer(i))))) {
+					CertificatePIV(ConvertedPlayer(i), I2S(GetPIVCode(GetPlayerName(ConvertedPlayer(i)))));
+				}
+			}
+			DestroyTrigger(GetTriggeringTrigger());
+		}));
+		//mallItem
+		t = CreateTrigger();
+		TriggerRegisterPlayerChatEvent(t, Player(0), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(1), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(2), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(3), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(4), "-zz", true);
+		TriggerRegisterPlayerChatEvent(t, Player(5), "-zz", true);
+		TriggerAddCondition(t, Condition(function () { //关闭赞助
+player p = GetTriggerPlayer();
+			if (!IsPIV(p)) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你并非永久赞助,关闭失败.");
+				return;
+			}
+			if (udg_H[GetConvertedPlayerId(p)] != null) {
+				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r该功能仅在选择英雄前输入有效.");
+				return;
+			}
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r关闭赞助功能成功.");
+			sPIV[GetConvertedPlayerId(p)] = false;
+			if (!hasPIV()) {
+				isFirst = true;
+				udg_I_Er_diansi[1] = 1;
+				BJDebugMsg("|cFFFF66CC【消息】|r你们已失去在任意难度下获得24+5波的特权.");
+				BJDebugMsg("|cFFFF66CC【消息】|r基地失去了额外的2次防护罩.");
+			}
+			p = null;
+		}));
+		t = null;
 		t = null;
 	}
 }
@@ -25359,7 +25158,7 @@ library_once Heiyan requires SpellBase,Printer,Attr,Aura,Spin
 	endfunction
 endlibrary
 //!import "LHBase.j"
-//!import "Spin.j"
+//!import "Skin.j"
 library_once Sheyan requires LHBase,Spin
 	globals
 		boolean BSheyanBUG = FALSE
@@ -28978,8 +28777,6 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call InitHeroJuexing3(u)
 			set JJ4 = true
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r4")
-		debug elseif (str == "-我爱轮回之狱作者") then
-		debug call Buchang(GetTriggerPlayer())
 		//玄雪皮肤
 		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
 			call InitHongdeng()
@@ -29000,29 +28797,9 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 			call YincangBroad()
 		debug elseif (str == "-bq" and renshu == 1) then
 		debug call Buqian1(GetTriggerPlayer())
-		debug elseif (str == "-ckhq" and renshu == 1 and not(BCangkuhuoqu)) then
-		debug set BCangkuhuoqu = true
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的仓库指令码")
-		debug elseif (str == "-sphq" and renshu == 1 and not(BSpinhuoqu)) then
-		debug set BSpinhuoqu = true
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的皮肤指令码")
-		debug elseif (str == "-ac1" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 1
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac2" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 2
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac3" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 3
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
-		debug elseif (str == "-ac4" and renshu == 1 and ISpinachi == 0) then
-		debug set ISpinachi = 4
-		debug call BJDebugMsg("|cFFFF66CC【消息】|r请输入你的成就指令码")
 		elseif (str == "-sh") then
 			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")
-		elseif (str == "-zz") then
-			call CancelVIP(GetTriggerPlayer())
 		elseif (str == "-yxjs" and GetTriggerPlayer() == GetFirstPlayer() and BShengli) then
 		    call ForForce( GetPlayersAll(), function ShengliAll )
 		debug elseif (str == "-qm") then
@@ -30460,6 +30237,105 @@ endlibrary
 英雄选择
 */
 library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
+	// 信哲
+	public boolean BX1 = false;
+	public boolean BX2 = false;
+	// 定制初始化
+	public function InitXinzhe(unit u) {
+		trigger t;
+		t = CreateTrigger();
+		TriggerRegisterUnitEvent(t, u, EVENT_UNIT_ISSUED_POINT_ORDER);
+		TriggerAddCondition(t, Condition(function () -> boolean{
+			return (GetIssuedOrderIdBJ() == String2OrderIdBJ("smart"));
+		}));
+		TriggerAddAction(t, function (){
+			if (IsInForbitRegion(GetOrderPointX(), GetOrderPointY(), GetTriggerUnit())) {
+				IssueImmediateOrder(GetTriggerUnit(), "stop");
+				DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r此处禁止瞬移到达.");
+				return;
+			}
+			SetUnitX(GetTriggerUnit(), GetOrderPointX());
+			SetUnitY(GetTriggerUnit(), GetOrderPointY());
+			if (BX1) {
+				DamageAreaMagic(GetTriggerUnit(), GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()), 600, GetDamageBase(GetTriggerUnit()) * 0.8, null);
+			}
+		});
+		t = null;
+	}
+	// 京剧
+	public function InitJingju(unit u) {
+		timer t;
+		t = CreateTimer();
+		SaveUnitHandle(LHTable, GetHandleId(t), 1, u);
+		TimerStart(t, 1, true, function (){
+			timer t; integer id; unit u; group g;
+			t = GetExpiredTimer();
+			id = GetHandleId(t);
+			u = LoadUnitHandle(LHTable, id, 1);
+			g = YDWEGetUnitsOfPlayerMatchingNull(GetOwningPlayer(u), Condition(function () -> boolean{ return GetUnitTypeId(GetFilterUnit()) == 'n006' || GetUnitTypeId(GetFilterUnit()) == 'n00Y'; }));
+			RecoverUnitHP(u, 0.1);
+			ForGroupBJ(g, function (){
+				RecoverUnitHP(GetEnumUnit(), 0.3);
+			});
+			u = null;
+			DestroyGroup(g);
+			t = null;
+			g = null;
+		});
+		t = null;
+	}
+	// 初始化英雄
+	function InitDingzhi(unit u) {
+		if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 5);
+			AddHPPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 2.0);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.7);
+			SetPlayerTechResearchedSwap('R01K', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R006', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R007', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R008', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R009', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00A', 1, GetOwningPlayer(u));
+			SetPlayerTechResearchedSwap('R00B', 1, GetOwningPlayer(u));
+			InitJingju(u);
+			udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] = udg_I_Jingyan[GetConvertedPlayerId(GetOwningPlayer(u))] + 2.5;
+			SetPlayerStateBJ(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_FOOD_CAP) + 10));
+		} else if (playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "信哲大人") {
+			BGoldGongxiang[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddIntPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddAgiPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddStrPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 1.5);
+			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 4.);
+			UnitAddAbility(u, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MF');
+			UnitMakeAbilityPermanent(u, true, 'A0MG');
+			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MF', false);
+			InitXinzhe(u);
+		}
+	}
+	//选英雄时调用(赞助)
+	public function InitPIVHero(unit u) {
+		debug InitDingzhi(u);
+		if (IsPIV(GetOwningPlayer(u))) {
+			UnitAddItemByIdSwapped('IXU1', u);
+			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
+			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
+			Discolor(u);
+			return;
+		}
+		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
+			Discolor(u);
+		}
+		debug GetPlatformLevelGold(GetOwningPlayer(u));
+	}
     function onInit () {
         trigger t = CreateTrigger();
         integer i = 0;
@@ -30914,7 +30790,6 @@ udg_Nandu = 40;
         // 执行难度设置后的公共逻辑
         CinematicModeBJ(false, GetPlayersAll()); //好东西啊   直接关掉现在的对话框
 PrintDifficulty();
-        InitAllPIV();
         // 设置科技研究
         if (IsTianyan) {
             ForForce(YDWEGetPlayersByMapControlNull(MAP_CONTROL_COMPUTER), function () {
@@ -30998,6 +30873,15 @@ PrintDifficulty();
 地图初始化
 */
 library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
+    // 判断是否读档成功
+    function JudgeCundang (){
+        integer i;
+        for (1 <= i <= 6) {
+            if (!GetPlayerServerValueSuccess(ConvertedPlayer(i))) {
+                BJDebugMsg("本局游戏服务器数据读取失败，建议重新开始游戏");
+            }
+        }
+    }
     function onInit () {
         //在游戏开始0.0秒后再调用
         trigger tr = CreateTrigger();
@@ -31014,7 +30898,7 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
                 SetPlayerStateBJ(GetEnumPlayer(), PLAYER_STATE_RESOURCE_GOLD, 2000);
                 SetCameraFieldForPlayer(GetEnumPlayer(), CAMERA_FIELD_ZOFFSET, GetCameraTargetPositionZ() + 400.00, 0);
             });
-            TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 5.00, true);
+            TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_H01W_0207, "|cffff00ff首任六界王|r", null, "寰宇之争，混沌初开。当神魔之战成为传说，冥界的阴影已悄然笼罩五界。他们的目标，是维系世界平衡的圣光宝石。\n欢迎加入《轮回之狱》官方交流群：413359254", bj_TIMETYPE_ADD, 3.00, true);
             TriggerSleepAction(2.00);
             CinematicModeBJ(false, bj_FORCE_PLAYER[0]);
             ChooseGameMode(); //选择难度
@@ -31028,7 +30912,7 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
                 }
             });
             DestroyGroup(udg_Group);
-            debug JudgeCundang();
+            JudgeCundang();
             ShowUnitHide(gg_unit_H01W_0207);
             ydl_group = null;
             ydl_unit = null;

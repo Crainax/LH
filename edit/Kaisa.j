@@ -3,7 +3,7 @@
 
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 #include  "edit/Aura.j"
 
 library_once Kaisa requires SpellBase,Printer,Spin,Aura

@@ -1,7 +1,7 @@
 #ifndef CanglingIncluded
 #define CanglingIncluded
 
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 #include  "edit/SpellBase.j"
 #include  "edit/Printer.j"
 #include  "edit/Attr.j"

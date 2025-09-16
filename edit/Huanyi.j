@@ -6,7 +6,7 @@
 #include  "edit/Attr.j"
 #include  "edit/Aura.j"
 #include  "edit/Diffculty.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 ///#include  "edit/Diamond.j"
 /*
     英雄幻逸的技能

@@ -17,9 +17,6 @@ library_once ChallangerDZ requires LHBase
 		//挑战类型
     	integer CType = 0
 
-		//判断是否读取成功
-		boolean array Bdudang
-
 		string array Greward2
 	endglobals
 
@@ -219,12 +216,10 @@ library_once ChallangerDZ requires LHBase
 	    初始化数据与存档
 	*/
 	function InitChallangerData takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-	    	debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
-			debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
-			debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
-			debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
-		endif
+		debug call DzAPI_Map_Stat_SetStat( p, "chal", I2S(GetAllComplete(p))+"/"+I2S(3*COUNT_CHALLANGER) )
+		debug call DzAPI_Map_StoreString( p, "easyCString", easyCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "middleCString", middleCString[GetConvertedPlayerId(p)] )
+		debug call DzAPI_Map_StoreString( p, "hardCString", hardCString[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*

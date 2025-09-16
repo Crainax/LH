@@ -306,22 +306,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 			set i = i +1
 		endloop
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    判断是否读档成功
-	*/
-	function JudgeCundang takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 6
-			if (GetPlayerServerValueSuccess(ConvertedPlayer(i))) then
-				set Bdudang[i] = true
-			else
-				set Bdudang[i] = false
-			endif
-			set i = i +1
-		endloop
-	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    隐藏密码的判定
@@ -413,13 +398,17 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer i = 1
 		local integer level = GetDiffculty()
 
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 
 		loop
 			exitwhen i > 6
 			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
 				//通关称号
 				call GetAchievementAndSave(ConvertedPlayer(i),I3(level == 9,325,10 + level))
+
+				if (IsTianyan) then //天魇通关
+					call GetAchievementAndSave(ConvertedPlayer(i),42)
+				endif
 
 				//单通称号
 				if (renshu == 1 and level != 9) then
@@ -503,7 +492,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer i = 1
 		local integer level = GetDiffculty()
 
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 
 		loop
 			exitwhen i > 6
@@ -528,7 +517,7 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local integer i = 1
 		local integer level = GetDiffculty()
 
-		call BJDebugMsg("|cFFFF66CC【消息】|r正在保存游戏数据中....请不要马上退出游戏,以免保存失败...")
+		call BJDebugMsg("|cFFFF66CC【消息】|r游戏数据正在拼命保存中... 请稍等10秒，以免您的心血付诸东流哦！")
 
 		loop
 			exitwhen i > 6
@@ -634,10 +623,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		if (i<1 or i>31) then
 			return
 		endif
-		if not(Bdudang[index]) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏英雄次数数据读取失败,请重新开始游戏.")
-			return
-		endif
 		if (StringLength(heroCountString[index]) < 62) then
 			set heroCountString[index] = "00000000000000000000000000000000000000000000000000000000000000"
 		endif
@@ -694,10 +679,6 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	function PrintAllHeroTimes takes player p returns nothing
 		local string result = ""
 		local integer i = 1
-		if not(Bdudang[GetConvertedPlayerId(p)]) then
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏英雄次数数据读取失败,请重新开始游戏.")
-			return
-		endif
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你的所有英雄使用次数如下所示：")
 		loop
 			exitwhen i > HERO_COUNT
@@ -976,14 +957,8 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 		local player p = ConvertedPlayer(LoadInteger(LHTable,id,kSaveHeroTimes))
 		local integer i = GetHeroIndex(GetUnitTypeId(udg_H[GetConvertedPlayerId(p)]))
 		call IncreaseHeroCount(p,i)
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
-	    	call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
-	    else
-	    	call ShowGameHint(p,"
-	    		本局游戏数据读取失败,建议重新开始游戏.
-	    		(还是能正常游戏,但是不能获得成就与皮肤)")
-		endif
+		call DzAPI_Map_StoreString( p, "hero", heroCountString[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_Stat_SetStat( p, "hero", GetIndexHeroName(GetBestHero(p)) )
 		call PrintAllHeroTimes(p)
 		call SaveAchievement4(p)
 		call PauseTimer(t)

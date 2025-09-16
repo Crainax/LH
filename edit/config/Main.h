@@ -50,7 +50,7 @@
 #include "edit/SameItem.j"
 
 // 皮肤
-#include "edit/Spin.j"
+#include "edit/Skin.j"
 // 导入英雄
 #include "edit/HeiYan.j"
 #include "edit/Yanmie.j"

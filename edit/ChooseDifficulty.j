@@ -185,7 +185,6 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
         // 执行难度设置后的公共逻辑
         CinematicModeBJ(false, GetPlayersAll()); //好东西啊   直接关掉现在的对话框
         PrintDifficulty();
-        InitAllPIV();
 
         // 设置科技研究
         if (IsTianyan) {

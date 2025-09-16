@@ -1,18 +1,4 @@
-#define CRNL <?='\n'?>
-
-#define VERSION_ALPHA     1 //内测版
-#define VERSION_BETA      2 //公测版
-#define VERSION_RELEASE   3 //正式版
-#define VERSION_UNITTEST  4 //单元测试
-#define VERSION_MODELTEST 5 //模型测试
-
-#define PLATFORM_DZ 1 //网易平台渠道
-#define PLATFORM_11 2 //11平台渠道
-
-// 当前构建版本
-#define CURRENT_BUILD_VERSION VERSION_ALPHA
-// 当前的平台分包
-#define CURRENT_BUILD_PLATFORM PLATFORM_DZ
+#include "config/rewave.h"
 
 #if (CURRENT_BUILD_VERSION == VERSION_ALPHA)
     // 内测版
@@ -46,13 +32,13 @@
     // lua_print: 正式版本
 #endif
 
+
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
 #include <YDTrigger/ImportSaveLoadSystem.h>
 #include <YDTrigger/Hash.h>
 
 #include "Crainax/config/Log.h" // 输出日志配置
 #include "Crainax/config/SharedMethod.h" // 结构体共用方法
-#include "config/config.h" // 配置
 // #define StructMode // todo:结构体数量查看模式:用条件编译直接全部搞定
 
 //函数入口

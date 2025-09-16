@@ -1,6 +1,4 @@
 logs\currentmapscript.j
 pjass.exe
-Line 33763:  Undeclared variable BX1
-Line 33765:  Undeclared variable BX2
-Line 37626:  Undeclared variable BX2
-3
+Line 21165:  Undeclared function DumpState
+1

@@ -189,13 +189,9 @@ library_once Achievement requires LHBase,ChallangerDZ
 	    存档皮肤数据
 	*/
 	private function SaveSpinData takes player p returns nothing
-		if (Bdudang[GetConvertedPlayerId(p)]) then
-			call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
-			call DzAPI_Map_StoreInteger( p,  "spin3", spin3[GetConvertedPlayerId(p)] )
-		else
-			call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r本局游戏皮肤数据读取失败,请重新开始游戏.")
-		endif
+		call DzAPI_Map_StoreInteger( p,  "spin", spin[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_StoreInteger( p,  "spin2", spin2[GetConvertedPlayerId(p)] )
+		call DzAPI_Map_StoreInteger( p,  "spin3", spin3[GetConvertedPlayerId(p)] )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -738,11 +734,11 @@ library_once Achievement requires LHBase,ChallangerDZ
 			return
 		endif
 		//两个仅有的挑战成就
-		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then
+		if ((achieveID == 410 or achieveID == 411 /*or achieveID == 418 or achieveID == 420*/) and CType == 0) then //挑战成就不能在其他模式获取
 			return
 		endif
 
-		if (achieveID != 410 and achieveID != 411 and CType > 0) then
+		if (achieveID != 410 and achieveID != 411 and CType > 0) then //非挑战成就不能在正常模式获取
 			return
 		endif
 

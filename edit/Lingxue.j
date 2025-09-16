@@ -2,7 +2,7 @@
 #define LingxueIncluded
 
 #include  "edit/SpellBase.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 library_once Lingxue requires SpellBase ,Spin
 
 	globals

@@ -807,8 +807,7 @@ library_once Constant initializer InitConstant requires JBase
 			return "通关|cff008000\"万劫\"难度|r后可以自动获得该成就.
 
 			|cffffff00该成就会显示在官方对战平台游戏大厅内哦,也会显示在你的名字前面!
-			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!
-			|r|cff99ccff若你通关了该难度可以加轮回之狱主群申请上|r|cff99cc00封帝万劫录|r|cff99ccff哦!|r"
+			|r|cff3366ff使用该成就进行游戏英雄会有能量之光的特效哦!"
 		elseif (achieveID == 18) then
 			return "通关|cffff00ff\"轮回\"难度|r后可以自动获得该成就.
 
@@ -1410,7 +1409,6 @@ library_once Constant initializer InitConstant requires JBase
 		elseif (i == 2) then
 			return "通关隐藏难度|cff993366天魇|r(通关|cff008000万劫|r难度解锁)
 
-			完成该项挑战后你的名字将在以后始终置顶于|cff008000\"封帝万劫录\"|r中!
 			并获得四字成就名"+GetAchievementName(42)+"。"
 		elseif (i == 3) then
 			return "在嘉年华活动版本中连续签到达20天.

@@ -383,7 +383,7 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
 				//狂欢模式
 				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\".");
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
 				SgameMode = "狂欢";
 				InitKuanghuan();
 				ShowDifficutyDiglog(4);

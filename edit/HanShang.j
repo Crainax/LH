@@ -7,7 +7,7 @@
 #include  "edit/Attr.j"
 #include  "edit/Diffculty.j"
 #include  "edit/Aura.j"
-#include  "edit/Spin.j"
+#include  "edit/Skin.j"
 /*
     英雄寒殇的技能
 */
