@@ -172,7 +172,7 @@ library Spin requires LHBase,Version {
 			integer index;
 			for (1 <= index <= MAX_PLAYER_COUNT) {
 				p = ConvertedPlayer(index);
-				if (mallItem.hasByPlayer(p, "SKIN1")) {
+				if (mallItem.hasByPlayer(p, "SKIN1") && (GetPlayerSlotState(ConvertedPlayer(index)) == PLAYER_SLOT_STATE_PLAYING) && (GetPlayerController(ConvertedPlayer(index)) == MAP_CONTROL_USER)) {
 					SetSeyuSpinOK(p);
 					SetXiaoyueSpinOK(p);
 					SetYanmieSpinOK(p);

@@ -1648,7 +1648,7 @@ endfunction
 #include  "edit/edit/Revive.j"
 #include  "edit/edit/Purgatory.j"
 //VIP
-#include  "edit/edit/PIV.j"
+#include  "edit/edit/VIP.j"
 //多面板
 #include  "edit/edit/Multiboard.j"
 //转生
@@ -2755,7 +2755,7 @@ function Trig_____________abActions takes nothing returns nothing
     else
     endif
     call CinematicModeBJ( false, GetPlayersAll() )
-    call InitAllPIV()
+    call InitAllVIP()
     call ForForce( GetPlayersAll(), function Trig_____________abFunc011A )
     call TriggerExecute( gg_trg_D4 )
     call PlayMusicBJ( gg_snd_PH1 )
@@ -2990,7 +2990,7 @@ endfunction
 function Trig______________________uActions takes nothing returns nothing
     local integer ydul_g
     local timer ydl_timer
-    if ((udg_T2[GetConvertedPlayerId(GetTriggerPlayer())] == true) and ((GetTriggerUnit() != gg_unit_Udea_0279) or (IsPIV(GetTriggerPlayer())) or (GetHeiyanSelectedCon(GetTriggerPlayer()))) and ((GetTriggerUnit() != gg_unit_Hant_0205) or (IsPIV(GetTriggerPlayer())) or (GetHuanyiSelectedCon(GetTriggerPlayer())))) then
+    if ((udg_T2[GetConvertedPlayerId(GetTriggerPlayer())] == true) and ((GetTriggerUnit() != gg_unit_Udea_0279) or (IsVIP(GetTriggerPlayer())) or (GetHeiyanSelectedCon(GetTriggerPlayer()))) and ((GetTriggerUnit() != gg_unit_Hant_0205) or (IsVIP(GetTriggerPlayer())) or (GetHuanyiSelectedCon(GetTriggerPlayer())))) then
         set udg_T1[GetConvertedPlayerId(GetTriggerPlayer())] = true
         set udg_Point = GetRandomLocInRect(gg_rct________1)
         call SetUnitPositionLoc( GetTriggerUnit(), udg_Point )
@@ -3032,7 +3032,7 @@ function Trig______________________uActions takes nothing returns nothing
             call RemoveLocation( udg_Point )
             set bj_forLoopAIndex = bj_forLoopAIndex + 1
         endloop
-        call InitPIVHero(GetTriggerUnit())
+        call InitVIPHero(GetTriggerUnit())
         if ((GetTriggerUnit() == gg_unit_Hvwd_0016)) then
             call MultiboardSetItemIcon( MultiboardGetItem(udg_D, GetConvertedPlayerId(GetTriggerPlayer()), 0), "ReplaceableTextures\\CommandButtons\\BTNSylvanusWindrunner.blp" )
             set udg_Unit_Qixing[1] = CreateUnit(GetTriggerPlayer(), 'ewsp', YDWECoordinateX(( GetUnitX(GetTriggerUnit()) + 400.00 )), YDWECoordinateY(GetUnitY(GetTriggerUnit())), 90.00)
@@ -5380,7 +5380,7 @@ function Trig____________________055Func008T takes nothing returns nothing
     call QuestMessageBJ( GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00转生|r
 |cFFFF9900点击左上角“任务”查看。|r" )
     call QuestSetEnabledBJ( true, GetLastCreatedQuestBJ() )
-    call ClosePIV()
+    call CloseVIP()
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
@@ -23993,7 +23993,7 @@ function Trig____________________010Actions takes nothing returns nothing
         call PlaySoundBJ( gg_snd_BOSS )
         call TriggerExecute( gg_trg____________________032 )
     else
-        if ((udg_Nandu_JJJ == 1) and (udg_Bo == 12) and (hasPIV() == false)) then
+        if ((udg_Nandu_JJJ == 1) and (udg_Bo == 12) and (hasVIP() == false)) then
             call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
             call ForGroupBJ( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func003A )
             call DestroyGroup( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7) )
@@ -24012,7 +24012,7 @@ function Trig____________________010Actions takes nothing returns nothing
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call ForForce( GetPlayersAll(), function Trig____________________010Func002Func001Func015A )
         else
-            if ((udg_Nandu_JJJ == 2) and (udg_Bo == 18) and (hasPIV() == false)) then
+            if ((udg_Nandu_JJJ == 2) and (udg_Bo == 18) and (hasVIP() == false)) then
                 call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7, YDWEGetUnitsInRectAllNull(GetPlayableMapRect()))
                 call ForGroupBJ( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func003A )
                 call DestroyGroup( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7) )
@@ -25149,7 +25149,7 @@ function Trig_pandingActions takes nothing returns nothing
         call DestroyGroup( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7) )
         call ForGroupBJ( LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, 0xF9BE58A7), function Trig_pandingFunc002Func015A )
         call CinematicModeBJ( true, GetPlayersAll() )
-        if ((udg_Nandu_JJJ == 3) and (hasPIV() == false)) then
+        if ((udg_Nandu_JJJ == 3) and (hasVIP() == false)) then
             call TransmissionFromUnitWithNameBJ( GetPlayersAll(), gg_unit_Nkjx_0241, "|cffffff00冥刹|r", null, "感谢对本地图的支持！你选择的难度“和谐”在这波就结束了，若想体验更多，请选择更高的难度,或者永久赞助该地图后获得在该难度下体验24+5波的特权.", bj_TIMETYPE_ADD, 5.00, true )
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)

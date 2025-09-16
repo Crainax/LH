@@ -602,13 +602,13 @@ library_once Version initializer InitVersion requires LHBase,Diffculty,Achieveme
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
-		PIV
+		VIP
 	*/
-	function SavePIV takes player p,integer i returns nothing
+	function SaveVIP takes player p,integer i returns nothing
     	call DzAPI_Map_StoreInteger( p,  "vip", i )
 	endfunction
 
-	function IsSavePIV takes player p,integer i returns boolean
+	function IsSaveVIP takes player p,integer i returns boolean
 		return vipCode[GetConvertedPlayerId(p)] == i
 	endfunction
 //---------------------------------------------------------------------------------------------------

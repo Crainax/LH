@@ -389,17 +389,17 @@ unit kaisa= null
 constant boolean LIBRARY_Lingxue=true
 unit lingxue= null
 //endglobals from Lingxue
-//globals from PIV:
-constant boolean LIBRARY_PIV=true
-boolean array sPIV
-boolean PIV__isFirst= true
-hashtable PIV__PIVTable= InitHashtable()
-constant integer kPIV=19
-constant integer kPIVStr=20
-constant integer kPIVPlayer=21
-constant integer kPIVPointer=22
+//globals from VIP:
+constant boolean LIBRARY_VIP=true
+boolean array sVIP
+boolean VIP__isFirst= true
+hashtable VIP__VIPTable= InitHashtable()
+constant integer kVIP=19
+constant integer kVIPStr=20
+constant integer kVIPPlayer=21
+constant integer kVIPPointer=22
 
-//endglobals from PIV
+//endglobals from VIP
 //globals from Seyu:
 constant boolean LIBRARY_Seyu=true
 unit seyu= null
@@ -9909,22 +9909,22 @@ endfunction
 
 
 //library Lingxue ends
-//library PIV:
+//library VIP:
 
 //---------------------------------------------------------------------------------------------------
 
- function PIV__TableHas takes integer i returns boolean
-		return HaveSavedBoolean(PIV__PIVTable, kPIV, i)
+ function VIP__TableHas takes integer i returns boolean
+		return HaveSavedBoolean(VIP__VIPTable, kVIP, i)
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function IsPIV takes player p returns boolean
-		return sPIV[GetConvertedPlayerId(p)]
+ function IsVIP takes player p returns boolean
+		return sVIP[GetConvertedPlayerId(p)]
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
 
-    function PIV__GetPIVCode takes string s returns integer
+    function VIP__GetVIPCode takes string s returns integer
         local string result= s
         local integer i= 1
         loop
@@ -9936,19 +9936,19 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
 
- function PIV__InitPlayerPIV takes player p returns nothing
-		if ( PIV__isFirst ) then
-			set PIV__isFirst=false
+ function VIP__InitPlayerVIP takes player p returns nothing
+		if ( VIP__isFirst ) then
+			set VIP__isFirst=false
 			set udg_I_Er_diansi[1]=3
 		endif
 
-		set sPIV[GetConvertedPlayerId(p)]=true
+		set sVIP[GetConvertedPlayerId(p)]=true
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r激活成功,你已经获得永久赞助特权！")
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function InitPIVHero takes unit u returns nothing
-		if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(u)))]) ) then // INLINED!!
+ function InitVIPHero takes unit u returns nothing
+		if ( (sVIP[GetConvertedPlayerId((GetOwningPlayer(u)))]) ) then // INLINED!!
 			call UnitAddItemByIdSwapped('IXU1', u)
 	        call SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)))
 			call SetPlayerState(GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD, 10000)
@@ -9960,15 +9960,15 @@ endfunction
 
 //---------------------------------------------------------------------------------------------------
 
- function CertificatePIV takes player p,string vCode returns nothing
+ function CertificateVIP takes player p,string vCode returns nothing
 
-		if ( vCode == null and (HaveSavedBoolean(PIV__PIVTable, kPIV, (PIV__GetPIVCode(GetPlayerName(p))))) ) then // INLINED!!
-			call PIV__InitPlayerPIV(p)
+		if ( vCode == null and (HaveSavedBoolean(VIP__VIPTable, kVIP, (VIP__GetVIPCode(GetPlayerName(p))))) ) then // INLINED!!
+			call VIP__InitPlayerVIP(p)
 			return
 		endif
 
-		if ( I2S(PIV__GetPIVCode(GetPlayerName(p))) == vCode ) then
-			call PIV__InitPlayerPIV(p)
+		if ( I2S(VIP__GetVIPCode(GetPlayerName(p))) == vCode ) then
+			call VIP__InitPlayerVIP(p)
 			return
 		endif
 
@@ -9979,11 +9979,11 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 
 
- function hasPIV takes nothing returns boolean
+ function hasVIP takes nothing returns boolean
   local integer i= 1
 		loop
 			exitwhen i > 6
-			if ( (sPIV[GetConvertedPlayerId((ConvertedPlayer(i)))]) ) then // INLINED!!
+			if ( (sVIP[GetConvertedPlayerId((ConvertedPlayer(i)))]) ) then // INLINED!!
 				return true
 			endif
 			set i=i + 1
@@ -9992,22 +9992,22 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
-    function ChatPIV takes nothing returns nothing
+    function ChatVIP takes nothing returns nothing
         local string chat= GetEventPlayerChatString()
         local string vCode= SubStringBJ(chat, 2, StringLength(chat))
-		call CertificatePIV(GetTriggerPlayer() , vCode)
+		call CertificateVIP(GetTriggerPlayer() , vCode)
     endfunction
 //---------------------------------------------------------------------------------------------------
 
- function PIV__PIVDialogClick takes nothing returns nothing
+ function VIP__VIPDialogClick takes nothing returns nothing
      local dialog d= GetClickedDialogBJ()
      local integer i= 0
-     local string s= LoadStr(PIV__PIVTable, GetHandleId(d), kPIVStr)
-     local player p= LoadPlayerHandle(PIV__PIVTable, GetHandleId(d), kPIVPlayer)
+     local string s= LoadStr(VIP__VIPTable, GetHandleId(d), kVIPStr)
+     local player p= LoadPlayerHandle(VIP__VIPTable, GetHandleId(d), kVIPPlayer)
 	    //验证
-	    if ( GetClickedButtonBJ() == LoadButtonHandle(PIV__PIVTable, GetHandleId(d), 10) ) then
-	        call CertificatePIV(p , s)
-	        call FlushChildHashtable(PIV__PIVTable, GetHandleId(d))
+	    if ( GetClickedButtonBJ() == LoadButtonHandle(VIP__VIPTable, GetHandleId(d), 10) ) then
+	        call CertificateVIP(p , s)
+	        call FlushChildHashtable(VIP__VIPTable, GetHandleId(d))
         	call DialogDisplay(p, d, false)
 	        call DialogClear(d)
 	        call DialogDestroy(d)
@@ -10021,9 +10021,9 @@ endfunction
 	    //输入
 	    loop
 	        exitwhen i > 9
-	        if ( GetClickedButtonBJ() == LoadButtonHandle(PIV__PIVTable, GetHandleId(d), i) ) then
+	        if ( GetClickedButtonBJ() == LoadButtonHandle(VIP__VIPTable, GetHandleId(d), i) ) then
 	            set s=s + I2S(i)
-	            call SaveStr(PIV__PIVTable, GetHandleId(d), kPIVStr, s)
+	            call SaveStr(VIP__VIPTable, GetHandleId(d), kVIPStr, s)
 	            exitwhen true
 	        endif
 	        set i=i + 1
@@ -10036,11 +10036,11 @@ endfunction
 	    set p=null
 	endfunction
 
- function CreatePIVDialog takes nothing returns nothing
+ function CreateVIPDialog takes nothing returns nothing
      local trigger t
      local dialog d
 
-		if ( (sPIV[GetConvertedPlayerId((GetTriggerPlayer()))]) ) then // INLINED!!
+		if ( (sVIP[GetConvertedPlayerId((GetTriggerPlayer()))]) ) then // INLINED!!
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你已激活了永久赞助权限,无须重复激活！")
 			return
 		endif
@@ -10053,70 +10053,70 @@ endfunction
 	    set t=CreateTrigger()
 	    set d=DialogCreate()
 	    call DialogSetMessage(d, "请从第1位开始依次输入激活码")
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'))
-	    call SaveButtonHandle(PIV__PIVTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512))
-	    call SaveStr(PIV__PIVTable, GetHandleId(d), kPIVStr, "")
-	    call SavePlayerHandle(PIV__PIVTable, GetHandleId(d), kPIVPlayer, GetTriggerPlayer())
-	    call SaveInteger(PIV__PIVTable, GetHandleId(d), kPIVPointer, 1)
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 0, DialogAddButton(d, "0", '0'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 1, DialogAddButton(d, "1", '1'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 2, DialogAddButton(d, "2", '2'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 3, DialogAddButton(d, "3", '3'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 4, DialogAddButton(d, "4", '4'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 5, DialogAddButton(d, "5", '5'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 6, DialogAddButton(d, "6", '6'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 7, DialogAddButton(d, "7", '7'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 8, DialogAddButton(d, "8", '8'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 9, DialogAddButton(d, "9", '9'))
+	    call SaveButtonHandle(VIP__VIPTable, GetHandleId(d), 10, DialogAddButton(d, "输入完毕|cffff6800(Esc)|r", 512))
+	    call SaveStr(VIP__VIPTable, GetHandleId(d), kVIPStr, "")
+	    call SavePlayerHandle(VIP__VIPTable, GetHandleId(d), kVIPPlayer, GetTriggerPlayer())
+	    call SaveInteger(VIP__VIPTable, GetHandleId(d), kVIPPointer, 1)
 	    call DialogDisplay(GetTriggerPlayer(), d, true)
 	    call TriggerRegisterDialogEvent(t, d)
-	    call TriggerAddAction(t, function PIV__PIVDialogClick)
+	    call TriggerAddAction(t, function VIP__VIPDialogClick)
 	    set d=null
 	    set t=null
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function InitAllPIV takes nothing returns nothing
+ function InitAllVIP takes nothing returns nothing
   local integer i= 1
 		loop
 			exitwhen i > 6
-			call CertificatePIV(ConvertedPlayer(i) , null)
+			call CertificateVIP(ConvertedPlayer(i) , null)
 			set i=i + 1
 		endloop
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function ClosePIV takes nothing returns nothing
-		call FlushParentHashtable(PIV__PIVTable)
+ function CloseVIP takes nothing returns nothing
+		call FlushParentHashtable(VIP__VIPTable)
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
- function PIV__InitPIV takes nothing returns nothing
+ function VIP__InitVIP takes nothing returns nothing
   local integer i= 1
   local trigger t= CreateTrigger()
 
 		loop
 			exitwhen i > 6
-			set sPIV[i]=false
+			set sVIP[i]=false
 			set i=i + 1
 		endloop
 
-		call SaveBoolean(PIV__PIVTable, kPIV, 560584534, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 632066098, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 679792348, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 244103987, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 1624950439, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 981252778, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 442300691, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 127836247, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 747551996, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 1549153604, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 243951516, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 472054031, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 156566316, true)
-		call SaveBoolean(PIV__PIVTable, kPIV, 805389327, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 560584534, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 632066098, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 679792348, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 244103987, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 1624950439, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 981252778, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 442300691, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 127836247, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 747551996, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 1549153604, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 243951516, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 472054031, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 156566316, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 805389327, true)
 
 		//test
-		call SaveBoolean(PIV__PIVTable, kPIV, 238541434, true)
+		call SaveBoolean(VIP__VIPTable, kVIP, 238541434, true)
 
 
 		call TriggerRegisterPlayerChatEvent(t, Player(0), "##", true)
@@ -10125,12 +10125,12 @@ endfunction
 		call TriggerRegisterPlayerChatEvent(t, Player(3), "##", true)
 		call TriggerRegisterPlayerChatEvent(t, Player(4), "##", true)
 		call TriggerRegisterPlayerChatEvent(t, Player(5), "##", true)
-	    call TriggerAddAction(t, function CreatePIVDialog)
+	    call TriggerAddAction(t, function CreateVIPDialog)
 	    set t=null
 	endfunction
 
 
-//library PIV ends
+//library VIP ends
 //library Seyu:
 
 //---------------------------------------------------------------------------------------------------
@@ -10588,7 +10588,7 @@ endfunction
 //end of: BuySoldier("uG04","4")
 
 		if ( GetUnitTypeId(GetSoldUnit()) == 'uG05' ) then
-			if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) != true ) then // INLINED!!
+			if ( (sVIP[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) != true ) then // INLINED!!
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -10610,7 +10610,7 @@ endfunction
 		endif
 
 		if ( GetUnitTypeId(GetSoldUnit()) == 'uG06' ) then
-			if ( (sPIV[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) != true ) then // INLINED!!
+			if ( (sVIP[GetConvertedPlayerId((GetOwningPlayer(GetBuyingUnit())))]) != true ) then // INLINED!!
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -10804,7 +10804,7 @@ endfunction
 //end of: CombineBox("A","sror","fgrg")
 
  function CombineBox takes nothing returns nothing
-		if not ( (sPIV[GetConvertedPlayerId((GetTriggerPlayer()))]) ) then // INLINED!!
+		if not ( (sVIP[GetConvertedPlayerId((GetTriggerPlayer()))]) ) then // INLINED!!
 			call DisplayTextToPlayer(GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r需要成为永久赞助才能使用此指令!")
 			return
 		endif
@@ -11173,7 +11173,7 @@ endfunction
 		endif
 
 		if ( chat == "test VIP" ) then
-			set sPIV[1]=true
+			set sVIP[1]=true
 			call BJDebugMsg("测试VIP!")
 			return
 		endif
@@ -12455,10 +12455,10 @@ endfunction
 
 // END IMPORT OF edit/Purgatory.j
 //VIP
-// BEGIN IMPORT OF edit/PIV.j
+// BEGIN IMPORT OF edit/VIP.j
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
 ///#include  "edit/Beast.j"
-// END IMPORT OF edit/PIV.j
+// END IMPORT OF edit/VIP.j
 //多面板
 // BEGIN IMPORT OF edit/Multiboard.j
 
@@ -12610,11 +12610,11 @@ endfunction
 // BEGIN IMPORT OF edit/ChatCommand.j
 
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
-// BEGIN IMPORT OF edit/\PIV.j
+// BEGIN IMPORT OF edit/\VIP.j
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
 ///#include  "edit/Beast.j"
-// redeclaration of library PIV skipped
-// END IMPORT OF edit/\PIV.j
+// redeclaration of library VIP skipped
+// END IMPORT OF edit/\VIP.j
 
 
 // END IMPORT OF edit/ChatCommand.j
@@ -12651,7 +12651,7 @@ endfunction
 // BEGIN IMPORT OF edit/CenterCredit.j
 
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
-// IGNORE DOUBLE IMPORT OF edit/\PIV.j
+// IGNORE DOUBLE IMPORT OF edit/\VIP.j
 // BEGIN IMPORT OF edit/\Multiboard.j
 
 // IGNORE DOUBLE IMPORT OF edit/\LHBase.j
@@ -12672,7 +12672,7 @@ endfunction
 // IGNORE DOUBLE IMPORT OF edit/\SpellBase.j
 // redeclaration of library Boss skipped
 // END IMPORT OF edit/\Boss.j
-// IGNORE DOUBLE IMPORT OF edit/\PIV.j
+// IGNORE DOUBLE IMPORT OF edit/\VIP.j
 ///#include  "edit/CenterCredit.j"
 
 // END IMPORT OF edit/Debug.j
@@ -13742,7 +13742,7 @@ function Trig_____________abActions takes nothing returns nothing
     else
     endif
     call CinematicModeBJ(false, GetPlayersAll())
-    call InitAllPIV()
+    call InitAllVIP()
     call ForForce(GetPlayersAll(), function Trig_____________abFunc011A)
     call TriggerExecute(gg_trg_D4)
     call PlayMusicBJ(gg_snd_PH1)
@@ -13975,7 +13975,7 @@ endfunction
 function Trig______________________uActions takes nothing returns nothing
     local integer ydul_g
     local timer ydl_timer
-    if ( ( udg_T2[GetConvertedPlayerId(GetTriggerPlayer())] == true ) and ( ( GetTriggerUnit() != gg_unit_Udea_0279 ) or ( (sPIV[GetConvertedPlayerId((GetTriggerPlayer()))]) ) or ( GetHeiyanSelectedCon(GetTriggerPlayer()) ) ) and ( ( GetTriggerUnit() != gg_unit_Hant_0205 ) or ( (sPIV[GetConvertedPlayerId((GetTriggerPlayer()))]) ) or ( GetHuanyiSelectedCon(GetTriggerPlayer()) ) ) ) then // INLINED!!
+    if ( ( udg_T2[GetConvertedPlayerId(GetTriggerPlayer())] == true ) and ( ( GetTriggerUnit() != gg_unit_Udea_0279 ) or ( (sVIP[GetConvertedPlayerId((GetTriggerPlayer()))]) ) or ( GetHeiyanSelectedCon(GetTriggerPlayer()) ) ) and ( ( GetTriggerUnit() != gg_unit_Hant_0205 ) or ( (sVIP[GetConvertedPlayerId((GetTriggerPlayer()))]) ) or ( GetHuanyiSelectedCon(GetTriggerPlayer()) ) ) ) then // INLINED!!
         set udg_T1[GetConvertedPlayerId(GetTriggerPlayer())]=true
         set udg_Point=GetRandomLocInRect(gg_rct________1)
         call SetUnitPositionLoc(GetTriggerUnit(), udg_Point)
@@ -14017,7 +14017,7 @@ function Trig______________________uActions takes nothing returns nothing
             call RemoveLocation(udg_Point)
             set bj_forLoopAIndex=bj_forLoopAIndex + 1
         endloop
-        call InitPIVHero(GetTriggerUnit())
+        call InitVIPHero(GetTriggerUnit())
         if ( ( GetTriggerUnit() == gg_unit_Hvwd_0016 ) ) then
             call MultiboardSetItemIcon(MultiboardGetItem(udg_D, GetConvertedPlayerId(GetTriggerPlayer()), 0), "ReplaceableTextures\\CommandButtons\\BTNSylvanusWindrunner.blp")
             set udg_Unit_Qixing[1]=CreateUnit(GetTriggerPlayer(), 'ewsp', (RMinBJ(RMaxBJ(((( GetUnitX(GetTriggerUnit()) + 400.00 ))*1.0), yd_MapMinX), yd_MapMaxX)), (RMinBJ(RMaxBJ(((GetUnitY(GetTriggerUnit()))*1.0), yd_MapMinY), yd_MapMaxY)), 90.00) // INLINED!!
@@ -16364,7 +16364,7 @@ function Trig____________________055Func008T takes nothing returns nothing
     call CreateQuestBJ(bj_QUESTTYPE_OPT_DISCOVERED, "转生", "你现在可以在基地左边进行转生了！任何战斗力都可以进去！推荐进去前脱下强大的装备！", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp")
     call QuestMessageBJ(GetPlayersAll(), bj_QUESTMESSAGE_DISCOVERED, "发现新任务 - |cFFCCFF00转生|r\n|cFFFF9900点击左上角“任务”查看。|r")
     call QuestSetEnabledBJ(true, GetLastCreatedQuestBJ())
-    call FlushParentHashtable(PIV__PIVTable) // INLINED!!
+    call FlushParentHashtable(VIP__VIPTable) // INLINED!!
     call FlushChildHashtable(YDHT, ((GetHandleId((GetExpiredTimer()))))) // INLINED!!
     call DestroyTimer(GetExpiredTimer())
 endfunction
@@ -34959,7 +34959,7 @@ function Trig____________________010Actions takes nothing returns nothing
         call PlaySoundBJ(gg_snd_BOSS)
         call TriggerExecute(gg_trg____________________032)
     else
-        if ( ( udg_Nandu_JJJ == 1 ) and ( udg_Bo == 12 ) and ( hasPIV() == false ) ) then
+        if ( ( udg_Nandu_JJJ == 1 ) and ( udg_Bo == 12 ) and ( hasVIP() == false ) ) then
             call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
             call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func003A)
             call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
@@ -34978,7 +34978,7 @@ function Trig____________________010Actions takes nothing returns nothing
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call ForForce(GetPlayersAll(), function Trig____________________010Func002Func001Func015A)
         else
-            if ( ( udg_Nandu_JJJ == 2 ) and ( udg_Bo == 18 ) and ( hasPIV() == false ) ) then
+            if ( ( udg_Nandu_JJJ == 2 ) and ( udg_Bo == 18 ) and ( hasVIP() == false ) ) then
                 call SaveGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7, (YDWEGetUnitsInRectMatchingNull((GetPlayableMapRect()) , null))) // INLINED!!
                 call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig____________________010Func002Func001Func001Func003A)
                 call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
@@ -36067,7 +36067,7 @@ function Trig_pandingActions takes nothing returns nothing
         call DestroyGroup(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7))
         call ForGroupBJ(LoadGroupHandle(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0xF9BE58A7), function Trig_pandingFunc002Func015A)
         call CinematicModeBJ(true, GetPlayersAll())
-        if ( ( udg_Nandu_JJJ == 3 ) and ( hasPIV() == false ) ) then
+        if ( ( udg_Nandu_JJJ == 3 ) and ( hasVIP() == false ) ) then
             call TransmissionFromUnitWithNameBJ(GetPlayersAll(), gg_unit_Nkjx_0241, "|cffffff00冥刹|r", null, "感谢对本地图的支持！你选择的难度“和谐”在这波就结束了，若想体验更多，请选择更高的难度,或者永久赞助该地图后获得在该难度下体验24+5波的特权.", bj_TIMETYPE_ADD, 5.00, true)
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDHT, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
@@ -39088,7 +39088,7 @@ call ExecuteFunc("TouristTrap__InitTouristTrap")
 call ExecuteFunc("Arena__InitArena")
 call ExecuteFunc("Boss__InitBoss")
 call ExecuteFunc("Combine__InitCombine")
-call ExecuteFunc("PIV__InitPIV")
+call ExecuteFunc("VIP__InitVIP")
 call ExecuteFunc("CenterCredit__InitCenterCredit")
 call ExecuteFunc("ChatCommand__InitChatCommand")
 call ExecuteFunc("HeroSpellBase__InitHeroSpellBase")

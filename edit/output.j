@@ -5,10 +5,10 @@ constant boolean LIBRARY_DzAPI=true
 //globals from JBase:
 constant boolean LIBRARY_JBase=true
 //endglobals from JBase
-//globals from PIVInterface:
-constant boolean LIBRARY_PIVInterface=true
-boolean array sPIV
-//endglobals from PIVInterface
+//globals from VIPInterface:
+constant boolean LIBRARY_VIPInterface=true
+boolean array sVIP
+//endglobals from VIPInterface
 //globals from YDWEAroundSystem:
 constant boolean LIBRARY_YDWEAroundSystem=true
 //endglobals from YDWEAroundSystem
@@ -1509,22 +1509,22 @@ endfunction
 
 
 //library JBase ends
-//library PIVInterface:
+//library VIPInterface:
 
 
 //---------------------------------------------------------------------------------------------------
 
- function IsPIV takes player p returns boolean
-		return sPIV[GetConvertedPlayerId(p)]
+ function IsVIP takes player p returns boolean
+		return sVIP[GetConvertedPlayerId(p)]
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
 
- function hasPIV takes nothing returns boolean
+ function hasVIP takes nothing returns boolean
   local integer i= 1
 		loop
 			exitwhen i > 6
-			if ( (sPIV[GetConvertedPlayerId((ConvertedPlayer(i)))]) ) then // INLINED!!
+			if ( (sVIP[GetConvertedPlayerId((ConvertedPlayer(i)))]) ) then // INLINED!!
 				return true
 			endif
 			set i=i + 1
@@ -1534,7 +1534,7 @@ endfunction
 
 
 
-//library PIVInterface ends
+//library VIPInterface ends
 //library YDWEAroundSystem:
 
     function YDWEAroundSystem takes unit satellite,unit star,real angleRate,real displacement,real riseRate,real timeout,real interval returns nothing
@@ -7600,9 +7600,9 @@ endfunction
 
  function FanzhuanCondition takes player p,integer i returns boolean
 		if not ( false ) then
-			return (sPIV[GetConvertedPlayerId((p))]) // INLINED!!
+			return (sVIP[GetConvertedPlayerId((p))]) // INLINED!!
 		else
-			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)], i, i)) == 1 or GetSpecifyHeroTimes(p , i) >= 30 or (sPIV[GetConvertedPlayerId((p))]) // INLINED!!
+			return S2I(SubStringBJ(SFanzhaun[GetConvertedPlayerId(p)], i, i)) == 1 or GetSpecifyHeroTimes(p , i) >= 30 or (sVIP[GetConvertedPlayerId((p))]) // INLINED!!
 		endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -9935,11 +9935,11 @@ endfunction
 	endfunction
 //---------------------------------------------------------------------------------------------------
 
- function SavePIV takes player p,integer i returns nothing
+ function SaveVIP takes player p,integer i returns nothing
     	call DzAPI_Map_StoreInteger(p , "vip" , i)
 	endfunction
 
- function IsSavePIV takes player p,integer i returns boolean
+ function IsSaveVIP takes player p,integer i returns boolean
 		return vipCode[GetConvertedPlayerId(p)] == i
 	endfunction
 //---------------------------------------------------------------------------------------------------
@@ -11206,8 +11206,8 @@ endfunction
 
 // END IMPORT OF Constant.j
 // IGNORE DOUBLE IMPORT OF JBase.j
-// BEGIN IMPORT OF PIVInterface.j
-// END IMPORT OF PIVInterface.j
+// BEGIN IMPORT OF VIPInterface.j
+// END IMPORT OF VIPInterface.j
 
 
 // END IMPORT OF LHBase.j

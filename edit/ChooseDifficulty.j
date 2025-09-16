@@ -8,7 +8,7 @@
 /*
 选择难度
 */
-library ChooseDifficulty requires LHBase,Version,Diffculty,PIV {
+library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
 
     // 初始化万劫难度
 	function InitWanjie() {

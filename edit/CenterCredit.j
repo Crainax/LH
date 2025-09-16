@@ -2,13 +2,13 @@
 #define CenterCreditIncluded
 
 #include  "edit/LHBase.j"
-#include  "edit/PIV.j"
+#include  "edit/VIP.j"
 #include  "edit/Multiboard.j"
 ///#include  "edit/Exercise.j"
 /*
     守家基分商店
 */
-library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,PIV,Multiboard
+library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,VIP,Multiboard
 
 	globals
 		private constant integer CREDIT_SOLIDER_1 = 2500
@@ -57,7 +57,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 		//! runtextmacro BuySoldier("uG04","4")
 
 		if (GetUnitTypeId(GetSoldUnit()) == 'uG05') then
-			if (IsPIV(GetOwningPlayer(GetBuyingUnit())) != true) then
+			if (IsVIP(GetOwningPlayer(GetBuyingUnit())) != true) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -79,7 +79,7 @@ library_once CenterCredit initializer InitCenterCredit requires LHBase,Exercise,
 		endif
 
 		if (GetUnitTypeId(GetSoldUnit()) == 'uG06') then
-			if (IsPIV(GetOwningPlayer(GetBuyingUnit())) != true) then
+			if (IsVIP(GetOwningPlayer(GetBuyingUnit())) != true) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return

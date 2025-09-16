@@ -6,7 +6,7 @@
 /*
 地图初始化
 */
-library Init requires LHBase,Achievement,MiJing,Diffculty,Version,PIV {
+library Init requires LHBase,Achievement,MiJing,Diffculty,Version,VIP {
 
     // 判断是否读档成功
     function JudgeCundang (){

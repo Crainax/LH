@@ -2,7 +2,7 @@
 #define ChatCommandIncluded
 
 #include  "edit/LHBase.j"
-#include  "edit/PIV.j"
+#include  "edit/VIP.j"
 ///#include  "edit/Continous.j"
 #include  "edit/Diffculty.j"
 #include  "edit/Xuanxue.j"
@@ -15,7 +15,7 @@
     游戏指令
     -kill自杀
 */
-library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,Hanshang,BaseVersion//,Continous
+library_once ChatCommand initializer InitChatCommand requires LHBase,VIP,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,Hanshang,BaseVersion//,Continous
 
 	globals
 		private item array IBox
@@ -67,7 +67,7 @@ library_once ChatCommand initializer InitChatCommand requires LHBase,PIV,Version
 	//! runtextmacro CombineBox("A","sror","fgrg")
 
 	function CombineBox takes nothing returns nothing
-		if not(IsPIV(GetTriggerPlayer())) then
+		if not(IsVIP(GetTriggerPlayer())) then
 			call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r需要成为永久赞助才能使用此指令!" )
 			return
 		endif

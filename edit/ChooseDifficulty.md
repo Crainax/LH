@@ -205,7 +205,7 @@ function Trig_____________abActions takes nothing returns nothing
     endif
     call CinematicModeBJ( false, GetPlayersAll() )
     call PrintDifficulty()
-    call InitAllPIV()
+    call InitAllVIP()
     if (             (IsTianyan)) then
         call ForForce( GetPlayersByMapControl(MAP_CONTROL_COMPUTER), function Trig_____________abFunc014Func001A )
     else

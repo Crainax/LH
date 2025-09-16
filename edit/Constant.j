@@ -39,13 +39,7 @@ library_once Constant initializer InitConstant requires JBase
 		//星胧的标志位
 		boolean BSpinXinglong = false
 	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    获取当前版本
-	*/
-	constant function GetVersion takes nothing returns string
-		return "3.43"
-	endfunction
+
 //---------------------------------------------------------------------------------------------------
 	/*
 	    获取是否是11

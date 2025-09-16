@@ -22,7 +22,7 @@
 // 装备属性初始化
 #include "edit/ItemAttr.j"
 // VIP
-#include "edit/PIV.j"
+#include "edit/VIP.j"
 // 多面板
 #include "edit/Multiboard.j"
 // 转生

@@ -3,13 +3,13 @@
 
 #include "edit/LHBase.j"
 #include "edit/Achievement.j"
-#include "edit/PIV.j"
+#include "edit/VIP.j"
 #include "edit/RandomHero.j"
 //! zinc
 /*
 英雄选择
 */
-library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
+library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
 
 	// 信哲
 	public boolean BX1 = false;
@@ -110,10 +110,10 @@ library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
 	}
 
 	//选英雄时调用(赞助)
-	public function InitPIVHero(unit u) {
+	public function InitVIPHero(unit u) {
 		debug InitDingzhi(u);
 
-		if (IsPIV(GetOwningPlayer(u))) {
+		if (IsVIP(GetOwningPlayer(u))) {
 			UnitAddItemByIdSwapped('IXU1', u);
 			SaveInteger(YDHT, GetHandleId(GetLastCreatedItem()), 0xA75AD423, GetConvertedPlayerId(GetOwningPlayer(u)));
 			AdjustPlayerStateBJ(8000, GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD);
@@ -121,7 +121,7 @@ library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
 			return;
 		}
 
-		if ((!IsPIV(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
+		if ((!IsVIP(GetOwningPlayer(u))) && IsColorSpin(GetOwningPlayer(u))) {
 			Discolor(u);
 		}
 
@@ -154,11 +154,11 @@ library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
             }
 
             if ((udg_T2[pid] == true)
-            && ((u != gg_unit_Hapm_0255) || (IsPIV(p)) || (GetXinglongSelectedCon(p)))
-            && ((u != gg_unit_Hant_0205) || (IsPIV(p)) || (GetHuanyiSelectedCon(p)))
-            && ((u != gg_unit_Hkal_0208) || (IsPIV(p)) || (GetMengjiSelectedCon(p)) || (BSuiji[pid]))
-            && ((u != gg_unit_Nsjs_0209) || (IsPIV(p)) || (GetCanglingSelectedCon(p)))
-            && ((u != gg_unit_H01Y_0286) || (IsPIV(p)) || (GetXiaotingSelectedCon(p)))) {
+            && ((u != gg_unit_Hapm_0255) || (IsVIP(p)) || (GetXinglongSelectedCon(p)))
+            && ((u != gg_unit_Hant_0205) || (IsVIP(p)) || (GetHuanyiSelectedCon(p)))
+            && ((u != gg_unit_Hkal_0208) || (IsVIP(p)) || (GetMengjiSelectedCon(p)) || (BSuiji[pid]))
+            && ((u != gg_unit_Nsjs_0209) || (IsVIP(p)) || (GetCanglingSelectedCon(p)))
+            && ((u != gg_unit_H01Y_0286) || (IsVIP(p)) || (GetXiaotingSelectedCon(p)))) {
 
                 if (IsUnitIsSpin(u)) {   //英雄皮肤
                     ChooseSpinHero(p, u);
@@ -404,7 +404,7 @@ library HeroSelect requires LHBase,Achievement,PIV,RandomHero {
                 TriggerExecute(gg_trg_D7);
                 SetUnitInvulnerable(udg_H[pid], false);
                 UnitAddItemByIdSwapped('spsh', udg_H[pid]);
-                InitPIVHero(udg_H[pid]);
+                InitVIPHero(udg_H[pid]);
                 SetDenglu(p);
                 if (IsJianianhua()) {
                     UnitAddItemByIdSwapped('I06N', udg_H[pid]);

@@ -3,9 +3,9 @@
 
 #include  "edit/LHBase.j"
 ///#include  "edit/NetVersion.j"
-#include  "edit/PIV.j"
+#include  "edit/VIP.j"
 
-library_once RandomHero  requires LHBase,Version,PIV
+library_once RandomHero  requires LHBase,Version,VIP
 
 	globals
 		boolean array BSuiji
@@ -48,7 +48,7 @@ library_once RandomHero  requires LHBase,Version,PIV
 		local integer i = 1
 		local group g = GetUnitsOfPlayerMatching(Player(PLAYER_NEUTRAL_PASSIVE), Condition(function RandomPickCondition))
 		local unit u = null
-		if not(IsPIV(p)) then
+		if not(IsVIP(p)) then
 			loop
 				exitwhen i > HERO_COUNT
 				if (i == 15 and not(GetHuanyiSelectedCon(p))) then

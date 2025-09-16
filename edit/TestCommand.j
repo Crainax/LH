@@ -1,7 +1,7 @@
 
 #include  "edit/LHBase.j"
 #include  "edit/Boss.j"
-#include  "edit/PIV.j"
+#include  "edit/VIP.j"
 #include  "edit/Attr.j"
 ///#include  "edit/Diamond.j"
 ///#include  "edit/CenterCredit.j"
@@ -34,7 +34,7 @@
 	test mijing 	秘境19
 	test bo29
 */
-library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,CenterCredit,Diamond
+library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,VIP,CenterCredit,Diamond
 
 	globals
 		boolean debug_show_damage = false
@@ -300,7 +300,7 @@ library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,PIV,Cen
 		endif
 
 		if (chat == "test VIP") then
-			set sPIV[1] = true
+			set sVIP[1] = true
 			call BJDebugMsg("测试VIP!")
 			return
 		endif

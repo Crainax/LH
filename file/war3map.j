@@ -131,10 +131,10 @@ constant boolean LIBRARY_Multiboard=true
 integer array centerCredit
 
 //endglobals from Multiboard
-//globals from PIV:
-constant boolean LIBRARY_PIV=true
-boolean array sPIV
-//endglobals from PIV
+//globals from VIP:
+constant boolean LIBRARY_VIP=true
+boolean array sVIP
+//endglobals from VIP
 //globals from Pet:
 constant boolean LIBRARY_Pet=true
 group array GPet
@@ -4097,27 +4097,27 @@ endfunction
 	endfunction
 
 //library Multiboard ends
-//library PIV:
+//library VIP:
 
 //---------------------------------------------------------------------------------------------------
- function IsPIV takes player p returns boolean
-		return sPIV[GetConvertedPlayerId(p)]
+ function IsVIP takes player p returns boolean
+		return sVIP[GetConvertedPlayerId(p)]
 	endfunction
 
 //---------------------------------------------------------------------------------------------------
- function PIV__InitPIV takes nothing returns nothing
+ function VIP__InitVIP takes nothing returns nothing
   local integer i= 1
 		loop
 			exitwhen i > 6
 
-			set sPIV[i]=false
+			set sVIP[i]=false
 
 			set i=i + 1
 		endloop
 	endfunction
 
 
-//library PIV ends
+//library VIP ends
 //library Pet:
 
 
@@ -7354,7 +7354,7 @@ endfunction
 //end of: BuySoldier("uG04","4")
 
 		if ( GetUnitTypeId(GetSoldUnit()) == 'uG05' ) then
-			if ( IsPIV(GetOwningPlayer(GetBuyingUnit())) == true ) then
+			if ( IsVIP(GetOwningPlayer(GetBuyingUnit())) == true ) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -7376,7 +7376,7 @@ endfunction
 		endif
 
 		if ( GetUnitTypeId(GetSoldUnit()) == 'uG06' ) then
-			if ( IsPIV(GetOwningPlayer(GetBuyingUnit())) == true ) then
+			if ( IsVIP(GetOwningPlayer(GetBuyingUnit())) == true ) then
 				call DisplayTextToPlayer(GetOwningPlayer(GetBuyingUnit()), 0., 0., "|cFFFF66CC【消息】|r你不是永久赞助.")
 				call RemoveUnit(GetSoldUnit())
 				return
@@ -8380,7 +8380,7 @@ endfunction
 		endif
 
 		if ( chat == "test VIP" ) then
-			set sPIV[1]=true
+			set sVIP[1]=true
 			call BJDebugMsg("测试VIP!")
 			return
 		endif
@@ -9680,10 +9680,10 @@ endfunction
 
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Purgatory.j
 //VIP
-// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/PIV.j
+// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/VIP.j
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
 
-// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/PIV.j
+// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/VIP.j
 //多面板
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/Multiboard.j
 
@@ -9816,11 +9816,11 @@ endfunction
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/CenterCredit.j
 
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
-// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/\PIV.j
+// BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/\VIP.j
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
 
-// redeclaration of library PIV skipped
-// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\PIV.j
+// redeclaration of library VIP skipped
+// END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\VIP.j
 // BEGIN IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Multiboard.j
 
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\LHBase.j
@@ -9841,7 +9841,7 @@ endfunction
 // IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\SpellBase.j
 // redeclaration of library Boss skipped
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/\Boss.j
-// IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\PIV.j
+// IGNORE DOUBLE IMPORT OF G:\War3\Maps\Loopinghell\/edit/\VIP.j
 ///#include  "edit/CenterCredit.j"
 
 // END IMPORT OF G:\War3\Maps\Loopinghell\/edit/Debug.j
@@ -39670,7 +39670,7 @@ call ExecuteFunc("ChatCommand___InitChatCommand")
 call ExecuteFunc("Exercise___InitExercise")
 call ExecuteFunc("GoldSystem___InitGoldSystem")
 call ExecuteFunc("Multiboard__InitMultiboard")
-call ExecuteFunc("PIV__InitPIV")
+call ExecuteFunc("VIP__InitVIP")
 call ExecuteFunc("Pet__InitPet")
 call ExecuteFunc("Printer__InitPrinter")
 call ExecuteFunc("YDWEStringFormula__Init")

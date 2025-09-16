@@ -4,10 +4,10 @@
 #include  "edit/LHBase.j"
 #include  "edit/NetVersion.j"
 #include  "edit/ChallangerDZ.j"
-#include  "edit/PIV.j"
+#include  "edit/VIP.j"
 #include  "edit/Structs.j"
 
-library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
+library_once Box requires LHBase,Version,ChallangerDZ,VIP,Structs
 
 	globals
 		TextTagBind array TTBBox
@@ -182,7 +182,7 @@ library_once Box requires LHBase,Version,ChallangerDZ,PIV,Structs
 		elseif (i == 7) then
 			return IsHasCangku(p,i) or DzAPI_Map_GetMapLevel(p) >= 24 or GetDigitAt(Greward[GetConvertedPlayerId(p)],7) > 0
 		elseif (i == 8) then
-			return IsHasCangku(p,i) or IsPIV(p) or GetDigitAt(Greward[GetConvertedPlayerId(p)],8) > 0
+			return IsHasCangku(p,i) or IsVIP(p) or GetDigitAt(Greward[GetConvertedPlayerId(p)],8) > 0
 		elseif (i >= 9) then
 			return IsHasCangku(p,i)
 		endif

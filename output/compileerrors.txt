@@ -1,4 +1,5 @@
 logs\currentmapscript.j
 pjass.exe
-Line 21165:  Undeclared function DumpState
-1
+Line 30387:  Undeclared variable si__struct_name_V
+Line 30387:  Comparing two variables of different primitive types (except real and integer) is not allowed
+2
