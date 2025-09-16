@@ -436,7 +436,7 @@ library_once Moqi  requires LHBase,Spin,Printer,SpellBase
 	    call TriggerRegisterUnitEvent(TSpellMoqi,moqi,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellMoqi, function TSpellMoqiAct)
 
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 3 or vip.is(GetOwningPlayer(moqi))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 10 or vip.is(GetOwningPlayer(moqi))) then
 	    	call CreateFanzhuanItem(moqi)
 	    debug endif
 

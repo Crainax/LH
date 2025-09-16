@@ -30,11 +30,6 @@ string StringUtils___temp
 //globals from UnitFilter:
 constant boolean LIBRARY_UnitFilter=true
 //endglobals from UnitFilter
-//globals from UnitTestFramwork:
-constant boolean LIBRARY_UnitTestFramwork=true
-trigger UnitTestFramwork___TUnitTest=null
-hashtable UnitTestFramwork___HASH_UNITTEST=InitHashtable()
-//endglobals from UnitTestFramwork
 //globals from YDTriggerSaveLoadSystem:
 constant boolean LIBRARY_YDTriggerSaveLoadSystem=true
 hashtable YDHT
@@ -64,7 +59,6 @@ integer YDWEBase___AbilityCastingOverEventNumber= 0
 //endglobals from YDWEBase
 //globals from YDWEGetForceOfPlayerNull:
 constant boolean LIBRARY_YDWEGetForceOfPlayerNull=true
-force yd_NullTempForce
 //endglobals from YDWEGetForceOfPlayerNull
 //globals from YDWEGetItemOfTypeFromUnitBJNull:
 constant boolean LIBRARY_YDWEGetItemOfTypeFromUnitBJNull=true
@@ -72,6 +66,7 @@ item yd_NullTempItem
 //endglobals from YDWEGetItemOfTypeFromUnitBJNull
 //globals from YDWEGetPlayersByMapControlNull:
 constant boolean LIBRARY_YDWEGetPlayersByMapControlNull=true
+force yd_NullTempForce
 //endglobals from YDWEGetPlayersByMapControlNull
 //globals from YDWEGetRandomSubGroupEnumNull:
 constant boolean LIBRARY_YDWEGetRandomSubGroupEnumNull=true
@@ -318,7 +313,7 @@ constant boolean LIBRARY_Printer=true
 //endglobals from Printer
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
-constant integer kUImmuteDamage=8
+constant integer kUImmuteDamage=6
 //endglobals from SpellBase
 //globals from Structs:
 constant boolean LIBRARY_Structs=true
@@ -333,13 +328,13 @@ constant boolean LIBRARY_UseItem=true
 //endglobals from UseItem
 //globals from Wing:
 constant boolean LIBRARY_Wing=true
-constant integer kWingDialog1=10
-constant integer kWingDialog2=12
-constant integer kWingDialog3=14
-constant integer kWingDialog4=16
-constant integer kWingDialog5=18
-constant integer kWingDialog6=20
-constant integer kWingUnit=22
+constant integer kWingDialog1=7
+constant integer kWingDialog2=8
+constant integer kWingDialog3=9
+constant integer kWingDialog4=10
+constant integer kWingDialog5=11
+constant integer kWingDialog6=12
+constant integer kWingUnit=13
 //endglobals from Wing
 //globals from Achievement:
 constant boolean LIBRARY_Achievement=true
@@ -446,14 +441,14 @@ constant boolean LIBRARY_LHOther=true
 //globals from Beast:
 constant boolean LIBRARY_Beast=true
 		
-constant integer Beast__kU=24
-constant integer Beast__kr=26
-constant integer Beast__kg=28
-constant integer Beast__kb=30
-constant integer Beast__ksr=32
-constant integer Beast__ksg=34
-constant integer Beast__ksb=36
-constant integer Beast__kBeastItem=38
+constant integer Beast__kU=14
+constant integer Beast__kr=15
+constant integer Beast__kg=16
+constant integer Beast__kb=17
+constant integer Beast__ksr=18
+constant integer Beast__ksg=19
+constant integer Beast__ksb=20
+constant integer Beast__kBeastItem=21
 		
 unit array Unit_Beast
 constant integer DAMAGE_BEAST_00= 30000
@@ -478,10 +473,6 @@ constant boolean LIBRARY_Continous=true
 integer array IConDays
 integer array ILastTime
 boolean array BWuxing
-boolean Continous___Cont_hasPass_overrideEnabled=false
-boolean Continous___Cont_hasPass_overrideValue=false
-boolean Continous___Cont_timeOverrideEnabled=false
-integer Continous___Cont_timeOverrideValue=1759473386
 //endglobals from Continous
 //globals from Purgatory:
 constant boolean LIBRARY_Purgatory=true
@@ -501,7 +492,7 @@ integer array passTimes
 		
 integer array petTimes
 		
-constant integer kSaveHeroTimes=40
+constant integer kSaveHeroTimes=22
 		
 		
 		
@@ -661,8 +652,8 @@ trigger Hanshang__TSpellHanshang4= null
 		
 real Hanshang__RLianjin= 0
 real Hanshang__RLianjin2= 0
-constant integer kLianhuanBoomX=42
-constant integer kLianhuanBoomY=44
+constant integer kLianhuanBoomX=23
+constant integer kLianhuanBoomY=24
 		
 timer Hanshang__TDuwu= null
 unit Hanshang__UDuwu= null
@@ -690,7 +681,7 @@ trigger Heiyan__TSpellHeiyan41= null
 boolean Heiyan__BIsMojie= true
 		
 		
-constant integer kUYanluo=46
+constant integer kUYanluo=25
 		
 unit Heiyan__UZangJiuTian= null
 boolean Heiyan__IsDouble= false
@@ -718,14 +709,14 @@ integer ICurrentSpell= 0
 		
 integer Huanyi__IMoneng= 0
 		
-constant integer kNoneIntTimes=48
+constant integer kNoneIntTimes=26
 		
-constant integer kUHuanyiQuan=50
+constant integer kUHuanyiQuan=27
 		
-constant integer kIGuCan=52
+constant integer kIGuCan=28
 timer TGuCan= null
 		
-constant integer kHuanyuTimes=54
+constant integer kHuanyuTimes=29
 		
 texttag Huanyi__TTMoneng
 effect Huanyi__ELowMoneng= null
@@ -825,7 +816,7 @@ trigger Seyu__TSpellSeyu2= null
 trigger Seyu__TSpellSeyu3= null
 trigger Seyu__TSpellSeyuUpdate= null
 trigger Seyu__TSpellChongdong= null
-constant integer kAnShaCount=56
+constant integer kAnShaCount=30
 		
 integer Seyu__ItempPower= 0
 texttag array Seyu__TTCD
@@ -1071,9 +1062,6 @@ trigger TDeathGhostAngle= null
 timer TGhostShiye2= null
 integer IKongshen= 0
 //endglobals from Boss
-//globals from DebugNet:
-constant boolean LIBRARY_DebugNet=true
-//endglobals from DebugNet
 //globals from VIP:
 constant boolean LIBRARY_VIP=true
 //endglobals from VIP
@@ -1112,6 +1100,7 @@ texttag Arena__textTag_Level= null
 //globals from Box:
 constant boolean LIBRARY_Box=true
 integer array Box__TTBBox
+// processed:     boolean  array Box__MallItemGet[6][1000]
 //endglobals from Box
 //globals from CenterCredit:
 constant boolean LIBRARY_CenterCredit=true
@@ -1165,12 +1154,6 @@ boolean BX2=false
 constant boolean LIBRARY_ItemSpell=true
 boolean array BYaoShuxing
 //endglobals from ItemSpell
-//globals from TestCommand:
-constant boolean LIBRARY_TestCommand=true
-boolean debug_show_damage= false
-boolean debug_show_attr= false
-unit testDyingUnit= null
-//endglobals from TestCommand
 //globals from ChatCommand:
 constant boolean LIBRARY_ChatCommand=true
 item array ChatCommand__IBox
@@ -1835,12 +1818,11 @@ destructable gg_dest_ZTsg_0110= null
 trigger l__library_init
 
 //JASSHelper struct globals:
-constant integer si__music=1
+constant integer si__music=2
 sound array s__music_snd
-constant integer si__triangleXY=2
+constant integer si__triangleXY=3
 real s__triangleXY_x=0.0
 real s__triangleXY_y=0.0
-constant integer si__assert=3
 constant integer si__hardware=4
 trigger s__hardware_trWheel=null
 trigger s__hardware_trUpdate=null
@@ -2073,6 +2055,7 @@ constant integer si__vip=31
 boolean s__vip_isFirst=true
 hashtable s__vip_table=InitHashtable()
 boolean array s__vip_v
+boolean array s__Box__MallItemGet
 integer array s__s__DmgS_stack
 integer array si__YDWETimerPattern___Thread_type
 trigger array st__YDWETimerPattern___Thread_onDestroy
@@ -2114,12 +2097,12 @@ trigger st__DamageTJ_onDestroy
 trigger st__DamageTJ_destroy
 trigger st__vip_is
 trigger st__vip_has
-trigger array st___prototype55
-trigger array st___prototype58
-trigger array st___prototype194
-trigger array st___prototype235
-trigger array st___prototype269
-trigger array st___prototype311
+trigger array st___prototype54
+trigger array st___prototype56
+trigger array st___prototype192
+trigger array st___prototype233
+trigger array st___prototype267
+trigger array st___prototype309
 handle f__arg_handle1
 player f__arg_player1
 integer f__arg_integer1
@@ -3161,72 +3144,72 @@ function s__YDWETimerPattern___Linear__allocate takes nothing returns integer
  return this
 endfunction
 
-function sc___prototype55_execute takes integer i returns nothing
+function sc___prototype54_execute takes integer i returns nothing
 
-    call TriggerExecute(st___prototype55[i])
+    call TriggerExecute(st___prototype54[i])
 endfunction
-function sc___prototype55_evaluate takes integer i returns nothing
+function sc___prototype54_evaluate takes integer i returns nothing
 
-    call TriggerEvaluate(st___prototype55[i])
+    call TriggerEvaluate(st___prototype54[i])
 
 endfunction
-function sc___prototype58_execute takes integer i,integer a1 returns nothing
+function sc___prototype56_execute takes integer i,integer a1 returns nothing
     set f__arg_integer1=a1
 
-    call TriggerExecute(st___prototype58[i])
+    call TriggerExecute(st___prototype56[i])
 endfunction
-function sc___prototype58_evaluate takes integer i,integer a1 returns nothing
+function sc___prototype56_evaluate takes integer i,integer a1 returns nothing
     set f__arg_integer1=a1
 
-    call TriggerEvaluate(st___prototype58[i])
+    call TriggerEvaluate(st___prototype56[i])
 
 endfunction
-function sc___prototype194_execute takes integer i,unit a1 returns nothing
+function sc___prototype192_execute takes integer i,unit a1 returns nothing
     set f__arg_unit1=a1
 
-    call TriggerExecute(st___prototype194[i])
+    call TriggerExecute(st___prototype192[i])
 endfunction
-function sc___prototype194_evaluate takes integer i,unit a1 returns nothing
+function sc___prototype192_evaluate takes integer i,unit a1 returns nothing
     set f__arg_unit1=a1
 
-    call TriggerEvaluate(st___prototype194[i])
+    call TriggerEvaluate(st___prototype192[i])
 
 endfunction
-function sc___prototype235_execute takes integer i,integer a1,real a2,real a3 returns nothing
+function sc___prototype233_execute takes integer i,integer a1,real a2,real a3 returns nothing
     set f__arg_integer1=a1
     set f__arg_real1=a2
     set f__arg_real2=a3
 
-    call TriggerExecute(st___prototype235[i])
+    call TriggerExecute(st___prototype233[i])
 endfunction
-function sc___prototype235_evaluate takes integer i,integer a1,real a2,real a3 returns nothing
+function sc___prototype233_evaluate takes integer i,integer a1,real a2,real a3 returns nothing
     set f__arg_integer1=a1
     set f__arg_real1=a2
     set f__arg_real2=a3
 
-    call TriggerEvaluate(st___prototype235[i])
+    call TriggerEvaluate(st___prototype233[i])
 
 endfunction
-function sc___prototype269_execute takes integer i,player a1 returns nothing
+function sc___prototype267_execute takes integer i,player a1 returns nothing
     set f__arg_player1=a1
 
-    call TriggerExecute(st___prototype269[i])
+    call TriggerExecute(st___prototype267[i])
 endfunction
-function sc___prototype269_evaluate takes integer i,player a1 returns nothing
+function sc___prototype267_evaluate takes integer i,player a1 returns nothing
     set f__arg_player1=a1
 
-    call TriggerEvaluate(st___prototype269[i])
+    call TriggerEvaluate(st___prototype267[i])
 
 endfunction
-function sc___prototype311_execute takes integer i,dialog a1 returns nothing
+function sc___prototype309_execute takes integer i,dialog a1 returns nothing
     set f__arg_dialog1=a1
 
-    call TriggerExecute(st___prototype311[i])
+    call TriggerExecute(st___prototype309[i])
 endfunction
-function sc___prototype311_evaluate takes integer i,dialog a1 returns nothing
+function sc___prototype309_evaluate takes integer i,dialog a1 returns nothing
     set f__arg_dialog1=a1
 
-    call TriggerEvaluate(st___prototype311[i])
+    call TriggerEvaluate(st___prototype309[i])
 
 endfunction
 
@@ -4115,6 +4098,9 @@ endfunction
         endfunction
         function s__music_onInit takes nothing returns nothing
             local sound snd=null
+            set snd=CreateSound("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false, false, false, 10, 10, "SpellsEAX")
+            call SetSoundDuration(snd, 589)
+            set s__music_snd[(9)]=snd
             set snd=null
         endfunction
 
@@ -4255,118 +4241,6 @@ endfunction
     endfunction
 
 //library UnitFilter ends
-//library UnitTestFramwork:
-
-        function s__assert_Boolean takes boolean condition,string name returns nothing
-            if ( not condition ) then
-                call BJDebugMsg("FAIL: " + name)
-            else
-                call BJDebugMsg("PASS: " + name)
-            endif
-        endfunction  //断言字符串相等
-        function s__assert_String takes string actual,string expected,string name returns nothing
-            if ( actual != expected ) then
-                call BJDebugMsg("FAIL: " + name)
-                call BJDebugMsg("  Expected: " + expected)
-                call BJDebugMsg("  Actual: " + actual)
-            else
-                call BJDebugMsg("PASS: " + name)
-            endif
-        endfunction  //断言整数相等
-        function s__assert_Integer takes integer actual,integer expected,string name returns nothing
-            if ( actual != expected ) then
-                call BJDebugMsg("FAIL: " + name)
-                call BJDebugMsg("  Expected: " + I2S(expected))
-                call BJDebugMsg("  Actual: " + I2S(actual))
-            else
-                call BJDebugMsg("PASS: " + name)
-            endif
-        endfunction  //断言浮点数相等
-        function s__assert_Real takes real actual,real expected,string name returns nothing
-            local real maxValue=RMaxBJ(RAbsBJ(actual), RAbsBJ(expected))
-            local real epsilon=maxValue * 0.00001
-            if ( maxValue < 0.00001 ) then
-                set epsilon=0.00001
-            endif
-            if ( RAbsBJ(actual - expected) > epsilon ) then
-                call BJDebugMsg("FAIL: " + name)
-                call BJDebugMsg("  Expected: " + R2SW(expected, 0, 1))
-                call BJDebugMsg("  Actual: " + R2SW(actual, 0, 1))
-            else
-                call BJDebugMsg("PASS: " + name)
-            endif
-        endfunction
-    function UnitTestRegisterChatEvent takes code func returns nothing
-        call TriggerAddAction(UnitTestFramwork___TUnitTest, func)
-    endfunction  //指定开始时间与持续时间的定时器
-        function UnitTestFramwork___anon__0 takes nothing returns nothing
-            local real time=LoadReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()), 1)
-            local real d=LoadReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()), 2)
-            local trigger tr=LoadTriggerHandle(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()), 3)
-            call BJDebugMsg("-----[单测 " + R2SW(time, 0, 1) + " - " + R2SW(time + d, 0, 1) + " 秒]开始------")
-            call TriggerEvaluate(tr)
-            call DestroyTrigger(tr)
-            call FlushChildHashtable(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()))
-            call DestroyTrigger(GetTriggeringTrigger())
-            set tr=null
-        endfunction
-        function UnitTestFramwork___anon__1 takes nothing returns nothing
-            local real time=LoadReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()), 1)
-            local real d=LoadReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()), 2)
-            local trigger tr=LoadTriggerHandle(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()), 3)
-            call TriggerEvaluate(tr)
-            call BJDebugMsg("-----[单测 " + R2SW(time, 0, 1) + " - " + R2SW(time + d, 0, 1) + " 秒]结束------")
-            call DestroyTrigger(tr)
-            call FlushChildHashtable(UnitTestFramwork___HASH_UNITTEST, GetHandleId(GetTriggeringTrigger()))
-            call DestroyTrigger(GetTriggeringTrigger())
-            set tr=null
-        endfunction
-    function UnitTestAutoTimer takes real time,real duration,code start,code end returns nothing
-        local trigger t=CreateTrigger()
-        local trigger tr=CreateTrigger()
-        call TriggerAddCondition(t, Condition(start))
-        call TriggerRegisterTimerEvent(tr, time, false)
-        call SaveReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(tr), 1, time)
-        call SaveReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(tr), 2, duration)
-        call SaveTriggerHandle(UnitTestFramwork___HASH_UNITTEST, GetHandleId(tr), 3, t)
-        call TriggerAddCondition(tr, Condition(function UnitTestFramwork___anon__0))
-        if ( end != null ) then
-            set t=CreateTrigger()
-            set tr=CreateTrigger()
-            call TriggerAddCondition(t, Condition(end))
-            call TriggerRegisterTimerEvent(tr, time + duration, false)
-            call SaveReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(tr), 1, time)
-            call SaveReal(UnitTestFramwork___HASH_UNITTEST, GetHandleId(tr), 2, duration)
-            call SaveTriggerHandle(UnitTestFramwork___HASH_UNITTEST, GetHandleId(tr), 3, t)
-            call TriggerAddCondition(tr, Condition(function UnitTestFramwork___anon__1))
-        endif
-        set tr=null
-        set t=null
-    endfunction
-        function UnitTestFramwork___anon__2 takes nothing returns nothing
-            local integer i
-            set i=1
-            loop
-            exitwhen ( i > 12 )
-                call SetPlayerName(ConvertedPlayer(i), "测试员" + I2S(i) + "号") //迷雾全关
-                call CreateFogModifierRectBJ(true, ConvertedPlayer(i), FOG_OF_WAR_VISIBLE, bj_mapInitialPlayableArea)
-            set i=i + 1
-            endloop
-            call DestroyTrigger(GetTriggeringTrigger())
-        endfunction
-    function UnitTestFramwork___onInit takes nothing returns nothing
-        local trigger tr=CreateTrigger()
-        call TriggerRegisterTimerEvent(tr, 0.1, false)
-        call TriggerAddCondition(tr, Condition(function UnitTestFramwork___anon__2))
-        set tr=null
-        set UnitTestFramwork___TUnitTest=CreateTrigger()
-        call TriggerRegisterPlayerChatEvent(UnitTestFramwork___TUnitTest, Player(0), "", false)
-        call TriggerRegisterPlayerChatEvent(UnitTestFramwork___TUnitTest, Player(1), "", false)
-        call TriggerRegisterPlayerChatEvent(UnitTestFramwork___TUnitTest, Player(2), "", false)
-        call TriggerRegisterPlayerChatEvent(UnitTestFramwork___TUnitTest, Player(3), "", false)
-    endfunction
-
-//library UnitTestFramwork ends
 //library YDTriggerSaveLoadSystem:
 //#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
     function YDTriggerSaveLoadSystem___Init takes nothing returns nothing
@@ -6678,8 +6552,8 @@ endfunction
                     loop
                     exitwhen ( idx >= n )
                         set k=s__mallItem_itemKeys[idx]
-                        set s__mallItem_owns[base + idx]=true
-                        set s__mallItem_uses[base + idx]=999 // 直接在此处解锁科技（如果拥有商品且设置了科技）
+                        set s__mallItem_owns[base + idx]=DzAPI_Map_HasMallItem(p, k)
+                        set s__mallItem_uses[base + idx]=DzAPI_Map_GetMallItemCount(p , k) // 直接在此处解锁科技（如果拥有商品且设置了科技）
                         if ( s__mallItem_owns[base + idx] and s__mallItem_techs[idx] != 0 ) then
                             call SetPlayerTechResearched(p, s__mallItem_techs[idx], 1)
                         endif
@@ -6763,7 +6637,7 @@ endfunction
             loop
             exitwhen ( i >= n )
                 set k=s__mallItem_itemKeys[i]
-                set s__mallItem_owns[base + i]=true
+                set s__mallItem_owns[base + i]=DzAPI_Map_HasMallItem(p, k)
                 set i=i + 1
             endloop
             set p=null
@@ -6782,11 +6656,11 @@ endfunction
             if ( idx < 0 ) then // 执行消费
                 return false
             endif
-            set ok=true
+            set ok=DzAPI_Map_ConsumeMallItem(whichPlayer , itemKey , count)
             if ( ok ) then
                 set base=pid * 300 // 刷新该玩家该商品缓存
-                set s__mallItem_owns[base + idx]=true
-                set s__mallItem_uses[base + idx]=999 // 如果使用次数小于等于0，则认为该玩家没有这个道具了
+                set s__mallItem_owns[base + idx]=DzAPI_Map_HasMallItem(whichPlayer, itemKey)
+                set s__mallItem_uses[base + idx]=DzAPI_Map_GetMallItemCount(whichPlayer , itemKey) // 如果使用次数小于等于0，则认为该玩家没有这个道具了
                 if ( s__mallItem_uses[base + idx] <= 0 ) then
                     set s__mallItem_owns[base + idx]=false
                 endif // 调用回调（传入玩家参数）
@@ -7443,7 +7317,7 @@ set s__YDWETimerPattern___Thread_step[this]=s__YDWETimerPattern___Thread_step[th
                 //debug call BJDebugMsg("|cff00ff00[YDWE] Timer Pattern : |rPathable without terrain.")
                 if IsTerrainPathable(xp, yp, PATHING_TYPE_WALKABILITY) then
                     if ( s__YDWETimerPattern___Thread_afc[this] != 0 ) then
-                        call sc___prototype235_execute(s__YDWETimerPattern___Thread_afc[this],this , xp , yp)
+                        call sc___prototype233_execute(s__YDWETimerPattern___Thread_afc[this],this , xp , yp)
                     else
                         set s__YDWETimerPattern___Thread_switch[this]=0
                     endif
@@ -10507,7 +10381,7 @@ endfunction
         	call PlaySoundBJ(gg_snd_GoodJob)
         	call BJDebugMsg("|cFFFF66CC【消息】|r问题回答正确,BOSS失去10%的生命.")
         	if ( s__Questions_as[this] != 0 ) then
-                call sc___prototype55_execute(s__Questions_as[this])
+                call sc___prototype54_execute(s__Questions_as[this])
         	endif
 			call sc__Questions_deallocate(this)
   endfunction
@@ -10736,7 +10610,7 @@ endfunction
 					call UnitRemoveAbility(s__MultiLife_caster[this], 'A0KH')
 				endif
 				if ( s__MultiLife_al[this] != 0 ) then
-					call sc___prototype194_execute(s__MultiLife_al[this],s__MultiLife_caster[this])
+					call sc___prototype192_execute(s__MultiLife_al[this],s__MultiLife_caster[this])
 				endif
 			endif
   endfunction
@@ -11036,7 +10910,7 @@ endfunction
 //processed:     function interface AfterBuffTime takes player p returns nothing
   function s__Buff_timeout takes nothing returns nothing
    local integer this= sc__Buff__staticgetindex(GetExpiredTimer())
-            call sc___prototype269_execute(s__Buff_ab[this],s__Buff_p[this])
+            call sc___prototype267_execute(s__Buff_ab[this],s__Buff_p[this])
             call sc__Buff_deallocate(this)
   endfunction
         function s__Buff__staticgetindex takes handle h returns integer
@@ -14277,7 +14151,7 @@ return
             set udg_X_Nandu_Chuangkou[10]=GetLastCreatedButtonBJ()
         endif
         call DialogDisplay(GetFirstPlayer(), udg_X_Nandu, true)
-        call sc___prototype311_execute(1,udg_X_Nandu)
+        call sc___prototype309_execute(1,udg_X_Nandu)
         if ( CType != 0 and CType != - 1 ) then
             call ChallangerMode___InitChallanger()
         endif
@@ -14325,7 +14199,7 @@ return
                 call BJDebugMsg("|cFFFF66CC【消息】|r已确认挑战内容,正在选择加速与难度.")
             endif
             if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 2) ) then
-                call sc___prototype55_execute(1)
+                call sc___prototype54_execute(1)
                 call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战类型.")
             endif
             call FlushChildHashtable(LHTable, GetHandleId(d))
@@ -14365,7 +14239,7 @@ return
             set i=i + 1
             endloop
             if ( GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), 10) ) then
-                call sc___prototype55_execute(2)
+                call sc___prototype54_execute(2)
                 call BJDebugMsg("|cFFFF66CC【消息】|r正在切换挑战难度.")
             endif
             call FlushChildHashtable(LHTable, GetHandleId(d))
@@ -14605,7 +14479,7 @@ return
             call UnitAddAbility(u, 'A0HE')
         endif
     endfunction  // 无限沉默
-        function Diffculty___anon__0 takes nothing returns nothing
+        function Diffculty__anon__0 takes nothing returns nothing
             local timer t
             local integer id
             local unit u
@@ -14626,7 +14500,7 @@ return
         local timer t
         set t=CreateTimer()
         call SaveUnitHandle(spellTable, GetHandleId(t), 1, u)
-        call TimerStart(t, 3.0, true, function Diffculty___anon__0)
+        call TimerStart(t, 3.0, true, function Diffculty__anon__0)
         set t=null
     endfunction  //---------------------------------------------------------------------------------------------------
     function InitTianyan takes nothing returns nothing
@@ -14660,7 +14534,7 @@ return
     function ShowKuileiDialog takes nothing returns nothing
         call ShowGameHintAll(" 		|cffff6800新任务:|r 		击败六界傀儡|cffffff00穆晴|r与白浅.")
     endfunction  //自动选择难度
-        function Diffculty___anon__1 takes nothing returns nothing
+        function Diffculty__anon__1 takes nothing returns nothing
             local dialog d
             local button clickedButton
             set d=GetClickedDialogBJ()
@@ -14695,12 +14569,12 @@ return
             set clickedButton=null
             call DestroyTrigger(GetTriggeringTrigger())
         endfunction
-        function Diffculty___anon__2 takes nothing returns nothing
+        function Diffculty__anon__2 takes nothing returns nothing
             local timer t=GetExpiredTimer()
             local integer id=GetHandleId(t)
             set mode=1
             set SgameMode="经典"
-            call sc___prototype58_execute(1,1)
+            call sc___prototype56_execute(1,1)
             call BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.")
             call PauseTimer(t)
             call DestroyTimer(t)
@@ -14722,14 +14596,14 @@ return
         call SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"))
         call DialogDisplay(GetFirstPlayer(), d, true)
         call TriggerRegisterDialogEvent(t, d)
-        call TriggerAddAction(t, function Diffculty___anon__1)
+        call TriggerAddAction(t, function Diffculty__anon__1)
         set t=null
         set TiAutoDiff=CreateTimer()
         set TdAutoDiff=CreateTimerDialog(TiAutoDiff)
         call TimerDialogDisplay(TdAutoDiff, true)
         call TimerDialogSetTitle(TdAutoDiff, "自动选择难度")
         call TimerDialogSetSpeed(TdAutoDiff, 1.0)
-        call TimerStart(TiAutoDiff, 120, true, function Diffculty___anon__2)
+        call TimerStart(TiAutoDiff, 120, true, function Diffculty__anon__2)
     endfunction
 
 //library Diffculty ends
@@ -15181,10 +15055,10 @@ return
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ItemBase___TGetWingSpellCon takes nothing returns boolean
+ function ItemBase__TGetWingSpellCon takes nothing returns boolean
 		return ( GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))] or GetManipulatingUnit() == udg_U_Zhuansheng_Dantiao[2] )
 	endfunction
- function ItemBase___TGetWingSpellPickAct takes nothing returns nothing
+ function ItemBase__TGetWingSpellPickAct takes nothing returns nothing
 		if ( GetItemTypeId(GetManipulatedItem()) == 'I043' ) then
 			call UnitAddAbility(GetManipulatingUnit(), 'Apxf')
 		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I045' ) then
@@ -15211,7 +15085,7 @@ return
 			call SetUnitAbilityLevel(GetManipulatingUnit(), 'A0KF', 2)
 		endif
 	endfunction
- function ItemBase___TGetWingSpellDropAct takes nothing returns nothing
+ function ItemBase__TGetWingSpellDropAct takes nothing returns nothing
 		if ( GetItemTypeId(GetManipulatedItem()) == 'I043' ) then
 			call UnitRemoveAbility(GetManipulatingUnit(), 'Apxf')
 		elseif ( GetItemTypeId(GetManipulatedItem()) == 'I045' ) then
@@ -15238,10 +15112,10 @@ return
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ItemBase___TBookBUGCon takes nothing returns boolean
+ function ItemBase__TBookBUGCon takes nothing returns boolean
 		return GetItemType(GetManipulatedItem()) == ITEM_TYPE_POWERUP
 	endfunction
- function ItemBase___TBookBUGAct takes nothing returns nothing
+ function ItemBase__TBookBUGAct takes nothing returns nothing
 		call YDWEPolledWaitNull(1.0)
 		call RemoveItem(GetManipulatedItem())
 	endfunction
@@ -15255,7 +15129,7 @@ return
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
- function ItemBase___ReviveNecklace takes nothing returns nothing
+ function ItemBase__ReviveNecklace takes nothing returns nothing
 	        call PingMinimap(- 1658.00, - 14973.00, 2.00)
 	        call RemoveUnit(UCrainax)
 	        set UCrainax=CreateUnit(Player(10), 'Ekgg', - 1658.00, - 14973.00, 180)
@@ -15268,7 +15142,7 @@ return
 	        call DestroyTimer(GetExpiredTimer())
 	        set TiDiaNecklace=null
 	endfunction
- function ItemBase___ReviveRing takes nothing returns nothing
+ function ItemBase__ReviveRing takes nothing returns nothing
    local unit u= null
 	        call PingMinimap(- 10630.00, - 8642.00, 2.00)
 	        set u=CreateUnit(Player(10), 'Naka', - 10425.00, - 10429.00, 180)
@@ -15285,7 +15159,7 @@ return
 	    if ( ( GetUnitTypeId(GetDyingUnit()) == 'Naka' ) ) then
 	        call CreateItem('rat9', GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()))
 	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())))
-	        call TimerStart(CreateTimer(), 30, false, function ItemBase___ReviveRing)
+	        call TimerStart(CreateTimer(), 30, false, function ItemBase__ReviveRing)
 	        call YDWEPolledWaitNull(0.5)
 	        call RemoveUnit(GetDyingUnit())
 	    endif
@@ -15294,28 +15168,28 @@ return
 	        call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Demon\\DarkPortal\\DarkPortalTarget.mdl", GetUnitX(UCrainax), GetUnitY(UCrainax)))
 	        set t=CreateTimer()
 	        set TiDiaNecklace=CreateTimerDialogBJ(t, "圣主分身复活")
-	        call TimerStart(t, 900, false, function ItemBase___ReviveNecklace)
+	        call TimerStart(t, 900, false, function ItemBase__ReviveNecklace)
 	        call TimerDialogDisplay(TiDiaNecklace, true)
 	        set t=null
 	    endif
 	endfunction
 //---------------------------------------------------------------------------------------------------
- function ItemBase___InitItemBase takes nothing returns nothing
+ function ItemBase__InitItemBase takes nothing returns nothing
 		//删除书本的小点BUG
   local trigger t= CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-		call TriggerAddCondition(t, Condition(function ItemBase___TBookBUGCon))
-		call TriggerAddAction(t, function ItemBase___TBookBUGAct)
+		call TriggerAddCondition(t, Condition(function ItemBase__TBookBUGCon))
+		call TriggerAddAction(t, function ItemBase__TBookBUGAct)
 		//获得翅膀的技能
 		set t=CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
-		call TriggerAddCondition(t, Condition(function ItemBase___TGetWingSpellCon))
-		call TriggerAddAction(t, function ItemBase___TGetWingSpellPickAct)
+		call TriggerAddCondition(t, Condition(function ItemBase__TGetWingSpellCon))
+		call TriggerAddAction(t, function ItemBase__TGetWingSpellPickAct)
 		//删掉翅膀的技能
 		set t=CreateTrigger()
 		call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM)
-		call TriggerAddCondition(t, Condition(function ItemBase___TGetWingSpellCon))
-		call TriggerAddAction(t, function ItemBase___TGetWingSpellDropAct)
+		call TriggerAddCondition(t, Condition(function ItemBase__TGetWingSpellCon))
+		call TriggerAddAction(t, function ItemBase__TGetWingSpellDropAct)
 		//死亡掉落戒指和项链
 	    set t=CreateTrigger()
 	    call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DEATH)
@@ -16014,34 +15888,17 @@ return
 //library Continous:
 
     //public:
-    function Continous___GetGoldReward takes integer day returns integer
+    function Continous__GetGoldReward takes integer day returns integer
         return I3(day == 1 , 500 , R2I(( SquareRoot(day) + 2. ) * 300.))
-    endfunction
-    function Continous___ContGetGameTime takes nothing returns integer
-        if ( Continous___Cont_timeOverrideEnabled ) then
-            return Continous___Cont_timeOverrideValue
-        endif
-        return Continous___Cont_timeOverrideValue
-    endfunction  // 测试专用的GetContinousDay
-    function Continous___ContGetContinousDay takes player p returns integer
-        local integer gameTime=Continous___ContGetGameTime()
-        return ( gameTime - ILastTime[GetConvertedPlayerId(p)] ) / 86400
-    endfunction  // 测试专用的GetCurrentStartTime
-    function Continous___ContGetCurrentStartTime takes nothing returns integer
-        local integer gameTime=Continous___ContGetGameTime()
-        return ( gameTime / 86400 ) * 86400
     endfunction  // 统一的 PASS1 判断（测试可覆盖）
-    function Continous___HasPass1 takes player p returns boolean
-        if ( Continous___Cont_hasPass_overrideEnabled ) then
-            return Continous___Cont_hasPass_overrideValue
-        endif
+    function Continous__HasPass1 takes player p returns boolean
         return s__mallItem_hasByPlayer(p , "PASS1")
     endfunction  // 获取显示用的签到天数（PASS1 特权：仅显示层 +3，不影响存档与奖励发放）
-    function Continous___GetConDays takes player p returns integer
+    function Continous__GetConDays takes player p returns integer
         local integer pid
         local boolean hasPass
         set pid=GetConvertedPlayerId(p)
-        set hasPass=Continous___HasPass1(p)
+        set hasPass=Continous__HasPass1(p)
         return IConDays[pid] + I3(hasPass , 3 , 0)
     endfunction  // 给奖励
     function GiveJianianhuaGift takes player p returns nothing
@@ -16051,9 +15908,9 @@ return
         local integer pid
         set pid=GetConvertedPlayerId(p)
         set i=IConDays[pid]
-        set eff=Continous___GetConDays(p)
+        set eff=Continous__GetConDays(p)
         set u=udg_H[pid] // 奖励按“有效天数”计算（拥有 PASS1 则等效+3 天）
-        call AdjustPlayerStateBJ(Continous___GetGoldReward(eff), GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD)
+        call AdjustPlayerStateBJ(Continous__GetGoldReward(eff), GetOwningPlayer(u), PLAYER_STATE_RESOURCE_GOLD)
         if ( eff >= 2 ) then
             call UnitAddItemByIdSwapped('ankh', u)
         endif
@@ -16098,7 +15955,7 @@ return
         return null
     endfunction  // 获取从保存的第一天开始的时间
     function GetContinousDay takes player p returns integer
-        return ( Continous___Cont_timeOverrideValue - ILastTime[GetConvertedPlayerId(p)] ) / 86400
+        return ( DzAPI_Map_GetGameStartTime() - ILastTime[GetConvertedPlayerId(p)] ) / 86400
     endfunction  // 创建一个对话框
     function CreateLoginDialog takes player p returns nothing
         local dialog d
@@ -16111,11 +15968,11 @@ return
         local integer effNext
         set d=DialogCreate()
         set pid=GetConvertedPlayerId(p)
-        set hasPass=Continous___HasPass1(p)
+        set hasPass=Continous__HasPass1(p)
         set shownDays=IConDays[pid] + I3(hasPass , 3 , 0)
-        set eff=Continous___GetConDays(p)
+        set eff=Continous__GetConDays(p)
         set effNext=eff + 1
-        set s=" 		连续登录奖励 \n 		\n 		你获得了第" + I2S(shownDays) + "天对应的" + I2S(Continous___GetGoldReward(eff)) + "金币! \n 		明天继续签到可以获得" + I2S(Continous___GetGoldReward(effNext)) + "的金币! \n 		\n 		\n 		"
+        set s=" 		连续登录奖励 \n 		\n 		你获得了第" + I2S(shownDays) + "天对应的" + I2S(Continous__GetGoldReward(eff)) + "金币! \n 		明天继续签到可以获得" + I2S(Continous__GetGoldReward(effNext)) + "的金币! \n 		\n 		\n 		"
         set i=1
         set i=1
         loop
@@ -16134,13 +15991,13 @@ return
         call DialogAddButton(d, "10分钟之后当天才签到成功|cffff6800(Esc)|r", 512)
         call DialogDisplay(p, d, true) //DialogDestroy(d);
         set d=null
-    endfunction  // 获取当前北京时间的0点（东八区，UTC+8）
-    function Continous___GetCurrentStartTime takes nothing returns integer
-        local integer t=Continous___Cont_timeOverrideValue + 28800
-        return ( t / 86400 ) * 86400 - 28800
+    endfunction  // 获取当前0点（不再使用北京时间，直接用UTC时间）
+    function Continous__GetCurrentStartTime takes nothing returns integer
+        local integer t=DzAPI_Map_GetGameStartTime()
+        return ( t / 86400 ) * 86400
     endfunction  // 获取前n天的北京时间0点
-    function Continous___GetOldStartTime takes integer day returns integer
-        return Continous___GetCurrentStartTime() - ( ( day - 1 ) * 86400 )
+    function Continous__GetOldStartTime takes integer day returns integer
+        return Continous__GetCurrentStartTime() - ( ( day - 1 ) * 86400 )
     endfunction  // 初始化你的登录时间
     function InitContinousData takes player p returns nothing
         set IConDays[GetConvertedPlayerId(p)]=DzAPI_Map_GetStoredInteger(p , "IConDays")
@@ -16155,7 +16012,7 @@ return
         call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r")
         call DisplayTextToPlayer(p, 0., 0., "|cffff0000【消息】连续登录数据保存成功!|r") //CreateYuebingPlayer(GetUnitX(udg_H[GetConvertedPlayerId(p)]), GetUnitY(udg_H[GetConvertedPlayerId(p)]), p);
     endfunction  // 等10分钟后上传到网易
-        function Continous___anon__0 takes nothing returns nothing
+        function Continous__anon__0 takes nothing returns nothing
             local timer t
             local integer id
             local player p
@@ -16171,10 +16028,10 @@ return
         endfunction
     function UploadToNetEase takes player p returns nothing
         local timer t
-        local integer i=3
+        local integer i=600
         set t=CreateTimer()
         call SavePlayerHandle(LHTable, GetHandleId(t), 1, p)
-        call TimerStart(t, i, false, function Continous___anon__0)
+        call TimerStart(t, i, false, function Continous__anon__0)
         set t=null
     endfunction  // 设置连续时间
     function SetDenglu takes player p returns nothing
@@ -16183,41 +16040,28 @@ return
         local integer newBase
         local integer gameTime
         local integer contDay
-        if ( Continous___Cont_timeOverrideEnabled ) then
-            set gameTime=Continous___ContGetGameTime()
-            set contDay=Continous___ContGetContinousDay(p)
-        else
-            set gameTime=Continous___Cont_timeOverrideValue
-            set contDay=GetContinousDay(p)
-        endif // 初始化检查
+        set gameTime=DzAPI_Map_GetGameStartTime()
+        set contDay=GetContinousDay(p) // 初始化检查
         if ( ILastTime[GetConvertedPlayerId(p)] == 0 ) then
             set ILastTime[GetConvertedPlayerId(p)]=gameTime
             set IConDays[GetConvertedPlayerId(p)]=0
         endif // 断签啦重新存储
         if ( contDay == IConDays[GetConvertedPlayerId(p)] ) then // 首次连续登录的提示与奖励
             set IConDays[GetConvertedPlayerId(p)]=contDay + 1
-            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous___GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).")
+            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous__GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).")
         elseif ( contDay == IConDays[GetConvertedPlayerId(p)] - 1 ) then // 保持当天的奖励
-            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous___GetConDays(p)) + "天(今天的签到数据已经在前面游戏中保存了哦).")
-        elseif ( Continous___HasPass1(p) ) then // PASS1 特权：累计签到不再要求连续，进度不重置，仅在登录日 +1
+            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous__GetConDays(p)) + "天(今天的签到数据已经在前面游戏中保存了哦).")
+        elseif ( Continous__HasPass1(p) ) then // PASS1 特权：累计签到不再要求连续，进度不重置，仅在登录日 +1
             set pid=GetConvertedPlayerId(p)
             set newDays=IConDays[pid] + 1 // 调整基准，使得今天 contDay == newDays - 1
-            if ( Continous___Cont_timeOverrideEnabled ) then
-                set newBase=Continous___ContGetCurrentStartTime() - ( newDays - 1 ) * 86400
-            else
-                set newBase=Continous___GetCurrentStartTime() - ( newDays - 1 ) * 86400
-            endif
+            set newBase=Continous__GetCurrentStartTime() - ( newDays - 1 ) * 86400
             set ILastTime[pid]=newBase
             set IConDays[pid]=newDays
-            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous___GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).")
+            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous__GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).")
         else
-            if ( Continous___Cont_timeOverrideEnabled ) then
-                set ILastTime[GetConvertedPlayerId(p)]=Continous___ContGetCurrentStartTime()
-            else
-                set ILastTime[GetConvertedPlayerId(p)]=Continous___GetCurrentStartTime()
-            endif
+            set ILastTime[GetConvertedPlayerId(p)]=Continous__GetCurrentStartTime()
             set IConDays[GetConvertedPlayerId(p)]=1
-            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous___GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).")
+            call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(Continous__GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).")
         endif
         call UploadToNetEase(p)
     endfunction  // 补签
@@ -16244,7 +16088,7 @@ return
         exitwhen ( i > 100 )
             if ( s == I2S(GetCycleHash(I2S(i) , 1)) ) then
                 set IConDays[GetConvertedPlayerId(p)]=i
-                set ILastTime[GetConvertedPlayerId(p)]=Continous___GetOldStartTime(i)
+                set ILastTime[GetConvertedPlayerId(p)]=Continous__GetOldStartTime(i)
                 call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r补签为" + I2S(i) + "天.")
                 call SaveLoginState(p)
                 exitwhen true
@@ -16252,113 +16096,10 @@ return
         set i=i + 1
         endloop
         set BBuqian2=false
-    endfunction  // 断言测试：签到逻辑
-    function Continous___ContAssertTests takes player p returns nothing
-        local integer pid
-        local integer nowTs
-        local integer cs
-        local boolean hasPass
-        local integer origDays
-        local integer expectDays
-        local integer prevDays
-        local integer expectBase
-        set Continous___Cont_timeOverrideEnabled=true
-        set pid=GetConvertedPlayerId(p)
-        set hasPass=s__mallItem_hasByPlayer(p , "PASS1")
-        set nowTs=Continous___ContGetGameTime()
-        set cs=Continous___ContGetCurrentStartTime() // 用例1：连续签到 +1（构造满足 ContGetContinousDay(p) == IConDays 的前置）
-        set IConDays[pid]=5
-        set ILastTime[pid]=nowTs - IConDays[pid] * 86400
-        call SetDenglu(p)
-        call s__assert_Integer(IConDays[pid] , 6 , "连续签到失败：IConDays 应为 6")
-        call s__assert_Integer(ILastTime[pid] , nowTs - 5 * 86400 , "连续签到失败：ILastTime 不应变化") // 用例2：当天重复登录不应变化
-        set prevDays=IConDays[pid]
-        call SetDenglu(p)
-        call s__assert_Integer(IConDays[pid] , prevDays , "重复登录失败：IConDays 不应变化")
-        call s__assert_Integer(ILastTime[pid] , nowTs - 5 * 86400 , "重复登录失败：ILastTime 不应变化") // 用例3：非连续登录
-        set IConDays[pid]=6 // 使 GetContinousDay 返回更大，模拟断签
-        set ILastTime[pid]=nowTs - 12 * 86400
-        call SetDenglu(p)
-        if ( hasPass ) then // PASS1：不重置，只 +1，且重设基准
-            set expectDays=7
-            set expectBase=cs - ( expectDays - 1 ) * 86400
-            call s__assert_Integer(IConDays[pid] , expectDays , "PASS1 非连续失败：IConDays 应 +1")
-            call s__assert_Integer(ILastTime[pid] , expectBase , "PASS1 非连续失败：ILastTime 应重设")
-        else // 非特权：重置为 1，基准为今天 0 点
-            set expectDays=1
-            set expectBase=cs
-            call s__assert_Integer(IConDays[pid] , expectDays , "无特权非连续失败：IConDays 应重置为 1")
-            call s__assert_Integer(ILastTime[pid] , expectBase , "无特权非连续失败：ILastTime 应为今日 0 点")
-        endif // 用例4：有效天数（奖励/显示）
-        set IConDays[pid]=12
-        call s__assert_Integer(Continous___GetConDays(p) , 12 + I3(hasPass , 3 , 0) , "有效天数计算错误") // 用例5：强制 hasPass=false 再跑一遍全链路
-        set Continous___Cont_hasPass_overrideEnabled=true
-        set Continous___Cont_hasPass_overrideValue=false
-        set hasPass=false // 连续 +1
-        set IConDays[pid]=3
-        set ILastTime[pid]=nowTs - 3 * 86400
-        call SetDenglu(p)
-        call s__assert_Integer(IConDays[pid] , 4 , "[无特权] 连续签到失败：IConDays 应为 4")
-        call s__assert_Integer(ILastTime[pid] , nowTs - 3 * 86400 , "[无特权] 连续签到失败：ILastTime 不应变化") // 当天重复
-        set prevDays=IConDays[pid]
-        call SetDenglu(p)
-        call s__assert_Integer(IConDays[pid] , prevDays , "[无特权] 重复登录失败：IConDays 不应变化")
-        call s__assert_Integer(ILastTime[pid] , nowTs - 3 * 86400 , "[无特权] 重复登录失败：ILastTime 不应变化") // 非连续应重置
-        set IConDays[pid]=8
-        set ILastTime[pid]=nowTs - 12 * 86400
-        call SetDenglu(p)
-        call s__assert_Integer(IConDays[pid] , 1 , "[无特权] 非连续失败：应重置为 1")
-        call s__assert_Integer(ILastTime[pid] , cs , "[无特权] 非连续失败：基准应为今日 0 点") // 有效天数==真实
-        set IConDays[pid]=10
-        call s__assert_Integer(Continous___GetConDays(p) , 10 , "[无特权] 有效天数应等于真实")
-        set Continous___Cont_hasPass_overrideEnabled=false // 关闭时间覆盖
-        set Continous___Cont_timeOverrideEnabled=false
-    endfunction  // 注册测试指令
-        function Continous___anon__1 takes nothing returns nothing
-            local string str=GetEventPlayerChatString()
-            local integer spacePos
-            local string cmd
-            local string param
-            local integer timeValue
-            if ( str == "qd" ) then
-                call SetDenglu(GetTriggerPlayer())
-                call CreateLoginDialog(GetTriggerPlayer())
-            elseif ( str == "qdt" ) then
-                call Continous___ContAssertTests(GetTriggerPlayer())
-                call BJDebugMsg("[Continous] 断言测试完成")
-            elseif ( StringLength(str) > 8 and SubString(str, 0, 8) == "faketime" ) then // faketime xxx 指令解析
-                set spacePos=8 // "faketime" 长度
-                if ( spacePos < StringLength(str) and SubString(str, spacePos, spacePos + 1) == " " ) then
-                    set param=SubString(str, spacePos + 1, StringLength(str))
-                    set timeValue=S2I(param)
-                    if ( timeValue > 0 ) then
-                        set Continous___Cont_timeOverrideEnabled=true
-                        set Continous___Cont_timeOverrideValue=timeValue
-                        call BJDebugMsg("[Continous] 已设置模拟时间: " + I2S(timeValue))
-                        call BJDebugMsg("[Continous] 模拟时间状态: 已启用")
-                    else
-                        call BJDebugMsg("[Continous] 错误: 无效的时间戳，请输入正整数")
-                    endif
-                else
-                    call BJDebugMsg("[Continous] 用法: faketime <时间戳>")
-                    call BJDebugMsg("[Continous] 示例: faketime 1757992018")
-                endif
-            elseif ( str == "faketime off" ) then
-                set Continous___Cont_timeOverrideEnabled=false
-                call BJDebugMsg("[Continous] 已关闭模拟时间，恢复使用真实时间")
-            elseif ( str == "faketime status" ) then
-                if ( Continous___Cont_timeOverrideEnabled ) then
-                    call BJDebugMsg("[Continous] 模拟时间状态: 已启用，当前值: " + I2S(Continous___Cont_timeOverrideValue))
-                else
-                    call BJDebugMsg("[Continous] 模拟时间状态: 已关闭，使用真实时间")
-                endif
-            endif
-        endfunction
-    function Continous___ContRegisterChat takes nothing returns nothing
-        call UnitTestRegisterChatEvent(function Continous___anon__1)
     endfunction
-    function Continous___onInit takes nothing returns nothing
-        call Continous___ContRegisterChat() // mallItem.setTech("PASS1", 'RMI2');
+    function Continous__onInit takes nothing returns nothing
+        call s__mallItem_init("PASS1")
+        call s__mallItem_setTech("PASS1" , 'RMI2')
     endfunction
 
 //library Continous ends
@@ -24173,7 +23914,7 @@ call GetAchievementAndSave(ConvertedPlayer(i) , 42)
 	    call TriggerRegisterUnitEvent(Kaisa__TSpellKaisa, kaisa, EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(Kaisa__TSpellKaisa, function Kaisa__TSpellKaisaAct)
 		call TriggerRegisterUnitEvent(gg_trg_____________7, kaisa, EVENT_UNIT_DAMAGED)
-      if ( DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 3 or sc__vip_is(GetOwningPlayer(kaisa)) ) then
+      if ( DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 10 or sc__vip_is(GetOwningPlayer(kaisa)) ) then
 	    	call CreateFanzhuanItem(kaisa)
       endif
 	endfunction
@@ -25376,7 +25117,7 @@ call GetAchievementAndSave(ConvertedPlayer(i) , 42)
 		set Moqi__TSpellMoqi=CreateTrigger()
 	    call TriggerRegisterUnitEvent(Moqi__TSpellMoqi, moqi, EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(Moqi__TSpellMoqi, function Moqi__TSpellMoqiAct)
-      if ( DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 3 or sc__vip_is(GetOwningPlayer(moqi)) ) then
+      if ( DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 10 or sc__vip_is(GetOwningPlayer(moqi)) ) then
 	    	call CreateFanzhuanItem(moqi)
       endif
 	endfunction
@@ -29052,7 +28793,7 @@ call GetAchievementAndSave(ConvertedPlayer(i) , 42)
 		set Yanmie__TSpellYanmie=CreateTrigger()
 	    call TriggerRegisterUnitEvent(Yanmie__TSpellYanmie, yanmie, EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(Yanmie__TSpellYanmie, function Yanmie__TSpellYanmieAct)
-      if ( DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 3 or sc__vip_is(GetOwningPlayer(yanmie)) ) then
+      if ( DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 10 or sc__vip_is(GetOwningPlayer(yanmie)) ) then
 	    	call CreateFanzhuanItem(yanmie)
       endif
 	endfunction
@@ -30604,43 +30345,6 @@ endfunction
 	endfunction
 
 //library Boss ends
-//library DebugNet:
- function TestAchievement takes nothing returns nothing
-  local string s= GetEventPlayerChatString()
-  local integer i= S2I(SubString(s, ( 2 ) - 1, StringLength(s)))
-		set IConDays[1]=i
-		call BJDebugMsg("|cFFFF66CC【消息】|r连续签到" + I2S(i))
-		//set time_simulate = i
-		//call BJDebugMsg("当前时间为:"+I2S(time_simulate))
-		set s=null
-	endfunction
- function DebugNet__Showxiao1 takes nothing returns nothing
-		//call SetPlayerName(Player(0),"无心使者")
-		//set playerName[1] = "无心使者"
-		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
-		call IncreaseXinglongSpin()
-	endfunction
- function DebugNet__TestCangku takes nothing returns nothing
-		// call SetKuanghuanOK(Player(0))
-	endfunction
-	
-	
-//---------------------------------------------------------------------------------------------------
-	
- function DebugNet__InitDebugNet takes nothing returns nothing
-  local trigger t= CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t, Player(0), "a", false)
-		call TriggerAddAction(t, function TestAchievement)
-		set t=CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t, Player(0), "b", true)
-		call TriggerAddAction(t, function DebugNet__Showxiao1)
-		set t=CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t, Player(0), "c", true)
-		call TriggerAddAction(t, function DebugNet__TestCangku)
-		set t=null
-	endfunction
-
-//library DebugNet ends
 //library VIP:
         function s__vip_is takes player p returns boolean
             return s__vip_v[(GetConvertedPlayerId(p))]
@@ -31907,14 +31611,15 @@ endfunction
         set d=null
         set t=null
         set u=null
-    endfunction
+    endfunction  //东西有没有领过
         function Box__anon__2 takes nothing returns nothing
+            local integer index=GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))
             if ( GetSpellAbilityId() == 'A0L0' ) then
-                call HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]) //到英雄身边
+                call HG(UDepot[index]) //到英雄身边
             elseif ( GetSpellAbilityId() == 'A0L3' ) then
                 call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())))
-                call SetUnitX(GetTriggerUnit(), GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]))
-                call SetUnitY(GetTriggerUnit(), GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]))
+                call SetUnitX(GetTriggerUnit(), GetUnitX(udg_H[index]))
+                call SetUnitY(GetTriggerUnit(), GetUnitY(udg_H[index]))
                 call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit()))) //拿装备
             elseif ( GetSpellAbilityId() == 'A0KZ' ) then
                 call Box__GetHeroItem()
@@ -31924,6 +31629,23 @@ endfunction
                 call CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit()))
             elseif ( GetSpellAbilityId() == 'ABx1' ) then
                 call CreateHeroChallenagerDialog(GetOwningPlayer(GetTriggerUnit()))
+            elseif ( GetSpellAbilityId() == 'AMI0' ) then
+                if ( s__Box__MallItemGet[(index)*(1000)+2] ) then
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你本局已经领取过这个物品了.")
+                else
+                    call AdjustPlayerStateBJ(3000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD)
+                    set s__Box__MallItemGet[(index)*(1000)+2]= true
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r成功领取金币礼包!")
+                    call s__music_playFor((9),GetOwningPlayer(GetTriggerUnit()))
+                endif
+            elseif ( GetSpellAbilityId() == 'AMI1' ) then
+                if ( s__Box__MallItemGet[(index)*(1000)+1] ) then
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你本局已经领取过这个物品了.")
+                else
+                    set s__Box__MallItemGet[(index)*(1000)+1]= true
+                    call AddHeroXP(udg_H[index], 1500, true)
+                    call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r成功领取经验礼包!")
+                endif
             endif
         endfunction
     function Box__onInit takes nothing returns nothing
@@ -31931,6 +31653,10 @@ endfunction
         call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
         call TriggerAddCondition(t, Condition(function Box__anon__2))
         set t=null
+        call s__mallItem_init("GOLD1")
+        call s__mallItem_setTech("GOLD1" , 'RMI0')
+        call s__mallItem_init("EXP1")
+        call s__mallItem_setTech("EXP1" , 'RMI1')
     endfunction
 
 //library Box ends
@@ -33783,409 +33509,6 @@ endfunction
 	endfunction
 
 //library ItemSpell ends
-//library TestCommand:
- function TestCommand__sadfsadfs takes nothing returns nothing
-	call SetPlayerTechResearchedSwap('R00C', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer())
-    call SetPlayerTechResearchedSwap('R00E', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer())
-	endfunction
-	
- function TestCommand__addHeroAttr takes integer attr,integer level returns nothing
-		call SetHeroInt(udg_H[1], attr, false)
-		call SetHeroAgi(udg_H[1], attr, false)
-		call SetHeroStr(udg_H[1], attr, false)
-		call SetHeroLevel(udg_H[1], level, true)
-	endfunction
-	
- function TestCommand__debugDamage takes nothing returns nothing
-		if ( debug_show_damage ) then
-			call BJDebugMsg(GetUnitName(GetEventDamageSource()) + "对" + GetUnitName(GetTriggerUnit()) + "造成了" + R2S(GetEventDamage()) + "伤害.")
-		endif
-	endfunction
- function TestCommand__ShowMajiaCount takes nothing returns integer
-  local group l_group= YDWEGetUnitsInRectAllNull(bj_mapInitialPlayableArea)
-  local unit l_unit
-  local integer count= 0
-		call GroupEnumUnitsInRange(l_group, 0, 0, 99999, null)
-		loop
-		    set l_unit=FirstOfGroup(l_group)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(l_group, l_unit)
-		    if ( GetUnitPointValue(l_unit) == 123 or GetUnitPointValue(l_unit) == 0 ) then
-		    	set count=count + 1
-		    endif
-		endloop
-		call DestroyGroup(l_group)
-		set l_group=null
-		set l_unit=null
-		return count
-	endfunction
- function TestCommand__UnlockAllBox takes nothing returns nothing
-  local integer i= 1
-		loop
-			exitwhen i > 9
-			call GetAndSaveCangku(Player(0) , i)
-			set i=i + 1
-		endloop
-	endfunction
-	
- function TestCommand__debugChat takes nothing returns nothing
-		//关闭伤害显示
-  local string chat= GetEventPlayerChatString()
-  local integer bo
-  local unit u
-		if ( chat == "test damage" ) then
-			set debug_show_damage=not ( debug_show_damage )
-			call BJDebugMsg("成功关闭伤害显示")
-			return
-		endif
-		if ( chat == "test tech" ) then
-			call SetPlayerTechResearchedSwap('R007', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R00A', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R00B', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R008', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R009', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R006', 1, Player(0))
-			call SetPlayerTechResearchedSwap('R00D', 1, Player(0))
-			call BJDebugMsg("科技研究完成")
-			return
-		endif
-		if ( chat == "test part1" ) then
-			call TestCommand__addHeroAttr(20000 , 80)
-			//鬼3
-			call UnitAddItemByIdSwapped('lgdh', udg_H[1])
-			//星3
-			call UnitAddItemByIdSwapped('ram1', udg_H[1])
-			//冰封翅膀
-			call UnitAddItemByIdSwapped('I041', udg_H[1])
-			//法魂3
-			call UnitAddItemByIdSwapped('phea', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人3
-			call UnitAddItemByIdSwapped('oven', udg_H[1])
-			call BJDebugMsg("测试阶段1")
-			return
-		endif
-		if ( chat == "test part0" ) then
-			call TestCommand__addHeroAttr(10000 , 60)
-			//鬼1
-			call UnitAddItemByIdSwapped('rat9', udg_H[1])
-			//星0
-			call UnitAddItemByIdSwapped('I03Y', udg_H[1])
-			//五彩翅膀
-			call UnitAddItemByIdSwapped('I045', udg_H[1])
-			//法魂2
-			call UnitAddItemByIdSwapped('rin1', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人0
-			call UnitAddItemByIdSwapped('rej4', udg_H[1])
-			call BJDebugMsg("测试阶段0")
-			return
-		endif
-		if ( chat == "test part2" ) then
-			call TestCommand__addHeroAttr(40000 , 120)
-			//鬼5
-			call UnitAddItemByIdSwapped('bgst', udg_H[1])
-			//星MAX
-			call UnitAddItemByIdSwapped('olig', udg_H[1])
-			//妖皇翅膀
-			call UnitAddItemByIdSwapped('I04R', udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人6
-			call UnitAddItemByIdSwapped('oli2', udg_H[1])
-			call BJDebugMsg("测试阶段2")
-			return
-		endif
-		if ( chat == "test part3" ) then
-			call TestCommand__addHeroAttr(80000 , 140)
-			//鬼8
-			call UnitAddItemByIdSwapped('rag1', udg_H[1])
-			//雷星
-			call UnitAddItemByIdSwapped('ccmd', udg_H[1])
-			//5翅膀
-			call UnitAddItemByIdSwapped('I05B', udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas', udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3', udg_H[1])
-			//人7
-			call UnitAddItemByIdSwapped('shdt', udg_H[1])
-			call BJDebugMsg("测试阶段3")
-			return
-		endif
-		if ( chat == "test part4" ) then
-			call TestCommand__addHeroAttr(150000 , 170)
-			//超鬼
-			call UnitAddItemByIdSwapped('lhst', udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('tlum', udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I05F', udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('rst1', udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('ssil', udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('tfar', udg_H[1])
-			call BJDebugMsg("测试阶段4,神装")
-			return
-		endif
-		if ( chat == "test part5" ) then
-			call TestCommand__addHeroAttr(1300000 , 280)
-			//超鬼
-			call UnitAddItemByIdSwapped('ICS1', udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('I05Y', udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I04Y', udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('ICX1', udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('I05V', udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('IB0A', udg_H[1])
-			call UnitAddItemByIdSwapped('ILIK', udg_H[1])
-			call UnitAddItemByIdSwapped('ICY1', udg_H[1])
-			call BJDebugMsg("测试阶段5,混沌")
-			return
-		endif
-		if ( chat == "test daddy" ) then
-			call AddDamagePercent(1 , 100.)
-			call BJDebugMsg("测试爆炸伤害")
-			return
-		endif
-		if ( chat == "test daddy2" ) then
-			call AddDamagePercent(1 , - 100.)
-			call BJDebugMsg("测试爆炸伤害取消")
-			return
-		endif
-		if ( chat == "test fangka" ) then
-			set u=CreateUnit(Player(0), 'hpea', 5790.6, 4445.8, 0)
-			call StartFangKa(u)
-			set u=null
-			return
-		endif
-		if ( chat == "test credit" ) then
-			set udg_Paihangbang[1]=50000
-			call BJDebugMsg("增加了积分~!")
-			return
-		endif
-		if ( chat == "test Scredit" ) then
-			set centerCredit[1]=50000
-			call BJDebugMsg("增加了守城积分~!")
-			return
-		endif
-		if ( chat == "test majia" ) then
-			call BJDebugMsg("马甲数量:" + I2S(TestCommand__ShowMajiaCount()))
-			return
-		endif
-		//对自己造成伤害
-		if ( chat == "test kill" ) then
-		//gg_unit_Otch_0001   gg_unit_nubr_0093
-			call UnitDamageTarget(CreateUnit(Player(0), 'hpea', 0., 0., 0.), udg_H[1], ( 1.00 * 10000000.00 ), true, false, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS)
-			return
-		endif
-		//关闭选中显示属性
-		if ( chat == "test select" ) then
-			set debug_show_attr=not ( debug_show_attr )
-			return
-		endif
-		//基地无敌
-		if ( chat == "test invu" ) then
-			call SetUnitInvulnerable(gg_unit_haro_0030, true)
-			return
-		endif
-		//基地不无敌
-		if ( chat == "test vu" ) then
-			call SetUnitInvulnerable(gg_unit_haro_0030, false)
-			return
-		endif
-		//等级400
-		if ( chat == "test level" ) then
-			call SetHeroLevel(udg_H[1], 400, true)
-			return
-		endif
-		if ( chat == "test renshu" ) then
-			set udg_RENSHU=2
-			call BJDebugMsg("人数为2")
-			return
-		endif
-		if ( chat == "test lianyu1" ) then
-			set udg_I_Lianyu[1]=14
-			call BJDebugMsg("炼狱14层")
-			return
-		endif
-		if ( chat == "test zhuansheng19" ) then
-			set udg_Z[1]=19
-			call BJDebugMsg("转生19")
-			return
-		endif
-		if ( chat == "test zhuansheng39" ) then
-			set udg_Z[1]=39
-			call BJDebugMsg("转生39")
-			return
-		endif
-		if ( chat == "test zhuansheng59" ) then
-			set udg_Z[1]=59
-			call BJDebugMsg("转生59")
-			return
-		endif
-		if ( chat == "test zhuansheng79" ) then
-			set udg_Z[1]=79
-			call BJDebugMsg("转生79")
-			return
-		endif
-		if ( chat == "test zhuansheng99" ) then
-			set udg_Z[1]=99
-			call BJDebugMsg("转生99")
-			return
-		endif
-		if ( chat == "test zhuansheng119" ) then
-			set udg_Z[1]=119
-			call BJDebugMsg("转生119")
-			return
-		endif
-		if ( chat == "test zhuansheng149" ) then
-			set udg_Z[1]=149
-			call BJDebugMsg("转生149")
-			return
-		endif
-		if ( chat == "test lianyu2" ) then
-			set udg_I_Lianyu[1]=69
-			call BJDebugMsg("炼狱69层")
-			return
-		endif
-		if ( chat == "test lianyu3" ) then
-			set udg_I_Lianyu[1]=59
-			call BJDebugMsg("炼狱59层")
-			return
-		endif
-		if ( chat == "test lianyu4" ) then
-			set udg_I_Lianyu[1]=89
-			call BJDebugMsg("炼狱89层")
-			return
-		endif
-		if ( chat == "test lianyu5" ) then
-			set udg_I_Lianyu[1]=105
-			call BJDebugMsg("炼狱105层")
-			return
-		endif
-		if ( chat == "test darenshu" ) then
-		    call ForForce(bj_FORCE_ALL_PLAYERS, function TestCommand__sadfsadfs)
-			set udg_RENSHU=6
-			set renshu=6
-			call BJDebugMsg("人数调成6")
-			return
-		endif
-		if ( chat == "test box" ) then
-			call BJDebugMsg("解锁所有box")
-			call TestCommand__UnlockAllBox()
-			return
-		endif
-		if ( chat == "test renkou" ) then
-			call SetPlayerStateBJ(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP) + 100 ))
-			call BJDebugMsg("人口调成100")
-			return
-		endif
-		if ( chat == "test baoshi" ) then
-			call BJDebugMsg("IAtleast1:" + I2S(IAtleast1))
-			call BJDebugMsg("IAtleast2:" + I2S(IAtleast2))
-			return
-		endif
-		if ( chat == "test unitState" ) then
-			call BJDebugMsg(GetUnitName(testDyingUnit) + "的血量为:" + R2S(GetUnitState(testDyingUnit, UNIT_STATE_LIFE)))
-			if ( ( GetUnitState(testDyingUnit, UNIT_STATE_LIFE) > 0 ) ) then
-				call BJDebugMsg("活着的")
-			else
-				call BJDebugMsg("死了的")
-			endif
-			return
-		endif
-		//魔王拆家速度
-		if ( chat == "test mowang" ) then
-       		call SetPlayerTechResearchedSwap('R00O', 100, Player(6))
-			call CreateUnit(Player(11), 'Uwar', GetUnitX(gg_unit_haro_0030), GetUnitY(gg_unit_haro_0030), 0)
-			return
-		endif
-		//冥王拆家速度
-		if ( chat == "test mingwang" ) then
-            call UnitAddAbility(gg_unit_haro_0030, 'A0EG')
-			call CreateUnit(Player(11), 'Nkjx', GetUnitX(gg_unit_haro_0030), GetUnitY(gg_unit_haro_0030), 0)
-			return
-		endif
-		//直接后面直接来
-		if ( chat == "test renyao" ) then
-			call PauseTimer(udg_Time_Start[1])
-			call DestroyTimer(udg_Time_Start[1])
-			call KillUnit(gg_unit_Uear_0242)
-			call KillUnit(gg_unit_Nkjx_0241)
-			call KillUnit(gg_unit_Npld_0253)
-			return
-		endif
-		//测试鬼仙
-		if ( chat == "test guixian" ) then
-			call PauseTimer(udg_Time_Start[1])
-			call DestroyTimer(udg_Time_Start[1])
-			call StartGhostAngleTimer()
-		endif
-		//直接后面直接来
-		if ( chat == "test mijing" ) then
-			set IDeng=19
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
-			return
-		endif
-		//测试生命共享
-		if ( chat == "test gongxiang" ) then
-			call StartLifeConnect()
-			return
-		endif
-		//调整当前波数
-		set bo=S2I(SubString(chat, ( StringLength(chat) - 1 ) - 1, StringLength(chat)))
-		if ( bo < 30 ) then
-			set udg_Bo=bo
-			call BJDebugMsg("当前波数:" + "=" + I2S(udg_Bo))
-			return
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function SetTestUnit takes unit u returns nothing
-		set testDyingUnit=u
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	
- function TestCommand__peekAttr takes nothing returns nothing
-		if ( debug_show_attr ) then
-			call BJDebugMsg("选中单位生命:" + R2S(GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE)))
-			call BJDebugMsg("选中单位移动速度:" + R2S(GetUnitMoveSpeed(GetTriggerUnit())))
-		endif
-	endfunction
- function TestCommand__initDebugTri takes nothing returns nothing
-		//显示伤害值
-  local trigger t= CreateTrigger()
-		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
-		call TriggerAddAction(t, function TestCommand__debugDamage)
-		//聊天打开开关进行测试
-		set t=CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t, Player(0), "test", false)
-		call TriggerAddAction(t, function TestCommand__debugChat)
-		//选择人物看数据
-		set t=CreateTrigger()
-		call TriggerRegisterPlayerSelectionEventBJ(t, Player(0), true)
-		call TriggerAddAction(t, function TestCommand__peekAttr)
-		set t=null
-		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_GOLD, 300000)
-		call SetPlayerState(Player(0), PLAYER_STATE_RESOURCE_LUMBER, 1000000)
-	endfunction
- function TestCommand__Initdebug takes nothing returns nothing
-		call TestCommand__initDebugTri()
-	endfunction
-
-//library TestCommand ends
 //library ChatCommand:
 //---------------------------------------------------------------------------------------------------
 	
@@ -34720,21 +34043,45 @@ endfunction
 // 当前构建版本
 // 当前的平台分包
 // 原生UI的大小
+//===========================================================================  
+//万能环绕模板 
 //===========================================================================
-//佣兵系统 
-//===========================================================================
-
-// 0 - 1亿这里用
-// 锚点常量
-// 事件常量
-//鼠标点击事件
-//Index名:
-//默认原生图片路径
-//模板名
-//TEXT对齐常量:(uiText.setAlign)
-//===========================================================================
-//系统-TimerSystem
-//===========================================================================
+// 常量配置
+// 使用说明（MallItem 黑箱）
+// 1) 在地图启动阶段注册商品（每次注册一个 key）：
+//    mallItem.init("VIP1");
+//    mallItem.init("RhdeKey");
+//    mallItem.init("RopgKey");
+//
+// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
+//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
+//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
+//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
+//
+// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
+//    mallItem.onReady(function () -> boolean {
+//        // 示例：查询玩家0（0-based）的拥有权与次数
+//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
+//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
+//        }
+//        return true;
+//    });
+//
+// 4) 消费：
+//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
+//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
+//        player cbp = mallItem.getCallbackPlayer();
+//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
+//        return true;
+//    });
+//    // 局数型消费：无回调
+//    mallItem.consumeOnce(Player(0), "VIP1");
+//
+// 5) 其他：
+//    local integer n = mallItem.getItemCount();
+//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
+//
+//todo: 加入局内商品进包的回调
 
 //魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
 //-----------模拟聊天------------------
@@ -34827,52 +34174,27 @@ endfunction
 //攻击2 溅出半径
 //攻击2 武器类型
 //装甲类型
+
+
+// 0 - 1亿这里用
+// 锚点常量
+// 事件常量
+//鼠标点击事件
+//Index名:
+//默认原生图片路径
+//模板名
+//TEXT对齐常量:(uiText.setAlign)
 //===========================================================================
 //===========================================================================
 //自定义事件
 //===========================================================================
 //===========================================================================
-// 常量配置
-// 使用说明（MallItem 黑箱）
-// 1) 在地图启动阶段注册商品（每次注册一个 key）：
-//    mallItem.init("VIP1");
-//    mallItem.init("RhdeKey");
-//    mallItem.init("RopgKey");
-//
-// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
-//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
-//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
-//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
-//
-// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
-//    mallItem.onReady(function () -> boolean {
-//        // 示例：查询玩家0（0-based）的拥有权与次数
-//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
-//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
-//        }
-//        return true;
-//    });
-//
-// 4) 消费：
-//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
-//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
-//        player cbp = mallItem.getCallbackPlayer();
-//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
-//        return true;
-//    });
-//    // 局数型消费：无回调
-//    mallItem.consumeOnce(Player(0), "VIP1");
-//
-// 5) 其他：
-//    local integer n = mallItem.getItemCount();
-//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
-//
-//todo: 加入局内商品进包的回调
-
-//===========================================================================  
-//万能环绕模板 
 //===========================================================================
-
+//系统-TimerSystem
+//===========================================================================
+//===========================================================================
+//佣兵系统 
+//===========================================================================
 //===========================================================================
 // 
 // 轮回之狱
@@ -36081,8 +35403,8 @@ endfunction
 // 当前构建版本
 // 当前的平台分包
 // 原生UI的大小
-    // 内测版
-    // lua_print: 内测版本
+    // 正式版
+    // lua_print: 正式版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
 // 结构体共用方法定义
 //共享打印方法
@@ -36198,9 +35520,6 @@ endfunction
 // 连续登录
 // 右键双击转移装备
 // 测试文件
-///#include  "edit/Diamond.j"
-///#include  "edit/CenterCredit.j"
-
 // lua_print: 正式地图
 //***************************************************************************
 //*
@@ -57762,8 +57081,7 @@ function main takes nothing returns nothing
     call CreateAllUnits()
     call InitBlizzard()
 
-call ExecuteFunc("jasshelper__initstructs64231671")
-call ExecuteFunc("UnitTestFramwork___onInit")
+call ExecuteFunc("jasshelper__initstructs79753156")
 call ExecuteFunc("YDTriggerSaveLoadSystem___Init")
 call ExecuteFunc("InitializeYD")
 call ExecuteFunc("Constant___InitConstant")
@@ -57779,10 +57097,10 @@ call ExecuteFunc("TouristTrap__InitTouristTrap")
 call ExecuteFunc("UseItem__InitUse")
 call ExecuteFunc("ItemAttr__InitItemAttr")
 call ExecuteFunc("Battle__InitBattle")
-call ExecuteFunc("ItemBase___InitItemBase")
+call ExecuteFunc("ItemBase__InitItemBase")
 call ExecuteFunc("LHOther__InitLHOther")
 call ExecuteFunc("Beast__InitBeast")
-call ExecuteFunc("Continous___onInit")
+call ExecuteFunc("Continous__onInit")
 call ExecuteFunc("Purgatory__InitPurgatory")
 call ExecuteFunc("SameItem__InitSameItem")
 call ExecuteFunc("InitVersion")
@@ -57801,7 +57119,6 @@ call ExecuteFunc("Juexing__InitJuexing")
 call ExecuteFunc("Kuanghuan___InitKuanghuan")
 call ExecuteFunc("Revive__InitRevive")
 call ExecuteFunc("Boss__InitBoss")
-call ExecuteFunc("DebugNet__InitDebugNet")
 call ExecuteFunc("Arena__InitArena")
 call ExecuteFunc("Box__onInit")
 call ExecuteFunc("CenterCredit__InitCenterCredit")
@@ -57811,7 +57128,6 @@ call ExecuteFunc("BaseVersion__InitBaseVersion")
 call ExecuteFunc("Combine__InitCombine")
 call ExecuteFunc("HeroSelect__onInit")
 call ExecuteFunc("ItemSpell__InitItemSpell")
-call ExecuteFunc("TestCommand__Initdebug")
 call ExecuteFunc("ChatCommand__InitChatCommand")
 call ExecuteFunc("Simulate__InitSimulate")
 
@@ -58136,7 +57452,7 @@ local integer this=f__arg_this
             set s__YDWETimerPattern___Thread_part[this]=""
    return true
 endfunction
-function sa___prototype235_YDWETimerPattern___Rebound takes nothing returns boolean
+function sa___prototype233_YDWETimerPattern___Rebound takes nothing returns boolean
  local integer t=f__arg_integer1
  local real nx=f__arg_real1
  local real ny=f__arg_real2
@@ -58153,28 +57469,28 @@ function sa___prototype235_YDWETimerPattern___Rebound takes nothing returns bool
         call SetUnitFacing(s__YDWETimerPattern___Thread_obj[t], ( Atan2(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]) * 57.2958 ))
     return true
 endfunction
-function sa___prototype269_Jizi__AfterMoneyBuffTime takes nothing returns boolean
+function sa___prototype267_Jizi__AfterMoneyBuffTime takes nothing returns boolean
  local player p=f__arg_player1
 
 		call AddMoneyPercent(GetConvertedPlayerId(p) , - 1.0)
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r月饼给你提供的金钱时间到了.")
     return true
 endfunction
-function sa___prototype269_Jizi__AfterSpellBuffTime takes nothing returns boolean
+function sa___prototype267_Jizi__AfterSpellBuffTime takes nothing returns boolean
  local player p=f__arg_player1
 
 		call AddSpellPercent(GetConvertedPlayerId(p) , - 0.5)
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r月饼给你提供的技能伤害时间到了.")
     return true
 endfunction
-function sa___prototype269_Jizi__AfterReviveBuffTime takes nothing returns boolean
+function sa___prototype267_Jizi__AfterReviveBuffTime takes nothing returns boolean
  local player p=f__arg_player1
 
 		set B3SecondRevive[GetConvertedPlayerId(p)]=false
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r月饼给你提供的3秒复活时间到了.")
     return true
 endfunction
-function sa___prototype55_CreateCDialog2 takes nothing returns boolean
+function sa___prototype54_CreateCDialog2 takes nothing returns boolean
 
         local trigger t
         local dialog d
@@ -58204,7 +57520,7 @@ function sa___prototype55_CreateCDialog2 takes nothing returns boolean
         set t=null
     return true
 endfunction
-function sa___prototype55_CreateCDialog1 takes nothing returns boolean
+function sa___prototype54_CreateCDialog1 takes nothing returns boolean
 
         local trigger t
         local dialog d
@@ -58227,7 +57543,7 @@ function sa___prototype55_CreateCDialog1 takes nothing returns boolean
         set t=null
     return true
 endfunction
-function sa___prototype55_Boss__AfterQuestionSucceed takes nothing returns boolean
+function sa___prototype54_Boss__AfterQuestionSucceed takes nothing returns boolean
 
 		if ( ( GetUnitState(UGhost, UNIT_STATE_LIFE) > 0 ) ) then
 	    	call RecoverUnitHP(UGhost , - 0.1)
@@ -58243,11 +57559,11 @@ function sa___prototype55_Boss__AfterQuestionSucceed takes nothing returns boole
 		endif
     return true
 endfunction
-function sa___prototype194_Boss__AfterBossLessLife takes nothing returns boolean
+function sa___prototype192_Boss__AfterBossLessLife takes nothing returns boolean
     call Boss__AfterBossLessLife(f__arg_unit1)
     return true
 endfunction
-function sa___prototype58_SetDifficulty takes nothing returns boolean
+function sa___prototype56_SetDifficulty takes nothing returns boolean
  local integer difficultyIndex=f__arg_integer1
 
         local integer i
@@ -58385,16 +57701,16 @@ function sa___prototype58_SetDifficulty takes nothing returns boolean
         endif
     return true
 endfunction
-function sa___prototype311_registerDifficultyDialog takes nothing returns boolean
+function sa___prototype309_registerDifficultyDialog takes nothing returns boolean
     call registerDifficultyDialog(f__arg_dialog1)
     return true
 endfunction
-function sa___prototype194_Hundun__Hundun2SetLifeLess takes nothing returns boolean
+function sa___prototype192_Hundun__Hundun2SetLifeLess takes nothing returns boolean
     call Hundun__Hundun2SetLifeLess(f__arg_unit1)
     return true
 endfunction
 
-function jasshelper__initstructs64231671 takes nothing returns nothing
+function jasshelper__initstructs79753156 takes nothing returns nothing
     set st__vip_is=CreateTrigger()
     call TriggerAddCondition(st__vip_is,Condition( function sa__vip_is))
     set st__vip_has=CreateTrigger()
@@ -58456,39 +57772,39 @@ function jasshelper__initstructs64231671 takes nothing returns nothing
     set st__YDWETimerPattern___Thread_onDestroy[10]=st__YDWETimerPattern___Thread_onDestroy[8]
     set st__YDWETimerPattern___Thread_onDestroy[11]=st__YDWETimerPattern___Thread_onDestroy[8]
     call TriggerAddCondition(st__YDWETimerPattern___Thread_onDestroy[8],Condition( function sa__YDWETimerPattern___Thread_onDestroy))
-    set st___prototype235[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype235[1],function sa___prototype235_YDWETimerPattern___Rebound)
-    call TriggerAddCondition(st___prototype235[1],Condition(function sa___prototype235_YDWETimerPattern___Rebound))
-    set st___prototype269[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype269[1],function sa___prototype269_Jizi__AfterMoneyBuffTime)
-    call TriggerAddCondition(st___prototype269[1],Condition(function sa___prototype269_Jizi__AfterMoneyBuffTime))
-    set st___prototype269[2]=CreateTrigger()
-    call TriggerAddAction(st___prototype269[2],function sa___prototype269_Jizi__AfterSpellBuffTime)
-    call TriggerAddCondition(st___prototype269[2],Condition(function sa___prototype269_Jizi__AfterSpellBuffTime))
-    set st___prototype269[3]=CreateTrigger()
-    call TriggerAddAction(st___prototype269[3],function sa___prototype269_Jizi__AfterReviveBuffTime)
-    call TriggerAddCondition(st___prototype269[3],Condition(function sa___prototype269_Jizi__AfterReviveBuffTime))
-    set st___prototype55[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype55[1],function sa___prototype55_CreateCDialog2)
-    call TriggerAddCondition(st___prototype55[1],Condition(function sa___prototype55_CreateCDialog2))
-    set st___prototype55[2]=CreateTrigger()
-    call TriggerAddAction(st___prototype55[2],function sa___prototype55_CreateCDialog1)
-    call TriggerAddCondition(st___prototype55[2],Condition(function sa___prototype55_CreateCDialog1))
-    set st___prototype55[3]=CreateTrigger()
-    call TriggerAddAction(st___prototype55[3],function sa___prototype55_Boss__AfterQuestionSucceed)
-    call TriggerAddCondition(st___prototype55[3],Condition(function sa___prototype55_Boss__AfterQuestionSucceed))
-    set st___prototype194[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype194[1],function sa___prototype194_Boss__AfterBossLessLife)
-    call TriggerAddCondition(st___prototype194[1],Condition(function sa___prototype194_Boss__AfterBossLessLife))
-    set st___prototype58[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype58[1],function sa___prototype58_SetDifficulty)
-    call TriggerAddCondition(st___prototype58[1],Condition(function sa___prototype58_SetDifficulty))
-    set st___prototype311[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype311[1],function sa___prototype311_registerDifficultyDialog)
-    call TriggerAddCondition(st___prototype311[1],Condition(function sa___prototype311_registerDifficultyDialog))
-    set st___prototype194[2]=CreateTrigger()
-    call TriggerAddAction(st___prototype194[2],function sa___prototype194_Hundun__Hundun2SetLifeLess)
-    call TriggerAddCondition(st___prototype194[2],Condition(function sa___prototype194_Hundun__Hundun2SetLifeLess))
+    set st___prototype233[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype233[1],function sa___prototype233_YDWETimerPattern___Rebound)
+    call TriggerAddCondition(st___prototype233[1],Condition(function sa___prototype233_YDWETimerPattern___Rebound))
+    set st___prototype267[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype267[1],function sa___prototype267_Jizi__AfterMoneyBuffTime)
+    call TriggerAddCondition(st___prototype267[1],Condition(function sa___prototype267_Jizi__AfterMoneyBuffTime))
+    set st___prototype267[2]=CreateTrigger()
+    call TriggerAddAction(st___prototype267[2],function sa___prototype267_Jizi__AfterSpellBuffTime)
+    call TriggerAddCondition(st___prototype267[2],Condition(function sa___prototype267_Jizi__AfterSpellBuffTime))
+    set st___prototype267[3]=CreateTrigger()
+    call TriggerAddAction(st___prototype267[3],function sa___prototype267_Jizi__AfterReviveBuffTime)
+    call TriggerAddCondition(st___prototype267[3],Condition(function sa___prototype267_Jizi__AfterReviveBuffTime))
+    set st___prototype54[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype54[1],function sa___prototype54_CreateCDialog2)
+    call TriggerAddCondition(st___prototype54[1],Condition(function sa___prototype54_CreateCDialog2))
+    set st___prototype54[2]=CreateTrigger()
+    call TriggerAddAction(st___prototype54[2],function sa___prototype54_CreateCDialog1)
+    call TriggerAddCondition(st___prototype54[2],Condition(function sa___prototype54_CreateCDialog1))
+    set st___prototype54[3]=CreateTrigger()
+    call TriggerAddAction(st___prototype54[3],function sa___prototype54_Boss__AfterQuestionSucceed)
+    call TriggerAddCondition(st___prototype54[3],Condition(function sa___prototype54_Boss__AfterQuestionSucceed))
+    set st___prototype192[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype192[1],function sa___prototype192_Boss__AfterBossLessLife)
+    call TriggerAddCondition(st___prototype192[1],Condition(function sa___prototype192_Boss__AfterBossLessLife))
+    set st___prototype56[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype56[1],function sa___prototype56_SetDifficulty)
+    call TriggerAddCondition(st___prototype56[1],Condition(function sa___prototype56_SetDifficulty))
+    set st___prototype309[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype309[1],function sa___prototype309_registerDifficultyDialog)
+    call TriggerAddCondition(st___prototype309[1],Condition(function sa___prototype309_registerDifficultyDialog))
+    set st___prototype192[2]=CreateTrigger()
+    call TriggerAddAction(st___prototype192[2],function sa___prototype192_Hundun__Hundun2SetLifeLess)
+    call TriggerAddCondition(st___prototype192[2],Condition(function sa___prototype192_Hundun__Hundun2SetLifeLess))
 
 
 

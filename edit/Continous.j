@@ -191,10 +191,10 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong,MallItem {
 		d = null;
 	}
 
-	// 获取当前北京时间的0点（东八区，UTC+8）
+	// 获取当前0点（不再使用北京时间，直接用UTC时间）
 	function GetCurrentStartTime() -> integer {
-		integer t = DzAPI_Map_GetGameStartTime() + 28800; // 加8小时，28800秒
-		return (t / 86400) * 86400 - 28800;
+		integer t = DzAPI_Map_GetGameStartTime();
+		return (t / 86400) * 86400;
 	}
 
 	// 获取前n天的北京时间0点

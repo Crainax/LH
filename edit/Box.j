@@ -314,17 +314,19 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 		u = null;
 	}
 
+	boolean MallItemGet [MAX_PLAYER_COUNT][1000]; //东西有没有领过
 
 	function onInit () {
 		trigger t = CreateTrigger();
 		TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT);
 		TriggerAddCondition(t, Condition(function (){ //仓库用技能
+			integer index = GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()));
 			if (GetSpellAbilityId() == 'A0L0') { //仓库回城
-				HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]);
+				HG(UDepot[index]);
 			} else if (GetSpellAbilityId() == 'A0L3') { //到英雄身边
 				DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
-				SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
-				SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
+				SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[index]));
+				SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[index]));
 				DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
 			} else if (GetSpellAbilityId() == 'A0KZ') { //拿装备
 				GetHeroItem();
@@ -334,9 +336,31 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 				CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit())) ;
 			} else if (GetSpellAbilityId() == 'ABx1') {
 				CreateHeroChallenagerDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			} else if (GetSpellAbilityId() == 'AMI0') {
+				if (MallItemGet[index][2]) {
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你本局已经领取过这个物品了.");
+				} else {
+					AdjustPlayerStateBJ(3000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD);
+					MallItemGet[index][2] = true;
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r成功领取金币礼包!");
+					music[MUSIC_INDEX_GOLD].playFor(GetOwningPlayer(GetTriggerUnit()));
+				}
+			} else if (GetSpellAbilityId() == 'AMI1') {
+				if (MallItemGet[index][1]) {
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你本局已经领取过这个物品了.");
+				} else {
+					MallItemGet[index][1] = true;
+					AddHeroXP(udg_H[index], 1500, true);
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r成功领取经验礼包!");
+				}
 			}
 		}));
 		t = null;
+
+		mallItem.init("GOLD1");
+		mallItem.setTech("GOLD1", 'RMI0');
+		mallItem.init("EXP1");
+		mallItem.setTech("EXP1", 'RMI1');
 	}
 }
 //! endzinc

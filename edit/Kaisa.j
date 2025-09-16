@@ -393,7 +393,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 
 		call TriggerRegisterUnitEvent( gg_trg_____________7, kaisa, EVENT_UNIT_DAMAGED )
 
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 3 or vip.is(GetOwningPlayer(kaisa))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 10 or vip.is(GetOwningPlayer(kaisa))) then
 	    	call CreateFanzhuanItem(kaisa)
 	    debug endif
 

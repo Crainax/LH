@@ -1867,8 +1867,8 @@ endfunction
 // 当前构建版本
 // 当前的平台分包
 // 原生UI的大小
-    // 内测版
-    // lua_print: 内测版本
+    // 正式版
+    // lua_print: 正式版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
 // 结构体共用方法定义
 //共享打印方法
@@ -9456,33 +9456,8 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong,MallItem {
 	function GetGoldReward(integer day) -> integer {
 		return I3(day == 1, 500, R2I((SquareRoot(day) + 2.) * 300.));
 	}
-	private boolean Cont_hasPass_overrideEnabled = false;
-	private boolean Cont_hasPass_overrideValue = false;
-	private boolean Cont_timeOverrideEnabled = false;
-	private integer Cont_timeOverrideValue = 1759473386; // 默认测试时间戳
-
-	// 测试专用的时间获取函数
-	function ContGetGameTime() -> integer {
-		if (Cont_timeOverrideEnabled) {
-			return Cont_timeOverrideValue;
-		}
-		return Cont_timeOverrideValue;
-	}
-	// 测试专用的GetContinousDay
-	function ContGetContinousDay(player p) -> integer {
-		integer gameTime = ContGetGameTime();
-		return (gameTime - ILastTime[GetConvertedPlayerId(p)]) / 86400;
-	}
-	// 测试专用的GetCurrentStartTime
-	function ContGetCurrentStartTime() -> integer {
-		integer gameTime = ContGetGameTime();
-		return (gameTime / 86400) * 86400;
-	}
 	// 统一的 PASS1 判断（测试可覆盖）
 	function HasPass1(player p) -> boolean {
-		if (Cont_hasPass_overrideEnabled) {
-			return Cont_hasPass_overrideValue;
-		}
 		return mallItem.hasByPlayer(p, "PASS1");
 	}
 	// 获取显示用的签到天数（PASS1 特权：仅显示层 +3，不影响存档与奖励发放）
@@ -9547,7 +9522,7 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong,MallItem {
 	}
 	// 获取从保存的第一天开始的时间
 	public function GetContinousDay(player p) -> integer {
-		return (Cont_timeOverrideValue - ILastTime[GetConvertedPlayerId(p)]) / 86400;
+		return (DzAPI_Map_GetGameStartTime() - ILastTime[GetConvertedPlayerId(p)]) / 86400;
 	}
 	// 创建一个对话框
 	public function CreateLoginDialog(player p) {
@@ -9576,10 +9551,10 @@ library Continous requires LHBase,ItemBase,Achievement,Huodong,MallItem {
 		//DialogDestroy(d);
 		d = null;
 	}
-	// 获取当前北京时间的0点（东八区，UTC+8）
+	// 获取当前0点（不再使用北京时间，直接用UTC时间）
 	function GetCurrentStartTime() -> integer {
-		integer t = Cont_timeOverrideValue + 28800; // 加8小时，28800秒
-return (t / 86400) * 86400 - 28800;
+		integer t = DzAPI_Map_GetGameStartTime();
+		return (t / 86400) * 86400;
 	}
 	// 获取前n天的北京时间0点
 	function GetOldStartTime(integer day) -> integer {
@@ -9605,7 +9580,7 @@ return (t / 86400) * 86400 - 28800;
 	// 等10分钟后上传到网易
 	public function UploadToNetEase(player p) {
 		timer t;
-		integer i = 3;
+		integer i = 600;
 		t = CreateTimer();
 		SavePlayerHandle(LHTable, GetHandleId(t), 1, p);
 		TimerStart(t, i, false, function (){
@@ -9625,14 +9600,8 @@ return (t / 86400) * 86400 - 28800;
 	// 设置连续时间
 	public function SetDenglu(player p) {
 		integer pid; integer newDays; integer newBase; integer gameTime; integer contDay;
-		// 测试模式下使用测试时间
-		if (Cont_timeOverrideEnabled) {
-			gameTime = ContGetGameTime();
-			contDay = ContGetContinousDay(p);
-		} else {
-			gameTime = Cont_timeOverrideValue;
-			contDay = GetContinousDay(p);
-		}
+		gameTime = DzAPI_Map_GetGameStartTime();
+		contDay = GetContinousDay(p);
 		// 初始化检查
 		if (ILastTime[GetConvertedPlayerId(p)] == 0) {
 			ILastTime[GetConvertedPlayerId(p)] = gameTime;
@@ -9652,20 +9621,12 @@ return (t / 86400) * 86400 - 28800;
 				pid = GetConvertedPlayerId(p);
 				newDays = IConDays[pid] + 1;
 				// 调整基准，使得今天 contDay == newDays - 1
-				if (Cont_timeOverrideEnabled) {
-					newBase = ContGetCurrentStartTime() - (newDays - 1) * 86400;
-				} else {
-					newBase = GetCurrentStartTime() - (newDays - 1) * 86400;
-				}
+				newBase = GetCurrentStartTime() - (newDays - 1) * 86400;
 				ILastTime[pid] = newBase;
 				IConDays[pid] = newDays;
 				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).");
 			} else {
-				if (Cont_timeOverrideEnabled) {
-					ILastTime[GetConvertedPlayerId(p)] = ContGetCurrentStartTime();
-				} else {
-					ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime();
-				}
+				ILastTime[GetConvertedPlayerId(p)] = GetCurrentStartTime();
 				IConDays[GetConvertedPlayerId(p)] = 1;
 				DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r你已经成功连续登录" + I2S(GetConDays(p)) + "天(注意今天的签到需要等10分钟才能保存).");
 			}
@@ -9701,114 +9662,9 @@ return (t / 86400) * 86400 - 28800;
 		}
 		BBuqian2 = false;
 	}
-	// 断言测试：签到逻辑
-	private function ContAssertTests(player p) {
-		integer pid; integer nowTs; integer cs; boolean hasPass;
-		integer origDays; integer expectDays; integer prevDays; integer expectBase;
-		// 启用测试时间覆盖
-		Cont_timeOverrideEnabled = true;
-		pid = GetConvertedPlayerId(p);
-		hasPass = mallItem.hasByPlayer(p, "PASS1");
-		nowTs = ContGetGameTime();
-		cs = ContGetCurrentStartTime();
-		// 用例1：连续签到 +1（构造满足 ContGetContinousDay(p) == IConDays 的前置）
-		IConDays[pid] = 5;
-		ILastTime[pid] = nowTs - IConDays[pid] * 86400;
-		SetDenglu(p);
-		assert.Integer(IConDays[pid], 6, "连续签到失败：IConDays 应为 6");
-		assert.Integer(ILastTime[pid], nowTs - 5 * 86400, "连续签到失败：ILastTime 不应变化");
-		// 用例2：当天重复登录不应变化
-		prevDays = IConDays[pid];
-		SetDenglu(p);
-		assert.Integer(IConDays[pid], prevDays, "重复登录失败：IConDays 不应变化");
-		assert.Integer(ILastTime[pid], nowTs - 5 * 86400, "重复登录失败：ILastTime 不应变化");
-		// 用例3：非连续登录
-		IConDays[pid] = 6;
-		ILastTime[pid] = nowTs - 12 * 86400; // 使 GetContinousDay 返回更大，模拟断签
-SetDenglu(p);
-		if (hasPass) {
-			// PASS1：不重置，只 +1，且重设基准
-			expectDays = 7;
-			expectBase = cs - (expectDays - 1) * 86400;
-			assert.Integer(IConDays[pid], expectDays, "PASS1 非连续失败：IConDays 应 +1");
-			assert.Integer(ILastTime[pid], expectBase, "PASS1 非连续失败：ILastTime 应重设");
-		} else {
-			// 非特权：重置为 1，基准为今天 0 点
-			expectDays = 1;
-			expectBase = cs;
-			assert.Integer(IConDays[pid], expectDays, "无特权非连续失败：IConDays 应重置为 1");
-			assert.Integer(ILastTime[pid], expectBase, "无特权非连续失败：ILastTime 应为今日 0 点");
-		}
-		// 用例4：有效天数（奖励/显示）
-		IConDays[pid] = 12;
-		assert.Integer(GetConDays(p), 12 + I3(hasPass, 3, 0), "有效天数计算错误");
-		// 用例5：强制 hasPass=false 再跑一遍全链路
-		Cont_hasPass_overrideEnabled = true;
-		Cont_hasPass_overrideValue = false;
-		hasPass = false;
-		// 连续 +1
-		IConDays[pid] = 3; ILastTime[pid] = nowTs - 3 * 86400; SetDenglu(p);
-		assert.Integer(IConDays[pid], 4, "[无特权] 连续签到失败：IConDays 应为 4");
-		assert.Integer(ILastTime[pid], nowTs - 3 * 86400, "[无特权] 连续签到失败：ILastTime 不应变化");
-		// 当天重复
-		prevDays = IConDays[pid]; SetDenglu(p);
-		assert.Integer(IConDays[pid], prevDays, "[无特权] 重复登录失败：IConDays 不应变化");
-		assert.Integer(ILastTime[pid], nowTs - 3 * 86400, "[无特权] 重复登录失败：ILastTime 不应变化");
-		// 非连续应重置
-		IConDays[pid] = 8; ILastTime[pid] = nowTs - 12 * 86400; SetDenglu(p);
-		assert.Integer(IConDays[pid], 1, "[无特权] 非连续失败：应重置为 1");
-		assert.Integer(ILastTime[pid], cs, "[无特权] 非连续失败：基准应为今日 0 点");
-		// 有效天数==真实
-		IConDays[pid] = 10; assert.Integer(GetConDays(p), 10, "[无特权] 有效天数应等于真实");
-		Cont_hasPass_overrideEnabled = false;
-		// 关闭时间覆盖
-		Cont_timeOverrideEnabled = false;
-	}
-	// 注册测试指令
-	private function ContRegisterChat() {
-		UnitTestRegisterChatEvent(function () {
-			string str = GetEventPlayerChatString();
-			integer spacePos; string cmd; string param; integer timeValue;
-			if (str == "qd") {
-				SetDenglu(GetTriggerPlayer());
-				CreateLoginDialog(GetTriggerPlayer());
-			} else if (str == "qdt") {
-				ContAssertTests(GetTriggerPlayer());
-				BJDebugMsg("[Continous] 断言测试完成");
-			} else if (StringLength(str) > 8 && SubString(str, 0, 8) == "faketime") {
-				// faketime xxx 指令解析
-				spacePos = 8; // "faketime" 长度
-if (spacePos < StringLength(str) && SubString(str, spacePos, spacePos + 1) == " ") {
-					param = SubString(str, spacePos + 1, StringLength(str));
-					timeValue = S2I(param);
-					if (timeValue > 0) {
-						Cont_timeOverrideEnabled = true;
-						Cont_timeOverrideValue = timeValue;
-						BJDebugMsg("[Continous] 已设置模拟时间: " + I2S(timeValue));
-						BJDebugMsg("[Continous] 模拟时间状态: 已启用");
-					} else {
-						BJDebugMsg("[Continous] 错误: 无效的时间戳，请输入正整数");
-					}
-				} else {
-					BJDebugMsg("[Continous] 用法: faketime <时间戳>");
-					BJDebugMsg("[Continous] 示例: faketime 1757992018");
-				}
-			} else if (str == "faketime off") {
-				Cont_timeOverrideEnabled = false;
-				BJDebugMsg("[Continous] 已关闭模拟时间，恢复使用真实时间");
-			} else if (str == "faketime status") {
-				if (Cont_timeOverrideEnabled) {
-					BJDebugMsg("[Continous] 模拟时间状态: 已启用，当前值: " + I2S(Cont_timeOverrideValue));
-				} else {
-					BJDebugMsg("[Continous] 模拟时间状态: 已关闭，使用真实时间");
-				}
-			}
-		});
-	}
 	function onInit() {
-		// mallItem.init("PASS1");
-		// mallItem.setTech("PASS1", 'RMI2');
-		ContRegisterChat();
+		mallItem.init("PASS1");
+		mallItem.setTech("PASS1", 'RMI2');
 	}
 }
 //! endzinc
@@ -11882,7 +11738,7 @@ library_once Moqi requires LHBase,Spin,Printer,SpellBase
 		set TSpellMoqi = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellMoqi,moqi,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellMoqi, function TSpellMoqiAct)
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 3 or vip.is(GetOwningPlayer(moqi))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(moqi)) >= 10 or vip.is(GetOwningPlayer(moqi))) then
 	    	call CreateFanzhuanItem(moqi)
 	    debug endif
 	endfunction
@@ -17372,16 +17228,19 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 		t = null;
 		u = null;
 	}
+	boolean MallItemGet [6][1000]; //东西有没有领过
+
 	function onInit () {
 		trigger t = CreateTrigger();
 		TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_SPELL_EFFECT);
 		TriggerAddCondition(t, Condition(function (){ //仓库用技能
-if (GetSpellAbilityId() == 'A0L0') { //仓库回城
-HG(UDepot[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]);
+integer index = GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()));
+			if (GetSpellAbilityId() == 'A0L0') { //仓库回城
+HG(UDepot[index]);
 			} else if (GetSpellAbilityId() == 'A0L3') { //到英雄身边
 DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
-				SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
-				SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))]));
+				SetUnitX(GetTriggerUnit(),GetUnitX(udg_H[index]));
+				SetUnitY(GetTriggerUnit(),GetUnitY(udg_H[index]));
 				DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())));
 			} else if (GetSpellAbilityId() == 'A0KZ') { //拿装备
 GetHeroItem();
@@ -17391,9 +17250,30 @@ GetHeroItem();
 				CreateAchievementDialog(GetOwningPlayer(GetTriggerUnit())) ;
 			} else if (GetSpellAbilityId() == 'ABx1') {
 				CreateHeroChallenagerDialog(GetOwningPlayer(GetTriggerUnit())) ;
+			} else if (GetSpellAbilityId() == 'AMI0') {
+				if (MallItemGet[index][2]) {
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你本局已经领取过这个物品了.");
+				} else {
+					AdjustPlayerStateBJ(3000, GetOwningPlayer(GetTriggerUnit()), PLAYER_STATE_RESOURCE_GOLD);
+					MallItemGet[index][2] = true;
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r成功领取金币礼包!");
+					music[MUSIC_INDEX_GOLD].playFor(GetOwningPlayer(GetTriggerUnit()));
+				}
+			} else if (GetSpellAbilityId() == 'AMI1') {
+				if (MallItemGet[index][1]) {
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你本局已经领取过这个物品了.");
+				} else {
+					MallItemGet[index][1] = true;
+					AddHeroXP(udg_H[index], 1500, true);
+					DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r成功领取经验礼包!");
+				}
 			}
 		}));
 		t = null;
+		mallItem.init("GOLD1");
+		mallItem.setTech("GOLD1", 'RMI0');
+		mallItem.init("EXP1");
+		mallItem.setTech("EXP1", 'RMI1');
 	}
 }
 //! endzinc
@@ -23498,7 +23378,7 @@ library_once Yanmie requires SpellBase,Spin,Aura,Printer
 		set TSpellYanmie = CreateTrigger()
 	    call TriggerRegisterUnitEvent(TSpellYanmie,yanmie,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellYanmie, function TSpellYanmieAct)
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 3 or vip.is(GetOwningPlayer(yanmie))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(yanmie)) >= 10 or vip.is(GetOwningPlayer(yanmie))) then
 	    	call CreateFanzhuanItem(yanmie)
 	    debug endif
 	endfunction
@@ -23868,7 +23748,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	    call TriggerRegisterUnitEvent(TSpellKaisa,kaisa,EVENT_UNIT_SPELL_EFFECT)
 	    call TriggerAddAction(TSpellKaisa, function TSpellKaisaAct)
 		call TriggerRegisterUnitEvent( gg_trg_____________7, kaisa, EVENT_UNIT_DAMAGED )
-	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 3 or vip.is(GetOwningPlayer(kaisa))) then
+	    debug if (DzAPI_Map_GetMapLevel(GetOwningPlayer(kaisa)) >= 10 or vip.is(GetOwningPlayer(kaisa))) then
 	    	call CreateFanzhuanItem(kaisa)
 	    debug endif
 	endfunction
@@ -31043,518 +30923,6 @@ if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0
 }
 //! endzinc
 // 测试文件
-///#include  "edit/Diamond.j"
-///#include  "edit/CenterCredit.j"
-/*
-    测试指令:
-	test damage 关闭/开启伤害显示
-	test part1 测试阶段1
-	test tech 科技全满
-	test12 测试第几波,比如12
-	test kill 杀死自己
-	test select 显示生命
-	test credit 增加积分
-	test Scredit 增加守城积分
-	test invu 基地无敌
-	test vu 基地不无敌
-	test leval 等级上400
-	test mowang 测试基地爆炸
-	test mingwang 测试基地爆炸
-	test box 解锁所有box
-	test renshu      测试人数2
-	test darenshu      测试人数6
-	test lianyu1	炼狱14层
-	test lianyu2	炼狱69层
-	test lianyu4	炼狱89层
-	test renkou		100个人口
-	test Scredit    守家积分
-	test zhuanshengxx	 转生测试
-	test unitState  测试某个单位的状态,需要提前使用方法SetTestUnit去断点测试
-	test mijing 	秘境19
-	test bo29
-*/
-library_once TestCommand initializer Initdebug requires LHBase,Attr,Boss,VIP,CenterCredit,Diamond
-	globals
-		boolean debug_show_damage = false
-		boolean debug_show_attr = false
-		unit testDyingUnit = null
-	endglobals
-	private function sadfsadfs takes nothing returns nothing
-	call SetPlayerTechResearchedSwap( 'R00C', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
-    call SetPlayerTechResearchedSwap( 'R00E', IMinBJ(100, ( udg_IWang * udg_RENSHU )), GetEnumPlayer() )
-	endfunction
-	/*
-		增加英雄属性
-	*/
-	private function addHeroAttr takes integer attr,integer level returns nothing
-		call SetHeroInt(udg_H[1],attr,false)
-		call SetHeroAgi(udg_H[1],attr,false)
-		call SetHeroStr(udg_H[1],attr,false)
-		call SetHeroLevel(udg_H[1],level,true)
-	endfunction
-	/*
-	    显示伤害值的T
-	*/
-	private function debugDamage takes nothing returns nothing
-		if (debug_show_damage) then
-			call BJDebugMsg(GetUnitName(GetEventDamageSource())+"对"+ /*
-				*/GetUnitName(GetTriggerUnit())+"造成了"/*
-				*/+R2S(GetEventDamage())+"伤害.")
-		endif
-	endfunction
-	private function ShowMajiaCount takes nothing returns integer
-		local group l_group = YDWEGetUnitsInRectAllNull(GetPlayableMapRect())
-		local unit l_unit
-		local integer count = 0
-		call GroupEnumUnitsInRange(l_group, 0, 0, 99999, null)
-		loop
-		    set l_unit = FirstOfGroup(l_group)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(l_group, l_unit)
-		    if (GetUnitPointValue(l_unit) == 123 or GetUnitPointValue(l_unit) == 0) then
-		    	set count = count + 1
-		    endif
-		endloop
-		call DestroyGroup(l_group)
-		set l_group = null
-		set l_unit =null
-		return count
-	endfunction
-	private function UnlockAllBox takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 9
-			call GetAndSaveCangku(Player(0),i)
-			set i = i + 1
-		endloop
-	endfunction
-	/*
-	    聊天DEBUG
-	*/
-	private function debugChat takes nothing returns nothing
-		//关闭伤害显示
-		local string chat = GetEventPlayerChatString()
-		local integer bo
-		local unit u
-		if(chat == "test damage") then
-			set debug_show_damage = not(debug_show_damage)
-			call BJDebugMsg("成功关闭伤害显示")
-			return
-		endif
-		if (chat == "test tech") then
-			call SetPlayerTechResearchedSwap('R007',1,Player(0))
-			call SetPlayerTechResearchedSwap('R00A',1,Player(0))
-			call SetPlayerTechResearchedSwap('R00B',1,Player(0))
-			call SetPlayerTechResearchedSwap('R008',1,Player(0))
-			call SetPlayerTechResearchedSwap('R009',1,Player(0))
-			call SetPlayerTechResearchedSwap('R006',1,Player(0))
-			call SetPlayerTechResearchedSwap('R00D',1,Player(0))
-			call BJDebugMsg("科技研究完成")
-			return
-		endif
-		if (chat == "test part1") then
-			call addHeroAttr(20000,80)
-			//鬼3
-			call UnitAddItemByIdSwapped('lgdh',udg_H[1])
-			//星3
-			call UnitAddItemByIdSwapped('ram1',udg_H[1])
-			//冰封翅膀
-			call UnitAddItemByIdSwapped('I041',udg_H[1])
-			//法魂3
-			call UnitAddItemByIdSwapped('phea',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人3
-			call UnitAddItemByIdSwapped('oven',udg_H[1])
-			call BJDebugMsg("测试阶段1")
-			return
-		endif
-		if (chat == "test part0") then
-			call addHeroAttr(10000,60)
-			//鬼1
-			call UnitAddItemByIdSwapped('rat9',udg_H[1])
-			//星0
-			call UnitAddItemByIdSwapped('I03Y',udg_H[1])
-			//五彩翅膀
-			call UnitAddItemByIdSwapped('I045',udg_H[1])
-			//法魂2
-			call UnitAddItemByIdSwapped('rin1',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人0
-			call UnitAddItemByIdSwapped('rej4',udg_H[1])
-			call BJDebugMsg("测试阶段0")
-			return
-		endif
-		if (chat == "test part2") then
-			call addHeroAttr(40000,120)
-			//鬼5
-			call UnitAddItemByIdSwapped('bgst',udg_H[1])
-			//星MAX
-			call UnitAddItemByIdSwapped('olig',udg_H[1])
-			//妖皇翅膀
-			call UnitAddItemByIdSwapped('I04R',udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人6
-			call UnitAddItemByIdSwapped('oli2',udg_H[1])
-			call BJDebugMsg("测试阶段2")
-			return
-		endif
-		if (chat == "test part3") then
-			call addHeroAttr(80000,140)
-			//鬼8
-			call UnitAddItemByIdSwapped('rag1',udg_H[1])
-			//雷星
-			call UnitAddItemByIdSwapped('ccmd',udg_H[1])
-			//5翅膀
-			call UnitAddItemByIdSwapped('I05B',udg_H[1])
-			//法魂5
-			call UnitAddItemByIdSwapped('shas',udg_H[1])
-			//项链
-			call UnitAddItemByIdSwapped('rde3',udg_H[1])
-			//人7
-			call UnitAddItemByIdSwapped('shdt',udg_H[1])
-			call BJDebugMsg("测试阶段3")
-			return
-		endif
-		if (chat == "test part4") then
-			call addHeroAttr(150000,170)
-			//超鬼
-			call UnitAddItemByIdSwapped('lhst',udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('tlum',udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I05F',udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('rst1',udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('ssil',udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('tfar',udg_H[1])
-			call BJDebugMsg("测试阶段4,神装")
-			return
-		endif
-		if (chat == "test part5") then
-			call addHeroAttr(1300000,280)
-			//超鬼
-			call UnitAddItemByIdSwapped('ICS1',udg_H[1])
-			//超神
-			call UnitAddItemByIdSwapped('I05Y',udg_H[1])
-			//超妖
-			call UnitAddItemByIdSwapped('I04Y',udg_H[1])
-			//超仙
-			call UnitAddItemByIdSwapped('ICX1',udg_H[1])
-			//超圣
-			call UnitAddItemByIdSwapped('I05V',udg_H[1])
-			//超人
-			call UnitAddItemByIdSwapped('IB0A',udg_H[1])
-			call UnitAddItemByIdSwapped('ILIK',udg_H[1])
-			call UnitAddItemByIdSwapped('ICY1',udg_H[1])
-			call BJDebugMsg("测试阶段5,混沌")
-			return
-		endif
-		if (chat == "test daddy") then
-			call AddDamagePercent(1,100.)
-			call BJDebugMsg("测试爆炸伤害")
-			return
-		endif
-		if (chat == "test daddy2") then
-			call AddDamagePercent(1,-100.)
-			call BJDebugMsg("测试爆炸伤害取消")
-			return
-		endif
-		if(chat == "test fangka") then
-			set u = CreateUnit(Player(0),'hpea',5790.6,4445.8,0)
-			call StartFangKa(u)
-			set u = null
-			return
-		endif
-		if (chat == "test credit") then
-			set udg_Paihangbang[1] = 50000
-			call BJDebugMsg("增加了积分~!")
-			return
-		endif
-		if (chat == "test Scredit") then
-			set centerCredit[1] = 50000
-			call BJDebugMsg("增加了守城积分~!")
-			return
-		endif
-		if (chat == "test majia") then
-			call BJDebugMsg("马甲数量:"+I2S(ShowMajiaCount()))
-			return
-		endif
-		//对自己造成伤害
-		if (chat == "test kill") then
-		//gg_unit_Otch_0001   gg_unit_nubr_0093
-			call UnitDamageTargetBJ( CreateUnit(Player(0),'hpea',0.,0.,0.), udg_H[1], ( 1.00 * 10000000.00 ), ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC )
-			return
-		endif
-		//关闭选中显示属性
-		if (chat == "test select") then
-			set debug_show_attr = not (debug_show_attr)
-			return
-		endif
-		//基地无敌
-		if (chat == "test invu") then
-			call SetUnitInvulnerable(gg_unit_haro_0030,true)
-			return
-		endif
-		//基地不无敌
-		if (chat == "test vu") then
-			call SetUnitInvulnerable(gg_unit_haro_0030,false)
-			return
-		endif
-		//等级400
-		if (chat == "test level") then
-			call SetHeroLevel(udg_H[1],400,true)
-			return
-		endif
-		if (chat == "test renshu") then
-			set udg_RENSHU = 2
-			call BJDebugMsg("人数为2")
-			return
-		endif
-		if (chat == "test lianyu1") then
-			set udg_I_Lianyu[1] = 14
-			call BJDebugMsg("炼狱14层")
-			return
-		endif
-		if (chat == "test zhuansheng19") then
-			set udg_Z[1] = 19
-			call BJDebugMsg("转生19")
-			return
-		endif
-		if (chat == "test zhuansheng39") then
-			set udg_Z[1] = 39
-			call BJDebugMsg("转生39")
-			return
-		endif
-		if (chat == "test zhuansheng59") then
-			set udg_Z[1] = 59
-			call BJDebugMsg("转生59")
-			return
-		endif
-		if (chat == "test zhuansheng79") then
-			set udg_Z[1] = 79
-			call BJDebugMsg("转生79")
-			return
-		endif
-		if (chat == "test zhuansheng99") then
-			set udg_Z[1] = 99
-			call BJDebugMsg("转生99")
-			return
-		endif
-		if (chat == "test zhuansheng119") then
-			set udg_Z[1] = 119
-			call BJDebugMsg("转生119")
-			return
-		endif
-		if (chat == "test zhuansheng149") then
-			set udg_Z[1] = 149
-			call BJDebugMsg("转生149")
-			return
-		endif
-		if (chat == "test lianyu2") then
-			set udg_I_Lianyu[1] = 69
-			call BJDebugMsg("炼狱69层")
-			return
-		endif
-		if (chat == "test lianyu3") then
-			set udg_I_Lianyu[1] = 59
-			call BJDebugMsg("炼狱59层")
-			return
-		endif
-		if (chat == "test lianyu4") then
-			set udg_I_Lianyu[1] = 89
-			call BJDebugMsg("炼狱89层")
-			return
-		endif
-		if (chat == "test lianyu5") then
-			set udg_I_Lianyu[1] = 105
-			call BJDebugMsg("炼狱105层")
-			return
-		endif
-		if (chat == "test darenshu") then
-		    call ForForce( GetPlayersAll(), function sadfsadfs )
-			set udg_RENSHU = 6
-			set renshu = 6
-			call BJDebugMsg("人数调成6")
-			return
-		endif
-		if (chat == "test box") then
-			call BJDebugMsg("解锁所有box")
-			call UnlockAllBox()
-			return
-		endif
-		if (chat == "test renkou") then
-			call SetPlayerStateBJ( Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(Player(0), PLAYER_STATE_RESOURCE_FOOD_CAP) + 100 ) )
-			call BJDebugMsg("人口调成100")
-			return
-		endif
-		if (chat == "test baoshi") then
-			call BJDebugMsg("IAtleast1:"+I2S(IAtleast1))
-			call BJDebugMsg("IAtleast2:"+I2S(IAtleast2))
-			return
-		endif
-		if (chat == "test unitState") then
-			call BJDebugMsg(GetUnitName(testDyingUnit) + "的血量为:" + R2S(GetUnitState(testDyingUnit,UNIT_STATE_LIFE)))
-			if (IsUnitAliveBJ(testDyingUnit)) then
-				call BJDebugMsg("活着的")
-			else
-				call BJDebugMsg("死了的")
-			endif
-			return
-		endif
-		//魔王拆家速度
-		if (chat == "test mowang") then
-       		call SetPlayerTechResearchedSwap( 'R00O', 100, Player(6) )
-			call CreateUnit(Player(11),'Uwar',GetUnitX(gg_unit_haro_0030),GetUnitY(gg_unit_haro_0030),0)
-			return
-		endif
-		//冥王拆家速度
-		if (chat == "test mingwang") then
-            call UnitAddAbilityBJ( 'A0EG', gg_unit_haro_0030 )
-			call CreateUnit(Player(11),'Nkjx',GetUnitX(gg_unit_haro_0030),GetUnitY(gg_unit_haro_0030),0)
-			return
-		endif
-		//直接后面直接来
-		if (chat == "test renyao") then
-			call PauseTimer(udg_Time_Start[1])
-			call DestroyTimer(udg_Time_Start[1])
-			call KillUnit(gg_unit_Uear_0242)
-			call KillUnit(gg_unit_Nkjx_0241)
-			call KillUnit(gg_unit_Npld_0253)
-			return
-		endif
-		//测试鬼仙
-		if (chat == "test guixian") then
-			call PauseTimer(udg_Time_Start[1])
-			call DestroyTimer(udg_Time_Start[1])
-			call StartGhostAngleTimer()
-		endif
-		//直接后面直接来
-		if (chat == "test mijing") then
-			set IDeng = 19
-			call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r秘境119")
-			return
-		endif
-		//测试生命共享
-		if (chat == "test gongxiang") then
-			call StartLifeConnect()
-			return
-		endif
-		//调整当前波数
-		set bo = S2I(SubStringBJ(chat,StringLength(chat)-1,StringLength(chat)))
-		if (bo < 30) then
-			set udg_Bo = bo
-			call BJDebugMsg("当前波数:"+"="+I2S(udg_Bo))
-			return
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    设置测试单位
-	*/
-	function SetTestUnit takes unit u returns nothing
-		set testDyingUnit = u
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    查看选中单位的属性
-	*/
-	private function peekAttr takes nothing returns nothing
-		if (debug_show_attr) then
-			call BJDebugMsg("选中单位生命:" + R2S(GetUnitStateSwap(UNIT_STATE_LIFE,GetTriggerUnit())))
-			call BJDebugMsg("选中单位移动速度:" + R2S(GetUnitMoveSpeed(GetTriggerUnit())))
-		endif
-	endfunction
-	private function initDebugTri takes nothing returns nothing
-		//显示伤害值
-		local trigger t = CreateTrigger()
-		call YDWESyStemAnyUnitDamagedRegistTrigger(t)
-		call TriggerAddAction(t,function debugDamage)
-		//聊天打开开关进行测试
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"test",false)
-		call TriggerAddAction(t,function debugChat)
-		//选择人物看数据
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerSelectionEventBJ(t,Player(0),true)
-		call TriggerAddAction(t,function peekAttr)
-		set t = null
-		call SetPlayerState(Player(0),PLAYER_STATE_RESOURCE_GOLD,300000)
-		call SetPlayerState(Player(0),PLAYER_STATE_RESOURCE_LUMBER,1000000)
-	endfunction
-	private function Initdebug takes nothing returns nothing
-		call initDebugTri()
-	endfunction
-endlibrary
-library_once DebugNet initializer InitDebugNet requires LHBase,Version,Continous,Kuanghuan
-	function TestAchievement takes nothing returns nothing
-		local string s = GetEventPlayerChatString()
-		local integer i = S2I(SubStringBJ(s,2,StringLength(s)))
-		set IConDays[1] = i
-		call BJDebugMsg("|cFFFF66CC【消息】|r连续签到"+I2S(i))
-		//set time_simulate = i
-		//call BJDebugMsg("当前时间为:"+I2S(time_simulate))
-		set s = null
-	endfunction
-	private function Showxiao1 takes nothing returns nothing
-		//call SetPlayerName(Player(0),"无心使者")
-		//set playerName[1] = "无心使者"
-		//call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r无心使者")
-		call IncreaseXinglongSpin()
-	endfunction
-	private function TestCangku takes nothing returns nothing
-		// call SetKuanghuanOK(Player(0))
-	endfunction
-	/*private function Showxiao2 takes nothing returns nothing
-		local integer i = 1
-		loop
-			exitwhen i > 16
-			call BJDebugMsg("|cFFFF66CC【消息】|r"+I2S(i)+":"+I2S(IComboHistory[i]))
-			set i = i +1
-		endloop
-	endfunction*/
-	/*function TestTime takes nothing returns nothing
-
-		call SetDenglu(Player(0))
-	endfunction
-
-	function ShowTime takes nothing returns nothing
-		call BJDebugMsg("IConDays[1]"+"="+I2S(IConDays[1]))
-		call BJDebugMsg("ILastTime[1]"+"="+I2S(ILastTime[1]))
-		call BJDebugMsg("GetContinousDay(1)"+"="+I2S(GetContinousDay(Player(0))))
-	endfunction
-
-	function ShowDialog takes nothing returns nothing
-		call CreateLoginDialog(Player(0))
-	endfunction
-
-	function SetHanxin takes nothing returns nothing
-		set Greward[1] = 1
-		call DisplayTextToPlayer(Player(0), 0., 0., "|cFFFF66CC【消息】|r寒心")
-	endfunction*/
-//---------------------------------------------------------------------------------------------------
-	/*
-	    初始化
-	*/
-	private function InitDebugNet takes nothing returns nothing
-		local trigger t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"a",false)
-		call TriggerAddAction(t,function TestAchievement)
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"b",true)
-		call TriggerAddAction(t,function Showxiao1)
-		set t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent(t,Player(0),"c",true)
-		call TriggerAddAction(t,function TestCangku)
-		set t = null
-	endfunction
-endlibrary
 // lua_print: 正式地图
 //***************************************************************************
 //*
