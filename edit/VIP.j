@@ -51,7 +51,7 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 		}
 
 		//初始化某个玩家
-		public static method initPlayer (player p)  {
+		static method initPlayer (player p)  {
 			if (vip.isFirst) {
 				vip.isFirst = false;
 				udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2;
@@ -66,7 +66,7 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing {
 
 
 		// VIP验证
-		public static method certificate(player p, string vCode) {
+		static method certificate(player p, string vCode) {
 			if (vCode == null && HaveSavedBoolean(table, kVIP, vip.getCode(GetPlayerName(p)))) {
 				vip.initPlayer(p);
 				return;

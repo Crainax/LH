@@ -708,19 +708,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         set d = null
     endfunction
 //---------------------------------------------------------------------------------------------------
-
-    /*
-        输出选英雄皮肤的提示
-    */
-    function ChooseSpinHero takes player p,unit u returns  nothing
-        call ShowGameHint(p,"
-        这是英雄"+GetUnitName(u)+"的皮肤。"+S3(DEBUG_MODE,"
-        双击中间的旗子查看挑战内容,
-        完成对应挑战即可永久解锁该皮肤。","
-        使用魔兽争霸官方对战平台(dz.163.com)进行游戏
-        完成挑战即可获取该皮肤。"))
-    endfunction
-//---------------------------------------------------------------------------------------------------
     /*
         弹对话框(全体玩家)
     */

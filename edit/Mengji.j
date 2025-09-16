@@ -148,7 +148,7 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 		local item temp = GetSpellTargetItem()
 		local integer spellID = GetSpellAbilityId()
 		//call SetItemPosition(Liutao,0,0)
-		call UnitRemoveItemSwapped(Liutao,mengji)
+		call UnitRemoveItem(mengji, Liutao)
 		call SetItemVisible(Liutao,false)
 		call UnitAddItemByIdSwapped(GetItemTypeId(temp), mengji)
 		set Nihe = GetLastCreatedItem()

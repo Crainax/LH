@@ -1,5 +1,4 @@
 logs\currentmapscript.j
-pjass.exe
-Line 30526:  Undeclared variable sVIP
-Line 33721:  Undeclared variable sVIP
-2
+JASSHelper - Step 2 (structs)
+Line 30151: Unexpected : "
+1

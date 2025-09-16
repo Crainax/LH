@@ -83,13 +83,6 @@ library_once Constant initializer InitConstant requires JBase
 			return r2
 		endif
 	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    判断是否是皮肤
-	*/
-	function IsUnitIsSpin takes unit u  returns boolean
-		return GetUnitTypeId(u) == 'E00F' or GetUnitTypeId(u) == 'E00E' or GetUnitTypeId(u) == 'U001' or GetUnitTypeId(u) == 'H01V' or GetUnitTypeId(u) == 'H01W' or GetUnitTypeId(u) == 'E00G' or GetUnitTypeId(u) == 'O002' or GetUnitTypeId(u) == 'H01X' or GetUnitTypeId(u) == 'U002' or GetUnitTypeId(u) == 'O004' or GetUnitTypeId(u) == 'N01W' or GetUnitTypeId(u) == 'H026' or GetUnitTypeId(u) == 'H02C' or GetUnitTypeId(u) == 'N023' or GetUnitTypeId(u) == 'U003' or GetUnitTypeId(u) == 'H02E' or GetUnitTypeId(u) == 'E00H' or GetUnitTypeId(u) == 'H02L' or GetUnitTypeId(u) == 'H02O'
-	endfunction
 
 //---------------------------------------------------------------------------------------------------
 	/*

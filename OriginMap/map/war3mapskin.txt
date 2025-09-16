@@ -1,5 +1,5 @@
 [CustomSkin]
-IdlePeon=ReplaceableTextures\CommandButtons\BTNMagicVault.blp
+IdlePeon=ReplaceableTextures\CommandButtons\btnBoxEntry
 LoadingMeleeBackground=war3mapImported\LoadingScreen.mdx
 [FrameDef]
 BONUS_MANA= - 每点不增加的魔法值

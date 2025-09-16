@@ -41,7 +41,7 @@ library_once RandomHero  requires LHBase,Version,VIP
 	    选取随机英雄成功与否
 	*/
 	private function RandomPickCondition takes nothing returns boolean
-		return (RectContainsUnit(gg_rct_______c1,GetFilterUnit()) and (not(IsUnitIsSpin(GetFilterUnit()))) and IsUnitType(GetFilterUnit(),UNIT_TYPE_HERO))
+		return (RectContainsUnit(gg_rct_______c1,GetFilterUnit()) and IsUnitType(GetFilterUnit(),UNIT_TYPE_HERO))
 	endfunction
 
 	function RandomPick takes player p returns nothing
@@ -73,27 +73,6 @@ library_once RandomHero  requires LHBase,Version,VIP
 	    call SelectUnitForPlayerSingle( u, p )
 	    call SelectUnitForPlayerSingle( u, p )
 	    set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    到了5分钟后清除皮肤
-	*/
-	function ClearSpin takes nothing returns nothing
-
-		local integer i = 1
-		local group g = GetUnitsOfPlayerMatching(Player(PLAYER_NEUTRAL_PASSIVE), Condition(function RandomPickCondition))
-		local unit l_unit = null
-		loop
-		    set l_unit = FirstOfGroup(g)
-		    exitwhen l_unit == null
-		    call GroupRemoveUnit(g, l_unit)
-		    if (IsUnitIsSpin(l_unit)) then
-		    	call RemoveUnit(l_unit)
-		    endif
-		endloop
-		call DestroyGroup(g)
-		set g = null
-		set l_unit =null
 	endfunction
 endlibrary
 

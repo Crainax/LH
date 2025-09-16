@@ -42,15 +42,6 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,VIP {
             CinematicModeBJ(false, bj_FORCE_PLAYER[0]);
             ChooseGameMode(); //选择难度
 
-            udg_Group = GetUnitsInRectAll(gg_rct_______c1);
-            ForGroupBJ(udg_Group, function () {
-                if (Get11() && IsUnitIsSpin(GetEnumUnit())) {
-                    RemoveUnit(GetEnumUnit());
-                } else {
-                    SetUnitInvulnerable(GetEnumUnit(), true);
-                }
-            });
-            DestroyGroup(udg_Group);
             JudgeCundang();
 
             ShowUnitHide(gg_unit_H01W_0207);

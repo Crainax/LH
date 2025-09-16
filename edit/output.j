@@ -8048,7 +8048,7 @@ endfunction
 		loop
 			exitwhen i > 6
 			if ( UnitItemInSlotBJ(u, i) != null ) then
-    			call UnitRemoveItemSwapped(UnitItemInSlotBJ(u, i), u)
+    			call UnitRemoveItem(i, UnitItemInSlotBJ(u), u)
 			endif
 			call UnitAddItemByIdSwapped('I079', u)
 			set i=i + 1

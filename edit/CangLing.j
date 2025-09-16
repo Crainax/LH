@@ -130,7 +130,7 @@ library_once Cangling requires SpellBase,Printer,Attr,Aura,Spin
 		loop
 			exitwhen ii > 6
 			set temp = UnitItemInSlotBJ(cangling,ii)
-			//call UnitRemoveItemSwapped(temp,mengji)
+			//call UnitRemoveItem(mengji, temp)
 			call SetItemPosition(temp,0,0)
 			call SetItemVisible(temp,false)
 			set ii = ii + 1

@@ -200,7 +200,7 @@ library_once Beast initializer InitBeast requires LHBase,ItemBase,YDWESetGuard
 		//如果计数君大于1则丢掉
 		if (beastCount > 1) then
 			call PolledWait(0.1)
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备上一个魔兽！")
 			return
 		elseif (beastCount == 1) then

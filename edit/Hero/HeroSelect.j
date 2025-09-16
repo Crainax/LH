@@ -160,12 +160,6 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
             && ((u != gg_unit_Nsjs_0209) || (vip.is(p)) || (GetCanglingSelectedCon(p)))
             && ((u != gg_unit_H01Y_0286) || (vip.is(p)) || (GetXiaotingSelectedCon(p)))) {
 
-                if (IsUnitIsSpin(u)) {   //英雄皮肤
-                    ChooseSpinHero(p, u);
-                    ydl_timer = null;
-                    return;
-                }
-
                 if (CT6() && !BSuiji[pid]) { //挑战:纯随机
                     udg_T2[pid] = false;
                     RandomPick(p);
@@ -195,7 +189,6 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
                 RemoveLocation(udg_Point);
                 udg_RENSHU = (udg_RENSHU + 1);
                 udg_H[pid] = u;
-                InitItemTransport(u);
                 SetPlayerStateBJ(p, PLAYER_STATE_RESOURCE_FOOD_CAP, 1);
                 MultiboardSetItemValueBJ(udg_D, 1, (pid + 1), GetUnitName(u));
                 MultiboardSetItemValueBJ(udg_D, 7, (pid + 1), "存活");
@@ -413,6 +406,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
                 InitChallanger1Hero(udg_H[pid]);
                 InitChallanger2Hero(udg_H[pid]);
                 ShowChallangerDialog(p);
+                InitItemTransport(udg_H[pid]);
 
                 if (CT3()) {
                     UnitRemoveAbility(udg_H[pid], 'A0B9');

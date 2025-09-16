@@ -59,7 +59,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
 		//如果计数君大于1则丢掉
 		if (count > 1) then
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个"+GetItemName(GetManipulatedItem())+"！")
 		endif
 	endfunction
@@ -85,7 +85,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 		//如果计数君大于1则丢掉
 		if (count > 1) then
 			call PolledWait(0.1)
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个人器！")
 			return
 		endif
@@ -103,7 +103,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
 		//如果计数君大于1则丢掉
 		if (count > 1) then
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个1级以上的聚宝！")
 			return
 
@@ -122,7 +122,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 
 		//如果计数君大于1则丢掉
 		if (count > 1) then
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个项链！")
 			return
 		endif
@@ -141,7 +141,7 @@ library_once SameItem initializer InitSameItem requires LHBase,ItemBase
 		//如果计数君大于1则丢掉
 		if (count > 1) then
 			call PolledWait(0.1)
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备一个戒指！")
 			return
 		endif

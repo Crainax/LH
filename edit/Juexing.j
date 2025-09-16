@@ -385,7 +385,7 @@ library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xi
 		if (dengCount > 1) then
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备上一个秘境至宝！")
 			call PolledWait(0.01)
-			call UnitRemoveItemSwapped(GetManipulatedItem(),GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			return
 		elseif (dengCount == 1) then
 			if (GetDeng(GetTriggerUnit())>= 3) then

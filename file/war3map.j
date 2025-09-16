@@ -1509,7 +1509,7 @@ endfunction
 
 		//如果计数君大于1则丢掉
 		if ( count > 1 ) then
-			call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备一个人器！")
 		endif
 
@@ -1526,7 +1526,7 @@ endfunction
 
 		//如果计数君大于1则丢掉
 		if ( count > 1 ) then
-			call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备一个1级以上的聚宝！")
 		endif
 
@@ -6859,7 +6859,7 @@ endfunction
 
 		//如果计数君大于1则丢掉
 		if ( beastCount > 1 ) then
-			call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
 			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备上一个魔兽！")
 			return
 		elseif ( beastCount == 1 ) then
@@ -14256,7 +14256,7 @@ function Trig______________11bActions takes nothing returns nothing
         set ydul_i=ydul_i + 1
     endloop
     if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != 1 ) and ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != 100 ) and ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != 1000 ) and ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) != 0 ) ) then
-        call UnitRemoveItemSwapped(GetManipulatedItem(), GetManipulatingUnit())
+        call UnitRemoveItem(GetManipulatingUnit(), GetManipulatedItem())
         call DisplayTextToPlayer(GetOwningPlayer(GetManipulatingUnit()), 0, 0, "|cFFFF66CC【消息】|r只能装备一个鬼器。")
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         return
@@ -16230,7 +16230,7 @@ function Trig____________________063Actions takes nothing returns nothing
                 exitwhen ydul_o > 6
                 if ( ( UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o) != null ) and ( IsItemPawnable(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) == true ) ) then
                     call DisplayTextToForce(YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), ( "|cffff8000【注意】你的|r" + ( GetItemName(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) + "|cffff8000被怪物用技能击落在地上！！！！！|r" ) ))
-                    call UnitRemoveItemSwapped(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o), GetAttackedUnitBJ())
+                    call UnitRemoveItem(ydul_o, UnitItemInSlotBJ(GetAttackedUnitBJ()), GetAttackedUnitBJ())
                     call DoNothing()
  exitwhen true //(  )
                 else
@@ -16243,7 +16243,7 @@ function Trig____________________063Actions takes nothing returns nothing
                 exitwhen ydul_o > 6
                 if ( ( UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o) != null ) and ( IsItemPawnable(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) == true ) ) then
                     call DisplayTextToForce(YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), ( "|cffff8000【注意】你的|r" + ( GetItemName(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o)) + "|cffff8000被怪物用技能击落在地上！！！！！|r" ) ))
-                    call UnitRemoveItemSwapped(UnitItemInSlotBJ(GetAttackedUnitBJ(), ydul_o), GetAttackedUnitBJ())
+                    call UnitRemoveItem(ydul_o, UnitItemInSlotBJ(GetAttackedUnitBJ()), GetAttackedUnitBJ())
                 else
                 endif
                 set ydul_o=ydul_o + 1
@@ -17448,7 +17448,7 @@ function Trig_Only_One_Wing_And_SpellActions takes nothing returns nothing
         set ydul_i=ydul_i + 1
     endloop
     if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) >= 2 ) ) then
-        call UnitRemoveItemSwapped(GetManipulatedItem(), GetManipulatingUnit())
+        call UnitRemoveItem(GetManipulatingUnit(), GetManipulatedItem())
         call DisplayTextToPlayer(GetOwningPlayer(GetManipulatingUnit()), 0, 0, "|cFFFF66CC【消息】|r只能装备一双翅膀！")
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         return
@@ -24424,7 +24424,7 @@ function Trig_______134Conditions takes nothing returns boolean
     return ( ( GetUnitTypeId(GetTriggerUnit()) == 'N018' ) and ( GetItemType(GetManipulatedItem()) != ITEM_TYPE_POWERUP ) and ( GetUnitUserData(GetTriggerUnit()) == 1 ) )
 endfunction
 function Trig_______134Actions takes nothing returns nothing
-    call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+    call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
     call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, "|cFFFF66CC【消息】|r不能给实体分身物品.")
 endfunction
 //===========================================================================
@@ -37228,7 +37228,7 @@ function Trig______________11b_______uActions takes nothing returns nothing
         set ydul_i=ydul_i + 1
     endloop
     if ( ( LoadInteger(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step, 0x25DAB820) >= 2 ) ) then
-        call UnitRemoveItemSwapped(GetManipulatedItem(), GetManipulatingUnit())
+        call UnitRemoveItem(GetManipulatingUnit(), GetManipulatedItem())
         call DisplayTextToPlayer(GetOwningPlayer(GetManipulatingUnit()), 0, 0, "|cFFFF66CC【消息】|r只能拿一个圣物！")
         call FlushChildHashtable(YDHT, GetHandleId(GetTriggeringTrigger()) * ydl_localvar_step)
         return
@@ -37716,7 +37716,7 @@ function Trig_h2Conditions takes nothing returns boolean
 endfunction
 function Trig_h2Actions takes nothing returns nothing
     if ( ( GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT, GetHandleId(GetManipulatedItem()), 0xA75AD423) ) ) then
-        call UnitRemoveItemSwapped(GetManipulatedItem(), GetTriggerUnit())
+        call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
         call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0, 0, ( "|cFFFF66CC【消息】|r这件东西属于" + ( GetUnitName(udg_H[LoadInteger(YDHT, GetHandleId(GetManipulatedItem()), 0xA75AD423)]) + "，如果你需要，请叫他捡起后再丢下。" ) ))
     else
         call RemoveSavedInteger(YDHT, GetHandleId(GetManipulatedItem()), 0xA75AD423)
