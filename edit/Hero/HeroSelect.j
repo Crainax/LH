@@ -204,7 +204,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
                 CreateTextTagLocBJ("第1层", udg_Point, 0, 25.00, 100.00, 100, 0.00, 25.00);
                 udg_Piaofu_Lianyu[pid] = GetLastCreatedTextTag();
                 RemoveLocation(udg_Point);
-                LeaderboardSetLabel(udg_Paihang[pid], (GetUnitName(u) + "属性（输入\"-yc\"隐藏）"));
+                LeaderboardSetLabel(udg_Paihang[pid], (GetUnitName(u) + "属性（tab键隐藏）"));
                 PlayerSetLeaderboard(p, udg_Paihang[pid]);
 
                 for (1 <= i <= 10) {

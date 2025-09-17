@@ -20,6 +20,582 @@ endlibrary
 // 当前构建版本
 // 当前的平台分包
 // 原生UI的大小
+library BzAPI
+    //hardware
+    native DzGetMouseTerrainX takes nothing returns real
+    native DzGetMouseTerrainY takes nothing returns real
+    native DzGetMouseTerrainZ takes nothing returns real
+    native DzIsMouseOverUI takes nothing returns boolean
+    native DzGetMouseX takes nothing returns integer
+    native DzGetMouseY takes nothing returns integer
+    native DzGetMouseXRelative takes nothing returns integer
+    native DzGetMouseYRelative takes nothing returns integer
+    native DzSetMousePos takes integer x, integer y returns nothing
+    native DzTriggerRegisterMouseEvent takes trigger trig, integer btn, integer status, boolean sync, string func returns nothing
+    native DzTriggerRegisterMouseEventByCode takes trigger trig, integer btn, integer status, boolean sync, code funcHandle returns nothing
+    native DzTriggerRegisterKeyEvent takes trigger trig, integer key, integer status, boolean sync, string func returns nothing
+    native DzTriggerRegisterKeyEventByCode takes trigger trig, integer key, integer status, boolean sync, code funcHandle returns nothing
+    native DzTriggerRegisterMouseWheelEvent takes trigger trig, boolean sync, string func returns nothing
+    native DzTriggerRegisterMouseWheelEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
+    native DzTriggerRegisterMouseMoveEvent takes trigger trig, boolean sync, string func returns nothing
+    native DzTriggerRegisterMouseMoveEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
+    native DzGetTriggerKey takes nothing returns integer
+    native DzGetWheelDelta takes nothing returns integer
+    native DzIsKeyDown takes integer iKey returns boolean
+    native DzGetTriggerKeyPlayer takes nothing returns player
+    native DzGetWindowWidth takes nothing returns integer
+    native DzGetWindowHeight takes nothing returns integer
+    native DzGetWindowX takes nothing returns integer
+    native DzGetWindowY takes nothing returns integer
+    native DzTriggerRegisterWindowResizeEvent takes trigger trig, boolean sync, string func returns nothing
+    native DzTriggerRegisterWindowResizeEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
+    native DzIsWindowActive takes nothing returns boolean
+    //plus
+    native DzDestructablePosition takes destructable d, real x, real y returns nothing
+    native DzSetUnitPosition takes unit whichUnit, real x, real y returns nothing
+    native DzExecuteFunc takes string funcName returns nothing
+    native DzGetUnitUnderMouse takes nothing returns unit
+    native DzSetUnitTexture takes unit whichUnit, string path, integer texId returns nothing
+    native DzSetMemory takes integer address, real value returns nothing
+    native DzSetUnitID takes unit whichUnit, integer id returns nothing
+    native DzSetUnitModel takes unit whichUnit, string path returns nothing
+    native DzSetWar3MapMap takes string map returns nothing
+    native DzGetLocale takes nothing returns string
+    native DzGetUnitNeededXP takes unit whichUnit, integer level returns integer
+    //sync
+    native DzTriggerRegisterSyncData takes trigger trig, string prefix, boolean server returns nothing
+    native DzSyncData takes string prefix, string data returns nothing
+    native DzGetTriggerSyncPrefix takes nothing returns string
+    native DzGetTriggerSyncData takes nothing returns string
+    native DzGetTriggerSyncPlayer takes nothing returns player
+    native DzSyncBuffer takes string prefix, string data, integer dataLen returns nothing
+    //native DzGetPushContext takes nothing returns string
+    native DzSyncDataImmediately takes string prefix, string data returns nothing 
+    //gui
+    native DzFrameHideInterface takes nothing returns nothing
+    native DzFrameEditBlackBorders takes real upperHeight, real bottomHeight returns nothing
+    native DzFrameGetPortrait takes nothing returns integer
+    native DzFrameGetMinimap takes nothing returns integer
+    native DzFrameGetCommandBarButton takes integer row, integer column returns integer
+    native DzFrameGetHeroBarButton takes integer buttonId returns integer
+    native DzFrameGetHeroHPBar takes integer buttonId returns integer
+    native DzFrameGetHeroManaBar takes integer buttonId returns integer
+    native DzFrameGetItemBarButton takes integer buttonId returns integer
+    native DzFrameGetMinimapButton takes integer buttonId returns integer
+    native DzFrameGetUpperButtonBarButton takes integer buttonId returns integer
+    native DzFrameGetTooltip takes nothing returns integer
+    native DzFrameGetChatMessage takes nothing returns integer
+    native DzFrameGetUnitMessage takes nothing returns integer
+    native DzFrameGetTopMessage takes nothing returns integer
+    native DzGetColor takes integer r, integer g, integer b, integer a returns integer
+    native DzFrameSetUpdateCallback takes string func returns nothing
+    native DzFrameSetUpdateCallbackByCode takes code funcHandle returns nothing
+    native DzFrameShow takes integer frame, boolean enable returns nothing
+    native DzCreateFrame takes string frame, integer parent, integer id returns integer
+    native DzCreateSimpleFrame takes string frame, integer parent, integer id returns integer
+    native DzDestroyFrame takes integer frame returns nothing
+    native DzLoadToc takes string fileName returns nothing
+    native DzFrameSetPoint takes integer frame, integer point, integer relativeFrame, integer relativePoint, real x, real y returns nothing
+    native DzFrameSetAbsolutePoint takes integer frame, integer point, real x, real y returns nothing
+    native DzFrameClearAllPoints takes integer frame returns nothing
+    native DzFrameSetEnable takes integer name, boolean enable returns nothing
+    native DzFrameSetScript takes integer frame, integer eventId, string func, boolean sync returns nothing
+    native DzFrameSetScriptByCode takes integer frame, integer eventId, code funcHandle, boolean sync returns nothing
+    native DzGetTriggerUIEventPlayer takes nothing returns player
+    native DzGetTriggerUIEventFrame takes nothing returns integer
+    native DzFrameFindByName takes string name, integer id returns integer
+    native DzSimpleFrameFindByName takes string name, integer id returns integer
+    native DzSimpleFontStringFindByName takes string name, integer id returns integer
+    native DzSimpleTextureFindByName takes string name, integer id returns integer
+    native DzGetGameUI takes nothing returns integer
+    native DzClickFrame takes integer frame returns nothing
+    native DzSetCustomFovFix takes real value returns nothing
+    native DzEnableWideScreen takes boolean enable returns nothing
+    native DzFrameSetText takes integer frame, string text returns nothing
+    native DzFrameGetText takes integer frame returns string
+    native DzFrameSetTextSizeLimit takes integer frame, integer size returns nothing
+    native DzFrameGetTextSizeLimit takes integer frame returns integer
+    native DzFrameSetTextColor takes integer frame, integer color returns nothing
+    native DzGetMouseFocus takes nothing returns integer
+    native DzFrameSetAllPoints takes integer frame, integer relativeFrame returns boolean
+    native DzFrameSetFocus takes integer frame, boolean enable returns boolean
+    native DzFrameSetModel takes integer frame, string modelFile, integer modelType, integer flag returns nothing
+    native DzFrameGetEnable takes integer frame returns boolean
+    native DzFrameSetAlpha takes integer frame, integer alpha returns nothing
+    native DzFrameGetAlpha takes integer frame returns integer
+    native DzFrameSetAnimate takes integer frame, integer animId, boolean autocast returns nothing
+    native DzFrameSetAnimateOffset takes integer frame, real offset returns nothing
+    native DzFrameSetTexture takes integer frame, string texture, integer flag returns nothing
+    native DzFrameSetScale takes integer frame, real scale returns nothing
+    native DzFrameSetTooltip takes integer frame, integer tooltip returns nothing
+    native DzFrameCageMouse takes integer frame, boolean enable returns nothing
+    native DzFrameGetValue takes integer frame returns real
+    native DzFrameSetMinMaxValue takes integer frame, real minValue, real maxValue returns nothing
+    native DzFrameSetStepValue takes integer frame, real step returns nothing
+    native DzFrameSetValue takes integer frame, real value returns nothing
+    native DzFrameSetSize takes integer frame, real w, real h returns nothing
+    native DzCreateFrameByTagName takes string frameType, string name, integer parent, string template, integer id returns integer
+    native DzFrameSetVertexColor takes integer frame, integer color returns nothing
+    native DzOriginalUIAutoResetPoint takes boolean enable returns nothing
+    native DzFrameSetPriority takes integer frame, integer priority returns nothing
+    native DzFrameSetParent takes integer frame, integer parent returns nothing
+    native DzFrameGetHeight takes integer frame returns real
+    native DzFrameSetFont takes integer frame, string fileName, real height, integer flag returns nothing
+    native DzFrameGetParent takes integer frame returns integer
+    native DzFrameSetTextAlignment takes integer frame, integer align returns nothing
+    native DzFrameGetName takes integer frame returns string
+    native DzGetClientWidth takes nothing returns integer
+    native DzGetClientHeight takes nothing returns integer
+    native DzFrameIsVisible takes integer frame returns boolean
+        //显示/隐藏SimpleFrame
+    //native DzSimpleFrameShow takes integer frame, boolean enable returns nothing
+    // 追加文字（支持TextArea）
+    native DzFrameAddText takes integer frame, string text returns nothing
+    // 沉默单位-禁用技能
+    native DzUnitSilence takes unit whichUnit, boolean disable returns nothing
+    // 禁用攻击
+    native DzUnitDisableAttack takes unit whichUnit, boolean disable returns nothing
+    // 禁用道具
+    native DzUnitDisableInventory takes unit whichUnit, boolean disable returns nothing
+    // 刷新小地图
+    native DzUpdateMinimap takes nothing returns nothing
+    // 修改单位alpha
+    native DzUnitChangeAlpha takes unit whichUnit, integer alpha, boolean forceUpdate returns nothing
+    // 设置单位是否可以选中
+    native DzUnitSetCanSelect takes unit whichUnit, boolean state returns nothing
+    // 修改单位是否可以被设置为目标
+    native DzUnitSetTargetable takes unit whichUnit, boolean state returns nothing
+    // 保存内存数据
+    native DzSaveMemoryCache takes string cache returns nothing
+    // 读取内存数据
+    native DzGetMemoryCache takes nothing returns string
+    // 设置加速倍率
+    native DzSetSpeed takes real ratio returns nothing
+    // 转换世界坐标为屏幕坐标-异步
+    native DzConvertWorldPosition takes real x, real y, real z, code callback returns boolean
+    // 转换世界坐标为屏幕坐标-获取转换后的X坐标
+    native DzGetConvertWorldPositionX takes nothing returns real
+    // 转换世界坐标为屏幕坐标-获取转换后的Y坐标
+    native DzGetConvertWorldPositionY takes nothing returns real
+    // 创建command button
+    native DzCreateCommandButton takes integer parent, string icon, string name, string desc returns integer
+    function DzTriggerRegisterMouseEventTrg takes trigger trg, integer status, integer btn returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterMouseEvent(trg, btn, status, true, null)
+    endfunction
+    function DzTriggerRegisterKeyEventTrg takes trigger trg, integer status, integer btn returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterKeyEvent(trg, btn, status, true, null)
+    endfunction
+    function DzTriggerRegisterMouseMoveEventTrg takes trigger trg returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterMouseMoveEvent(trg, true, null)
+    endfunction
+    function DzTriggerRegisterMouseWheelEventTrg takes trigger trg returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterMouseWheelEvent(trg, true, null)
+    endfunction
+    function DzTriggerRegisterWindowResizeEventTrg takes trigger trg returns nothing
+        if trg == null then
+            return
+        endif
+        call DzTriggerRegisterWindowResizeEvent(trg, true, null)
+    endfunction
+    function DzF2I takes integer i returns integer
+        return i
+    endfunction
+    function DzI2F takes integer i returns integer
+        return i
+    endfunction
+    function DzK2I takes integer i returns integer
+        return i
+    endfunction
+    function DzI2K takes integer i returns integer
+        return i
+    endfunction
+    function DzTriggerRegisterMallItemSyncData takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZMIA", true)
+    endfunction
+    //玩家消耗/使用商城道具事件
+    function DzTriggerRegisterMallItemConsumeEvent takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZMIC", true)
+    endfunction
+    //玩家删除商城道具事件
+    function DzTriggerRegisterMallItemRemoveEvent takes trigger trig returns nothing
+        call DzTriggerRegisterSyncData(trig, "DZMID", true)
+    endfunction
+    function DzGetTriggerMallItemPlayer takes nothing returns player
+        return DzGetTriggerSyncPlayer()
+    endfunction
+    function DzGetTriggerMallItem takes nothing returns string
+        return DzGetTriggerSyncData()
+    endfunction
+    
+endlibrary
+// 常量配置
+// 使用说明（MallItem 黑箱）
+// 1) 在地图启动阶段注册商品（每次注册一个 key）：
+//    mallItem.init("VIP1");
+//    mallItem.init("RhdeKey");
+//    mallItem.init("RopgKey");
+//
+// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
+//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
+//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
+//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
+//
+// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
+//    mallItem.onReady(function () -> boolean {
+//        // 示例：查询玩家0（0-based）的拥有权与次数
+//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
+//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
+//        }
+//        return true;
+//    });
+//
+// 4) 消费：
+//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
+//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
+//        player cbp = mallItem.getCallbackPlayer();
+//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
+//        return true;
+//    });
+//    // 局数型消费：无回调
+//    mallItem.consumeOnce(Player(0), "VIP1");
+//
+// 5) 其他：
+//    local integer n = mallItem.getItemCount();
+//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
+//
+//todo: 加入局内商品进包的回调
+//! zinc
+library MallItem requires DzAPI{
+    // 黑箱：商城商品拥有权初始化、缓存、查询与元信息
+    public struct mallItem []{
+        // 状态与事件
+        private static boolean initialized = false;
+        private static boolean ready = false;
+        private static trigger readyTrigger = null;
+        // 数据表
+        private static hashtable table = null; // key 映射与临时使用
+
+        // 商品列表与映射
+        private static integer itemCount = 0;
+        private static string itemKeys[]; // 0..itemCount-1
+// 拥有权缓存：owns[player * MALLITEM_MAX_ITEMS + itemIndex] player是从0开始
+private static boolean owns[];
+        // 使用次数缓存：uses[player * MALLITEM_MAX_ITEMS + itemIndex]
+        private static integer uses[];
+        // 元信息：按 itemIndex 对齐
+        private static string names[];
+        private static string icons[];
+        private static string descs[];
+        private static integer techs[]; // 科技 ID，如 'R015'（四位字符转换为整数）
+
+        // 回调参数传递（避免哈希表冲突）
+        public static player callbackPlayer = null;
+        // ========== 内部：解析与映射 =========
+        private static method getIndex(string key) ->integer {
+            integer stored; integer idx;
+            stored = LoadInteger(mallItem.table, 0, StringHash(key));
+            if (stored == 0) {
+                return -1;
+            }
+            idx = stored - 1; // 存储时 +1，读取时 -1
+if (idx < 0 || idx >= mallItem.itemCount) { return -1; }
+            return idx;
+        }
+        private static method setIndex(string key, integer index) {
+            SaveInteger(mallItem.table, 0, StringHash(key), index + 1);
+        }
+        private static method addKey(string key) {
+            integer idx; integer i; integer n; integer base;
+            if (key == null) { return; }
+            if (StringLength(key) == 0) { return; }
+            // 已存在则跳过
+            idx = mallItem.getIndex(key);
+            if (idx >= 0) { return; }
+            if (mallItem.itemCount >= 300) {
+                return; // 超上限忽略
+}
+            idx = mallItem.itemCount;
+            mallItem.itemKeys[idx] = key;
+            mallItem.setIndex(key, idx);
+            // 默认元信息
+            mallItem.names[idx] = "";
+            mallItem.icons[idx] = "";
+            mallItem.descs[idx] = "";
+            mallItem.techs[idx] = 0;
+            // 初始化拥有权为 false（所有玩家）
+            i = 0;
+            while (i < 6) {
+                base = i * 300;
+                mallItem.owns[base + idx] = false;
+                i = i + 1;
+            }
+            mallItem.itemCount = mallItem.itemCount + 1;
+        }
+        // （移除字符串拆分，改为单商品增量注册）
+        //公用方法
+        // 初始化底层（在 map 启动时自动调用）
+        static method onInit() {
+            // 先声明
+            // 无句柄局部变量
+            mallItem.initialized = false;
+            mallItem.ready = false;
+            mallItem.itemCount = 0;
+            mallItem.table = InitHashtable();
+            mallItem.readyTrigger = CreateTrigger();
+        }
+        // 外部初始化：每次只注册一个商品 key；首次调用时启动延迟扫描
+        static method init(string productKey) {
+            timer t;
+            // 注册商品（支持多次调用，去重在 addKey 内部完成）
+            mallItem.addKey(productKey);
+            // 首次调用时启动延迟扫描
+            if (!mallItem.initialized) {
+                mallItem.initialized = true;
+                // 延迟初始化玩家商品状态
+                t = CreateTimer();
+                TimerStart(t, 2.0, false, function () {
+                integer pid; integer idx; integer base; player p; string k; integer n;
+                n = mallItem.itemCount;
+                pid = 0;
+                while (pid < 6) {
+                    p = ConvertedPlayer(pid + 1);
+                    base = pid * 300;
+                    idx = 0;
+                    while (idx < n) {
+                        k = mallItem.itemKeys[idx];
+                        mallItem.owns[base + idx] = DzAPI_Map_HasMallItem(p, k);
+                        mallItem.uses[base + idx] = DzAPI_Map_GetMallItemCount(p, k);
+                        // 直接在此处解锁科技（如果拥有商品且设置了科技）
+                        if (mallItem.owns[base + idx] && mallItem.techs[idx] != 0) {
+                            SetPlayerTechResearched(p, mallItem.techs[idx], 1);
+                        }
+                        idx = idx + 1;
+                    }
+                    p = null;
+                    pid = pid + 1;
+                }
+                mallItem.ready = true;
+                if (mallItem.readyTrigger != null) {
+                    // 使用 TriggerEvaluate 调用回调条件
+                    TriggerEvaluate(mallItem.readyTrigger);
+                }
+            });
+            // handler 置空
+            t = null;
+            }
+        }
+        // 是否已完成首次扫描
+        static method isReady() ->boolean {
+            return mallItem.ready;
+        }
+        // 注册 onReady 回调（使用 Condition 封装 code），若已就绪则立即 Evaluate
+        static method onReady(code cb) {
+            if (mallItem.readyTrigger == null) {
+                mallItem.readyTrigger = CreateTrigger();
+            }
+            TriggerAddCondition(mallItem.readyTrigger, Condition(cb));
+              if (mallItem.ready) {
+                TriggerEvaluate(mallItem.readyTrigger);
+            }
+        }
+        // 拥有权查询：通过玩家句柄
+        static method hasByPlayer(player whichPlayer, string itemKey) ->boolean {
+            integer pid; integer idx; integer base; boolean result;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) {
+                return false;
+            }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) {
+                return false;
+            }
+            base = pid * 300;
+            result = mallItem.owns[base + idx];
+            return result;
+        }
+        // 使用次数查询：通过玩家句柄
+        static method getUseCountByPlayer(player whichPlayer, string itemKey) ->integer {
+            integer pid; integer idx; integer base;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) { return 0; }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) { return 0; }
+            base = pid * 300;
+            return mallItem.uses[base + idx];
+        }
+        // 刷新某玩家的拥有权（对已登记商品）
+        static method refreshItemsForPlayer(integer playerId) {
+            integer i; integer base; player p; string k; integer n;
+            if (playerId < 0 || playerId >= 6) {
+                return;
+            }
+            p = ConvertedPlayer(playerId + 1);
+            base = playerId * 300;
+            n = mallItem.itemCount;
+            i = 0;
+            while (i < n) {
+                k = mallItem.itemKeys[i];
+                mallItem.owns[base + i] = DzAPI_Map_HasMallItem(p, k);
+                i = i + 1;
+            }
+            p = null;
+        }
+        // 消费次数型道具（带回调）：成功消费后调用回调并传入玩家参数
+        static method consumeTimes(player whichPlayer, string itemKey, integer count, code callback) ->boolean {
+            integer pid; integer idx; integer base; boolean ok; trigger tempTr;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) { return false; }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) { return false; }
+            // 执行消费
+            ok = DzAPI_Map_ConsumeMallItem(whichPlayer, itemKey, count);
+            if (ok) {
+                base = pid * 300;
+                // 刷新该玩家该商品缓存
+                mallItem.owns[base + idx] = DzAPI_Map_HasMallItem(whichPlayer, itemKey);
+                mallItem.uses[base + idx] = DzAPI_Map_GetMallItemCount(whichPlayer, itemKey);
+                // 如果使用次数小于等于0，则认为该玩家没有这个道具了
+                if (mallItem.uses[base + idx] <= 0) {
+                    mallItem.owns[base + idx] = false;
+                }
+                // 调用回调（传入玩家参数）
+                if (callback != null) {
+                    mallItem.callbackPlayer = whichPlayer;
+                    tempTr = CreateTrigger();
+                    TriggerAddCondition(tempTr, Condition(callback));
+                    TriggerEvaluate(tempTr);
+                    DestroyTrigger(tempTr);
+                    mallItem.callbackPlayer = null;
+                    tempTr = null;
+                }
+            }
+            return ok;
+        }
+        // 消费一次性道具（UseConsumablesItem）：无回调
+        static method consumeOnce(player whichPlayer, string itemKey) {
+            integer pid; integer idx; integer base;
+            pid = GetPlayerId(whichPlayer);
+            if (pid < 0 || pid >= 6) { return ; }
+            idx = mallItem.getIndex(itemKey);
+            if (idx < 0) { return ; }
+            // 执行消费(无回调)
+            DzAPI_Map_UseConsumablesItem(whichPlayer, itemKey);
+        }
+        // ========== 元信息写接口 ==========
+        static method setName(string key, string name) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.names[idx] = name;
+        }
+        static method setIcon(string key, string iconPath) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.icons[idx] = iconPath;
+        }
+        static method setDesc(string key, string desc) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.descs[idx] = desc;
+        }
+        static method setTech(string key, integer techId) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.techs[idx] = techId;
+        }
+        static method setMeta(string key, string name, string iconPath, string desc) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.names[idx] = name;
+            mallItem.icons[idx] = iconPath;
+            mallItem.descs[idx] = desc;
+        }
+        static method setMetaWithTech(string key, string name, string iconPath, string desc, integer techId) {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return; }
+            mallItem.names[idx] = name;
+            mallItem.icons[idx] = iconPath;
+            mallItem.descs[idx] = desc;
+            mallItem.techs[idx] = techId;
+        }
+        // ========== 元信息读接口 ==========
+        static method getName(string key) ->string {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return ""; }
+            return mallItem.names[idx];
+        }
+        static method getIcon(string key) ->string {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return ""; }
+            return mallItem.icons[idx];
+        }
+        static method getDesc(string key) ->string {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return ""; }
+            return mallItem.descs[idx];
+        }
+        static method getTech(string key) ->integer {
+            integer idx;
+            idx = mallItem.getIndex(key);
+            if (idx < 0) { return 0; }
+            return mallItem.techs[idx];
+        }
+        // 在 consumeTimes 回调中获取触发的玩家
+        static method getCallbackPlayer() ->player {
+            return mallItem.callbackPlayer;
+        }
+        static method hasItemKey(string key) ->boolean {
+            return mallItem.getIndex(key) >= 0;
+        }
+        static method getAllItemKeys() ->string {
+            integer i; string out; integer n;
+            n = mallItem.itemCount;
+            out = "";
+            i = 0;
+            while (i < n) {
+                if (i == 0) {
+                    out = mallItem.itemKeys[i];
+                } else {
+                    out = out + "," + mallItem.itemKeys[i];
+                }
+                i = i + 1;
+            }
+            return out;
+        }
+        // 根据索引获取商品 key（1-based 外部语义：1 表示第一个）
+        static method getItemKeyByIndex(integer oneBasedIndex) ->string {
+            integer idx;
+            idx = oneBasedIndex - 1;
+            if (idx < 0 || idx >= mallItem.itemCount) { return ""; }
+            return mallItem.itemKeys[idx];
+        }
+        // 获取已登记商品数量
+        static method getItemCount() ->integer {
+            return mallItem.itemCount;
+        }
+    }
+}
+//! endzinc
 library_once YDWEBase initializer InitializeYD
 //===========================================================================
 //HashTable
@@ -760,1844 +1336,6 @@ function InitializeYD takes nothing returns nothing
     call YDWEVersion_Init()
 endfunction
 endlibrary
-//===========================================================================  
-//万能环绕模板 
-//===========================================================================
-library YDWEAroundSystem requires YDWEBase
-//library TP1 requires YDWEBase
-    globals
-        private constant timer AROUND_TIM = CreateTimer()
-        private constant real AROUND_INTER = 0.01
-    endglobals
-    private struct Data
-        static thistype array Structs
-        static integer Total = 0
-        unit caster = null
-        unit obj = null 
-        real dur = 0.
-        real inter = 0.
-        real each = 0. 
-        real rate = 0.
-        real dis = 0.
-        real rise = 0. 
-        real angle = 0.
-        real radius = 0.
-        real height = 0
-    endstruct
-    private function spin takes nothing returns nothing
-        local Data d = 0
-        local real x = 0.
-        local real y = 0.
-        local integer inst = 0
-        
-        loop
-            exitwhen (inst == Data.Total)
-            set d = Data.Structs[inst]
-            if ( d.dur > 0 ) and (GetUnitState(d.caster, UNIT_STATE_LIFE)>0) and (GetUnitState(d.obj, UNIT_STATE_LIFE)>0) then
-                set d.each = d.each + AROUND_INTER
-                if ( d.each >= d.inter ) then
-                    set d.angle = d.angle + d.rate
-                    set d.radius = d.radius + d.dis
-                    set d.height = d.height + d.rise
-                    set x = GetUnitX(d.caster) + d.radius*Cos(d.angle)
-                    set y = GetUnitY(d.caster) + d.radius*Sin(d.angle)
-                    set x = YDWECoordinateX(x)
-                    set y = YDWECoordinateY(y)
-                    call SetUnitX(d.obj, x)
-                    call SetUnitY(d.obj, y)
-                    call SetUnitFlyHeight(d.obj, d.height, 0.)
-                    set d.each = 0.
-                endif
-                set d.dur = d.dur - AROUND_INTER
-            else 
-                set bj_lastAbilityTargetUnit=d.caster
-                call YDWESyStemAbilityCastingOverTriggerAction(d.obj,10) 
-                set d.caster = null
-                set d.obj = null
-                call d.destroy()
-                set Data.Total = Data.Total - 1
-                set Data.Structs[inst] = Data.Structs[Data.Total]
-                set inst = inst - 1
-            endif
-            set inst = inst + 1
-        endloop
-        if ( Data.Total == 0 ) then
-            call PauseTimer(AROUND_TIM)
-        endif
-    endfunction
-    function YDWEAroundSystem takes unit satellite, unit star, real angleRate, real displacement, real riseRate,real timeout, real interval returns nothing
-        local Data d = Data.create()
-        local real x1 = GetUnitX(star)
-        local real y1 = GetUnitY(star)
-        local real x2 = GetUnitX(satellite)
-        local real y2 = GetUnitY(satellite)
-        set d.caster = star
-        set d.obj = satellite
-        set d.dur = timeout
-        set d.inter = interval
-        set d.rate = angleRate*(3.14159/180.)
-        set d.dis = displacement
-        set d.rise = riseRate
-        set d.angle = Atan2(y2-y1,x2-x1)
-        set d.radius = SquareRoot((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
-        set d.height = GetUnitFlyHeight(d.obj) 
-        set Data.Structs[Data.Total] = integer(d)
-        set Data.Total = Data.Total + 1 
-        if ( Data.Total - 1 == 0 ) then
-            call TimerStart(AROUND_TIM, AROUND_INTER, true, function spin)
-        endif
-    endfunction
-    
-endlibrary 
-library YDWEGetUnitsOfPlayerMatchingNull
-globals
-    group yd_NullTempGroup
-endglobals
-function YDWEGetUnitsOfPlayerMatchingNull takes player whichPlayer, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsOfPlayer(g, whichPlayer, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWECreateEwsp requires YDWEBase
-//===========================================================================
-//环绕技能模板 
-//===========================================================================
-private function Loop takes nothing returns nothing
-    local timer t = GetExpiredTimer()
-	local string h = I2S(YDWEH2I(t))
-    local unit tempUnit 
-    local real angle 
-    local integer i
-    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit") 
-    local real UnitLocX = GetUnitX(orderUnit)
-    local real UnitLocY = GetUnitY(orderUnit) 
-    local real radius = YDWEGetRealByString(h,"radius") 
-    local real speed = YDWEGetRealByString(h,"speed") 
-    local integer number = YDWEGetIntegerByString(h,"number") 
-    local integer steps = YDWEGetIntegerByString(h,"steps") 
-    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then 
-        set steps=steps-1
-        call YDWESaveIntegerByString(h,"steps",steps) 
-        set i = 0 
-        loop
-            set i = i + 1
-            exitwhen i > number
-            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
-            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
-            set angle=angle+speed
-            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
-            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
-        endloop
-    else 
-        set i = 0
-        loop
-            set i = i + 1 
-            exitwhen i > number 
-            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i))) 
-        endloop 
-        call YDWEFlushMissionByString(h)
-        call DestroyTimer(t) 
-        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1) 
-    endif
-    set tempUnit=null 
-    set orderUnit=null
-    set t=null
-endfunction
-function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
-    local timer t = CreateTimer()
-	local string h = I2S(YDWEH2I(t))
-	local real UnitLocX = GetUnitX(Hero)
-    local real UnitLocY = GetUnitY(Hero) 
-    local unit tempUnit 
-    local player Masterplayer = GetOwningPlayer(Hero)
-    local real angle 
-    local integer i = 0
-    local integer steps = R2I(lasttime/interval)
-    call YDWESaveUnitByString(h,"orderUnit",Hero) 
-    call YDWESaveIntegerByString(h,"steps",steps) 
-    call YDWESaveIntegerByString(h,"number",number) 
-    call YDWESaveRealByString(h,"radius",radius)
-    call YDWESaveRealByString(h,"speed", speed*0.0174538)
-    call GroupClear(bj_lastCreatedGroup)
-    loop
-        set i = i + 1
-        exitwhen i > number
-        set angle = 2*i*3.14159/number
-        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
-        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*57.2958)
-        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
-        call UnitIgnoreAlarm(tempUnit, true)
-        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
-        set bj_lastCreatedUnit = tempUnit
-    endloop 
-    call TimerStart(t,interval,true,function Loop)
-    set t=null
-    set tempUnit=null
-endfunction
-endlibrary
-// 常量配置
-// 使用说明（MallItem 黑箱）
-// 1) 在地图启动阶段注册商品（每次注册一个 key）：
-//    mallItem.init("VIP1");
-//    mallItem.init("RhdeKey");
-//    mallItem.init("RopgKey");
-//
-// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
-//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
-//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
-//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
-//
-// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
-//    mallItem.onReady(function () -> boolean {
-//        // 示例：查询玩家0（0-based）的拥有权与次数
-//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
-//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
-//        }
-//        return true;
-//    });
-//
-// 4) 消费：
-//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
-//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
-//        player cbp = mallItem.getCallbackPlayer();
-//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
-//        return true;
-//    });
-//    // 局数型消费：无回调
-//    mallItem.consumeOnce(Player(0), "VIP1");
-//
-// 5) 其他：
-//    local integer n = mallItem.getItemCount();
-//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
-//
-//todo: 加入局内商品进包的回调
-//! zinc
-library MallItem requires DzAPI{
-    // 黑箱：商城商品拥有权初始化、缓存、查询与元信息
-    public struct mallItem []{
-        // 状态与事件
-        private static boolean initialized = false;
-        private static boolean ready = false;
-        private static trigger readyTrigger = null;
-        // 数据表
-        private static hashtable table = null; // key 映射与临时使用
-
-        // 商品列表与映射
-        private static integer itemCount = 0;
-        private static string itemKeys[]; // 0..itemCount-1
-// 拥有权缓存：owns[player * MALLITEM_MAX_ITEMS + itemIndex] player是从0开始
-private static boolean owns[];
-        // 使用次数缓存：uses[player * MALLITEM_MAX_ITEMS + itemIndex]
-        private static integer uses[];
-        // 元信息：按 itemIndex 对齐
-        private static string names[];
-        private static string icons[];
-        private static string descs[];
-        private static integer techs[]; // 科技 ID，如 'R015'（四位字符转换为整数）
-
-        // 回调参数传递（避免哈希表冲突）
-        public static player callbackPlayer = null;
-        // ========== 内部：解析与映射 =========
-        private static method getIndex(string key) ->integer {
-            integer stored; integer idx;
-            stored = LoadInteger(mallItem.table, 0, StringHash(key));
-            if (stored == 0) {
-                return -1;
-            }
-            idx = stored - 1; // 存储时 +1，读取时 -1
-if (idx < 0 || idx >= mallItem.itemCount) { return -1; }
-            return idx;
-        }
-        private static method setIndex(string key, integer index) {
-            SaveInteger(mallItem.table, 0, StringHash(key), index + 1);
-        }
-        private static method addKey(string key) {
-            integer idx; integer i; integer n; integer base;
-            if (key == null) { return; }
-            if (StringLength(key) == 0) { return; }
-            // 已存在则跳过
-            idx = mallItem.getIndex(key);
-            if (idx >= 0) { return; }
-            if (mallItem.itemCount >= 300) {
-                return; // 超上限忽略
-}
-            idx = mallItem.itemCount;
-            mallItem.itemKeys[idx] = key;
-            mallItem.setIndex(key, idx);
-            // 默认元信息
-            mallItem.names[idx] = "";
-            mallItem.icons[idx] = "";
-            mallItem.descs[idx] = "";
-            mallItem.techs[idx] = 0;
-            // 初始化拥有权为 false（所有玩家）
-            i = 0;
-            while (i < 6) {
-                base = i * 300;
-                mallItem.owns[base + idx] = false;
-                i = i + 1;
-            }
-            mallItem.itemCount = mallItem.itemCount + 1;
-        }
-        // （移除字符串拆分，改为单商品增量注册）
-        //公用方法
-        // 初始化底层（在 map 启动时自动调用）
-        static method onInit() {
-            // 先声明
-            // 无句柄局部变量
-            mallItem.initialized = false;
-            mallItem.ready = false;
-            mallItem.itemCount = 0;
-            mallItem.table = InitHashtable();
-            mallItem.readyTrigger = CreateTrigger();
-        }
-        // 外部初始化：每次只注册一个商品 key；首次调用时启动延迟扫描
-        static method init(string productKey) {
-            timer t;
-            // 注册商品（支持多次调用，去重在 addKey 内部完成）
-            mallItem.addKey(productKey);
-            // 首次调用时启动延迟扫描
-            if (!mallItem.initialized) {
-                mallItem.initialized = true;
-                // 延迟初始化玩家商品状态
-                t = CreateTimer();
-                TimerStart(t, 2.0, false, function () {
-                integer pid; integer idx; integer base; player p; string k; integer n;
-                n = mallItem.itemCount;
-                pid = 0;
-                while (pid < 6) {
-                    p = ConvertedPlayer(pid + 1);
-                    base = pid * 300;
-                    idx = 0;
-                    while (idx < n) {
-                        k = mallItem.itemKeys[idx];
-                        mallItem.owns[base + idx] = DzAPI_Map_HasMallItem(p, k);
-                        mallItem.uses[base + idx] = DzAPI_Map_GetMallItemCount(p, k);
-                        // 直接在此处解锁科技（如果拥有商品且设置了科技）
-                        if (mallItem.owns[base + idx] && mallItem.techs[idx] != 0) {
-                            SetPlayerTechResearched(p, mallItem.techs[idx], 1);
-                        }
-                        idx = idx + 1;
-                    }
-                    p = null;
-                    pid = pid + 1;
-                }
-                mallItem.ready = true;
-                if (mallItem.readyTrigger != null) {
-                    // 使用 TriggerEvaluate 调用回调条件
-                    TriggerEvaluate(mallItem.readyTrigger);
-                }
-            });
-            // handler 置空
-            t = null;
-            }
-        }
-        // 是否已完成首次扫描
-        static method isReady() ->boolean {
-            return mallItem.ready;
-        }
-        // 注册 onReady 回调（使用 Condition 封装 code），若已就绪则立即 Evaluate
-        static method onReady(code cb) {
-            if (mallItem.readyTrigger == null) {
-                mallItem.readyTrigger = CreateTrigger();
-            }
-            TriggerAddCondition(mallItem.readyTrigger, Condition(cb));
-              if (mallItem.ready) {
-                TriggerEvaluate(mallItem.readyTrigger);
-            }
-        }
-        // 拥有权查询：通过玩家句柄
-        static method hasByPlayer(player whichPlayer, string itemKey) ->boolean {
-            integer pid; integer idx; integer base; boolean result;
-            pid = GetPlayerId(whichPlayer);
-            if (pid < 0 || pid >= 6) {
-                return false;
-            }
-            idx = mallItem.getIndex(itemKey);
-            if (idx < 0) {
-                return false;
-            }
-            base = pid * 300;
-            result = mallItem.owns[base + idx];
-            return result;
-        }
-        // 使用次数查询：通过玩家句柄
-        static method getUseCountByPlayer(player whichPlayer, string itemKey) ->integer {
-            integer pid; integer idx; integer base;
-            pid = GetPlayerId(whichPlayer);
-            if (pid < 0 || pid >= 6) { return 0; }
-            idx = mallItem.getIndex(itemKey);
-            if (idx < 0) { return 0; }
-            base = pid * 300;
-            return mallItem.uses[base + idx];
-        }
-        // 刷新某玩家的拥有权（对已登记商品）
-        static method refreshItemsForPlayer(integer playerId) {
-            integer i; integer base; player p; string k; integer n;
-            if (playerId < 0 || playerId >= 6) {
-                return;
-            }
-            p = ConvertedPlayer(playerId + 1);
-            base = playerId * 300;
-            n = mallItem.itemCount;
-            i = 0;
-            while (i < n) {
-                k = mallItem.itemKeys[i];
-                mallItem.owns[base + i] = DzAPI_Map_HasMallItem(p, k);
-                i = i + 1;
-            }
-            p = null;
-        }
-        // 消费次数型道具（带回调）：成功消费后调用回调并传入玩家参数
-        static method consumeTimes(player whichPlayer, string itemKey, integer count, code callback) ->boolean {
-            integer pid; integer idx; integer base; boolean ok; trigger tempTr;
-            pid = GetPlayerId(whichPlayer);
-            if (pid < 0 || pid >= 6) { return false; }
-            idx = mallItem.getIndex(itemKey);
-            if (idx < 0) { return false; }
-            // 执行消费
-            ok = DzAPI_Map_ConsumeMallItem(whichPlayer, itemKey, count);
-            if (ok) {
-                base = pid * 300;
-                // 刷新该玩家该商品缓存
-                mallItem.owns[base + idx] = DzAPI_Map_HasMallItem(whichPlayer, itemKey);
-                mallItem.uses[base + idx] = DzAPI_Map_GetMallItemCount(whichPlayer, itemKey);
-                // 如果使用次数小于等于0，则认为该玩家没有这个道具了
-                if (mallItem.uses[base + idx] <= 0) {
-                    mallItem.owns[base + idx] = false;
-                }
-                // 调用回调（传入玩家参数）
-                if (callback != null) {
-                    mallItem.callbackPlayer = whichPlayer;
-                    tempTr = CreateTrigger();
-                    TriggerAddCondition(tempTr, Condition(callback));
-                    TriggerEvaluate(tempTr);
-                    DestroyTrigger(tempTr);
-                    mallItem.callbackPlayer = null;
-                    tempTr = null;
-                }
-            }
-            return ok;
-        }
-        // 消费一次性道具（UseConsumablesItem）：无回调
-        static method consumeOnce(player whichPlayer, string itemKey) {
-            integer pid; integer idx; integer base;
-            pid = GetPlayerId(whichPlayer);
-            if (pid < 0 || pid >= 6) { return ; }
-            idx = mallItem.getIndex(itemKey);
-            if (idx < 0) { return ; }
-            // 执行消费(无回调)
-            DzAPI_Map_UseConsumablesItem(whichPlayer, itemKey);
-        }
-        // ========== 元信息写接口 ==========
-        static method setName(string key, string name) {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return; }
-            mallItem.names[idx] = name;
-        }
-        static method setIcon(string key, string iconPath) {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return; }
-            mallItem.icons[idx] = iconPath;
-        }
-        static method setDesc(string key, string desc) {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return; }
-            mallItem.descs[idx] = desc;
-        }
-        static method setTech(string key, integer techId) {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return; }
-            mallItem.techs[idx] = techId;
-        }
-        static method setMeta(string key, string name, string iconPath, string desc) {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return; }
-            mallItem.names[idx] = name;
-            mallItem.icons[idx] = iconPath;
-            mallItem.descs[idx] = desc;
-        }
-        static method setMetaWithTech(string key, string name, string iconPath, string desc, integer techId) {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return; }
-            mallItem.names[idx] = name;
-            mallItem.icons[idx] = iconPath;
-            mallItem.descs[idx] = desc;
-            mallItem.techs[idx] = techId;
-        }
-        // ========== 元信息读接口 ==========
-        static method getName(string key) ->string {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return ""; }
-            return mallItem.names[idx];
-        }
-        static method getIcon(string key) ->string {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return ""; }
-            return mallItem.icons[idx];
-        }
-        static method getDesc(string key) ->string {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return ""; }
-            return mallItem.descs[idx];
-        }
-        static method getTech(string key) ->integer {
-            integer idx;
-            idx = mallItem.getIndex(key);
-            if (idx < 0) { return 0; }
-            return mallItem.techs[idx];
-        }
-        // 在 consumeTimes 回调中获取触发的玩家
-        static method getCallbackPlayer() ->player {
-            return mallItem.callbackPlayer;
-        }
-        static method hasItemKey(string key) ->boolean {
-            return mallItem.getIndex(key) >= 0;
-        }
-        static method getAllItemKeys() ->string {
-            integer i; string out; integer n;
-            n = mallItem.itemCount;
-            out = "";
-            i = 0;
-            while (i < n) {
-                if (i == 0) {
-                    out = mallItem.itemKeys[i];
-                } else {
-                    out = out + "," + mallItem.itemKeys[i];
-                }
-                i = i + 1;
-            }
-            return out;
-        }
-        // 根据索引获取商品 key（1-based 外部语义：1 表示第一个）
-        static method getItemKeyByIndex(integer oneBasedIndex) ->string {
-            integer idx;
-            idx = oneBasedIndex - 1;
-            if (idx < 0 || idx >= mallItem.itemCount) { return ""; }
-            return mallItem.itemKeys[idx];
-        }
-        // 获取已登记商品数量
-        static method getItemCount() ->integer {
-            return mallItem.itemCount;
-        }
-    }
-}
-//! endzinc
-//! zinc
-/*
-字符串工具
-*/
-library StringUtils {
-    string temp;
-    //重复某一个字符串N次,并可以按照指定间隔添加空格和换行
-    //参数 s: 要重复的字符串
-    //参数 times: 重复的次数
-    //参数 gap1: 每隔多少个字符串添加一个空格,如gap1=3则每3个字符串后加空格
-    //参数 gap2: 每隔多少个字符串添加一个换行,如gap2=5则每5个字符串后换行
-    //返回: 处理后的完整字符串
-    //示例: RepeatString("A",6,2,3) 会返回 "AA AA A\nA"
-    public function RepeatString (string s,integer times,integer gap1,integer gap2) -> string {
-        integer i;
-        temp = "";
-        for (1 <= i <= times) {
-            temp += s;
-            if (ModuloInteger(i,gap1) == 0) temp += " ";
-            if (ModuloInteger(i,gap2) == 0) temp += "\n";
-        }
-        return temp;
-    }
-    //判断一个字符串是否有东西
-    public function IsNotEmpty (string s) -> boolean {return (s != null && s != "");}
-    // 数字转字符串,首位自动填充0
-    // 不支持负数
-    // 比如12,3   -> 012
-    public function I2SM ( integer num,integer bit ) -> string {
-        integer i , count;
-        string s;
-        if (num < 0) {return I2S(num);}
-        s = I2S(num);
-        count = bit - StringLength(s);
-        for (1 <= i <= count) {s = "0" + s;}
-        return s;
-    }
-    //赞助系统：循环Hash
-    public function GetCycleHash ( string s,integer times ) -> integer {
-        string result = s;
-        integer i;
-        for (1 <= i <= times) {
-            result = I2S(StringHash(result));
-        }
-        return S2I(result);
-    }
-    //拼接式存放数据的API
-    //自动将整数补至10位长度的字符串(会自动取绝对值)
-    public function IMendS ( integer num,integer bit ) -> string {
-        integer abs = IAbsBJ(num);
-        string result = I2S(abs);
-        integer i , length = StringLength(result);
-        for (1 <= i <= bit - length) {result = "0" + result;}
-        return result;
-    }
-}
-//! endzinc
-library YDWEGetPlayersByMapControlNull
-globals
-    force yd_NullTempForce
-endglobals
-function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
-    local force f = CreateForce()
-    local integer playerIndex
-    local player indexPlayer
-    set playerIndex = 0
-    loop
-        set indexPlayer = Player(playerIndex)
-        if GetPlayerController(indexPlayer) == whichControl then
-            call ForceAddPlayer(f, indexPlayer)
-        endif
-        set playerIndex = playerIndex + 1
-        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
-    endloop
-    set indexPlayer = null
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
-endfunction
-endlibrary
-/*
-
-japi引用的常量库 由于wave宏定义 只对以下的代码有效
-
-请将常量库里所有内容复制到  自定义脚本代码区
-*/
-//魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
-//-----------模拟聊天------------------
-//---------技能数据类型---------------
-//冷却时间
-//目标允许
-//施放时间
-//持续时间
-//持续时间
-//魔法消耗
-//施放间隔
-//影响区域
-//施法距离
-//数据A
-//数据B
-//数据C
-//数据D
-//数据E
-//数据F
-//数据G
-//数据H
-//数据I
-//单位类型
-//热键
-//关闭热键
-//学习热键
-//名字
-//图标
-//目标效果
-//施法者效果
-//目标点效果
-//区域效果
-//投射物
-//特殊效果
-//闪电效果
-//buff提示
-//buff提示
-//学习提示
-//提示
-//关闭提示
-//学习提示
-//提示
-//关闭提示
-//----------物品数据类型----------------------
-//物品图标
-//物品提示
-//物品扩展提示
-//物品名字
-//物品说明
-//------------单位数据类型--------------
-//攻击1 伤害骰子数量
-//攻击1 伤害骰子面数
-//攻击1 基础伤害
-//攻击1 升级奖励
-//攻击1 最小伤害
-//攻击1 最大伤害
-//攻击1 全伤害范围
-//装甲
-// attack 1 attribute adds
-//攻击1 伤害衰减参数
-//攻击1 武器声音
-//攻击1 攻击类型
-//攻击1 最大目标数
-//攻击1 攻击间隔
-//攻击1 攻击延迟/summary>
-//攻击1 弹射弧度
-//攻击1 攻击范围缓冲
-//攻击1 目标允许
-//攻击1 溅出区域
-//攻击1 溅出半径
-//攻击1 武器类型
-// attack 2 attributes (sorted in a sequencial order based on memory address)
-//攻击2 伤害骰子数量
-//攻击2 伤害骰子面数
-//攻击2 基础伤害
-//攻击2 升级奖励
-//攻击2 伤害衰减参数
-//攻击2 武器声音
-//攻击2 攻击类型
-//攻击2 最大目标数
-//攻击2 攻击间隔
-//攻击2 攻击延迟
-//攻击2 攻击范围
-//攻击2 攻击缓冲
-//攻击2 最小伤害
-//攻击2 最大伤害
-//攻击2 弹射弧度
-//攻击2 目标允许类型
-//攻击2 溅出区域
-//攻击2 溅出半径
-//攻击2 武器类型
-//装甲类型
-//! zinc
-/*
-伤害工具
-*/
-library DamageUtils requires UnitFilter,GroupUtils {
-    //旧名替换:DamageSingle
-    //单体伤害:物理
-    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:魔法
-    public function ApplyMagicDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
-    }
-    //单体伤害:真实
-    public function ApplyPureDamage (unit u,unit target,real dmg) {
-        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
-        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
-    }
-    //模拟普攻(最后一个参数代表额外的终伤,0)
-    public function SimulateBasicAttack (unit u,unit target,real fd) {
-        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(0x12))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
-    }
-    //伤害参数结构体
-    private struct DmgP {
-        unit source; //伤害来源
-string eft; //特效
-real damage; //伤害值
-
-        method destroy() {
-            this.source = null;
-            this.eft = null;
-        }
-    }
-    //伤害参数栈
-    public struct DmgS [] {
-        private static DmgP stack[100];
-        private static integer top = -1;
-        public static method push(DmgP params) {
-            thistype.top += 1;
-            thistype.stack[thistype.top] = params;
-        }
-        public static method pop() -> DmgP {
-            DmgP params = thistype.stack[thistype.top];
-            thistype.stack[thistype.top] = 0;
-            thistype.top -= 1;
-            return params;
-        }
-        public static method getTop() -> integer {
-            return thistype.top;
-        }
-        public static method current() -> DmgP {
-            return thistype.stack[thistype.top];
-        }
-    }
-    //范围普通伤害
-    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-    //范围魔法伤害
-    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-    //范围真实伤害
-    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
-        group g = CreateGroup();
-        DmgP params = DmgP.create();
-        params.source = u;
-        params.eft = efx;
-        params.damage = damage;
-        DmgS.push(params);
-        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
-            DmgP current = DmgS.current();
-            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
-                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
-                if (current.eft != null) {
-                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
-                }
-                return true;
-            }
-            return false;
-        }));
-        params = DmgS.pop();
-        params.destroy();
-        DestroyGroup(g);
-        g = null;
-    }
-}
-//! endzinc
-//! zinc
-/*
-鼠标滚轮控制视距
-一键切换宽屏模式
-made by 裂魂
-2018/10/19
-*/
-library CameraControl requires Hardware{
-    integer ViewLevel = 8; //初始视野等级
-boolean ResetCam = false; //开启重置镜头属性标识
-real WheelSpeed = 0.1; //镜头变化平滑度
-boolean WideScr = false; //是否是宽屏
-real X_ANGLE = 304; //默认X轴角度
-
-    public struct cameraControl {
-        // 打开滚轮控制镜头高度
-        public static method openWheel () {DoNothing();}
-    }
-    // 滚轮控制镜头
-    // 初始化就调用
-    function onInit () {
-        //注册滚轮事件
-        hardware.regWheelEvent(function (){
-            integer delta = DzGetWheelDelta(); //滚轮变化量
-if (!DzIsMouseOverUI()) {return;} //如果鼠标不在游戏内，就不响应鼠标滚轮
-ResetCam = true; //标记需要重置镜头属性
-if (delta < 0) { //滚轮下滑
-if (ViewLevel < 14) {ViewLevel = ViewLevel + 1;} //视野等级上限
-} else { //滚轮上滑
-if (ViewLevel > 3) {ViewLevel = ViewLevel - 1;} //视野等级下限
-}
-            X_ANGLE = Rad2Deg(GetCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK)); //记录滚动前的镜头角度
-});
-        //注册每帧渲染事件
-        hardware.regUpdateEvent(function (){
-            if (ResetCam) {//重设镜头角度和高度
-                SetCameraField( CAMERA_FIELD_ANGLE_OF_ATTACK, X_ANGLE, 0 );
-                SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, ViewLevel*200, WheelSpeed);
-                ResetCam = false;
-            }
-        });
-        //注册按下键码为145的按键(ScrollLock)事件
-        DzTriggerRegisterKeyEventByCode( null, 145, 1, false, function (){
-            WideScr = !WideScr;
-            DzEnableWideScreen(WideScr);
-        });
-    }
-}
-//! endzinc
-library YDWEGetUnitsInRectMatchingNull
-globals
-endglobals
-function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsInRect(g, r, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
-function YDWEGetUnitsInRectAllNull takes rect r returns group
-    return YDWEGetUnitsInRectMatchingNull(r, null)
-endfunction
-endlibrary
-//! zinc
-/*
-区域采样工具
-*/
-library RegionUtils {
-    public struct triangleXY [] {
-        static real x = 0.0 , y = 0.0;
-        // 在给定三角形区域内随机生成一个点
-        // 参数说明:
-        // @param ax,ay - 三角形顶点A的坐标
-        // @param bx,by - 三角形顶点B的坐标
-        // @param cx,cy - 三角形顶点C的坐标
-        // 返回值:
-        // 通过静态变量x,y返回随机生成的点坐标
-        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
-            real rA = GetRandomReal(0,1.0);
-            real rB = GetRandomReal(0,1.0);
-            real abx = bx-ax, aby = by-ay;
-            real acx = cx-ax, acy = cy-ay;
-            if (rA + rB > 1.0) {
-                rA = 1.0 - rA;
-                rB = 1.0 - rB;
-            }
-            x = ax + rA * abx + rB * acx;
-            y = ay + rA * aby + rB * acy;
-        }
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
-    }
-    // 矩形区域内随机取点[内嵌一定范围]
-    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
-        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomX ( rect r ) -> real {
-        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
-    }
-    // 矩形区域内随机取点
-    public function GetRectRandomY ( rect r ) -> real {
-        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
-    }
-}
-//! endzinc
-//! zinc
-/*
-单位组有关
-伤害有关
-// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
-用GroupPickRandomUnit(g);好一些
-*/
-library GroupUtils requires UnitFilter {
-    group tempG = null;
-    unit tempU = null;
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
-        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
-        DestroyBoolExpr(filter);
-    }
-    //库补充,防内存泄漏
-    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
-        GroupEnumUnitsInRect(whichGroup, r, filter);
-        DestroyBoolExpr(filter);
-    }
-    //获取单位组:[敌方]
-    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
-        tempG = CreateGroup();
-        tempU = u;
-        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
-            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
-                return true;
-            }
-            return false;
-        }));
-        tempU = null;
-        return tempG;
-    }
-    //获取圆形随机单位
-    public function GetRandomEnemy (unit u,real x,real y,real radius) -> unit {
-        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
-    }
-}
-//! endzinc
-/*
-声音的初始化
-及一些常用的声音API
-*/
-//! zinc
-library Music {
-	public struct music []{
-		private sound snd;
-		//只给某个玩家播放
-		method playFor (player p) {
-			if (GetLocalPlayer() == p) {
-				StartSound(snd);
-			}
-		}
-		//播放音效
-		method play () {
-			StartSound(snd);
-		}
-		static method onInit () {
-			sound snd = null;
-			//# check: music[1001]
-			//# dependency:sound/sound/btn_down_01.wav
-			snd = CreateSound("sound\\btn_down_01.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 131);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1001].snd = snd;
-			//# endcheck
-			//# check: music[1002]
-			//# dependency:sound/sound/btn_over_01.wav
-			snd = CreateSound("sound\\btn_over_01.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 56);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1002].snd = snd;
-			//# endcheck
-			//# check: music[1003]
-			//# dependency:sound/sound/btn_over_02.wav
-			snd = CreateSound("sound\\btn_over_02.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 60);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1003].snd = snd;
-			//# endcheck
-			//# check: music[1004]
-			//# dependency:sound/sound/btn_up_01.wav
-			snd = CreateSound("sound\\btn_up_01.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 54);
-			SetSoundChannel(snd, 0);
-			SetSoundVolume(snd, 127);
-			SetSoundPitch(snd, 1.0);
-			thistype[1004].snd = snd;
-			//# endcheck
-			//# check: music[7]
-			snd = CreateSound("Sound\\Interface\\Warning\\Human\\KnightNoGold1.wav", false, false, false, 10, 10, "DefaultEAXON");
-			SetSoundDuration(snd, 1486);
-			thistype[7].snd = snd;
-			//# endcheck
-			//# check: music[8]
-			snd = CreateSound("Sound\\Interface\\Error.wav", false, false, false, 10, 10, "DefaultEAXON");
-			SetSoundDuration(snd, 614);
-			thistype[8].snd = snd;
-			//# endcheck
-			//# check: music[9]
-			snd = CreateSound("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false, false, false, 10, 10, "SpellsEAX");
-			SetSoundDuration(snd, 589);
-			thistype[9].snd = snd;
-			//# endcheck
-			//# check: music[10]
-			snd = CreateSound("Abilities\\Spells\\Items\\AIam\\Tomes.wav", false, false, false, 10, 10, "SpellsEAX");
-			SetSoundDuration(snd, 1770);
-			thistype[10].snd = snd;
-			//# endcheck
-			//# check: music[11]
-			snd = CreateSound("Sound\\Interface\\ItemReceived.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 1483);
-			thistype[11].snd = snd;
-			//# endcheck
-			//# check: music[12]
-			snd = CreateSound("Sound\\Interface\\MouseClick1.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 239);
-			thistype[12].snd = snd;
-			//# endcheck
-			//# check: music[13]
-			snd = CreateSound("Sound\\Interface\\SecretFound.wav", false, false, false, 10, 10, "");
-			SetSoundDuration(snd, 2525);
-			thistype[13].snd = snd;
-			//# endcheck
-			//# check: music[14]
-			snd = CreateSound("Abilities\\Spells\\Items\\ResourceItems\\BundleOfLumber.wav", false, false, false, 10, 10, "SpellsEAX");
-			SetSoundDuration(snd, 1347);
-			thistype[14].snd = snd;
-			//# endcheck
-			snd = null;
-		}
-	}
-}
-//! endzinc
-/*
-UI哈希表定义
-*/
-// 0 - 1亿这里用
-// 锚点常量
-// 事件常量
-//鼠标点击事件
-//Index名:
-//默认原生图片路径
-//模板名
-//TEXT对齐常量:(uiText.setAlign)
-//! zinc
-/*
-结构体
-硬件事件(按/滑/帧事件)
-*/
-library Hardware requires BzAPI {
-	public struct hardware []{
-		// 注册一个左键抬起事件
-		static method regLeftUpEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,1,0,false,func);
-		}
-		// 注册一个左键按下事件
-		static method regLeftDownEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,1,1,false,func);
-		}
-		// 注册一个右键按下事件
-		static method regRightDownEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,2,1,false,func);
-		}
-		// 注册一个右键抬起事件
-		static method regRightUpEvent (code func) {
-			DzTriggerRegisterMouseEventByCode(null,2,0,false,func);
-		}
-		// 注册一个滚轮事件,不能异步注册
-		static method regWheelEvent (code func) {
-			if (trWheel == null) {trWheel = CreateTrigger();}
-			TriggerAddCondition(trWheel, Condition(func));
-		}
-		// 注册一个绘制事件,不能异步注册
-		static method regUpdateEvent (code func) {
-			if (trUpdate == null) {trUpdate = CreateTrigger();}
-			TriggerAddCondition(trUpdate, Condition(func));
-		}
-		// 注册一个窗口变化事件,不能异步注册
-		static method regResizeEvent (code func) {
-			if (trResize == null) {trResize = CreateTrigger();}
-			TriggerAddCondition(trResize, Condition(func));
-		}
-		// 注册一个鼠标移动事件,不能异步注册
-		static method regMoveEvent (code func) {
-			BJDebugMsg("注册鼠标移动事件");
-			if (trMove == null) {trMove = CreateTrigger();}
-			TriggerAddCondition(trMove, Condition(func));
-		}
-		// 获取鼠标的实数坐标X(0-0.8)
-		static method getMouseX () -> real {
-			integer width = DzGetClientWidth();
-			if (width > 0) return DzGetMouseXRelative()* 0.8 / width;
-			else return 0.1;
-		}
-		// 获取鼠标的实数坐标Y(0-0.6)
-		static method getMouseY () -> real {
-			integer height = DzGetClientHeight();
-			if (height > 0) return 0.6 - DzGetMouseYRelative()* 0.6 / height;
-			else return 0.1; // 防止除以0
-}
-		private {
-			static trigger trWheel = null;
-			static trigger trUpdate = null;
-			static trigger trResize = null;
-			static trigger trMove = null;
-		}
-		static method onInit () {
-			//在游戏开始0.0秒后再调用
-			trigger tr = CreateTrigger();
-			TriggerRegisterTimerEvent(tr, 0.0, false);
-			TriggerAddCondition(tr,Condition(function (){
-				// 滚轮事件
-				DzTriggerRegisterMouseWheelEventByCode(null,false,function (){
-					TriggerEvaluate(trWheel);
-				});
-				// 帧绘制事件
-				DzFrameSetUpdateCallbackByCode(function (){
-					TriggerEvaluate(trUpdate);
-				});
-				// 窗口大小变化事件
-				DzTriggerRegisterWindowResizeEventByCode(null, false, function (){
-				 TriggerEvaluate(trResize);
-				});
-				// 鼠标移动事件
-				DzTriggerRegisterMouseMoveEventByCode(null, false, function (){
-				 TriggerEvaluate(trMove);
-				});
-				DestroyTrigger(GetTriggeringTrigger());
-			}));
-			tr = null;
-		}
-	}
-}
-//! endzinc
-//! zinc
-/*
-转换工具
-*/
-library ConversionUtils {
-    //补充函数
-    public function B2S(boolean b) -> string {
-        if (b) {return "true";}
-        else {return "false";}
-    }
-    //三目运算符
-    public function S3 (boolean b,string s1,string s2) -> string {
-        if (b) {return s1;}
-        else {return s2;}
-    }
-    //三目运算符
-    public function U3 (boolean b,unit u1,unit u2) -> unit {
-        if (b) {return u1;}
-        else {return u2;}
-    }
-    //三目运算符
-    public function I3 (boolean b,integer i1,integer i2) -> integer {
-        if (b) {return i1;}
-        else {return i2;}
-    }
-    //三目运算符
-    public function R3 (boolean b,real r1,real r2) -> real {
-        if (b) {return r1;}
-        else {return r2;}
-    }
-    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
-    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
-    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
-    public function GetIDSymbol ( integer pos ) -> integer {
-        integer bit = pos/36;
-        pos = ModuloInteger(pos,36);
-        if (pos < 10) {return pos + bit * 256;}
-        else {return '000a' - '0000' + pos - 10 + bit * 256;}
-    }
-    // 将魔兽的四字符ID转换回对应数字
-    // s为输入的四字符ID,将其还原为原始数字
-    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
-    public function GetSymbolID ( integer s ) -> integer {
-        integer i1 = s/256;
-        integer i2 = ModuloInteger(s,256);
-        if (i2 < 10) {return i1 * 36 + i2;}
-        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
-    }
-}
-//! endzinc
-//===========================================================================
-//===========================================================================
-//自定义事件
-//===========================================================================
-//===========================================================================
-library YDWETriggerEvent
-globals
-    trigger yd_DamageEventTrigger = null
-    private constant integer DAMAGE_EVENT_SWAP_TIMEOUT = 20 // 每隔这个时间(秒), yd_DamageEventTrigger 会被移入销毁队列
-private constant boolean DAMAGE_EVENT_SWAP_ENABLE = true // 若为 false 则不启用销毁机制
-private trigger yd_DamageEventTriggerToDestory = null
-    private trigger array DamageEventQueue
-    private integer DamageEventNumber = 0
-    item bj_lastMovedItemInItemSlot = null
-    private trigger MoveItemEventTrigger = null
-    private trigger array MoveItemEventQueue
-    private integer MoveItemEventNumber = 0
-endglobals
-//===========================================================================
-//任意单位伤害事件
-//===========================================================================
-function YDWEAnyUnitDamagedTriggerAction takes nothing returns nothing
-    local integer i = 0
-    loop
-        exitwhen i >= DamageEventNumber
-        if DamageEventQueue[i] != null and IsTriggerEnabled(DamageEventQueue[i]) and TriggerEvaluate(DamageEventQueue[i]) then
-            call TriggerExecute(DamageEventQueue[i])
-        endif
-        set i = i + 1
-    endloop
-endfunction
-function YDWEAnyUnitDamagedFilter takes nothing returns boolean
-    if GetUnitAbilityLevel(GetFilterUnit(), 'Aloc') <= 0 then
-        call TriggerRegisterUnitEvent(yd_DamageEventTrigger, GetFilterUnit(), EVENT_UNIT_DAMAGED)
-    endif
-    return false
-endfunction
-function YDWEAnyUnitDamagedEnumUnit takes nothing returns nothing
-    local group g = CreateGroup()
-    local integer i = 0
-    loop
-        call GroupEnumUnitsOfPlayer(g, Player(i), Condition(function YDWEAnyUnitDamagedFilter))
-        set i = i + 1
-        exitwhen i >= bj_MAX_PLAYER_SLOTS
-    endloop
-    call DestroyGroup(g)
-    set g = null
-endfunction
-function YDWEAnyUnitDamagedRegistTriggerUnitEnter takes nothing returns nothing
-    local trigger t = CreateTrigger()
-    local region r = CreateRegion()
-    local rect world = GetWorldBounds()
-    call RegionAddRect(r, world)
-    call TriggerRegisterEnterRegion(t, r, Condition(function YDWEAnyUnitDamagedFilter))
-    call RemoveRect(world)
-    set t = null
-    set r = null
-    set world = null
-endfunction
-// 将 yd_DamageEventTrigger 移入销毁队列, 从而排泄触发器事件
-function YDWESyStemAnyUnitDamagedSwap takes nothing returns nothing
-    local boolean isEnabled = IsTriggerEnabled(yd_DamageEventTrigger)
-    call DisableTrigger(yd_DamageEventTrigger)
-    if yd_DamageEventTriggerToDestory != null then
-        call DestroyTrigger(yd_DamageEventTriggerToDestory)
-    endif
-    set yd_DamageEventTriggerToDestory = yd_DamageEventTrigger
-    set yd_DamageEventTrigger = CreateTrigger()
-    if not isEnabled then
-        call DisableTrigger(yd_DamageEventTrigger)
-    endif
-    call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
-    call YDWEAnyUnitDamagedEnumUnit()
-endfunction
-function YDWESyStemAnyUnitDamagedRegistTrigger takes trigger trg returns nothing
-    if trg == null then
-        return
-    endif
-    if DamageEventNumber == 0 then
-        set yd_DamageEventTrigger = CreateTrigger()
-        call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
-        call YDWEAnyUnitDamagedEnumUnit()
-        call YDWEAnyUnitDamagedRegistTriggerUnitEnter()
-        if DAMAGE_EVENT_SWAP_ENABLE then
-            // 每隔 DAMAGE_EVENT_SWAP_TIMEOUT 秒, 将正在使用的 yd_DamageEventTrigger 移入销毁队列
-            call TimerStart(CreateTimer(), DAMAGE_EVENT_SWAP_TIMEOUT, true, function YDWESyStemAnyUnitDamagedSwap)
-        endif
-    endif
-    set DamageEventQueue[DamageEventNumber] = trg
-    set DamageEventNumber = DamageEventNumber + 1
-endfunction
-//===========================================================================
-//移动物品事件
-//===========================================================================
-function YDWESyStemItemUnmovableTriggerAction takes nothing returns nothing
-    local integer i = 0
-    if GetIssuedOrderId() >= 852002 and GetIssuedOrderId() <= 852007 then
-		set bj_lastMovedItemInItemSlot = GetOrderTargetItem()
-    	loop
-        	exitwhen i >= MoveItemEventNumber
-        	if MoveItemEventQueue[i] != null and IsTriggerEnabled(MoveItemEventQueue[i]) and TriggerEvaluate(MoveItemEventQueue[i]) then
-        	    call TriggerExecute(MoveItemEventQueue[i])
-        	endif
-        	set i = i + 1
-    	endloop
-	endif
-endfunction
-function YDWESyStemItemUnmovableRegistTrigger takes trigger trg returns nothing
-    if trg == null then
-        return
-    endif
-    if MoveItemEventNumber == 0 then
-        set MoveItemEventTrigger = CreateTrigger()
-        call TriggerAddAction(MoveItemEventTrigger, function YDWESyStemItemUnmovableTriggerAction)
-        call TriggerRegisterAnyUnitEventBJ(MoveItemEventTrigger, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-    endif
-    set MoveItemEventQueue[MoveItemEventNumber] = trg
-    set MoveItemEventNumber = MoveItemEventNumber + 1
-endfunction
-function GetLastMovedItemInItemSlot takes nothing returns item
-    return bj_lastMovedItemInItemSlot
-endfunction
-endlibrary
-library YDWEGetUnitsInRangeOfLocMatchingNull
-globals
-endglobals
-function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
-    local group g = CreateGroup()
-    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
-    call DestroyBoolExpr(filter)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-//===========================================================================
-//系统-TimerSystem
-//===========================================================================
-library YDWETimerSystem initializer Init requires YDTriggerSaveLoadSystem
-globals
-	private integer CurrentTime
-	private integer CurrentIndex
-    private integer TaskListHead
-    private integer TaskListIdleHead
-    private integer TaskListIdleMax
-    private integer array TaskListIdle
-    private integer array TaskListNext
-    private integer array TaskListTime
-    private trigger array TaskListProc //函数组
-private trigger fnRemoveUnit //移除单位函数
-private trigger fnDestroyTimer //摧毁计时器
-private trigger fnRemoveItem //移除物品
-private trigger fnDestroyEffect //删除特效
-private trigger fnDestroyLightning //删除删掉特效
-private trigger fnRunTrigger //运行触发器
-private timer Timer //最小时间计时器  系统计时器  用于一些需要精确计时的功能
-private integer TimerHandle
-	private integer TimerSystem_RunIndex = 0
-endglobals
-private function NewTaskIndex takes nothing returns integer
-	local integer h = TaskListIdleHead
-	if TaskListIdleHead < 0 then
-		if TaskListIdleMax >= 8000 then
-			debug call BJDebugMsg("中心计时器任务队列溢出！")
-			return 8100
-		else
-			set TaskListIdleMax = TaskListIdleMax + 1
-			return TaskListIdleMax
-		endif
-	endif
-	set TaskListIdleHead = TaskListIdle[h]
-	return h
-endfunction
-private function DeleteTaskIndex takes integer index returns nothing
-	set TaskListIdle[index] = TaskListIdleHead
-	set TaskListIdleHead = index
-endfunction
-//该函数序列处理
-private function NewTask takes real time, trigger proc returns integer
-	local integer index = NewTaskIndex()
-	local integer h = TaskListHead
-	local integer t = R2I(100.*time) + CurrentTime
-	local integer p
-	set TaskListProc[index] = proc
-	set TaskListTime[index] = t
-	loop
-		set p = TaskListNext[h]
-		if p < 0 or TaskListTime[p] >= t then
-		//	call BJDebugMsg("NewTask:"+I2S(index))
-			set TaskListNext[h] = index
-			set TaskListNext[index] = p
-			return index
-		endif
-		set h = p
-	endloop
-	return index
-endfunction
-function YDWETimerSystemNewTask takes real time, trigger proc returns integer
-	return NewTask(time, proc)
-endfunction
-function YDWETimerSystemGetCurrentTask takes nothing returns integer
-	return CurrentIndex
-endfunction
-//删除单位
-private function RemoveUnit_CallBack takes nothing returns nothing
-    call RemoveUnit(LoadUnitHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerRemoveUnit takes real time, unit u returns nothing
-    call SaveUnitHandle(YDHT, TimerHandle, NewTask(time, fnRemoveUnit), u)
-endfunction
-//摧毁计时器
-private function DestroyTimer_CallBack takes nothing returns nothing
-    call DestroyTimer(LoadTimerHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerDestroyTimer takes real time, timer t returns nothing
-    call SaveTimerHandle(YDHT, TimerHandle, NewTask(time, fnDestroyTimer), t)
-endfunction
-//删除物品
-private function RemoveItem_CallBack takes nothing returns nothing
-    call RemoveItem(LoadItemHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerRemoveItem takes real time, item it returns nothing
-    call SaveItemHandle(YDHT, TimerHandle, NewTask(time, fnRemoveItem), it)
-endfunction
-//删除特效
-private function DestroyEffect_CallBack takes nothing returns nothing
-    call DestroyEffect(LoadEffectHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerDestroyEffect takes real time, effect e returns nothing
-    call SaveEffectHandle(YDHT, TimerHandle, NewTask(time, fnDestroyEffect), e)
-endfunction
-//删除闪电特效
-private function DestroyLightning_CallBack takes nothing returns nothing
-    call DestroyLightning(LoadLightningHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerDestroyLightning takes real time, lightning lt returns nothing
-	local integer i = NewTask(time, fnDestroyLightning)
-    call SaveLightningHandle(YDHT, TimerHandle, i, lt)
-endfunction
-//运行触发器
-private function RunTrigger_CallBack takes nothing returns nothing
-    call TriggerExecute(LoadTriggerHandle(YDHT, TimerHandle, CurrentIndex))
-    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
-endfunction
-function YDWETimerRunTrigger takes real time, trigger trg returns nothing
-    call SaveTriggerHandle(YDHT, TimerHandle, NewTask(time, fnRunTrigger), trg)
-endfunction
-//删除漂浮文字
-function YDWETimerDestroyTextTag takes real time, texttag tt returns nothing
-    local integer N=0
-    local integer i=0
-    if time <= 0 then
-        set time = 0.01
-    endif
-    call SetTextTagPermanent(tt,false)
-    call SetTextTagLifespan(tt,time)
-    call SetTextTagFadepoint(tt,time)
-endfunction
-//中心计时器主函数
-private function Main takes nothing returns nothing
-	local integer h = TaskListHead
-	local integer p
-	loop
-		set CurrentIndex = TaskListNext[h]
-		exitwhen CurrentIndex < 0 or CurrentTime < TaskListTime[CurrentIndex]
-		//call BJDebugMsg("Task:"+I2S(CurrentIndex))
-		call TriggerEvaluate(TaskListProc[CurrentIndex])
-		call DeleteTaskIndex(CurrentIndex)
-		set TaskListNext[h] = TaskListNext[CurrentIndex]
-	endloop
-	set CurrentTime = CurrentTime + 1
-endfunction
-//初始化函数
-private function Init takes nothing returns nothing
-    set Timer = CreateTimer()
-	set TimerHandle	= GetHandleId( Timer)
-	set CurrentTime = 0
-	set TaskListHead = 0
-	set TaskListNext[0] = -1
-	set TaskListIdleHead = 1
-	set TaskListIdleMax = 1
-	set TaskListIdle[1] = -1
-	set fnRemoveUnit = CreateTrigger()
-	set fnDestroyTimer = CreateTrigger()
-	set fnRemoveItem = CreateTrigger()
-	set fnDestroyEffect = CreateTrigger()
-	set fnDestroyLightning = CreateTrigger()
-	set fnRunTrigger = CreateTrigger()
-	call TriggerAddCondition(fnRemoveUnit, Condition(function RemoveUnit_CallBack))
-	call TriggerAddCondition(fnDestroyTimer, Condition(function DestroyTimer_CallBack))
-	call TriggerAddCondition(fnRemoveItem, Condition(function RemoveItem_CallBack))
-	call TriggerAddCondition(fnDestroyEffect, Condition(function DestroyEffect_CallBack))
-	call TriggerAddCondition(fnDestroyLightning, Condition(function DestroyLightning_CallBack))
-	call TriggerAddCondition(fnRunTrigger, Condition(function RunTrigger_CallBack))
-    call TimerStart(Timer, 0.01, true, function Main)
-endfunction
-//循环类仍用独立计时器
-function YDWETimerSystemGetRunIndex takes nothing returns integer
-    return TimerSystem_RunIndex
-endfunction
-private function RunPeriodicTriggerFunction takes nothing returns nothing
-    local integer tid = GetHandleId( GetExpiredTimer())
-    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
-	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
-    if TriggerEvaluate(trg) then
-        call TriggerExecute(trg)
-    endif
-    set trg = null
-endfunction
-private function RunPeriodicTriggerFunctionByTimes takes nothing returns nothing
-    local integer tid = GetHandleId( GetExpiredTimer())
-    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
-    local integer times = LoadInteger(YDHT, tid, $D0003)
-	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
-    if TriggerEvaluate(trg) then
-        call TriggerExecute(trg)
-    endif
-    set times = times - 1
-    if times > 0 then
-		call SaveInteger(YDHT, tid, $D0003, times)
-      else
-        call DestroyTimer(GetExpiredTimer())
-        call FlushChildHashtable(YDHT, tid)
-    endif
-    set trg = null
-endfunction
-function YDWETimerRunPeriodicTrigger takes real timeout, trigger trg, boolean b, integer times, integer data returns nothing
-    local timer t
-    local integer tid
-    local integer index = 0
-    if timeout < 0 then
-        return
-      else
-        set t = CreateTimer()
-		set tid = GetHandleId( t)
-    endif
-    set TimerSystem_RunIndex = TimerSystem_RunIndex + 1
-	call SaveTriggerHandle(YDHT, tid, $D0001, trg)
-	call SaveInteger(YDHT, tid, $D0002, TimerSystem_RunIndex)
-	set index = LoadInteger(YDHT, GetHandleId( trg), 'YDTS'+data)
-    set index = index + 1
-	call SaveInteger(YDHT, GetHandleId( trg), 'YDTS'+data, index)
-	call SaveTimerHandle(YDHT, GetHandleId( trg), ('YDTS'+data)*index, t)
-    if b == false then
-		call SaveInteger(YDHT, tid, $D0003, times)
-        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunctionByTimes)
-      else
-        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunction)
-    endif
-    set t = null
-endfunction
-function YDWETimerRunPeriodicTriggerOver takes trigger trg, integer data returns nothing
-	local integer trgid = GetHandleId( trg)
-    local integer index = LoadInteger(YDHT, trgid, 'YDTS'+data)
-    local timer t
-    loop
-        exitwhen index <= 0
-        set t = LoadTimerHandle(YDHT, trgid, ('YDTS'+data)*index)
-        call DestroyTimer(t)
-        call FlushChildHashtable(YDHT, GetHandleId( t))
-		call RemoveSavedHandle(YDHT, trgid, ('YDTS'+data)*index)
-        set index = index - 1
-    endloop
-    call RemoveSavedInteger(YDHT, trgid, 'YDTS'+data)
-    set t = null
-endfunction
-endlibrary
-library BzAPI
-    //hardware
-    native DzGetMouseTerrainX takes nothing returns real
-    native DzGetMouseTerrainY takes nothing returns real
-    native DzGetMouseTerrainZ takes nothing returns real
-    native DzIsMouseOverUI takes nothing returns boolean
-    native DzGetMouseX takes nothing returns integer
-    native DzGetMouseY takes nothing returns integer
-    native DzGetMouseXRelative takes nothing returns integer
-    native DzGetMouseYRelative takes nothing returns integer
-    native DzSetMousePos takes integer x, integer y returns nothing
-    native DzTriggerRegisterMouseEvent takes trigger trig, integer btn, integer status, boolean sync, string func returns nothing
-    native DzTriggerRegisterMouseEventByCode takes trigger trig, integer btn, integer status, boolean sync, code funcHandle returns nothing
-    native DzTriggerRegisterKeyEvent takes trigger trig, integer key, integer status, boolean sync, string func returns nothing
-    native DzTriggerRegisterKeyEventByCode takes trigger trig, integer key, integer status, boolean sync, code funcHandle returns nothing
-    native DzTriggerRegisterMouseWheelEvent takes trigger trig, boolean sync, string func returns nothing
-    native DzTriggerRegisterMouseWheelEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
-    native DzTriggerRegisterMouseMoveEvent takes trigger trig, boolean sync, string func returns nothing
-    native DzTriggerRegisterMouseMoveEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
-    native DzGetTriggerKey takes nothing returns integer
-    native DzGetWheelDelta takes nothing returns integer
-    native DzIsKeyDown takes integer iKey returns boolean
-    native DzGetTriggerKeyPlayer takes nothing returns player
-    native DzGetWindowWidth takes nothing returns integer
-    native DzGetWindowHeight takes nothing returns integer
-    native DzGetWindowX takes nothing returns integer
-    native DzGetWindowY takes nothing returns integer
-    native DzTriggerRegisterWindowResizeEvent takes trigger trig, boolean sync, string func returns nothing
-    native DzTriggerRegisterWindowResizeEventByCode takes trigger trig, boolean sync, code funcHandle returns nothing
-    native DzIsWindowActive takes nothing returns boolean
-    //plus
-    native DzDestructablePosition takes destructable d, real x, real y returns nothing
-    native DzSetUnitPosition takes unit whichUnit, real x, real y returns nothing
-    native DzExecuteFunc takes string funcName returns nothing
-    native DzGetUnitUnderMouse takes nothing returns unit
-    native DzSetUnitTexture takes unit whichUnit, string path, integer texId returns nothing
-    native DzSetMemory takes integer address, real value returns nothing
-    native DzSetUnitID takes unit whichUnit, integer id returns nothing
-    native DzSetUnitModel takes unit whichUnit, string path returns nothing
-    native DzSetWar3MapMap takes string map returns nothing
-    native DzGetLocale takes nothing returns string
-    native DzGetUnitNeededXP takes unit whichUnit, integer level returns integer
-    //sync
-    native DzTriggerRegisterSyncData takes trigger trig, string prefix, boolean server returns nothing
-    native DzSyncData takes string prefix, string data returns nothing
-    native DzGetTriggerSyncPrefix takes nothing returns string
-    native DzGetTriggerSyncData takes nothing returns string
-    native DzGetTriggerSyncPlayer takes nothing returns player
-    native DzSyncBuffer takes string prefix, string data, integer dataLen returns nothing
-    //native DzGetPushContext takes nothing returns string
-    native DzSyncDataImmediately takes string prefix, string data returns nothing 
-    //gui
-    native DzFrameHideInterface takes nothing returns nothing
-    native DzFrameEditBlackBorders takes real upperHeight, real bottomHeight returns nothing
-    native DzFrameGetPortrait takes nothing returns integer
-    native DzFrameGetMinimap takes nothing returns integer
-    native DzFrameGetCommandBarButton takes integer row, integer column returns integer
-    native DzFrameGetHeroBarButton takes integer buttonId returns integer
-    native DzFrameGetHeroHPBar takes integer buttonId returns integer
-    native DzFrameGetHeroManaBar takes integer buttonId returns integer
-    native DzFrameGetItemBarButton takes integer buttonId returns integer
-    native DzFrameGetMinimapButton takes integer buttonId returns integer
-    native DzFrameGetUpperButtonBarButton takes integer buttonId returns integer
-    native DzFrameGetTooltip takes nothing returns integer
-    native DzFrameGetChatMessage takes nothing returns integer
-    native DzFrameGetUnitMessage takes nothing returns integer
-    native DzFrameGetTopMessage takes nothing returns integer
-    native DzGetColor takes integer r, integer g, integer b, integer a returns integer
-    native DzFrameSetUpdateCallback takes string func returns nothing
-    native DzFrameSetUpdateCallbackByCode takes code funcHandle returns nothing
-    native DzFrameShow takes integer frame, boolean enable returns nothing
-    native DzCreateFrame takes string frame, integer parent, integer id returns integer
-    native DzCreateSimpleFrame takes string frame, integer parent, integer id returns integer
-    native DzDestroyFrame takes integer frame returns nothing
-    native DzLoadToc takes string fileName returns nothing
-    native DzFrameSetPoint takes integer frame, integer point, integer relativeFrame, integer relativePoint, real x, real y returns nothing
-    native DzFrameSetAbsolutePoint takes integer frame, integer point, real x, real y returns nothing
-    native DzFrameClearAllPoints takes integer frame returns nothing
-    native DzFrameSetEnable takes integer name, boolean enable returns nothing
-    native DzFrameSetScript takes integer frame, integer eventId, string func, boolean sync returns nothing
-    native DzFrameSetScriptByCode takes integer frame, integer eventId, code funcHandle, boolean sync returns nothing
-    native DzGetTriggerUIEventPlayer takes nothing returns player
-    native DzGetTriggerUIEventFrame takes nothing returns integer
-    native DzFrameFindByName takes string name, integer id returns integer
-    native DzSimpleFrameFindByName takes string name, integer id returns integer
-    native DzSimpleFontStringFindByName takes string name, integer id returns integer
-    native DzSimpleTextureFindByName takes string name, integer id returns integer
-    native DzGetGameUI takes nothing returns integer
-    native DzClickFrame takes integer frame returns nothing
-    native DzSetCustomFovFix takes real value returns nothing
-    native DzEnableWideScreen takes boolean enable returns nothing
-    native DzFrameSetText takes integer frame, string text returns nothing
-    native DzFrameGetText takes integer frame returns string
-    native DzFrameSetTextSizeLimit takes integer frame, integer size returns nothing
-    native DzFrameGetTextSizeLimit takes integer frame returns integer
-    native DzFrameSetTextColor takes integer frame, integer color returns nothing
-    native DzGetMouseFocus takes nothing returns integer
-    native DzFrameSetAllPoints takes integer frame, integer relativeFrame returns boolean
-    native DzFrameSetFocus takes integer frame, boolean enable returns boolean
-    native DzFrameSetModel takes integer frame, string modelFile, integer modelType, integer flag returns nothing
-    native DzFrameGetEnable takes integer frame returns boolean
-    native DzFrameSetAlpha takes integer frame, integer alpha returns nothing
-    native DzFrameGetAlpha takes integer frame returns integer
-    native DzFrameSetAnimate takes integer frame, integer animId, boolean autocast returns nothing
-    native DzFrameSetAnimateOffset takes integer frame, real offset returns nothing
-    native DzFrameSetTexture takes integer frame, string texture, integer flag returns nothing
-    native DzFrameSetScale takes integer frame, real scale returns nothing
-    native DzFrameSetTooltip takes integer frame, integer tooltip returns nothing
-    native DzFrameCageMouse takes integer frame, boolean enable returns nothing
-    native DzFrameGetValue takes integer frame returns real
-    native DzFrameSetMinMaxValue takes integer frame, real minValue, real maxValue returns nothing
-    native DzFrameSetStepValue takes integer frame, real step returns nothing
-    native DzFrameSetValue takes integer frame, real value returns nothing
-    native DzFrameSetSize takes integer frame, real w, real h returns nothing
-    native DzCreateFrameByTagName takes string frameType, string name, integer parent, string template, integer id returns integer
-    native DzFrameSetVertexColor takes integer frame, integer color returns nothing
-    native DzOriginalUIAutoResetPoint takes boolean enable returns nothing
-    native DzFrameSetPriority takes integer frame, integer priority returns nothing
-    native DzFrameSetParent takes integer frame, integer parent returns nothing
-    native DzFrameGetHeight takes integer frame returns real
-    native DzFrameSetFont takes integer frame, string fileName, real height, integer flag returns nothing
-    native DzFrameGetParent takes integer frame returns integer
-    native DzFrameSetTextAlignment takes integer frame, integer align returns nothing
-    native DzFrameGetName takes integer frame returns string
-    native DzGetClientWidth takes nothing returns integer
-    native DzGetClientHeight takes nothing returns integer
-    native DzFrameIsVisible takes integer frame returns boolean
-        //显示/隐藏SimpleFrame
-    //native DzSimpleFrameShow takes integer frame, boolean enable returns nothing
-    // 追加文字（支持TextArea）
-    native DzFrameAddText takes integer frame, string text returns nothing
-    // 沉默单位-禁用技能
-    native DzUnitSilence takes unit whichUnit, boolean disable returns nothing
-    // 禁用攻击
-    native DzUnitDisableAttack takes unit whichUnit, boolean disable returns nothing
-    // 禁用道具
-    native DzUnitDisableInventory takes unit whichUnit, boolean disable returns nothing
-    // 刷新小地图
-    native DzUpdateMinimap takes nothing returns nothing
-    // 修改单位alpha
-    native DzUnitChangeAlpha takes unit whichUnit, integer alpha, boolean forceUpdate returns nothing
-    // 设置单位是否可以选中
-    native DzUnitSetCanSelect takes unit whichUnit, boolean state returns nothing
-    // 修改单位是否可以被设置为目标
-    native DzUnitSetTargetable takes unit whichUnit, boolean state returns nothing
-    // 保存内存数据
-    native DzSaveMemoryCache takes string cache returns nothing
-    // 读取内存数据
-    native DzGetMemoryCache takes nothing returns string
-    // 设置加速倍率
-    native DzSetSpeed takes real ratio returns nothing
-    // 转换世界坐标为屏幕坐标-异步
-    native DzConvertWorldPosition takes real x, real y, real z, code callback returns boolean
-    // 转换世界坐标为屏幕坐标-获取转换后的X坐标
-    native DzGetConvertWorldPositionX takes nothing returns real
-    // 转换世界坐标为屏幕坐标-获取转换后的Y坐标
-    native DzGetConvertWorldPositionY takes nothing returns real
-    // 创建command button
-    native DzCreateCommandButton takes integer parent, string icon, string name, string desc returns integer
-    function DzTriggerRegisterMouseEventTrg takes trigger trg, integer status, integer btn returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterMouseEvent(trg, btn, status, true, null)
-    endfunction
-    function DzTriggerRegisterKeyEventTrg takes trigger trg, integer status, integer btn returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterKeyEvent(trg, btn, status, true, null)
-    endfunction
-    function DzTriggerRegisterMouseMoveEventTrg takes trigger trg returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterMouseMoveEvent(trg, true, null)
-    endfunction
-    function DzTriggerRegisterMouseWheelEventTrg takes trigger trg returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterMouseWheelEvent(trg, true, null)
-    endfunction
-    function DzTriggerRegisterWindowResizeEventTrg takes trigger trg returns nothing
-        if trg == null then
-            return
-        endif
-        call DzTriggerRegisterWindowResizeEvent(trg, true, null)
-    endfunction
-    function DzF2I takes integer i returns integer
-        return i
-    endfunction
-    function DzI2F takes integer i returns integer
-        return i
-    endfunction
-    function DzK2I takes integer i returns integer
-        return i
-    endfunction
-    function DzI2K takes integer i returns integer
-        return i
-    endfunction
-    function DzTriggerRegisterMallItemSyncData takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZMIA", true)
-    endfunction
-    //玩家消耗/使用商城道具事件
-    function DzTriggerRegisterMallItemConsumeEvent takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZMIC", true)
-    endfunction
-    //玩家删除商城道具事件
-    function DzTriggerRegisterMallItemRemoveEvent takes trigger trig returns nothing
-        call DzTriggerRegisterSyncData(trig, "DZMID", true)
-    endfunction
-    function DzGetTriggerMallItemPlayer takes nothing returns player
-        return DzGetTriggerSyncPlayer()
-    endfunction
-    function DzGetTriggerMallItem takes nothing returns string
-        return DzGetTriggerSyncData()
-    endfunction
-    
-endlibrary
 library_once YDWETimerPattern initializer Init requires YDWEBase
 //***************************************************
 //* ∑ - Matrix 万能模板函数
@@ -3053,6 +1791,439 @@ local real vx = 0.0
         set Bexpr = Filter(function TreeFilter)
     endfunction
 endlibrary
+// 按键ASCII码
+// 按键事件
+//! zinc
+/*
+键盘的输入事件监听
+*/
+library Keyboard requires BzAPI{
+    public struct keyboard[] {
+        private {
+            static trigger trsDown[]; // 按下事件
+static trigger trsUp[]; // 抬起事件
+static boolean isDown[]; // 是否按下
+}
+        // 注册一个键盘事件
+        static method regKeyDownEvent (integer keyCode, code func) {
+            if (trsDown[keyCode] == null) {
+                trsDown[keyCode] = CreateTrigger();
+                DzTriggerRegisterKeyEventByCode(null, keyCode, 1, false, function() {
+                    integer triggerKey = DzGetTriggerKey();
+                    if (!isDown[triggerKey]) {
+                        isDown[triggerKey] = true;
+                        TriggerEvaluate(trsDown[triggerKey]);
+                    }
+                });
+            }
+            TriggerAddCondition(trsDown[keyCode], Condition(func));
+        }
+        // 注册一个键盘事件
+        static method regKeyUpEvent (integer keyCode, code func) {
+            if (trsUp[keyCode] == null) {
+                trsUp[keyCode] = CreateTrigger();
+                DzTriggerRegisterKeyEventByCode(null, keyCode, 0, false, function() {
+                    integer triggerKey = DzGetTriggerKey();
+                    isDown[triggerKey] = false;
+                    TriggerEvaluate(trsUp[triggerKey]);
+                });
+            }
+            TriggerAddCondition(trsUp[keyCode], Condition(func));
+        }
+    }
+}
+//! endzinc
+library YDWEGetItemOfTypeFromUnitBJNull
+globals
+    item yd_NullTempItem
+endglobals
+function YDWEGetItemOfTypeFromUnitBJNull takes unit whichUnit, integer itemId returns item
+    local integer index = 0
+    loop
+        set yd_NullTempItem = UnitItemInSlot(whichUnit, index)
+        if GetItemTypeId(yd_NullTempItem) == itemId then
+            return yd_NullTempItem
+        endif
+        set index = index + 1
+        exitwhen index >= bj_MAX_INVENTORY
+    endloop
+    return null
+endfunction
+endlibrary
+library YDWEGetUnitsOfTypeIdAllNull
+globals
+    group yd_NullTempGroup
+endglobals
+function YDWEGetUnitsOfTypeIdAllNull takes integer unitid returns group
+    local group result = CreateGroup()
+    local group g = CreateGroup()
+    local integer index
+    set index = 0
+    loop
+        set bj_groupEnumTypeId = unitid
+        call GroupClear(g)
+        call GroupEnumUnitsOfPlayer(g, Player(index), filterGetUnitsOfTypeIdAll)
+        call GroupAddGroup(g, result)
+        set index = index + 1
+        exitwhen index == bj_MAX_PLAYER_SLOTS
+    endloop
+    call DestroyGroup(g)
+    set g = null
+    set yd_NullTempGroup = result
+    set result = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+/*
+
+japi引用的常量库 由于wave宏定义 只对以下的代码有效
+
+请将常量库里所有内容复制到  自定义脚本代码区
+*/
+//魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
+//-----------模拟聊天------------------
+//---------技能数据类型---------------
+//冷却时间
+//目标允许
+//施放时间
+//持续时间
+//持续时间
+//魔法消耗
+//施放间隔
+//影响区域
+//施法距离
+//数据A
+//数据B
+//数据C
+//数据D
+//数据E
+//数据F
+//数据G
+//数据H
+//数据I
+//单位类型
+//热键
+//关闭热键
+//学习热键
+//名字
+//图标
+//目标效果
+//施法者效果
+//目标点效果
+//区域效果
+//投射物
+//特殊效果
+//闪电效果
+//buff提示
+//buff提示
+//学习提示
+//提示
+//关闭提示
+//学习提示
+//提示
+//关闭提示
+//----------物品数据类型----------------------
+//物品图标
+//物品提示
+//物品扩展提示
+//物品名字
+//物品说明
+//------------单位数据类型--------------
+//攻击1 伤害骰子数量
+//攻击1 伤害骰子面数
+//攻击1 基础伤害
+//攻击1 升级奖励
+//攻击1 最小伤害
+//攻击1 最大伤害
+//攻击1 全伤害范围
+//装甲
+// attack 1 attribute adds
+//攻击1 伤害衰减参数
+//攻击1 武器声音
+//攻击1 攻击类型
+//攻击1 最大目标数
+//攻击1 攻击间隔
+//攻击1 攻击延迟/summary>
+//攻击1 弹射弧度
+//攻击1 攻击范围缓冲
+//攻击1 目标允许
+//攻击1 溅出区域
+//攻击1 溅出半径
+//攻击1 武器类型
+// attack 2 attributes (sorted in a sequencial order based on memory address)
+//攻击2 伤害骰子数量
+//攻击2 伤害骰子面数
+//攻击2 基础伤害
+//攻击2 升级奖励
+//攻击2 伤害衰减参数
+//攻击2 武器声音
+//攻击2 攻击类型
+//攻击2 最大目标数
+//攻击2 攻击间隔
+//攻击2 攻击延迟
+//攻击2 攻击范围
+//攻击2 攻击缓冲
+//攻击2 最小伤害
+//攻击2 最大伤害
+//攻击2 弹射弧度
+//攻击2 目标允许类型
+//攻击2 溅出区域
+//攻击2 溅出半径
+//攻击2 武器类型
+//装甲类型
+//! zinc
+/*
+伤害工具
+*/
+library DamageUtils requires UnitFilter,GroupUtils {
+    //旧名替换:DamageSingle
+    //单体伤害:物理
+    public function ApplyPhysicalDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:魔法
+    public function ApplyMagicDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS );
+    }
+    //单体伤害:真实
+    public function ApplyPureDamage (unit u,unit target,real dmg) {
+        static if (LIBRARY_Damage) {dmgF.isBJ = bj;}
+        UnitDamageTarget( u, target, dmg, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS );
+    }
+    //模拟普攻(最后一个参数代表额外的终伤,0)
+    public function SimulateBasicAttack (unit u,unit target,real fd) {
+        UnitDamageTarget( u, target, GetUnitState(u,ConvertUnitState(0x12))*(1.0+fd), true, false, ATTACK_TYPE_HERO, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS );
+    }
+    //伤害参数结构体
+    private struct DmgP {
+        unit source; //伤害来源
+string eft; //特效
+real damage; //伤害值
+
+        method destroy() {
+            this.source = null;
+            this.eft = null;
+        }
+    }
+    //伤害参数栈
+    public struct DmgS [] {
+        private static DmgP stack[100];
+        private static integer top = -1;
+        public static method push(DmgP params) {
+            thistype.top += 1;
+            thistype.stack[thistype.top] = params;
+        }
+        public static method pop() -> DmgP {
+            DmgP params = thistype.stack[thistype.top];
+            thistype.stack[thistype.top] = 0;
+            thistype.top -= 1;
+            return params;
+        }
+        public static method getTop() -> integer {
+            return thistype.top;
+        }
+        public static method current() -> DmgP {
+            return thistype.stack[thistype.top];
+        }
+    }
+    //范围普通伤害
+    public function DamageAreaPhysical (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPhysicalDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+    //范围魔法伤害
+    public function DamageAreaMagic (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyMagicDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+    //范围真实伤害
+    public function DamageAreaPure (unit u,real x,real y,real radius,real damage,string efx) {
+        group g = CreateGroup();
+        DmgP params = DmgP.create();
+        params.source = u;
+        params.eft = efx;
+        params.damage = damage;
+        DmgS.push(params);
+        GroupEnumUnitsInRangeEx(g, x, y, radius, Filter(function () -> boolean {
+            DmgP current = DmgS.current();
+            if (IsEnemy(GetOwningPlayer(current.source),GetFilterUnit())) {
+                ApplyPureDamage(current.source,GetFilterUnit(),current.damage);
+                if (current.eft != null) {
+                    DestroyEffect(AddSpecialEffect(current.eft, GetUnitX(GetFilterUnit()),GetUnitY(GetFilterUnit())));
+                }
+                return true;
+            }
+            return false;
+        }));
+        params = DmgS.pop();
+        params.destroy();
+        DestroyGroup(g);
+        g = null;
+    }
+}
+//! endzinc
+//! zinc
+/*
+鼠标滚轮控制视距
+一键切换宽屏模式
+made by 裂魂
+2018/10/19
+*/
+library CameraControl requires Hardware{
+    integer ViewLevel = 8; //初始视野等级
+boolean ResetCam = false; //开启重置镜头属性标识
+real WheelSpeed = 0.1; //镜头变化平滑度
+boolean WideScr = false; //是否是宽屏
+real X_ANGLE = 304; //默认X轴角度
+
+    public struct cameraControl {
+        // 打开滚轮控制镜头高度
+        public static method openWheel () {DoNothing();}
+    }
+    // 滚轮控制镜头
+    // 初始化就调用
+    function onInit () {
+        //注册滚轮事件
+        hardware.regWheelEvent(function (){
+            integer delta = DzGetWheelDelta(); //滚轮变化量
+if (!DzIsMouseOverUI()) {return;} //如果鼠标不在游戏内，就不响应鼠标滚轮
+ResetCam = true; //标记需要重置镜头属性
+if (delta < 0) { //滚轮下滑
+if (ViewLevel < 14) {ViewLevel = ViewLevel + 1;} //视野等级上限
+} else { //滚轮上滑
+if (ViewLevel > 3) {ViewLevel = ViewLevel - 1;} //视野等级下限
+}
+            X_ANGLE = Rad2Deg(GetCameraField(CAMERA_FIELD_ANGLE_OF_ATTACK)); //记录滚动前的镜头角度
+});
+        //注册每帧渲染事件
+        hardware.regUpdateEvent(function (){
+            if (ResetCam) {//重设镜头角度和高度
+                SetCameraField( CAMERA_FIELD_ANGLE_OF_ATTACK, X_ANGLE, 0 );
+                SetCameraField(CAMERA_FIELD_TARGET_DISTANCE, ViewLevel*200, WheelSpeed);
+                ResetCam = false;
+            }
+        });
+        //注册按下键码为145的按键(ScrollLock)事件
+        DzTriggerRegisterKeyEventByCode( null, 145, 1, false, function (){
+            WideScr = !WideScr;
+            DzEnableWideScreen(WideScr);
+        });
+    }
+}
+//! endzinc
+library YDWEGetPlayersByMapControlNull
+globals
+    force yd_NullTempForce
+endglobals
+function YDWEGetPlayersByMapControlNull takes mapcontrol whichControl returns force
+    local force f = CreateForce()
+    local integer playerIndex
+    local player indexPlayer
+    set playerIndex = 0
+    loop
+        set indexPlayer = Player(playerIndex)
+        if GetPlayerController(indexPlayer) == whichControl then
+            call ForceAddPlayer(f, indexPlayer)
+        endif
+        set playerIndex = playerIndex + 1
+        exitwhen playerIndex == bj_MAX_PLAYER_SLOTS
+    endloop
+    set indexPlayer = null
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+endlibrary
+//! zinc
+/*
+转换工具
+*/
+library ConversionUtils {
+    //补充函数
+    public function B2S(boolean b) -> string {
+        if (b) {return "true";}
+        else {return "false";}
+    }
+    //三目运算符
+    public function S3 (boolean b,string s1,string s2) -> string {
+        if (b) {return s1;}
+        else {return s2;}
+    }
+    //三目运算符
+    public function U3 (boolean b,unit u1,unit u2) -> unit {
+        if (b) {return u1;}
+        else {return u2;}
+    }
+    //三目运算符
+    public function I3 (boolean b,integer i1,integer i2) -> integer {
+        if (b) {return i1;}
+        else {return i2;}
+    }
+    //三目运算符
+    public function R3 (boolean b,real r1,real r2) -> real {
+        if (b) {return r1;}
+        else {return r2;}
+    }
+    // 将数字转换为魔兽的四字符ID,使用256进制但限制36个数一进位
+    // pos为输入数字,每36个数字进一位,每位用0-9和a-z表示(共36个字符)
+    // 示例:0->'0000', 35->'000z', 36->'0010'(进位), 37->'0011'
+    public function GetIDSymbol ( integer pos ) -> integer {
+        integer bit = pos/36;
+        pos = ModuloInteger(pos,36);
+        if (pos < 10) {return pos + bit * 256;}
+        else {return '000a' - '0000' + pos - 10 + bit * 256;}
+    }
+    // 将魔兽的四字符ID转换回对应数字
+    // s为输入的四字符ID,将其还原为原始数字
+    // 示例:'0000'->0, '000z'->35, '0010'->36, '0011'->37
+    public function GetSymbolID ( integer s ) -> integer {
+        integer i1 = s/256;
+        integer i2 = ModuloInteger(s,256);
+        if (i2 < 10) {return i1 * 36 + i2;}
+        else {return i2 - '000a' + '0000' + 10 + i1 * 36;}
+    }
+}
+//! endzinc
 library YDWEGetUnitsOfPlayerAndTypeIdNull
 globals
 endglobals
@@ -3065,138 +2236,111 @@ function YDWEGetUnitsOfPlayerAndTypeIdNull takes player whichPlayer, integer uni
     return yd_NullTempGroup
 endfunction
 endlibrary
+library YDWEGetUnitsOfPlayerMatchingNull
+globals
+endglobals
+function YDWEGetUnitsOfPlayerMatchingNull takes player whichPlayer, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsOfPlayer(g, whichPlayer, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
+library YDWEGetForceOfPlayerNull
+globals
+endglobals
+function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
+    local force f = CreateForce()
+    call ForceAddPlayer(f, whichPlayer)
+    set yd_NullTempForce = f
+    set f = null
+    return yd_NullTempForce
+endfunction
+endlibrary
+library YDWEPolledWaitNull
+function YDWEPolledWaitNull takes real duration returns nothing
+    local timer t
+    local real timeRemaining
+    if (duration > 0) then
+        set t = CreateTimer()
+        call TimerStart(t, duration, false, null)
+        loop
+            set timeRemaining = TimerGetRemaining(t)
+            exitwhen timeRemaining <= 0
+            // If we have a bit of time left, skip past 10% of the remaining
+            // duration instead of checking every interval, to minimize the
+            // polling on long waits.
+            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
+                call TriggerSleepAction(0.1 * timeRemaining)
+            else
+                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
+            endif
+        endloop
+        call DestroyTimer(t)
+    endif
+    set t = null
+endfunction
+endlibrary
+library YDWETriggerRegisterEnterRectSimpleNull
+globals
+    region yd_NullTempRegion
+endglobals
+function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
+    local region rectRegion = CreateRegion()
+    call RegionAddRect(rectRegion, r)
+    set yd_NullTempRegion = rectRegion
+    set rectRegion = null
+    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
+endfunction
+endlibrary
 //! zinc
 /*
-单位有关
+数字工具
 */
-library UnitFilter {
-    //判断是否是敌方(不带无敌)
-    public function IsEnemy (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
+library NumberUtils {
+    // 老版本叫GetIntegerBit(替换)
+    // 获取一个整数中指定范围的数字(按十进制位数)
+    // @param value - 要处理的整数,如1483
+    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
+    // @param bit2 - 结束位置,如3表示百位
+    // @return - 返回指定范围的数字,如1483取1-3位返回483
+    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
+        if (bit1 > bit2) {return 0;}
+        if (bit1 <= 0 || bit2 <= 0) {return 0;}
+        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
     }
-    //旧名：IsEnemy2
-    //判断是否是敌方(能匹配到无敌单位)
-    public function IsEnemyIncludeInvul (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
-    }
-    //判断是否是友方
-    public function IsAlly (player p,unit u) -> boolean {
-        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
-    }
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsEnemyUnit(unit source, unit target) -> boolean {
-        return IsEnemy(GetOwningPlayer(source),target);
-    }
-    //判断两个单位是否互为敌人(不带无敌)
-    public function IsAllyUnit(unit source, unit target) -> boolean {
-        return IsAlly(GetOwningPlayer(source),target);
+    // 老版本叫GetBit(替换)
+    // 获取一个整数中指定位置的单个数字(按十进制位数)
+    // @param num - 要处理的整数,如1483
+    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
+    // @return - 返回指定位置的数字,如1483取第2位返回8
+    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
+    public function GetDigitAt (integer num,integer bit) -> integer {
+        integer bit1 = R2I(Pow(10,bit-1)); //举例,1483取位2 ->这个是10;
+integer bit2 = R2I(Pow(10,bit)); //举例,1483取位2 ->这个是100;
+num = IAbsBJ(num); //取绝对值
+if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
+if (bit1 > num) {return 0;} //取了不该取的位
+bit1 = IMaxBJ(1,bit1);
+        //先取余100,再除10 ->
+        return ModuloInteger(num,bit2) / bit1;
     }
 }
 //! endzinc
-library YDWEMultiboardSetItemValueBJNull
-function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, integer row, string val returns nothing
-    local integer curRow = 0
-    local integer curCol = 0
-    local integer numRows = MultiboardGetRowCount(mb)
-    local integer numCols = MultiboardGetColumnCount(mb)
-    local multiboarditem mbitem = null
-    // Loop over rows, using 1-based index
-    loop
-        set curRow = curRow + 1
-        exitwhen curRow > numRows
-        // Apply setting to the requested row, or all rows (if row is 0)
-        if (row == 0 or row == curRow) then
-            // Loop over columns, using 1-based index
-            set curCol = 0
-            loop
-                set curCol = curCol + 1
-                exitwhen curCol > numCols
-                // Apply setting to the requested column, or all columns (if col is 0)
-                if (col == 0 or col == curCol) then
-                    set mbitem = MultiboardGetItem(mb, curRow - 1, curCol - 1)
-                    call MultiboardSetItemValue(mbitem, val)
-                    call MultiboardReleaseItem(mbitem)
-                endif
-            endloop
-        endif
-    endloop
-    set mbitem = null
+library YDWEGetUnitsInRectMatchingNull
+globals
+endglobals
+function YDWEGetUnitsInRectMatchingNull takes rect r, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsInRect(g, r, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
 endfunction
 endlibrary
-//===========================================================================
-//佣兵系统 
-//===========================================================================
-library YDWESetGuard requires YDWEBase
-private function IsUnitIdle takes unit u returns boolean
-    return OrderId2String(GetUnitCurrentOrder(u)) == null
-endfunction
-function YDWERemoveGuard takes unit pet returns nothing
-    local integer tm = YDWEGetIntegerByString( I2S(YDWEH2I(pet)), "Timer")
-    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
-    call YDWEFlushMissionByString(I2S(tm))
-    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)), "Timer"))
-endfunction
-function SetGuardTimer takes nothing returns nothing
-  local timer tm = GetExpiredTimer()
-  local unit pet = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Pet"))
-  local unit captain = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Captain"))
-  local real x = GetUnitX(captain) - GetUnitX(pet)
-  local real y = GetUnitY(captain) - GetUnitY(pet)
-  local real d = x*x + y*y
-  local real v
-  local real a
-  local effect e=null
-  local real life = YDWEGetRealByString( I2S(YDWEH2I(tm)), "Life")
-  local integer p = YDWEGetIntegerByString(I2S(YDWEH2I(tm)), "Percent")
-  set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "GuardRanger") 
-  if GetUnitState(pet, UNIT_STATE_LIFE)>0 and GetUnitState(captain, UNIT_STATE_LIFE)> 0 then 
-      if d<v*v then
-         if IsUnitIdle(pet) and GetRandomInt(0,100)<p then
-           set x = GetUnitX(captain)
-           set y = GetUnitY(captain)
-           set d = GetRandomReal(0,v)
-           set a = GetRandomReal(0,360)
-           call IssuePointOrder(pet, "patrol", x+d*Cos((a)*0.0174538), y+d*Sin((a)*0.0174538))
-         endif
-      else
-        set v = YDWEGetRealByString( I2S(YDWEH2I(tm)), "ReturnRanger")
-        if d<v*v then
-          if IsUnitIdle(pet) then
-            call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
-          endif
-        else
-          set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "OutRanger")
-            if d!=0 and d>v*v then
-              call SetUnitPosition(pet,GetUnitX(captain),GetUnitY(captain))
-              set e =AddSpecialEffectTarget("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl" ,captain,"chest")
-              call DestroyEffect(e)
-            else
-              call IssuePointOrder(pet, "move", GetUnitX(captain), GetUnitY(captain))
-            endif
-          endif
-       endif
-     else
-       call IssuePointOrder(pet, "attack", GetUnitX(captain), GetUnitY(captain))
-       call YDWERemoveGuard(pet) 
-  endif
-  set tm = null
-  set pet = null
-  set captain = null
-  set e=null
-endfunction
-function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRanger, real returnRanger, real outRanger,integer percent returns nothing
-    local timer tm = CreateTimer() 
-    call YDWESaveTimerByString(I2S(YDWEH2I(pet)), "Timer", tm)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "pet", pet)
-    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "Captain", captain)
-    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)), "Percent", percent) 
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "GuardRanger", guardRanger) 
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "ReturnRanger", returnRanger) 
-    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "OutRanger", outRanger)
-    call TimerStart(tm, timeout, true, function SetGuardTimer)
-    set tm = null
-endfunction
-endlibrary 
 library DzAPI
     native DzAPI_Map_HasMallItem takes player whichPlayer, string key returns boolean
     native DzAPI_Map_GetMapLevel takes player whichPlayer returns integer
@@ -3773,104 +2917,112 @@ library DzAPI
         return RequestExtraIntegerData(110, whichPlayer, key, null, false, 0, 0, 0)
     endfunction
 endlibrary
-library YDWEPolledWaitNull
-function YDWEPolledWaitNull takes real duration returns nothing
-    local timer t
-    local real timeRemaining
-    if (duration > 0) then
-        set t = CreateTimer()
-        call TimerStart(t, duration, false, null)
-        loop
-            set timeRemaining = TimerGetRemaining(t)
-            exitwhen timeRemaining <= 0
-            // If we have a bit of time left, skip past 10% of the remaining
-            // duration instead of checking every interval, to minimize the
-            // polling on long waits.
-            if (timeRemaining > bj_POLLED_WAIT_SKIP_THRESHOLD) then
-                call TriggerSleepAction(0.1 * timeRemaining)
-            else
-                call TriggerSleepAction(bj_POLLED_WAIT_INTERVAL)
-            endif
-        endloop
-        call DestroyTimer(t)
-    endif
-    set t = null
+library YDWEGetUnitsInRectAllNull requires YDWEGetUnitsInRectMatchingNull
+function YDWEGetUnitsInRectAllNull takes rect r returns group
+    return YDWEGetUnitsInRectMatchingNull(r, null)
 endfunction
 endlibrary
+/*
+UI哈希表定义
+*/
+// 0 - 1亿这里用
+// 锚点常量
+// 事件常量
+//鼠标点击事件
+//Index名:
+//默认原生图片路径
+//模板名
+//TEXT对齐常量:(uiText.setAlign)
 //! zinc
 /*
-几何工具
-todo:直接用宏定义修改试试
+结构体
+硬件事件(按/滑/帧事件)
 */
-library Geometry {
-    // 4个坐标的距离
-    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1;
-        return SquareRoot(dx*dx+dy*dy);
-    }
-    // 6个坐标的距离
-    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
-        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
-        return SquareRoot(dx*dx+dy*dy+dz*dz);
-    }
-    // 4个坐标的角度,前面是人的位置，后面是点的位置
-    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
-        return (Atan2(y2-y1, x2-x1)*57.2958);
-    }
+library Hardware requires BzAPI {
+	public struct hardware []{
+		// 注册一个左键抬起事件
+		static method regLeftUpEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,1,0,false,func);
+		}
+		// 注册一个左键按下事件
+		static method regLeftDownEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,1,1,false,func);
+		}
+		// 注册一个右键按下事件
+		static method regRightDownEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,2,1,false,func);
+		}
+		// 注册一个右键抬起事件
+		static method regRightUpEvent (code func) {
+			DzTriggerRegisterMouseEventByCode(null,2,0,false,func);
+		}
+		// 注册一个滚轮事件,不能异步注册
+		static method regWheelEvent (code func) {
+			if (trWheel == null) {trWheel = CreateTrigger();}
+			TriggerAddCondition(trWheel, Condition(func));
+		}
+		// 注册一个绘制事件,不能异步注册
+		static method regUpdateEvent (code func) {
+			if (trUpdate == null) {trUpdate = CreateTrigger();}
+			TriggerAddCondition(trUpdate, Condition(func));
+		}
+		// 注册一个窗口变化事件,不能异步注册
+		static method regResizeEvent (code func) {
+			if (trResize == null) {trResize = CreateTrigger();}
+			TriggerAddCondition(trResize, Condition(func));
+		}
+		// 注册一个鼠标移动事件,不能异步注册
+		static method regMoveEvent (code func) {
+			BJDebugMsg("注册鼠标移动事件");
+			if (trMove == null) {trMove = CreateTrigger();}
+			TriggerAddCondition(trMove, Condition(func));
+		}
+		// 获取鼠标的实数坐标X(0-0.8)
+		static method getMouseX () -> real {
+			integer width = DzGetClientWidth();
+			if (width > 0) return DzGetMouseXRelative()* 0.8 / width;
+			else return 0.1;
+		}
+		// 获取鼠标的实数坐标Y(0-0.6)
+		static method getMouseY () -> real {
+			integer height = DzGetClientHeight();
+			if (height > 0) return 0.6 - DzGetMouseYRelative()* 0.6 / height;
+			else return 0.1; // 防止除以0
+}
+		private {
+			static trigger trWheel = null;
+			static trigger trUpdate = null;
+			static trigger trResize = null;
+			static trigger trMove = null;
+		}
+		static method onInit () {
+			//在游戏开始0.0秒后再调用
+			trigger tr = CreateTrigger();
+			TriggerRegisterTimerEvent(tr, 0.0, false);
+			TriggerAddCondition(tr,Condition(function (){
+				// 滚轮事件
+				DzTriggerRegisterMouseWheelEventByCode(null,false,function (){
+					TriggerEvaluate(trWheel);
+				});
+				// 帧绘制事件
+				DzFrameSetUpdateCallbackByCode(function (){
+					TriggerEvaluate(trUpdate);
+				});
+				// 窗口大小变化事件
+				DzTriggerRegisterWindowResizeEventByCode(null, false, function (){
+				 TriggerEvaluate(trResize);
+				});
+				// 鼠标移动事件
+				DzTriggerRegisterMouseMoveEventByCode(null, false, function (){
+				 TriggerEvaluate(trMove);
+				});
+				DestroyTrigger(GetTriggeringTrigger());
+			}));
+			tr = null;
+		}
+	}
 }
 //! endzinc
-library YDWEGetItemOfTypeFromUnitBJNull
-globals
-    item yd_NullTempItem
-endglobals
-function YDWEGetItemOfTypeFromUnitBJNull takes unit whichUnit, integer itemId returns item
-    local integer index = 0
-    loop
-        set yd_NullTempItem = UnitItemInSlot(whichUnit, index)
-        if GetItemTypeId(yd_NullTempItem) == itemId then
-            return yd_NullTempItem
-        endif
-        set index = index + 1
-        exitwhen index >= bj_MAX_INVENTORY
-    endloop
-    return null
-endfunction
-endlibrary
-library YDWEGetUnitsInRectOfPlayerNull
-globals
-endglobals
-function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
-    local group g = CreateGroup()
-    set bj_groupEnumOwningPlayer = whichPlayer
-    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
-    set yd_NullTempGroup = g
-    set g = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
-library YDWEGetUnitsOfTypeIdAllNull
-globals
-endglobals
-function YDWEGetUnitsOfTypeIdAllNull takes integer unitid returns group
-    local group result = CreateGroup()
-    local group g = CreateGroup()
-    local integer index
-    set index = 0
-    loop
-        set bj_groupEnumTypeId = unitid
-        call GroupClear(g)
-        call GroupEnumUnitsOfPlayer(g, Player(index), filterGetUnitsOfTypeIdAll)
-        call GroupAddGroup(g, result)
-        set index = index + 1
-        exitwhen index == bj_MAX_PLAYER_SLOTS
-    endloop
-    call DestroyGroup(g)
-    set g = null
-    set yd_NullTempGroup = result
-    set result = null
-    return yd_NullTempGroup
-endfunction
-endlibrary
 library YDWEUnitHasItemOfTypeBJNull
 function YDWEUnitHasItemOfTypeBJNull takes unit whichUnit, integer itemId returns boolean
     local integer index = 0
@@ -3888,49 +3040,737 @@ endfunction
 endlibrary
 //! zinc
 /*
-数字工具
+区域采样工具
 */
-library NumberUtils {
-    // 老版本叫GetIntegerBit(替换)
-    // 获取一个整数中指定范围的数字(按十进制位数)
-    // @param value - 要处理的整数,如1483
-    // @param bit1 - 起始位置(从右往左,从1开始),如1表示个位
-    // @param bit2 - 结束位置,如3表示百位
-    // @return - 返回指定范围的数字,如1483取1-3位返回483
-    public function GetNumberRange (integer value,integer bit1,integer bit2) -> integer {
-        if (bit1 > bit2) {return 0;}
-        if (bit1 <= 0 || bit2 <= 0) {return 0;}
-        return ModuloInteger(value,R2I(Pow(10,bit2)))/R2I(Pow(10,bit1-1));
+library RegionUtils {
+    public struct triangleXY [] {
+        static real x = 0.0 , y = 0.0;
+        // 在给定三角形区域内随机生成一个点
+        // 参数说明:
+        // @param ax,ay - 三角形顶点A的坐标
+        // @param bx,by - 三角形顶点B的坐标
+        // @param cx,cy - 三角形顶点C的坐标
+        // 返回值:
+        // 通过静态变量x,y返回随机生成的点坐标
+        static method random (real ax,real ay,real bx,real by,real cx,real cy) {
+            real rA = GetRandomReal(0,1.0);
+            real rB = GetRandomReal(0,1.0);
+            real abx = bx-ax, aby = by-ay;
+            real acx = cx-ax, acy = cy-ay;
+            if (rA + rB > 1.0) {
+                rA = 1.0 - rA;
+                rB = 1.0 - rB;
+            }
+            x = ax + rA * abx + rB * acx;
+            y = ay + rA * aby + rB * acy;
+        }
     }
-    // 老版本叫GetBit(替换)
-    // 获取一个整数中指定位置的单个数字(按十进制位数)
-    // @param num - 要处理的整数,如1483
-    // @param bit - 要获取的位置(从右往左,从1开始),如2表示十位
-    // @return - 返回指定位置的数字,如1483取第2位返回8
-    // 注意:会自动处理负数(取绝对值),位数超出或不合法返回0
-    public function GetDigitAt (integer num,integer bit) -> integer {
-        integer bit1 = R2I(Pow(10,bit-1)); //举例,1483取位2 ->这个是10;
-integer bit2 = R2I(Pow(10,bit)); //举例,1483取位2 ->这个是100;
-num = IAbsBJ(num); //取绝对值
-if (bit <= 0 || bit >= 32) {return 0;} //超了整数上限
-if (bit1 > num) {return 0;} //取了不该取的位
-bit1 = IMaxBJ(1,bit1);
-        //先取余100,再除10 ->
-        return ModuloInteger(num,bit2) / bit1;
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerX ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinX(r)+inner,GetRectMaxX(r)-inner);
+    }
+    // 矩形区域内随机取点[内嵌一定范围]
+    public function GetRectRandomInnerY ( rect r,real inner ) -> real {
+        return GetRandomReal(GetRectMinY(r)+inner,GetRectMaxY(r)-inner);
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomX ( rect r ) -> real {
+        return GetRandomReal(GetRectMinX(r),GetRectMaxX(r));
+    }
+    // 矩形区域内随机取点
+    public function GetRectRandomY ( rect r ) -> real {
+        return GetRandomReal(GetRectMinY(r),GetRectMaxY(r));
     }
 }
 //! endzinc
-library YDWEGetForceOfPlayerNull
+/*
+声音的初始化
+及一些常用的声音API
+*/
+//! zinc
+library Music {
+	public struct music []{
+		private sound snd;
+		//只给某个玩家播放
+		method playFor (player p) {
+			if (GetLocalPlayer() == p) {
+				StartSound(snd);
+			}
+		}
+		//播放音效
+		method play () {
+			StartSound(snd);
+		}
+		static method onInit () {
+			sound snd = null;
+			//# check: music[1001]
+			//# dependency:sound/sound/btn_down_01.wav
+			snd = CreateSound("sound\\btn_down_01.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 131);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1001].snd = snd;
+			//# endcheck
+			//# check: music[1002]
+			//# dependency:sound/sound/btn_over_01.wav
+			snd = CreateSound("sound\\btn_over_01.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 56);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1002].snd = snd;
+			//# endcheck
+			//# check: music[1003]
+			//# dependency:sound/sound/btn_over_02.wav
+			snd = CreateSound("sound\\btn_over_02.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 60);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1003].snd = snd;
+			//# endcheck
+			//# check: music[1004]
+			//# dependency:sound/sound/btn_up_01.wav
+			snd = CreateSound("sound\\btn_up_01.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 54);
+			SetSoundChannel(snd, 0);
+			SetSoundVolume(snd, 127);
+			SetSoundPitch(snd, 1.0);
+			thistype[1004].snd = snd;
+			//# endcheck
+			//# check: music[7]
+			snd = CreateSound("Sound\\Interface\\Warning\\Human\\KnightNoGold1.wav", false, false, false, 10, 10, "DefaultEAXON");
+			SetSoundDuration(snd, 1486);
+			thistype[7].snd = snd;
+			//# endcheck
+			//# check: music[8]
+			snd = CreateSound("Sound\\Interface\\Error.wav", false, false, false, 10, 10, "DefaultEAXON");
+			SetSoundDuration(snd, 614);
+			thistype[8].snd = snd;
+			//# endcheck
+			//# check: music[9]
+			snd = CreateSound("Abilities\\Spells\\Items\\ResourceItems\\ReceiveGold.wav", false, false, false, 10, 10, "SpellsEAX");
+			SetSoundDuration(snd, 589);
+			thistype[9].snd = snd;
+			//# endcheck
+			//# check: music[10]
+			snd = CreateSound("Abilities\\Spells\\Items\\AIam\\Tomes.wav", false, false, false, 10, 10, "SpellsEAX");
+			SetSoundDuration(snd, 1770);
+			thistype[10].snd = snd;
+			//# endcheck
+			//# check: music[11]
+			snd = CreateSound("Sound\\Interface\\ItemReceived.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 1483);
+			thistype[11].snd = snd;
+			//# endcheck
+			//# check: music[12]
+			snd = CreateSound("Sound\\Interface\\MouseClick1.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 239);
+			thistype[12].snd = snd;
+			//# endcheck
+			//# check: music[13]
+			snd = CreateSound("Sound\\Interface\\SecretFound.wav", false, false, false, 10, 10, "");
+			SetSoundDuration(snd, 2525);
+			thistype[13].snd = snd;
+			//# endcheck
+			//# check: music[14]
+			snd = CreateSound("Abilities\\Spells\\Items\\ResourceItems\\BundleOfLumber.wav", false, false, false, 10, 10, "SpellsEAX");
+			SetSoundDuration(snd, 1347);
+			thistype[14].snd = snd;
+			//# endcheck
+			snd = null;
+		}
+	}
+}
+//! endzinc
+library YDWEGetUnitsInRectOfPlayerNull
 globals
 endglobals
-function YDWEGetForceOfPlayerNull takes player whichPlayer returns force
-    local force f = CreateForce()
-    call ForceAddPlayer(f, whichPlayer)
-    set yd_NullTempForce = f
-    set f = null
-    return yd_NullTempForce
+function YDWEGetUnitsInRectOfPlayerNull takes rect r, player whichPlayer returns group
+    local group g = CreateGroup()
+    set bj_groupEnumOwningPlayer = whichPlayer
+    call GroupEnumUnitsInRect(g, r, filterGetUnitsInRectOfPlayer)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
 endfunction
 endlibrary
+//===========================================================================
+//系统-TimerSystem
+//===========================================================================
+library YDWETimerSystem initializer Init requires YDTriggerSaveLoadSystem
+globals
+	private integer CurrentTime
+	private integer CurrentIndex
+    private integer TaskListHead
+    private integer TaskListIdleHead
+    private integer TaskListIdleMax
+    private integer array TaskListIdle
+    private integer array TaskListNext
+    private integer array TaskListTime
+    private trigger array TaskListProc //函数组
+private trigger fnRemoveUnit //移除单位函数
+private trigger fnDestroyTimer //摧毁计时器
+private trigger fnRemoveItem //移除物品
+private trigger fnDestroyEffect //删除特效
+private trigger fnDestroyLightning //删除删掉特效
+private trigger fnRunTrigger //运行触发器
+private timer Timer //最小时间计时器  系统计时器  用于一些需要精确计时的功能
+private integer TimerHandle
+	private integer TimerSystem_RunIndex = 0
+endglobals
+private function NewTaskIndex takes nothing returns integer
+	local integer h = TaskListIdleHead
+	if TaskListIdleHead < 0 then
+		if TaskListIdleMax >= 8000 then
+			debug call BJDebugMsg("中心计时器任务队列溢出！")
+			return 8100
+		else
+			set TaskListIdleMax = TaskListIdleMax + 1
+			return TaskListIdleMax
+		endif
+	endif
+	set TaskListIdleHead = TaskListIdle[h]
+	return h
+endfunction
+private function DeleteTaskIndex takes integer index returns nothing
+	set TaskListIdle[index] = TaskListIdleHead
+	set TaskListIdleHead = index
+endfunction
+//该函数序列处理
+private function NewTask takes real time, trigger proc returns integer
+	local integer index = NewTaskIndex()
+	local integer h = TaskListHead
+	local integer t = R2I(100.*time) + CurrentTime
+	local integer p
+	set TaskListProc[index] = proc
+	set TaskListTime[index] = t
+	loop
+		set p = TaskListNext[h]
+		if p < 0 or TaskListTime[p] >= t then
+		//	call BJDebugMsg("NewTask:"+I2S(index))
+			set TaskListNext[h] = index
+			set TaskListNext[index] = p
+			return index
+		endif
+		set h = p
+	endloop
+	return index
+endfunction
+function YDWETimerSystemNewTask takes real time, trigger proc returns integer
+	return NewTask(time, proc)
+endfunction
+function YDWETimerSystemGetCurrentTask takes nothing returns integer
+	return CurrentIndex
+endfunction
+//删除单位
+private function RemoveUnit_CallBack takes nothing returns nothing
+    call RemoveUnit(LoadUnitHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerRemoveUnit takes real time, unit u returns nothing
+    call SaveUnitHandle(YDHT, TimerHandle, NewTask(time, fnRemoveUnit), u)
+endfunction
+//摧毁计时器
+private function DestroyTimer_CallBack takes nothing returns nothing
+    call DestroyTimer(LoadTimerHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerDestroyTimer takes real time, timer t returns nothing
+    call SaveTimerHandle(YDHT, TimerHandle, NewTask(time, fnDestroyTimer), t)
+endfunction
+//删除物品
+private function RemoveItem_CallBack takes nothing returns nothing
+    call RemoveItem(LoadItemHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerRemoveItem takes real time, item it returns nothing
+    call SaveItemHandle(YDHT, TimerHandle, NewTask(time, fnRemoveItem), it)
+endfunction
+//删除特效
+private function DestroyEffect_CallBack takes nothing returns nothing
+    call DestroyEffect(LoadEffectHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerDestroyEffect takes real time, effect e returns nothing
+    call SaveEffectHandle(YDHT, TimerHandle, NewTask(time, fnDestroyEffect), e)
+endfunction
+//删除闪电特效
+private function DestroyLightning_CallBack takes nothing returns nothing
+    call DestroyLightning(LoadLightningHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerDestroyLightning takes real time, lightning lt returns nothing
+	local integer i = NewTask(time, fnDestroyLightning)
+    call SaveLightningHandle(YDHT, TimerHandle, i, lt)
+endfunction
+//运行触发器
+private function RunTrigger_CallBack takes nothing returns nothing
+    call TriggerExecute(LoadTriggerHandle(YDHT, TimerHandle, CurrentIndex))
+    call RemoveSavedHandle(YDHT, TimerHandle, CurrentIndex)
+endfunction
+function YDWETimerRunTrigger takes real time, trigger trg returns nothing
+    call SaveTriggerHandle(YDHT, TimerHandle, NewTask(time, fnRunTrigger), trg)
+endfunction
+//删除漂浮文字
+function YDWETimerDestroyTextTag takes real time, texttag tt returns nothing
+    local integer N=0
+    local integer i=0
+    if time <= 0 then
+        set time = 0.01
+    endif
+    call SetTextTagPermanent(tt,false)
+    call SetTextTagLifespan(tt,time)
+    call SetTextTagFadepoint(tt,time)
+endfunction
+//中心计时器主函数
+private function Main takes nothing returns nothing
+	local integer h = TaskListHead
+	local integer p
+	loop
+		set CurrentIndex = TaskListNext[h]
+		exitwhen CurrentIndex < 0 or CurrentTime < TaskListTime[CurrentIndex]
+		//call BJDebugMsg("Task:"+I2S(CurrentIndex))
+		call TriggerEvaluate(TaskListProc[CurrentIndex])
+		call DeleteTaskIndex(CurrentIndex)
+		set TaskListNext[h] = TaskListNext[CurrentIndex]
+	endloop
+	set CurrentTime = CurrentTime + 1
+endfunction
+//初始化函数
+private function Init takes nothing returns nothing
+    set Timer = CreateTimer()
+	set TimerHandle	= GetHandleId( Timer)
+	set CurrentTime = 0
+	set TaskListHead = 0
+	set TaskListNext[0] = -1
+	set TaskListIdleHead = 1
+	set TaskListIdleMax = 1
+	set TaskListIdle[1] = -1
+	set fnRemoveUnit = CreateTrigger()
+	set fnDestroyTimer = CreateTrigger()
+	set fnRemoveItem = CreateTrigger()
+	set fnDestroyEffect = CreateTrigger()
+	set fnDestroyLightning = CreateTrigger()
+	set fnRunTrigger = CreateTrigger()
+	call TriggerAddCondition(fnRemoveUnit, Condition(function RemoveUnit_CallBack))
+	call TriggerAddCondition(fnDestroyTimer, Condition(function DestroyTimer_CallBack))
+	call TriggerAddCondition(fnRemoveItem, Condition(function RemoveItem_CallBack))
+	call TriggerAddCondition(fnDestroyEffect, Condition(function DestroyEffect_CallBack))
+	call TriggerAddCondition(fnDestroyLightning, Condition(function DestroyLightning_CallBack))
+	call TriggerAddCondition(fnRunTrigger, Condition(function RunTrigger_CallBack))
+    call TimerStart(Timer, 0.01, true, function Main)
+endfunction
+//循环类仍用独立计时器
+function YDWETimerSystemGetRunIndex takes nothing returns integer
+    return TimerSystem_RunIndex
+endfunction
+private function RunPeriodicTriggerFunction takes nothing returns nothing
+    local integer tid = GetHandleId( GetExpiredTimer())
+    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
+	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
+    if TriggerEvaluate(trg) then
+        call TriggerExecute(trg)
+    endif
+    set trg = null
+endfunction
+private function RunPeriodicTriggerFunctionByTimes takes nothing returns nothing
+    local integer tid = GetHandleId( GetExpiredTimer())
+    local trigger trg = LoadTriggerHandle(YDHT, tid, $D0001)
+    local integer times = LoadInteger(YDHT, tid, $D0003)
+	call SaveInteger(YDHT, StringHash( I2S(GetHandleId( trg))), StringHash( "RunIndex"), LoadInteger(YDHT, tid, $D0002))
+    if TriggerEvaluate(trg) then
+        call TriggerExecute(trg)
+    endif
+    set times = times - 1
+    if times > 0 then
+		call SaveInteger(YDHT, tid, $D0003, times)
+      else
+        call DestroyTimer(GetExpiredTimer())
+        call FlushChildHashtable(YDHT, tid)
+    endif
+    set trg = null
+endfunction
+function YDWETimerRunPeriodicTrigger takes real timeout, trigger trg, boolean b, integer times, integer data returns nothing
+    local timer t
+    local integer tid
+    local integer index = 0
+    if timeout < 0 then
+        return
+      else
+        set t = CreateTimer()
+		set tid = GetHandleId( t)
+    endif
+    set TimerSystem_RunIndex = TimerSystem_RunIndex + 1
+	call SaveTriggerHandle(YDHT, tid, $D0001, trg)
+	call SaveInteger(YDHT, tid, $D0002, TimerSystem_RunIndex)
+	set index = LoadInteger(YDHT, GetHandleId( trg), 'YDTS'+data)
+    set index = index + 1
+	call SaveInteger(YDHT, GetHandleId( trg), 'YDTS'+data, index)
+	call SaveTimerHandle(YDHT, GetHandleId( trg), ('YDTS'+data)*index, t)
+    if b == false then
+		call SaveInteger(YDHT, tid, $D0003, times)
+        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunctionByTimes)
+      else
+        call TimerStart(t, timeout, true, function RunPeriodicTriggerFunction)
+    endif
+    set t = null
+endfunction
+function YDWETimerRunPeriodicTriggerOver takes trigger trg, integer data returns nothing
+	local integer trgid = GetHandleId( trg)
+    local integer index = LoadInteger(YDHT, trgid, 'YDTS'+data)
+    local timer t
+    loop
+        exitwhen index <= 0
+        set t = LoadTimerHandle(YDHT, trgid, ('YDTS'+data)*index)
+        call DestroyTimer(t)
+        call FlushChildHashtable(YDHT, GetHandleId( t))
+		call RemoveSavedHandle(YDHT, trgid, ('YDTS'+data)*index)
+        set index = index - 1
+    endloop
+    call RemoveSavedInteger(YDHT, trgid, 'YDTS'+data)
+    set t = null
+endfunction
+endlibrary
+//===========================================================================  
+//万能环绕模板 
+//===========================================================================
+library YDWEAroundSystem requires YDWEBase
+//library TP1 requires YDWEBase
+    globals
+        private constant timer AROUND_TIM = CreateTimer()
+        private constant real AROUND_INTER = 0.01
+    endglobals
+    private struct Data
+        static thistype array Structs
+        static integer Total = 0
+        unit caster = null
+        unit obj = null 
+        real dur = 0.
+        real inter = 0.
+        real each = 0. 
+        real rate = 0.
+        real dis = 0.
+        real rise = 0. 
+        real angle = 0.
+        real radius = 0.
+        real height = 0
+    endstruct
+    private function spin takes nothing returns nothing
+        local Data d = 0
+        local real x = 0.
+        local real y = 0.
+        local integer inst = 0
+        
+        loop
+            exitwhen (inst == Data.Total)
+            set d = Data.Structs[inst]
+            if ( d.dur > 0 ) and (GetUnitState(d.caster, UNIT_STATE_LIFE)>0) and (GetUnitState(d.obj, UNIT_STATE_LIFE)>0) then
+                set d.each = d.each + AROUND_INTER
+                if ( d.each >= d.inter ) then
+                    set d.angle = d.angle + d.rate
+                    set d.radius = d.radius + d.dis
+                    set d.height = d.height + d.rise
+                    set x = GetUnitX(d.caster) + d.radius*Cos(d.angle)
+                    set y = GetUnitY(d.caster) + d.radius*Sin(d.angle)
+                    set x = YDWECoordinateX(x)
+                    set y = YDWECoordinateY(y)
+                    call SetUnitX(d.obj, x)
+                    call SetUnitY(d.obj, y)
+                    call SetUnitFlyHeight(d.obj, d.height, 0.)
+                    set d.each = 0.
+                endif
+                set d.dur = d.dur - AROUND_INTER
+            else 
+                set bj_lastAbilityTargetUnit=d.caster
+                call YDWESyStemAbilityCastingOverTriggerAction(d.obj,10) 
+                set d.caster = null
+                set d.obj = null
+                call d.destroy()
+                set Data.Total = Data.Total - 1
+                set Data.Structs[inst] = Data.Structs[Data.Total]
+                set inst = inst - 1
+            endif
+            set inst = inst + 1
+        endloop
+        if ( Data.Total == 0 ) then
+            call PauseTimer(AROUND_TIM)
+        endif
+    endfunction
+    function YDWEAroundSystem takes unit satellite, unit star, real angleRate, real displacement, real riseRate,real timeout, real interval returns nothing
+        local Data d = Data.create()
+        local real x1 = GetUnitX(star)
+        local real y1 = GetUnitY(star)
+        local real x2 = GetUnitX(satellite)
+        local real y2 = GetUnitY(satellite)
+        set d.caster = star
+        set d.obj = satellite
+        set d.dur = timeout
+        set d.inter = interval
+        set d.rate = angleRate*(3.14159/180.)
+        set d.dis = displacement
+        set d.rise = riseRate
+        set d.angle = Atan2(y2-y1,x2-x1)
+        set d.radius = SquareRoot((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1))
+        set d.height = GetUnitFlyHeight(d.obj) 
+        set Data.Structs[Data.Total] = integer(d)
+        set Data.Total = Data.Total + 1 
+        if ( Data.Total - 1 == 0 ) then
+            call TimerStart(AROUND_TIM, AROUND_INTER, true, function spin)
+        endif
+    endfunction
+    
+endlibrary 
+//! zinc
+/*
+字符串工具
+*/
+library StringUtils {
+    string temp;
+    //重复某一个字符串N次,并可以按照指定间隔添加空格和换行
+    //参数 s: 要重复的字符串
+    //参数 times: 重复的次数
+    //参数 gap1: 每隔多少个字符串添加一个空格,如gap1=3则每3个字符串后加空格
+    //参数 gap2: 每隔多少个字符串添加一个换行,如gap2=5则每5个字符串后换行
+    //返回: 处理后的完整字符串
+    //示例: RepeatString("A",6,2,3) 会返回 "AA AA A\nA"
+    public function RepeatString (string s,integer times,integer gap1,integer gap2) -> string {
+        integer i;
+        temp = "";
+        for (1 <= i <= times) {
+            temp += s;
+            if (ModuloInteger(i,gap1) == 0) temp += " ";
+            if (ModuloInteger(i,gap2) == 0) temp += "\n";
+        }
+        return temp;
+    }
+    //判断一个字符串是否有东西
+    public function IsNotEmpty (string s) -> boolean {return (s != null && s != "");}
+    // 数字转字符串,首位自动填充0
+    // 不支持负数
+    // 比如12,3   -> 012
+    public function I2SM ( integer num,integer bit ) -> string {
+        integer i , count;
+        string s;
+        if (num < 0) {return I2S(num);}
+        s = I2S(num);
+        count = bit - StringLength(s);
+        for (1 <= i <= count) {s = "0" + s;}
+        return s;
+    }
+    //赞助系统：循环Hash
+    public function GetCycleHash ( string s,integer times ) -> integer {
+        string result = s;
+        integer i;
+        for (1 <= i <= times) {
+            result = I2S(StringHash(result));
+        }
+        return S2I(result);
+    }
+    //拼接式存放数据的API
+    //自动将整数补至10位长度的字符串(会自动取绝对值)
+    public function IMendS ( integer num,integer bit ) -> string {
+        integer abs = IAbsBJ(num);
+        string result = I2S(abs);
+        integer i , length = StringLength(result);
+        for (1 <= i <= bit - length) {result = "0" + result;}
+        return result;
+    }
+}
+//! endzinc
+library YDWECreateEwsp requires YDWEBase
+//===========================================================================
+//环绕技能模板 
+//===========================================================================
+private function Loop takes nothing returns nothing
+    local timer t = GetExpiredTimer()
+	local string h = I2S(YDWEH2I(t))
+    local unit tempUnit 
+    local real angle 
+    local integer i
+    local unit orderUnit=YDWEGetUnitByString(h,"orderUnit") 
+    local real UnitLocX = GetUnitX(orderUnit)
+    local real UnitLocY = GetUnitY(orderUnit) 
+    local real radius = YDWEGetRealByString(h,"radius") 
+    local real speed = YDWEGetRealByString(h,"speed") 
+    local integer number = YDWEGetIntegerByString(h,"number") 
+    local integer steps = YDWEGetIntegerByString(h,"steps") 
+    if steps>0 and GetUnitState(orderUnit, UNIT_STATE_LIFE)>0 then 
+        set steps=steps-1
+        call YDWESaveIntegerByString(h,"steps",steps) 
+        set i = 0 
+        loop
+            set i = i + 1
+            exitwhen i > number
+            set tempUnit=YDWEGetUnitByString(h,"units"+I2S(i)) 
+            set angle=YDWEGetRealByString(h,"angles"+I2S(i)) 
+            set angle=angle+speed
+            call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+            call SetUnitX(tempUnit, YDWECoordinateX(UnitLocX + radius*Cos(angle)))
+            call SetUnitY(tempUnit, YDWECoordinateY(UnitLocY + radius*Sin(angle)))
+        endloop
+    else 
+        set i = 0
+        loop
+            set i = i + 1 
+            exitwhen i > number 
+            call RemoveUnit(YDWEGetUnitByString(h,"units"+I2S(i))) 
+        endloop 
+        call YDWEFlushMissionByString(h)
+        call DestroyTimer(t) 
+        call YDWESyStemAbilityCastingOverTriggerAction(orderUnit,1) 
+    endif
+    set tempUnit=null 
+    set orderUnit=null
+    set t=null
+endfunction
+function YDWECreateEwsp takes unit Hero,integer ewsp,integer number,real radius,real lasttime,real interval,real speed returns nothing
+    local timer t = CreateTimer()
+	local string h = I2S(YDWEH2I(t))
+	local real UnitLocX = GetUnitX(Hero)
+    local real UnitLocY = GetUnitY(Hero) 
+    local unit tempUnit 
+    local player Masterplayer = GetOwningPlayer(Hero)
+    local real angle 
+    local integer i = 0
+    local integer steps = R2I(lasttime/interval)
+    call YDWESaveUnitByString(h,"orderUnit",Hero) 
+    call YDWESaveIntegerByString(h,"steps",steps) 
+    call YDWESaveIntegerByString(h,"number",number) 
+    call YDWESaveRealByString(h,"radius",radius)
+    call YDWESaveRealByString(h,"speed", speed*0.0174538)
+    call GroupClear(bj_lastCreatedGroup)
+    loop
+        set i = i + 1
+        exitwhen i > number
+        set angle = 2*i*3.14159/number
+        call YDWESaveRealByString(h,"angles"+I2S(i),angle)
+        set tempUnit = CreateUnit(Masterplayer, ewsp, YDWECoordinateX(UnitLocX + radius*Cos(angle)), YDWECoordinateY(UnitLocY + radius*Sin(angle)), angle*57.2958)
+        call YDWESaveUnitByString(h,"units"+I2S(i),tempUnit)
+        call UnitIgnoreAlarm(tempUnit, true)
+        call GroupAddUnit(bj_lastCreatedGroup, tempUnit)
+        set bj_lastCreatedUnit = tempUnit
+    endloop 
+    call TimerStart(t,interval,true,function Loop)
+    set t=null
+    set tempUnit=null
+endfunction
+endlibrary
+//! zinc
+/*
+单位有关
+*/
+library UnitFilter {
+    //判断是否是敌方(不带无敌)
+    public function IsEnemy (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p) && GetUnitAbilityLevel(u,'Avul') == 0;
+    }
+    //旧名：IsEnemy2
+    //判断是否是敌方(能匹配到无敌单位)
+    public function IsEnemyIncludeInvul (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitEnemy(u, p);
+    }
+    //判断是否是友方
+    public function IsAlly (player p,unit u) -> boolean {
+        return GetUnitState(u, UNIT_STATE_LIFE) > .405 && !(IsUnitType(u, UNIT_TYPE_STRUCTURE)) && !(IsUnitHidden(u)) && IsUnitAlly(u, p);
+    }
+    //判断两个单位是否互为敌人(不带无敌)
+    public function IsEnemyUnit(unit source, unit target) -> boolean {
+        return IsEnemy(GetOwningPlayer(source),target);
+    }
+    //判断两个单位是否互为队友(不带无敌)
+    public function IsAllyUnit(unit source, unit target) -> boolean {
+        return IsAlly(GetOwningPlayer(source),target);
+    }
+    // //判断单位是否属于指定常见种族或中立阵营
+    // // 人族/兽族/不死/精灵 以及 中立敌对/中立中立
+    // // 注意：当传入目标并非单位（例如对可破坏物 'DTrc' 使用 GetSpellTargetUnit()）时，u 可能为 null，返回 false
+    // public function IsUnitRaceOK (unit u)  -> boolean {
+    //     race r; player o;
+    //     if (u == null) return false;
+    //     r = GetUnitRace(u);
+    //     if (r == RACE_HUMAN) return true;      // 人族
+    //     if (r == RACE_ORC) return true;        // 兽族
+    //     if (r == RACE_UNDEAD) return true;     // 不死
+    //     if (r == RACE_NIGHTELF) return true;   // 精灵
+    //     // 娜迦单位在实际地图中多归属中立敌对/中立中立，这里通过中立所属判断覆盖
+    //     o = GetOwningPlayer(u);
+    //     if (o == Player(PLAYER_NEUTRAL_AGGRESSIVE)) return true; // 中立敌对
+    //     if (o == Player(PLAYER_NEUTRAL_PASSIVE))    return true; // 中立中立
+    //     return false;
+    // }
+}
+//! endzinc
+library YDWEMultiboardSetItemValueBJNull
+function YDWEMultiboardSetItemValueBJNull takes multiboard mb, integer col, integer row, string val returns nothing
+    local integer curRow = 0
+    local integer curCol = 0
+    local integer numRows = MultiboardGetRowCount(mb)
+    local integer numCols = MultiboardGetColumnCount(mb)
+    local multiboarditem mbitem = null
+    // Loop over rows, using 1-based index
+    loop
+        set curRow = curRow + 1
+        exitwhen curRow > numRows
+        // Apply setting to the requested row, or all rows (if row is 0)
+        if (row == 0 or row == curRow) then
+            // Loop over columns, using 1-based index
+            set curCol = 0
+            loop
+                set curCol = curCol + 1
+                exitwhen curCol > numCols
+                // Apply setting to the requested column, or all columns (if col is 0)
+                if (col == 0 or col == curCol) then
+                    set mbitem = MultiboardGetItem(mb, curRow - 1, curCol - 1)
+                    call MultiboardSetItemValue(mbitem, val)
+                    call MultiboardReleaseItem(mbitem)
+                endif
+            endloop
+        endif
+    endloop
+    set mbitem = null
+endfunction
+endlibrary
+//! zinc
+/*
+单位组有关
+伤害有关
+// u = FirstOfGroup(g);  //少用这个,单位删了后直接是0了
+用GroupPickRandomUnit(g);好一些
+*/
+library GroupUtils requires UnitFilter {
+    group tempG = null;
+    unit tempU = null;
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRangeEx (group whichGroup,real x,real y,real radius,boolexpr filter) {
+        GroupEnumUnitsInRange(whichGroup, x, y, radius, filter);
+        DestroyBoolExpr(filter);
+    }
+    //库补充,防内存泄漏
+    public function GroupEnumUnitsInRectEx (group whichGroup,rect r,boolexpr filter) {
+        GroupEnumUnitsInRect(whichGroup, r, filter);
+        DestroyBoolExpr(filter);
+    }
+    //获取单位组:[敌方]
+    public function GetEnemyGroup (unit u,real x,real y,real radius) -> group {
+        tempG = CreateGroup();
+        tempU = u;
+        GroupEnumUnitsInRangeEx(tempG, x, y, radius, Filter(function () -> boolean {
+            if (IsEnemy(GetOwningPlayer(tempU),GetFilterUnit())) {
+                return true;
+            }
+            return false;
+        }));
+        tempU = null;
+        return tempG;
+    }
+    //获取圆形随机单位
+    public function GetRandomEnemy (unit u,real x,real y,real radius) -> unit {
+        return GroupPickRandomUnit(GetEnemyGroup(u,x,y,radius));
+    }
+}
+//! endzinc
 library YDWEGetRandomSubGroupEnumNull
 function YDWEGetRandomSubGroupEnumNull takes nothing returns nothing
     if (bj_randomSubGroupWant > 0) then
@@ -3955,23 +3795,6 @@ function YDWEGetRandomSubGroupNull takes integer count, group sourceGroup return
     return bj_randomSubGroupGroup
 endfunction
 endlibrary
-library YDWETriggerRegisterEnterRectSimpleNull
-globals
-    region yd_NullTempRegion
-endglobals
-function YDWETriggerRegisterEnterRectSimpleNull takes trigger trig, rect r returns event
-    local region rectRegion = CreateRegion()
-    call RegionAddRect(rectRegion, r)
-    set yd_NullTempRegion = rectRegion
-    set rectRegion = null
-    return TriggerRegisterEnterRegion(trig, yd_NullTempRegion, null)
-endfunction
-endlibrary
-library YDWEGetUnitsOfPlayerAllNull requires YDWEGetUnitsOfPlayerMatchingNull
-function YDWEGetUnitsOfPlayerAllNull takes player whichPlayer returns group
-    return YDWEGetUnitsOfPlayerMatchingNull(whichPlayer, null)
-endfunction
-endlibrary
 library YDWETriggerRegisterLeaveRectSimpleNull
 globals
 endglobals
@@ -3983,13 +3806,249 @@ function YDWETriggerRegisterLeaveRectSimpleNull takes trigger trig, rect r retur
     return TriggerRegisterLeaveRegion(trig, yd_NullTempRegion, null)
 endfunction
 endlibrary
+//! zinc
+/*
+几何工具
+todo:直接用宏定义修改试试
+*/
+library Geometry {
+    // 4个坐标的距离
+    public function GetDistance (real x1,real y1,real x2,real y2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1;
+        return SquareRoot(dx*dx+dy*dy);
+    }
+    // 6个坐标的距离
+    public function GetDistanceZ (real x1,real y1,real z1,real x2,real y2,real z2) -> real {
+        real dx = x2 - x1 , dy = y2 - y1, dz = z2 - z1;
+        return SquareRoot(dx*dx+dy*dy+dz*dz);
+    }
+    // 4个坐标的角度,前面是人的位置，后面是点的位置
+    public function GetFacing (real x1,real y1,real x2,real y2) -> real {
+        return (Atan2(y2-y1, x2-x1)*57.2958);
+    }
+}
+//! endzinc
+//===========================================================================
+//佣兵系统 
+//===========================================================================
+library YDWESetGuard requires YDWEBase
+private function IsUnitIdle takes unit u returns boolean
+    return OrderId2String(GetUnitCurrentOrder(u)) == null
+endfunction
+function YDWERemoveGuard takes unit pet returns nothing
+    local integer tm = YDWEGetIntegerByString( I2S(YDWEH2I(pet)), "Timer")
+    call YDWEFlushMissionByString(I2S(YDWEH2I(pet)))
+    call YDWEFlushMissionByString(I2S(tm))
+    call DestroyTimer(YDWEGetTimerByString(I2S(YDWEH2I(pet)), "Timer"))
+endfunction
+function SetGuardTimer takes nothing returns nothing
+  local timer tm = GetExpiredTimer()
+  local unit pet = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Pet"))
+  local unit captain = (YDWEGetUnitByString( I2S(YDWEH2I(tm)), "Captain"))
+  local real x = GetUnitX(captain) - GetUnitX(pet)
+  local real y = GetUnitY(captain) - GetUnitY(pet)
+  local real d = x*x + y*y
+  local real v
+  local real a
+  local effect e=null
+  local real life = YDWEGetRealByString( I2S(YDWEH2I(tm)), "Life")
+  local integer p = YDWEGetIntegerByString(I2S(YDWEH2I(tm)), "Percent")
+  set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "GuardRanger") 
+  if GetUnitState(pet, UNIT_STATE_LIFE)>0 and GetUnitState(captain, UNIT_STATE_LIFE)> 0 then 
+      if d<v*v then
+         if IsUnitIdle(pet) and GetRandomInt(0,100)<p then
+           set x = GetUnitX(captain)
+           set y = GetUnitY(captain)
+           set d = GetRandomReal(0,v)
+           set a = GetRandomReal(0,360)
+           call IssuePointOrder(pet, "patrol", x+d*Cos((a)*0.0174538), y+d*Sin((a)*0.0174538))
+         endif
+      else
+        set v = YDWEGetRealByString( I2S(YDWEH2I(tm)), "ReturnRanger")
+        if d<v*v then
+          if IsUnitIdle(pet) then
+            call IssuePointOrder(pet, "patrol", GetUnitX(captain), GetUnitY(captain))
+          endif
+        else
+          set v = YDWEGetRealByString(I2S(YDWEH2I(tm)), "OutRanger")
+            if d!=0 and d>v*v then
+              call SetUnitPosition(pet,GetUnitX(captain),GetUnitY(captain))
+              set e =AddSpecialEffectTarget("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportTarget.mdl" ,captain,"chest")
+              call DestroyEffect(e)
+            else
+              call IssuePointOrder(pet, "move", GetUnitX(captain), GetUnitY(captain))
+            endif
+          endif
+       endif
+     else
+       call IssuePointOrder(pet, "attack", GetUnitX(captain), GetUnitY(captain))
+       call YDWERemoveGuard(pet) 
+  endif
+  set tm = null
+  set pet = null
+  set captain = null
+  set e=null
+endfunction
+function YDWESetGuard takes unit pet, unit captain, real timeout, real guardRanger, real returnRanger, real outRanger,integer percent returns nothing
+    local timer tm = CreateTimer() 
+    call YDWESaveTimerByString(I2S(YDWEH2I(pet)), "Timer", tm)
+    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "pet", pet)
+    call YDWESaveUnitByString(I2S(YDWEH2I(tm)), "Captain", captain)
+    call YDWESaveIntegerByString(I2S(YDWEH2I(tm)), "Percent", percent) 
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "GuardRanger", guardRanger) 
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "ReturnRanger", returnRanger) 
+    call YDWESaveRealByString(I2S(YDWEH2I(tm)), "OutRanger", outRanger)
+    call TimerStart(tm, timeout, true, function SetGuardTimer)
+    set tm = null
+endfunction
+endlibrary 
+//===========================================================================
+//===========================================================================
+//自定义事件
+//===========================================================================
+//===========================================================================
+library YDWETriggerEvent
+globals
+    trigger yd_DamageEventTrigger = null
+    private constant integer DAMAGE_EVENT_SWAP_TIMEOUT = 20 // 每隔这个时间(秒), yd_DamageEventTrigger 会被移入销毁队列
+private constant boolean DAMAGE_EVENT_SWAP_ENABLE = true // 若为 false 则不启用销毁机制
+private trigger yd_DamageEventTriggerToDestory = null
+    private trigger array DamageEventQueue
+    private integer DamageEventNumber = 0
+    item bj_lastMovedItemInItemSlot = null
+    private trigger MoveItemEventTrigger = null
+    private trigger array MoveItemEventQueue
+    private integer MoveItemEventNumber = 0
+endglobals
+//===========================================================================
+//任意单位伤害事件
+//===========================================================================
+function YDWEAnyUnitDamagedTriggerAction takes nothing returns nothing
+    local integer i = 0
+    loop
+        exitwhen i >= DamageEventNumber
+        if DamageEventQueue[i] != null and IsTriggerEnabled(DamageEventQueue[i]) and TriggerEvaluate(DamageEventQueue[i]) then
+            call TriggerExecute(DamageEventQueue[i])
+        endif
+        set i = i + 1
+    endloop
+endfunction
+function YDWEAnyUnitDamagedFilter takes nothing returns boolean
+    if GetUnitAbilityLevel(GetFilterUnit(), 'Aloc') <= 0 then
+        call TriggerRegisterUnitEvent(yd_DamageEventTrigger, GetFilterUnit(), EVENT_UNIT_DAMAGED)
+    endif
+    return false
+endfunction
+function YDWEAnyUnitDamagedEnumUnit takes nothing returns nothing
+    local group g = CreateGroup()
+    local integer i = 0
+    loop
+        call GroupEnumUnitsOfPlayer(g, Player(i), Condition(function YDWEAnyUnitDamagedFilter))
+        set i = i + 1
+        exitwhen i >= bj_MAX_PLAYER_SLOTS
+    endloop
+    call DestroyGroup(g)
+    set g = null
+endfunction
+function YDWEAnyUnitDamagedRegistTriggerUnitEnter takes nothing returns nothing
+    local trigger t = CreateTrigger()
+    local region r = CreateRegion()
+    local rect world = GetWorldBounds()
+    call RegionAddRect(r, world)
+    call TriggerRegisterEnterRegion(t, r, Condition(function YDWEAnyUnitDamagedFilter))
+    call RemoveRect(world)
+    set t = null
+    set r = null
+    set world = null
+endfunction
+// 将 yd_DamageEventTrigger 移入销毁队列, 从而排泄触发器事件
+function YDWESyStemAnyUnitDamagedSwap takes nothing returns nothing
+    local boolean isEnabled = IsTriggerEnabled(yd_DamageEventTrigger)
+    call DisableTrigger(yd_DamageEventTrigger)
+    if yd_DamageEventTriggerToDestory != null then
+        call DestroyTrigger(yd_DamageEventTriggerToDestory)
+    endif
+    set yd_DamageEventTriggerToDestory = yd_DamageEventTrigger
+    set yd_DamageEventTrigger = CreateTrigger()
+    if not isEnabled then
+        call DisableTrigger(yd_DamageEventTrigger)
+    endif
+    call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
+    call YDWEAnyUnitDamagedEnumUnit()
+endfunction
+function YDWESyStemAnyUnitDamagedRegistTrigger takes trigger trg returns nothing
+    if trg == null then
+        return
+    endif
+    if DamageEventNumber == 0 then
+        set yd_DamageEventTrigger = CreateTrigger()
+        call TriggerAddAction(yd_DamageEventTrigger, function YDWEAnyUnitDamagedTriggerAction)
+        call YDWEAnyUnitDamagedEnumUnit()
+        call YDWEAnyUnitDamagedRegistTriggerUnitEnter()
+        if DAMAGE_EVENT_SWAP_ENABLE then
+            // 每隔 DAMAGE_EVENT_SWAP_TIMEOUT 秒, 将正在使用的 yd_DamageEventTrigger 移入销毁队列
+            call TimerStart(CreateTimer(), DAMAGE_EVENT_SWAP_TIMEOUT, true, function YDWESyStemAnyUnitDamagedSwap)
+        endif
+    endif
+    set DamageEventQueue[DamageEventNumber] = trg
+    set DamageEventNumber = DamageEventNumber + 1
+endfunction
+//===========================================================================
+//移动物品事件
+//===========================================================================
+function YDWESyStemItemUnmovableTriggerAction takes nothing returns nothing
+    local integer i = 0
+    if GetIssuedOrderId() >= 852002 and GetIssuedOrderId() <= 852007 then
+		set bj_lastMovedItemInItemSlot = GetOrderTargetItem()
+    	loop
+        	exitwhen i >= MoveItemEventNumber
+        	if MoveItemEventQueue[i] != null and IsTriggerEnabled(MoveItemEventQueue[i]) and TriggerEvaluate(MoveItemEventQueue[i]) then
+        	    call TriggerExecute(MoveItemEventQueue[i])
+        	endif
+        	set i = i + 1
+    	endloop
+	endif
+endfunction
+function YDWESyStemItemUnmovableRegistTrigger takes trigger trg returns nothing
+    if trg == null then
+        return
+    endif
+    if MoveItemEventNumber == 0 then
+        set MoveItemEventTrigger = CreateTrigger()
+        call TriggerAddAction(MoveItemEventTrigger, function YDWESyStemItemUnmovableTriggerAction)
+        call TriggerRegisterAnyUnitEventBJ(MoveItemEventTrigger, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
+    endif
+    set MoveItemEventQueue[MoveItemEventNumber] = trg
+    set MoveItemEventNumber = MoveItemEventNumber + 1
+endfunction
+function GetLastMovedItemInItemSlot takes nothing returns item
+    return bj_lastMovedItemInItemSlot
+endfunction
+endlibrary
+library YDWEGetUnitsOfPlayerAllNull requires YDWEGetUnitsOfPlayerMatchingNull
+function YDWEGetUnitsOfPlayerAllNull takes player whichPlayer returns group
+    return YDWEGetUnitsOfPlayerMatchingNull(whichPlayer, null)
+endfunction
+endlibrary
+library YDWEGetUnitsInRangeOfLocMatchingNull
+globals
+endglobals
+function YDWEGetUnitsInRangeOfLocMatchingNull takes real radius, location whichLocation, boolexpr filter returns group
+    local group g = CreateGroup()
+    call GroupEnumUnitsInRangeOfLoc(g, whichLocation, radius, filter)
+    call DestroyBoolExpr(filter)
+    set yd_NullTempGroup = g
+    set g = null
+    return yd_NullTempGroup
+endfunction
+endlibrary
 //===========================================================================
 // 
 // 轮回之狱
 // 
 //   Warcraft III map script
 //   Generated by the Warcraft III World Editor
-//   Date: Tue Sep 16 09:28:34 2025
+//   Date: Wed Sep 17 10:45:18 2025
 //   Map Author: Crainax
 // 
 //===========================================================================
@@ -4285,7 +4344,6 @@ globals
     trigger gg_trg_D2 = null
     trigger gg_trg_D5 = null
     trigger gg_trg_D7 = null
-    trigger gg_trg__fh = null
     trigger gg_trg__ym = null
     trigger gg_trg__cx = null
     trigger gg_trg____________________029 = null
@@ -4596,6 +4654,7 @@ globals
     unit gg_unit_ncop_0006 = null
     unit gg_unit_Eevi_0020 = null
     unit gg_unit_Hvwd_0016 = null
+    unit gg_unit_H01Y_0286 = null
     unit gg_unit_n01Q_0273 = null
     unit gg_unit_n00W_0038 = null
     unit gg_unit_Hkal_0208 = null
@@ -4638,6 +4697,7 @@ globals
     unit gg_unit_E00D_0210 = null
     unit gg_unit_ncp3_0238 = null
     unit gg_unit_Hant_0205 = null
+    unit gg_unit_Nbbc_0235 = null
     unit gg_unit_Uktl_0018 = null
     unit gg_unit_n00P_0039 = null
     unit gg_unit_Etyr_0017 = null
@@ -4652,8 +4712,6 @@ globals
     unit gg_unit_H01W_0207 = null
     unit gg_unit_haro_0030 = null
     unit gg_unit_Ocbh_0251 = null
-    unit gg_unit_H01Y_0286 = null
-    unit gg_unit_Nbbc_0235 = null
     unit gg_unit_H027_0292 = null
     destructable gg_dest_ZTsg_0111 = null
     destructable gg_dest_ZTsg_0112 = null
@@ -30816,7 +30874,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 				return true
 			//抓宠物
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h1s7' or GetUnitTypeId(GetEventDamageSource()) == 'h1s4') then
-				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) and not(IsUnitIllusion(GetTriggerUnit()))) then
+				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) and not(IsUnitIllusion(GetTriggerUnit())) and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetEventDamageSource()))) then
 					call CreatePet(GetOwningPlayer(sichen),GetTriggerUnit())
 				endif
 			//硫炎
@@ -31139,93 +31197,80 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 		set t = null
 	endfunction
 endlibrary
-library_once Xuanxue requires LHBase,Spin,ChallangerDZ
-	globals
-		hashtable HTXX = null
-		private integer IQinru
-	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    皮肤的计数初始化
-	*/
-	function InitHongdeng takes nothing returns nothing
-		set HTXX = InitHashtable()
-		set IQinru = 0
-	endfunction
-	function CountQintu takes unit u returns nothing
-		local integer i
-		if (HTXX == null) then
-			return
-		endif
-		if (GetXuanxue2Spin(GetOwningPlayer(xuanxue))) then
-			return
-		endif
-		set i = 1
-		loop
-			exitwhen i > IQinru
-    		if (LoadInteger(HTXX,GetHandleId(xuanxue),i) == GetUnitTypeId(u)) then
-    			return
-    		endif
-			set i = i +1
-		endloop
-		set IQinru = IQinru + 1
-		call SaveInteger(HTXX,GetHandleId(xuanxue),IQinru,GetUnitTypeId(u))
-		if (IQinru < 134) then
-			call BJDebugMsg("|cFFFF0000【凝冰红灯】|r进度:"+I2S(IQinru) + "/134.")
-		else
-			debug call SetXuanxue2SpinOK(GetOwningPlayer(xuanxue))
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    冰之凋零
-	*/
-	function Bingzhidiaoling takes unit u returns nothing
-		local real damage = GetDamageInt(xuanxue)
-		local real x = GetUnitX(u)
-		local real y = GetUnitY(u)
-	    call PrintSpell(GetOwningPlayer(xuanxue),GetAbilityName(GetSpellAbilityId()),damage)
-	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", x, y ))
-	    call UnitDamageTarget( xuanxue, u, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-	    call YDWEPolledWaitNull(1)
-		call DamageAreaEff(xuanxue,x,y,600,damage,"Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl")
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    万古玄霜的被动效果
-	*/
-	function Wanguxuanshuang takes unit u returns nothing
-		if (IsEnemyUnit(u,xuanxue) and (udg_U_Zhuansheng_Dantiao[2] != u or GetAttacker() == xuanxue) and GetUnitState(xuanxue,UNIT_STATE_MANA) >= 400) then
-			call UnitDamageTarget( xuanxue, u, GetDamageInt(xuanxue) * 0.1 , false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS )
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    玄雪法杖
-	*/
-	private function InitXuanxueSpin takes unit u returns unit
-        if (IsXuanxueSpin2(GetOwningPlayer(u))) then
-            set udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u),'U002',GetUnitX(u),GetUnitY(u),0)
-            set gg_unit_Uktl_0018 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-            call UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))])
-            call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.1)
-            call SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],1000)
-            call RemoveUnit(u)
-            set u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]
-        endif
-		if (IsXuanxueSpin1(GetOwningPlayer(u))) then
-			call UnitRemoveAbility(u,'A046')
-			call UnitAddAbility(u,'A0JM')
-			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)),0.2)
-			return u
-		else
-			return u
-		endif
-	endfunction
-	function InitXuanxue takes unit u returns nothing
-		set xuanxue = InitXuanxueSpin(u)
-	endfunction
-endlibrary
+//! zinc
+library Xuanxue requires LHBase,Spin,ChallangerDZ {
+    public hashtable HTXX = null;
+    public integer IQinru;
+    // 皮肤的计数初始化
+    public function InitHongdeng() {
+        HTXX = InitHashtable();
+        IQinru = 0;
+    }
+    public function CountQintu(unit u) {
+        integer i;
+        if (HTXX == null) {
+            return;
+        }
+        if (GetXuanxue2Spin(GetOwningPlayer(xuanxue))) {
+            return;
+        }
+        i = 1;
+        for (1 <= i <= IQinru) {
+            if (LoadInteger(HTXX, GetHandleId(xuanxue), i) == GetUnitTypeId(u)) {
+                return;
+            }
+        }
+        IQinru = IQinru + 1;
+        SaveInteger(HTXX, GetHandleId(xuanxue), IQinru, GetUnitTypeId(u));
+        if (IQinru < 134) {
+            BJDebugMsg("|cFFFF0000【凝冰红灯】|r进度:" + I2S(IQinru) + "/134.");
+        } else {
+            debug SetXuanxue2SpinOK(GetOwningPlayer(xuanxue));
+        }
+    }
+    // 冰之凋零
+    public function Bingzhidiaoling(unit u) {
+        real damage; real x; real y;
+        damage = GetDamageInt(xuanxue);
+        x = GetUnitX(u);
+        y = GetUnitY(u);
+        PrintSpell(GetOwningPlayer(xuanxue), GetAbilityName(GetSpellAbilityId()), damage);
+        DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl", x, y));
+        UnitDamageTarget(xuanxue, u, damage, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS);
+        YDWEPolledWaitNull(1);
+        DamageAreaEff(xuanxue, x, y, 600, damage, "Abilities\\Spells\\Undead\\FrostNova\\FrostNovaTarget.mdl");
+    }
+    // 万古玄霜的被动效果
+    public function Wanguxuanshuang(unit u) {
+        if (IsEnemyUnit(u, xuanxue) && (udg_U_Zhuansheng_Dantiao[2] != u || GetAttacker() == xuanxue) && GetUnitState(xuanxue, UNIT_STATE_MANA) >= 400) {
+            UnitDamageTarget(xuanxue, u, GetDamageInt(xuanxue) * 0.1, false, true, ATTACK_TYPE_MAGIC, DAMAGE_TYPE_MAGIC, WEAPON_TYPE_WHOKNOWS);
+        }
+    }
+    // 玄雪法杖
+    function InitXuanxueSpin(unit u) -> unit {
+        if (IsXuanxueSpin2(GetOwningPlayer(u))) {
+            udg_H[GetConvertedPlayerId(GetOwningPlayer(u))] = CreateUnit(GetOwningPlayer(u), 'U002', GetUnitX(u), GetUnitY(u), 0);
+            gg_unit_Uktl_0018 = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))];
+            UnitAddItemByIdSwapped('I006', udg_H[GetConvertedPlayerId(GetOwningPlayer(u))]);
+            AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.1);
+            SetUnitManaPercentBJ(udg_H[GetConvertedPlayerId(GetOwningPlayer(u))], 1000);
+            RemoveUnit(u);
+            u = udg_H[GetConvertedPlayerId(GetOwningPlayer(u))];
+        }
+        if (IsXuanxueSpin1(GetOwningPlayer(u))) {
+            UnitRemoveAbility(u, 'A046');
+            UnitAddAbility(u, 'A0JM');
+            AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(u)), 0.2);
+            return u;
+        } else {
+            return u;
+        }
+    }
+    public function InitXuanxue(unit u) {
+        xuanxue = InitXuanxueSpin(u);
+    }
+}
+//! endzinc
 library_once Taiya requires LHBase,Spin,Version
 	globals
 		private integer ITaiyamiao = 0
@@ -32551,393 +32596,480 @@ library_once Simulate initializer InitSimulate requires LHBase,SpellBase,Heiyan,
 endlibrary
 // 导入指令
 ///#include  "edit/Continous.j"
-/*
-    游戏指令
-    -kill自杀
-*/
-library_once ChatCommand initializer InitChatCommand requires LHBase,VIP,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,Hanshang,BaseVersion//,Continous
-	globals
-		private item array IBox
-		private integer IBoxSucceed = 0
-		private integer IBoxCount = 0
-		private boolean array BYincang
-		boolean BShengli = false
-	endglobals
-//---------------------------------------------------------------------------------------------------
-	/*
-	    合成宝箱
-	*/
-	//! textmacro CombineBox takes Level,Itemtype,NewItem
-		function CombineBox$Level$ takes nothing returns nothing
-		    if ((GetItemTypeId(GetEnumItem()) == '$Itemtype$')) then
-				if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) and (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT,GetHandleId(GetEnumItem()),0xA75AD423))) then
-						return
-				endif
-		    	set IBox[IBoxCount] = GetEnumItem()
-		    	set IBoxCount = IBoxCount + 1
-		    endif
-		    if (IBoxCount >= 3) then
-		    	if (IBox[0] == null or IBox[1] == null or IBox[2] == null) then
-			    	set IBoxCount = 0
-		    		return
-		    	endif
-		    	call RemoveItem(IBox[0])
-		    	call RemoveItem(IBox[1])
-		    	call RemoveItem(IBox[2])
-		    	call CreateItem('$NewItem$',GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]),GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]))
-		    	set IBox[0] = null
-		    	set IBox[1] = null
-		    	set IBox[2] = null
-		    	set IBoxCount = 0
-		    	set IBoxSucceed = IBoxSucceed + 3
-		    endif
-		endfunction
-	//! endtextmacro
-	//! runtextmacro CombineBox("E","hlst","wshs")
-	//! runtextmacro CombineBox("D","wshs","wild")
-	//! runtextmacro CombineBox("C","wild","totw")
-	//! runtextmacro CombineBox("B","totw","sror")
-	//! runtextmacro CombineBox("A","sror","fgrg")
-	function CombineBox takes nothing returns nothing
-		if not(vip.is(GetTriggerPlayer())) then
-			call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r需要成为永久赞助才能使用此指令!" )
-			return
-		endif
-		call BJDebugMsg("|cFFFF66CC【消息】|r"+GetUnitName(udg_H[GetConvertedPlayerId(GetTriggerPlayer())])+"使用指令-hc成功将地上的所有宝箱融合成为更高级的宝箱，列表如下：")
-    	set IBox[0] = null
-    	set IBox[1] = null
-    	set IBox[2] = null
-    	set IBoxCount = 0
-    	set IBoxSucceed = 0
-   		call EnumItemsInRect( bj_mapInitialPlayableArea, null, function CombineBoxE )
-   		if (IBoxSucceed != 0) then
-	   		call BJDebugMsg(I2S(IBoxSucceed)+"个E级宝箱→→→"+I2S(IBoxSucceed/3)+"个D级宝箱。")
-	    	set IBoxSucceed = 0
-   		endif
-    	set IBox[0] = null
-    	set IBox[1] = null
-    	set IBox[2] = null
-    	set IBoxCount = 0
-   		call EnumItemsInRect( bj_mapInitialPlayableArea, null, function CombineBoxD )
-   		if (IBoxSucceed != 0) then
-	   		call BJDebugMsg(I2S(IBoxSucceed)+"个D级宝箱→→→"+I2S(IBoxSucceed/3)+"个C级宝箱。")
-	    	set IBoxSucceed = 0
-   		endif
-    	set IBox[0] = null
-    	set IBox[1] = null
-    	set IBox[2] = null
-    	set IBoxCount = 0
-   		call EnumItemsInRect( bj_mapInitialPlayableArea, null, function CombineBoxC )
-   		if (IBoxSucceed != 0) then
-	   		call BJDebugMsg(I2S(IBoxSucceed)+"个C级宝箱→→→"+I2S(IBoxSucceed/3)+"个B级宝箱。")
-	    	set IBoxSucceed = 0
-   		endif
-    	set IBox[0] = null
-    	set IBox[1] = null
-    	set IBox[2] = null
-    	set IBoxCount = 0
-   		call EnumItemsInRect( bj_mapInitialPlayableArea, null, function CombineBoxB )
-   		if (IBoxSucceed != 0) then
-	   		call BJDebugMsg(I2S(IBoxSucceed)+"个B级宝箱→→→"+I2S(IBoxSucceed/3)+"个A级宝箱。")
-	    	set IBoxSucceed = 0
-   		endif
-    	set IBox[0] = null
-    	set IBox[1] = null
-    	set IBox[2] = null
-    	set IBoxCount = 0
-   		call EnumItemsInRect( bj_mapInitialPlayableArea, null, function CombineBoxA )
-   		if (IBoxSucceed != 0) then
-	   		call BJDebugMsg(I2S(IBoxSucceed)+"个A级宝箱→→→"+I2S(IBoxSucceed/3)+"个S级宝箱。")
-	    	set IBoxSucceed = 0
-   		endif
-    	set IBox[0] = null
-    	set IBox[1] = null
-    	set IBox[2] = null
-    	set IBoxCount = 0
-   		endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    清除地上的所有宝石
-	*/
-	private function ClearDiamondFunc takes nothing returns nothing
-	    if (IsDiamond(GetEnumItem()) and IsItemVisible(GetEnumItem())) then
-	    	call RemoveItem(GetEnumItem())
-	    endif
-	endfunction
-	private function ClearDiamond takes nothing returns nothing
-   		call EnumItemsInRect( bj_mapInitialPlayableArea, null, function ClearDiamondFunc )
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    隐藏面板
-	*/
-	private function YincangBroad takes nothing returns nothing
-		if not(BYincang[GetConvertedPlayerId(GetTriggerPlayer())]) then
-			call LeaderboardDisplayBJ( false, udg_Paihang[GetConvertedPlayerId(GetTriggerPlayer())] )
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r如果要面板显示请再次输入-yc.")
-		else
-			call LeaderboardDisplayBJ( true, udg_Paihang[GetConvertedPlayerId(GetTriggerPlayer())] )
-   		endif
-   		set BYincang[GetConvertedPlayerId(GetTriggerPlayer())] = not (BYincang[GetConvertedPlayerId(GetTriggerPlayer())])
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    聊天信息"-"指令
-	*/
-	function ChatCommandAct takes nothing returns nothing
-		local string str = GetEventPlayerChatString()
-		local unit u = udg_H[GetConvertedPlayerId(GetTriggerPlayer())]
-		//自杀
-		if (str == "-kill" and not(RectContainsUnit(gg_rct_Game1, udg_H[GetConvertedPlayerId(GetTriggerPlayer())]))) then
-			call KillSelf(u)
-		    call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r自杀成功!" )
-		    return
-		elseif (str == "-hc") then
-			call CombineBox()
-		elseif (str == "-bs") then
-			call ClearDiamond()
-		debug elseif (str == "-hs1") then
-		debug call Jiance1(u)
-		debug elseif (str == "-hs2" and u != bajue) then
-		debug call Jiance2(u)
-		debug elseif (str == "-hs3") then
-		debug call Jiance3(u)
-		elseif (str == "-chenji" and u == chenji) then
-			call ChenjiJiance()
-		elseif (str == "-qxpf") then
-			set BCancelSpin[GetConvertedPlayerId(GetTriggerPlayer())] = true
-			call BJDebugMsg("|cFFFF66CC【消息】|r成功取消皮肤效果.")
-		elseif (str == "-dm") then
-			call MultiboardDisplayBJ( true, udg_D )
-			call BJDebugMsg("|cFFFF66CC【消息】|r开启显示多面板.")
-		debug elseif (str == "-ck") then
-		debug if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetTriggerPlayer())]) != 'nmgv') then
-				debug set BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] = true
-				debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r现在请输入你要自定义的仓库头衔吧（注意不要掺杂有英文与数字）!")
-				debug else
-					debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r默认箱子皮肤不能使用该指令，如要使用请解锁任意箱子皮肤再使用!")
-		debug endif
-		debug elseif (str == "-mm1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
-		debug set BX1 = not(BX1)
-		debug elseif (str == "-mm2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") then
-			set BX2 = not(BX2)
-		debug call SetDIYName(GetTriggerPlayer(),"信手哲天富可敌国")
-		elseif (str == "-wx1" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
-			set JJ1 = not(JJ1)
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r1")
-		elseif (str == "-wx2" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") then
-			set JJ2 = not(JJ2)
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r2")
-		elseif (str == "-wx3" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" and not(JJ3)) then
-			set JJ3 = true
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r3")
-	        call AddDamagePercent(GetConvertedPlayerId(GetTriggerPlayer()),1.5)
-	        call UnitAddAbility(u,'A0MU')
-			call SetPlayerAbilityAvailable(GetOwningPlayer(u),'A0MU',false)
-            call UnitMakeAbilityPermanent(u,true,'A0MU')
-            call UnitMakeAbilityPermanent(u,true,'A0MG')
-		elseif (str == "-wx4" and playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" and not(JJ4) and (u == kaisa or u == hanshang)) then
-			call InitHeroJuexing1(u)
-			call InitHeroJuexing2(u)
-			call InitHeroJuexing3(u)
-			set JJ4 = true
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r4")
-		//玄雪皮肤
-		elseif (str == "-xx" and GetOwningPlayer(xuanxue) == GetTriggerPlayer()) then
-			call InitHongdeng()
-			call DisplayTextToPlayer(GetOwningPlayer(xuanxue), 0., 0., "|cFFFF66CC【消息】|r开启玄雪英雄挑战.")
-		//炼金皮肤
-		elseif (str == "-lj" and GetOwningPlayer(hanshang) == GetTriggerPlayer()) then
-			call InitDuxin()
-			call DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFFFF66CC【消息】|r开启寒殇英雄挑战.")
-		//玄雪皮肤
-		elseif (str == "-bj" and GetOwningPlayer(bajue) == GetTriggerPlayer()) then
-			call InitFengshuang()
-			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启霸绝英雄挑战.")
-		//幻逸皮肤
-		elseif (str == "-hy" and GetOwningPlayer(Huanyi) == GetTriggerPlayer()) then
-			call InitHuanyiTiaozhan()
-			call DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启幻逸英雄挑战.")
-		elseif (str == "-yc") then
-			call YincangBroad()
-		debug elseif (str == "-bq" and renshu == 1) then
-		debug call Buqian1(GetTriggerPlayer())
-		elseif (str == "-sh") then
-			set BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = not (BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())])
-			call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.")
-		elseif (str == "-yxjs" and GetTriggerPlayer() == GetFirstPlayer() and BShengli) then
-		    call ForForce( bj_FORCE_ALL_PLAYERS, function ShengliAll )
-		debug elseif (str == "-qm") then
-			debug if (IsQuanchengjiu(GetTriggerPlayer())) then
-				debug set BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = true
-				debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r现在请输入你要自定义的成就名吧!")
-			debug else
-				debug call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你未解锁所有成就.")
-			debug endif
-		elseif (str == "-qc") then
-			if (TBianse[GetConvertedPlayerId(GetTriggerPlayer())] != null) then
-				call SetUnitVertexColor( udg_H[GetConvertedPlayerId(GetTriggerPlayer())], 255, 255, 255, 255 )
-				call PauseTimer(TBianse[GetConvertedPlayerId(GetTriggerPlayer())])
-				call DestroyTimer(TBianse[GetConvertedPlayerId(GetTriggerPlayer())])
-				call FlushChildHashtable(itemTable,GetHandleId(TBianse[GetConvertedPlayerId(GetTriggerPlayer())]))
-			endif
-		elseif (str == "-ms") then
-			set BMoshou[GetConvertedPlayerId(GetTriggerPlayer())] = not (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())])
-			if (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())]) then
-				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽将不会被点中，主动技能也会主动释放。")
-			else
-				call DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽可以被点中，主动技能也能手动释放。")
-			endif
-		endif
-		set str = null
-		set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    小提示
-	*/
-	private function ShowHint takes nothing returns nothing
-		local string s = null
-		local integer i = GetRandomInt(1,59)
-		if(i == 1 ) then
-			set s = "炼狱所爆的魔兽可以提高英雄的生命恢复速度还有魔法恢复速度哦~"
-		elseif(i == 2 ) then
-			set s = "战魂升级到了高等级时,复活只需要3秒哦~"
-		elseif(i == 3 ) then
-			set s = "顶级法魂可以一次性召唤3个强大的地狱火哦~"
-		elseif(i == 4 ) then
-			set s = "魔法上限的来源：1.合成仙器法魂.2.天庭处打魔法上限和回复增益。"
-		elseif(i == 5 ) then
-			set s = "鬼器|cffffff00追魂夺魄戒|r是一件打怪升级型装备，由千年孤魂处获得，越早打越好哦！"
-		elseif(i == 6 ) then
-			set s = "3个宝箱可以合成一个更高级的宝箱哦!"
-		elseif(i == 7 ) then
-			set s = "想快速清怪请在基地上方的“战斗调整”处调成1-3s，想稳定守家请在基地上方的“战斗调整”调成4-6s。"
-		elseif(i == 8 ) then
-			set s = "尽量不要让上下两波怪融合，他们的战斗力会因此提高很多倍。"
-		elseif(i == 9 ) then
-			set s = "神器只需要合到+6就可以了，而人器需要合到+9。"
-		elseif(i == 10) then
-			set s = "炼狱所爆的魔兽是可以一直守护着英雄."
-		elseif(i == 11) then
-			set s = "10转以后的镜像会主动对你发动进攻,20转后镜像将会逐步解锁一定的技能."
-		elseif(i == 12) then
-			set s = "前来进攻的BOSS都具有“秒杀之刃”技能，能对非英雄造成"+I2S(udg_Nandu_JJJ)+"%的生命伤害。"
-		elseif(i == 13) then
-			set s = "各个英雄都对应五界中的一界，得到相应界域中的装备，会获得专属技能。"
-		elseif(i == 14) then
-			set s = "木头在基地中用钱换。"
-		elseif(i == 15) then
-			set s = "地图采用的是伤害人头获取金币系统，击杀怪物的玩家可以获取所有金币."
-		elseif(i == 16) then
-			set s = "难度越高，天庭中能同时增益的数量也越多。"
-		elseif(i == 17) then
-			set s = "中期觉得钱没用了，可以用来合成仙器。"
-		elseif(i == 18) then
-			set s = "一个怪若全由炮塔杀，玩家将不会得到金币."
-		elseif(i == 19) then
-			set s = "虚界怪物具有闪电链技能."
-		elseif(i == 20) then
-			set s = "每波炼狱都拥有不同的技能， 弄清他们的技能，就很容易突破。"
-		elseif(i == 21) then
-			set s = "妖族英雄在获取第三双翅膀后解锁专属技能,神人仙鬼英雄也类似获得相应界域的装备."
-		elseif(i == 22) then
-			set s = "炼狱每打过2个BOSS就可以获得对应的魔兽."
-		elseif(i == 23) then
-			set s = "顶级宝石：巨能融合石在每次击杀后能力会提高20%，所以请做好准备再去。"
-		elseif(i == 24) then
-			set s = "转生的难度随着能力的提高，等级越高越难转，所以趁着等级低去转吧。"
-		elseif(i == 25) then
-			set s = "炼狱挑战获取的魔兽可以大幅度提高英雄的生命,不过对于属性的加成比较少."
-		elseif(i == 26) then
-			set s = "|cffff9900幽冥项链|r是一件提高百分比属性的装备，任意时期都可以挑战获得。"
-		elseif(i == 27) then
-			set s = "擂台的所有英雄都有干扰之刃技能，能对非挑战目标造成3%的生命伤害。"
-		elseif(i == 28) then
-			set s = "输入“-ym”可以清除地上所有的羽毛，防止游戏过卡哦。"
-		elseif(i == 29) then
-			set s = "若出现了英雄死亡不复活的BUG，可以输入“-fh”来解决。"
-		elseif(i == 30) then
-			set s = "基地右边的仙器可以升级，满级战魂复活只需要4秒，满级法魂能减少80%的魔法伤害哦，赶紧试试吧！"
-		elseif(i == 31) then
-			set s = "基地右边的仙器在对付后期的怪物时有强大的防守功效，强烈建议合成一个！"
-		elseif(i == 32) then
-			set s = "宝石区的怪物来自虚界，拥有强大的魔法伤害，而仙器法魂能有效减少这些伤害！"
-		elseif(i == 33) then
-			set s = "如果感觉有时不明白为什么就死了，那有可能因为怪物的魔法伤害过于高，而你的魔法抗性过低，可以合成法魂有效阻抗该伤害，或者合成战魂快速复活"
-		elseif(i == 34) then
-			set s = "最后的BOSS的技能是需要躲避的,不要小看了这些技能的威力!"
-		elseif(i == 35) then
-			set s = "法魂召唤出的地狱火可以放到刷钱房中去帮你自动刷钱,也可以在炼狱中帮你承担一定的伤害!"
-		elseif(i == 36) then
-			set s = "注意保持自己的护甲处于正数!当护甲低于0时怪物将对你造成接近于2倍攻击的伤害!"
-		elseif(i == 37) then
-			set s = "翅膀能每间隔一定的时间对周围一个敌人射出一道火焰造成伤害,不过宠物携带无效."
-		elseif(i == 38) then
-			set s = "快速升级|cffffff00追魂夺魄戒|r的方法是让召唤物/雇佣兵在练功房帮你刷怪!"
-		elseif(i == 39) then
-			set s = "神器上的多重攻击其实是有效的,为了防止后期卡顿才不显示弹道效果."
-		elseif(i == 40) then
-			set s = "|cffff00ff琉璃璞玉|r能让宝石升级装备时的成功率达到100%."
-		elseif(i == 41) then
-			set s = "到了后期,你可以使用杀怪积分在左边的\"好东西\"商店兑换基地防护罩等好东西哦!"
-		elseif(i == 42) then
-			set s = "每个英雄都有独特的光环对全地图的队友提供增益,因此人多时增益也会增多,更容易通关."
-		elseif(i == 43) then
-			set s = "擂台是每位玩家独立挑战获取装备的地方哦!"
-		elseif(i == 44) then
-			set s = "不要用低级的宠物去打BOSS或者高级的宠物,可能会被反控或者受到巨大伤害."
-		elseif(i == 45) then
-			set s = "击败4级野区怪物可以让所有玩家获取1000木头哦!"
-		elseif(i == 46) then
-			set s = "有关于永久赞助的内容,请前往复活点礼包处或者在F9任务处了解."
-		elseif(i == 47) then
-			set s = "如果你通关|cff008000万劫难度|r的话.|cffffff00你的名字|r将可以在本地图永久性地荣登于|cff008000\"封帝万劫录\"|r中哦!"
-		elseif(i == 48) then
-			set s = "挑战巨能融合石时请利用走位躲开会秒杀的骷髅海技能!"
-		elseif(i == 49) then
-			set s = "每个英雄都拥有对全地图队友增益的光环效果,人多力量更大!"
-		elseif(i == 50) then
-			set s = "轮回之狱主群欢迎你的加入:群号413359254。"
-		elseif(i == 51) then
-			set s = "输入-cj可以更换你的成就哦,还可以查询你拥有的所有成就,也可以查询所有成就的获取条件."
-		elseif(i == 52) then
-			set s = "秘境中成功通过某一层有2种方法，一种是将灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。"
-		elseif(i == 53) then
-			set s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有25层挑战～"
-		elseif(i == 54) then
-			set s = "某些英雄有特定的皮肤，这些皮肤可以通过英雄挑战来永久获取。（在基地左侧查看条件）"
-		elseif(i == 55) then
-			set s = "当前在线的玩家越多，秘境中怪物伤害越高也越强。"
-		elseif(i == 56) then
-			set s = "秘境中的明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要灯被摧毁，则挑战失败。"
-		elseif(i == 57) then
-			set s = "你可以通过滚轮滚动来提高视角。"
-		elseif(i == 58) then
-			set s = "如果你想让魔兽自动施法，你可以输入-ms来令魔兽进入不可选定状态。"
-		elseif(i == 59) then
-			set s = "你可以输入-bs来清除地上的所有宝石."
-		endif
-		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
-		call BJDebugMsg("|cFFFF66CC【小提示】|r"+s)
-		call BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※")
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	private function InitChatCommand takes nothing returns nothing
-	    local trigger t = CreateTrigger()
-		call TriggerRegisterPlayerChatEvent( t, Player(0), "-", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(1), "-", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(2), "-", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(3), "-", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(4), "-", false )
-		call TriggerRegisterPlayerChatEvent( t, Player(5), "-", false )
-	    call TriggerAddAction(t, function ChatCommandAct)
-	    //小提示
-	    call TimerStart(CreateTimer(),120,true,function ShowHint)
-	    set t = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-endlibrary
+//! zinc
+library ChatCommand requires LHBase,VIP,Version,Diffculty,Xuanxue,Huanyi,Bajue,Juexing,Hanshang,BaseVersion {
+	item IBox[];
+	integer IBoxSucceed = 0;
+	integer IBoxCount = 0;
+	public boolean BShengli = false;
+	// 合成宝箱 - CombineBoxE
+	function CombineBoxE() {
+		if ((GetItemTypeId(GetEnumItem()) == 'hlst')) {
+			if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) && (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423))) {
+				return;
+			}
+			IBox[IBoxCount] = GetEnumItem();
+			IBoxCount = IBoxCount + 1;
+		}
+		if (IBoxCount >= 3) {
+			if (IBox[0] == null || IBox[1] == null || IBox[2] == null) {
+				IBoxCount = 0;
+				return;
+			}
+			RemoveItem(IBox[0]);
+			RemoveItem(IBox[1]);
+			RemoveItem(IBox[2]);
+			CreateItem('wshs', GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]), GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]));
+			IBox[0] = null;
+			IBox[1] = null;
+			IBox[2] = null;
+			IBoxCount = 0;
+			IBoxSucceed = IBoxSucceed + 3;
+		}
+	}
+	// 合成宝箱 - CombineBoxD
+	function CombineBoxD() {
+		if ((GetItemTypeId(GetEnumItem()) == 'wshs')) {
+			if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) && (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423))) {
+				return;
+			}
+			IBox[IBoxCount] = GetEnumItem();
+			IBoxCount = IBoxCount + 1;
+		}
+		if (IBoxCount >= 3) {
+			if (IBox[0] == null || IBox[1] == null || IBox[2] == null) {
+				IBoxCount = 0;
+				return;
+			}
+			RemoveItem(IBox[0]);
+			RemoveItem(IBox[1]);
+			RemoveItem(IBox[2]);
+			CreateItem('wild', GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]), GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]));
+			IBox[0] = null;
+			IBox[1] = null;
+			IBox[2] = null;
+			IBoxCount = 0;
+			IBoxSucceed = IBoxSucceed + 3;
+		}
+	}
+	// 合成宝箱 - CombineBoxC
+	function CombineBoxC() {
+		if ((GetItemTypeId(GetEnumItem()) == 'wild')) {
+			if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) && (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423))) {
+				return;
+			}
+			IBox[IBoxCount] = GetEnumItem();
+			IBoxCount = IBoxCount + 1;
+		}
+		if (IBoxCount >= 3) {
+			if (IBox[0] == null || IBox[1] == null || IBox[2] == null) {
+				IBoxCount = 0;
+				return;
+			}
+			RemoveItem(IBox[0]);
+			RemoveItem(IBox[1]);
+			RemoveItem(IBox[2]);
+			CreateItem('totw', GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]), GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]));
+			IBox[0] = null;
+			IBox[1] = null;
+			IBox[2] = null;
+			IBoxCount = 0;
+			IBoxSucceed = IBoxSucceed + 3;
+		}
+	}
+	// 合成宝箱 - CombineBoxB
+	function CombineBoxB() {
+		if ((GetItemTypeId(GetEnumItem()) == 'totw')) {
+			if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) && (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423))) {
+				return;
+			}
+			IBox[IBoxCount] = GetEnumItem();
+			IBoxCount = IBoxCount + 1;
+		}
+		if (IBoxCount >= 3) {
+			if (IBox[0] == null || IBox[1] == null || IBox[2] == null) {
+				IBoxCount = 0;
+				return;
+			}
+			RemoveItem(IBox[0]);
+			RemoveItem(IBox[1]);
+			RemoveItem(IBox[2]);
+			CreateItem('sror', GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]), GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]));
+			IBox[0] = null;
+			IBox[1] = null;
+			IBox[2] = null;
+			IBoxCount = 0;
+			IBoxSucceed = IBoxSucceed + 3;
+		}
+	}
+	// 合成宝箱 - CombineBoxA
+	function CombineBoxA() {
+		if ((GetItemTypeId(GetEnumItem()) == 'sror')) {
+			if (HaveSavedInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423) && (GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())) != LoadInteger(YDHT, GetHandleId(GetEnumItem()), 0xA75AD423))) {
+				return;
+			}
+			IBox[IBoxCount] = GetEnumItem();
+			IBoxCount = IBoxCount + 1;
+		}
+		if (IBoxCount >= 3) {
+			if (IBox[0] == null || IBox[1] == null || IBox[2] == null) {
+				IBoxCount = 0;
+				return;
+			}
+			RemoveItem(IBox[0]);
+			RemoveItem(IBox[1]);
+			RemoveItem(IBox[2]);
+			CreateItem('fgrg', GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]), GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]));
+			IBox[0] = null;
+			IBox[1] = null;
+			IBox[2] = null;
+			IBoxCount = 0;
+			IBoxSucceed = IBoxSucceed + 3;
+		}
+	}
+	public function CombineBox() {
+		if (!vip.is(GetTriggerPlayer())) {
+			DisplayTextToPlayer(GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r需要成为永久赞助才能使用此指令!");
+			return;
+		}
+		BJDebugMsg("|cFFFF66CC【消息】|r" + GetUnitName(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]) + "使用指令-hc成功将地上的所有宝箱融合成为更高级的宝箱，列表如下：");
+		IBox[0] = null;
+		IBox[1] = null;
+		IBox[2] = null;
+		IBoxCount = 0;
+		IBoxSucceed = 0;
+		EnumItemsInRect(bj_mapInitialPlayableArea, null, function CombineBoxE);
+		if (IBoxSucceed != 0) {
+			BJDebugMsg(I2S(IBoxSucceed) + "个E级宝箱→→→" + I2S(IBoxSucceed / 3) + "个D级宝箱。");
+			IBoxSucceed = 0;
+		}
+		IBox[0] = null;
+		IBox[1] = null;
+		IBox[2] = null;
+		IBoxCount = 0;
+		EnumItemsInRect(bj_mapInitialPlayableArea, null, function CombineBoxD);
+		if (IBoxSucceed != 0) {
+			BJDebugMsg(I2S(IBoxSucceed) + "个D级宝箱→→→" + I2S(IBoxSucceed / 3) + "个C级宝箱。");
+			IBoxSucceed = 0;
+		}
+		IBox[0] = null;
+		IBox[1] = null;
+		IBox[2] = null;
+		IBoxCount = 0;
+		EnumItemsInRect(bj_mapInitialPlayableArea, null, function CombineBoxC);
+		if (IBoxSucceed != 0) {
+			BJDebugMsg(I2S(IBoxSucceed) + "个C级宝箱→→→" + I2S(IBoxSucceed / 3) + "个B级宝箱。");
+			IBoxSucceed = 0;
+		}
+		IBox[0] = null;
+		IBox[1] = null;
+		IBox[2] = null;
+		IBoxCount = 0;
+		EnumItemsInRect(bj_mapInitialPlayableArea, null, function CombineBoxB);
+		if (IBoxSucceed != 0) {
+			BJDebugMsg(I2S(IBoxSucceed) + "个B级宝箱→→→" + I2S(IBoxSucceed / 3) + "个A级宝箱。");
+			IBoxSucceed = 0;
+		}
+		IBox[0] = null;
+		IBox[1] = null;
+		IBox[2] = null;
+		IBoxCount = 0;
+		EnumItemsInRect(bj_mapInitialPlayableArea, null, function CombineBoxA);
+		if (IBoxSucceed != 0) {
+			BJDebugMsg(I2S(IBoxSucceed) + "个A级宝箱→→→" + I2S(IBoxSucceed / 3) + "个S级宝箱。");
+			IBoxSucceed = 0;
+		}
+		IBox[0] = null;
+		IBox[1] = null;
+		IBox[2] = null;
+		IBoxCount = 0;
+	}
+	// 清除地上的所有宝石
+	function ClearDiamondFunc() {
+		if (IsDiamond(GetEnumItem()) && IsItemVisible(GetEnumItem())) {
+			RemoveItem(GetEnumItem());
+		}
+	}
+	function ClearDiamond() {
+		EnumItemsInRect(bj_mapInitialPlayableArea, null, function ClearDiamondFunc);
+	}
+	// -fh指令
+	public function ReviveBUG (player p) {
+		timer t = CreateTimer();
+		DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r英雄死亡,你的英雄将在21秒后复活...");
+		KillSelf(udg_H[GetConvertedPlayerId(p)]);
+		HG(udg_H[GetConvertedPlayerId(p)]);
+		SavePlayerHandle(LHTable,GetHandleId(t),1,p);
+		TimerStart(t,21,false,function (){
+			timer t = GetExpiredTimer();
+			integer id = GetHandleId(t);
+			player p = LoadPlayerHandle(LHTable,GetHandleId(t),1);
+			integer index = GetConvertedPlayerId(p);
+			ReviveHeroLoc(udg_H[index], udg_Point_Fuhuo, true);
+			ShowUnitShow(udg_H[index]);
+			DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r复活成功！");
+			PauseTimer(t);
+			FlushChildHashtable(LHTable,id);
+			DestroyTimer(t);
+			t = null;
+			p = null;
+		});
+		t = null;
+	}
+	// 聊天信息"-"指令
+	public function ChatCommandAct() {
+		string str; unit u;
+		str = GetEventPlayerChatString();
+		u = udg_H[GetConvertedPlayerId(GetTriggerPlayer())];
+		// 自杀
+		if (str == "-kill" && (!RectContainsUnit(gg_rct_Game1, udg_H[GetConvertedPlayerId(GetTriggerPlayer())]))) {
+			KillSelf(u);
+			DisplayTextToPlayer(GetTriggerPlayer(), 0, 0, "|cFFFF66CC【消息】|r自杀成功!");
+			return;
+		} else if (str == "-hc") {
+			CombineBox();
+		} else if (str == "-bs") {
+			ClearDiamond();
+		} else if (str == "-hs1") {
+			Jiance1(u);
+		} else if (str == "-hs2" && u != bajue) {
+			Jiance2(u);
+		} else if (str == "-hs3") {
+			Jiance3(u);
+		} else if (str == "-fh") {
+			ReviveBUG(GetTriggerPlayer());
+		} else if (str == "-chenji" && u == chenji) {
+			ChenjiJiance();
+		} else if (str == "-qxpf") {
+			BCancelSpin[GetConvertedPlayerId(GetTriggerPlayer())] = true;
+			BJDebugMsg("|cFFFF66CC【消息】|r成功取消皮肤效果.");
+		} else if (str == "-dm") {
+			MultiboardDisplayBJ(true, udg_D);
+			BJDebugMsg("|cFFFF66CC【消息】|r开启显示多面板.");
+		} else if (str == "-ck") {
+			if (GetUnitTypeId(UDepot[GetConvertedPlayerId(GetTriggerPlayer())]) != 'nmgv') {
+				BBoxName[GetConvertedPlayerId(GetTriggerPlayer())] = true;
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r现在请输入你要自定义的仓库头衔吧（注意不要掺杂有英文与数字）!");
+			} else {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r默认箱子皮肤不能使用该指令，如要使用请解锁任意箱子皮肤再使用!");
+			}
+		} else if (str == "-mm1" && playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") {
+			BX1 = !BX1;
+		} else if (str == "-mm2" && playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "信哲大人") {
+			BX2 = !BX2;
+			SetDIYName(GetTriggerPlayer(), "信手哲天富可敌国");
+		} else if (str == "-wx1" && playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") {
+			JJ1 = !JJ1;
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r1");
+		} else if (str == "-wx2" && playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者") {
+			JJ2 = !JJ2;
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r2");
+		} else if (str == "-wx3" && playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" && (!JJ3)) {
+			JJ3 = true;
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r3");
+			AddDamagePercent(GetConvertedPlayerId(GetTriggerPlayer()), 1.5);
+			UnitAddAbility(u, 'A0MU');
+			SetPlayerAbilityAvailable(GetOwningPlayer(u), 'A0MU', false);
+			UnitMakeAbilityPermanent(u, true, 'A0MU');
+			UnitMakeAbilityPermanent(u, true, 'A0MG');
+		} else if (str == "-wx4" && playerName[GetConvertedPlayerId(GetTriggerPlayer())] == "无心使者" && (!JJ4) && (u == kaisa || u == hanshang)) {
+			InitHeroJuexing1(u);
+			InitHeroJuexing2(u);
+			InitHeroJuexing3(u);
+			JJ4 = true;
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r4");
+			// 玄雪皮肤
+		} else if (str == "-xx" && GetOwningPlayer(xuanxue) == GetTriggerPlayer()) {
+			InitHongdeng();
+			DisplayTextToPlayer(GetOwningPlayer(xuanxue), 0., 0., "|cFFFF66CC【消息】|r开启玄雪英雄挑战.");
+			// 炼金皮肤
+		} else if (str == "-lj" && GetOwningPlayer(hanshang) == GetTriggerPlayer()) {
+			InitDuxin();
+			DisplayTextToPlayer(GetOwningPlayer(hanshang), 0., 0., "|cFFFF66CC【消息】|r开启寒殇英雄挑战.");
+			// 玄雪皮肤
+		} else if (str == "-bj" && GetOwningPlayer(bajue) == GetTriggerPlayer()) {
+			InitFengshuang();
+			DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启霸绝英雄挑战.");
+			// 幻逸皮肤
+		} else if (str == "-hy" && GetOwningPlayer(Huanyi) == GetTriggerPlayer()) {
+			InitHuanyiTiaozhan();
+			DisplayTextToPlayer(GetOwningPlayer(bajue), 0., 0., "|cFFFF66CC【消息】|r开启幻逸英雄挑战.");
+		} else if (str == "-bq" && renshu == 1) {
+			Buqian1(GetTriggerPlayer());
+		} else if (str == "-sh") {
+			BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())] = !(BHideDamage[GetConvertedPlayerId(GetTriggerPlayer())]);
+			DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r成功显示/隐藏伤害.");
+		} else if (str == "-yxjs" && GetTriggerPlayer() == GetFirstPlayer() && BShengli) {
+			ForForce(bj_FORCE_ALL_PLAYERS, function ShengliAll);
+		} else if (str == "-qm") {
+			if (IsQuanchengjiu(GetTriggerPlayer())) {
+				BDIYName[GetConvertedPlayerId(GetTriggerPlayer())] = true;
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r现在请输入你要自定义的成就名吧!");
+			} else {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r你未解锁所有成就.");
+			}
+		} else if (str == "-qc") {
+			if (TBianse[GetConvertedPlayerId(GetTriggerPlayer())] != null) {
+				SetUnitVertexColor(udg_H[GetConvertedPlayerId(GetTriggerPlayer())], 255, 255, 255, 255);
+				PauseTimer(TBianse[GetConvertedPlayerId(GetTriggerPlayer())]);
+				DestroyTimer(TBianse[GetConvertedPlayerId(GetTriggerPlayer())]);
+				FlushChildHashtable(itemTable, GetHandleId(TBianse[GetConvertedPlayerId(GetTriggerPlayer())]));
+			}
+		} else if (str == "-ms") {
+			BMoshou[GetConvertedPlayerId(GetTriggerPlayer())] = !(BMoshou[GetConvertedPlayerId(GetTriggerPlayer())]);
+			if (BMoshou[GetConvertedPlayerId(GetTriggerPlayer())]) {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽将不会被点中，主动技能也会主动释放。");
+			} else {
+				DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r重新装备魔兽后，魔兽可以被点中，主动技能也能手动释放。");
+			}
+		}
+		str = null;
+		u = null;
+	}
+	// 小提示
+	function ShowHint() {
+		string s; integer i;
+		s = null;
+		i = GetRandomInt(1, 59);
+		if (i == 1) {
+			s = "炼狱所爆的魔兽可以提高英雄的生命恢复速度还有魔法恢复速度哦~";
+		} else if (i == 2) {
+			s = "战魂升级到了高等级时,复活只需要3秒哦~";
+		} else if (i == 3) {
+			s = "顶级法魂可以一次性召唤3个强大的地狱火哦~";
+		} else if (i == 4) {
+			s = "魔法上限的来源：1.合成仙器法魂.2.天庭处打魔法上限和回复增益。";
+		} else if (i == 5) {
+			s = "鬼器|cffffff00追魂夺魄戒|r是一件打怪升级型装备，由千年孤魂处获得，越早打越好哦！";
+		} else if (i == 6) {
+			s = "3个宝箱可以合成一个更高级的宝箱哦!";
+		} else if (i == 7) {
+			s = "想快速清怪请在基地上方的\"战斗调整\"处调成1-3s，想稳定守家请在基地上方的\"战斗调整\"调成4-6s。";
+		} else if (i == 8) {
+			s = "尽量不要让上下两波怪融合，他们的战斗力会因此提高很多倍。";
+		} else if (i == 9) {
+			s = "神器只需要合到+6就可以了，而人器需要合到+9。";
+		} else if (i == 10) {
+			s = "炼狱所爆的魔兽是可以一直守护着英雄.";
+		} else if (i == 11) {
+			s = "10转以后的镜像会主动对你发动进攻,20转后镜像将会逐步解锁一定的技能.";
+		} else if (i == 12) {
+			s = "前来进攻的BOSS都具有\"秒杀之刃\"技能，能对非英雄造成" + I2S(udg_Nandu_JJJ) + "%的生命伤害。";
+		} else if (i == 13) {
+			s = "各个英雄都对应五界中的一界，得到相应界域中的装备，会获得专属技能。";
+		} else if (i == 14) {
+			s = "木头在基地中用钱换。";
+		} else if (i == 15) {
+			s = "地图采用的是伤害人头获取金币系统，击杀怪物的玩家可以获取所有金币.";
+		} else if (i == 16) {
+			s = "难度越高，天庭中能同时增益的数量也越多。";
+		} else if (i == 17) {
+			s = "中期觉得钱没用了，可以用来合成仙器。";
+		} else if (i == 18) {
+			s = "一个怪若全由炮塔杀，玩家将不会得到金币.";
+		} else if (i == 19) {
+			s = "虚界怪物具有闪电链技能.";
+		} else if (i == 20) {
+			s = "每波炼狱都拥有不同的技能， 弄清他们的技能，就很容易突破。";
+		} else if (i == 21) {
+			s = "妖族英雄在获取第三双翅膀后解锁专属技能,神人仙鬼英雄也类似获得相应界域的装备.";
+		} else if (i == 22) {
+			s = "炼狱每打过2个BOSS就可以获得对应的魔兽.";
+		} else if (i == 23) {
+			s = "顶级宝石：巨能融合石在每次击杀后能力会提高20%，所以请做好准备再去。";
+		} else if (i == 24) {
+			s = "转生的难度随着能力的提高，等级越高越难转，所以趁着等级低去转吧。";
+		} else if (i == 25) {
+			s = "炼狱挑战获取的魔兽可以大幅度提高英雄的生命,不过对于属性的加成比较少.";
+		} else if (i == 26) {
+			s = "|cffff9900幽冥项链|r是一件提高百分比属性的装备，任意时期都可以挑战获得。";
+		} else if (i == 27) {
+			s = "擂台的所有英雄都有干扰之刃技能，能对非挑战目标造成3%的生命伤害。";
+		} else if (i == 28) {
+			s = "输入\"-ym\"可以清除地上所有的羽毛，防止游戏过卡哦。";
+		} else if (i == 29) {
+			s = "若出现了英雄死亡不复活的BUG，可以输入\"-fh\"来解决。";
+		} else if (i == 30) {
+			s = "基地右边的仙器可以升级，满级战魂复活只需要4秒，满级法魂能减少80%的魔法伤害哦，赶紧试试吧！";
+		} else if (i == 31) {
+			s = "基地右边的仙器在对付后期的怪物时有强大的防守功效，强烈建议合成一个！";
+		} else if (i == 32) {
+			s = "宝石区的怪物来自虚界，拥有强大的魔法伤害，而仙器法魂能有效减少这些伤害！";
+		} else if (i == 33) {
+			s = "如果感觉有时不明白为什么就死了，那有可能因为怪物的魔法伤害过于高，而你的魔法抗性过低，可以合成法魂有效阻抗该伤害，或者合成战魂快速复活";
+		} else if (i == 34) {
+			s = "最后的BOSS的技能是需要躲避的,不要小看了这些技能的威力!";
+		} else if (i == 35) {
+			s = "法魂召唤出的地狱火可以放到刷钱房中去帮你自动刷钱,也可以在炼狱中帮你承担一定的伤害!";
+		} else if (i == 36) {
+			s = "注意保持自己的护甲处于正数!当护甲低于0时怪物将对你造成接近于2倍攻击的伤害!";
+		} else if (i == 37) {
+			s = "翅膀能每间隔一定的时间对周围一个敌人射出一道火焰造成伤害,不过宠物携带无效.";
+		} else if (i == 38) {
+			s = "快速升级|cffffff00追魂夺魄戒|r的方法是让召唤物/雇佣兵在练功房帮你刷怪!";
+		} else if (i == 39) {
+			s = "神器上的多重攻击其实是有效的,为了防止后期卡顿才不显示弹道效果.";
+		} else if (i == 40) {
+			s = "|cffff00ff琉璃璞玉|r能让宝石升级装备时的成功率达到100%.";
+		} else if (i == 41) {
+			s = "到了后期,你可以使用杀怪积分在左边的\"好东西\"商店兑换基地防护罩等好东西哦!";
+		} else if (i == 42) {
+			s = "每个英雄都有独特的光环对全地图的队友提供增益,因此人多时增益也会增多,更容易通关.";
+		} else if (i == 43) {
+			s = "擂台是每位玩家独立挑战获取装备的地方哦!";
+		} else if (i == 44) {
+			s = "不要用低级的宠物去打BOSS或者高级的宠物,可能会被反控或者受到巨大伤害.";
+		} else if (i == 45) {
+			s = "击败4级野区怪物可以让所有玩家获取1000木头哦!";
+		} else if (i == 46) {
+			s = "有关于永久赞助的内容,请前往复活点礼包处或者在F9任务处了解.";
+		} else if (i == 47) {
+			s = "如果你通关|cff008000万劫难度|r的话.还会解锁下一个隐藏难度哦!";
+		} else if (i == 48) {
+			s = "挑战巨能融合石时请利用走位躲开会秒杀的骷髅海技能!";
+		} else if (i == 49) {
+			s = "每个英雄都拥有对全地图队友增益的光环效果,人多力量更大!";
+		} else if (i == 50) {
+			s = "轮回之狱主群欢迎你的加入:群号413359254。";
+		} else if (i == 51) {
+			s = "输入-cj可以更换你的成就哦,还可以查询你拥有的所有成就,也可以查询所有成就的获取条件.";
+		} else if (i == 52) {
+			s = "秘境中成功通过某一层有2种方法，一种是将灯在60秒内成功点亮，另一种方法则是直接消灭所有怪物。";
+		} else if (i == 53) {
+			s = "英雄可以通过明灯对天赋技能进行一阶/二阶/三阶觉醒，明灯可从秘境中获取，总共有25层挑战～";
+		} else if (i == 54) {
+			s = "某些英雄有特定的皮肤，这些皮肤可以通过英雄挑战来永久获取。（在基地左侧查看条件）";
+		} else if (i == 55) {
+			s = "当前在线的玩家越多，秘境中怪物伤害越高也越强。";
+		} else if (i == 56) {
+			s = "秘境中的明灯可以抵挡20次攻击，你可以通过治疗的方式令其恢复生命，而只要灯被摧毁，则挑战失败。";
+		} else if (i == 57) {
+			s = "你可以通过滚轮滚动来提高视角。";
+		} else if (i == 58) {
+			s = "如果你想让魔兽自动施法，你可以输入-ms来令魔兽进入不可选定状态。";
+		} else if (i == 59) {
+			s = "你可以输入-bs来清除地上的所有宝石.";
+		}
+		BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※");
+		BJDebugMsg("|cFFFF66CC【小提示】|r" + s);
+		BJDebugMsg("※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※");
+	}
+	function onInit() {
+		trigger t;
+		t = CreateTrigger();
+		TriggerRegisterPlayerChatEvent(t, Player(0), "-", false);
+		TriggerRegisterPlayerChatEvent(t, Player(1), "-", false);
+		TriggerRegisterPlayerChatEvent(t, Player(2), "-", false);
+		TriggerRegisterPlayerChatEvent(t, Player(3), "-", false);
+		TriggerRegisterPlayerChatEvent(t, Player(4), "-", false);
+		TriggerRegisterPlayerChatEvent(t, Player(5), "-", false);
+		TriggerAddAction(t, function ChatCommandAct);
+		// 小提示
+		TimerStart(CreateTimer(), 120, true, function ShowHint);
+		t = null;
+	}
+}
+//! endzinc
 // 学习技能
 library_once HeroSpellBase initializer InitHeroSpellBase requires LHBase,Heiyan,Seyu,Hanshang,Huanyi,Chenji,Mengji,Yanmie,Cangling,Sichen,Xinglong,Xiaoting
 	globals
@@ -34347,7 +34479,7 @@ ChooseAura(u);
                 CreateTextTagLocBJ("第1层", udg_Point, 0, 25.00, 100.00, 100, 0.00, 25.00);
                 udg_Piaofu_Lianyu[pid] = GetLastCreatedTextTag();
                 RemoveLocation(udg_Point);
-                LeaderboardSetLabel(udg_Paihang[pid], (GetUnitName(u) + "属性（输入\"-yc\"隐藏）"));
+                LeaderboardSetLabel(udg_Paihang[pid], (GetUnitName(u) + "属性（tab键隐藏）"));
                 PlayerSetLeaderboard(p, udg_Paihang[pid]);
                 for (1 <= i <= 10) {
                     udg_Point = GetRandomLocInRect(udg_Ju_Lianyu[(pid + 6)]);
@@ -34904,6 +35036,46 @@ if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0
                 }
             }
         }));
+    }
+}
+//! endzinc
+// 按tab看属性
+//! zinc
+/*
+库名
+*/
+library HeroInfo requires Keyboard {
+    //显示
+    private struct heroInfo [] {
+        static boolean BYincang [];
+        static method onInit () {
+            //在游戏开始1.0秒后再调用
+            trigger tr = CreateTrigger();
+            TriggerRegisterTimerEvent(tr, 1.0, false);
+            TriggerAddCondition(tr,Condition(function (){
+                keyboard.regKeyUpEvent(9, function (){
+                    DzSyncData("tab",""); //触发数据传送
+});
+                DestroyTrigger(GetTriggeringTrigger());
+            }));
+            tr = CreateTrigger();
+            DzTriggerRegisterSyncData(tr,"tab",false);
+            TriggerAddCondition(tr, Condition(function () {
+                string str = DzGetTriggerSyncData();
+                player p = DzGetTriggerSyncPlayer();
+                integer index = GetConvertedPlayerId(p);
+                if (!BYincang[index]) {
+                    LeaderboardDisplayBJ(false, udg_Paihang[index]);
+                    DisplayTextToPlayer(GetTriggerPlayer(), 0., 0., "|cFFFF66CC【消息】|r如果要面板显示请再次按tab.");
+                } else {
+                    LeaderboardDisplayBJ(true, udg_Paihang[index]);
+                }
+                BYincang[index] = !BYincang[index];
+                str = null;
+                p = null;
+            }));
+            tr = null;
+        }
     }
 }
 //! endzinc
@@ -36875,6 +37047,7 @@ function Trig____________________090Actions takes nothing returns nothing
         call UnitAddItemByIdSwapped( 'I072', GetBuyingUnit() )
     else
     endif
+    call AddHeroXP( GetTriggerUnit(), 1000, false )
 endfunction
 //===========================================================================
 function InitTrig____________________090 takes nothing returns nothing
@@ -37135,54 +37308,6 @@ function InitTrig_D7 takes nothing returns nothing
     call TriggerAddAction(gg_trg_D7, function Trig_D7Actions)
 endfunction
 //===========================================================================
-// Trigger: _fh
-//===========================================================================
-function Trig__fhFunc003T takes nothing returns nothing
-    if ((LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "n")?>) == 21)) then
-        call ReviveHeroLoc( udg_H[LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "p")?>)], udg_Point_Fuhuo, true )
-        call ShowUnitShow( udg_H[LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "p")?>)] )
-        call DisplayTextToPlayer( ConvertedPlayer(LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "p")?>)), 0, 0, "TRIGSTR_049" )
-        call FlushChildHashtable(YDLOC, GetHandleId(GetExpiredTimer()))
-        call DestroyTimer(GetExpiredTimer())
-    else
-        call SaveInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "n")?>, ( LoadInteger(YDLOC, GetHandleId(GetExpiredTimer()), <?=StringHash( "n")?>) + 1 ))
-    endif
-endfunction
-function Trig__fhActions takes nothing returns nothing
-    local timer ydl_timer
-    local integer ydl_localvar_step = LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76) <?='\n'?> set ydl_localvar_step = ydl_localvar_step + 3 <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step) <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-    call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_048" )
-    call KillSelf(udg_H[GetConvertedPlayerId(GetTriggerPlayer())])
-    set ydl_timer = CreateTimer()
-    call SaveInteger(YDLOC, GetHandleId(ydl_timer), <?=StringHash( "n")?>, 0)
-    call SaveInteger(YDLOC, GetHandleId(ydl_timer), <?=StringHash( "p")?>, GetConvertedPlayerId(GetTriggerPlayer()))
-    call TimerStart(ydl_timer, 1.00, true, function Trig__fhFunc003T)
-    call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
-    set ydl_timer = null
-endfunction
-//===========================================================================
-function InitTrig__fh takes nothing returns nothing
-    set gg_trg__fh = CreateTrigger()
-    call DoNothing()
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(0), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(1), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(2), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(3), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(4), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(5), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(6), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(7), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(8), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(9), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(10), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(11), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(12), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(13), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(14), "-fh", true )
-        call TriggerRegisterPlayerChatEvent( gg_trg__fh, Player(15), "-fh", true )
-    call TriggerAddAction(gg_trg__fh, function Trig__fhActions)
-endfunction
-//===========================================================================
 // Trigger: _ym
 //===========================================================================
 function Trig__ymFunc002A takes nothing returns nothing
@@ -37192,7 +37317,7 @@ function Trig__ymFunc002A takes nothing returns nothing
     endif
 endfunction
 function Trig__ymActions takes nothing returns nothing
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_050" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_048" )
     call EnumItemsInRect( bj_mapInitialPlayableArea, null, function Trig__ymFunc002A )
 endfunction
 //===========================================================================
@@ -37256,247 +37381,247 @@ function Trig____________________029Conditions takes nothing returns boolean
 endfunction
 function Trig____________________029Actions takes nothing returns nothing
     if ((GetTriggerUnit() == gg_unit_Hjai_0014)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_049" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_050" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_051" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_052" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_053" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_054" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_055" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_056" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_057" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_058" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Uktl_0018)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_057" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_058" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_059" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_060" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_061" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_062" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_063" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_064" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_065" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_066" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Nbbc_0235)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_065" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_066" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_067" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_068" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_069" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_070" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_071" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_072" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_073" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_074" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_E00D_0210)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_073" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_074" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_075" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_076" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_077" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_078" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_079" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_080" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_081" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_082" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Etyr_0017)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_081" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_082" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_083" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_084" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_085" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_086" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_087" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_088" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_089" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_090" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Ocbh_0251)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_089" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_090" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_091" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_092" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_093" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_094" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_095" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_096" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_097" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_098" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Udea_0279)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_097" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_098" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_099" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_100" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_101" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_102" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_103" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_104" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_105" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_106" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Eevi_0020)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_105" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_106" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_107" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_108" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_109" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_110" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_111" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_112" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_113" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_114" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Hvwd_0016)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_113" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_114" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_115" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_116" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_117" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_118" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_119" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_120" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_121" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_122" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_E00C_0217)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_121" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_122" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_123" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_124" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_125" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_126" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_127" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_128" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_129" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_130" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Usyl_0215)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_129" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_130" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_131" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_132" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_133" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_134" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_135" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_136" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_137" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_138" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Othr_0256)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_137" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_138" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_139" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_140" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_141" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_142" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_143" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_144" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_145" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_146" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Harf_0262)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_145" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_146" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_147" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_148" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_149" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_150" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_151" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_152" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_153" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_154" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Hant_0205)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_153" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_154" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_155" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_156" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_157" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_158" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_159" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_160" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_161" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHuanyiHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHuanyiHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Hkal_0208)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_160" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_161" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_162" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_163" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_164" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_165" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_166" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_167" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_168" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetMengjiHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetMengjiHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Nsjs_0209)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_167" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_168" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_169" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_170" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_171" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_172" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_173" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_174" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_175" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetCanglingHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetCanglingHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Hhkl_0218)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_174" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_175" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_176" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_177" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_178" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_179" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_180" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_181" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_182" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_183" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_Hapm_0255)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_182" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_183" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_184" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_185" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_186" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_187" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_188" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_189" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_190" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetXinglongHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetXinglongHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_H01Y_0286)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_189" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_190" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_191" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_192" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_193" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_194" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_195" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_196" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_197" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetXiaotingHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetXiaotingHint() )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
     if ((GetTriggerUnit() == gg_unit_H027_0292)) then
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_196" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_197" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_198" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_199" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_200" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_201" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_202" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_203" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_204" )
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_205" )
         call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, GetHeroDifficulty(GetTriggerUnit()) )
     else
     endif
@@ -37527,94 +37652,92 @@ endfunction
 //===========================================================================
 // Trigger: 未命名触发器 055
 //===========================================================================
+function Trig____________________055Func006T takes nothing returns nothing
+    call PlaySoundBJ( gg_snd_Renwu )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_210", "TRIGSTR_211", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_212" )
+    call QuestSetEnabled( bj_lastCreatedQuest , true)
+    call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
+    call DestroyTimer( GetExpiredTimer() )
+endfunction
+function Trig____________________055Func007T takes nothing returns nothing
+    call PlaySoundBJ( gg_snd_Renwu )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_213", "TRIGSTR_214", "ReplaceableTextures\\CommandButtons\\BTNMetamorphosis.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_215" )
+    call QuestSetEnabled( bj_lastCreatedQuest , true)
+    call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
+    call DestroyTimer( GetExpiredTimer() )
+endfunction
 function Trig____________________055Func008T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_212", "TRIGSTR_213", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_214" )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_216", "TRIGSTR_217", "ReplaceableTextures\\CommandButtons\\BTNUnsummonBuilding.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_218" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
 function Trig____________________055Func009T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_215", "TRIGSTR_216", "ReplaceableTextures\\CommandButtons\\BTNMetamorphosis.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_217" )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_219", "TRIGSTR_220", "ReplaceableTextures\\CommandButtons\\BTNyumao1.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_221" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
 function Trig____________________055Func010T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_218", "TRIGSTR_219", "ReplaceableTextures\\CommandButtons\\BTNUnsummonBuilding.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_220" )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_222", "TRIGSTR_223", "ReplaceableTextures\\CommandButtons\\BTNyumao1.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_224" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
 function Trig____________________055Func011T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_221", "TRIGSTR_222", "ReplaceableTextures\\CommandButtons\\BTNyumao1.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_223" )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_225", "TRIGSTR_226", "ReplaceableTextures\\CommandButtons\\BTNAltarOfKings.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_227" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
 function Trig____________________055Func012T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_224", "TRIGSTR_225", "ReplaceableTextures\\CommandButtons\\BTNyumao1.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_226" )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_228", "TRIGSTR_229", "ReplaceableTextures\\CommandButtons\\BTNUnsummonBuilding.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_230" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
 function Trig____________________055Func013T takes nothing returns nothing
     call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_227", "TRIGSTR_228", "ReplaceableTextures\\CommandButtons\\BTNAltarOfKings.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_229" )
-    call QuestSetEnabled( bj_lastCreatedQuest , true)
-    call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
-    call DestroyTimer( GetExpiredTimer() )
-endfunction
-function Trig____________________055Func014T takes nothing returns nothing
-    call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_230", "TRIGSTR_231", "ReplaceableTextures\\CommandButtons\\BTNUnsummonBuilding.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_232" )
-    call QuestSetEnabled( bj_lastCreatedQuest , true)
-    call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
-    call DestroyTimer( GetExpiredTimer() )
-endfunction
-function Trig____________________055Func015T takes nothing returns nothing
-    call PlaySoundBJ( gg_snd_Renwu )
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_233", "TRIGSTR_234", "ReplaceableTextures\\CommandButtons\\BTNSoulGem.blp" )
-    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_235" )
+    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_231", "TRIGSTR_232", "ReplaceableTextures\\CommandButtons\\BTNSoulGem.blp" )
+    call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_233" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     call YDWEFlushMissionByInteger( YDWEH2I(GetExpiredTimer()) )
     call DestroyTimer( GetExpiredTimer() )
 endfunction
 function Trig____________________055Actions takes nothing returns nothing
     local timer ydl_timer
-    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_206", "TRIGSTR_207", "ReplaceableTextures\\CommandButtons\\BTNDisenchant.blp" )
+    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_204", "TRIGSTR_205", "ReplaceableTextures\\CommandButtons\\BTNDisenchant.blp" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
-    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_208", "TRIGSTR_209", "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.blp" )
-    call QuestSetEnabled( bj_lastCreatedQuest , true)
-    call CreateQuestBJ( bj_QUESTTYPE_OPT_DISCOVERED, "TRIGSTR_210", "TRIGSTR_211", "ReplaceableTextures\\CommandButtons\\BTNTransmute.blp" )
+    call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_206", "TRIGSTR_207", "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn.blp" )
     call QuestSetEnabled( bj_lastCreatedQuest , true)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 300.00, false, function Trig____________________055Func008T)
+    call TimerStart(ydl_timer, 300.00, false, function Trig____________________055Func006T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 600.00, false, function Trig____________________055Func009T)
+    call TimerStart(ydl_timer, 600.00, false, function Trig____________________055Func007T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 900.00, false, function Trig____________________055Func010T)
+    call TimerStart(ydl_timer, 900.00, false, function Trig____________________055Func008T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 1200.00, false, function Trig____________________055Func011T)
+    call TimerStart(ydl_timer, 1200.00, false, function Trig____________________055Func009T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 1500.00, false, function Trig____________________055Func012T)
+    call TimerStart(ydl_timer, 1500.00, false, function Trig____________________055Func010T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 1800.00, false, function Trig____________________055Func013T)
+    call TimerStart(ydl_timer, 1800.00, false, function Trig____________________055Func011T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 2400.00, false, function Trig____________________055Func014T)
+    call TimerStart(ydl_timer, 2400.00, false, function Trig____________________055Func012T)
     set ydl_timer = CreateTimer()
-    call TimerStart(ydl_timer, 3600.00, false, function Trig____________________055Func015T)
+    call TimerStart(ydl_timer, 3600.00, false, function Trig____________________055Func013T)
     set ydl_timer = null
 endfunction
 //===========================================================================
@@ -37663,7 +37786,7 @@ endfunction
 //===========================================================================
 function Trig____________________019Actions takes nothing returns nothing
     if ( (RectContainsUnit(gg_rct_______a3, udg_H[GetConvertedPlayerId(GetTriggerPlayer())]))) then
-        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_236" )
+        call DisplayTextToPlayer( GetTriggerPlayer(), 0, 0, "TRIGSTR_234" )
     else
         call SetUnitX(UDepot[GetConvertedPlayerId(GetTriggerPlayer())],GetUnitX(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]))
         call SetUnitY(UDepot[GetConvertedPlayerId(GetTriggerPlayer())],GetUnitY(udg_H[GetConvertedPlayerId(GetTriggerPlayer())]))
@@ -37906,7 +38029,7 @@ function Trig_Z5Actions takes nothing returns nothing
         if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>)) == 0)) then
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>, YDWEGetUnitsInRectMatchingNull(gg_rct________8, Condition(function Trig_Z5Func002Func003Func003003002)))
             if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>)) != 0)) then
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_238" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_236" )
                 set udg_Point = GetRandomLocInRect(gg_rct________8)
                 call CreateNUnitsAtLoc( 1, 'Nbrn', Player(10), udg_Point, GetRandomReal(0, 360) )
                 	call BossAddOnlyAttack(bj_lastCreatedUnit)
@@ -37919,12 +38042,12 @@ function Trig_Z5Actions takes nothing returns nothing
                 call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", udg_Point) )
                 call RemoveLocation( udg_Point )
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_239" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_237" )
                 call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             endif
             call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>) )
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_237" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_235" )
             call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
         call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>) )
@@ -37936,7 +38059,7 @@ function Trig_Z5Actions takes nothing returns nothing
         if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>)) == 0)) then
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>, YDWEGetUnitsInRectMatchingNull(gg_rct________8, Condition(function Trig_Z5Func003Func003Func003003002)))
             if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>)) != 0)) then
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_241" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_239" )
                 set udg_Point = GetRandomLocInRect(gg_rct________8)
                 call CreateNUnitsAtLoc( 1, 'Nngs', Player(10), udg_Point, GetRandomReal(0, 360) )
                 	call BossAddOnlyAttack(bj_lastCreatedUnit)
@@ -37949,12 +38072,12 @@ function Trig_Z5Actions takes nothing returns nothing
                 call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", udg_Point) )
                 call RemoveLocation( udg_Point )
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_242" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_240" )
                 call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             endif
             call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>) )
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_240" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_238" )
             call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
         call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>) )
@@ -37967,7 +38090,7 @@ function Trig_Z5Actions takes nothing returns nothing
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>, YDWEGetUnitsInRectMatchingNull(gg_rct________8, Condition(function Trig_Z5Func004Func003Func003003002)))
             if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>)) != 0)) then
                 	call ShowSheyanDialog(GetBuyingUnit())
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_244" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_242" )
                 set udg_Point = GetRandomLocInRect(gg_rct________8)
                 call CreateNUnitsAtLoc( 1, 'N00Q', Player(10), udg_Point, GetRandomReal(0, 360) )
                 	call BossAddOnlyAttack(bj_lastCreatedUnit)
@@ -37990,12 +38113,12 @@ function Trig_Z5Actions takes nothing returns nothing
                 call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", udg_Point) )
                 call RemoveLocation( udg_Point )
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_245" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_243" )
                 call AdjustPlayerStateBJ( 1300, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             endif
             call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>) )
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_243" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_241" )
             call AdjustPlayerStateBJ( 1300, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
         call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>) )
@@ -38013,19 +38136,19 @@ function Trig_Z5Actions takes nothing returns nothing
         if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>)) == 0)) then
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>, YDWEGetUnitsInRectMatchingNull(gg_rct_Hundun, Condition(function Trig_Z5Func005Func004Func003003002)))
             if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>)) != 0)) then
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_247" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_245" )
                 set udg_Point = GetRandomLocInRect(gg_rct_Hundun)
                 call CreateNUnitsAtLoc( 1, 'N01N', Player(10), udg_Point, GetRandomReal(0, 360) )
                 call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", udg_Point) )
                 call InitHundun1(bj_lastCreatedUnit)
                 call RemoveLocation( udg_Point )
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_248" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_246" )
                 call AdjustPlayerStateBJ( 500, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             endif
             call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>) )
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_246" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_244" )
             call AdjustPlayerStateBJ( 500, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
         call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>) )
@@ -38043,19 +38166,19 @@ function Trig_Z5Actions takes nothing returns nothing
         if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>)) == 0)) then
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>, YDWEGetUnitsInRectMatchingNull(gg_rct_Hundun, Condition(function Trig_Z5Func006Func004Func003003002)))
             if ((CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>)) != 0)) then
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_250" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_248" )
                 set udg_Point = GetRandomLocInRect(gg_rct_Hundun)
                 call CreateNUnitsAtLoc( 1, 'N02A', Player(10), udg_Point, GetRandomReal(0, 360) )
                 call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\NightElf\\Blink\\BlinkTarget.mdl", udg_Point) )
                 call InitHundun2(bj_lastCreatedUnit)
                 call RemoveLocation( udg_Point )
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_251" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_249" )
                 call AdjustPlayerStateBJ( 1000, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             endif
             call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group1")?>) )
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_249" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_247" )
             call AdjustPlayerStateBJ( 1000, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
         call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>) )
@@ -39137,20 +39260,20 @@ endfunction
 function Trig____________________032Actions takes nothing returns nothing
     local timer ydl_timer
     local integer ydl_localvar_step = LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76) <?='\n'?> set ydl_localvar_step = ydl_localvar_step + 3 <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step) <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_250" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_251" )
     call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_252" )
     call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_253" )
     call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_254" )
     call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_255" )
     call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_256" )
     call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_257" )
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_258" )
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_259" )
     call StartTimerBJ( udg_Time_BOSS, false, (I2R(400/(NanDiff +1))) )
-    call CreateTimerDialogBJ( udg_Time_BOSS, "TRIGSTR_260" )
+    call CreateTimerDialogBJ( udg_Time_BOSS, "TRIGSTR_258" )
     set udg_Timer_BOSS = GetLastCreatedTimerDialogBJ()
     call TimerDialogDisplayBJ( true, udg_Timer_BOSS )
     if ((udg_Bo == 3)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_261" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_259" )
         if ( (GetDiffculty() > 7)) then
             set udg_Point = PolarProjectionBJ(udg_Point_Fuhuo, 5000.00, GetRandomReal(0, 360))
         else
@@ -39171,7 +39294,7 @@ function Trig____________________032Actions takes nothing returns nothing
     else
     endif
     if ((udg_Bo == 7)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_262" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_260" )
         if ( (GetDiffculty() > 7)) then
             set udg_Point = PolarProjectionBJ(udg_Point_Fuhuo, 5000.00, GetRandomReal(0, 360))
         else
@@ -39193,7 +39316,7 @@ function Trig____________________032Actions takes nothing returns nothing
     else
     endif
     if ((udg_Bo == 11)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_263" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_261" )
         if ( (GetDiffculty() > 7)) then
             set udg_Point = PolarProjectionBJ(udg_Point_Fuhuo, 5000.00, GetRandomReal(0, 360))
         else
@@ -39216,7 +39339,7 @@ function Trig____________________032Actions takes nothing returns nothing
     else
     endif
     if ((udg_Bo == 15)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_264" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_262" )
         if ( (GetDiffculty() > 7)) then
             set udg_Point = PolarProjectionBJ(udg_Point_Fuhuo, 5000.00, GetRandomReal(0, 360))
         else
@@ -39240,7 +39363,7 @@ function Trig____________________032Actions takes nothing returns nothing
     else
     endif
     if ((udg_Bo == 19)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_265" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_263" )
         if ( (GetDiffculty() > 7)) then
             set udg_Point = PolarProjectionBJ(udg_Point_Fuhuo, 5000.00, GetRandomReal(0, 360))
         else
@@ -39322,7 +39445,7 @@ function Trig____________________052Conditions takes nothing returns boolean
     return ((GetUnitTypeId(GetTriggerUnit()) == 'Nbst') and (GetUnitState( GetTriggerUnit(), UNIT_STATE_LIFE) <= ( 0.30 * GetUnitState( GetTriggerUnit(), UNIT_STATE_MAX_LIFE) )) and ((GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) > 0) == true) and (IsUnitIllusion(GetTriggerUnit()) != true))
 endfunction
 function Trig____________________052Actions takes nothing returns nothing
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_266" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_264" )
     if ((udg_Nandu_JJJ >= 5)) then
         call UnitAddAbility( GetTriggerUnit() , 'A0DF')
     else
@@ -39351,7 +39474,7 @@ function Trig____________________052_______uConditions takes nothing returns boo
     return ((GetUnitTypeId(GetTriggerUnit()) == 'Hblm') and (GetUnitState( GetTriggerUnit(), UNIT_STATE_LIFE) <= ( 0.30 * GetUnitState( GetTriggerUnit(), UNIT_STATE_MAX_LIFE) )) and ((GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) > 0) == true))
 endfunction
 function Trig____________________052_______uActions takes nothing returns nothing
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_267" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_265" )
     if ((udg_Nandu_JJJ >= 5)) then
         call UnitAddAbility( GetTriggerUnit() , 'A0DF')
     else
@@ -39416,7 +39539,7 @@ function Trig____________________052______________uConditions takes nothing retu
     return ((GetUnitTypeId(GetTriggerUnit()) == 'Obla') and (GetUnitState( GetTriggerUnit(), UNIT_STATE_LIFE) <= ( 0.30 * GetUnitState( GetTriggerUnit(), UNIT_STATE_MAX_LIFE) )) and ((GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) > 0) == true) and (IsUnitIllusion(GetTriggerUnit()) != true))
 endfunction
 function Trig____________________052______________uActions takes nothing returns nothing
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_268" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_266" )
     if ((udg_Nandu_JJJ >= 5)) then
         call UnitAddAbility( GetTriggerUnit() , 'A0DF')
     else
@@ -39474,7 +39597,7 @@ function Trig____________________052_____________________uConditions takes nothi
     return ((GetUnitTypeId(GetTriggerUnit()) == 'Npbm') and (GetUnitState( GetTriggerUnit(), UNIT_STATE_LIFE) <= ( 0.30 * GetUnitState( GetTriggerUnit(), UNIT_STATE_MAX_LIFE) )) and ((GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) > 0) == true) and (IsUnitIllusion(GetTriggerUnit()) != true))
 endfunction
 function Trig____________________052_____________________uActions takes nothing returns nothing
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_269" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_267" )
     if ((udg_Nandu_JJJ >= 5) and (IsTianyan == false)) then
         call UnitAddAbility( GetTriggerUnit() , 'A0DF')
     else
@@ -39512,7 +39635,7 @@ function Trig____________________052_______________2Conditions takes nothing ret
     return ((GetUnitTypeId(GetTriggerUnit()) == 'Hamg') and (GetUnitState( GetTriggerUnit(), UNIT_STATE_LIFE) <= ( 0.30 * GetUnitState( GetTriggerUnit(), UNIT_STATE_MAX_LIFE) )) and ((GetUnitState(GetTriggerUnit(), UNIT_STATE_LIFE) > 0) == true) and (IsUnitIllusion(GetTriggerUnit()) != true))
 endfunction
 function Trig____________________052_______________2Actions takes nothing returns nothing
-    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_270" )
+    call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_268" )
     if ((udg_Nandu_JJJ >= 5) and (IsTianyan == false)) then
         call UnitAddAbility( GetTriggerUnit() , 'A0DF')
     else
@@ -39628,7 +39751,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         call PanCameraToTimedLocForPlayer( GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20 )
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))) )
         call RemoveLocation( udg_Point )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_271" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_269" )
     else
     endif
     if ((GetItemTypeId(GetSoldItem()) == 'I05H')) then
@@ -39637,7 +39760,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         call PanCameraToTimedLocForPlayer( GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20 )
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))) )
         call RemoveLocation( udg_Point )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_272" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_270" )
     else
     endif
     if ((GetItemTypeId(GetSoldItem()) == 'I054')) then
@@ -39646,7 +39769,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         call PanCameraToTimedLocForPlayer( GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20 )
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))) )
         call RemoveLocation( udg_Point )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_273" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_271" )
     else
     endif
     if ((GetItemTypeId(GetSoldItem()) == 'I04H')) then
@@ -39655,7 +39778,7 @@ function Trig_maidongxiActions takes nothing returns nothing
         call PanCameraToTimedLocForPlayer( GetOwningPlayer(GetBuyingUnit()), udg_Point, 0.20 )
         call DestroyEffect( AddSpecialEffect("Abilities\\Spells\\Human\\MassTeleport\\MassTeleportCaster.mdl", YDWECoordinateX(GetUnitX(GetBuyingUnit())), YDWECoordinateY(GetUnitY(GetBuyingUnit()))) )
         call RemoveLocation( udg_Point )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_274" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_272" )
     else
     endif
 endfunction
@@ -39781,7 +39904,7 @@ function Trig____________________4bActions takes nothing returns nothing
         set bj_forLoopBIndex = bj_forLoopBIndex + 1
     endloop
     call UnitAddItemByIdSwapped( 'I043', GetManipulatingUnit() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_275" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_273" )
     debug set BJiulun = true
 endfunction
 //===========================================================================
@@ -39829,7 +39952,7 @@ function Trig____________________5bActions takes nothing returns nothing
         set bj_forLoopBIndex = bj_forLoopBIndex + 1
     endloop
     call UnitAddItemByIdSwapped( 'I045', GetManipulatingUnit() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_276" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_274" )
     debug set BJiulun = true
     call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
@@ -39878,7 +40001,7 @@ function Trig____________________7bActions takes nothing returns nothing
         set bj_forLoopBIndex = bj_forLoopBIndex + 1
     endloop
     call UnitAddItemByIdSwapped( 'I041', GetManipulatingUnit() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_277" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_275" )
     debug set BJiulun = true
     call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
@@ -39927,7 +40050,7 @@ function Trig____________________8bActions takes nothing returns nothing
         set bj_forLoopBIndex = bj_forLoopBIndex + 1
     endloop
     call UnitAddItemByIdSwapped( 'I04R', GetManipulatingUnit() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_278" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_276" )
     debug set BJiulun = true
     call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
@@ -39976,7 +40099,7 @@ function Trig____________________8b_______uActions takes nothing returns nothing
         set bj_forLoopBIndex = bj_forLoopBIndex + 1
     endloop
     call UnitAddItemByIdSwapped( 'I05B', GetManipulatingUnit() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_279" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_277" )
     debug set BJiulun = true
     call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
@@ -40025,7 +40148,7 @@ function Trig____________________8b______________uActions takes nothing returns 
         set bj_forLoopBIndex = bj_forLoopBIndex + 1
     endloop
     call UnitAddItemByIdSwapped( 'I05C', GetManipulatingUnit() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_280" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_278" )
     debug set BJiulun = true
     call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
 endfunction
@@ -40058,7 +40181,7 @@ function Trig_Only_One_Wing_And_SpellActions takes nothing returns nothing
     endloop
     if ((LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i")?>) >= 2)) then
         call UnitRemoveItem( GetManipulatingUnit() , GetManipulatedItem()) <?='\n'?> set bj_lastRemovedItem = GetManipulatedItem()
-        call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_281" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_279" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
     else
@@ -40132,13 +40255,13 @@ function Trig_Z1Actions takes nothing returns nothing
                 call CreateMirrorTimer()
                 call AddMirrorSpell()
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_283" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_281" )
             endif
         else
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(CModeH(1,2) * udg_Z[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) + "的木头。" ) ) )
         endif
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_282" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_280" )
     endif
 endfunction
 //===========================================================================
@@ -40211,7 +40334,7 @@ function Trig_Z2Actions takes nothing returns nothing
                     call InitLingxueAura()
                 else
                 endif
-                call DisplayTextToPlayer( GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0, 0, "TRIGSTR_284" )
+                call DisplayTextToPlayer( GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0, 0, "TRIGSTR_282" )
                 if ((GetUnitAbilityLevel( gg_unit_Uktl_0018, 'AHad') == 1) and (udg_U_Zhuansheng_Dantiao[1] == gg_unit_Uktl_0018)) then
                     call EnableTrigger( gg_trg_____________39 )
                     call InitXuanxueAura()
@@ -40222,7 +40345,7 @@ function Trig_Z2Actions takes nothing returns nothing
             endif
             if ((udg_I_suijizhengshu == 11)) then
                 call SetPlayerTechResearchedSwap( 'R009', 1, GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]) )
-                call DisplayTextToPlayer( GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0, 0, "TRIGSTR_285" )
+                call DisplayTextToPlayer( GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0, 0, "TRIGSTR_283" )
                 call TriggerAllHeroLearn(GetConvertedPlayerId(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1])),5)
             else
             endif
@@ -40241,7 +40364,7 @@ function Trig_Z2Actions takes nothing returns nothing
             if ((udg_I_suijizhengshu == 42)) then
                 call UnitAddItemByIdSwapped( 'IXU1', udg_U_Zhuansheng_Dantiao[1] )
                 call SaveInteger(YDHT, GetHandleId( bj_lastCreatedItem), <?=StringHash( "shei")?>, GetConvertedPlayerId(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1])))
-                call DisplayTextToPlayer( GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0, 0, "TRIGSTR_286" )
+                call DisplayTextToPlayer( GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]), 0, 0, "TRIGSTR_284" )
             else
             endif
             debug call SaveAchievement3(GetOwningPlayer(udg_U_Zhuansheng_Dantiao[1]),udg_I_suijizhengshu)
@@ -41764,7 +41887,7 @@ function Trig____________________015Actions takes nothing returns nothing
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Jian[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Jian[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_287" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_285" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -41799,7 +41922,7 @@ function Trig____________________015________7Actions takes nothing returns nothi
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Kui[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Kui[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_288" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_286" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -41834,7 +41957,7 @@ function Trig____________________015________6Actions takes nothing returns nothi
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Zhang[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Zhang[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_289" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_287" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -41869,7 +41992,7 @@ function Trig____________________015________5Actions takes nothing returns nothi
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Xie[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Xie[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_290" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_288" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -41904,7 +42027,7 @@ function Trig____________________015________4Actions takes nothing returns nothi
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_gong[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_gong[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_291" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_289" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -41939,7 +42062,7 @@ function Trig____________________015________3Actions takes nothing returns nothi
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Bishou[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Bishou[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_292" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_290" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -41974,7 +42097,7 @@ function Trig____________________015_______uActions takes nothing returns nothin
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Dun[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Dun[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_293" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_291" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -42009,7 +42132,7 @@ function Trig____________________015______________uActions takes nothing returns
                 call AdjustPlayerStateBJ( ( -1500 * bj_forLoopAIndex ), GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), udg_F_Jia[bj_forLoopAIndex]) )
                 call UnitAddItemByIdSwapped( udg_F_Jia[( bj_forLoopAIndex + 1 )], GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_294" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_292" )
                 return
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r你没有" + ( I2S(( 1500 * bj_forLoopAIndex )) + "的金币。" ) ) )
@@ -42038,60 +42161,60 @@ function Trig____________________015________2Actions takes nothing returns nothi
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00G')) == 'I00G') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00G')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00G') )
         call UnitAddItemByIdSwapped( 'I00H', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_295" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_293" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I024')) == 'I024') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I024')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I024') )
         call UnitAddItemByIdSwapped( 'I025', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_296" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_294" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00S')) == 'I00S') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00S')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00S') )
         call UnitAddItemByIdSwapped( 'I00T', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_297" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_295" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I014')) == 'I014') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I014')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I014') )
         call UnitAddItemByIdSwapped( 'I015', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_298" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_296" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I01O')) == 'I01O') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I01O')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I01O') )
         call UnitAddItemByIdSwapped( 'I01P', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_299" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_297" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I02K')) == 'I02K') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I02K')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I02K') )
         call UnitAddItemByIdSwapped( 'I02L', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_300" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_298" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03D')) == 'I03D') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03D')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03D') )
         call UnitAddItemByIdSwapped( 'I03E', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_301" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_299" )
         return
     else
     endif
     if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03P')) == 'I03P') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03P')) == true)) then
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03P') )
         call UnitAddItemByIdSwapped( 'I03Q', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_302" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_300" )
         return
     else
         call AdjustPlayerStateBJ( 20000, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_303" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_301" )
     endif
 endfunction
 //===========================================================================
@@ -42113,10 +42236,10 @@ function Trig____________________015________8Actions takes nothing returns nothi
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I01P') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00H') )
         call UnitAddItemByIdSwapped( 'I055', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_305" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_303" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_304" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_302" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42140,10 +42263,10 @@ function Trig____________________015________8______________uActions takes nothin
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03E') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00H') )
         call UnitAddItemByIdSwapped( 'I056', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_307" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_305" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_306" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_304" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42167,10 +42290,10 @@ function Trig____________________015________8_______uActions takes nothing retur
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I025') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I00H') )
         call UnitAddItemByIdSwapped( 'I04Z', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_309" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_307" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_308" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_306" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42194,10 +42317,10 @@ function Trig____________________015________8_______________2Actions takes nothi
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I025') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03E') )
         call UnitAddItemByIdSwapped( 'I057', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_311" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_309" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_310" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_308" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42222,12 +42345,12 @@ function Trig____________________061____________________________________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'stpg') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'tbsm', GetBuyingUnit() )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_318" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_319" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_320" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_321" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_322" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_323" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_324" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_325" )
         return
     else
         if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'frgd')) == 'frgd') and (GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk')) == 'mgtk') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'frgd')) == true)) then
@@ -42235,12 +42358,12 @@ function Trig____________________061____________________________________________
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'frgd') )
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
             call UnitAddItemByIdSwapped( 'tfar', GetBuyingUnit() )
+            call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_312" )
+            call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_313" )
             call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_314" )
             call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_315" )
             call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_316" )
             call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_317" )
-            call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_318" )
-            call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_319" )
             return
         else
             if ((GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'pspd')) == 'pspd') and (GetItemTypeId(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk')) == 'mgtk') and (IsItemPawnable(YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'pspd')) == true)) then
@@ -42248,10 +42371,10 @@ function Trig____________________061____________________________________________
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'pspd') )
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
                 call UnitAddItemByIdSwapped( 'tbak', GetBuyingUnit() )
-                call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_313" )
+                call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_311" )
                 return
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_312" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_310" )
                 call AdjustPlayerStateBJ( 100, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
                 return
             endif
@@ -42277,10 +42400,10 @@ function Trig____________________015________8_______________2_______uActions tak
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I01P') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03E') )
         call UnitAddItemByIdSwapped( 'I050', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_327" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_325" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_326" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_324" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42304,10 +42427,10 @@ function Trig____________________015________8_______________2______________uActi
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I01P') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I025') )
         call UnitAddItemByIdSwapped( 'I03Y', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_329" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_327" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_328" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_326" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42333,10 +42456,10 @@ function Trig____________________015________8_______________2___________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03Q') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I02L') )
         call UnitAddItemByIdSwapped( 'rej4', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_331" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_329" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_330" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_328" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42362,10 +42485,10 @@ function Trig____________________015________8_______________2___________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03Q') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I02L') )
         call UnitAddItemByIdSwapped( 'rej6', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_333" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_331" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_332" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_330" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42391,10 +42514,10 @@ function Trig____________________015________8_______________2___________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I03Q') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I02L') )
         call UnitAddItemByIdSwapped( 'pgin', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_335" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_333" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_334" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_332" )
         call AdjustPlayerStateBJ( 50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42421,10 +42544,10 @@ function Trig____________________061______________uActions takes nothing returns
         call UnitAddItemByIdSwapped( 'tbar', GetBuyingUnit() )
         call SaveInteger(YDHT, GetHandleId( bj_lastCreatedItem), <?=StringHash( "shei")?>, GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())))
         set HasCombineHalf[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = true
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_337" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_335" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_336" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_334" )
         call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42451,10 +42574,10 @@ function Trig____________________061_____________________uActions takes nothing 
         call UnitAddItemByIdSwapped( 'ccmd', GetBuyingUnit() )
         call SaveInteger(YDHT, GetHandleId( bj_lastCreatedItem), <?=StringHash( "shei")?>, GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())))
         set HasCombineHalf[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = true
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_339" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_337" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_338" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_336" )
         call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42481,10 +42604,10 @@ function Trig____________________061____________________________uActions takes n
         call UnitAddItemByIdSwapped( 'iwbr', GetBuyingUnit() )
         call SaveInteger(YDHT, GetHandleId( bj_lastCreatedItem), <?=StringHash( "shei")?>, GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())))
         set HasCombineHalf[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = true
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_341" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_339" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_340" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_338" )
         call AdjustPlayerStateBJ( 200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42512,15 +42635,15 @@ function Trig____________________061___________________________________uActions 
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'tlum', GetBuyingUnit() )
         call SaveInteger(YDHT, GetHandleId( bj_lastCreatedItem), <?=StringHash( "shei")?>, GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())))
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_341" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_342" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_343" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_344" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_345" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_346" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_347" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_348" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_342" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_340" )
         return
     endif
 endfunction
@@ -42546,15 +42669,15 @@ function Trig____________________061____________________________________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'lhst', GetBuyingUnit() )
         call SetItemCharges( bj_lastCreatedItem, udg_I_suijizhengshu )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_348" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_349" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_350" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_351" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_352" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_353" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_354" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_355" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_349" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_347" )
         call AdjustPlayerStateBJ( 100, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42579,15 +42702,15 @@ function Trig____________________061____________________________________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I05C') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'I05F', GetBuyingUnit() )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_355" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_356" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_357" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_358" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_359" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_360" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_361" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_362" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_356" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_354" )
         call AdjustPlayerStateBJ( 100, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42612,15 +42735,15 @@ function Trig____________________061____________________________________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'rde3') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'ssil', GetBuyingUnit() )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_362" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_363" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_364" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_365" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_366" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_367" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_368" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_369" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_363" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_361" )
         call AdjustPlayerStateBJ( 100, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42645,16 +42768,16 @@ function Trig____________________061____________________________________________
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'IB08') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'IB09', GetBuyingUnit() )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_369" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_370" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_371" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_372" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_373" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_374" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_375" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_376" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_377" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_370" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_368" )
         call AdjustPlayerStateBJ( 1000, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -42685,11 +42808,11 @@ function Trig_____________bActions takes nothing returns nothing
         call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i3")?>) )
         call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i4")?>) )
         call UnitAddItemByIdSwapped( 'rde2', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_379" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_377" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_378" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_376" )
         call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
@@ -42722,6 +42845,8 @@ function Trig_____________b2Actions takes nothing returns nothing
         call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i3")?>) )
         call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i4")?>) )
         call UnitAddItemByIdSwapped( 'rde1', GetBuyingUnit() )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_379" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_380" )
         call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_381" )
         call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_382" )
         call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_383" )
@@ -42729,12 +42854,10 @@ function Trig_____________b2Actions takes nothing returns nothing
         call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_385" )
         call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_386" )
         call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_387" )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_388" )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_389" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_380" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_378" )
         call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
@@ -42778,6 +42901,8 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i0")?>) )
             call AdjustPlayerStateBJ( -40, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii1")?>), GetBuyingUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_389" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_390" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_391" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_392" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_393" )
@@ -42785,12 +42910,10 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_395" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_396" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_397" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_398" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_399" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_390" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_388" )
         endif
     else
     endif
@@ -42799,6 +42922,8 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i1")?>) )
             call AdjustPlayerStateBJ( -200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii2")?>), GetBuyingUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_399" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_400" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_401" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_402" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_403" )
@@ -42806,12 +42931,10 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_405" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_406" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_407" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_408" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_409" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_400" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_398" )
         endif
     else
     endif
@@ -42820,6 +42943,8 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i2")?>) )
             call AdjustPlayerStateBJ( -400, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii3")?>), GetBuyingUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_409" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_410" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_411" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_412" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_413" )
@@ -42827,12 +42952,10 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_415" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_416" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_417" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_418" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_419" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_410" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_408" )
         endif
     else
     endif
@@ -42841,6 +42964,8 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i3")?>) )
             call AdjustPlayerStateBJ( -400, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii4")?>), GetBuyingUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_419" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_420" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_421" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_422" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_423" )
@@ -42848,12 +42973,10 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_425" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_426" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_427" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_428" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_429" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_420" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_418" )
         endif
     else
     endif
@@ -42862,6 +42985,8 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i4")?>) )
             call AdjustPlayerStateBJ( -800, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii5")?>), GetBuyingUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_429" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_430" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_431" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_432" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_433" )
@@ -42869,12 +42994,10 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_435" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_436" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_437" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_438" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_439" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_430" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_428" )
         endif
     else
     endif
@@ -42884,6 +43007,8 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "xian")?>) )
             call AdjustPlayerStateBJ( -2400, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii6")?>), GetBuyingUnit() )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_439" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_440" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_441" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_442" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_443" )
@@ -42891,12 +43016,10 @@ function Trig_Update_FahunActions takes nothing returns nothing
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_445" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_446" )
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_447" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_448" )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_449" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_440" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_438" )
         endif
     else
     endif
@@ -42939,11 +43062,11 @@ function Trig_Update_ZhanhunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i0")?>) )
             call AdjustPlayerStateBJ( -40, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii1")?>), GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_451" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_449" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_450" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_448" )
         endif
     else
     endif
@@ -42952,11 +43075,11 @@ function Trig_Update_ZhanhunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i1")?>) )
             call AdjustPlayerStateBJ( -200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii2")?>), GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_453" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_451" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_452" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_450" )
         endif
     else
     endif
@@ -42965,11 +43088,11 @@ function Trig_Update_ZhanhunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i2")?>) )
             call AdjustPlayerStateBJ( -400, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii3")?>), GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_455" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_453" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_454" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_452" )
         endif
     else
     endif
@@ -42978,11 +43101,11 @@ function Trig_Update_ZhanhunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i3")?>) )
             call AdjustPlayerStateBJ( -400, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii4")?>), GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_457" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_455" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_456" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_454" )
         endif
     else
     endif
@@ -42991,11 +43114,11 @@ function Trig_Update_ZhanhunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i4")?>) )
             call AdjustPlayerStateBJ( -800, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii5")?>), GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_459" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_457" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_458" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_456" )
         endif
     else
     endif
@@ -43005,11 +43128,11 @@ function Trig_Update_ZhanhunActions takes nothing returns nothing
             call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "xian")?>) )
             call AdjustPlayerStateBJ( -2400, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
             call UnitAddItemByIdSwapped( LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "ii6")?>), GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_461" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_459" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_460" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_458" )
         endif
     else
     endif
@@ -43035,15 +43158,15 @@ function Trig_Compose_ShuanghunActions takes nothing returns nothing
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'tgrh') )
         call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'mgtk') )
         call UnitAddItemByIdSwapped( 'rst1', GetBuyingUnit() )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_461" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_462" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_463" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_464" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_465" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_466" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_467" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_468" )
         return
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_462" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_460" )
         call AdjustPlayerStateBJ( 2500, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         return
     endif
@@ -43069,10 +43192,10 @@ function Trig____________________6aActions takes nothing returns nothing
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I05O') )
                 call AdjustPlayerStateBJ( -50, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
                 call UnitAddItemByIdSwapped( 'I05P', GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_470" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_468" )
                 return
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_469" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_467" )
             endif
         else
         endif
@@ -43081,10 +43204,10 @@ function Trig____________________6aActions takes nothing returns nothing
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I05P') )
                 call AdjustPlayerStateBJ( -200, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
                 call UnitAddItemByIdSwapped( 'I05Q', GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_472" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_470" )
                 return
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_471" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_469" )
             endif
         else
         endif
@@ -43093,10 +43216,10 @@ function Trig____________________6aActions takes nothing returns nothing
                 call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'I05Q') )
                 call AdjustPlayerStateBJ( -800, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
                 call UnitAddItemByIdSwapped( 'I05R', GetBuyingUnit() )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_474" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_472" )
                 return
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_473" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_471" )
             endif
         else
         endif
@@ -43164,7 +43287,7 @@ function Trig____________________006Actions takes nothing returns nothing
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________006Func004Func001Func005A )
         else
             call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_475" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_473" )
         endif
     else
     endif
@@ -43174,7 +43297,7 @@ function Trig____________________006Actions takes nothing returns nothing
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________006Func005Func001Func005A )
         else
             call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_476" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_474" )
         endif
     else
     endif
@@ -43184,7 +43307,7 @@ function Trig____________________006Actions takes nothing returns nothing
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________006Func006Func001Func005A )
         else
             call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_477" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_475" )
         endif
     else
     endif
@@ -43194,7 +43317,7 @@ function Trig____________________006Actions takes nothing returns nothing
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________006Func007Func001Func005A )
         else
             call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_478" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_476" )
         endif
     else
     endif
@@ -43204,7 +43327,7 @@ function Trig____________________006Actions takes nothing returns nothing
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________006Func008Func001Func005A )
         else
             call AdjustPlayerStateBJ( 10, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_479" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_477" )
         endif
     else
     endif
@@ -43228,7 +43351,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'skrt', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_480" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_478" )
         return
     else
     endif
@@ -43236,7 +43359,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'wolg', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_481" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_479" )
         return
     else
     endif
@@ -43244,7 +43367,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'ledg', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_482" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_480" )
         return
     else
     endif
@@ -43252,7 +43375,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'wtlg', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_483" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_481" )
         return
     else
     endif
@@ -43260,7 +43383,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'gopr', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_484" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_482" )
         return
     else
     endif
@@ -43268,7 +43391,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'dphe', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_485" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_483" )
         return
     else
     endif
@@ -43276,7 +43399,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'bzbe', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_486" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_484" )
         return
     else
     endif
@@ -43284,7 +43407,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'dthb', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_487" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_485" )
         return
     else
     endif
@@ -43292,7 +43415,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'mort', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_488" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_486" )
         return
     else
     endif
@@ -43300,7 +43423,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'cnhn', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_489" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_487" )
         return
     else
     endif
@@ -43308,7 +43431,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'ches', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_490" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_488" )
         return
     else
     endif
@@ -43316,7 +43439,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'k3m2', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_491" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_489" )
         return
     else
     endif
@@ -43324,7 +43447,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'kybl', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_492" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_490" )
         return
     else
     endif
@@ -43332,7 +43455,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'k3m3', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_493" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_491" )
         return
     else
     endif
@@ -43340,7 +43463,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'kysn', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_494" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_492" )
         return
     else
     endif
@@ -43348,7 +43471,7 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'ktrm', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_495" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_493" )
         return
     else
     endif
@@ -43356,11 +43479,11 @@ function Trig____________________039Actions takes nothing returns nothing
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 1)-1) )
         call RemoveItem( UnitItemInSlot(GetBuyingUnit(), ( 2)-1) )
         call UnitAddItemByIdSwapped( 'shwd', GetBuyingUnit() )
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_496" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_494" )
         return
     else
     endif
-    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_497" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_495" )
 endfunction
 //===========================================================================
 function InitTrig____________________039 takes nothing returns nothing
@@ -43781,7 +43904,7 @@ function Trig________________17Actions takes nothing returns nothing
         else
             call SaveReal(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i")?>, ( LoadReal(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i")?>) * 0.25 ))
         endif
-        call CreateTextTagUnitBJ( "TRIGSTR_498", GetDyingUnit(), 0, 16.00, 100.00, 0.00, 0.00, 0 )
+        call CreateTextTagUnitBJ( "TRIGSTR_496", GetDyingUnit(), 0, 16.00, 100.00, 0.00, 0.00, 0 )
         call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
         call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
         set udg_Group = YDWEGetUnitsInRangeOfLocMatchingNull(600.00, udg_Point, Condition(function Trig________________17Func001Func010002003))
@@ -44036,7 +44159,7 @@ function Trig_____________3Actions takes nothing returns nothing
     else
         set udg_Point = GetOrderPointLoc()
         if ((((RectContainsLoc(gg_rct_______a3, udg_Point) == true) and (RectContainsUnit(gg_rct_______a3, gg_unit_Eevi_0020) != true)) or ((RectContainsLoc(gg_rct_Arena_forbit, udg_Point) == true) and (RectContainsUnit(gg_rct_Arena_forbit, gg_unit_Eevi_0020) != true)))) then
-            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_499" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_497" )
         else
             call SetUnitPositionLoc( gg_unit_Eevi_0020, udg_Point )
         endif
@@ -44977,7 +45100,7 @@ function Trig_____________29Actions takes nothing returns nothing
     if ((((RectContainsLoc(gg_rct_______a3, LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>)) == true) and (RectContainsUnit(gg_rct_______a3, gg_unit_Eevi_0020) != true)) or ((RectContainsLoc(gg_rct_Arena_forbit, LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>)) == true) and (RectContainsUnit(gg_rct_Arena_forbit, gg_unit_Eevi_0020) != true)))) then
         call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>) )
         call RemoveLocation( udg_Point )
-        call DisplayTextToPlayer( GetOwningPlayer(gg_unit_Eevi_0020), 0, 0, "TRIGSTR_500" )
+        call DisplayTextToPlayer( GetOwningPlayer(gg_unit_Eevi_0020), 0, 0, "TRIGSTR_498" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         set ydl_group = null
         set ydl_unit = null
@@ -45240,7 +45363,7 @@ endfunction
 function Trig_____________36Actions takes nothing returns nothing
     local integer ydl_localvar_step = LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76) <?='\n'?> set ydl_localvar_step = ydl_localvar_step + 3 <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step) <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     if ( ( IsLoyalUnit(GetSpellTargetUnit()))) then
-        call DisplayTextToPlayer( GetOwningPlayer(gg_unit_Uktl_0018), 0, 0, "TRIGSTR_501" )
+        call DisplayTextToPlayer( GetOwningPlayer(gg_unit_Uktl_0018), 0, 0, "TRIGSTR_499" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
     else
@@ -46037,7 +46160,7 @@ endfunction
 function Trig_______59Actions takes nothing returns nothing
     call UnitDamageTarget( GetAttacker(), GetTriggerUnit(), 100000000.00, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON , WEAPON_TYPE_WHOKNOWS)
     call DestroyEffect( AddSpecialEffect("Objects\\Spawnmodels\\Human\\HumanLargeDeathExplode\\HumanLargeDeathExplode.mdl", YDWECoordinateX(GetUnitX(GetTriggerUnit())), YDWECoordinateY(GetUnitY(GetTriggerUnit()))) )
-    call CreateTextTagUnitBJ( "TRIGSTR_502", GetTriggerUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
+    call CreateTextTagUnitBJ( "TRIGSTR_500", GetTriggerUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
     call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
     call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
 endfunction
@@ -46367,7 +46490,7 @@ function Trig_______133Conditions takes nothing returns boolean
 endfunction
 function Trig_______133Actions takes nothing returns nothing
     call RemoveItem( GetSoldItem() )
-    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_503" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_501" )
 endfunction
 //===========================================================================
 function InitTrig_______133 takes nothing returns nothing
@@ -46385,7 +46508,7 @@ function Trig_______134Conditions takes nothing returns boolean
 endfunction
 function Trig_______134Actions takes nothing returns nothing
     call UnitRemoveItem( GetTriggerUnit() , GetManipulatedItem()) <?='\n'?> set bj_lastRemovedItem = GetManipulatedItem()
-    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_504" )
+    call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_502" )
 endfunction
 //===========================================================================
 function InitTrig_______134 takes nothing returns nothing
@@ -46411,7 +46534,7 @@ function Trig_____________65Actions takes nothing returns nothing
         call ShowUnitShow( gg_unit_h00K_0254 )
         call SetUnitPositionLoc( gg_unit_h00K_0254, LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>) )
         call SetUnitUserData( gg_unit_h00K_0254, 1 )
-        call CreateTextTagLocBJ( "TRIGSTR_505", LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>), 0, 25.00, 0.00, 0.00, 100.00, 0 )
+        call CreateTextTagLocBJ( "TRIGSTR_503", LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>), 0, 25.00, 0.00, 0.00, 100.00, 0 )
         set udg_Piaofu_Shazhen = GetLastCreatedTextTag()
     else
         call SetUnitPositionLoc( gg_unit_h00K_0254, LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>) )
@@ -46464,7 +46587,7 @@ function Trig__________67Actions takes nothing returns nothing
     call CreateNUnitsAtLoc( 1, 'h019', GetOwningPlayer(GetTriggerUnit()), LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>), 0.00 )
     set udg_U_Xuli_2 = bj_lastCreatedUnit
     call UnitAddAbility( bj_lastCreatedUnit , 'A0A5')
-    call CreateTextTagLocBJ( "TRIGSTR_506", LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>), 0, 10.00, 100, 100, 0.00, 0 )
+    call CreateTextTagLocBJ( "TRIGSTR_504", LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>), 0, 10.00, 100, 100, 0.00, 0 )
     set udg_Piaofu_Xuli = GetLastCreatedTextTag()
     set udg_I_Xuli = 0
     call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>) )
@@ -46969,7 +47092,7 @@ function Trig_____________81Func016Func001Func007A takes nothing returns nothing
         if ((IsUnitType(GetEnumUnit(), UNIT_TYPE_HERO) == true)) then
             if ((GetUnitState( GetEnumUnit(), UNIT_STATE_LIFE) <= ( 0.10 * GetUnitState( GetEnumUnit(), UNIT_STATE_MAX_LIFE) )) and ((GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) > 0) == true)) then
                 call UnitDamageTarget( gg_unit_Etyr_0017, GetEnumUnit(), 100000000.00, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON , WEAPON_TYPE_WHOKNOWS)
-                call CreateTextTagUnitBJ( "TRIGSTR_509", GetEnumUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
+                call CreateTextTagUnitBJ( "TRIGSTR_507", GetEnumUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
                 call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
                 call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
                 debug call AddTaiyaSpin()
@@ -46982,7 +47105,7 @@ function Trig_____________81Func016Func001Func007A takes nothing returns nothing
         else
             if ((GetRandomInt(1, 100) <= R2I(( ( 1.00 - ( GetUnitState( GetEnumUnit(), UNIT_STATE_LIFE) / GetUnitState( GetEnumUnit(), UNIT_STATE_MAX_LIFE) ) ) * 50.00 ))) and ((GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) > 0) == true)) then
                 call UnitDamageTarget( gg_unit_Etyr_0017, GetEnumUnit(), 100000000.00, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON , WEAPON_TYPE_WHOKNOWS)
-                call CreateTextTagUnitBJ( "TRIGSTR_507", GetEnumUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
+                call CreateTextTagUnitBJ( "TRIGSTR_505", GetEnumUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
                 call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
                 call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
                 debug call AddTaiyaSpin()
@@ -46990,7 +47113,7 @@ function Trig_____________81Func016Func001Func007A takes nothing returns nothing
             endif
             if (((GetUnitState(GetEnumUnit(), UNIT_STATE_LIFE) > 0) == true) and (GetUnitState( GetEnumUnit(), UNIT_STATE_LIFE) <= ( 0.20 * GetUnitState( GetEnumUnit(), UNIT_STATE_MAX_LIFE) ))) then
                 call UnitDamageTarget( gg_unit_Etyr_0017, GetEnumUnit(), 100000000.00, true, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON , WEAPON_TYPE_WHOKNOWS)
-                call CreateTextTagUnitBJ( "TRIGSTR_508", GetEnumUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
+                call CreateTextTagUnitBJ( "TRIGSTR_506", GetEnumUnit(), 0, 16.00, 0.00, 100.00, 0.00, 0 )
                 call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
                 call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
                 debug call AddTaiyaSpin()
@@ -49546,7 +49669,7 @@ function Trig____________________________uActions takes nothing returns nothing
             if ((GetRandomInt(1, 20) == 1)) then
                 set udg_I_suijizhengshu = LoadInteger(YDHT, GetItemTypeId(UnitItemInSlot(GetAttacker(), ( bj_forLoopAIndex)-1)), <?=StringHash( "WS")?>)
                 call UnitDamageTarget( GetAttacker(), GetTriggerUnit(), I2R(udg_I_suijizhengshu), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
-                call CreateTextTagUnitBJ( "TRIGSTR_510", GetAttacker(), 0, 16.00, 100, 0.00, 0.00, 0 )
+                call CreateTextTagUnitBJ( "TRIGSTR_508", GetAttacker(), 0, 16.00, 100, 0.00, 0.00, 0 )
                 call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
                 call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
             else
@@ -49563,7 +49686,7 @@ function Trig____________________________uActions takes nothing returns nothing
             if ((GetRandomInt(1, 20) == 1)) then
                 set udg_I_suijizhengshu = LoadInteger(YDHT, GetItemTypeId(UnitItemInSlot(GetTriggerUnit(), ( bj_forLoopAIndex)-1)), <?=StringHash( "BXS")?>)
                 call UnitDamageTarget( GetTriggerUnit(), GetAttacker(), I2R(udg_I_suijizhengshu), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
-                call CreateTextTagUnitBJ( "TRIGSTR_511", GetTriggerUnit(), 0, 16.00, 100, 0.00, 0.00, 0 )
+                call CreateTextTagUnitBJ( "TRIGSTR_509", GetTriggerUnit(), 0, 16.00, 100, 0.00, 0.00, 0 )
                 call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
                 call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
             else
@@ -50472,7 +50595,7 @@ function Trig_papa_________uActions takes nothing returns nothing
     local integer ydul_i
     local integer ydl_localvar_step = LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76) <?='\n'?> set ydl_localvar_step = ydl_localvar_step + 3 <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step) <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] >= 112)) then
-        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_512" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_510" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         set ydl_group = null
         set ydl_unit = null
@@ -50483,7 +50606,7 @@ function Trig_papa_________uActions takes nothing returns nothing
     call ForGroupBJ( udg_Lianyu_Group[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))], function Trig_papa_________uFunc004A )
     if ((LoadBoolean(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "true")?>) == true)) then
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_513" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_511" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         set ydl_group = null
         set ydl_unit = null
@@ -50495,7 +50618,7 @@ function Trig_papa_________uActions takes nothing returns nothing
         exitwhen ydul_i > CModeH(1,2)
         if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] == 15)) then
             call SetPlayerTechResearchedSwap( 'R007', 1, GetOwningPlayer(GetTriggerUnit()) )
-            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_514" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_512" )
             call TriggerAllHeroLearn(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),3)
             if ((GetTriggerUnit() == gg_unit_Othr_0256) and (GetUnitAbilityLevel( gg_unit_Othr_0256, 'A0E9') == 1)) then
                 call InitSheyanAura()
@@ -50523,7 +50646,7 @@ function Trig_papa_________uActions takes nothing returns nothing
         endif
         if ((udg_I_Lianyu[GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit()))] == 70)) then
             call SetPlayerTechResearchedSwap( 'R00A', 1, GetOwningPlayer(GetTriggerUnit()) )
-            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_515" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetTriggerUnit()), 0, 0, "TRIGSTR_513" )
             call TriggerAllHeroLearn(GetConvertedPlayerId(GetOwningPlayer(GetTriggerUnit())),5)
             set bj_forLoopAIndex = 1
             set bj_forLoopAIndexEnd = 6
@@ -51059,11 +51182,11 @@ function Trig_papa6______uActions takes nothing returns nothing
                 set udg_Unit = null
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_516" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_514" )
         endif
         call DestroyGroup( udg_Group )
     else
-        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_517" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_515" )
     endif
 endfunction
 //===========================================================================
@@ -51079,7 +51202,7 @@ endfunction
 //===========================================================================
 function Trig_papa7_________uFunc002Func001A takes nothing returns nothing
     call SetPlayerTechResearchedSwap( 'R008', 1, GetEnumPlayer() )
-    call DisplayTextToPlayer( GetEnumPlayer(), 0, 0, "TRIGSTR_518" )
+    call DisplayTextToPlayer( GetEnumPlayer(), 0, 0, "TRIGSTR_516" )
     if ( (not(BTianting1[GetConvertedPlayerId(GetEnumPlayer())]))) then
         call TriggerAllHeroLearn(GetConvertedPlayerId(GetEnumPlayer()),4)
         set BTianting1[GetConvertedPlayerId(GetEnumPlayer())] = true
@@ -51124,7 +51247,7 @@ function Trig_papa7_________uFunc003Func001A takes nothing returns nothing
         set BTianting2[GetConvertedPlayerId(GetEnumPlayer())] = true
     else
     endif
-    call DisplayTextToPlayer( GetEnumPlayer(), 0, 0, "TRIGSTR_519" )
+    call DisplayTextToPlayer( GetEnumPlayer(), 0, 0, "TRIGSTR_517" )
 endfunction
 function Trig_papa7_________uFunc010Func002A takes nothing returns nothing
     set udg_I_Shanghai[GetConvertedPlayerId(GetEnumPlayer())] = ( udg_I_Shanghai[GetConvertedPlayerId(GetEnumPlayer())] + 0.02 )
@@ -51632,7 +51755,7 @@ function Trig_papa14____________uActions takes nothing returns nothing
         call UnitAddAbility( bj_lastCreatedUnit , 'AEer')
         call SetUnitAbilityLevel( bj_lastCreatedUnit, 'AEer', GetUnitAbilityLevel( GetTriggerUnit(), 'A043') )
         call IssueTargetOrder( bj_lastCreatedUnit, "entanglingroots", GetAttacker() )
-        call CreateTextTagUnitBJ( "TRIGSTR_520", GetTriggerUnit(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
+        call CreateTextTagUnitBJ( "TRIGSTR_518", GetTriggerUnit(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
         call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, GetRandomReal(0, 360) )
         call YDWETimerDestroyTextTag( 3.00, GetLastCreatedTextTag() )
         call RemoveLocation( udg_Point )
@@ -51645,7 +51768,7 @@ function Trig_papa14____________uActions takes nothing returns nothing
         call UnitAddAbility( bj_lastCreatedUnit , 'ACcb')
         call SetUnitAbilityLevel( bj_lastCreatedUnit, 'ACcb', GetUnitAbilityLevel( GetTriggerUnit(), 'A043') )
         call IssueTargetOrder( bj_lastCreatedUnit, "thunderbolt", GetAttacker() )
-        call CreateTextTagUnitBJ( "TRIGSTR_521", GetTriggerUnit(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
+        call CreateTextTagUnitBJ( "TRIGSTR_519", GetTriggerUnit(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
         call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, GetRandomReal(0, 360) )
         call YDWETimerDestroyTextTag( 3.00, GetLastCreatedTextTag() )
         call RemoveLocation( udg_Point )
@@ -51653,7 +51776,7 @@ function Trig_papa14____________uActions takes nothing returns nothing
     endif
     if ((GetUnitAbilityLevel( GetAttacker(), 'A043') != 0) and (GetRandomInt(1, 50) == 1)) then
         set udg_Point = GetUnitLoc(GetAttacker())
-        call CreateTextTagUnitBJ( "TRIGSTR_522", GetAttacker(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
+        call CreateTextTagUnitBJ( "TRIGSTR_520", GetAttacker(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
         call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, GetRandomReal(0, 360) )
         call YDWETimerDestroyTextTag( 3.00, GetLastCreatedTextTag() )
         set udg_Group = YDWEGetUnitsInRangeOfLocMatchingNull(600.00, udg_Point, Condition(function Trig_papa14____________uFunc003Func005002003))
@@ -51663,7 +51786,7 @@ function Trig_papa14____________uActions takes nothing returns nothing
     else
     endif
     if ((GetUnitAbilityLevel( GetAttacker(), 'A043') != 0) and (GetRandomInt(1, 100) == 1)) then
-        call CreateTextTagUnitBJ( "TRIGSTR_523", GetAttacker(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
+        call CreateTextTagUnitBJ( "TRIGSTR_521", GetAttacker(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
         call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, GetRandomReal(0, 360) )
         call YDWETimerDestroyTextTag( 3.00, GetLastCreatedTextTag() )
         set udg_Point = GetUnitLoc(GetAttacker())
@@ -51677,7 +51800,7 @@ function Trig_papa14____________uActions takes nothing returns nothing
         call UnitDamageTarget( GetTriggerUnit(), GetAttacker(), ( 1.00 * GetUnitState( GetAttacker(), UNIT_STATE_MAX_LIFE) ), false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
         call SaveLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>, GetUnitLoc(GetAttacker()))
         call DestroyEffect( AddSpecialEffectLoc("Abilities\\Spells\\Other\\Stampede\\StampedeMissileDeath.mdl", LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>)) )
-        call CreateTextTagUnitBJ( "TRIGSTR_524", GetAttacker(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
+        call CreateTextTagUnitBJ( "TRIGSTR_522", GetAttacker(), 0, 30.00, GetRandomReal(0, 100.00), GetRandomReal(0.00, 100.00), GetRandomReal(0, 100.00), 0 )
         call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, GetRandomReal(0, 360) )
         call YDWETimerDestroyTextTag( 3.00, GetLastCreatedTextTag() )
         call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>) )
@@ -51791,13 +51914,13 @@ function Trig____________________010Actions takes nothing returns nothing
             set udg_Xianxue_BOSS[4] = GetLastCreatedTextTag()
             call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "er")?>) )
             call CinematicModeBJ( true, bj_FORCE_ALL_PLAYERS )
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Uwar_0274, "TRIGSTR_525", null, "TRIGSTR_526", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Uwar_0274, "TRIGSTR_523", null, "TRIGSTR_524", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(2.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call SaveLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "er")?>, GetUnitLoc(gg_unit_Utic_0275))
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________010Func002Func001Func052A )
             call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "er")?>) )
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Uwar_0274, "TRIGSTR_527", null, "TRIGSTR_528", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Uwar_0274, "TRIGSTR_525", null, "TRIGSTR_526", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(2.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ( false, bj_FORCE_ALL_PLAYERS )
@@ -51833,7 +51956,7 @@ function Trig____________________010Actions takes nothing returns nothing
             call BossAddOnlyAttack(gg_unit_Uwar_0274)
             call EnableTrigger( gg_trg_xianxue )
             call StartTimerBJ( udg_Time_BOSS, false, 1200.00 )
-            call CreateTimerDialogBJ( udg_Time_BOSS, "TRIGSTR_529" )
+            call CreateTimerDialogBJ( udg_Time_BOSS, "TRIGSTR_527" )
             set udg_Timer_BOSS = GetLastCreatedTimerDialogBJ()
             call TimerDialogDisplayBJ( true, udg_Timer_BOSS )
         else
@@ -51877,7 +52000,7 @@ function Trig____________________010Actions takes nothing returns nothing
             if ((udg_Bo < 24)) then
                 call TimerDialogSetTitle( udg_Time_Monster_C[1], ( "第" + ( I2S(( udg_Bo + 1 )) + "波" ) ) )
             else
-                call TimerDialogSetTitle( udg_Time_Monster_C[1], "TRIGSTR_530" )
+                call TimerDialogSetTitle( udg_Time_Monster_C[1], "TRIGSTR_528" )
             endif
         endif
     endif
@@ -51972,99 +52095,99 @@ function Trig____________________020Actions takes nothing returns nothing
     call ForForce( bj_FORCE_ALL_PLAYERS, function Trig____________________020Func002A )
     call YDWEPolledWaitNull(2)
     if ((udg_Bo == 1)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_531" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_529" )
     else
     endif
     if ((udg_Bo == 2)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_532" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_530" )
     else
     endif
     if ((udg_Bo == 3)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_533" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_531" )
     else
     endif
     if ((udg_Bo == 4)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_534" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_532" )
     else
     endif
     if ((udg_Bo == 5)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_535" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_533" )
     else
     endif
     if ((udg_Bo == 6)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_536" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_534" )
     else
     endif
     if ((udg_Bo == 7)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_537" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_535" )
     else
     endif
     if ((udg_Bo == 8)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_538" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_536" )
     else
     endif
     if ((udg_Bo == 9)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_539" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_537" )
     else
     endif
     if ((udg_Bo == 10)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_540" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_538" )
     else
     endif
     if ((udg_Bo == 11)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_541" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_539" )
     else
     endif
     if ((udg_Bo == 12)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_542" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_540" )
     else
     endif
     if ((udg_Bo == 13)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_543" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_541" )
     else
     endif
     if ((udg_Bo == 14)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_544" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_542" )
     else
     endif
     if ((udg_Bo == 15)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_545" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_543" )
     else
     endif
     if ((udg_Bo == 16)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_546" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_544" )
     else
     endif
     if ((udg_Bo == 17)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_547" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_545" )
     else
     endif
     if ((udg_Bo == 18)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_548" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_546" )
     else
     endif
     if ((udg_Bo == 19)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_549" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_547" )
     else
     endif
     if ((udg_Bo == 20)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_550" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_548" )
     else
     endif
     if ((udg_Bo == 21)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_551" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_549" )
     else
     endif
     if ((udg_Bo == 22)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_552" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_550" )
     else
     endif
     if ((udg_Bo == 23)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_553" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_551" )
     else
     endif
     if ((udg_Bo == 24)) then
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_554" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_552" )
     else
     endif
 endfunction
@@ -52417,7 +52540,7 @@ function Trig____________________049Actions takes nothing returns nothing
         call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>, YDWEGetRandomSubGroupNull(( CountUnitsInGroup(udg_Group) / 1 ), udg_Group))
         call ForGroupBJ( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>), function Trig____________________049Func002Func002A )
         call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "group")?>) )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_555" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_553" )
     else
     endif
     if ((CountUnitsInGroup(udg_Group) >= 20)) then
@@ -52720,7 +52843,7 @@ function Trig_mowangshangwo2Actions takes nothing returns nothing
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "gg")?>, YDWEGetUnitsInRangeOfLocMatchingNull(900.00, LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "zb")?>), Condition(function Trig_mowangshangwo2Func001Func002Func005003003)))
             if ((GetUnitState( gg_unit_Nman_0276, UNIT_STATE_LIFE) <= ( 0.33 * GetUnitState( gg_unit_Nman_0276, UNIT_STATE_MAX_LIFE) )) and (CountUnitsInGroup(LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "gg")?>)) > 0)) then
                 call ForGroupBJ( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "gg")?>), function Trig_mowangshangwo2Func001Func002Func006Func001A )
-                call CreateTextTagUnitBJ( "TRIGSTR_556", gg_unit_Nman_0276, 0, 16.00, 0.00, 100.00, 0.00, 0 )
+                call CreateTextTagUnitBJ( "TRIGSTR_554", gg_unit_Nman_0276, 0, 16.00, 0.00, 100.00, 0.00, 0 )
                 call SetTextTagVelocityBJ( GetLastCreatedTextTag(), 64, 90.00 )
                 call YDWETimerDestroyTextTag( 2, GetLastCreatedTextTag() )
             else
@@ -52862,10 +52985,10 @@ function Trig_pandingActions takes nothing returns nothing
         call PauseTimer( udg_Time_BOSS )
         call DestroyTimerDialog( udg_Timer_BOSS )
         if ((udg_Nandu_JJJ <= 2) and (vip.has() == false)) then
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_565", null, "TRIGSTR_566", bj_TIMETYPE_ADD, 5.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_563", null, "TRIGSTR_000", bj_TIMETYPE_ADD, 5.00, true )
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_567", null, "TRIGSTR_568", bj_TIMETYPE_ADD, 5.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_564", null, "TRIGSTR_565", bj_TIMETYPE_ADD, 5.00, true )
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ( false, bj_FORCE_ALL_PLAYERS )
@@ -52888,10 +53011,10 @@ function Trig_pandingActions takes nothing returns nothing
             call ShowUnit( gg_unit_Nkjx_0241, true )
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig_pandingFunc004Func019Func003A )
             call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "er")?>) )
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_557", null, "TRIGSTR_558", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_555", null, "TRIGSTR_556", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(2.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "TRIGSTR_559", null, "TRIGSTR_560", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "TRIGSTR_557", null, "TRIGSTR_558", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(2.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ( false, bj_FORCE_ALL_PLAYERS )
@@ -52905,11 +53028,11 @@ function Trig_pandingActions takes nothing returns nothing
             call ForGroupBJ( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "al")?>), function Trig_pandingFunc004Func019Func019A )
             call DestroyGroup( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "al")?>) )
             call PlaySoundBJ( gg_snd_Renwu )
-            call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_561", "TRIGSTR_562", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
-            call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_563" )
+            call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_559", "TRIGSTR_560", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
+            call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_561" )
             call QuestSetEnabled( bj_lastCreatedQuest , true)
             call StartTimerBJ( udg_Double_M[1], false, 20.00 )
-            call CreateTimerDialogBJ( udg_Double_M[1], "TRIGSTR_564" )
+            call CreateTimerDialogBJ( udg_Double_M[1], "TRIGSTR_562" )
             set udg_Double_Me = GetLastCreatedTimerDialogBJ()
             call TimerDialogDisplayBJ( true, udg_Double_Me )
             call PauseUnit( gg_unit_Nkjx_0241 , true)
@@ -53096,6 +53219,9 @@ function Trig_asdfActions takes nothing returns nothing
         set udg_Xianxue_BOSS[7] = GetLastCreatedTextTag()
         call PingMinimapLocForForce( bj_FORCE_ALL_PLAYERS, LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "er")?>), 5.00 )
         call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "er")?>) )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_566" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_567" )
+        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_568" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_569" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_570" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_571" )
@@ -53103,9 +53229,6 @@ function Trig_asdfActions takes nothing returns nothing
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_573" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_574" )
         call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_575" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_576" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_577" )
-        call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_578" )
         call EnableTrigger( gg_trg_xianxue1 )
         call EnableTrigger( gg_trg_mowangshangsd3 )
         call EnableTrigger( gg_trg_mowangshangsd4 )
@@ -53118,7 +53241,7 @@ function Trig_asdfActions takes nothing returns nothing
         	call BossAddOnlyAttack(gg_unit_Nkjx_0241)
         call InitMingwang()
         call StartTimerBJ( udg_Time_BOSS, false, 1200.00 )
-        call CreateTimerDialogBJ( udg_Time_BOSS, "TRIGSTR_579" )
+        call CreateTimerDialogBJ( udg_Time_BOSS, "TRIGSTR_576" )
         set udg_Timer_BOSS = GetLastCreatedTimerDialogBJ()
         call TimerDialogDisplayBJ( true, udg_Timer_BOSS )
     else
@@ -53132,7 +53255,7 @@ function Trig_asdfActions takes nothing returns nothing
         if ((udg_Bo < 29)) then
             call TimerDialogSetTitle( udg_Double_Me, ( "第sp." + ( I2S(( udg_Bo - 23 )) + "波" ) ) )
         else
-            call TimerDialogSetTitle( udg_Double_Me, "TRIGSTR_580" )
+            call TimerDialogSetTitle( udg_Double_Me, "TRIGSTR_577" )
         endif
         call StartTimerBJ( udg_Double_M[2], false, ( 3.00 * GetMonsterSpeed() ) )
     endif
@@ -53295,10 +53418,10 @@ function Trig_panding2Actions takes nothing returns nothing
         call DestroyTrigger( gg_trg_mowangshangsd4 )
         call DestroyTrigger( gg_trg_mowangshangsd5 )
         if ((udg_Nandu_JJJ <= 4) and (vip.has() == false)) then
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_590", null, "TRIGSTR_591", bj_TIMETYPE_ADD, 5.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_587", null, "TRIGSTR_588", bj_TIMETYPE_ADD, 5.00, true )
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_592", null, "TRIGSTR_593", bj_TIMETYPE_ADD, 5.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, "TRIGSTR_589", null, "TRIGSTR_590", bj_TIMETYPE_ADD, 5.00, true )
             call YDWEPolledWaitNull(5.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call CinematicModeBJ( false, bj_FORCE_ALL_PLAYERS )
@@ -53319,16 +53442,16 @@ function Trig_panding2Actions takes nothing returns nothing
             call ForForce( bj_FORCE_ALL_PLAYERS, function Trig_panding2Func001Func010Func050A )
         else
             call CinematicModeBJ( true, bj_FORCE_ALL_PLAYERS )
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "TRIGSTR_581", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, udg_H[GetConvertedPlayerId(GetFirstPlayer())], GetUnitName(udg_H[GetConvertedPlayerId(GetFirstPlayer())]), null, "TRIGSTR_578", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(1.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, GetUnitName(gg_unit_Nkjx_0241), null, "TRIGSTR_582", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_Nkjx_0241, GetUnitName(gg_unit_Nkjx_0241), null, "TRIGSTR_579", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(1.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "TRIGSTR_583", null, "TRIGSTR_584", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "TRIGSTR_580", null, "TRIGSTR_581", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(1.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
-            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "TRIGSTR_585", null, "TRIGSTR_586", bj_TIMETYPE_ADD, 2.00, true )
+            call TransmissionFromUnitWithNameBJ( bj_FORCE_ALL_PLAYERS, gg_unit_H01W_0207, "TRIGSTR_582", null, "TRIGSTR_583", bj_TIMETYPE_ADD, 2.00, true )
             call YDWEPolledWaitNull(1.00)
             call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
             call YDWEPolledWaitNull(2.00)
@@ -53340,8 +53463,8 @@ function Trig_panding2Actions takes nothing returns nothing
             	set DTJ1 = 0
             	set DTJ2 = 0
             	set DTJ3 = 0
-            call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_587", "TRIGSTR_588", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
-            call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_589" )
+            call CreateQuestBJ( bj_QUESTTYPE_REQ_DISCOVERED, "TRIGSTR_584", "TRIGSTR_585", "ReplaceableTextures\\CommandButtons\\BTNPossession.blp" )
+            call QuestMessageBJ( bj_FORCE_ALL_PLAYERS, bj_QUESTMESSAGE_DISCOVERED, "TRIGSTR_586" )
             call QuestSetEnabled( bj_lastCreatedQuest , true)
             call SaveGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "al")?>, YDWEGetUnitsInRectAllNull(bj_mapInitialPlayableArea))
             call ForGroupBJ( LoadGroupHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "al")?>), function Trig_panding2Func001Func010Func022A )
@@ -53388,7 +53511,7 @@ function Trig____________________043Actions takes nothing returns nothing
     local integer ydl_localvar_step = LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76) <?='\n'?> set ydl_localvar_step = ydl_localvar_step + 3 <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xCFDE6C76, ydl_localvar_step) <?='\n'?> call SaveInteger(YDLOC, GetHandleId(GetTriggeringTrigger()), 0xECE825E7, ydl_localvar_step)
     if ((GetItemTypeId(GetSoldItem()) == 'I04B')) then
         if ((GetPlayerState(GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_FOOD_USED) >= ( GetPlayerState(GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_FOOD_CAP) - 0 ))) then
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_595" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_592" )
         else
             if ((udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] > 3000)) then
                 set udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = ( udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] - 3000 )
@@ -53396,7 +53519,7 @@ function Trig____________________043Actions takes nothing returns nothing
                 call SaveLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>, GetUnitLoc(GetBuyingUnit()))
                 call CreateNUnitsAtLoc( 1, 'nhew', GetOwningPlayer(GetBuyingUnit()), LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>), bj_UNIT_FACING )
                 call RemoveLocation( LoadLocationHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "point")?>) )
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_594" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_591" )
             else
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r杀敌数不足3000，你目前杀敌数为" + ( I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) + "。" ) ) )
             endif
@@ -53421,15 +53544,15 @@ function Trig____________________043Actions takes nothing returns nothing
                     set udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = ( udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] - 25000 )
                     call YDWEMultiboardSetItemValueBJNull( udg_D, 5, ( GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())) + 1 ), I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) )
                     call UnitAddAbility( gg_unit_haro_0030 , 'A0EG')
-                    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_596" )
+                    call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_593" )
                 else
                     call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r杀敌数不足25000，你目前杀敌数为" + ( I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) + "。" ) ) )
                 endif
             else
-                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_597" )
+                call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_594" )
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_598" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_595" )
         endif
     else
     endif
@@ -53444,7 +53567,7 @@ function Trig____________________043Actions takes nothing returns nothing
                 call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r杀敌数不足2000，你目前杀敌数为" + ( I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) + "。" ) ) )
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_599" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_596" )
         endif
     else
     endif
@@ -53453,7 +53576,7 @@ function Trig____________________043Actions takes nothing returns nothing
             set udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = ( udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] - 10000 )
             call YDWEMultiboardSetItemValueBJNull( udg_D, 5, ( GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())) + 1 ), I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) )
             call UnitAddItemByIdSwapped( 'I071', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_600" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_597" )
         else
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r杀敌数不足10000，你目前杀敌数为" + ( I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) + "。" ) ) )
         endif
@@ -53464,7 +53587,7 @@ function Trig____________________043Actions takes nothing returns nothing
             set udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] = ( udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))] - 25000 )
             call YDWEMultiboardSetItemValueBJNull( udg_D, 5, ( GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit())) + 1 ), I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) )
             call UnitAddItemByIdSwapped( 'k3m1', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_601" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_598" )
         else
             call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, ( "|cFFFF66CC【消息】|r杀敌数不足25000，你目前杀敌数为" + ( I2S(udg_Paihangbang[GetConvertedPlayerId(GetOwningPlayer(GetBuyingUnit()))]) + "。" ) ) )
         endif
@@ -53592,7 +53715,7 @@ function Trig____________________041Actions takes nothing returns nothing
             if ((GetItemCharges(LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "item")?>)) == 1)) then
                 call PlaySoundBJ( gg_snd_Shibai )
                 call RemoveItem( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "item")?>) )
-                call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_602" )
+                call DisplayTextToForce( bj_FORCE_ALL_PLAYERS, "TRIGSTR_599" )
             else
                 call SetItemCharges( LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "item")?>), ( GetItemCharges(LoadItemHandle(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "item")?>)) - 1 ) )
             endif
@@ -53632,7 +53755,7 @@ function Trig______________11b_______uActions takes nothing returns nothing
     endloop
     if ((LoadInteger(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step, <?=StringHash( "i")?>) >= 2)) then
         call UnitRemoveItem( GetManipulatingUnit() , GetManipulatedItem()) <?='\n'?> set bj_lastRemovedItem = GetManipulatedItem()
-        call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_603" )
+        call DisplayTextToPlayer( GetOwningPlayer(GetManipulatingUnit()), 0, 0, "TRIGSTR_600" )
         call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
         return
     else
@@ -53900,7 +54023,7 @@ function Trig_h1Actions takes nothing returns nothing
             else
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_604" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_601" )
             call AdjustPlayerStateBJ( 1500, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_GOLD )
         endif
     else
@@ -53913,7 +54036,7 @@ function Trig_h1Actions takes nothing returns nothing
             else
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_605" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_602" )
             call AdjustPlayerStateBJ( 5, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
     else
@@ -53926,7 +54049,7 @@ function Trig_h1Actions takes nothing returns nothing
             else
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_606" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_603" )
             call AdjustPlayerStateBJ( 30, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
     else
@@ -53939,7 +54062,7 @@ function Trig_h1Actions takes nothing returns nothing
             else
             endif
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_607" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_604" )
             call AdjustPlayerStateBJ( 150, GetOwningPlayer(GetBuyingUnit()), PLAYER_STATE_RESOURCE_LUMBER )
         endif
     else
@@ -53961,7 +54084,7 @@ function Trig_h1Actions takes nothing returns nothing
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'hlst') )
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'hlst') )
             call UnitAddItemByIdSwapped( 'wshs', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_608" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_605" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
@@ -53982,7 +54105,7 @@ function Trig_h1Actions takes nothing returns nothing
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'wshs') )
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'wshs') )
             call UnitAddItemByIdSwapped( 'wild', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_609" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_606" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
@@ -54003,7 +54126,7 @@ function Trig_h1Actions takes nothing returns nothing
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'wild') )
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'wild') )
             call UnitAddItemByIdSwapped( 'totw', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_610" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_607" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
@@ -54024,7 +54147,7 @@ function Trig_h1Actions takes nothing returns nothing
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'totw') )
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'totw') )
             call UnitAddItemByIdSwapped( 'sror', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_611" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_608" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
@@ -54045,11 +54168,11 @@ function Trig_h1Actions takes nothing returns nothing
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'sror') )
             call RemoveItem( YDWEGetItemOfTypeFromUnitBJNull(GetBuyingUnit(), 'sror') )
             call UnitAddItemByIdSwapped( 'fgrg', GetBuyingUnit() )
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_613" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_610" )
             call FlushChildHashtable(YDLOC, GetHandleId(GetTriggeringTrigger())*ydl_localvar_step)
             return
         else
-            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_612" )
+            call DisplayTextToPlayer( GetOwningPlayer(GetBuyingUnit()), 0, 0, "TRIGSTR_609" )
         endif
     else
     endif
@@ -55361,7 +55484,7 @@ function Trig____________________016Actions takes nothing returns nothing
     call PingMinimapForForce( YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), 6857.9, 1461.0, 3.00 )
     call PingMinimapForForce( YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), 6859.1, -2102.9, 3.00 )
     call PingMinimapForForce( YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), 9513.5, -2109.0, 3.00 )
-    call TransmissionFromUnitWithNameBJ( YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), gg_unit_nhea_0201, "TRIGSTR_614", null, "TRIGSTR_615", bj_TIMETYPE_ADD, 3.00, true )
+    call TransmissionFromUnitWithNameBJ( YDWEGetForceOfPlayerNull(GetOwningPlayer(GetTriggerUnit())), gg_unit_nhea_0201, "TRIGSTR_611", null, "TRIGSTR_612", bj_TIMETYPE_ADD, 3.00, true )
 endfunction
 //===========================================================================
 function InitTrig____________________016 takes nothing returns nothing
@@ -55447,7 +55570,6 @@ function InitCustomTriggers takes nothing returns nothing
     call InitTrig_D2( )
     call InitTrig_D5( )
     call InitTrig_D7( )
-    call InitTrig__fh( )
     call InitTrig__ym( )
     call InitTrig__cx( )
     call InitTrig____________________029( )
@@ -55837,7 +55959,7 @@ function InitCustomPlayerSlots takes nothing returns nothing
     call SetPlayerController( Player(11), MAP_CONTROL_COMPUTER )
 endfunction
 function InitCustomTeams takes nothing returns nothing
-    // Force: TRIGSTR_622
+    // Force: TRIGSTR_619
     call SetPlayerTeam( Player(0), 0 )
     call SetPlayerTeam( Player(1), 0 )
     call SetPlayerTeam( Player(2), 0 )
@@ -55931,7 +56053,7 @@ function InitCustomTeams takes nothing returns nothing
     call SetPlayerAllianceStateVisionBJ( Player(6), Player(3), true )
     call SetPlayerAllianceStateVisionBJ( Player(6), Player(4), true )
     call SetPlayerAllianceStateVisionBJ( Player(6), Player(5), true )
-    // Force: TRIGSTR_624
+    // Force: TRIGSTR_621
     call SetPlayerTeam( Player(10), 1 )
     call SetPlayerTeam( Player(11), 1 )
     //   Allied

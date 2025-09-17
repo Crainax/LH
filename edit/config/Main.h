@@ -128,6 +128,8 @@
 // 右键双击转移装备
 #include "edit/Item/ItemTransport.j"
 
+// 按tab看属性
+#include "edit/Hero/HeroInfo.j"
 
 // 测试文件
 #if ((CURRENT_BUILD_VERSION == VERSION_ALPHA) || (CURRENT_BUILD_VERSION == VERSION_BETA))

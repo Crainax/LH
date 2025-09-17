@@ -1,4 +1,4 @@
 logs\currentmapscript.j
-pjass.exe
-Line 31949:  Undeclared variable p
+JASSHelper - Step 2 (structs)
+Line 25646: Too many arguments given to function : GetTriggerUnit
 1

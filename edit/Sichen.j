@@ -348,7 +348,7 @@ library_once Sichen requires SpellBase,Printer,Attr,Pet,Aura
 				return true
 			//抓宠物
 			elseif (GetUnitTypeId(GetEventDamageSource()) == 'h1s7' or GetUnitTypeId(GetEventDamageSource()) == 'h1s4') then
-				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) and not(IsUnitIllusion(GetTriggerUnit()))) then
+				if ((not(IsLoyalUnit(GetTriggerUnit()))) and (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_USED) < ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP))) and GetRandomInt(1,100) < (GetHeroLevel(sichen) - GetUnitLevel(GetTriggerUnit())) and not(IsUnitType(GetTriggerUnit(),UNIT_TYPE_HERO)) and not(IsUnitIllusion(GetTriggerUnit())) and IsUnitEnemy(GetTriggerUnit(), GetOwningPlayer(GetEventDamageSource()))) then
 					call CreatePet(GetOwningPlayer(sichen),GetTriggerUnit())
 				endif
 			//硫炎
