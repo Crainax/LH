@@ -28,3 +28,11 @@
 
 ## 注意点:
 war3map.wts 这个文件在LNI化的时候会出错  记得把目录里的`war3map.wts` 粘贴回去
+
+
+防止忘记:
+lni操作:
+1.wts要从火龙中抽出来,
+2.把script.j从WE的file.out中复制过来.(edit/config/)
+
+obj操作:

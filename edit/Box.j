@@ -282,6 +282,7 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 		TriggerRegisterDialogEvent(t, d);
 		TriggerAddAction(t, function (){
 			dialog d; unit u; integer i;
+			item currentItem; boolean isMingan; boolean isZhanfahun; boolean isPawnable; string reason;
 
 			d = GetClickedDialogBJ();
 			u = LoadUnitHandle(LHTable, GetHandleId(d), 8);
@@ -290,11 +291,37 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 			for (1 <= i <= 6) {
 				if (GetClickedButtonBJ() == LoadButtonHandle(LHTable, GetHandleId(d), i)) {
 					if (UnitItemInSlotBJ(u, i) != null) {
-						if ((!IsMinganItem(UnitItemInSlotBJ(u, i))) && (!IsZhanfahun(UnitItemInSlotBJ(u, i)) && (!IsItemPawnable(UnitItemInSlotBJ(u, i))))) {
-							UnitAddItem(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))], UnitItemInSlotBJ(u, i));
+						currentItem = UnitItemInSlotBJ(u, i);
+						isMingan = IsMinganItem(currentItem);
+						isZhanfahun = IsZhanfahun(currentItem);
+						// isPawnable = !IsItemPawnable(currentItem);
+
+						// 调试输出每个条件的结果
+						// DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFF00FF00【调试】|r物品: " + GetItemName(currentItem));
+						// DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFF00FF00【调试】|r是否为敏感物品: " + S3(isMingan , "是" , "否"));
+						// DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFF00FF00【调试】|r是否为战法魂: " + S3(isZhanfahun , "是" , "否"));
+						// DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFF00FF00【调试】|r是否可典当: " + S3(isPawnable , "是" , "否"));
+
+						// if ((!isMingan) && (!isZhanfahun) && (!isPawnable)) {
+						if ((!isMingan) && (!isZhanfahun) ) {
+							// DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFF00FF00【调试】|r物品可以移动，正在传送到仓库");
+							UnitAddItem(UDepot[GetConvertedPlayerId(GetOwningPlayer(u))], currentItem);
 						} else {
-							DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r该物品不能移动.");
+							reason = "|cFFFF66CC【消息】|r该物品不能移动. ";
+							// reason = "|cFFFF66CC【消息】|r该物品不能移动，原因: ";
+							// if (isMingan) {
+							// 	reason = reason + "敏感物品 ";
+							// }
+							// if (isZhanfahun) {
+							// 	reason = reason + "战法魂 ";
+							// }
+							// if (isPawnable) {
+							// 	reason = reason + "可典当物品 ";
+							// }
+							// DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., reason);
 						}
+
+						currentItem = null;
 					}
 				}
 			}
