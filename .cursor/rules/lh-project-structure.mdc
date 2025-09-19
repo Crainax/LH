@@ -1,0 +1,60 @@
+---
+alwaysApply: true
+---
+
+# LH 项目结构与约定
+
+## 项目概述
+
+这是一个魔兽争霸3地图开发项目，主要使用 JASS 和 Zinc 语言开发。
+
+## 主要目录结构
+
+- `edit/` - 主要的游戏逻辑代码目录
+  - `config/` - 配置文件，包含主入口 [Main.h](mdc:edit/config/Main.h)
+  - `Hero/` - 英雄相关逻辑
+  - `Item/` - 物品相关逻辑
+  - `player/` - 玩家相关功能
+  - `dependency/` - 依赖文件
+- `api/` - API 和第三方库
+  - `YDJ/` - YD 触发器相关文件
+  - `YDTrigger/` - YD 触发器头文件
+- `file/` - 地图资源文件
+- `db/` - 数据库配置文件
+- `config/` - 全局配置
+
+## 文件命名约定
+
+- `.j` 文件：JASS/Zinc 脚本文件
+- `.h` 文件：头文件和配置文件
+- `.cfg` 文件：配置文件
+- `.ini` 文件：初始化配置文件
+
+## 开发约定
+
+1. **代码风格**：优先使用 Zinc 语法进行新开发
+2. **模块化**：使用 `library` 结构组织代码
+3. **配置管理**：通过 `#define` 和 `.ini` 文件管理常量
+4. **版本控制**：使用 `VERSION_*` 宏控制不同版本的功能
+
+## 主要入口文件
+
+- [edit/config/Main.h](mdc:edit/config/Main.h) - 主配置文件，包含所有模块的引用
+- [edit/LHBase.j](mdc:edit/LHBase.j) - 基础库文件
+- [edit/NetVersion.j](mdc:edit/NetVersion.j) - 网络版本相关
+- [edit/BaseVersion.j](mdc:edit/BaseVersion.j) - 基础版本相关
+
+## 特殊功能模块
+
+- **英雄系统**：`edit/Hero/`
+- **物品系统**：`edit/Item/`、`edit/item.j`、`edit/ItemAttr.j`
+- **战斗系统**：`edit/Battle.j`、`edit/Arena.j`
+- **副本系统**：`edit/MiJing.j`、`edit/Shilian.j`
+- **UI系统**：`edit/Multiboard.j`
+- **测试系统**：使用版本宏控制的单元测试
+
+## 开发工具
+
+- 使用批处理文件进行构建和检查
+- 支持单元测试和断言测试
+- 包含代码统计和日志功能

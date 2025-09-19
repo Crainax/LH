@@ -104,13 +104,13 @@ public struct Example {
 
 ## 实际示例
 
-参考 [MallItem.j](mdc:Jass/server/MallItem.j) 的实现：
+参考项目中结构体的实现模式：
 
 ```jass
-public struct mallItem []{
-    static method init(string key) { /* ... */ }
-    static method onReady(code cb) { /* Condition + TriggerEvaluate */ }
-    static method hasById(integer pid, string key) ->boolean { /* ... */ }
+public struct ExampleItem []{
+    static method init(string key) { /* 初始化逻辑 */ }
+    static method onReady(code cb) { /* 回调注册：Condition + TriggerEvaluate */ }
+    static method hasById(integer pid, string key) ->boolean { /* 根据ID查询 */ }
 }
 ```
 

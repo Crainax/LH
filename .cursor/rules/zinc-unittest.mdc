@@ -1,6 +1,6 @@
 ---
-description: Zinc 单元测试和断言测试规则 - 命名规范与宏定义使用
 globs: *.j
+description: Zinc 单元测试和断言测试规则 - 命名规范与宏定义使用
 ---
 
 # Zinc 单元测试和断言测试规则

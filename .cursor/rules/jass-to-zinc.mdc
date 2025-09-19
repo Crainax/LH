@@ -1,6 +1,6 @@
 ---
+globs: *.j
 description: JASS 到 Zinc 转换规则（参考 edit/Hero/HeroSelect.j），用于 .j 文件
-alwaysApply: false
 ---
 ## JASS -> Zinc 转换规则（初始版）
 
@@ -141,12 +141,12 @@ ShowGameHintAll(" \
 
 ### 与通用 Zinc 规则的协同
 
-- 本规则与 [zinc-j](mdc:.cursor/rules/zinc-j.mdc) 配合使用：
+- 本规则与 zinc-j 规则配合使用：
   - 遵循“无闭包”：匿名回调无法直接访问外层局部变量，需通过哈希表按句柄 id 保存/读取。
   - 所有局部变量需在函数开头统一声明；
   - 所有 handler 类局部变量在函数尾部置 `null`，先释放可释放对象（定时器、触发器、组等）。
 
-### 迁移小贴士（参考 HeroSelect.j 和 Diffculty.j 的做法）
+### 迁移小贴士（参考 edit/Hero/HeroSelect.j 和 edit/Diffculty.j 的做法）
 
 - 原本分散在多个具名回调中的简单逻辑，可直接收敛为 `TriggerAddAction(..., function () { ... })` 或 `TimerStart(..., function () { ... })`。
 - 原本的 `loop/endloop` 统一替换为 `for (start <= idx <= end)`，索引变量请在函数顶部声明，例如：`integer i;`。
@@ -165,5 +165,5 @@ ShowGameHintAll(" \
 - **数组语法**：是否将 `type array varname` 改为 `type varname[]`？
 - **多行字符串**：是否正确使用了 `\` 进行行连接？
 
-以上规则为初始版本，后续可根据项目实际迁移情况持续补充。
+以上规则适用于 LH 项目的 JASS 到 Zinc 转换，后续可根据实际迁移情况进行调整。
 

@@ -60,7 +60,7 @@ public struct MyStruct []{
 
 ## 实际应用示例
 
-参考 [MallItem.j](mdc:Jass/server/MallItem.j) 的实现：
+参考类似的项目实现模式：
 
 ```jass
 public struct mallItem []{
