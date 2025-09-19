@@ -3564,24 +3564,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
-        敌人过滤器,判断玩家的,包含魔免
-    */
-    function IsEnemyMP takes unit u, player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 /*
-        */and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and IsUnitAliveBJ(u) == true /*
-        */and IsUnitHidden(u) == false and IsUnitEnemy(u, p) /*
-        */and IsUnitVisible(u, p) and GetUnitAbilityLevel(u,'Avul') < 1 /*
-        */and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        敌人过滤器，包含魔免单位
-    */
-    function IsEnemyM takes unit u, unit caster returns boolean
-        return IsEnemyMP(u,GetOwningPlayer(caster))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
         雇佣兵过滤器
     */
     function IsSolider takes unit u returns boolean
@@ -3592,7 +3574,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         敌人过滤器1,只能造成伤害的
     */
    function IsEnemyP takes unit u, player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyMP(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemy(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -3615,7 +3597,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemyMP(l_unit,p)) then
+            if (IsEnemy(l_unit,p)) then
                 call UnitDamageTarget( attacker, l_unit, GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
             endif
         endloop
@@ -5321,7 +5303,7 @@ library_once SpellBase requires LHBase
 				    set l_unit = FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if(IsEnemyM(l_unit,.caster) and (GetUnitMoveSpeed(l_unit) > 0) and (not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO))) and GetUnitAbilityLevel(l_unit,'A0IH') < 1)then
+				    if(IsEnemyUnit(l_unit,.caster) and (GetUnitMoveSpeed(l_unit) > 0) and (not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO))) and GetUnitAbilityLevel(l_unit,'A0IH') < 1)then
 				    	set x2 = GetUnitX(l_unit)
 				    	set y2 = GetUnitY(l_unit)
 				    	set x1 = GetUnitX(.caster)
@@ -5405,7 +5387,7 @@ library_once SpellBase requires LHBase
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if(IsEnemyM(l_unit,.caster) == true) then
+			    if(IsEnemyUnit(l_unit,.caster) == true) then
 			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			    endif
 			endloop
@@ -17608,7 +17590,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if(IsEnemyM(l_unit,UXiaoY)) then
+		    if(IsEnemyUnit(l_unit,UXiaoY)) then
 		    	call UnitDamageTarget( UXiaoY, l_unit, GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 		    endif
 		endloop
@@ -17814,7 +17796,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if (udg_H[i] != null and IsEnemyMP(udg_H[i],Player(10))) then
+			if (udg_H[i] != null and IsEnemy(udg_H[i],Player(10))) then
 				return udg_H[i]
 			endif
 			set i = i +1
@@ -18168,7 +18150,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    不断攻击基地或者周围
 	*/
 	private function EnemyFilter takes nothing returns boolean
-		return IsEnemyMP(GetFilterUnit(),Player(11))
+		return IsEnemy(GetFilterUnit(),Player(11))
 	endfunction
     private function JudgeBossAttackTimer takes nothing returns nothing
     	local timer t = GetExpiredTimer()
@@ -27424,7 +27406,7 @@ library_once Jungle requires LHBase,Diffculty
 	    判断旁边是否有人,然后再判定是否无敌的
 	*/
 	private function SetJudgeJungle4InvuFilter takes nothing returns boolean
-		return IsEnemyMP(GetFilterUnit(),Player(10)) == true
+		return IsEnemy(GetFilterUnit(),Player(10)) == true
 	endfunction
 	private function SetJudgeJungle4Invu takes unit u returns nothing
 		local group l_group = CreateGroup()
@@ -29256,7 +29238,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetAttackedUnitBJ()), GetUnitY(GetAttackedUnitBJ()) ))
 	endfunction
 	private function TSpellJunlinCon takes nothing returns boolean
-	    return ((GetUnitAbilityLevel(GetAttacker(),'A0P1') >= 1) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00) and (GetRandomInt(1, 100) <= udg_Nandu_JJJ * 3) and (IsEnemyM(GetAttackedUnitBJ(),GetAttacker()) == true) and (GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER) and (IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true) and (IsUnitType(GetTriggerUnit(),UNIT_TYPE_MECHANICAL) == false))
+	    return ((GetUnitAbilityLevel(GetAttacker(),'A0P1') >= 1) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00) and (GetRandomInt(1, 100) <= udg_Nandu_JJJ * 3) and (IsEnemyUnit(GetAttackedUnitBJ(),GetAttacker())) and (GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER) and (IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true) and (IsUnitType(GetTriggerUnit(),UNIT_TYPE_MECHANICAL) == false))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -29292,7 +29274,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
     	    set l_unit = FirstOfGroup(l_group)
     	    exitwhen l_unit == null
     	    call GroupRemoveUnit(l_group, l_unit)
-    	    if (IsEnemyM(l_unit,GetDyingUnit()) and (GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER)) then
+    	    if (IsEnemyUnit(GetDyingUnit(),l_unit) and (GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER)) then
     	    	call UnitDamageTarget( GetDyingUnit(), l_unit, GetUnitState(l_unit,UNIT_STATE_LIFE)*0.9, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
     	    endif
     	endloop

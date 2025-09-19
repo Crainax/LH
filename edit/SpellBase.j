@@ -182,7 +182,7 @@ library_once SpellBase requires LHBase
 				    set l_unit = FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if(IsEnemyM(l_unit,.caster) and (GetUnitMoveSpeed(l_unit) > 0) and (not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO))) and GetUnitAbilityLevel(l_unit,'A0IH') < 1)then
+				    if(IsEnemyUnit(l_unit,.caster) and (GetUnitMoveSpeed(l_unit) > 0) and (not(.forbitHero and IsUnitType(l_unit,UNIT_TYPE_HERO))) and GetUnitAbilityLevel(l_unit,'A0IH') < 1)then
 				    	set x2 = GetUnitX(l_unit)
 				    	set y2 = GetUnitY(l_unit)
 				    	set x1 = GetUnitX(.caster)
@@ -279,7 +279,7 @@ library_once SpellBase requires LHBase
 			    set l_unit = FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if(IsEnemyM(l_unit,.caster) == true) then
+			    if(IsEnemyUnit(l_unit,.caster) == true) then
 			    	call UnitDamageTarget( .caster, l_unit, .damage, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 			    endif
 			endloop

@@ -205,7 +205,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		    set l_unit = FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if(IsEnemyM(l_unit,UXiaoY)) then
+		    if(IsEnemyUnit(l_unit,UXiaoY)) then
 		    	call UnitDamageTarget( UXiaoY, l_unit, GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
 		    endif
 		endloop
@@ -426,7 +426,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 		local integer i = 1
 		loop
 			exitwhen i > 6
-			if (udg_H[i] != null and IsEnemyMP(udg_H[i],Player(10))) then
+			if (udg_H[i] != null and IsEnemy(udg_H[i],Player(10))) then
 				return udg_H[i]
 			endif
 			set i = i +1
@@ -809,7 +809,7 @@ library_once Boss initializer InitBoss requires LHBase,SpellBase,Attr,Diffculty,
 	    不断攻击基地或者周围
 	*/
 	private function EnemyFilter takes nothing returns boolean
-		return IsEnemyMP(GetFilterUnit(),Player(11))
+		return IsEnemy(GetFilterUnit(),Player(11))
 	endfunction
 
     private function JudgeBossAttackTimer takes nothing returns nothing

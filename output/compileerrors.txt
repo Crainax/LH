@@ -1,5 +1,5 @@
 logs\currentmapscript.j
 pjass.exe
-Line 4238:  Undeclared function DUMMY_UNIT_JUDGE
-Line 4241:  Undeclared function DUMMY_UNIT_JUDGE
+Line 7791:  Cannot convert player to unit
+Line 7791:  Cannot convert unit to player
 2

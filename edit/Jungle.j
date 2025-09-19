@@ -37,7 +37,7 @@ library_once Jungle requires LHBase,Diffculty
 	    判断旁边是否有人,然后再判定是否无敌的
 	*/
 	private function SetJudgeJungle4InvuFilter takes nothing returns boolean
-		return IsEnemyMP(GetFilterUnit(),Player(10)) == true
+		return IsEnemy(GetFilterUnit(),Player(10)) == true
 	endfunction
 	private function SetJudgeJungle4Invu takes unit u returns nothing
 		local group l_group = CreateGroup()

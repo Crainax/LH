@@ -164,7 +164,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
 	endfunction
 
 	private function TSpellJunlinCon takes nothing returns boolean
-	    return ((GetUnitAbilityLevel(GetAttacker(),'A0P1') >= 1) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00) and (GetRandomInt(1, 100) <= udg_Nandu_JJJ * 3) and (IsEnemyM(GetAttackedUnitBJ(),GetAttacker()) == true) and (GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER) and (IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true) and (IsUnitType(GetTriggerUnit(),UNIT_TYPE_MECHANICAL) == false))
+	    return ((GetUnitAbilityLevel(GetAttacker(),'A0P1') >= 1) and (IsUnitIllusionBJ(GetAttackedUnitBJ()) != true) and (GetUnitStateSwap(UNIT_STATE_MANA, GetAttacker()) > 100.00) and (GetRandomInt(1, 100) <= udg_Nandu_JJJ * 3) and (IsEnemyUnit(GetAttackedUnitBJ(),GetAttacker())) and (GetPlayerController(GetOwningPlayer(GetAttackedUnitBJ())) == MAP_CONTROL_USER) and (IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true) and (IsUnitType(GetTriggerUnit(),UNIT_TYPE_MECHANICAL) == false))
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	/*
@@ -203,7 +203,7 @@ library_once MonsterSpell initializer InitMonsterSpell requires LHBase,Diamond,D
     	    set l_unit = FirstOfGroup(l_group)
     	    exitwhen l_unit == null
     	    call GroupRemoveUnit(l_group, l_unit)
-    	    if (IsEnemyM(l_unit,GetDyingUnit()) and (GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER)) then
+    	    if (IsEnemyUnit(GetDyingUnit(),l_unit) and (GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER)) then
     	    	call UnitDamageTarget( GetDyingUnit(), l_unit, GetUnitState(l_unit,UNIT_STATE_LIFE)*0.9, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
     	    endif
     	endloop

@@ -59,6 +59,7 @@ integer YDWEBase___AbilityCastingOverEventNumber= 0
 //endglobals from YDWEBase
 //globals from YDWEGetForceOfPlayerNull:
 constant boolean LIBRARY_YDWEGetForceOfPlayerNull=true
+force yd_NullTempForce
 //endglobals from YDWEGetForceOfPlayerNull
 //globals from YDWEGetItemOfTypeFromUnitBJNull:
 constant boolean LIBRARY_YDWEGetItemOfTypeFromUnitBJNull=true
@@ -66,7 +67,6 @@ item yd_NullTempItem
 //endglobals from YDWEGetItemOfTypeFromUnitBJNull
 //globals from YDWEGetPlayersByMapControlNull:
 constant boolean LIBRARY_YDWEGetPlayersByMapControlNull=true
-force yd_NullTempForce
 //endglobals from YDWEGetPlayersByMapControlNull
 //globals from YDWEGetRandomSubGroupEnumNull:
 constant boolean LIBRARY_YDWEGetRandomSubGroupEnumNull=true
@@ -82,10 +82,10 @@ constant boolean LIBRARY_YDWEGetUnitsInRectOfPlayerNull=true
 //endglobals from YDWEGetUnitsInRectOfPlayerNull
 //globals from YDWEGetUnitsOfPlayerAndTypeIdNull:
 constant boolean LIBRARY_YDWEGetUnitsOfPlayerAndTypeIdNull=true
+group yd_NullTempGroup
 //endglobals from YDWEGetUnitsOfPlayerAndTypeIdNull
 //globals from YDWEGetUnitsOfPlayerMatchingNull:
 constant boolean LIBRARY_YDWEGetUnitsOfPlayerMatchingNull=true
-group yd_NullTempGroup
 //endglobals from YDWEGetUnitsOfPlayerMatchingNull
 //globals from YDWEGetUnitsOfTypeIdAllNull:
 constant boolean LIBRARY_YDWEGetUnitsOfTypeIdAllNull=true
@@ -111,10 +111,10 @@ integer YDWETriggerEvent___MoveItemEventNumber= 0
 //endglobals from YDWETriggerEvent
 //globals from YDWETriggerRegisterEnterRectSimpleNull:
 constant boolean LIBRARY_YDWETriggerRegisterEnterRectSimpleNull=true
+region yd_NullTempRegion
 //endglobals from YDWETriggerRegisterEnterRectSimpleNull
 //globals from YDWETriggerRegisterLeaveRectSimpleNull:
 constant boolean LIBRARY_YDWETriggerRegisterLeaveRectSimpleNull=true
-region yd_NullTempRegion
 //endglobals from YDWETriggerRegisterLeaveRectSimpleNull
 //globals from YDWEUnitHasItemOfTypeBJNull:
 constant boolean LIBRARY_YDWEUnitHasItemOfTypeBJNull=true
@@ -319,7 +319,7 @@ constant boolean LIBRARY_Printer=true
 //endglobals from Printer
 //globals from SpellBase:
 constant boolean LIBRARY_SpellBase=true
-constant integer kUImmuteDamage=10
+constant integer kUImmuteDamage=2
 //endglobals from SpellBase
 //globals from Structs:
 constant boolean LIBRARY_Structs=true
@@ -334,13 +334,13 @@ constant boolean LIBRARY_UseItem=true
 //endglobals from UseItem
 //globals from Wing:
 constant boolean LIBRARY_Wing=true
-constant integer kWingDialog1=12
-constant integer kWingDialog2=14
-constant integer kWingDialog3=16
-constant integer kWingDialog4=18
-constant integer kWingDialog5=20
-constant integer kWingDialog6=22
-constant integer kWingUnit=24
+constant integer kWingDialog1=3
+constant integer kWingDialog2=4
+constant integer kWingDialog3=5
+constant integer kWingDialog4=6
+constant integer kWingDialog5=7
+constant integer kWingDialog6=8
+constant integer kWingUnit=9
 //endglobals from Wing
 //globals from Achievement:
 constant boolean LIBRARY_Achievement=true
@@ -447,14 +447,14 @@ constant boolean LIBRARY_LHOther=true
 //globals from Beast:
 constant boolean LIBRARY_Beast=true
 		
-constant integer Beast__kU=26
-constant integer Beast__kr=28
-constant integer Beast__kg=30
-constant integer Beast__kb=32
-constant integer Beast__ksr=34
-constant integer Beast__ksg=36
-constant integer Beast__ksb=38
-constant integer Beast__kBeastItem=40
+constant integer Beast__kU=10
+constant integer Beast__kr=11
+constant integer Beast__kg=12
+constant integer Beast__kb=13
+constant integer Beast__ksr=14
+constant integer Beast__ksg=15
+constant integer Beast__ksb=16
+constant integer Beast__kBeastItem=17
 		
 unit array Unit_Beast
 constant integer DAMAGE_BEAST_00= 30000
@@ -498,7 +498,7 @@ integer array passTimes
 		
 integer array petTimes
 		
-constant integer kSaveHeroTimes=42
+constant integer kSaveHeroTimes=18
 		
 		
 		
@@ -658,8 +658,8 @@ trigger Hanshang__TSpellHanshang4= null
 		
 real Hanshang__RLianjin= 0
 real Hanshang__RLianjin2= 0
-constant integer kLianhuanBoomX=44
-constant integer kLianhuanBoomY=46
+constant integer kLianhuanBoomX=19
+constant integer kLianhuanBoomY=20
 		
 timer Hanshang__TDuwu= null
 unit Hanshang__UDuwu= null
@@ -687,7 +687,7 @@ trigger Heiyan__TSpellHeiyan41= null
 boolean Heiyan__BIsMojie= true
 		
 		
-constant integer kUYanluo=48
+constant integer kUYanluo=21
 		
 unit Heiyan__UZangJiuTian= null
 boolean Heiyan__IsDouble= false
@@ -715,14 +715,14 @@ integer ICurrentSpell= 0
 		
 integer Huanyi___IMoneng= 0
 		
-constant integer kNoneIntTimes=50
+constant integer kNoneIntTimes=22
 		
-constant integer kUHuanyiQuan=52
+constant integer kUHuanyiQuan=23
 		
-constant integer kIGuCan=54
+constant integer kIGuCan=24
 timer TGuCan= null
 		
-constant integer kHuanyuTimes=56
+constant integer kHuanyuTimes=25
 		
 texttag Huanyi___TTMoneng
 effect Huanyi___ELowMoneng= null
@@ -822,7 +822,7 @@ trigger Seyu___TSpellSeyu2= null
 trigger Seyu___TSpellSeyu3= null
 trigger Seyu___TSpellSeyuUpdate= null
 trigger Seyu___TSpellChongdong= null
-constant integer kAnShaCount=58
+constant integer kAnShaCount=26
 		
 integer Seyu___ItempPower= 0
 texttag array Seyu___TTCD
@@ -2111,8 +2111,8 @@ trigger array st___prototype54
 trigger array st___prototype56
 trigger array st___prototype192
 trigger array st___prototype233
-trigger array st___prototype267
-trigger array st___prototype309
+trigger array st___prototype266
+trigger array st___prototype308
 handle f__arg_handle1
 player f__arg_player1
 integer f__arg_integer1
@@ -3200,26 +3200,26 @@ function sc___prototype233_evaluate takes integer i,integer a1,real a2,real a3 r
     call TriggerEvaluate(st___prototype233[i])
 
 endfunction
-function sc___prototype267_execute takes integer i,player a1 returns nothing
+function sc___prototype266_execute takes integer i,player a1 returns nothing
     set f__arg_player1=a1
 
-    call TriggerExecute(st___prototype267[i])
+    call TriggerExecute(st___prototype266[i])
 endfunction
-function sc___prototype267_evaluate takes integer i,player a1 returns nothing
+function sc___prototype266_evaluate takes integer i,player a1 returns nothing
     set f__arg_player1=a1
 
-    call TriggerEvaluate(st___prototype267[i])
+    call TriggerEvaluate(st___prototype266[i])
 
 endfunction
-function sc___prototype309_execute takes integer i,dialog a1 returns nothing
+function sc___prototype308_execute takes integer i,dialog a1 returns nothing
     set f__arg_dialog1=a1
 
-    call TriggerExecute(st___prototype309[i])
+    call TriggerExecute(st___prototype308[i])
 endfunction
-function sc___prototype309_evaluate takes integer i,dialog a1 returns nothing
+function sc___prototype308_evaluate takes integer i,dialog a1 returns nothing
     set f__arg_dialog1=a1
 
-    call TriggerEvaluate(st___prototype309[i])
+    call TriggerEvaluate(st___prototype308[i])
 
 endfunction
 
@@ -4234,20 +4234,20 @@ endfunction
 
 //library StringUtils ends
 //library UnitFilter:
-    function IsEnemy takes player p,unit u returns boolean
-        return ( not ( IsUnitType(u, UNIT_TYPE_SLEEPING) ) and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and not ( IsUnitType(u, UNIT_TYPE_STRUCTURE) ) and ( GetUnitState(u, UNIT_STATE_LIFE) > 0 ) and not ( IsUnitHidden(u) ) and IsUnitEnemy(u, p) and IsUnitVisible(u, p) and DUMMY_UNIT_JUDGE(u) ) and GetUnitAbilityLevel(u, 'Avul') < 1
+    function IsEnemy takes unit u,player p returns boolean
+        return ( not ( IsUnitType(u, UNIT_TYPE_SLEEPING) ) and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and not ( IsUnitType(u, UNIT_TYPE_STRUCTURE) ) and ( GetUnitState(u, UNIT_STATE_LIFE) > 0 ) and not ( IsUnitHidden(u) ) and IsUnitEnemy(u, p) and IsUnitVisible(u, p) and ( GetUnitPointValue(u) != 0 and GetUnitPointValue(u) != 123 ) ) and GetUnitAbilityLevel(u, 'Avul') < 1
     endfunction  //旧名：IsEnemy2
-    function IsEnemyIncludeInvul takes player p,unit u returns boolean
-        return ( not ( IsUnitType(u, UNIT_TYPE_SLEEPING) ) and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and not ( IsUnitType(u, UNIT_TYPE_STRUCTURE) ) and ( GetUnitState(u, UNIT_STATE_LIFE) > 0 ) and not ( IsUnitHidden(u) ) and IsUnitEnemy(u, p) and IsUnitVisible(u, p) and DUMMY_UNIT_JUDGE(u) ) and GetUnitAbilityLevel(u, 'Avul') < 1
+    function IsEnemyIncludeInvul takes unit u,player p returns boolean
+        return ( not ( IsUnitType(u, UNIT_TYPE_SLEEPING) ) and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and not ( IsUnitType(u, UNIT_TYPE_STRUCTURE) ) and ( GetUnitState(u, UNIT_STATE_LIFE) > 0 ) and not ( IsUnitHidden(u) ) and IsUnitEnemy(u, p) and IsUnitVisible(u, p) and ( GetUnitPointValue(u) != 0 and GetUnitPointValue(u) != 123 ) ) and GetUnitAbilityLevel(u, 'Avul') < 1
     endfunction  //判断是否是友方
-    function IsAlly takes player p,unit u returns boolean
+    function IsAlly takes unit u,player p returns boolean
         return GetUnitState(u, UNIT_STATE_LIFE) > .405 and ( not ( IsUnitType(u, UNIT_TYPE_STRUCTURE) ) ) and ( not ( IsUnitHidden(u) ) ) and IsUnitAlly(u, p)
     endfunction  //判断两个单位是否互为敌人(不带无敌)
-    function IsEnemyUnit takes unit source,unit target returns boolean
-        return IsEnemy(GetOwningPlayer(source) , target)
+    function IsEnemyUnit takes unit target,unit caster returns boolean
+        return IsEnemy(target , GetOwningPlayer(caster))
     endfunction  //判断两个单位是否互为队友(不带无敌)
-    function IsAllyUnit takes unit source,unit target returns boolean
-        return IsAlly(GetOwningPlayer(source) , target)
+    function IsAllyUnit takes unit target,unit caster returns boolean
+        return IsAlly(target , GetOwningPlayer(caster))
     endfunction  // //判断单位是否属于指定常见种族或中立阵营
 
 //library UnitFilter ends
@@ -6388,7 +6388,7 @@ endfunction
         call DestroyBoolExpr(filter)
     endfunction  //获取单位组:[敌方]
         function GroupUtils___anon__0 takes nothing returns boolean
-            if ( IsEnemy(GetOwningPlayer(GroupUtils___tempU) , GetFilterUnit()) ) then
+            if ( IsEnemy(GetFilterUnit() , GetOwningPlayer(GroupUtils___tempU)) ) then
                 return true
             endif
             return false
@@ -7812,7 +7812,7 @@ endfunction
     endfunction  //范围魔法伤害
         function DamageUtils___anon__1 takes nothing returns boolean
             local integer current=s__DmgS_current()
-            if ( IsEnemy(GetOwningPlayer(s__DamageUtils___DmgP_source[current]) , GetFilterUnit()) ) then
+            if ( IsEnemy(GetFilterUnit() , GetOwningPlayer(s__DamageUtils___DmgP_source[current])) ) then
                 call ApplyMagicDamage(s__DamageUtils___DmgP_source[current] , GetFilterUnit() , s__DamageUtils___DmgP_damage[current])
                 if ( s__DamageUtils___DmgP_eft[current] != null ) then
                     call DestroyEffect(AddSpecialEffect(s__DamageUtils___DmgP_eft[current], GetUnitX(GetFilterUnit()), GetUnitY(GetFilterUnit())))
@@ -7836,7 +7836,7 @@ endfunction
     endfunction  //范围真实伤害
         function DamageUtils___anon__2 takes nothing returns boolean
             local integer current=s__DmgS_current()
-            if ( IsEnemy(GetOwningPlayer(s__DamageUtils___DmgP_source[current]) , GetFilterUnit()) ) then
+            if ( IsEnemy(GetFilterUnit() , GetOwningPlayer(s__DamageUtils___DmgP_source[current])) ) then
                 call ApplyPureDamage(s__DamageUtils___DmgP_source[current] , GetFilterUnit() , s__DamageUtils___DmgP_damage[current])
                 if ( s__DamageUtils___DmgP_eft[current] != null ) then
                     call DestroyEffect(AddSpecialEffect(s__DamageUtils___DmgP_eft[current], GetUnitX(GetFilterUnit()), GetUnitY(GetFilterUnit())))
@@ -8137,23 +8137,13 @@ endfunction
     endfunction
 //---------------------------------------------------------------------------------------------------
     
-    function IsEnemyMP takes unit u,player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_SLEEPING) == false and GetUnitState(u, UNIT_STATE_LIFE) > 0.405 and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false and ( GetUnitState(u, UNIT_STATE_LIFE) > 0 ) == true and IsUnitHidden(u) == false and IsUnitEnemy(u, p) and IsUnitVisible(u, p) and GetUnitAbilityLevel(u, 'Avul') < 1 and GetUnitPointValue(u) != 123 and GetUnitPointValue(u) != 0
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    
-    function IsEnemyM takes unit u,unit caster returns boolean
-        return IsEnemyMP(u , GetOwningPlayer(caster))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    
     function IsSolider takes unit u returns boolean
         return ( GetUnitTypeId(u) == 'uG01' ) or ( GetUnitTypeId(u) == 'uG02' ) or ( GetUnitTypeId(u) == 'uG03' ) or ( GetUnitTypeId(u) == 'uG04' ) or ( GetUnitTypeId(u) == 'uG05' ) or ( GetUnitTypeId(u) == 'uG06' )
     endfunction
 //---------------------------------------------------------------------------------------------------
     
    function IsEnemyP takes unit u,player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyMP(u , p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemy(u , p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 //---------------------------------------------------------------------------------------------------
     
@@ -8170,7 +8160,7 @@ endfunction
             set l_unit=FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if ( IsEnemyMP(l_unit , p) ) then
+            if ( IsEnemy(l_unit , p) ) then
                 call UnitDamageTarget(attacker, l_unit, GetUnitState(l_unit, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
             endif
         endloop
@@ -10286,7 +10276,7 @@ endfunction
 				    set l_unit=FirstOfGroup(l_group)
 				    exitwhen l_unit == null
 				    call GroupRemoveUnit(l_group, l_unit)
-				    if ( IsEnemyM(l_unit , s__Attract_caster[this]) and ( GetUnitMoveSpeed(l_unit) > 0 ) and ( not ( s__Attract_forbitHero[this] and IsUnitType(l_unit, UNIT_TYPE_HERO) ) ) and GetUnitAbilityLevel(l_unit, 'A0IH') < 1 ) then
+				    if ( IsEnemyUnit(l_unit , s__Attract_caster[this]) and ( GetUnitMoveSpeed(l_unit) > 0 ) and ( not ( s__Attract_forbitHero[this] and IsUnitType(l_unit, UNIT_TYPE_HERO) ) ) and GetUnitAbilityLevel(l_unit, 'A0IH') < 1 ) then
 				    	set x2=GetUnitX(l_unit)
 				    	set y2=GetUnitY(l_unit)
 				    	set x1=GetUnitX(s__Attract_caster[this])
@@ -10373,7 +10363,7 @@ endfunction
 			    set l_unit=FirstOfGroup(l_group)
 			    exitwhen l_unit == null
 			    call GroupRemoveUnit(l_group, l_unit)
-			    if ( IsEnemyM(l_unit , s__Missile_caster[this]) == true ) then
+			    if ( IsEnemyUnit(l_unit , s__Missile_caster[this]) == true ) then
 			    	call UnitDamageTarget(s__Missile_caster[this], l_unit, s__Missile_damage[this], false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
 			    endif
 			endloop
@@ -10983,7 +10973,7 @@ endfunction
 //processed:     function interface AfterBuffTime takes player p returns nothing
   function s__Buff_timeout takes nothing returns nothing
    local integer this= sc__Buff__staticgetindex(GetExpiredTimer())
-            call sc___prototype267_execute(s__Buff_ab[this],s__Buff_p[this])
+            call sc___prototype266_execute(s__Buff_ab[this],s__Buff_p[this])
             call sc__Buff_deallocate(this)
   endfunction
         function s__Buff__staticgetindex takes handle h returns integer
@@ -14224,7 +14214,7 @@ return
             set udg_X_Nandu_Chuangkou[10]=GetLastCreatedButtonBJ()
         endif
         call DialogDisplay(GetFirstPlayer(), udg_X_Nandu, true)
-        call sc___prototype309_execute(1,udg_X_Nandu)
+        call sc___prototype308_execute(1,udg_X_Nandu)
         if ( CType != 0 and CType != - 1 ) then
             call ChallangerMode___InitChallanger()
         endif
@@ -15291,7 +15281,7 @@ return
 //---------------------------------------------------------------------------------------------------
 	
  function Jungle__SetJudgeJungle4InvuFilter takes nothing returns boolean
-		return IsEnemyMP(GetFilterUnit() , Player(10)) == true
+		return IsEnemy(GetFilterUnit() , Player(10)) == true
 	endfunction
  function Jungle__SetJudgeJungle4Invu takes unit u returns nothing
   local group l_group= CreateGroup()
@@ -24658,7 +24648,7 @@ call GetAchievementAndSave(ConvertedPlayer(i) , 42)
 	    call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Undead\\RaiseSkeletonWarrior\\RaiseSkeleton.mdl", GetUnitX(GetTriggerUnit()), GetUnitY(GetTriggerUnit())))
 	endfunction
  function MonsterSpell__TSpellJunlinCon takes nothing returns boolean
-	    return ( ( GetUnitAbilityLevel(GetAttacker(), 'A0P1') >= 1 ) and ( IsUnitIllusion(GetTriggerUnit()) != true ) and ( GetUnitState(GetAttacker(), UNIT_STATE_MANA) > 100.00 ) and ( GetRandomInt(1, 100) <= udg_Nandu_JJJ * 3 ) and ( IsEnemyM(GetTriggerUnit() , GetAttacker()) == true ) and ( GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER ) and ( IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true ) and ( IsUnitType(GetTriggerUnit(), UNIT_TYPE_MECHANICAL) == false ) )
+	    return ( ( GetUnitAbilityLevel(GetAttacker(), 'A0P1') >= 1 ) and ( IsUnitIllusion(GetTriggerUnit()) != true ) and ( GetUnitState(GetAttacker(), UNIT_STATE_MANA) > 100.00 ) and ( GetRandomInt(1, 100) <= udg_Nandu_JJJ * 3 ) and ( IsEnemyUnit(GetTriggerUnit() , GetAttacker()) ) and ( GetPlayerController(GetOwningPlayer(GetTriggerUnit())) == MAP_CONTROL_USER ) and ( IsUnitType(GetTriggerUnit(), UNIT_TYPE_HERO) != true ) and ( IsUnitType(GetTriggerUnit(), UNIT_TYPE_MECHANICAL) == false ) )
 	endfunction
 //---------------------------------------------------------------------------------------------------
 	
@@ -24688,7 +24678,7 @@ call GetAchievementAndSave(ConvertedPlayer(i) , 42)
     	    set l_unit=FirstOfGroup(l_group)
     	    exitwhen l_unit == null
     	    call GroupRemoveUnit(l_group, l_unit)
-    	    if ( IsEnemyM(l_unit , GetDyingUnit()) and ( GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER ) ) then
+    	    if ( IsEnemyUnit(GetDyingUnit() , l_unit) and ( GetPlayerController(GetOwningPlayer(l_unit)) == MAP_CONTROL_USER ) ) then
     	    	call UnitDamageTarget(GetDyingUnit(), l_unit, GetUnitState(l_unit, UNIT_STATE_LIFE) * 0.9, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
     	    endif
     	endloop
@@ -29587,7 +29577,7 @@ endfunction
 		    set l_unit=FirstOfGroup(l_group)
 		    exitwhen l_unit == null
 		    call GroupRemoveUnit(l_group, l_unit)
-		    if ( IsEnemyM(l_unit , UXiaoY) ) then
+		    if ( IsEnemyUnit(l_unit , UXiaoY) ) then
 		    	call UnitDamageTarget(UXiaoY, l_unit, GetUnitState(l_unit, UNIT_STATE_MAX_LIFE) * 2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS)
 		    endif
 		endloop
@@ -29787,7 +29777,7 @@ endfunction
   local integer i= 1
 		loop
 			exitwhen i > 6
-			if ( udg_H[i] != null and IsEnemyMP(udg_H[i] , Player(10)) ) then
+			if ( udg_H[i] != null and IsEnemy(udg_H[i] , Player(10)) ) then
 				return udg_H[i]
 			endif
 			set i=i + 1
@@ -30113,7 +30103,7 @@ endfunction
 //---------------------------------------------------------------------------------------------------
 	
  function Boss___EnemyFilter takes nothing returns boolean
-		return IsEnemyMP(GetFilterUnit() , Player(11))
+		return IsEnemy(GetFilterUnit() , Player(11))
 	endfunction
     function Boss___JudgeBossAttackTimer takes nothing returns nothing
      local timer t= GetExpiredTimer()
@@ -34115,6 +34105,45 @@ endfunction
 // 当前的平台分包
 // 原生UI的大小
 // 马甲判断器
+// 常量配置
+// 使用说明（MallItem 黑箱）
+// 1) 在地图启动阶段注册商品（每次注册一个 key）：
+//    mallItem.init("VIP1");
+//    mallItem.init("RhdeKey");
+//    mallItem.init("RopgKey");
+//
+// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
+//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
+//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
+//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
+//
+// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
+//    mallItem.onReady(function () -> boolean {
+//        // 示例：查询玩家0（0-based）的拥有权与次数
+//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
+//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
+//        }
+//        return true;
+//    });
+//
+// 4) 消费：
+//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
+//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
+//        player cbp = mallItem.getCallbackPlayer();
+//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
+//        return true;
+//    });
+//    // 局数型消费：无回调
+//    mallItem.consumeOnce(Player(0), "VIP1");
+//
+// 5) 其他：
+//    local integer n = mallItem.getItemCount();
+//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
+//
+//todo: 加入局内商品进包的回调
+//===========================================================================
+//系统-TimerSystem
+//===========================================================================
 
 //魔兽版本 用GetGameVersion 来获取当前版本 来对比以下具体版本做出相应操作
 //-----------模拟聊天------------------
@@ -34207,53 +34236,6 @@ endfunction
 //攻击2 溅出半径
 //攻击2 武器类型
 //装甲类型
-//===========================================================================
-//系统-TimerSystem
-//===========================================================================
-// 常量配置
-// 使用说明（MallItem 黑箱）
-// 1) 在地图启动阶段注册商品（每次注册一个 key）：
-//    mallItem.init("VIP1");
-//    mallItem.init("RhdeKey");
-//    mallItem.init("RopgKey");
-//
-// 2) 可选：为商品配置元信息与科技（四位字符如 'Rhde' 为整数字面量）：
-//    mallItem.setMeta("VIP1", "白金VIP", "ReplaceableTextures\\CommandButtons\\BTN.tga", "尊享特权");
-//    mallItem.setTech("RhdeKey", 'Rhde'); // 步兵测试科技
-//    mallItem.setTech("RopgKey", 'Ropg'); // ogre 测试科技
-//
-// 3) 等待就绪：在 2.0 秒后自动扫描，完成后触发 onReady 回调（使用 Condition/TriggerEvaluate）：
-//    mallItem.onReady(function () -> boolean {
-//        // 示例：查询玩家0（0-based）的拥有权与次数
-//        if (mallItem.hasByPlayer(Player(0), "VIP1")) {
-//            BJDebugMsg("[MallItem] 玩家0拥有VIP1, 次数=" + I2S(mallItem.getUseCountByPlayer(Player(0), "VIP1")));
-//        }
-//        return true;
-//    });
-//
-// 4) 消费：
-//    // 数量型消费：成功后回调被调用，并可通过 mallItem.getCallbackPlayer() 获取玩家
-//    mallItem.consumeTimes(Player(0), "VIP1", 1, function () -> boolean {
-//        player cbp = mallItem.getCallbackPlayer();
-//        BJDebugMsg("[MallItem] consumeTimes 回调: " + GetPlayerName(cbp));
-//        return true;
-//    });
-//    // 局数型消费：无回调
-//    mallItem.consumeOnce(Player(0), "VIP1");
-//
-// 5) 其他：
-//    local integer n = mallItem.getItemCount();
-//    local string k1 = mallItem.getItemKeyByIndex(1); // 1-based 索引
-//
-//todo: 加入局内商品进包的回调
-//===========================================================================
-//佣兵系统 
-//===========================================================================
-// 按键ASCII码
-// 按键事件
-//===========================================================================  
-//万能环绕模板 
-//===========================================================================
 
 // 0 - 1亿这里用
 // 锚点常量
@@ -34263,12 +34245,20 @@ endfunction
 //默认原生图片路径
 //模板名
 //TEXT对齐常量:(uiText.setAlign)
-
 //===========================================================================
 //===========================================================================
 //自定义事件
 //===========================================================================
 //===========================================================================
+//===========================================================================  
+//万能环绕模板 
+//===========================================================================
+// 按键ASCII码
+// 按键事件
+//===========================================================================
+//佣兵系统 
+//===========================================================================
+
 //===========================================================================
 // 
 // 轮回之狱
@@ -57103,7 +57093,7 @@ function main takes nothing returns nothing
     call CreateAllUnits()
     call InitBlizzard()
 
-call ExecuteFunc("jasshelper__initstructs118329578")
+call ExecuteFunc("jasshelper__initstructs137816921")
 call ExecuteFunc("YDTriggerSaveLoadSystem___Init")
 call ExecuteFunc("InitializeYD")
 call ExecuteFunc("Constant___InitConstant")
@@ -57491,21 +57481,21 @@ function sa___prototype233_YDWETimerPattern___Rebound takes nothing returns bool
         call SetUnitFacing(s__YDWETimerPattern___Thread_obj[t], ( Atan2(s__YDWETimerPattern___YDVector3_y[s__YDWETimerPattern___Thread_vel[t]], s__YDWETimerPattern___YDVector3_x[s__YDWETimerPattern___Thread_vel[t]]) * 57.2958 ))
     return true
 endfunction
-function sa___prototype267_Jizi___AfterMoneyBuffTime takes nothing returns boolean
+function sa___prototype266_Jizi___AfterMoneyBuffTime takes nothing returns boolean
  local player p=f__arg_player1
 
 		call AddMoneyPercent(GetConvertedPlayerId(p) , - 1.0)
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r月饼给你提供的金钱时间到了.")
     return true
 endfunction
-function sa___prototype267_Jizi___AfterSpellBuffTime takes nothing returns boolean
+function sa___prototype266_Jizi___AfterSpellBuffTime takes nothing returns boolean
  local player p=f__arg_player1
 
 		call AddSpellPercent(GetConvertedPlayerId(p) , - 0.5)
 		call DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r月饼给你提供的技能伤害时间到了.")
     return true
 endfunction
-function sa___prototype267_Jizi___AfterReviveBuffTime takes nothing returns boolean
+function sa___prototype266_Jizi___AfterReviveBuffTime takes nothing returns boolean
  local player p=f__arg_player1
 
 		set B3SecondRevive[GetConvertedPlayerId(p)]=false
@@ -57723,7 +57713,7 @@ function sa___prototype56_SetDifficulty takes nothing returns boolean
         endif
     return true
 endfunction
-function sa___prototype309_registerDifficultyDialog takes nothing returns boolean
+function sa___prototype308_registerDifficultyDialog takes nothing returns boolean
     call registerDifficultyDialog(f__arg_dialog1)
     return true
 endfunction
@@ -57732,7 +57722,7 @@ function sa___prototype192_Hundun__Hundun2SetLifeLess takes nothing returns bool
     return true
 endfunction
 
-function jasshelper__initstructs118329578 takes nothing returns nothing
+function jasshelper__initstructs137816921 takes nothing returns nothing
     set st__vip_is=CreateTrigger()
     call TriggerAddCondition(st__vip_is,Condition( function sa__vip_is))
     set st__vip_has=CreateTrigger()
@@ -57797,15 +57787,15 @@ function jasshelper__initstructs118329578 takes nothing returns nothing
     set st___prototype233[1]=CreateTrigger()
     call TriggerAddAction(st___prototype233[1],function sa___prototype233_YDWETimerPattern___Rebound)
     call TriggerAddCondition(st___prototype233[1],Condition(function sa___prototype233_YDWETimerPattern___Rebound))
-    set st___prototype267[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype267[1],function sa___prototype267_Jizi___AfterMoneyBuffTime)
-    call TriggerAddCondition(st___prototype267[1],Condition(function sa___prototype267_Jizi___AfterMoneyBuffTime))
-    set st___prototype267[2]=CreateTrigger()
-    call TriggerAddAction(st___prototype267[2],function sa___prototype267_Jizi___AfterSpellBuffTime)
-    call TriggerAddCondition(st___prototype267[2],Condition(function sa___prototype267_Jizi___AfterSpellBuffTime))
-    set st___prototype267[3]=CreateTrigger()
-    call TriggerAddAction(st___prototype267[3],function sa___prototype267_Jizi___AfterReviveBuffTime)
-    call TriggerAddCondition(st___prototype267[3],Condition(function sa___prototype267_Jizi___AfterReviveBuffTime))
+    set st___prototype266[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype266[1],function sa___prototype266_Jizi___AfterMoneyBuffTime)
+    call TriggerAddCondition(st___prototype266[1],Condition(function sa___prototype266_Jizi___AfterMoneyBuffTime))
+    set st___prototype266[2]=CreateTrigger()
+    call TriggerAddAction(st___prototype266[2],function sa___prototype266_Jizi___AfterSpellBuffTime)
+    call TriggerAddCondition(st___prototype266[2],Condition(function sa___prototype266_Jizi___AfterSpellBuffTime))
+    set st___prototype266[3]=CreateTrigger()
+    call TriggerAddAction(st___prototype266[3],function sa___prototype266_Jizi___AfterReviveBuffTime)
+    call TriggerAddCondition(st___prototype266[3],Condition(function sa___prototype266_Jizi___AfterReviveBuffTime))
     set st___prototype54[1]=CreateTrigger()
     call TriggerAddAction(st___prototype54[1],function sa___prototype54_CreateCDialog2)
     call TriggerAddCondition(st___prototype54[1],Condition(function sa___prototype54_CreateCDialog2))
@@ -57821,9 +57811,9 @@ function jasshelper__initstructs118329578 takes nothing returns nothing
     set st___prototype56[1]=CreateTrigger()
     call TriggerAddAction(st___prototype56[1],function sa___prototype56_SetDifficulty)
     call TriggerAddCondition(st___prototype56[1],Condition(function sa___prototype56_SetDifficulty))
-    set st___prototype309[1]=CreateTrigger()
-    call TriggerAddAction(st___prototype309[1],function sa___prototype309_registerDifficultyDialog)
-    call TriggerAddCondition(st___prototype309[1],Condition(function sa___prototype309_registerDifficultyDialog))
+    set st___prototype308[1]=CreateTrigger()
+    call TriggerAddAction(st___prototype308[1],function sa___prototype308_registerDifficultyDialog)
+    call TriggerAddCondition(st___prototype308[1],Condition(function sa___prototype308_registerDifficultyDialog))
     set st___prototype192[2]=CreateTrigger()
     call TriggerAddAction(st___prototype192[2],function sa___prototype192_Hundun__Hundun2SetLifeLess)
     call TriggerAddCondition(st___prototype192[2],Condition(function sa___prototype192_Hundun__Hundun2SetLifeLess))

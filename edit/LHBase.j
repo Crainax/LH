@@ -404,25 +404,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
-        敌人过滤器,判断玩家的,包含魔免
-    */
-    function IsEnemyMP takes unit u, player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_SLEEPING) == false     and GetUnitState(u, UNIT_STATE_LIFE) > 0.405    /*
-        */ and IsUnitType(u, UNIT_TYPE_STRUCTURE) == false    and IsUnitAliveBJ(u)  == true                   /*
-        */ and IsUnitHidden(u) == false                       and IsUnitEnemy(u, p)                           /*
-        */ and IsUnitVisible(u, p)                            and GetUnitAbilityLevel(u,'Avul') < 1           /*
-        */ and GetUnitPointValue(u) != 123                    and GetUnitPointValue(u) != 0
-    endfunction
-//---------------------------------------------------------------------------------------------------
-
-    /*
-        敌人过滤器，包含魔免单位
-    */
-    function IsEnemyM takes unit u, unit caster returns boolean
-        return IsEnemyMP(u,GetOwningPlayer(caster))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
         雇佣兵过滤器
     */
     function IsSolider takes unit u returns boolean
@@ -434,7 +415,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
         敌人过滤器1,只能造成伤害的
     */
    function IsEnemyP takes unit u, player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemyMP(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
+        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemy(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
     endfunction
 
 //---------------------------------------------------------------------------------------------------
@@ -459,7 +440,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
             set l_unit = FirstOfGroup(l_group)
             exitwhen l_unit == null
             call GroupRemoveUnit(l_group, l_unit)
-            if (IsEnemyMP(l_unit,p)) then
+            if (IsEnemy(l_unit,p)) then
                 call UnitDamageTarget( attacker, l_unit, GetUnitState(l_unit,UNIT_STATE_MAX_LIFE)*2, false, true, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_SLOW_POISON, WEAPON_TYPE_WHOKNOWS )
             endif
         endloop
