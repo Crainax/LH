@@ -409,25 +409,7 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     function IsSolider takes unit u returns boolean
         return (GetUnitTypeId(u) == 'uG01') or (GetUnitTypeId(u) == 'uG02') or (GetUnitTypeId(u) == 'uG03') or (GetUnitTypeId(u) == 'uG04') or (GetUnitTypeId(u) == 'uG05') or (GetUnitTypeId(u) == 'uG06')
     endfunction
-//---------------------------------------------------------------------------------------------------
 
-    /*
-        敌人过滤器1,只能造成伤害的
-    */
-   function IsEnemyP takes unit u, player p returns boolean
-        return IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == false and IsEnemy(u,p) and IsUnitType(u, UNIT_TYPE_RESISTANT) == false
-    endfunction
-
-//---------------------------------------------------------------------------------------------------
-
-    /*
-        敌人过滤器2,只要是敌人都算
-    */
-   function IsEnemy2 takes unit u, unit caster returns boolean
-        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)  == true                   /*
-        */ and IsUnitEnemy(u, GetOwningPlayer(caster))        and GetUnitPointValue(u) != 123                 /*
-        */ and GetUnitPointValue(u) != 0
-    endfunction
 //---------------------------------------------------------------------------------------------------
     /*
         干掉一个区域的所有单位
@@ -454,15 +436,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function IsLoyalUnit takes unit u returns boolean
         return ((GetUnitTypeId(u) == 'owyv') or (GetUnitTypeId(u) == 'nzom') or (GetUnitTypeId(u) == 'nsog') or (GetUnitTypeId(u) == 'nsoc') or (GetUnitTypeId(u) == 'ninc') or (GetUnitTypeId(u) == 'ninm') or (GetUnitTypeId(u) == 'nsrn') or (GetUnitTypeId(u) == 'nsrh') or (GetUnitTypeId(u) == 'nmit'))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        与敌人过滤器2一致，但匹配的是玩家
-    */
-   function IsEnemy3 takes unit u, player p returns boolean
-        return GetUnitState(u, UNIT_STATE_LIFE) > 0.405       and IsUnitAliveBJ(u)  == true                   /*
-        */ and IsUnitEnemy(u, p)                              and GetUnitPointValue(u) != 123                 /*
-        */ and GetUnitPointValue(u) != 0
     endfunction
 
 //---------------------------------------------------------------------------------------------------

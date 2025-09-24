@@ -1,4 +1,0 @@
-Parse successful:     2418 lines: D:\Program Files (x86)\jasshelper\common.j
-Parse successful:    10230 lines: D:\Program Files (x86)\jasshelper\blizzard.j
-Parse successful:    39244 lines: logs\currentmapscript.j
-Parse successful:    51892 lines: <total>

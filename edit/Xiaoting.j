@@ -449,7 +449,7 @@ library_once Xiaoting requires SpellBase,Printer,Attr,Aura,Diamond,Diffculty
 		loop
 			exitwhen i > IMaxCombo
 			if (UArrow[i] != null) then
-				set temp = GetEnemyGroup(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900)
+				set temp = GetEnemyGroup(GetOwningPlayer(xiaoting),GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900)
 				call GroupAddGroup(temp,g)
 				call DestroyGroup(temp)
 				//call DamageArea(xiaoting,GetUnitX(UArrow[i]),GetUnitY(UArrow[i]),900,RDamageXiaoting* 0.50 * (GetComboMulti() + 1))

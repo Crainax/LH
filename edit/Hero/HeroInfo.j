@@ -17,9 +17,11 @@ library HeroInfo requires Keyboard {
             trigger tr = CreateTrigger();
             TriggerRegisterTimerEventSingle(tr,1.0);
             TriggerAddCondition(tr,Condition(function (){
-                keyboard.regKeyUpEvent(KEY_TAB, function (){
+                keyboard.regKeyDownEvent(KEY_TAB, function (){
                     DzSyncData("tab",""); //触发数据传送
                 });
+                keyboard.regKeyUpEvent(KEY_TAB, null);
+
                 DestroyTrigger(GetTriggeringTrigger());
             }));
 

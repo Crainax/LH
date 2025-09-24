@@ -187,7 +187,7 @@ library_once MiJing requires LHBase,Diffculty,SpellBase,Version
     */
 
     private function YexiAttackTarget takes nothing returns boolean
-        return IsEnemyP(GetFilterUnit(),Player(10)) and GetUnitAbilityLevel(GetFilterUnit(),'Avul') < 1
+        return IsEnemyMagic(GetFilterUnit(),Player(10)) and GetUnitAbilityLevel(GetFilterUnit(),'Avul') < 1
     endfunction
 
     /*

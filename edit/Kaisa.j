@@ -133,7 +133,7 @@ library_once Kaisa requires SpellBase,Printer,Spin,Aura
 	    //i是速度
 	    local integer i = LoadInteger(spellTable,id,1)
 		local real facing = LoadReal(spellTable,GetHandleId(t),2)
-		local group temp = GetEnemyGroup(kaisa,GetUnitX(kaisa),GetUnitY(kaisa),400)
+		local group temp = GetEnemyGroup(GetOwningPlayer(kaisa),GetUnitX(kaisa),GetUnitY(kaisa),400)
 		local real xp = GetUnitX(kaisa)+ CosBJ(facing) * I2R(i)
 		local real yp = GetUnitY(kaisa)+ SinBJ(facing) * I2R(i)
 		//判断数量
