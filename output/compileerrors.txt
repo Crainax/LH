@@ -1,4 +1,7 @@
 logs\currentmapscript.j
-JASSHelper - Step 2 (structs)
-Line 30774: registerCallback is not a member of itemTransport
-1
+pjass.exe
+Line 24194:  Cannot convert integer to code
+Line 24196:  Cannot convert integer to boolexpr
+Line 24197:  Cannot convert integer to code
+Line 24201:  Cannot convert integer to code
+4
