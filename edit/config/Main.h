@@ -125,9 +125,6 @@
 // 连续登录
 #include "edit/Continous.j"
 
-// 右键双击转移装备
-#include "edit/Item/ItemTransport.j"
-
 // 按tab看属性
 #include "edit/Hero/HeroInfo.j"
 

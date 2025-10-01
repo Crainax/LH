@@ -774,21 +774,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
-        获取第一个玩家
-    */
-    function GetFirstPlayer takes nothing returns player
-        local integer i = 1
-        loop
-            exitwhen i > 6
-            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-                return ConvertedPlayer(i)
-            endif
-            set i = i +1
-        endloop
-        return ConvertedPlayer(1)
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
         基地爆炸
     */
     function Jidibaozha takes string s returns nothing

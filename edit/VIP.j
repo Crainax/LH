@@ -323,6 +323,12 @@ library VIP requires LHBase,Beast,Version,Attr,SpellBase,Juexing,MallItem {
 						if (!thistype[index].v) {
 							thistype[index].v = true;
 							DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+							if (vip.isFirst) {
+								vip.isFirst = false;
+								udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2;
+								// BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+2波的特权.");
+								// BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.");
+							}
 						}
 					}
 				}

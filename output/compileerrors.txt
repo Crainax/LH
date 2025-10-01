@@ -1,5 +1,4 @@
 logs\currentmapscript.j
-pjass.exe
-Line 7791:  Cannot convert player to unit
-Line 7791:  Cannot convert unit to player
-2
+JASSHelper - Step 2 (structs)
+Line 30774: registerCallback is not a member of itemTransport
+1

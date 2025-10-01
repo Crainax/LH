@@ -13,17 +13,6 @@
 //*  Global Variables
 //*
 //***************************************************************************
-library_once YDTriggerSaveLoadSystem initializer Init
-//#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
-globals
-        hashtable YDHT
-    hashtable YDLOC
-endglobals
-    private function Init takes nothing returns nothing
-            set YDHT = InitHashtable()
-        set YDLOC = InitHashtable()
-    endfunction
-endlibrary
 globals
     // User-defined
     unit array udg_H
@@ -1870,6 +1859,17 @@ endfunction
     // 内测版
     // lua_print: 内测版本
 // 这两条是用到YDWE函数就要导入的,没用到就不用导入
+library_once YDTriggerSaveLoadSystem initializer Init
+//#  define YDTRIGGER_handle(SG)                          YDTRIGGER_HT##SG##(HashtableHandle)
+globals
+        hashtable YDHT
+    hashtable YDLOC
+endglobals
+    private function Init takes nothing returns nothing
+            set YDHT = InitHashtable()
+        set YDLOC = InitHashtable()
+    endfunction
+endlibrary
 // 结构体共用方法定义
 //共享打印方法
 // UI组件内部共享方法及成员
@@ -3911,21 +3911,6 @@ library_once LHBase initializer InitLHBase requires Constant,JBase//,Test
     */
     function IsInForbitRegion takes real x,real y,unit u returns boolean
         return (IsInRect(x,y,gg_rct_______a3) and (not(RectContainsUnit(gg_rct_______a3, u)))) or (IsInRect(x,y,gg_rct_Arena_forbit) and (not(RectContainsUnit(gg_rct_Arena_forbit, u))))
-    endfunction
-//---------------------------------------------------------------------------------------------------
-    /*
-        获取第一个玩家
-    */
-    function GetFirstPlayer takes nothing returns player
-        local integer i = 1
-        loop
-            exitwhen i > 6
-            if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-                return ConvertedPlayer(i)
-            endif
-            set i = i +1
-        endloop
-        return ConvertedPlayer(1)
     endfunction
 //---------------------------------------------------------------------------------------------------
     /*
@@ -8499,7 +8484,7 @@ library Huodong requires LHBase,Achievement {
 }
 //! endzinc
 //! zinc
-library Diffculty requires LHBase, Huodong, ChallangerMode {
+library Diffculty requires LHBase, Huodong, ChallangerMode,AutoDifficulty {
 	/*
 	地狱1,末日2,轮回万劫3
 	*/
@@ -8755,28 +8740,6 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 	}
 	//---------------------------------------------------------------------------------------------------
 	/*
-	天魇
-	*/
-	public function InitTianyan() {
-		unit l_unit;
-		group g;
-		g = YDWEGetUnitsOfTypeIdAllNull('uzg2');
-		l_unit = FirstOfGroup(g);
-		while (l_unit != null) {
-			GroupRemoveUnit(g, l_unit);
-			AddTianyanmokang(l_unit);
-			l_unit = FirstOfGroup(g);
-		}
-		SetPlayerTechResearchedSwap('R00Z', 1, Player(10));
-		SetPlayerTechResearchedSwap('R00Z', 1, Player(11));
-		SetPlayerTechResearchedSwap('R01F', 1, Player(10));
-		SetPlayerTechResearchedSwap('R01F', 1, Player(11));
-		DestroyGroup(g);
-		g = null;
-		l_unit = null;
-	}
-	//---------------------------------------------------------------------------------------------------
-	/*
 	显示对话框提示选更高难度
 	*/
 	public function Show245Dialog() {
@@ -8802,83 +8765,6 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 	*/
 	public function ShowKuileiDialog() {
 		ShowGameHintAll(" 		|cffff6800新任务:|r 		击败六界傀儡|cffffff00穆晴|r与白浅.");
-	}
-	public timer TiAutoDiff = null; //自动选择难度
-public timerdialog TdAutoDiff = null; //自动选择难度
-
-	// 选择游戏模式
-	public function ChooseGameMode() {
-		trigger t;
-		dialog d;
-		t = CreateTrigger();
-		d = DialogCreate();
-		DialogSetMessage(d, "请选择游戏模式");
-		if (IsKuanghuanTime()) {
-			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
-		}
-		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
-		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
-		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
-		DialogDisplay(GetFirstPlayer(), d, true);
-		TriggerRegisterDialogEvent(t, d);
-		TriggerAddAction(t, function (){
-			dialog d;
-			button clickedButton;
-			d = GetClickedDialogBJ();
-			clickedButton = GetClickedButtonBJ();
-			if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
-				//经典模式
-				mode = 1;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".");
-				SgameMode = "经典";
-				ShowDifficutyDiglog(1);
-			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
-				//挑战模式
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".");
-				SgameMode = "挑战";
-				mode = 1;
-				CreateCDialog1(); //挑战模式的对话框
-} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
-				//加速模式
-				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".");
-				SgameMode = "加速";
-				ShowDifficutyDiglog(1);
-			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
-				//狂欢模式
-				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
-				SgameMode = "狂欢";
-				InitKuanghuan();
-				ShowDifficutyDiglog(4);
-			}
-			FlushChildHashtable(LHTable, GetHandleId(d));
-			DialogDisplay(Player(0), d, false);
-			DialogClear(d);
-			DialogDestroy(d);
-			d = null;
-			clickedButton = null;
-			DestroyTrigger(GetTriggeringTrigger());
-		});
-		t = null;
-		TiAutoDiff = CreateTimer();
-		TdAutoDiff = CreateTimerDialog(TiAutoDiff);
-		TimerDialogDisplay(TdAutoDiff,true);
-		TimerDialogSetTitle(TdAutoDiff,"自动选择难度");
-		TimerDialogSetSpeed(TdAutoDiff,1.0);
-		TimerStart(TiAutoDiff,120,true,function (){
-			timer t = GetExpiredTimer();
-			integer id = GetHandleId(t);
-			mode = 1; //经典模式
-SgameMode = "经典";
-			SetDifficulty.execute(1);
-			BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.");
-			PauseTimer(t);
-			DestroyTimer(t);
-			DestroyTimerDialog(TdAutoDiff);
-			TdAutoDiff = null;
-			t = null;
-		});
 	}
 }
 //! endzinc
@@ -17018,6 +16904,12 @@ timer ti = GetExpiredTimer();
 						if (!thistype[index].v) {
 							thistype[index].v = true;
 							DisplayTextToPlayer(p, 0., 0., "|cFFFF66CC【消息】|r永久赞助特权激活成功,如果要关闭赞助功能,请输入-zz");
+							if (vip.isFirst) {
+								vip.isFirst = false;
+								udg_I_Er_diansi[1] = udg_I_Er_diansi[1] + 2;
+								// BJDebugMsg("|cFFFF66CC【消息】|r你们已激活在任意难度下获得24+5+2波的特权.");
+								// BJDebugMsg("|cFFFF66CC【消息】|r基地获得了额外的2次防护罩.");
+							}
 						}
 					}
 				}
@@ -17072,7 +16964,7 @@ player p = GetTriggerPlayer();
 }
 //! endzinc
 //! zinc
-library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
+library Box requires LHBase,Version,ChallangerDZ,VIP,Structs,ItemTransport {
 	TextTagBind TTBBox [];
 	// 创建并绑定文字
 	function InitBoxWord(player p) {
@@ -17242,7 +17134,7 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 		}
 		RemoveUnit(UDepot[GetConvertedPlayerId(p)]);
 		UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, GetBoxType(i), x, y, 270.000);
-		InitItemTransport(UDepot[GetConvertedPlayerId(p)]);
+		itemTransport.registerEvent(UDepot[GetConvertedPlayerId(p)]);
 		if (GetDiffculty() <= 8 || i >= 9) {
 			UnitAddAbility(UDepot[GetConvertedPlayerId(p)], GetBoxAbility(i));
 		}
@@ -17399,6 +17291,21 @@ GetHeroItem();
 		mallItem.setTech("GOLD1", 'RMI0');
 		mallItem.init("EXP1");
 		mallItem.setTech("EXP1", 'RMI1');
+		itemTransport.registerCallBack(function(){
+			integer pos = itemTransport.getCallbackPosition();
+			item it = itemTransport.getCallbackItem();
+			unit u = itemTransport.getCallbackUnit();
+			integer index = GetConvertedPlayerId(GetOwningPlayer(u));
+			if (u == UDepot[index]) { //宠物里双击
+if (UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
+				else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,英雄背包已满.|r" );
+			} else if (u == udg_H[index]) { //英雄里双击
+if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到仓库上." );
+				else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,仓库背包已满.|r" );
+			}
+			it = null;
+			u = null;
+		});
 	}
 }
 //! endzinc
@@ -30393,7 +30300,7 @@ endlibrary
 /*
 英雄选择
 */
-library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
+library HeroSelect requires LHBase,Achievement,VIP,RandomHero,ItemTransport {
 	// 信哲
 	public boolean BX1 = false;
 	public boolean BX2 = false;
@@ -30548,7 +30455,7 @@ ChooseAura(u);
                 YDWEMultiboardSetItemValueBJNull(udg_D, 7, (pid + 1), "存活");
                 YDWEMultiboardSetItemValueBJNull(udg_D, 6, (pid + 1), "1");
                 UDepot[pid] = CreateUnit(p, 'nmgv', 10175.0 + ModuloInteger(pid - 1, 3) * 132.0, (- 691.0 + R3(pid > 3,1,0) * 630.4), 270.000);
-                InitItemTransport(UDepot[pid]);
+                itemTransport.registerEvent(UDepot[pid]);
                 if (udg_I_Jinqianhuodelv[pid] < 1.00) {
                     ydul_g = 1;
                     for (1 <= ydul_g <= 6) {
@@ -30733,7 +30640,7 @@ InitMoqi(u);
                 InitChallanger1Hero(udg_H[pid]);
                 InitChallanger2Hero(udg_H[pid]);
                 ShowChallangerDialog(p);
-                InitItemTransport(udg_H[pid]);
+                itemTransport.registerEvent(udg_H[pid]);
                 if (CT3()) {
                     UnitRemoveAbility(udg_H[pid], 'A0B9');
                 }
@@ -30791,6 +30698,25 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
 		SetPlayerTechResearchedSwap('R013', 1, Player(10));
 		SetPlayerTechResearchedSwap('R013', 1, Player(11));
 	}
+    // 初始化天魇难度
+	public function InitTianyan() {
+		unit l_unit;
+		group g;
+		g = YDWEGetUnitsOfTypeIdAllNull('uzg2');
+		l_unit = FirstOfGroup(g);
+		while (l_unit != null) {
+			GroupRemoveUnit(g, l_unit);
+			AddTianyanmokang(l_unit);
+			l_unit = FirstOfGroup(g);
+		}
+		SetPlayerTechResearchedSwap('R00Z', 1, Player(10));
+		SetPlayerTechResearchedSwap('R00Z', 1, Player(11));
+		SetPlayerTechResearchedSwap('R01F', 1, Player(10));
+		SetPlayerTechResearchedSwap('R01F', 1, Player(11));
+		DestroyGroup(g);
+		g = null;
+		l_unit = null;
+	}
     // 地狱难度的数据提示
 	function PrintDifficulty() {
 		integer d = GetDiffculty();
@@ -30812,7 +30738,6 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
 			BJDebugMsg("|cFFFF66CC【消息】|r进攻怪获得技能\"闪烁\",10波以后怪物提高20倍生命与20倍攻击.");
 			BJDebugMsg("|cFFFF66CC【消息】|r熊猫与大法BOSS提高50倍生命与20倍生命.");
 			BJDebugMsg("|cFFFF66CC【消息】|r英雄获得经验减少25%.");
-			BJDebugMsg("|cFFFF66CC【消息】|r通关该难度可以加轮回之狱主群把你名字永久保存在|cff99cc00封帝万劫录|r中哦!");
 		}
 	}
     // 设置难度函数，参数 difficultyIndex: 1-10 分别对应天国到天魇
@@ -30972,13 +30897,8 @@ PrintDifficulty();
         udg_Time_Monster_C[1] = GetLastCreatedTimerDialogBJ();
         TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
         InitJungle();
-        if (TiAutoDiff != null) {
-			DestroyTimer(TiAutoDiff);
-		}
-		if (TdAutoDiff != null) {
-			DestroyTimerDialog(TdAutoDiff);
-		}
-    }
+        EndAutoDifficulty(); //结束自动选难度
+}
     public function registerDifficultyDialog(dialog d) {
         trigger tr;
         tr = CreateTrigger();
@@ -31012,6 +30932,68 @@ PrintDifficulty();
         });
         tr = null;
     }
+	// 选择游戏模式
+	public function ChooseGameMode() {
+		trigger t;
+		dialog d;
+		t = CreateTrigger();
+		d = DialogCreate();
+		DialogSetMessage(d, "请选择游戏模式");
+		if (IsKuanghuanTime()) {
+			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
+		}
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d;
+			button clickedButton;
+			d = GetClickedDialogBJ();
+			clickedButton = GetClickedButtonBJ();
+			if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
+				//经典模式
+				mode = 1;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".");
+				SgameMode = "经典";
+				ShowDifficutyDiglog(1);
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
+				//挑战模式
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".");
+				SgameMode = "挑战";
+				mode = 1;
+				CreateCDialog1(); //挑战模式的对话框
+} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
+				//加速模式
+				mode = 2;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".");
+				SgameMode = "加速";
+				ShowDifficutyDiglog(1);
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
+				//狂欢模式
+				mode = 2;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
+				SgameMode = "狂欢";
+				InitKuanghuan();
+				ShowDifficutyDiglog(4);
+			}
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(Player(0), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+			d = null;
+			clickedButton = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+		t = null;
+		RegisterAutoDifficulty(120,"自动选择难度",function(){
+			mode = 1; //经典模式
+SgameMode = "经典";
+			SetDifficulty(1);
+			BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.");
+		});
+	}
 }
 //! endzinc
 // 地图0秒事件初始化
@@ -31062,65 +31044,6 @@ library Init requires LHBase,Achievement,MiJing,Diffculty,Version,VIP {
 //! endzinc
 // 狂欢活动
 // 连续登录
-// 右键双击转移装备
-//! zinc
-/*
-物品双击传送的功能
-*/
-library ItemTransport requires LHBase {
-    //操作物品的接口
-    public function InitItemTransport (unit u) {
-        TriggerRegisterUnitEvent(TrDbClick,u,EVENT_UNIT_ISSUED_TARGET_ORDER);
-    }
-    trigger TrDbClick = null;
-    function onInit () {
-        TrDbClick = CreateTrigger();
-        TriggerAddCondition(TrDbClick, Condition(function () { //双击装备后  宠物<->英雄间移动
-integer i;
-            integer pos = 0;
-            timer t;
-            if (GetIssuedOrderId() >= 852002 && GetIssuedOrderId() <= 852007) {
-                for (1 <= i <= 6) {
-                    if (UnitItemInSlotBJ(GetTriggerUnit(),i) == GetOrderTargetItem()) {
-                        pos = i;
-                        break;
-                    }
-                }
-                if (pos > 0) {
-                    t = CreateTimer();
-                    SaveInteger(spellTable,GetHandleId(t),1,pos);
-                    SaveItemHandle(spellTable,GetHandleId(t),2,GetOrderTargetItem());
-                    SaveUnitHandle(spellTable,GetHandleId(t),3,GetTriggerUnit());
-                    TimerStart(t,0.0,false,function (){
-                        timer t = GetExpiredTimer();
-                        integer id = GetHandleId(t);
-                        integer pos = LoadInteger(spellTable,id,1);
-                        item it = LoadItemHandle(spellTable,id,2);
-                        unit u = LoadUnitHandle(spellTable,id,3);
-                        integer index = GetConvertedPlayerId(GetOwningPlayer(u));
-                        if (UnitItemInSlotBJ(u,pos) == it) {
-                            if (u == UDepot[index]) { //宠物里双击
-if (UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
-                                else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,英雄背包已满.|r" );
-                            } else if (u == udg_H[index]) { //英雄里双击
-if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到仓库上." );
-                                else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,仓库背包已满.|r" );
-                            }
-                        }
-                        PauseTimer(t);
-                        FlushChildHashtable(spellTable,id);
-                        DestroyTimer(t);
-                        u = null;
-                        it = null;
-                        t = null;
-                    });
-                    t = null;
-                }
-            }
-        }));
-    }
-}
-//! endzinc
 // 按tab看属性
 //! zinc
 /*
@@ -31135,9 +31058,10 @@ library HeroInfo requires Keyboard {
             trigger tr = CreateTrigger();
             TriggerRegisterTimerEventSingle(tr,1.0);
             TriggerAddCondition(tr,Condition(function (){
-                keyboard.regKeyUpEvent(KEY_TAB, function (){
+                keyboard.regKeyDownEvent(KEY_TAB, function (){
                     DzSyncData("tab",""); //触发数据传送
 });
+                keyboard.regKeyUpEvent(KEY_TAB, null);
                 DestroyTrigger(GetTriggeringTrigger());
             }));
             tr = CreateTrigger();

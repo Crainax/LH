@@ -520,7 +520,6 @@ library_once Mengji requires SpellBase,Printer,Attr,Aura,ChallangerDZ
 
 		set Liutao = GetItemOfTypeFromUnitBJ(mengji, 'I049')
 	    call SaveInteger(YDHT,GetHandleId(Liutao),0xA75AD423,GetConvertedPlayerId(GetOwningPlayer(mengji)))
-
 	    /*
 	        六涛的属性值
 	    */

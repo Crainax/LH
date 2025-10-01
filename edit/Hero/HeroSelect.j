@@ -9,7 +9,7 @@
 /*
 英雄选择
 */
-library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
+library HeroSelect requires LHBase,Achievement,VIP,RandomHero,ItemTransport {
 
 	// 信哲
 	public boolean BX1 = false;
@@ -189,7 +189,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
                 MultiboardSetItemValueBJ(udg_D, 6, (pid + 1), "1");
 
                 UDepot[pid] = CreateUnit(p, 'nmgv', 10175.0 + ModuloInteger(pid - 1, 3) * 132.0, (- 691.0 + R3(pid > 3,1,0) * 630.4), 270.000);
-                InitItemTransport(UDepot[pid]);
+                itemTransport.registerEvent(UDepot[pid]);
 
                 if (udg_I_Jinqianhuodelv[pid] < 1.00) {
                     ydul_g = 1;
@@ -400,7 +400,7 @@ library HeroSelect requires LHBase,Achievement,VIP,RandomHero {
                 InitChallanger1Hero(udg_H[pid]);
                 InitChallanger2Hero(udg_H[pid]);
                 ShowChallangerDialog(p);
-                InitItemTransport(udg_H[pid]);
+                itemTransport.registerEvent(udg_H[pid]);
 
                 if (CT3()) {
                     UnitRemoveAbility(udg_H[pid], 'A0B9');

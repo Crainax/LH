@@ -6,7 +6,7 @@
 #include "edit/Kuanghuan.j"
 #include "edit/Huodong.j"
 //! zinc
-library Diffculty requires LHBase, Huodong, ChallangerMode {
+library Diffculty requires LHBase, Huodong, ChallangerMode,AutoDifficulty {
 
 	/*
 	地狱1,末日2,轮回万劫3
@@ -269,30 +269,7 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 		});
 		t = null;
 	}
-	//---------------------------------------------------------------------------------------------------
-	/*
-	天魇
-	*/
-	public function InitTianyan() {
-		unit l_unit;
-		group g;
 
-		g = GetUnitsOfTypeIdAll('uzg2');
-		l_unit = FirstOfGroup(g);
-		while (l_unit != null) {
-			GroupRemoveUnit(g, l_unit);
-			AddTianyanmokang(l_unit);
-			l_unit = FirstOfGroup(g);
-		}
-		SetPlayerTechResearchedSwap('R00Z', 1, Player(10));
-		SetPlayerTechResearchedSwap('R00Z', 1, Player(11));
-		SetPlayerTechResearchedSwap('R01F', 1, Player(10));
-		SetPlayerTechResearchedSwap('R01F', 1, Player(11));
-
-		DestroyGroup(g);
-		g = null;
-		l_unit = null;
-	}
 	//---------------------------------------------------------------------------------------------------
 	/*
 	显示对话框提示选更高难度
@@ -334,93 +311,6 @@ library Diffculty requires LHBase, Huodong, ChallangerMode {
 		击败六界傀儡|cffffff00穆晴|r与白浅.");
 	}
 
-	public timer TiAutoDiff = null; //自动选择难度
-	public timerdialog TdAutoDiff = null; //自动选择难度
-
-	// 选择游戏模式
-	public function ChooseGameMode() {
-		trigger t;
-		dialog d;
-
-		t = CreateTrigger();
-		d = DialogCreate();
-
-		DialogSetMessage(d, "请选择游戏模式");
-		if (IsKuanghuanTime()) {
-			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
-		}
-		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
-		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
-		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
-
-		DialogDisplay(GetFirstPlayer(), d, true);
-		TriggerRegisterDialogEvent(t, d);
-		TriggerAddAction(t, function (){
-			dialog d;
-			button clickedButton;
-
-			d = GetClickedDialogBJ();
-			clickedButton = GetClickedButtonBJ();
-
-			if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
-				//经典模式
-				mode = 1;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".");
-				SgameMode = "经典";
-				ShowDifficutyDiglog(1);
-			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
-				//挑战模式
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".");
-				SgameMode = "挑战";
-				mode = 1;
-				CreateCDialog1(); //挑战模式的对话框
-			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
-				//加速模式
-				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".");
-				SgameMode = "加速";
-				ShowDifficutyDiglog(1);
-			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
-				//狂欢模式
-				mode = 2;
-				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
-				SgameMode = "狂欢";
-				InitKuanghuan();
-				ShowDifficutyDiglog(4);
-			}
-
-			FlushChildHashtable(LHTable, GetHandleId(d));
-			DialogDisplay(Player(0), d, false);
-			DialogClear(d);
-			DialogDestroy(d);
-
-			d = null;
-			clickedButton = null;
-			DestroyTrigger(GetTriggeringTrigger());
-		});
-
-		t = null;
-
-		TiAutoDiff = CreateTimer();
-		TdAutoDiff = CreateTimerDialog(TiAutoDiff);
-		TimerDialogDisplay(TdAutoDiff,true);
-		TimerDialogSetTitle(TdAutoDiff,"自动选择难度");
-		TimerDialogSetSpeed(TdAutoDiff,1.0);
-		TimerStart(TiAutoDiff,120,true,function (){
-			timer t = GetExpiredTimer();
-			integer id = GetHandleId(t);
-			mode = 1; //经典模式
-			SgameMode = "经典";
-			SetDifficulty.execute(1);
-			BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.");
-			PauseTimer(t);
-			DestroyTimer(t);
-			DestroyTimerDialog(TdAutoDiff);
-			TdAutoDiff = null;
-			t = null;
-		});
-
-	}
 }
 //! endzinc
 #endif

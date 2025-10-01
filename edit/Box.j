@@ -9,7 +9,7 @@
 #include  "edit/Structs.j"
 
 //! zinc
-library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
+library Box requires LHBase,Version,ChallangerDZ,VIP,Structs,ItemTransport {
 
 	TextTagBind TTBBox [];
 
@@ -202,7 +202,7 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 
 		RemoveUnit(UDepot[GetConvertedPlayerId(p)]);
 		UDepot[GetConvertedPlayerId(p)] = CreateUnit(p, GetBoxType(i), x, y, 270.000);
-		InitItemTransport(UDepot[GetConvertedPlayerId(p)]);
+		itemTransport.registerEvent(UDepot[GetConvertedPlayerId(p)]);
 
 		if (GetDiffculty() <= 8 || i >= 9) {
 			UnitAddAbility(UDepot[GetConvertedPlayerId(p)], GetBoxAbility(i));
@@ -388,6 +388,23 @@ library Box requires LHBase,Version,ChallangerDZ,VIP,Structs {
 		mallItem.setTech("GOLD1", 'RMI0');
 		mallItem.init("EXP1");
 		mallItem.setTech("EXP1", 'RMI1');
+
+		itemTransport.registerCallBack(function(){
+			integer pos   = itemTransport.getCallbackPosition();
+			item    it    = itemTransport.getCallbackItem();
+			unit    u     = itemTransport.getCallbackUnit();
+			integer index = GetConvertedPlayerId(GetOwningPlayer(u));
+			if (u == UDepot[index]) { //宠物里双击
+				if (UnitAddItem( udg_H[GetConvertedPlayerId(GetOwningPlayer(u))],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到英雄上." );
+				else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,英雄背包已满.|r" );
+			} else if (u == udg_H[index]) { //英雄里双击
+				if (UnitAddItem(UDepot[index],it)) DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cFFFF66CC【消息】|r成功转移到仓库上." );
+				else DisplayTextToPlayer( GetOwningPlayer(u), 0, 0, "|cffff0000转移失败,仓库背包已满.|r" );
+			}
+			it = null;
+			u = null;
+		});
+
 	}
 }
 //! endzinc

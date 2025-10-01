@@ -36,6 +36,28 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
 		SetPlayerTechResearchedSwap('R013', 1, Player(11));
 	}
 
+    // 初始化天魇难度
+	public function InitTianyan() {
+		unit l_unit;
+		group g;
+
+		g = GetUnitsOfTypeIdAll('uzg2');
+		l_unit = FirstOfGroup(g);
+		while (l_unit != null) {
+			GroupRemoveUnit(g, l_unit);
+			AddTianyanmokang(l_unit);
+			l_unit = FirstOfGroup(g);
+		}
+		SetPlayerTechResearchedSwap('R00Z', 1, Player(10));
+		SetPlayerTechResearchedSwap('R00Z', 1, Player(11));
+		SetPlayerTechResearchedSwap('R01F', 1, Player(10));
+		SetPlayerTechResearchedSwap('R01F', 1, Player(11));
+
+		DestroyGroup(g);
+		g = null;
+		l_unit = null;
+	}
+
     // 地狱难度的数据提示
 	function PrintDifficulty() {
 		integer d = GetDiffculty();
@@ -57,7 +79,6 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
 			BJDebugMsg("|cFFFF66CC【消息】|r进攻怪获得技能\"闪烁\",10波以后怪物提高20倍生命与20倍攻击.");
 			BJDebugMsg("|cFFFF66CC【消息】|r熊猫与大法BOSS提高50倍生命与20倍生命.");
 			BJDebugMsg("|cFFFF66CC【消息】|r英雄获得经验减少25%.");
-			BJDebugMsg("|cFFFF66CC【消息】|r通关该难度可以加轮回之狱主群把你名字永久保存在|cff99cc00封帝万劫录|r中哦!");
 		}
 	}
 
@@ -180,6 +201,7 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
             }
             InitWanjie();
             InitTianyan();
+
         }
 
         // 执行难度设置后的公共逻辑
@@ -224,12 +246,7 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
         TimerDialogDisplayBJ(true, udg_Time_Monster_C[1]);
         InitJungle();
 
-        if (TiAutoDiff != null) {
-			DestroyTimer(TiAutoDiff);
-		}
-		if (TdAutoDiff != null) {
-			DestroyTimerDialog(TdAutoDiff);
-		}
+        EndAutoDifficulty(); //结束自动选难度
     }
 
     public function registerDifficultyDialog(dialog d) {
@@ -267,6 +284,81 @@ library ChooseDifficulty requires LHBase,Version,Diffculty,VIP {
         });
         tr = null;
     }
+
+
+
+	// 选择游戏模式
+	public function ChooseGameMode() {
+		trigger t;
+		dialog d;
+
+		t = CreateTrigger();
+		d = DialogCreate();
+
+		DialogSetMessage(d, "请选择游戏模式");
+		if (IsKuanghuanTime()) {
+			SaveButtonHandle(LHTable, GetHandleId(d), 5, DialogAddButtonBJ(d, "狂欢模式(活动)"));
+		}
+		SaveButtonHandle(LHTable, GetHandleId(d), 1, DialogAddButtonBJ(d, "经典模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 3, DialogAddButtonBJ(d, "挑战模式"));
+		SaveButtonHandle(LHTable, GetHandleId(d), 2, DialogAddButtonBJ(d, "加速模式(速通)"));
+
+		DialogDisplay(GetFirstPlayer(), d, true);
+		TriggerRegisterDialogEvent(t, d);
+		TriggerAddAction(t, function (){
+			dialog d;
+			button clickedButton;
+
+			d = GetClickedDialogBJ();
+			clickedButton = GetClickedButtonBJ();
+
+			if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 1)) {
+				//经典模式
+				mode = 1;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"经典模式\".");
+				SgameMode = "经典";
+				ShowDifficutyDiglog(1);
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 3)) {
+				//挑战模式
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"挑战模式\".");
+				SgameMode = "挑战";
+				mode = 1;
+				CreateCDialog1(); //挑战模式的对话框
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 2)) {
+				//加速模式
+				mode = 2;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"加速模式\".");
+				SgameMode = "加速";
+				ShowDifficutyDiglog(1);
+			} else if (clickedButton == LoadButtonHandle(LHTable, GetHandleId(d), 5)) {
+				//狂欢模式
+				mode = 2;
+				BJDebugMsg("|cFFFF66CC【消息】|r当前的游戏模式为\"狂欢模式\"(无法在该模式解锁皮肤与成就).");
+				SgameMode = "狂欢";
+				InitKuanghuan();
+				ShowDifficutyDiglog(4);
+			}
+
+			FlushChildHashtable(LHTable, GetHandleId(d));
+			DialogDisplay(Player(0), d, false);
+			DialogClear(d);
+			DialogDestroy(d);
+
+			d = null;
+			clickedButton = null;
+			DestroyTrigger(GetTriggeringTrigger());
+		});
+
+		t = null;
+
+
+		RegisterAutoDifficulty(120,"自动选择难度",function(){
+			mode = 1; //经典模式
+			SgameMode = "经典";
+			SetDifficulty(1);
+			BJDebugMsg("|cFF99FF00【消息】|r长时间未选择,自动选择难度为经典天国.");
+		});
+	}
 }
 
 //! endzinc
