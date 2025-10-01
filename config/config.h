@@ -1,4 +1,4 @@
-#define VERSION "3.434"
+#define VERSION "3.435"
 #define MAX_PLAYER_COUNT 6
 
 // 原生UI的大小

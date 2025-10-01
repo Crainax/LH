@@ -24,4 +24,4 @@
 /Tools/*
 /abandon/
 .vscode/tasks.json
-/output
+/output/

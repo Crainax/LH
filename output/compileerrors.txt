@@ -1,4 +1,0 @@
-logs\currentmapscript.j
-JASSHelper - Step 2 (structs)
-Line 30774: registerCallback is not a member of itemTransport
-1
