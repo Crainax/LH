@@ -162,14 +162,14 @@ library Huanyi requires SpellBase, Printer, Attr, Diffculty, Aura, Diamond, Spin
 	// 获取多重施法的重数:1-5
 	function GetMultiSpell() -> integer {
 		if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Huanyi))]) {
-			return I3(IsWanjie(), 6, 5);
+			return 6;
 		}
 
 		if (!(IsThirdSpellOK(Huanyi) && GetUnitAbilityLevel(Huanyi, 'AHH2') == 1)) {
 			return 1 + IJ2(Huanyi, 1, 0);
 		}
 
-		return IMaxBJ(IMinBJ(IMoneng / 2, I3(IsWanjie(), 4, 5)), 1) + IJ2(Huanyi, 1, 0);
+		return IMaxBJ(IMinBJ(IMoneng / 2, 5), 1) + IJ2(Huanyi, 1, 0);
 	}
 
 	// 幻元伏心，加20%的智力

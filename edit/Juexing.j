@@ -42,7 +42,7 @@ library Juexing requires LHBase, Moqi, Seyu, Mengji, Xinglong, Huanyi, Lichi, Xi
 	}
 
 	// 天赋允许
-	function AllowTianfu() {
+	public function AllowTianfu() {
 		integer i;
 
 		i = 1;
@@ -146,7 +146,7 @@ library Juexing requires LHBase, Moqi, Seyu, Mengji, Xinglong, Huanyi, Lichi, Xi
 	}
 
 	// 一段觉醒
-	function InitHeroJuexing1(unit u) {
+	public function InitHeroJuexing1(unit u) {
 		integer i;
 
 		i = GetHeroTianFu(u);
@@ -175,7 +175,7 @@ library Juexing requires LHBase, Moqi, Seyu, Mengji, Xinglong, Huanyi, Lichi, Xi
 	}
 
 	// 二段觉醒
-	function InitHeroJuexing2(unit u) {
+	public function InitHeroJuexing2(unit u) {
 		integer i;
 
 		i = GetHeroTianFu(u);
@@ -204,7 +204,7 @@ library Juexing requires LHBase, Moqi, Seyu, Mengji, Xinglong, Huanyi, Lichi, Xi
 	}
 
 	// 三段觉醒
-	function InitHeroJuexing3(unit u) {
+	public function InitHeroJuexing3(unit u) {
 		integer i;
 
 		i = GetHeroTianFu(u);
@@ -357,7 +357,7 @@ library Juexing requires LHBase, Moqi, Seyu, Mengji, Xinglong, Huanyi, Lichi, Xi
 		t = null;
 	}
 
-	function Yanyanhuo12(unit caster) {
+	public function Yanyanhuo12(unit caster) {
 		timer t;
 		unit u;
 
