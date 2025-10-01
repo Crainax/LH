@@ -10,426 +10,446 @@
 #include  "edit/Lichi.j"
 #include  "edit/Xiaoting.j"
 
-library_once Juexing initializer InitJuexing requires LHBase,Moqi,Seyu,Mengji,Xinglong,Huanyi,Lichi,Xiaoting
+//! zinc
 
+library Juexing requires LHBase, Moqi, Seyu, Mengji, Xinglong, Huanyi, Lichi, Xiaoting {
 
-//---------------------------------------------------------------------------------------------------
-	/*
-	    天赋禁用
-	*/
-	function ForbidTianfu takes nothing returns nothing
-		local integer i = 1
-		set BTianfu = true
-		loop
-			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				call UnitAddAbility(udg_H[i],'A0KK')
-				if (udg_H[i] == Huanyi) then
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),ICurrentSpell,false)
-				elseif (udg_H[i] == mengji) then
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GX',false)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GY',false)
-				elseif (udg_H[i] == xiaoting) then
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
-				else
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),false)
-				endif
-			endif
-			set i = i +1
-		endloop
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    天赋允许
-	*/
-	function AllowTianfu takes nothing returns nothing
-		local integer i = 1
-		set BTianfu = false
-		loop
-			exitwhen i > 6
-			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) and (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) then
-				call UnitRemoveAbility(udg_H[i],'A0KK')
-				if (udg_H[i] == Huanyi) then
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),ICurrentSpell,true)
-				elseif (udg_H[i] == mengji) then
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GX',true)
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0GY',true)
-				elseif (udg_H[i] == xiaoting) then
-					if (ISpellState == 0) then
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',true)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
-					elseif (ISpellState == 1) then
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',true)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
-					elseif (ISpellState == 2) then
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',true)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',false)
-					elseif (ISpellState == 3) then
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LJ',true)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LK',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LL',false)
-						call SetPlayerAbilityAvailable(ConvertedPlayer(i),'A0LM',false)
-					endif
-				else
-					call SetPlayerAbilityAvailable(ConvertedPlayer(i),GetHeroTianFu(udg_H[i]),true)
-				endif
-			endif
-			set i = i +1
-		endloop
+	// 天赋禁用
+	function ForbidTianfu() {
+		integer i;
 
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    循环禁用天赋
-	*/
-	struct TianfuForbidder
+		i = 1;
+		BTianfu = true;
+		while (i <= 6) {
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) && (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) {
+				UnitAddAbility(udg_H[i], 'A0KK');
+				if (udg_H[i] == Huanyi) {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), ICurrentSpell, false);
+				} else if (udg_H[i] == mengji) {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0GX', false);
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0GY', false);
+				} else if (udg_H[i] == xiaoting) {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LK', false);
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LL', false);
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LM', false);
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LJ', false);
+				} else {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), GetHeroTianFu(udg_H[i]), false);
+				}
+			}
+			i = i + 1;
+		}
+	}
 
-		private real IForbid
-		private real IAllow
-		private timer t
+	// 天赋允许
+	function AllowTianfu() {
+		integer i;
 
+		i = 1;
+		BTianfu = false;
+		while (i <= 6) {
+			if ((GetPlayerSlotState(ConvertedPlayer(i)) == PLAYER_SLOT_STATE_PLAYING) && (GetPlayerController(ConvertedPlayer(i)) == MAP_CONTROL_USER)) {
+				UnitRemoveAbility(udg_H[i], 'A0KK');
+				if (udg_H[i] == Huanyi) {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), ICurrentSpell, true);
+				} else if (udg_H[i] == mengji) {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0GX', true);
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0GY', true);
+				} else if (udg_H[i] == xiaoting) {
+					if (ISpellState == 0) {
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LK', true);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LL', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LM', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LJ', false);
+					} else if (ISpellState == 1) {
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LL', true);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LK', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LM', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LJ', false);
+					} else if (ISpellState == 2) {
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LM', true);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LK', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LL', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LJ', false);
+					} else if (ISpellState == 3) {
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LJ', true);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LK', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LL', false);
+						SetPlayerAbilityAvailable(ConvertedPlayer(i), 'A0LM', false);
+					}
+				} else {
+					SetPlayerAbilityAvailable(ConvertedPlayer(i), GetHeroTianFu(udg_H[i]), true);
+				}
+			}
+			i = i + 1;
+		}
+	}
 
-		static method allowTimer takes nothing returns nothing
-			local thistype this = thistype[GetExpiredTimer()]
-			call AllowTianfu()
-			call PauseTimer(.t)
-			call TimerStart(.t,.IAllow,false,function thistype.forbitTimer)
-		endmethod
+	// 循环禁用天赋
+	public struct TianfuForbidder {
 
-		static method forbitTimer takes nothing returns nothing
-			local thistype this = thistype[GetExpiredTimer()]
-			call ForbidTianfu()
-			call PauseTimer(.t)
-			call TimerStart(.t,.IForbid,false,function thistype.allowTimer)
-		endmethod
+		real IForbid;
+		real IAllow;
+		timer t;
 
-		static method operator [] takes handle h returns thistype
-            return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)))
-        endmethod
+		static method allowTimer() {
+			thistype this;
 
-        static method operator []= takes handle h, thistype value returns nothing
-            call YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value)
-        endmethod
+			this = thistype[GetExpiredTimer()];
+			AllowTianfu();
+			PauseTimer(this.t);
+			TimerStart(this.t, this.IAllow, false, function thistype.forbitTimer);
+		}
 
-        static method flush takes handle h returns nothing
-            call YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)))
-        endmethod
+		static method forbitTimer() {
+			thistype this;
 
-        static method create takes unit caster,real forbidTime,real allowTime returns thistype
+			this = thistype[GetExpiredTimer()];
+			ForbidTianfu();
+			PauseTimer(this.t);
+			TimerStart(this.t, this.IForbid, false, function thistype.allowTimer);
+		}
 
-		   	local thistype this = thistype.allocate()
-			set .IForbid = forbidTime
-			set .IAllow = allowTime
-			set .t = CreateTimer()
-			set thistype[.t] = integer(this)
-			call TimerStart(.t,allowTime,false,function thistype.forbitTimer)
-			return this
-		endmethod
+		static method operator [] (handle h) -> thistype {
+			return YDWEGetIntegerByString("SPellBase", I2S(YDWEH2I(h)));
+		}
 
-		method onDestroy takes nothing returns nothing
-			call thistype.flush(.t)
-			call AllowTianfu()
-			set .IForbid = 0
-			set .IAllow = 0
-			call PauseTimer(.t)
-			call DestroyTimer(.t)
-			set .t = null
-		endmethod
+		static method operator []= (handle h, thistype value) {
+			YDWESaveIntegerByString("SPellBase", I2S(YDWEH2I(h)), value);
+		}
 
-	endstruct
-//---------------------------------------------------------------------------------------------------
-	/*
-	    一段觉醒
-	*/
-	function InitHeroJuexing1 takes unit u returns nothing
-		local integer i = GetHeroTianFu(u)
-		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
-			return
-		endif
-		call SetUnitAbilityLevel(u,i,2)
-		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能一阶觉醒了!")
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
-		set BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] = true
-		if (u == seyu) then
-			call JuexingSeyu1()
-		elseif (u == Huanyi) then
-			call UnitAddAbility(Huanyi,'A0HX')
-		elseif (u == sichen) then
-			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
-		elseif (u == hanshang) then
-			call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),0.25)
-		elseif (u == lichi) then
-	    	call UnitAddAbility(lichi,'A0B9')
-		elseif (u == xinglong and IsLong()) then
-			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
-			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    二段觉醒
-	*/
-	function InitHeroJuexing2 takes unit u returns nothing
-		local integer i = GetHeroTianFu(u)
-		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
-			return
-		endif
-		call SetUnitAbilityLevel(u,i,3)
-		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能二阶觉醒了!")
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
-		set BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] = true
-		if (u == moqi) then
-			call JuexingMoqi2()
-		elseif (u == seyu) then
-			call JuexingSeyu2()
-		elseif (u == lichi) then
-			set IMaxHuanying = 5
-		elseif (u == chenji) then
-			call TriggerExecute( gg_trg_____________127 )
-		elseif (u == sichen) then
-			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
-		elseif (u == xinglong and IsLong()) then
-			call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.2)
-			call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),0.1)
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    三段觉醒
-	*/
-	function InitHeroJuexing3 takes unit u returns nothing
-		local integer i = GetHeroTianFu(u)
-		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
-			return
-		endif
-		call SetUnitAbilityLevel(u,i,4)
-		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能三阶觉醒了!")
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
-		set BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] = true
-		if (u == kaisa) then
-			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)),0.5)
-		elseif (u == yanmie) then
-			call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(yanmie)),0.4)
-		elseif (u == bajue) then
-			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(bajue)),0.6)
-		elseif (u == xiaoyue) then
-			call UnitAddAbility(gg_unit_h00K_0254,'A0IN')
-		elseif (u == lingxue) then
-			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(lingxue)),1)
-		elseif (u == sheyan) then
-			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(sheyan)),0.4)
-		elseif (u == Heiyan) then
-			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)),1)
-		elseif (u == cangling) then
-			call AddHP(cangling,40000000)
-		elseif (u == mengji) then
-			call RuohuanmengChatBack()
-		elseif (u == sichen) then
-			call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2 ) )
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    取消觉醒
-	*/
-	private function CancelJuexing takes unit u returns nothing
-		local integer i = GetHeroTianFu(u)
-		if (JJ4 and playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") then
-			return
-		endif
-		call SetUnitAbilityLevel(u,i,1)
-		call DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的"+GetAbilityName(i)+"技能觉醒失效了!")
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u) ))
-		if (u == sichen) then
-			if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
-				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
-			endif
-			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
-				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
-			endif
-			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
-				call SetPlayerStateBJ( GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, ( GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2 ) )
-			endif
-		endif
-		if (u == xinglong and IsLong()) then
-			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
-				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
-				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
-			endif
-			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) then
-				call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.2)
-				call AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)),-0.1)
-			endif
-		endif
-		if (u == kaisa and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(kaisa))]) then
-			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)),-0.5)
-		elseif (u == yanmie and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(yanmie))]) then
-			call AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(yanmie)),-0.4)
-		elseif (u == bajue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(bajue))]) then
-			call AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(bajue)),-0.6)
-		elseif (u == xiaoyue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xiaoyue))]) then
-			call UnitRemoveAbility(gg_unit_h00K_0254,'A0IN')
-		elseif (u == lingxue and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(lingxue))]) then
-			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(lingxue)),-1)
-		elseif (u == sheyan and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sheyan))]) then
-			call AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(sheyan)),-0.4)
-		elseif (u == Heiyan and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Heiyan))]) then
-			call AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)),-1)
-		elseif (u == cangling and BJuexing3[GetConvertedPlayerId(GetOwningPlayer(cangling))]) then
-			call AddHP(cangling,-40000000)
-		elseif (u == hanshang) then
-			call AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)),-0.25)
-		endif
-		set BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] = false
-		set BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] = false
-		set BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] = false
-		if (u == moqi) then
-			call QJuexingMoqi()
-		elseif (u == seyu) then
-			call QJuexingSeyu()
-		elseif (u == chenji) then
-			call TriggerExecute( gg_trg_____________129 )
-		elseif (u == Huanyi) then
-			call UnitRemoveAbility(Huanyi,'A0HX')
-		elseif (u == mengji) then
-			call RuohuanmengChatBack()
-		elseif (u == lichi) then
-	    	call UnitRemoveAbility(lichi,'A0B9')
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    大招
-	*/
+		static method flush(handle h) {
+			YDWEFlushStoredIntegerByString("SPellBase", I2S(YDWEH2I(h)));
+		}
 
-	private function CreateEffect12Yanyanhuo takes real x,real y returns nothing
-		local integer i = 1
-		call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y ))
-		loop
-			exitwhen i > 6
-			call DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", YDWECoordinateX(x + 900 * CosBJ(i*60)), YDWECoordinateY(y + 900 * SinBJ(i*60)) ))
-			set i = i +1
-		endloop
-	endfunction
+		static method create(unit caster, real forbidTime, real allowTime) -> thistype {
+			thistype this;
 
-	private function YanyanhuoTimer12 takes nothing returns nothing
-		local timer t = GetExpiredTimer()
-		local integer id = GetHandleId(t)
-		local unit u = LoadUnitHandle(spellTable,id,1)
-		local unit caster = LoadUnitHandle(spellTable,id,2)
-		local integer index = LoadInteger(spellTable,id,3)
-		if (IsUnitAliveBJ(u) or index <= 80) then
-			call SaveInteger(spellTable,GetHandleId(t),3,index + 1)
-			if (ModuloInteger(index,10) == 0) then
-				call DamageAreaMagic(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 2,null)
-			endif
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81- index) * 25 * CosBJ(index * 45)),YDWECoordinateY(GetUnitY(u) + (81- index) * 25 * SinBJ(index * 45)) ))
-			call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81- index) * 25 * CosBJ(index * (-45) + 180)),YDWECoordinateY(GetUnitY(u) * 25 + (81- index) * SinBJ(index * (-45) + 180)) ))
-		else
-			call CreateEffect12Yanyanhuo(GetUnitX(u), GetUnitY(u))
-			call DamageAreaMagic(caster,GetUnitX(u), GetUnitY(u),1800,GetDamageBase(caster) * 5,null)
-			call RemoveUnit(u)
-			call PauseTimer(t)
-			call FlushChildHashtable(spellTable,id)
-			call DestroyTimer(t)
-		endif
-		set u = null
-		set t = null
-	endfunction
+			this = thistype.allocate();
+			this.IForbid = forbidTime;
+			this.IAllow = allowTime;
+			this.t = CreateTimer();
+			thistype[this.t] = integer(this);
+			TimerStart(this.t, allowTime, false, function thistype.forbitTimer);
+			return this;
+		}
 
-	function Yanyanhuo12 takes unit caster returns nothing
-		local timer t = CreateTimer()
-		local unit u = CreateUnit(GetOwningPlayer(caster),'h02I',GetUnitX(caster),GetUnitY(caster),0)
-		call UnitApplyTimedLifeBJ( 8, 'BHwe',u )
-		call UnitMakeAbilityPermanent(xinglong,true,'A0K1')
-		//不断伤害
-		call ImmuteDamageInterval(caster,8)
-		call DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(caster), GetUnitY(caster) ))
-		call SaveUnitHandle(spellTable,GetHandleId(t),1,u)
-		call SaveUnitHandle(spellTable,GetHandleId(t),2,caster)
-		call SaveInteger(spellTable,GetHandleId(t),3,1)
-		call AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(caster)),0.6)
-		call TimerStart(t,0.1,true,function YanyanhuoTimer12)
-		set t = null
-		set u = null
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	/*
-	    装备灯的事件
-	*/
-	private function TDengEquitCon takes nothing returns boolean
-		return (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]) and IsDeng(GetManipulatedItem())
-	endfunction
+		method onDestroy() {
+			thistype.flush(this.t);
+			AllowTianfu();
+			this.IForbid = 0;
+			this.IAllow = 0;
+			PauseTimer(this.t);
+			DestroyTimer(this.t);
+			this.t = null;
+		}
+	}
 
-	private function TDengEquitAct takes nothing returns nothing
-		local integer i = 1
-		local integer dengCount = 0
-		loop
-			exitwhen i > 6
-			if(IsDeng(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
-				set dengCount = dengCount + 1
-			endif
-			set i = i +1
-		endloop
+	// 一段觉醒
+	function InitHeroJuexing1(unit u) {
+		integer i;
 
-		//如果计数君大于1则丢掉
-		if (dengCount > 1) then
-			call DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()),0.,0.,"|cFFFF66CC【消息】|r你只能同时装备上一个秘境至宝！")
-			call PolledWait(0.01)
-			call UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem())
-			return
-		elseif (dengCount == 1) then
-			if (GetDeng(GetTriggerUnit())>= 3) then
-				call InitHeroJuexing1(GetTriggerUnit())
-			endif
-			if (GetDeng(GetTriggerUnit())>= 7) then
-				call InitHeroJuexing2(GetTriggerUnit())
-			endif
-			if (GetDeng(GetTriggerUnit())>= 12) then
-				call InitHeroJuexing3(GetTriggerUnit())
-			endif
-		endif
+		i = GetHeroTianFu(u);
+		if (JJ4 && playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			return;
+		}
+		SetUnitAbilityLevel(u, i, 2);
+		DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的" + GetAbilityName(i) + "技能一阶觉醒了!");
+		DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u)));
+		BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
 
-	endfunction
+		if (u == seyu) {
+			JuexingSeyu1();
+		} else if (u == Huanyi) {
+			UnitAddAbility(Huanyi, 'A0HX');
+		} else if (u == sichen) {
+			SetPlayerStateBJ(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2));
+		} else if (u == hanshang) {
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)), 0.25);
+		} else if (u == lichi) {
+			UnitAddAbility(lichi, 'A0B9');
+		} else if (u == xinglong && IsLong()) {
+			AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), 0.2);
+			AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), 0.1);
+		}
+	}
 
-	private function TDengDropAct takes nothing returns nothing
-		local integer i = 1
-		local integer dengCount = 0
-		loop
-			exitwhen i > 6
-			if(IsDeng(UnitItemInSlotBJ(GetTriggerUnit(),i))) then
-				set dengCount = dengCount + 1
-			endif
-			set i = i +1
-		endloop
-		if (dengCount <= 1 and GetDeng(GetTriggerUnit())>= 3) then
-			call CancelJuexing(GetTriggerUnit())
-		endif
-	endfunction
-//---------------------------------------------------------------------------------------------------
-	private function InitJuexing takes nothing returns nothing
-		//只能同时装备一个灯
-		local trigger t = CreateTrigger()
-		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_PICKUP_ITEM)
-		call TriggerAddCondition(t,Condition(function TDengEquitCon))
-		call TriggerAddAction(t,function TDengEquitAct)
+	// 二段觉醒
+	function InitHeroJuexing2(unit u) {
+		integer i;
 
-		//丢弃灯事件
-		set t =CreateTrigger()
-		call TriggerRegisterAnyUnitEventBJ(t,EVENT_PLAYER_UNIT_DROP_ITEM)
-		call TriggerAddCondition(t,Condition(function TDengEquitCon))
-		call TriggerAddAction(t,function TDengDropAct)
+		i = GetHeroTianFu(u);
+		if (JJ4 && playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			return;
+		}
+		SetUnitAbilityLevel(u, i, 3);
+		DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的" + GetAbilityName(i) + "技能二阶觉醒了!");
+		DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u)));
+		BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
 
-		set t = null
-	endfunction
-endlibrary
+		if (u == moqi) {
+			JuexingMoqi2();
+		} else if (u == seyu) {
+			JuexingSeyu2();
+		} else if (u == lichi) {
+			IMaxHuanying = 5;
+		} else if (u == chenji) {
+			TriggerExecute(gg_trg_____________127);
+		} else if (u == sichen) {
+			SetPlayerStateBJ(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2));
+		} else if (u == xinglong && IsLong()) {
+			AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), 0.2);
+			AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), 0.1);
+		}
+	}
+
+	// 三段觉醒
+	function InitHeroJuexing3(unit u) {
+		integer i;
+
+		i = GetHeroTianFu(u);
+		if (JJ4 && playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			return;
+		}
+		SetUnitAbilityLevel(u, i, 4);
+		DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的" + GetAbilityName(i) + "技能三阶觉醒了!");
+		DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u)));
+		BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] = true;
+
+		if (u == kaisa) {
+			AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)), 0.5);
+		} else if (u == yanmie) {
+			AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(yanmie)), 0.4);
+		} else if (u == bajue) {
+			AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(bajue)), 0.6);
+		} else if (u == xiaoyue) {
+			UnitAddAbility(gg_unit_h00K_0254, 'A0IN');
+		} else if (u == lingxue) {
+			AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(lingxue)), 1);
+		} else if (u == sheyan) {
+			AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(sheyan)), 0.4);
+		} else if (u == Heiyan) {
+			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)), 1);
+		} else if (u == cangling) {
+			AddHP(cangling, 40000000);
+		} else if (u == mengji) {
+			RuohuanmengChatBack();
+		} else if (u == sichen) {
+			SetPlayerStateBJ(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) + 2));
+		}
+	}
+
+	// 取消觉醒
+	function CancelJuexing(unit u) {
+		integer i;
+
+		i = GetHeroTianFu(u);
+		if (JJ4 && playerName[GetConvertedPlayerId(GetOwningPlayer(u))] == "无心使者") {
+			return;
+		}
+		SetUnitAbilityLevel(u, i, 1);
+		DisplayTextToPlayer(GetOwningPlayer(u), 0., 0., "|cFFFF66CC【消息】|r你的" + GetAbilityName(i) + "技能觉醒失效了!");
+		DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectTarget.mdl", GetUnitX(u), GetUnitY(u)));
+
+		if (u == sichen) {
+			if (BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sichen))]) {
+				SetPlayerStateBJ(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2));
+			}
+			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) {
+				SetPlayerStateBJ(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2));
+			}
+			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) {
+				SetPlayerStateBJ(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP, (GetPlayerState(GetOwningPlayer(sichen), PLAYER_STATE_RESOURCE_FOOD_CAP) - 2));
+			}
+		}
+
+		if (u == xinglong && IsLong()) {
+			if (BJuexing1[GetConvertedPlayerId(GetOwningPlayer(sichen))]) {
+				AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), -0.2);
+				AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), -0.1);
+			}
+			if (BJuexing2[GetConvertedPlayerId(GetOwningPlayer(sichen))]) {
+				AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), -0.2);
+				AddDefensePercent(GetConvertedPlayerId(GetOwningPlayer(xinglong)), -0.1);
+			}
+		}
+
+		if (u == kaisa && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(kaisa))]) {
+			AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(kaisa)), -0.5);
+		} else if (u == yanmie && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(yanmie))]) {
+			AddAgiPercentImme(GetConvertedPlayerId(GetOwningPlayer(yanmie)), -0.4);
+		} else if (u == bajue && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(bajue))]) {
+			AddStrPercentImme(GetConvertedPlayerId(GetOwningPlayer(bajue)), -0.6);
+		} else if (u == xiaoyue && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(xiaoyue))]) {
+			UnitRemoveAbility(gg_unit_h00K_0254, 'A0IN');
+		} else if (u == lingxue && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(lingxue))]) {
+			AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(lingxue)), -1);
+		} else if (u == sheyan && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(sheyan))]) {
+			AddIntPercentImme(GetConvertedPlayerId(GetOwningPlayer(sheyan)), -0.4);
+		} else if (u == Heiyan && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(Heiyan))]) {
+			AddSpellPercent(GetConvertedPlayerId(GetOwningPlayer(Heiyan)), -1);
+		} else if (u == cangling && BJuexing3[GetConvertedPlayerId(GetOwningPlayer(cangling))]) {
+			AddHP(cangling, -40000000);
+		} else if (u == hanshang) {
+			AddMoneyPercent(GetConvertedPlayerId(GetOwningPlayer(hanshang)), -0.25);
+		}
+
+		BJuexing1[GetConvertedPlayerId(GetOwningPlayer(u))] = false;
+		BJuexing2[GetConvertedPlayerId(GetOwningPlayer(u))] = false;
+		BJuexing3[GetConvertedPlayerId(GetOwningPlayer(u))] = false;
+
+		if (u == moqi) {
+			QJuexingMoqi();
+		} else if (u == seyu) {
+			QJuexingSeyu();
+		} else if (u == chenji) {
+			TriggerExecute(gg_trg_____________129);
+		} else if (u == Huanyi) {
+			UnitRemoveAbility(Huanyi, 'A0HX');
+		} else if (u == mengji) {
+			RuohuanmengChatBack();
+		} else if (u == lichi) {
+			UnitRemoveAbility(lichi, 'A0B9');
+		}
+	}
+
+	// 大招
+	function CreateEffect12Yanyanhuo(real x, real y) {
+		integer i;
+
+		i = 1;
+		DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", x, y));
+		while (i <= 6) {
+			DestroyEffect(AddSpecialEffect("Objects\\Spawnmodels\\Other\\NeutralBuildingExplosion\\NeutralBuildingExplosion.mdl", YDWECoordinateX(x + 900 * CosBJ(i * 60)), YDWECoordinateY(y + 900 * SinBJ(i * 60))));
+			i = i + 1;
+		}
+	}
+
+	function YanyanhuoTimer12() {
+		timer t;
+		integer id;
+		unit u;
+		unit caster;
+		integer index;
+
+		t = GetExpiredTimer();
+		id = GetHandleId(t);
+		u = LoadUnitHandle(spellTable, id, 1);
+		caster = LoadUnitHandle(spellTable, id, 2);
+		index = LoadInteger(spellTable, id, 3);
+
+		if (IsUnitAliveBJ(u) || index <= 80) {
+			SaveInteger(spellTable, GetHandleId(t), 3, index + 1);
+			if (ModuloInteger(index, 10) == 0) {
+				DamageAreaMagic(caster, GetUnitX(u), GetUnitY(u), 1800, GetDamageBase(caster) * 2, null);
+			}
+			DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81 - index) * 25 * CosBJ(index * 45)), YDWECoordinateY(GetUnitY(u) + (81 - index) * 25 * SinBJ(index * 45))));
+			DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Other\\Doom\\DoomDeath.mdl", YDWECoordinateX(GetUnitX(u) + (81 - index) * 25 * CosBJ(index * (-45) + 180)), YDWECoordinateY(GetUnitY(u) * 25 + (81 - index) * SinBJ(index * (-45) + 180))));
+		} else {
+			CreateEffect12Yanyanhuo(GetUnitX(u), GetUnitY(u));
+			DamageAreaMagic(caster, GetUnitX(u), GetUnitY(u), 1800, GetDamageBase(caster) * 5, null);
+			RemoveUnit(u);
+			PauseTimer(t);
+			FlushChildHashtable(spellTable, id);
+			DestroyTimer(t);
+		}
+		u = null;
+		t = null;
+	}
+
+	function Yanyanhuo12(unit caster) {
+		timer t;
+		unit u;
+
+		t = CreateTimer();
+		u = CreateUnit(GetOwningPlayer(caster), 'h02I', GetUnitX(caster), GetUnitY(caster), 0);
+		UnitApplyTimedLifeBJ(8, 'BHwe', u);
+		UnitMakeAbilityPermanent(xinglong, true, 'A0K1');
+		// 不断伤害
+		ImmuteDamageInterval(caster, 8);
+		DestroyEffect(AddSpecialEffect("Abilities\\Spells\\Human\\Resurrect\\ResurrectCaster.mdl", GetUnitX(caster), GetUnitY(caster)));
+		SaveUnitHandle(spellTable, GetHandleId(t), 1, u);
+		SaveUnitHandle(spellTable, GetHandleId(t), 2, caster);
+		SaveInteger(spellTable, GetHandleId(t), 3, 1);
+		AddDamagePercent(GetConvertedPlayerId(GetOwningPlayer(caster)), 0.6);
+		TimerStart(t, 0.1, true, function YanyanhuoTimer12);
+		t = null;
+		u = null;
+	}
+
+	// 装备灯的事件
+	function TDengEquitCon() -> boolean {
+		return (GetManipulatingUnit() == udg_H[GetConvertedPlayerId(GetOwningPlayer(GetManipulatingUnit()))]) && IsDeng(GetManipulatedItem());
+	}
+
+	function TDengEquitAct() {
+		integer i;
+		integer dengCount;
+
+		i = 1;
+		dengCount = 0;
+		while (i <= 6) {
+			if (IsDeng(UnitItemInSlotBJ(GetTriggerUnit(), i))) {
+				dengCount = dengCount + 1;
+			}
+			i = i + 1;
+		}
+
+		// 如果计数君大于1则丢掉
+		if (dengCount > 1) {
+			DisplayTextToPlayer(GetOwningPlayer(GetTriggerUnit()), 0., 0., "|cFFFF66CC【消息】|r你只能同时装备上一个秘境至宝！");
+			PolledWait(0.01);
+			UnitRemoveItem(GetTriggerUnit(), GetManipulatedItem());
+			return;
+		} else if (dengCount == 1) {
+			if (GetDeng(GetTriggerUnit()) >= 3) {
+				InitHeroJuexing1(GetTriggerUnit());
+			}
+			if (GetDeng(GetTriggerUnit()) >= 7) {
+				InitHeroJuexing2(GetTriggerUnit());
+			}
+			if (GetDeng(GetTriggerUnit()) >= 12) {
+				InitHeroJuexing3(GetTriggerUnit());
+			}
+		}
+	}
+
+	function TDengDropAct() {
+		integer i;
+		integer dengCount;
+
+		i = 1;
+		dengCount = 0;
+		while (i <= 6) {
+			if (IsDeng(UnitItemInSlotBJ(GetTriggerUnit(), i))) {
+				dengCount = dengCount + 1;
+			}
+			i = i + 1;
+		}
+		if (dengCount <= 1 && GetDeng(GetTriggerUnit()) >= 3) {
+			CancelJuexing(GetTriggerUnit());
+		}
+	}
+
+	function onInit() {
+		trigger t;
+
+		// 只能同时装备一个灯
+		t = CreateTrigger();
+		TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_PICKUP_ITEM);
+		TriggerAddCondition(t, Condition(function TDengEquitCon));
+		TriggerAddAction(t, function TDengEquitAct);
+
+		// 丢弃灯事件
+		t = CreateTrigger();
+		TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_DROP_ITEM);
+		TriggerAddCondition(t, Condition(function TDengEquitCon));
+		TriggerAddAction(t, function TDengDropAct);
+
+		t = null;
+	}
+}
+
 #endif
+//! endzinc
+

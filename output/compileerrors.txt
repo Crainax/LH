@@ -1,7 +1,0 @@
-logs\currentmapscript.j
-pjass.exe
-Line 24194:  Cannot convert integer to code
-Line 24196:  Cannot convert integer to boolexpr
-Line 24197:  Cannot convert integer to code
-Line 24201:  Cannot convert integer to code
-4
